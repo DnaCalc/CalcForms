@@ -1,9 +1,10 @@
 # W002 Initial Windows PAL Rectangle Smoke
 
-Status: `OPEN`
+Status: `CLOSED`
 Epic bead: `oxforms-dwm`
 Depends on: `W001_repo_bootstrap`
 Owning plan bead: `oxforms-dwm.1`
+Closed by: `oxforms-dwm.6`
 
 ## Purpose
 
@@ -114,6 +115,28 @@ On Windows this presents the W002 `FillRect` fixture in a short-lived native win
 and closes automatically. Use `-- --dry-run` to exercise the command without opening
 a window. On non-Windows hosts the command prints an explicit unsupported diagnostic;
 the headless renderer remains the automated oracle.
+
+## Closure Evidence
+
+W002 closed on 2026-06-22 after `oxforms-dwm.6` recorded reproducible evidence in
+[`../evidence/W002_initial_windows_rectangle.md`](../evidence/W002_initial_windows_rectangle.md).
+
+Final proved scope:
+
+- The Rust PAL renders the W002 `FillRect` display list headlessly with stable
+  diagnostic/hash `13797848596963948501`
+  (`fnv1a64-rgba8-framebuffer-v1`).
+- The OxVba-driven VBA smoke executes
+  `vba/smoke/fixtures/rectangle_fillrect_smoke.bas`, emits the same display list
+  through smoke-only `Debug.Print` trace lines, reaches the PAL diagnostic path,
+  and matches the Rust fixture hash.
+- The Windows visible example renders the same headless pixels in a short-lived
+  native Windows window on the closure host.
+- No W002 blocker or follow-up bead was required.
+
+Residual work remains intentionally outside W002: `.frm` / `.frx` ingestion,
+`UserForm.Show`, intrinsic controls, events, input routing, text metrics, image
+decode, and MSForms parity. Those remain future workset scope.
 
 ## Bead Plan
 
