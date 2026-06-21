@@ -1,0 +1,12 @@
+[workspace]
+members = ["crates/oxforms-pal"]
+resolver = "2"
+
+[workspace.package]
+version = "0.0.0"
+edition = "2021"
+
+[workspace.metadata.oxforms.oxvba_baseline]
+repo = "https://github.com/DnaCalc/OxVba.git"
+rev = "501bf64d978afd14b820ebd03096f9fdcc247e38"
+policy = "Committed manifests must use pinned git dependencies when OxVba crates are needed; mutable ../OxVba path overrides are local-only."

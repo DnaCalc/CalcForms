@@ -1,0 +1,9 @@
+[package]
+name = "oxforms-pal"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "Experimental OxForms PAL scaffold for the W002 rectangle smoke."
+
+[lints.rust]
+unsafe_code = "forbid"
