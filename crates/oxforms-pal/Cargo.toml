@@ -11,3 +11,8 @@ unsafe_code = "forbid"
 [dev-dependencies]
 oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+
+[target.'cfg(windows)'.dev-dependencies]
+# Smoke-only native bitmap window presenter. The automated oracle remains
+# `render_headless`; this dependency is used only by the manual Windows example.
+minifb = "0.28.0"

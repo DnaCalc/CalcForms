@@ -104,6 +104,17 @@ The Windows path should:
 - close deterministically or document the manual close step;
 - report a clear unsupported diagnostic on non-Windows hosts.
 
+Current smoke command:
+
+```powershell
+cargo run -p oxforms-pal --example visible_rectangle_smoke
+```
+
+On Windows this presents the W002 `FillRect` fixture in a short-lived native window
+and closes automatically. Use `-- --dry-run` to exercise the command without opening
+a window. On non-Windows hosts the command prints an explicit unsupported diagnostic;
+the headless renderer remains the automated oracle.
+
 ## Bead Plan
 
 | Bead | Purpose | Depends on | Acceptance |
