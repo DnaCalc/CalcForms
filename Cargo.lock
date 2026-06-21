@@ -428,6 +428,7 @@ dependencies = [
  "oxvba-com",
  "oxvba-hal",
  "oxvba-host",
+ "oxvba-project",
  "oxvba-runtime",
 ]
 
@@ -516,6 +517,17 @@ dependencies = [
  "oxvba-com",
  "oxvba-hal",
  "oxvba-runtime",
+]
+
+[[package]]
+name = "oxvba-project"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+dependencies = [
+ "oxvba-diagnostics",
+ "oxvba-symbol",
+ "quick-xml",
+ "thiserror",
 ]
 
 [[package]]
@@ -609,6 +621,15 @@ dependencies = [
  "proc-macro2",
  "quote",
  "syn",
+]
+
+[[package]]
+name = "quick-xml"
+version = "0.37.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "331e97a1af0bf59823e6eadffe373d7b27f485be8748f71471c662c1f269b7fb"
+dependencies = [
+ "memchr",
 ]
 
 [[package]]

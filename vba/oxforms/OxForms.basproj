@@ -1,0 +1,10 @@
+<Project Sdk="OxVba.Sdk/0.1.0">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <ProjectName>OxForms</ProjectName>
+  </PropertyGroup>
+  <ItemGroup>
+    <Module Include="OxForms.bas" />
+    <ClassModule Include="OxFormsSmokeForm.cls" />
+  </ItemGroup>
+</Project>

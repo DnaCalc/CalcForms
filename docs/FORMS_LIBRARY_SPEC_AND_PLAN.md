@@ -566,13 +566,14 @@ but the vertical slice must include form-module materialization and evidence cap
 rather than only a visual smoke test.
 
 - **W002 bootstrap slice — Initial Windows PAL rectangle smoke.** Before claiming P1
-  breadth, land a tiny executable proof that VBA-authored drawing can cross the PAL seam:
-  a VBA smoke source creates a host-injected `OxForms.SmokeCanvas`, calls `FillRect`
-  and `Flush`, Rust records/renders the display-list command headlessly with stable
-  diagnostics, and a Windows visible smoke path paints the same command. This is
-  intentionally smoke-only: it does not claim `.frm`, `UserForm.Show`, intrinsic
-  controls, input, or MSForms parity. *Artifact: rectangle display-list smoke with
-  headless evidence and Windows plumbing notes; see
+  breadth, land a tiny executable proof that VBA-authored drawing can cross the PAL seam
+  in the intended ownership direction: a VBA app project references the OxForms VBA
+  library, creates a smoke-only OxForms form-like object, and the library creates the
+  host-injected `OxForms.SmokeCanvas`, calls `FillRect` and `Flush`. Rust records/renders
+  the display-list command headlessly with stable diagnostics, and a Windows visible smoke
+  path paints the same command. This is intentionally smoke-only: it does not claim
+  `.frm`, `UserForm.Show`, intrinsic controls, input, or MSForms parity. *Artifact:
+  rectangle display-list smoke with headless evidence and Windows plumbing notes; see
   [`worksets/W002_initial_windows_rectangle.md`](worksets/W002_initial_windows_rectangle.md).*
 
 - **P0 — Fact pack + evidence scaffold.** Generate the FM20 typelib reference, the

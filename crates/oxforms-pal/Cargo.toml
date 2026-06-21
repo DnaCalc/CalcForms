@@ -19,6 +19,7 @@ oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d9
 [dev-dependencies]
 oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 
 [target.'cfg(windows)'.dev-dependencies]
 # Smoke-only native bitmap window presenter. The automated oracle remains

@@ -1,12 +1,13 @@
 # OxForms VBA Smoke Sources
 
-This directory is reserved for procedural or class-based VBA smoke sources used
-by W002.
+This directory is reserved for procedural or class-based VBA smoke sources and
+project fixtures used by W002.
 
-`rectangle_fillrect_smoke.bas` is the W002 procedural smoke used by
-`oxforms-dwm.7`. It obtains a smoke-only host object with
-`CreateObject("OxForms.SmokeCanvas")` through OxVba's portable COM-like
-projection. The Rust harness registers that ProgID, VBA calls
+`projects/rectangle_app/RectangleSmokeApp.basproj` is the W002 app fixture. It
+references `vba/oxforms/OxForms.basproj`, creates an OxForms smoke form
+through the library, and does not directly create the PAL canvas. The OxForms
+library owns the smoke-only `CreateObject("OxForms.SmokeCanvas")` bridge to the
+Rust PAL; the Rust harness registers that ProgID, the library calls
 `CreateSurface`, `FillRect`, and `Flush`, and `Flush` invokes the OxForms PAL
 headless renderer.
 

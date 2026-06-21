@@ -1,4 +1,7 @@
-use std::sync::Arc;
+use std::{
+    path::{Path, PathBuf},
+    sync::Arc,
+};
 
 use oxforms_pal::{
     oxvba_host_object::{register_smoke_canvas, SmokeCanvasFactory},
@@ -7,10 +10,8 @@ use oxforms_pal::{
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig, HostProfileProvider, RuntimeProfileId};
+use oxvba_project::load_project_closure;
 use oxvba_runtime::Variant;
-
-const RECTANGLE_SMOKE_SOURCE: &str =
-    include_str!("../../../vba/smoke/fixtures/rectangle_fillrect_smoke.bas");
 
 fn headless_runtime_profile() -> RuntimeProfileId {
     if cfg!(target_os = "windows") {
@@ -28,8 +29,29 @@ fn i32_values(values: &[Variant]) -> Vec<i32> {
     values.iter().filter_map(Variant::as_i32).collect()
 }
 
+fn repo_root() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join("..")
+}
+
+fn rectangle_smoke_app_project() -> PathBuf {
+    repo_root()
+        .join("vba")
+        .join("smoke")
+        .join("projects")
+        .join("rectangle_app")
+        .join("RectangleSmokeApp.basproj")
+}
+
+fn rectangle_smoke_app_module() -> PathBuf {
+    repo_root()
+        .join("vba")
+        .join("smoke")
+        .join("fixtures")
+        .join("rectangle_fillrect_smoke.bas")
+}
+
 #[test]
-fn oxvba_rectangle_smoke_reaches_host_injected_pal_canvas_and_renderer() {
+fn oxvba_rectangle_smoke_app_loads_oxforms_library_and_reaches_renderer() {
     let projection = Arc::new(PortableComProjection::new());
     let canvas_factory = Arc::new(SmokeCanvasFactory::new());
     register_smoke_canvas(&projection, canvas_factory.clone());
@@ -41,9 +63,28 @@ fn oxvba_rectangle_smoke_reaches_host_injected_pal_canvas_and_renderer() {
         Engine::new(HostConfig { enable_jit: false }).with_host_profile_provider(profile);
     engine.set_runtime_profile(headless_runtime_profile());
 
+    let app_source =
+        std::fs::read_to_string(rectangle_smoke_app_module()).expect("read VBA app fixture");
+    assert!(
+        !app_source.contains("OxForms.SmokeCanvas"),
+        "the app project must load OxForms instead of directly creating the PAL canvas"
+    );
+
+    let closure = load_project_closure(&rectangle_smoke_app_project())
+        .expect("OxVba should load the W002 app plus OxForms project closure");
+    let project_names: Vec<_> = closure
+        .iter()
+        .map(|project| project.project_name.as_str())
+        .collect();
+    assert_eq!(
+        project_names,
+        ["OxForms", "RectangleSmokeApp"],
+        "the W002 smoke should execute an app project that references the OxForms library"
+    );
+
     let globals = engine
-        .execute_source_with_variant_snapshot_clean(RECTANGLE_SMOKE_SOURCE)
-        .expect("OxVba should execute the W002 host-injected rectangle smoke fixture");
+        .execute_project_closure_with_variant_snapshot(&closure)
+        .expect("OxVba should execute the W002 app through the OxForms library");
 
     let snapshot = canvas_factory
         .snapshot()

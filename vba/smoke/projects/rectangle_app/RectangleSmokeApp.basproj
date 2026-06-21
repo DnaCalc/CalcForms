@@ -1,0 +1,13 @@
+<Project Sdk="OxVba.Sdk/0.1.0">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <ProjectName>RectangleSmokeApp</ProjectName>
+    <EntryPoint>rectangle_fillrect_smoke.Run</EntryPoint>
+  </PropertyGroup>
+  <ItemGroup>
+    <Module Include="..\..\fixtures\rectangle_fillrect_smoke.bas" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\oxforms\OxForms.basproj" />
+  </ItemGroup>
+</Project>
