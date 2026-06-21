@@ -425,8 +425,10 @@ name = "oxforms-pal"
 version = "0.0.0"
 dependencies = [
  "minifb",
+ "oxvba-com",
  "oxvba-hal",
  "oxvba-host",
+ "oxvba-runtime",
 ]
 
 [[package]]

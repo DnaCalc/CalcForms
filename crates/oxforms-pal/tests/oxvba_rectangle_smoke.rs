@@ -1,52 +1,16 @@
-use std::sync::{Arc, Mutex};
+use std::sync::Arc;
 
 use oxforms_pal::{
-    display_list_from_smoke_trace, render_smoke_trace_headless, w002_rectangle_fixture_diagnostics,
-    w002_rectangle_fixture_display_list,
+    oxvba_host_object::{register_smoke_canvas, SmokeCanvasFactory},
+    w002_rectangle_fixture_diagnostics, w002_rectangle_fixture_display_list,
 };
-use oxvba_hal::callbacks::HostCallbacks;
-use oxvba_host::{Engine, HostConfig, RuntimeProfileId};
+use oxvba_com::PortableComProjection;
+use oxvba_hal::model::HostPolicy;
+use oxvba_host::{Engine, HostConfig, HostProfileProvider, RuntimeProfileId};
+use oxvba_runtime::Variant;
 
 const RECTANGLE_SMOKE_SOURCE: &str =
     include_str!("../../../vba/smoke/fixtures/rectangle_fillrect_smoke.bas");
-
-#[derive(Default)]
-struct SmokeCallbacks {
-    debug_lines: Mutex<Vec<String>>,
-}
-
-impl SmokeCallbacks {
-    fn debug_output(&self) -> Vec<String> {
-        self.debug_lines.lock().expect("debug lock").clone()
-    }
-}
-
-impl HostCallbacks for SmokeCallbacks {
-    fn on_msg_box(&self, _prompt: &str, style: i32) -> i32 {
-        style.max(1)
-    }
-
-    fn on_input_box(&self, _prompt: &str, default: &str) -> String {
-        default.to_string()
-    }
-
-    fn on_status_bar(&self, _text: &str) {}
-
-    fn on_console_print(&self, _text: &str) -> bool {
-        false
-    }
-
-    fn on_console_input_line(&self) -> Option<String> {
-        None
-    }
-
-    fn on_debug_print(&self, text: &str) {
-        self.debug_lines
-            .lock()
-            .expect("debug lock")
-            .push(text.to_string());
-    }
-}
 
 fn headless_runtime_profile() -> RuntimeProfileId {
     if cfg!(target_os = "windows") {
@@ -60,58 +24,56 @@ fn headless_runtime_profile() -> RuntimeProfileId {
     }
 }
 
+fn i32_values(values: &[Variant]) -> Vec<i32> {
+    values.iter().filter_map(Variant::as_i32).collect()
+}
+
 #[test]
-fn oxvba_rectangle_smoke_reaches_pal_and_matches_rust_fixture() {
-    let callbacks = Arc::new(SmokeCallbacks::default());
-    let mut engine = Engine::new(HostConfig { enable_jit: false });
+fn oxvba_rectangle_smoke_reaches_host_injected_pal_canvas_and_renderer() {
+    let projection = Arc::new(PortableComProjection::new());
+    let canvas_factory = Arc::new(SmokeCanvasFactory::new());
+    register_smoke_canvas(&projection, canvas_factory.clone());
+
+    let profile = HostProfileProvider::new()
+        .with_portable_com_projection(projection)
+        .with_host_policy(HostPolicy::interactive_dev());
+    let mut engine =
+        Engine::new(HostConfig { enable_jit: false }).with_host_profile_provider(profile);
     engine.set_runtime_profile(headless_runtime_profile());
-    engine.set_host_callbacks(Some(callbacks.clone()));
 
-    engine
+    let globals = engine
         .execute_source_with_variant_snapshot_clean(RECTANGLE_SMOKE_SOURCE)
-        .expect("OxVba should execute the W002 rectangle smoke fixture");
+        .expect("OxVba should execute the W002 host-injected rectangle smoke fixture");
 
-    let emitted_lines = callbacks.debug_output();
-    let observed_display_list =
-        display_list_from_smoke_trace(&emitted_lines).unwrap_or_else(|err| {
-            panic!(
-                "OxVba rectangle smoke did not decode into an OxForms PAL display list.\n\
-             error: {err}\n\
-             emitted lines: {emitted_lines:#?}\n\
-             expected display list: {:#?}",
-                w002_rectangle_fixture_display_list()
-            )
-        });
+    let snapshot = canvas_factory
+        .snapshot()
+        .expect("smoke canvas state should be readable after execution");
+    assert_eq!(
+        snapshot.calls,
+        ["CreateSurface:2", "FillRect:8", "Flush:0"],
+        "VBA should drive the Rust PAL canvas through member dispatch, not through debug text"
+    );
+
+    let observed_display_list = snapshot
+        .display_list
+        .expect("VBA smoke should create a display list on the Rust canvas");
     assert_eq!(
         observed_display_list,
         w002_rectangle_fixture_display_list(),
-        "OxVba rectangle smoke emitted a different display list.\n\
-         emitted lines: {emitted_lines:#?}\n\
-         expected display list: {:#?}\n\
-         observed display list: {observed_display_list:#?}",
-        w002_rectangle_fixture_display_list()
+        "host-injected VBA smoke produced a different display list"
     );
 
-    let observed_render = render_smoke_trace_headless(&emitted_lines).unwrap_or_else(|err| {
-        panic!(
-            "OxVba rectangle smoke reached the PAL seam but did not render headlessly.\n\
-             error: {err}\n\
-             emitted lines: {emitted_lines:#?}\n\
-             expected diagnostics: {:#?}",
-            w002_rectangle_fixture_diagnostics()
-        )
-    });
+    let observed_render = snapshot
+        .rendered
+        .expect("VBA smoke Flush should render through oxforms-pal::render_headless");
     assert_eq!(
         observed_render.diagnostics,
         w002_rectangle_fixture_diagnostics(),
-        "OxVba rectangle smoke rendered with unexpected diagnostics.\n\
-         emitted lines: {emitted_lines:#?}\n\
-         expected display list: {:#?}\n\
-         observed display list: {observed_display_list:#?}\n\
-         expected diagnostics: {:#?}\n\
-         observed diagnostics: {:#?}",
-        w002_rectangle_fixture_display_list(),
-        w002_rectangle_fixture_diagnostics(),
-        observed_render.diagnostics
+        "host-injected VBA smoke rendered with unexpected diagnostics"
+    );
+    assert_eq!(
+        i32_values(&globals),
+        [1],
+        "VBA should receive the Flush return value from the Rust host object"
     );
 }

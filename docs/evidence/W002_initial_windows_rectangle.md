@@ -2,6 +2,7 @@
 
 Status: `CLOSED`
 Owning bead: `oxforms-dwm.6`
+Structural repair bead: `oxforms-dwm.7`
 Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 
 ## Platform
@@ -19,6 +20,22 @@ Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 | `oxforms-dwm.3` | `28fce363dbc7a2c4c100ce4cfd3f3cf01ab0f032` | Implement headless FillRect renderer |
 | `oxforms-dwm.4` | `d7085dc3b5dfe19c36688157c16ad8769391d1ee` | Execute OxVba rectangle smoke through PAL |
 | `oxforms-dwm.5` | `b6f35cea8d490bce2b013d93bd2b198dd24f0e28` | Add Windows visible rectangle smoke |
+| `oxforms-dwm.7` | see git commit for bead | Replace Debug.Print trace with host-injected PAL canvas |
+
+## Structural Coupling Repair
+
+W002 was reopened after review found that the original OxVba smoke path captured
+`Debug.Print` strings and decoded them in Rust. That proved VBA execution and
+text parsing, but not useful coupling between VBA object dispatch and the
+renderer. The repaired smoke uses OxVba's portable COM-like host projection:
+
+- Rust registers `OxForms.SmokeCanvas` in `PortableComProjection`.
+- VBA executes `Set canvas = CreateObject("OxForms.SmokeCanvas")`.
+- VBA calls `CreateSurface`, `FillRect`, and `Flush` on the projected object.
+- The Rust host object records the `DisplayList`; `Flush` calls
+  `oxforms_pal::render_headless` and returns the command count to VBA.
+
+The old text trace decoder is no longer the W002 coupling proof.
 
 ## Fixture And Artifacts
 
@@ -38,9 +55,11 @@ Primary artifact paths and SHA-256 at capture time:
 
 | Path | SHA-256 |
 |---|---|
-| `vba/smoke/fixtures/rectangle_fillrect_smoke.bas` | `0A52CAD8E3934FAF1A3A41FA100B8BE0F3BB7B952F63B5FE31A2A5AB6A5F0CF4` |
-| `crates/oxforms-pal/src/lib.rs` | `EF2B7F5F3A5445B41C5E71999DAB491A5975A93580FEA26B9F525C543928C9D0` |
-| `crates/oxforms-pal/tests/oxvba_rectangle_smoke.rs` | `E7915EC3412E8822BC6F20E878EE2286105839A14D8C7B0323078F9554A29F3B` |
+| `vba/smoke/fixtures/rectangle_fillrect_smoke.bas` | `CE9AC82F54DA111043811622FF941A88447776A71F5882BE24A0BAD9EA121FA8` |
+| `crates/oxforms-pal/Cargo.toml` | `9F4E1D969646F571200E9B3BC3EBC459622DAA5B91FED6C657B4747953FC185D` |
+| `crates/oxforms-pal/src/lib.rs` | `65F3F08D3F5DE0AEFF0646D6BDFB33A4BB633579E393B68CEE52CDE481924137` |
+| `crates/oxforms-pal/src/oxvba_host_object.rs` | `552368A26ED1D02C4178EF0851F021C306596949CFB867FA3A50640E8A88F922` |
+| `crates/oxforms-pal/tests/oxvba_rectangle_smoke.rs` | `1A63E347025D869D69788082C51F136D59D482BE7A6E83C1888E080F57CAB61E` |
 | `crates/oxforms-pal/examples/visible_rectangle_smoke.rs` | `2E765DC21A906A6CC5899775941FE420D1B7E7774F0B72F6594E4AC31431F07A` |
 
 ## Commands And Results
@@ -59,8 +78,7 @@ Rust lint:
 cargo clippy --workspace -- -D warnings
 ```
 
-Result: exit code 0; output included
-`Finished dev profile [unoptimized + debuginfo] target(s) in 0.24s`.
+Result after repair: exit code 0.
 
 Rust workspace tests:
 
@@ -68,7 +86,7 @@ Rust workspace tests:
 cargo test --workspace
 ```
 
-Result: exit code 0; six `oxforms-pal` unit tests passed, one
+Result after repair: exit code 0; five `oxforms-pal` unit tests passed, one
 `oxvba_rectangle_smoke` integration test passed, and doc-tests had zero tests.
 
 Targeted headless rectangle fixture:
@@ -88,10 +106,12 @@ cargo test -p oxforms-pal --test oxvba_rectangle_smoke -- --nocapture
 ```
 
 Result: exit code 0; output included
-`test oxvba_rectangle_smoke_reaches_pal_and_matches_rust_fixture ... ok`.
+`test oxvba_rectangle_smoke_reaches_host_injected_pal_canvas_and_renderer ... ok`.
 This executes `vba/smoke/fixtures/rectangle_fillrect_smoke.bas` through OxVba,
-captures the smoke-only `Debug.Print` lines, decodes the same display list, and
-asserts the same render diagnostic/hash.
+registers `OxForms.SmokeCanvas` in OxVba's portable COM-like projection, has VBA
+call `CreateSurface`, `FillRect`, and `Flush`, and asserts that the Rust host
+object recorded the expected display list, rendered through
+`oxforms_pal::render_headless`, and returned command count `1` to VBA.
 
 Windows visible smoke dry run:
 
@@ -152,9 +172,9 @@ Ready-work review:
 br ready --json
 ```
 
-Result before bead closure: `[]`. With `oxforms-dwm.6` in progress, no other
-ready work was pending. The same command returned `[]` again after
-`oxforms-dwm.6` and `oxforms-dwm` were closed.
+Result during `oxforms-dwm.7`: `[]`. Reopening W002 blocked W003 execution while
+the coupling repair was in progress. After W002 was reclosed, the command
+returned the expected W003 starter beads `oxforms-fg9.1` and `oxforms-fg9.2`.
 
 ## Fresh-Eyes Review
 
@@ -166,7 +186,11 @@ Findings:
 
 - The implemented surface remains W002-scoped: `DisplayCommand::FillRect`,
   versioned display list, RGBA8 color, deterministic headless renderer, OxVba
-  smoke trace decode, and Windows visible presentation of the same headless pixels.
+  portable host-object dispatch, and Windows visible presentation of the same
+  headless pixels.
+- The repaired smoke proves structural VBA-to-Rust coupling: VBA creates
+  `OxForms.SmokeCanvas`, member dispatch reaches Rust, and `Flush` drives the
+  renderer.
 - The code and docs continue to say smoke-only and do not claim `.frm`,
   `UserForm.Show`, intrinsic controls, input routing, text metrics, or MSForms
   parity.
