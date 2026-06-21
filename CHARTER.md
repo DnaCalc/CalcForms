@@ -1,0 +1,128 @@
+# OxForms Charter
+
+## 1. Mission
+OxForms is the VBA-first, MSForms-compatible forms runtime for the DNA Calc
+family: `UserForm`, intrinsic controls, form persistence, rendering, input,
+event dispatch, and host extension controls, implemented primarily as VBA that
+runs on OxVba and backed by a small Rust primitive kernel.
+
+OxForms exists for two reasons:
+
+1. To give OxVba and DNA Calc a full-fidelity forms library that can run real
+   VBA form code without depending on Microsoft Forms at runtime.
+2. To become a large, realistic optimization and correctness workload for the
+   OxVba compiler, VM, object model, host event path, and future Cranelift JIT.
+
+The central bet is deliberate: build the high-level forms runtime in VBA first,
+measure it, improve OxVba because of it, and migrate only proven hot paths behind
+stable contracts.
+
+## 2. Place In The DNA Calc Program
+OxForms is a sibling repository under the DNA Calc umbrella.
+
+It consumes and collaborates with:
+
+- `OxVba` for parsing, binding, execution, event dispatch, project loading, and
+  integration with the VBA runtime.
+- `OxDoc` for Office document container and MS-OFORMS / `vbaProject.bin`
+  conversion work.
+- `Foundation` for clean-room doctrine, public specifications, and provenance
+  discipline.
+- future DNA Calc hosts that need VBA forms, especially Excel-like hosts and
+  host-specific controls such as Excel `RefEdit`.
+
+OxForms owns:
+
+- the forms object model and controls;
+- `.frm` / `.frx` canonical form persistence;
+- the VBA-first forms runtime library;
+- the Rust primitive PAL and display-list renderer contracts;
+- forms-specific trace/replay, facts, conformance matrices, and evidence;
+- host-extension control seams, with Excel `RefEdit` as the first expected
+  extension target.
+
+## 3. Values Ordering
+When values conflict, prefer them in this order:
+
+1. Compatibility with MSForms and observed VBA behavior.
+2. Robustness and deterministic replayability.
+3. Clean-room evidence and provenance.
+4. OxVba compiler/runtime learning.
+5. Performance.
+6. Portability.
+7. Runtime size and implementation convenience.
+
+Performance matters, but it does not justify guessing. First make behavior
+correct and measurable; then optimize or migrate hot paths with evidence.
+
+## 4. Clean-room Rule
+OxForms development uses only:
+
+- public specifications and documentation;
+- published research;
+- reproducible black-box observation of Office/VBA/MSForms behavior;
+- source code owned by DNA Calc repositories or explicitly allowed third-party
+  dependencies.
+
+Excluded:
+
+- proprietary or restricted sources;
+- decompilation or disassembly of Office internals;
+- copying implementation details from Microsoft binaries.
+
+Type libraries, public COM metadata, public protocol documents, and black-box
+observation are valid evidence when captured reproducibly.
+
+## 5. Scope
+Initial scope:
+
+- MSForms runtime compatibility for `UserForm` and intrinsic FM20 controls.
+- VBA-first control implementations with a small Rust primitive kernel.
+- `.frm` / `.frx` load/save as OxForms' canonical project representation.
+- Reducer-driven form state, display-list rendering, trace/replay, and golden
+  artifacts.
+- Windows backend first, with Linux, Web/WASM, and macOS behind the same PAL
+  contract.
+- Generated fact packs from FM20 type-library data and MS-OFORMS sources.
+- Excel-hosted `RefEdit` readiness as an early host-extension control.
+
+In scope later:
+
+- Forms designer.
+- More host-specific extension controls.
+- Broader live Office differential harnesses.
+
+Out of scope:
+
+- VBA language/runtime implementation: owned by `OxVba`.
+- Office document containers and `vbaProject.bin`: owned by `OxDoc`.
+- Office application object models: host-provided or owned by the relevant host
+  repo.
+- Spreadsheet/calculation engine behavior: owned by `OxCalc`, `OxFml`,
+  `OxFunc`, and DNA Calc hosts.
+- Reimplementing arbitrary third-party ActiveX/OCX internals.
+
+## 6. Document Model
+Top-level guidance precedence for OxForms:
+
+1. `CHARTER.md`
+2. `docs/SPEC.md` and the spec documents it indexes
+3. `OPERATIONS.md`
+4. `docs/WORKSET_REGISTER.md`
+5. `.beads/` execution state through `br`
+6. Evidence artifacts and handovers
+
+This charter defines mission, values, and scope boundaries. The spec owns design
+truth. Worksets and beads own execution shape.
+
+## 7. Success Criteria
+OxForms succeeds when:
+
+1. Realistic VBA forms can run on OxVba with MSForms-compatible behavior.
+2. Compatibility claims are backed by generated facts, tests, and differential
+   evidence.
+3. Forms traces become useful benchmark workloads for the OxVba VM and JIT.
+4. Host extensions such as Excel `RefEdit` fit cleanly without polluting the
+   FM20 parity claim.
+5. The runtime remains portable because platform-specific behavior stays behind
+   explicit PAL and host-capability seams.
