@@ -1,0 +1,205 @@
+# W003 Excel Forms Oracle And Windows Capture
+
+Status: `OPEN`
+Epic bead: `oxforms-fg9`
+Depends on: `W002_initial_windows_rectangle`
+Owning plan bead: `oxforms-fg9.3`
+
+## Purpose
+
+Build the first repeatable black-box oracle path against real Microsoft Forms
+running inside Excel/VBA. W002 proved that OxForms can move a tiny VBA-authored
+rectangle command into the PAL and paint it; W003 gives future rendering work a
+measuring stick from the thing we need to match.
+
+The smallest useful W003 loop is:
+
+```text
+repo-owned Excel/VBA UserForm fixture
+  -> real Excel/MSForms window
+  -> Windows discovery/capture
+  -> screenshot + metadata + hashes
+  -> first comparison manifest against current OxForms output
+```
+
+This workset deliberately comes before wasm/Tauri/web backend work and before a
+larger render/invalidation architecture push. Without an Excel/MSForms oracle,
+those directions can drift toward plausible architecture instead of measured
+compatibility.
+
+## Non-goals
+
+- No `.frm` / `.frx` ingestion in OxForms.
+- No `UserForm.Show` implementation in OxForms.
+- No intrinsic control implementation in OxForms.
+- No pixel-exact parity claim yet.
+- No wasm, Tauri, browser, macOS, or Linux backend implementation.
+- No broad accessibility framework beyond the capture primitives W003 needs.
+- No Office internals, decompilation, disassembly, or non-public source.
+
+W003 is oracle and capture plumbing. It should improve our ability to observe
+real MSForms, not expand the OxForms runtime surface.
+
+## Clean-room Boundary
+
+Allowed evidence:
+
+- public Office/VBA/MSForms documentation;
+- public Windows APIs and UI Automation surfaces;
+- Office COM automation and black-box execution;
+- screenshots, window metadata, accessibility metadata, and logs captured from
+  a normal Excel process;
+- repo-owned fixture inputs and generated evidence artifacts.
+
+Excluded:
+
+- Office binary reverse engineering;
+- proprietary implementation details;
+- copied behavior tables without reproducible provenance.
+
+If a bead needs sibling-repo work in `OxVba`, `OxDoc`, `Foundation`, or a DNA
+Calc host, it should create a handover under `docs/handovers/` rather than
+editing outside this repo.
+
+## Architecture Slice
+
+### 1. Oracle Harness Layout
+
+Create a small, explicit layout for:
+
+- fixture inputs that describe or generate the Excel/VBA UserForm;
+- harness code or scripts that launch/generate/open the fixture;
+- generated capture outputs;
+- evidence manifests and summaries.
+
+The layout must distinguish repo-owned source inputs from generated evidence.
+Generated binary Office artifacts should either be excluded, placed under an
+evidence path with hashes, or justified in text.
+
+### 2. First Excel UserForm Fixture
+
+Use a fixture that is stable before it is rich. The first useful form should be
+rectangle-like, for example:
+
+- one `UserForm` with known caption, size, and startup position;
+- one `Label` or `Frame` with fixed `Left`, `Top`, `Width`, `Height`,
+  `BackColor`, optional `BorderStyle`, and empty or controlled caption;
+- explicit notes about units, colors, theme assumptions, DPI/scaling, and why
+  the control was chosen.
+
+The fixture may be generated through Excel automation or opened manually through
+a documented procedure, but it must be reproducible from repo-owned inputs.
+
+### 3. Windows Discovery And Capture
+
+Add only the primitives needed to locate and capture the first UserForm:
+
+- process/window identity;
+- title/class where available;
+- bounds and screen position;
+- screenshot or pixel capture;
+- DPI/theme/scaling notes where practical;
+- explicit unsupported diagnostics on non-Windows hosts;
+- specific failure diagnostics for missing Excel, macro/security restrictions,
+  window discovery failure, or screenshot failure.
+
+Windows UI Automation is useful here, but W003 should avoid turning into a broad
+accessibility abstraction. The target is reliable oracle capture, not a general
+desktop automation framework.
+
+### 4. Oracle Artifact Set
+
+For the first captured UserForm, record durable evidence:
+
+- fixture input paths and hashes;
+- exact command or manual steps;
+- platform and Excel/Office version notes;
+- screenshot path and hash;
+- window metadata;
+- capture log;
+- warnings about DPI, theme, font, scaling, or manual steps.
+
+The evidence must be enough for a future agent to rerun or inspect the capture
+without relying on this conversation.
+
+### 5. First Comparison Manifest
+
+Define a small comparison artifact that relates the Excel oracle to OxForms.
+For W003, the comparison can be a calibration report rather than a pass/fail
+pixel test.
+
+It should record:
+
+- which Excel oracle fixture/capture is being compared;
+- which OxForms artifact or command is the current counterpart, starting from
+  the W002 rectangle output where meaningful;
+- what can be compared now: screenshot dimensions, crop regions, color samples,
+  window/control metadata, hashes, or rough geometry;
+- what is deferred: Twips-to-pixel calibration, form chrome handling, themed
+  controls, pass/fail pixel tolerances, and text/font fidelity.
+
+The report must distinguish observed facts from assumptions.
+
+## Why Other Directions Wait
+
+Other backends still matter, especially wasm/Tauri and browser-hosted wasm.
+For W003, treat them as PAL contract constraints only:
+
+- capture artifacts should be portable enough to become golden references later;
+- comparison manifests should not assume Win32 is the only future presenter;
+- renderer outputs should remain separable from host window plumbing.
+
+Do not build a wasm/Tauri/web backend in W003. The Excel oracle is the priority
+because it tells every backend what it is trying to match.
+
+## Bead Plan
+
+| Bead | Purpose | Depends on | Acceptance |
+|---|---|---|---|
+| `oxforms-fg9.3` | Define this W003 workset and execution plan | `oxforms-fg9` | Workset doc, register, and bead graph agree. |
+| `oxforms-fg9.1` | Scaffold Office oracle harness and fixture layout | `oxforms-fg9.3` | Future beads have clear paths for harness code, fixture inputs, generated artifacts, and evidence. |
+| `oxforms-fg9.2` | Implement Windows UserForm discovery and capture primitives | `oxforms-fg9.3` | A documented command/test exercises capture primitives or reports unsupported explicitly. |
+| `oxforms-fg9.4` | Create first Excel UserForm oracle fixture | `oxforms-fg9.1` | Repo-owned fixture inputs can generate/open a tiny real Excel UserForm with documented properties. |
+| `oxforms-fg9.5` | Capture Excel UserForm oracle artifacts on Windows | `oxforms-fg9.2`, `oxforms-fg9.4` | Screenshot, metadata, logs, hashes, and platform/Excel notes are recorded, or a concrete blocker bead exists. |
+| `oxforms-fg9.6` | Define first oracle comparison artifact format | `oxforms-fg9.5` | A manifest/report links Excel oracle artifacts to current OxForms output or explicitly defers exact comparison. |
+| `oxforms-fg9.7` | Record W003 evidence and fresh-eyes review | `oxforms-fg9.6` | Evidence, workset/register status, and closure review are complete. |
+
+## Closure Condition
+
+W003 closes when all of these are true:
+
+1. A reproducible real Excel/VBA UserForm oracle fixture exists from repo-owned
+   inputs.
+2. Windows capture/discovery records the fixture's window identity, bounds,
+   screenshot/pixels, platform and Excel notes, logs, and hashes.
+3. Evidence artifacts are stored under documented paths and are linked from the
+   workset or evidence docs.
+4. A first comparison manifest relates the Excel oracle capture to current
+   OxForms output, or clearly records why exact comparison is deferred.
+5. The docs remain precise that this is oracle/capture plumbing, not OxForms
+   Forms-runtime parity.
+6. Any blocker or out-of-scope discovery has a follow-up bead before closure.
+
+## Verification Shape
+
+| Surface | Check |
+|---|---|
+| Rust formatting | `cargo fmt --check` |
+| Rust lint | `cargo clippy --workspace -- -D warnings` |
+| Rust tests | `cargo test --workspace` |
+| Excel fixture | Documented generate/open command or explicit blocker bead |
+| Windows capture | Targeted command with screenshot/metadata output or explicit unsupported diagnostic |
+| Comparison manifest | Path/link scan plus any targeted comparison command |
+| Clean-room posture | Read-through of evidence sources and generated artifacts |
+| Bead graph | `br dep cycles` and `br ready --json` |
+
+## Risks And Controls
+
+| Risk | Control |
+|---|---|
+| Excel is unavailable or blocked by macro/security policy on the current host. | Make prerequisites explicit; if capture cannot be run, create a concrete blocker/follow-up bead and do not close W003 optimistically. |
+| Captures are unstable because of DPI, theme, fonts, or window chrome. | Record platform/theme/DPI notes and treat W003 comparison as calibration before pass/fail parity. |
+| The fixture is too rich and hides the first failure. | Use one small UserForm and one rectangle-like control first. |
+| Windows capture work expands into a general automation framework. | Implement only window discovery, metadata, screenshot/pixels, and diagnostics needed for the first fixture. |
+| The comparison manifest implies pixel-exact parity too early. | Label W003 comparison as oracle calibration unless exact matching is truly proven. |
+| Clean-room boundaries blur. | Use only public APIs, black-box Office automation, screenshots, metadata, logs, and repo-owned fixture inputs. |
