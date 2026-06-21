@@ -1,7 +1,9 @@
 # VBA Smoke Fixtures
 
-This directory is reserved for fixture inputs or expected diagnostics produced by
-the W002 VBA rectangle smoke.
+This directory contains fixture inputs and expected diagnostics produced by the
+W002 VBA rectangle smoke.
 
-Do not add golden rectangle outputs here until the renderer and OxVba execution
-beads produce real, reproducible artifacts.
+`rectangle_fillrect_smoke.bas` is intentionally procedural. It does not require
+`.frm` ingestion, `UserForm.Show`, or an MSForms object model. The emitted
+diagnostic lines describe the same `FillRect` display list as the Rust fixture
+from `oxforms-dwm.3`.
