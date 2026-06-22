@@ -1,0 +1,66 @@
+﻿{
+    "schema":  "oxforms.office_oracle.window_capture.v1",
+    "tool":  "tools/office-oracle/Capture-Window.ps1",
+    "mode":  "capture",
+    "timestamp_utc":  "2026-06-22T19:10:26.2223829Z",
+    "command":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File \"tools\\office-oracle\\Capture-Window.ps1\" -OutDir \"C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z\" -TitleContains \"OxForms W004 Text Label Oracle\" -ProcessName EXCEL -CaptureScreenshot",
+    "host":  {
+                 "os":  "Microsoft Windows NT 10.0.26200.0",
+                 "is_windows":  true,
+                 "powershell":  "5.1.26100.8655"
+             },
+    "query":  {
+                  "title_contains":  "OxForms W004 Text Label Oracle",
+                  "process_contains":  "",
+                  "process_name":  "EXCEL",
+                  "class_name":  ""
+              },
+    "status":  "ok",
+    "diagnostics":  [
+
+                    ],
+    "visible_top_level_window_count":  25,
+    "match_count":  1,
+    "candidates":  [
+                       {
+                           "handle":  "0x1C1614",
+                           "title":  "OxForms W004 Text Label Oracle",
+                           "class_name":  "ThunderDFrame",
+                           "process_id":  51244,
+                           "process_name":  "EXCEL",
+                           "bounds":  {
+                                          "left":  800,
+                                          "top":  420,
+                                          "right":  1120,
+                                          "bottom":  660,
+                                          "width":  320,
+                                          "height":  240
+                                      }
+                       }
+                   ],
+    "selected_window":  {
+                            "handle":  "0x1C1614",
+                            "title":  "OxForms W004 Text Label Oracle",
+                            "class_name":  "ThunderDFrame",
+                            "process_id":  51244,
+                            "process_name":  "EXCEL",
+                            "process_path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                            "bounds":  {
+                                           "left":  800,
+                                           "top":  420,
+                                           "right":  1120,
+                                           "bottom":  660,
+                                           "width":  320,
+                                           "height":  240
+                                       },
+                            "dpi":  96
+                        },
+    "screenshot":  {
+                       "path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z\\window-capture.png",
+                       "sha256":  "26bb56776ac048d5f2e263d35e37df3110a2546e2bbd6819fbd34c7ba3e19ef0",
+                       "width":  320,
+                       "height":  240,
+                       "format":  "png"
+                   },
+    "manifest_path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z\\window-capture-manifest.json"
+}

@@ -1,0 +1,65 @@
+{
+  "schema": "oxforms.office_oracle.text_label_capture.v1",
+  "bead": "oxforms-kgn.4",
+  "capture_id": "rectangle-label-text-20260622T191013Z",
+  "fixture": {
+    "input_path": "fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json",
+    "sha256": "76376f506c614e68fa88d18022cd0e039d36259981b0b589099d4b898b920432",
+    "id": "excel-msforms-rectangle-label-text-v1",
+    "form_caption": "OxForms W004 Text Label Oracle",
+    "control_caption": "OxForms"
+  },
+  "commands": {
+    "open_fixture": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\office-oracle\\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\\office-oracle\\excel-msforms\\userforms\\rectangle-label-text -OutputWorkbook C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z\\rectangle-label-text-oracle.xlsm -Open -HoldSeconds 60 -Force",
+    "capture_window": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\office-oracle\\Capture-Window.ps1 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z -TitleContains \"OxForms W004 Text Label Oracle\" -ProcessName EXCEL -CaptureScreenshot"
+  },
+  "artifacts": {
+    "generated_workbook": {
+      "path": "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/rectangle-label-text-oracle.xlsm",
+      "sha256": "c6882372b00bc314a1e79f9f4f38520f97829363e97e1683a618a6401d02c303"
+    },
+    "screenshot": {
+      "path": "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/window-capture.png",
+      "sha256": "26bb56776ac048d5f2e263d35e37df3110a2546e2bbd6819fbd34c7ba3e19ef0",
+      "width": 320,
+      "height": 240
+    },
+    "window_capture_manifest": "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/window-capture-manifest.json",
+    "run_summary": "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/run-summary.json",
+    "pixel_facts": "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/pixel-facts.json",
+    "logs": [
+      "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/open-fixture.stdout.log",
+      "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/open-fixture.stderr.log",
+      "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/capture-window.stdout.log",
+      "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/capture-window.stderr.log"
+    ]
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "powershell": "5.1.26100.8655",
+    "excel_path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "excel_file_version": "16.0.20026.20182",
+    "dpi": 96
+  },
+  "window": {
+    "handle": "0x1C1614",
+    "title": "OxForms W004 Text Label Oracle",
+    "class_name": "ThunderDFrame",
+    "process_id": 51244,
+    "process_name": "EXCEL",
+    "process_path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "bounds": {
+      "left": 800,
+      "top": 420,
+      "right": 1120,
+      "bottom": 660,
+      "width": 320,
+      "height": 240
+    },
+    "dpi": 96
+  },
+  "warnings": [
+    "Capture was taken from a live Windows desktop at window DPI 96; desktop scaling, theme, caption font, ClearType, and Excel/MSForms chrome affect pixels.",
+    "This is black-box Office/MSForms oracle evidence only; it is not an OxForms text parity claim."
+  ]
+}

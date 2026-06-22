@@ -1,0 +1,1 @@
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label-text -OutputWorkbook C:\Work\DnaCalc\OxForms\docs\evidence\W004_text_label_oracle_pixels\captures\rectangle-label-text-20260622T191013Z\rectangle-label-text-oracle.xlsm -Open -HoldSeconds 60 -Force

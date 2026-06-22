@@ -1,0 +1,10 @@
+Fixture: excel-msforms-rectangle-label-text-v1
+Manifest: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\rectangle-label-text\fixture.json
+Output workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W004_text_label_oracle_pixels\captures\rectangle-label-text-20260622T191013Z\rectangle-label-text-oracle.xlsm
+Form: OxFormsTextLabelOracleForm / 'OxForms W004 Text Label Oracle'
+Control: Forms.Label.1 OracleTextLabel
+Control caption: 'OxForms'
+Generated workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W004_text_label_oracle_pixels\captures\rectangle-label-text-20260622T191013Z\rectangle-label-text-oracle.xlsm
+Opening UserForm with macro: ShowTextLabelOracle
+Holding Excel/UserForm open for 60 second(s).
+Generated workbook SHA256: C6882372B00BC314A1E79F9F4F38520F97829363E97E1683A618A6401D02C303

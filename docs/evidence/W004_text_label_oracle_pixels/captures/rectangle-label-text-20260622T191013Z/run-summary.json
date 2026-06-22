@@ -1,0 +1,11 @@
+{
+  "capture_id": "rectangle-label-text-20260622T191013Z",
+  "capture_dir": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z",
+  "fixture_dir": "fixtures\\office-oracle\\excel-msforms\\userforms\\rectangle-label-text",
+  "workbook_path": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z\\rectangle-label-text-oracle.xlsm",
+  "open_exit_code": 0,
+  "capture_exit_code": 0,
+  "open_command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\office-oracle\\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\\office-oracle\\excel-msforms\\userforms\\rectangle-label-text -OutputWorkbook C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z\\rectangle-label-text-oracle.xlsm -Open -HoldSeconds 60 -Force",
+  "capture_command": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\\office-oracle\\Capture-Window.ps1 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W004_text_label_oracle_pixels\\captures\\rectangle-label-text-20260622T191013Z -TitleContains \"OxForms W004 Text Label Oracle\" -ProcessName EXCEL -CaptureScreenshot",
+  "created_utc": "2026-06-22T19:11:20.1927628Z"
+}

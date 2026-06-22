@@ -1,0 +1,211 @@
+{
+  "schema": "oxforms.office_oracle.text_label_pixel_facts.v1",
+  "bead": "oxforms-kgn.4",
+  "capture_id": "rectangle-label-text-20260622T191013Z",
+  "status": "sample_observation",
+  "screenshot": {
+    "path": "docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/window-capture.png",
+    "sha256": "26bb56776ac048d5f2e263d35e37df3110a2546e2bbd6819fbd34c7ba3e19ef0",
+    "width": 320,
+    "height": 240,
+    "coordinate_origin": "top_left_of_captured_top_level_window"
+  },
+  "fixture": {
+    "path": "fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json",
+    "sha256": "76376f506c614e68fa88d18022cd0e039d36259981b0b589099d4b898b920432",
+    "caption": "OxForms",
+    "font": {
+      "name": "Tahoma",
+      "sizePt": 8.25,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikethrough": false
+    },
+    "back_color_hex": "#2070C0",
+    "fore_color_hex": "#FFFFFF"
+  },
+  "observed_pixels": {
+    "method": "Read committed PNG with System.Drawing.Bitmap. Text candidate pixels are pixels inside the exact #2070C0 fill bounding box that are not exact #2070C0.",
+    "exact_fill_color_region": {
+      "x": 41,
+      "y": 64,
+      "width": 126,
+      "height": 62,
+      "pixel_count": 7588,
+      "x_range": "41..166",
+      "y_range": "64..125"
+    },
+    "exact_fore_color_region": {
+      "x": 43,
+      "y": 67,
+      "width": 39,
+      "height": 8,
+      "pixel_count": 22,
+      "x_range": "43..81",
+      "y_range": "67..74"
+    },
+    "border_color_region": {
+      "x": 40,
+      "y": 63,
+      "width": 128,
+      "height": 64,
+      "pixel_count": 380,
+      "x_range": "40..167",
+      "y_range": "63..126"
+    },
+    "text_candidate_region": {
+      "x": 41,
+      "y": 67,
+      "width": 43,
+      "height": 8,
+      "pixel_count": 224,
+      "x_range": "41..83",
+      "y_range": "67..74"
+    },
+    "top_text_candidate_colors": [
+      {
+        "rgb_hex": "#208AE0",
+        "pixel_count": 33
+      },
+      {
+        "rgb_hex": "#DEE9E0",
+        "pixel_count": 29
+      },
+      {
+        "rgb_hex": "#4C70C0",
+        "pixel_count": 27
+      },
+      {
+        "rgb_hex": "#FFFFFF",
+        "pixel_count": 22
+      },
+      {
+        "rgb_hex": "#7470C0",
+        "pixel_count": 9
+      },
+      {
+        "rgb_hex": "#BCFFFF",
+        "pixel_count": 9
+      },
+      {
+        "rgb_hex": "#4CBAF5",
+        "pixel_count": 8
+      },
+      {
+        "rgb_hex": "#2070D5",
+        "pixel_count": 8
+      },
+      {
+        "rgb_hex": "#FFFFEA",
+        "pixel_count": 8
+      },
+      {
+        "rgb_hex": "#998AC0",
+        "pixel_count": 7
+      },
+      {
+        "rgb_hex": "#DEBACA",
+        "pixel_count": 7
+      },
+      {
+        "rgb_hex": "#BCA2C0",
+        "pixel_count": 6
+      },
+      {
+        "rgb_hex": "#DEFFFF",
+        "pixel_count": 5
+      },
+      {
+        "rgb_hex": "#20A2EA",
+        "pixel_count": 4
+      },
+      {
+        "rgb_hex": "#FFE9E0",
+        "pixel_count": 4
+      },
+      {
+        "rgb_hex": "#748AE0",
+        "pixel_count": 4
+      },
+      {
+        "rgb_hex": "#DEFFEA",
+        "pixel_count": 4
+      },
+      {
+        "rgb_hex": "#BCFFEA",
+        "pixel_count": 3
+      },
+      {
+        "rgb_hex": "#4C70D5",
+        "pixel_count": 3
+      },
+      {
+        "rgb_hex": "#BCFFF5",
+        "pixel_count": 3
+      }
+    ],
+    "top_full_capture_colors": [
+      {
+        "rgb_hex": "#F0F0F0",
+        "pixel_count": 53001
+      },
+      {
+        "rgb_hex": "#F3F3F3",
+        "pixel_count": 8460
+      },
+      {
+        "rgb_hex": "#2070C0",
+        "pixel_count": 7588
+      },
+      {
+        "rgb_hex": "#646464",
+        "pixel_count": 380
+      },
+      {
+        "rgb_hex": "#EAEAEA",
+        "pixel_count": 207
+      },
+      {
+        "rgb_hex": "#BDBDBD",
+        "pixel_count": 205
+      },
+      {
+        "rgb_hex": "#CFCFCF",
+        "pixel_count": 204
+      },
+      {
+        "rgb_hex": "#E8E8E8",
+        "pixel_count": 201
+      },
+      {
+        "rgb_hex": "#CBCBCB",
+        "pixel_count": 195
+      },
+      {
+        "rgb_hex": "#EBEBEB",
+        "pixel_count": 195
+      },
+      {
+        "rgb_hex": "#CCCCCC",
+        "pixel_count": 188
+      },
+      {
+        "rgb_hex": "#E9E9E9",
+        "pixel_count": 184
+      }
+    ]
+  },
+  "assumptions": [
+    "The text candidate region corresponds to the rendered Label caption because it is the only non-fill content inside the exact fill bounding box.",
+    "The caption font settings are applied by generated VBA before Show, because the VBIDE designer COM wrapper did not reliably expose design-time Font.Name setting to PowerShell.",
+    "Coordinates are screenshot coordinates in the captured top-level window, not calibrated UserForm client coordinates."
+  ],
+  "deferred_items": [
+    "Calibrated UserForm client coordinate mapping.",
+    "Font substitution verification beyond the generated VBA request for Tahoma 8.25 regular.",
+    "Text metric baseline/ascent/descent extraction.",
+    "Pass/fail tolerance policy.",
+    "OxForms text rendering comparison."
+  ]
+}

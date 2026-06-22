@@ -75,6 +75,28 @@ function ConvertTo-JsonText {
     $Value | ConvertTo-Json -Depth 12
 }
 
+function Get-Sha256Hex {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $stream = [System.IO.File]::OpenRead($Path)
+    try {
+        $sha256 = [System.Security.Cryptography.SHA256]::Create()
+        try {
+            $bytes = $sha256.ComputeHash($stream)
+            return ([System.BitConverter]::ToString($bytes) -replace '-', '').ToLowerInvariant()
+        }
+        finally {
+            $sha256.Dispose()
+        }
+    }
+    finally {
+        $stream.Dispose()
+    }
+}
+
 function Write-Manifest {
     param(
         [object]$Result,
@@ -378,10 +400,9 @@ function Save-WindowScreenshot {
         [void][OxForms.OfficeOracle.NativeMethods]::SetWindowPos($handleValue, $hwndNoTopMost, 0, 0, 0, 0, ($swpNoMove -bor $swpNoSize))
     }
 
-    $hash = Get-FileHash -Algorithm SHA256 -LiteralPath $imagePath
     [ordered]@{
         path = (Resolve-Path -LiteralPath $imagePath).Path
-        sha256 = $hash.Hash.ToLowerInvariant()
+        sha256 = Get-Sha256Hex -Path $imagePath
         width = [int]$Window.bounds.width
         height = [int]$Window.bounds.height
         format = 'png'

@@ -84,7 +84,10 @@ Fixture manifests may include optional text-specific label fields such as
 `foreColorOle`, `textAlign`, `wordWrap`, `autoSize`, and `font` values
 (`name`, `sizePt`, `bold`, `italic`, `underline`, `strikethrough`). These are
 used by W004 text-bearing fixtures and ignored when absent, so the W003 blank
-rectangle fixture remains valid.
+rectangle fixture remains valid. Font values are emitted into the generated VBA
+show macro and applied immediately before the form is shown; this keeps the
+request explicit in the generated workbook even when the VBIDE designer COM
+wrapper does not reliably expose design-time font setters to PowerShell.
 
 Comparison manifest validation:
 

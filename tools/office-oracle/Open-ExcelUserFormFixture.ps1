@@ -101,6 +101,25 @@ function Get-Sha256Hex {
     }
 }
 
+function ConvertTo-VbaStringLiteral {
+    param([string]$Value)
+    return '"' + ($Value -replace '"', '""') + '"'
+}
+
+function ConvertTo-VbaBooleanLiteral {
+    param([object]$Value)
+    if ([bool]$Value) {
+        return 'True'
+    }
+
+    return 'False'
+}
+
+function ConvertTo-VbaNumberLiteral {
+    param([object]$Value)
+    return ([double]$Value).ToString([System.Globalization.CultureInfo]::InvariantCulture)
+}
+
 $fixtureRoot = Resolve-InRepoPath $FixtureDir
 $manifestPath = Join-Path $fixtureRoot 'fixture.json'
 if (-not (Test-Path -LiteralPath $manifestPath)) {
@@ -225,19 +244,31 @@ try {
     $label.Height = $controlHeightPt
     $label.BackColor = $controlBackColorOle
     $label.BorderStyle = $controlBorderStyle
-    if ($null -ne $controlForeColorOle) {
-        $label.ForeColor = [int]$controlForeColorOle
+    try {
+        if ($null -ne $controlForeColorOle) {
+            $label.ForeColor = [int]$controlForeColorOle
+        }
+        if ($null -ne $controlTextAlign) {
+            $label.TextAlign = [int]$controlTextAlign
+        }
+        if ($null -ne $controlWordWrap) {
+            $label.WordWrap = [bool]$controlWordWrap
+        }
+        if ($null -ne $controlAutoSize) {
+            $label.AutoSize = [bool]$controlAutoSize
+        }
     }
-    if ($null -ne $controlTextAlign) {
-        $label.TextAlign = [int]$controlTextAlign
+    catch {
+        throw "Failed to apply optional Label visual property from fixture '$fixtureId': $($_.Exception.Message)"
     }
-    if ($null -ne $controlWordWrap) {
-        $label.WordWrap = [bool]$controlWordWrap
-    }
-    if ($null -ne $controlAutoSize) {
-        $label.AutoSize = [bool]$controlAutoSize
-    }
+
+    $standardModule = $vbProject.VBComponents.Add($vbextCtStdModule)
+    $standardModule.Name = $vbaModuleName
+
+    $setupProcedure = ''
+    $setupInvocation = ''
     if ($null -ne $controlFont) {
+        $fontLines = [System.Collections.Generic.List[string]]::new()
         $fontName = Get-OptionalValue $controlFont 'name'
         $fontSizePt = Get-OptionalValue $controlFont 'sizePt'
         $fontBold = Get-OptionalValue $controlFont 'bold'
@@ -246,32 +277,45 @@ try {
         $fontStrikethrough = Get-OptionalValue $controlFont 'strikethrough'
 
         if ($null -ne $fontName -and -not [string]::IsNullOrWhiteSpace([string]$fontName)) {
-            $label.Font.Name = [string]$fontName
+            $fontLines.Add("        .Font.Name = $(ConvertTo-VbaStringLiteral ([string]$fontName))")
         }
         if ($null -ne $fontSizePt) {
-            $label.Font.Size = [single]$fontSizePt
+            $fontLines.Add("        .Font.Size = $(ConvertTo-VbaNumberLiteral $fontSizePt)")
         }
         if ($null -ne $fontBold) {
-            $label.Font.Bold = [bool]$fontBold
+            $fontLines.Add("        .Font.Bold = $(ConvertTo-VbaBooleanLiteral $fontBold)")
         }
         if ($null -ne $fontItalic) {
-            $label.Font.Italic = [bool]$fontItalic
+            $fontLines.Add("        .Font.Italic = $(ConvertTo-VbaBooleanLiteral $fontItalic)")
         }
         if ($null -ne $fontUnderline) {
-            $label.Font.Underline = [bool]$fontUnderline
+            $fontLines.Add("        .Font.Underline = $(ConvertTo-VbaBooleanLiteral $fontUnderline)")
         }
         if ($null -ne $fontStrikethrough) {
-            $label.Font.Strikethrough = [bool]$fontStrikethrough
+            $fontLines.Add("        .Font.Strikethrough = $(ConvertTo-VbaBooleanLiteral $fontStrikethrough)")
+        }
+
+        if ($fontLines.Count -gt 0) {
+            $fontLineText = $fontLines -join "`r`n"
+            $controlNameLiteral = ConvertTo-VbaStringLiteral $controlName
+            $setupProcedure = @"
+Private Sub ConfigureOracleControl()
+    With $formName.Controls($controlNameLiteral)
+$fontLineText
+    End With
+End Sub
+
+"@
+            $setupInvocation = '    ConfigureOracleControl'
         }
     }
-
-    $standardModule = $vbProject.VBComponents.Add($vbextCtStdModule)
-    $standardModule.Name = $vbaModuleName
 
     $moduleCode = @"
 Option Explicit
 
+$setupProcedure
 Public Sub $showMacroName()
+$setupInvocation
     $formName.Show vbModeless
 End Sub
 

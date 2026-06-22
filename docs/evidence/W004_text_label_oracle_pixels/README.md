@@ -13,6 +13,5 @@ runtime APIs and do not claim OxForms text parity.
 ## Layout
 
 - `captures/` holds generated live Excel/MSForms capture outputs.
-- Later W004 reports may add pixel-fact manifests or summaries beside the
-  capture that produced them.
-
+- Successful capture folders include the generated workbook, screenshot,
+  window/capture manifests, command logs, checksums, and pixel-fact reports.

@@ -1,0 +1,1 @@
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-Window.ps1 -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W004_text_label_oracle_pixels\captures\rectangle-label-text-20260622T191013Z -TitleContains "OxForms W004 Text Label Oracle" -ProcessName EXCEL -CaptureScreenshot
