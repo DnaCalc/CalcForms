@@ -54,6 +54,26 @@ function Get-RequiredValue {
     return $property.Value
 }
 
+function Get-OptionalValue {
+    param(
+        [Parameter(Mandatory = $true)]
+        $Object,
+        [Parameter(Mandatory = $true)]
+        [string]$Name
+    )
+
+    if ($null -eq $Object) {
+        return $null
+    }
+
+    $property = $Object.PSObject.Properties[$Name]
+    if ($null -eq $property) {
+        return $null
+    }
+
+    return $property.Value
+}
+
 function Release-ComObjectIfPresent {
     param($Object)
 
@@ -108,6 +128,11 @@ $controlWidthPt = [single](Get-RequiredValue $control 'widthPt')
 $controlHeightPt = [single](Get-RequiredValue $control 'heightPt')
 $controlBackColorOle = [int](Get-RequiredValue $control 'backColorOle')
 $controlBorderStyle = [int](Get-RequiredValue $control 'borderStyle')
+$controlForeColorOle = Get-OptionalValue $control 'foreColorOle'
+$controlTextAlign = Get-OptionalValue $control 'textAlign'
+$controlWordWrap = Get-OptionalValue $control 'wordWrap'
+$controlAutoSize = Get-OptionalValue $control 'autoSize'
+$controlFont = Get-OptionalValue $control 'font'
 $workbookFileName = Get-RequiredValue $workbookSpec 'fileName'
 $vbaModuleName = Get-RequiredValue $workbookSpec 'vbaModuleName'
 $showMacroName = Get-RequiredValue $workbookSpec 'showMacroName'
@@ -124,6 +149,9 @@ Write-Host "Manifest: $manifestPath"
 Write-Host "Output workbook: $OutputWorkbook"
 Write-Host "Form: $formName / '$formCaption'"
 Write-Host "Control: $controlType $controlName"
+if (-not [string]::IsNullOrEmpty($controlCaption)) {
+    Write-Host "Control caption: '$controlCaption'"
+}
 
 if ($DryRun) {
     Write-Host 'Dry run only: manifest and repository paths are valid. Excel was not started.'
@@ -192,6 +220,45 @@ try {
     $label.Height = $controlHeightPt
     $label.BackColor = $controlBackColorOle
     $label.BorderStyle = $controlBorderStyle
+    if ($null -ne $controlForeColorOle) {
+        $label.ForeColor = [int]$controlForeColorOle
+    }
+    if ($null -ne $controlTextAlign) {
+        $label.TextAlign = [int]$controlTextAlign
+    }
+    if ($null -ne $controlWordWrap) {
+        $label.WordWrap = [bool]$controlWordWrap
+    }
+    if ($null -ne $controlAutoSize) {
+        $label.AutoSize = [bool]$controlAutoSize
+    }
+    if ($null -ne $controlFont) {
+        $fontName = Get-OptionalValue $controlFont 'name'
+        $fontSizePt = Get-OptionalValue $controlFont 'sizePt'
+        $fontBold = Get-OptionalValue $controlFont 'bold'
+        $fontItalic = Get-OptionalValue $controlFont 'italic'
+        $fontUnderline = Get-OptionalValue $controlFont 'underline'
+        $fontStrikethrough = Get-OptionalValue $controlFont 'strikethrough'
+
+        if ($null -ne $fontName -and -not [string]::IsNullOrWhiteSpace([string]$fontName)) {
+            $label.Font.Name = [string]$fontName
+        }
+        if ($null -ne $fontSizePt) {
+            $label.Font.Size = [single]$fontSizePt
+        }
+        if ($null -ne $fontBold) {
+            $label.Font.Bold = [bool]$fontBold
+        }
+        if ($null -ne $fontItalic) {
+            $label.Font.Italic = [bool]$fontItalic
+        }
+        if ($null -ne $fontUnderline) {
+            $label.Font.Underline = [bool]$fontUnderline
+        }
+        if ($null -ne $fontStrikethrough) {
+            $label.Font.Strikethrough = [bool]$fontStrikethrough
+        }
+    }
 
     $standardModule = $vbProject.VBComponents.Add($vbextCtStdModule)
     $standardModule.Name = $vbaModuleName

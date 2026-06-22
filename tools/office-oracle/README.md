@@ -1,6 +1,6 @@
 # Office Oracle Harness Tools
 
-This directory is reserved for W003 tooling that observes real
+This directory is reserved for tooling that observes real
 Excel/MSForms behavior as a black-box oracle.
 
 The tools here are not OxForms runtime APIs, adapter APIs, or compatibility
@@ -37,17 +37,17 @@ On Windows, the self-test records an expected no-target diagnostic and captures
 a small repo-owned native sample window. On non-Windows hosts, it writes an
 explicit unsupported diagnostic manifest instead of attempting desktop capture.
 
-Live window capture shape for later Excel/UserForm beads:
+Live window capture shape for Excel/UserForm beads:
 
 ```powershell
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-Window.ps1 -OutDir docs\evidence\W003_excel_forms_oracle_capture\captures\<capture-id> -TitleContains "<form caption>" -ProcessName EXCEL -CaptureScreenshot
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-Window.ps1 -OutDir docs\evidence\<workset>\captures\<capture-id> -TitleContains "<form caption>" -ProcessName EXCEL -CaptureScreenshot
 ```
 
 `-TitleContains`, `-ProcessName`, `-ProcessContains`, and `-ClassName` may be
 combined to avoid ambiguous matches. If multiple windows still match, the tool
 reports `ambiguous_target` unless `-AllowAmbiguous` is supplied. Any written
-manifest or screenshot must be under
-`docs/evidence/W003_excel_forms_oracle_capture/captures/`.
+manifest or screenshot must be under a documented workset capture path like
+`docs/evidence/<workset>/captures/...`.
 
 W003 kept Office-specific commands explicit and local:
 
@@ -55,6 +55,9 @@ W003 kept Office-specific commands explicit and local:
   `fixtures/office-oracle/excel-msforms/`.
 - `oxforms-fg9.5` wrote generated capture artifacts under
   `docs/evidence/W003_excel_forms_oracle_capture/captures/`.
+- `oxforms-kgn` / W004 uses
+  `docs/evidence/W004_text_label_oracle_pixels/captures/` for text-bearing
+  Label oracle evidence.
 
 Local Office prerequisites, when a future command actually uses Excel:
 
@@ -76,6 +79,12 @@ Live fixture generation/opening shape:
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label -Open -HoldSeconds 300
 ```
+
+Fixture manifests may include optional text-specific label fields such as
+`foreColorOle`, `textAlign`, `wordWrap`, `autoSize`, and `font` values
+(`name`, `sizePt`, `bold`, `italic`, `underline`, `strikethrough`). These are
+used by W004 text-bearing fixtures and ignored when absent, so the W003 blank
+rectangle fixture remains valid.
 
 Comparison manifest validation:
 

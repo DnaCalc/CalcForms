@@ -1,4 +1,4 @@
-# Windows top-level window discovery and screenshot capture for W003 Office
+# Windows top-level window discovery and screenshot capture for Office
 # oracle evidence. This is local test tooling, not an OxForms runtime API.
 [CmdletBinding()]
 param(
@@ -16,7 +16,7 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $Script:RepoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
-$Script:CaptureRoot = (Resolve-Path -LiteralPath (Join-Path $Script:RepoRoot 'docs\evidence\W003_excel_forms_oracle_capture\captures')).Path
+$Script:EvidenceRoot = (Resolve-Path -LiteralPath (Join-Path $Script:RepoRoot 'docs\evidence')).Path
 
 function Test-RunningOnWindows {
     if ($PSVersionTable.PSEdition -eq 'Core') {
@@ -105,11 +105,17 @@ function Resolve-CaptureOutDir {
         $fullPath = [System.IO.Path]::GetFullPath((Join-Path $Script:RepoRoot $Directory))
     }
 
-    $captureRoot = [System.IO.Path]::GetFullPath($Script:CaptureRoot)
-    $rootWithSeparator = $captureRoot.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+    $evidenceRoot = [System.IO.Path]::GetFullPath($Script:EvidenceRoot)
+    $rootWithSeparator = $evidenceRoot.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
     $comparison = [System.StringComparison]::OrdinalIgnoreCase
-    if (-not ($fullPath.Equals($captureRoot, $comparison) -or $fullPath.StartsWith($rootWithSeparator, $comparison))) {
-        throw "Output directory '$fullPath' is outside the documented W003 capture root '$captureRoot'."
+    if (-not $fullPath.StartsWith($rootWithSeparator, $comparison)) {
+        throw "Output directory '$fullPath' is outside the repository evidence root '$evidenceRoot'."
+    }
+
+    $relativePath = $fullPath.Substring($rootWithSeparator.Length).Replace([System.IO.Path]::AltDirectorySeparatorChar, [System.IO.Path]::DirectorySeparatorChar)
+    $segments = @($relativePath.Split([System.IO.Path]::DirectorySeparatorChar, [System.StringSplitOptions]::RemoveEmptyEntries))
+    if ($segments.Count -lt 2 -or -not $segments[1].Equals('captures', $comparison)) {
+        throw "Output directory '$fullPath' must be under a documented workset capture path like 'docs\\evidence\\<workset>\\captures\\...'."
     }
 
     if (Test-Path -LiteralPath $fullPath -PathType Leaf) {
@@ -409,7 +415,7 @@ function Invoke-WindowCapture {
     }
 
     if ($ShouldCaptureScreenshot -and [string]::IsNullOrWhiteSpace($Directory)) {
-        $result.diagnostics += New-Diagnostic -Code 'invalid_output_path' -Message 'CaptureScreenshot requires -OutDir so the image can be written under the W003 capture evidence path.'
+        $result.diagnostics += New-Diagnostic -Code 'invalid_output_path' -Message 'CaptureScreenshot requires -OutDir so the image can be written under a documented workset capture evidence path.'
         return $result
     }
 
@@ -501,7 +507,7 @@ function Invoke-SelfTest {
         return $result
     }
 
-    $noTargetTitle = "OxForms W003 Intentional No Target $PID"
+    $noTargetTitle = "OxForms Office Oracle Intentional No Target $PID"
     $noTarget = Invoke-WindowCapture -Mode 'self-test-no-target' -Query @{
         title_contains = $noTargetTitle
         process_name = $null
@@ -515,7 +521,7 @@ function Invoke-SelfTest {
         Add-Type -AssemblyName System.Windows.Forms
         Add-Type -AssemblyName System.Drawing
 
-        $sampleTitle = "OxForms W003 Capture Self Test $PID"
+        $sampleTitle = "OxForms Office Oracle Capture Self Test $PID"
         $form = [System.Windows.Forms.Form]::new()
         $form.Text = $sampleTitle
         $form.StartPosition = [System.Windows.Forms.FormStartPosition]::Manual
@@ -544,7 +550,7 @@ function Invoke-SelfTest {
     }
     catch {
         $sample = New-Result -Mode 'self-test-sample' -Query @{
-            title_contains = 'OxForms W003 Capture Self Test'
+            title_contains = 'OxForms Office Oracle Capture Self Test'
             process_name = (Get-Process -Id $PID).ProcessName
             process_contains = $null
             class_name = $null

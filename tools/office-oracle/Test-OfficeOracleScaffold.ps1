@@ -14,7 +14,9 @@ $requiredRelativePaths = @(
     'fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json',
     'docs/evidence/W003_excel_forms_oracle_capture/README.md',
     'docs/evidence/W003_excel_forms_oracle_capture/captures/README.md',
-    'docs/evidence/W003_excel_forms_oracle_capture/comparisons/README.md'
+    'docs/evidence/W003_excel_forms_oracle_capture/comparisons/README.md',
+    'docs/evidence/W004_text_label_oracle_pixels/README.md',
+    'docs/evidence/W004_text_label_oracle_pixels/captures/README.md'
 )
 
 $missing = @()
