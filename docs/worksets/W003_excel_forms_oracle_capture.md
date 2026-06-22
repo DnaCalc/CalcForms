@@ -76,6 +76,27 @@ The layout must distinguish repo-owned source inputs from generated evidence.
 Generated binary Office artifacts should either be excluded, placed under an
 evidence path with hashes, or justified in text.
 
+Current scaffold from `oxforms-fg9.1`:
+
+- `tools/office-oracle/` contains Office oracle harness utilities. These tools
+  are test/evidence helpers, not OxForms runtime APIs.
+- `fixtures/office-oracle/excel-msforms/` contains repo-owned Excel/MSForms
+  fixture inputs. The first real UserForm fixture is deferred to
+  `oxforms-fg9.4`.
+- `docs/evidence/W003_excel_forms_oracle_capture/captures/` is the destination
+  for generated screenshots, metadata, logs, platform/Excel notes, and hashes.
+- `docs/evidence/W003_excel_forms_oracle_capture/comparisons/` is the
+  destination for the first oracle comparison manifest from `oxforms-fg9.6`.
+
+The scaffold-only check is:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-OfficeOracleScaffold.ps1
+```
+
+That check validates paths only. It does not automate Excel, create a fixture,
+or capture screenshots.
+
 ### 2. First Excel UserForm Fixture
 
 Use a fixture that is stable before it is rich. The first useful form should be
