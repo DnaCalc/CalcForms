@@ -68,7 +68,7 @@ Public documentation anchors:
 - Mouse and drag/drop `X`/`Y` arguments are `Single`. Microsoft Learn describes
   them as points from the left/top edge of the receiving target. The exact
   relation to screenshot pixels, DPI scaling, and OxForms coordinate spaces is
-  owned by `oxforms-xvx.18`.
+  owned by [`COORDINATE_MODEL.md`](COORDINATE_MODEL.md).
 - Event ordering snippets in Microsoft Learn are public-doc facts. W005 still
   needs black-box event logs before claiming full ordering parity.
 
@@ -116,7 +116,7 @@ Legend:
 | `KeyDown` | `probe` for `CommandButton`, `TextBox`, `UserForm`; absent from `Label` source interface | `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other focusable controls. | `-602`. | `KeyCode As MSForms.ReturnInteger`, `Shift As Integer` (`fmShiftState` in docs). | `KeyCode` is a mutable return-helper object; exact effect of mutation must be observed. `Shift` is scalar. | Public docs say keyboard sequence is `KeyDown -> KeyPress -> KeyUp` for ANSI input and that default/cancel buttons can suppress key events for Enter/Esc. Exact W005 routing is `unknown`. |
 | `KeyUp` | `probe` for `CommandButton`, `TextBox`, `UserForm`; absent from `Label` source interface | `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other focusable controls. | `-604`. | `KeyCode As MSForms.ReturnInteger`, `Shift As Integer` (`fmShiftState` in docs). | `KeyCode` is a mutable return-helper object; exact effect of mutation must be observed. `Shift` is scalar. | Public docs put `KeyUp` after key-triggered control events; focus transfer can move `KeyPress`/`KeyUp` to a second control. W005 needs black-box logs. |
 | `KeyPress` | `probe` for `TextBox`; possible `CommandButton`/`UserForm` diagnostics; absent from `Label` source interface | `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other focusable controls. | `-603`. | Metadata argument name is `KeyAscii As MSForms.ReturnInteger`. Microsoft Learn syntax currently uses `KeyANSI`; examples commonly use `KeyAscii`. Treat the exact VBE stub spelling as `unknown` until fixture generation observes it. | `KeyAscii`/`KeyANSI` is a mutable return-helper object; exact effect of mutation must be observed. | Public docs limit it to ANSI/typeable keys and exclude Tab, Enter, arrow keys, and focus-moving keystrokes. |
-| `MouseDown` | `probe` for `Label`, `CommandButton`, `TextBox`, `UserForm` | `LabelControlEvents`, `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other mouse-capable controls. | `-605`. | `Button As Integer` (`fmButton` in docs), `Shift As Integer` (`fmShiftState` in docs), `X As Single`, `Y As Single`. | No mutable args. | Public docs define `X`/`Y` as point coordinates and describe capture from mouse down until final mouse up. Exact target-local origin and pixel relation are deferred to `oxforms-xvx.18`. |
+| `MouseDown` | `probe` for `Label`, `CommandButton`, `TextBox`, `UserForm` | `LabelControlEvents`, `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other mouse-capable controls. | `-605`. | `Button As Integer` (`fmButton` in docs), `Shift As Integer` (`fmShiftState` in docs), `X As Single`, `Y As Single`. | No mutable args. | Public docs define `X`/`Y` as point coordinates and describe capture from mouse down until final mouse up. Exact live target-local rounding and pixel relation are owned by [`COORDINATE_MODEL.md`](COORDINATE_MODEL.md). |
 | `MouseUp` | `probe` for `Label`, `CommandButton`, `TextBox`, `UserForm` | Same W005 sources as `MouseDown`. | `-607`. | `Button As Integer`, `Shift As Integer`, `X As Single`, `Y As Single`. | No mutable args. | Public docs include click ordering and capture semantics. W005 must log captured/out-of-bounds coordinates in oracle fixtures. |
 | `MouseMove` | `probe` for `Label`, `CommandButton`, `TextBox`, `UserForm` | Same W005 sources as `MouseDown`. | `-606`. | `Button As Integer`, `Shift As Integer`, `X As Single`, `Y As Single`. | No mutable args. | Public docs say it fires repeatedly as the pointer moves and uses points from the left/top edge of the control. Capture and no-capture routing need oracle evidence. |
 | `BeforeUpdate` | `probe` for `TextBox` validation ordering; broader behavior deferred | `ControlEvents` on generic `Control` coclass. Not present on specific W005 probe source interfaces in this raw capture. | `-2147384831`. | `Cancel As MSForms.ReturnBoolean`. | `Cancel` is a mutable return-helper object. Public docs say setting it true cancels the update and keeps focus on the control. | Public docs place it before `AfterUpdate`, `Exit`, and the next control's `Enter`. Exact TextBox mutation/validation trigger remains `unknown`. |
@@ -162,7 +162,9 @@ Oracle fixture beads should:
 - log `Button`, `Shift`, `KeyCode`, `KeyAscii`/`KeyANSI`, `X`, `Y`, and the
   event target object name;
 - label mouse and drag/drop coordinates as `msforms_event_args` points with
-  target-local origin pending `oxforms-xvx.18` calibration;
+  target-local origin, preserving raw `screen_pixels`, `screenshot_pixels`,
+  `form_logical`, and `control_local` coordinates per
+  [`COORDINATE_MODEL.md`](COORDINATE_MODEL.md);
 - preserve the `KeyAscii` versus `KeyANSI` spelling discrepancy until the
   generated VBE fixture or black-box logs settle it.
 
@@ -184,7 +186,8 @@ Trace/schema and event-dispatch beads should:
   `CancelDisplay`, and the documented `BeforeDropOrPaste` `Action` update.
 - Exact focus/validation ordering for `Enter`, `Exit`, `BeforeUpdate`,
   `AfterUpdate`, `Change`, keyboard events, and default/cancel activation.
-- Exact coordinate origin and DPI relation between MSForms point arguments,
-  fixture bounds, and screenshot pixels.
+- Exact live-coordinate rounding and target-local relation between MSForms
+  point arguments, fixture bounds, and screenshot pixels after the W005
+  calibration procedure runs.
 - DISPIDs, if any, used by UserForm lifecycle events documented outside the
   FM20 source interfaces captured here.

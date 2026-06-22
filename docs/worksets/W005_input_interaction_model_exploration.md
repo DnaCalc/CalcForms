@@ -188,6 +188,15 @@ bounds, raw diagnostic coordinate preservation, and how MSForms event arguments
 relate to fixture bounds and screenshots. Later PAL, hit-test, fixture, replay,
 visible-smoke, and comparison beads should all use this vocabulary.
 
+Current output: [`../specs/COORDINATE_MODEL.md`](../specs/COORDINATE_MODEL.md),
+with calibration evidence and the required follow-on procedure in
+[`../evidence/W005_input_interaction_model_exploration/coordinate-calibration.md`](../evidence/W005_input_interaction_model_exploration/coordinate-calibration.md).
+The model defines `screen_pixels`, `window_rect`, `screenshot_pixels`,
+`client_pixels`, `form_logical`, `control_local`, `display_list_logical`, and
+`msforms_event_args`, plus DPI/scale, rounding, half-open bounds,
+control-local conversion, raw diagnostic preservation, screenshot relation, and
+the MSForms event-argument calibration procedure.
+
 ### 5. Form Lifecycle, Modal Pump, And Close/Activation
 
 W005 must make enough lifecycle behavior explicit that it does not get buried
@@ -374,9 +383,9 @@ It is an observation artifact, not a final pass/fail parity oracle.
 | `oxforms-xvx.8` | Implement keyboard, char, accelerator, default, cancel routing | `oxforms-54n`, `oxforms-xvx.6` | Keyboard route tests cover chars, default, cancel, accelerators. |
 | `oxforms-xvx.9` | Implement Label, CommandButton, TextBox interaction probes | `oxforms-54n`, `oxforms-xvx.7`, `oxforms-xvx.8` | Probe controls participate in input/reducer/render path. |
 | `oxforms-xvx.10` | Wire VBA event dispatch smoke for interaction probes | `oxforms-54n`, `oxforms-xvx.9`, `oxforms-xvx.17`, `oxforms-xvx.19` | Probe effects reach VBA handlers or exact blocker exists. |
-| `oxforms-xvx.11` | Add Windows visible input pump smoke | `oxforms-54n`, `oxforms-xvx.9`, `oxforms-xvx.10`, `oxforms-xvx.19` | Real Windows input reaches normalized W005 path or blocker exists. |
-| `oxforms-xvx.12` | Implement trace/replay runner and golden interaction evidence | `oxforms-54n`, `oxforms-xvx.5`, `oxforms-xvx.9`, `oxforms-xvx.10` | Deterministic W005 interaction script replays and emits evidence. |
-| `oxforms-xvx.13` | Compare OxForms interaction trace to MSForms oracle | `oxforms-54n`, `oxforms-xvx.3`, `oxforms-xvx.12` | Observation report relates event oracle to OxForms trace. |
+| `oxforms-xvx.11` | Add Windows visible input pump smoke | `oxforms-54n`, `oxforms-xvx.9`, `oxforms-xvx.10`, `oxforms-xvx.18`, `oxforms-xvx.19` | Real Windows input reaches normalized W005 path or blocker exists, with coordinate translation evidence. |
+| `oxforms-xvx.12` | Implement trace/replay runner and golden interaction evidence | `oxforms-54n`, `oxforms-xvx.5`, `oxforms-xvx.9`, `oxforms-xvx.10`, `oxforms-xvx.18` | Deterministic W005 interaction script replays and emits coordinate-tagged evidence. |
+| `oxforms-xvx.13` | Compare OxForms interaction trace to MSForms oracle | `oxforms-54n`, `oxforms-xvx.3`, `oxforms-xvx.12`, `oxforms-xvx.18` | Observation report relates event oracle to OxForms trace and classifies coordinate differences using the shared vocabulary. |
 | `oxforms-xvx.15` | Explore Windows automation/inspection for input evidence | `oxforms-54n`, `oxforms-xvx.11` | Decision/prototype/blocker records public automation path. |
 | `oxforms-xvx.14` | Closure review and next rollout | `oxforms-54n`, `oxforms-xvx.11`, `oxforms-xvx.13`, `oxforms-xvx.15` | Workset closes only with evidence, residual beads, and review. |
 
@@ -391,7 +400,10 @@ trace schema, and lifecycle. Hit/focus/capture and keyboard routing can run in
 parallel after the reducer skeleton, with hit/focus also tied directly to the
 coordinate model. Probe controls wait for both routing lanes. Event dispatch,
 visible smoke, trace/replay, comparison, automation inspection, and closure form
-the final evidence chain.
+the final evidence chain. The trace/replay runner, visible smoke, and comparison
+also cite the coordinate model directly so screenshot/input translation,
+coordinate-tagged replay evidence, and coordinate-difference classification do
+not rely only on transitive dependencies.
 
 ## Closure Condition
 

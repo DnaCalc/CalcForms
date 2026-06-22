@@ -310,25 +310,28 @@ precise blocker rather than inventing signatures.
 ## 10. Coordinate Model And Calibration Home
 
 `oxforms-xvx.18` owns the detailed coordinate model and calibration evidence.
-The expected curated spec home is `docs/specs/COORDINATE_MODEL.md`, with
-calibration evidence under
-`docs/evidence/W005_input_interaction_model_exploration/`. Until that file
-exists, this section reserves the terms so PAL, fixture, hit-test, trace,
-screenshot, and comparison work do not invent parallel names.
+The curated spec home is
+[`COORDINATE_MODEL.md`](COORDINATE_MODEL.md), with calibration evidence and the
+smallest follow-on calibration procedure in
+[`coordinate-calibration.md`](../evidence/W005_input_interaction_model_exploration/coordinate-calibration.md).
+PAL, fixture, hit-test, trace, screenshot, visible-smoke, and comparison work
+must cite those documents instead of inventing local coordinate fields.
 
 Every coordinate-bearing event or artifact must name its coordinate space:
 
-- `screen_pixels`: physical or OS-scaled screen pixel coordinates as reported by
-  the platform or screenshot tool.
-- `window_rect`: outer PAL/window rectangle space.
+- `screen_pixels`: desktop pixels reported by the platform or screenshot tool.
+- `window_rect`: outer PAL/top-level window rectangle in `screen_pixels`.
+- `screenshot_pixels`: committed PNG/crop pixels, currently top-level window
+  pixels for W003/W004 captures.
 - `client_pixels`: window client-area pixel space.
-- `form_logical`: OxForms form logical layout space.
-- `control_local`: logical coordinates relative to a control's content/bounds
-  origin.
-- `display_list_logical`: renderer/display-list logical units.
-- `msforms_event_args`: coordinate units/origin used by real MSForms event
-  arguments, to be proven by public metadata or black-box observation.
-- `screenshot_pixels`: coordinates inside captured PNGs or crop artifacts.
+- `form_logical`: W005 logical layout space, currently MSForms points for
+  fixture geometry.
+- `control_local`: logical point coordinates relative to the receiving
+  control's bounds origin.
+- `display_list_logical`: renderer/display-list logical units, using W005
+  logical points unless a later spec explicitly retags a command.
+- `msforms_event_args`: live MSForms event `Single` point arguments, preserved
+  separately from derived OxForms coordinates.
 
 W005 coordinate facts must also define:
 
@@ -341,9 +344,12 @@ W005 coordinate facts must also define:
 - relation between MSForms mouse event arguments, fixture control bounds, and
   captured screenshots.
 
-Until `oxforms-xvx.18` lands, implementation beads must avoid vague `x`/`y` or
-`pixels` fields in new trace schemas. Use the named spaces above or explicitly
-mark a coordinate as unresolved.
+`COORDINATE_MODEL.md` defines the conversion ownership, DPI/scale rules,
+rounding policy, half-open bounds convention, raw diagnostic preservation,
+control-local conversion, screenshot relation, and MSForms event argument
+calibration procedure. New trace schemas must avoid vague `x`/`y` or `pixels`
+fields; use the named spaces above or explicitly mark a coordinate as
+unresolved.
 
 ## 11. Portable PAL Input Versus Host-extension Input
 
@@ -438,13 +444,14 @@ replay without live Excel or another host.
 - `oxforms-xvx.19` creates or updates the lifecycle/pump home named in section
   12 and links lifecycle, modal/modeless, activation, and close evidence.
 - `oxforms-xvx.2` and `oxforms-xvx.3` use sections 9, 10, and 12 to build and
-  capture MSForms oracle fixtures.
+  capture MSForms oracle fixtures, including separate `msforms_event_args`,
+  fixture point geometry, screenshot/window metadata, and raw input coordinates.
 - `oxforms-xvx.4` uses sections 5, 10, and 11 to define the PAL normalized input
   contract.
-- `oxforms-xvx.5` uses sections 4, 8, and 13 to define trace schema and
-  validators.
+- `oxforms-xvx.5` uses sections 4, 8, 10, and 13 to define trace schema and
+  validators with explicit coordinate-space tags.
 - `oxforms-xvx.6` through `oxforms-xvx.13` use the reducer/effects, routing,
-  probe, dispatch, smoke, replay, and comparison vocabulary here.
+  probe, dispatch, smoke, replay, coordinate, and comparison vocabulary here.
 
 If a downstream bead discovers a contradiction in this document, it should
 update this spec in the same bead as the corrected behavior or file a focused
@@ -460,8 +467,9 @@ or precisely block them:
   `ControlEvents`, the `KeyAscii`/`KeyANSI` spelling discrepancy, exact
   mutation effects for `MSForms.Return*` helper arguments, and lifecycle DISPIDs
   not found in the captured FM20 source interfaces.
-- Exact MSForms mouse coordinate units, origins, and relation to screenshot
-  pixels under DPI scaling.
+- Exact live MSForms mouse coordinate rounding and target-local relation to
+  screenshot pixels under DPI scaling, pending the calibration procedure in
+  [`COORDINATE_MODEL.md`](COORDINATE_MODEL.md).
 - Event ordering for focus transfer, validation, `Enter`, `Exit`,
   `BeforeUpdate`, `AfterUpdate`, `Change`, `Click`, `DblClick`, keyboard events,
   default button activation, and cancel button activation.

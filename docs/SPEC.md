@@ -19,6 +19,10 @@ planning truth.
    FM20/MSForms event signature and argument fact matrix, with public
    type-library metadata, public documentation anchors, W005 probe subset
    status, mutation semantics, coordinate argument notes, and explicit unknowns.
+3. [`specs/COORDINATE_MODEL.md`](specs/COORDINATE_MODEL.md) - W005
+   coordinate-space model and calibration procedure for PAL input, reducer
+   routing, display-list rendering, MSForms event arguments, screenshots,
+   trace/replay, and comparison artifacts.
 
 ## Source References
 

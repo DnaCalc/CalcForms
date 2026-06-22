@@ -7,6 +7,18 @@ This directory holds raw or generated evidence for W005 input/event facts,
 coordinate calibration, lifecycle/pump observations, oracle captures, and
 trace/replay artifacts.
 
+## Coordinate Calibration
+
+[`coordinate-calibration.md`](coordinate-calibration.md) records the W003/W004
+screenshot geometry facts reused by W005 and defines the smallest follow-on
+calibration procedure for MSForms mouse event arguments. The curated coordinate
+contract is [`../../specs/COORDINATE_MODEL.md`](../../specs/COORDINATE_MODEL.md).
+
+Current status: screenshot geometry is grounded by W003/W004 manifests and W004
+pixel facts; live MSForms event argument calibration is blocked on the W005
+interaction oracle fixture and capture beads (`oxforms-xvx.2` and
+`oxforms-xvx.3`).
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type
