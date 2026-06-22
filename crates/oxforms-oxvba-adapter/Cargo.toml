@@ -1,0 +1,19 @@
+[package]
+name = "oxforms-oxvba-adapter"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "OxVba-specific adapter that projects OxForms PAL services into OxVba."
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+oxforms-pal = { path = "../oxforms-pal" }
+oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+
+[dev-dependencies]
+oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }

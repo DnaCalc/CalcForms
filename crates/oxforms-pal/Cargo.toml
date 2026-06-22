@@ -3,23 +3,10 @@ name = "oxforms-pal"
 version.workspace = true
 edition.workspace = true
 publish = false
-description = "Experimental OxForms PAL scaffold for the W002 rectangle smoke."
-
-[features]
-default = ["oxvba-host-object"]
-oxvba-host-object = ["dep:oxvba-com", "dep:oxvba-runtime"]
+description = "OxForms PAL core contracts and renderers."
 
 [lints.rust]
 unsafe_code = "forbid"
-
-[dependencies]
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38", optional = true }
-oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38", optional = true }
-
-[dev-dependencies]
-oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 
 [target.'cfg(windows)'.dev-dependencies]
 # Smoke-only native bitmap window presenter. The automated oracle remains

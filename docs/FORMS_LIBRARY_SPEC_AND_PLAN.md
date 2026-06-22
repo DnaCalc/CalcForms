@@ -133,9 +133,12 @@ is small and primitive (§6). Backends are Rust and largely shared across platfo
   packaged as an internal referenced library like `oxvba-lib`. PAL boundary methods are
   native-bodied procs (the `oxvba-lib` native-body mechanism), everything else is VBA
   unless profiling and evidence justify a later Rust migration.
-- **`oxforms-pal`** (Rust) — the PAL contract (traits + optional `extern "C"` surface),
-  the OxVba host-object adapter, display-list renderer, and shared
-  rendering/windowing glue.
+- **`oxforms-pal`** (Rust) — the host/runtime-independent PAL core: contract types,
+  display-list renderer, reference/headless renderer, shared backend traits, and optional
+  flat `extern "C"` surface. It must not depend on OxVba or any host runtime.
+- **`oxforms-oxvba-adapter`** (Rust) — the OxVba-specific injected-object adapter. It
+  owns `PortableDispatch`/`Variant` marshalling, `CreateObject`/projection registration,
+  and maps OxForms VBA calls onto the typed `oxforms-pal` core contract.
 - **`oxforms-pal-*`** (Rust, feature-gated or per-crate) — platform backends (win, x11/
   wayland, wasm, mac).
 - `.frm`/`.frx` parsing is owned by OxForms and exposed to OxVba project loading through

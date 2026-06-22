@@ -3,10 +3,8 @@ use std::{
     sync::Arc,
 };
 
-use oxforms_pal::{
-    oxvba_pal_adapter::{register_smoke_canvas, SmokeCanvasFactory},
-    w002_rectangle_fixture_diagnostics, w002_rectangle_fixture_display_list,
-};
+use oxforms_oxvba_adapter::{register_smoke_canvas, SmokeCanvasFactory};
+use oxforms_pal::{w002_rectangle_fixture_diagnostics, w002_rectangle_fixture_display_list};
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig, HostProfileProvider, RuntimeProfileId};
@@ -97,7 +95,7 @@ fn oxvba_rectangle_smoke_app_loads_oxforms_library_and_reaches_renderer() {
 
     let observed_display_list = snapshot
         .display_list
-        .expect("VBA smoke should create a display list on the Rust canvas");
+        .expect("VBA smoke should create a display list through the OxVba adapter");
     assert_eq!(
         observed_display_list,
         w002_rectangle_fixture_display_list(),

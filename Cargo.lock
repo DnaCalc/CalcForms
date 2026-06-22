@@ -421,15 +421,22 @@ dependencies = [
 ]
 
 [[package]]
-name = "oxforms-pal"
+name = "oxforms-oxvba-adapter"
 version = "0.0.0"
 dependencies = [
- "minifb",
+ "oxforms-pal",
  "oxvba-com",
  "oxvba-hal",
  "oxvba-host",
  "oxvba-project",
  "oxvba-runtime",
+]
+
+[[package]]
+name = "oxforms-pal"
+version = "0.0.0"
+dependencies = [
+ "minifb",
 ]
 
 [[package]]

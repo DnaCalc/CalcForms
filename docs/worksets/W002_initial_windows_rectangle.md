@@ -4,25 +4,26 @@ Status: `CLOSED`
 Epic bead: `oxforms-dwm`
 Depends on: `W001_repo_bootstrap`
 Owning plan bead: `oxforms-dwm.1`
-Closed by: `oxforms-dwm.9`
+Closed by: `oxforms-dwm.10`
 Initial evidence bead: `oxforms-dwm.6`
 Structural coupling repair: `oxforms-dwm.7`
 Library-oriented smoke repair: `oxforms-dwm.8`
 PAL adapter naming repair: `oxforms-dwm.9`
+PAL core/adapter split repair: `oxforms-dwm.10`
 
 ## Purpose
 
 Build the first executable OxForms vertical slice: a VBA app project references
 the OxForms VBA library, creates a smoke-only form-like object, the library
-submits a minimal display-list command through the OxVba host-object seam, Rust
-receives it in the PAL adapter, and the renderer draws a small rectangle. The
+submits a minimal display-list command through an OxVba adapter, the adapter
+maps it into the OxForms PAL core, and the renderer draws a small rectangle. The
 slice should prove the project direction without pretending that full
 `UserForm`, `.frm`, event routing, or MSForms parity exists yet.
 
 This is the smallest useful bridge between the charter and implementation:
 
 ```
-VBA app project -> OxForms VBA library -> host-injected PAL canvas -> Rust PAL renderer -> rectangle evidence
+VBA app project -> OxForms VBA library -> OxVba adapter -> Rust PAL core -> rectangle evidence
 ```
 
 Windows is the first platform target, but headless rendering is the primary
@@ -53,6 +54,10 @@ Create the first `oxforms-pal` crate with deliberately small data types:
 The command vocabulary should be boring on purpose. A single `FillRect` is enough
 to settle serialization, validation, and rendering evidence without introducing
 theme or control semantics too early.
+
+The core PAL crate must not depend on OxVba or any other host runtime. OxVba's
+`PortableDispatch`, `Variant`, and projection registration live in a sibling
+adapter crate.
 
 ### 2. Headless Renderer
 
@@ -92,6 +97,11 @@ planned for the real PAL.
 Use the pinned OxVba baseline from `docs/SOURCE_REFERENCES.md` for committed
 Rust dependencies. Local path overrides to `../OxVba` are acceptable only for
 explicit coordinated development and must not become the shared default.
+
+OxVba-specific bridge code lives in `oxforms-oxvba-adapter`. The adapter owns the
+smoke `OxForms.SmokeCanvas` projection and maps dynamic OxVba calls onto typed
+`oxforms-pal` display-list operations. `oxforms-pal` itself remains the
+host/runtime-independent PAL core.
 
 Known boundary at W002 start:
 
@@ -136,7 +146,9 @@ VBA-to-renderer coupling. It was then repaired by `oxforms-dwm.8` so the smoke
 executes in the intended direction: app project -> OxForms VBA library -> Rust
 PAL renderer. `oxforms-dwm.9` then aligned the Rust module that exposes the
 OxVba-facing PAL adapter as `oxvba_pal_adapter.rs`, so the source layout matches
-that ownership direction.
+that ownership direction. `oxforms-dwm.10` split that adapter out of
+`oxforms-pal` into `oxforms-oxvba-adapter`, so the PAL core no longer depends on
+OxVba crates.
 
 Final proved scope:
 
@@ -149,10 +161,12 @@ Final proved scope:
   module in that closure. The app creates an OxForms smoke form through the
   library and does not directly create `OxForms.SmokeCanvas`. The OxForms
   library creates the host-injected `OxForms.SmokeCanvas` through OxVba's
-  portable COM-like projection, calls `CreateSurface`, `FillRect`, and `Flush`,
-  and reaches the Rust PAL adapter. The Rust object records the expected display
-  list, `Flush` invokes the headless renderer, and the diagnostic/hash matches
-  the Rust fixture.
+  portable COM-like projection owned by `oxforms-oxvba-adapter`, calls
+  `CreateSurface`, `FillRect`, and `Flush`, and reaches the Rust PAL core. The
+  adapter records the expected display list, `Flush` invokes the
+  host-independent headless renderer, and the diagnostic/hash matches the Rust
+  fixture.
+- The `oxforms-pal` core builds and tests without OxVba dependencies.
 - The Windows visible example renders the same headless pixels in a short-lived
   native Windows window on the closure host.
 - No W002 blocker or follow-up bead was required.
@@ -174,6 +188,7 @@ decode, and MSForms parity. Those remain future workset scope.
 | `oxforms-dwm.7` | Repair VBA smoke coupling through host-injected PAL canvas | `oxforms-dwm.4` | VBA creates `OxForms.SmokeCanvas`, calls drawing members, and Rust renders on `Flush`; the old text-trace proof is no longer the coupling mechanism. |
 | `oxforms-dwm.8` | Turn W002 smoke through the OxForms VBA library project | `oxforms-dwm.7` | OxVba loads an app `.basproj` plus referenced `OxForms.basproj`; the app creates an OxForms smoke form, the library owns the PAL canvas, and Rust render evidence still matches the fixture. |
 | `oxforms-dwm.9` | Rename OxVba PAL adapter module | `oxforms-dwm.8` | Rust module/file names say OxVba-facing PAL adapter rather than implying Rust hosts VBA; behavior and evidence stay unchanged. |
+| `oxforms-dwm.10` | Split OxVba adapter from PAL core | `oxforms-dwm.9` | `oxforms-pal` has no OxVba dependencies; `oxforms-oxvba-adapter` owns the portable COM projection bridge and the OxVba smoke test. |
 
 ## Closure Condition
 
@@ -183,13 +198,16 @@ W002 closes when all of these are true:
    checked diagnostic/hash.
 2. A VBA app project executed through OxVba references the OxForms VBA library,
    creates an OxForms smoke form-like object, and reaches the same rectangle
-   display list through the library-owned host-injected PAL canvas object;
+   display list through the library-owned host-injected PAL canvas object and
+   the OxVba adapter crate;
    `Debug.Print` or stdout strings are not the coupling mechanism.
-3. A Windows visible smoke path exists and is either verified on Windows or records
+3. The `oxforms-pal` core has no OxVba dependency; OxVba-specific projection and
+   `Variant` marshalling live outside the core.
+4. A Windows visible smoke path exists and is either verified on Windows or records
    a concrete blocker with a follow-up bead.
-4. Evidence records the commands, artifacts, platform, hashes, and fresh-eyes
+5. Evidence records the commands, artifacts, platform, hashes, and fresh-eyes
    review outcome.
-5. The spec/workset docs still state clearly that this is a smoke slice, not
+6. The spec/workset docs still state clearly that this is a smoke slice, not
    full Forms parity.
 
 ## Verification Shape
@@ -201,8 +219,9 @@ Expected checks once code exists:
 | Rust formatting | `cargo fmt --check` |
 | Rust lint | `cargo clippy --workspace -- -D warnings` |
 | Rust tests | `cargo test --workspace` |
+| PAL core independence | `cargo test -p oxforms-pal --no-default-features` |
 | Rectangle fixture | Targeted PAL/headless renderer test with stable diagnostic/hash |
-| OxVba smoke | Targeted command that executes the VBA rectangle smoke through the pinned OxVba baseline |
+| OxVba smoke | `cargo test -p oxforms-oxvba-adapter --test oxvba_rectangle_smoke -- --nocapture` |
 | Windows smoke | Manual or ignored Windows-only command with explicit non-Windows diagnostic |
 | Bead graph | `br dep cycles` and `br ready --json` |
 
@@ -212,6 +231,7 @@ Expected checks once code exists:
 |---|---|
 | The smoke API accidentally becomes the compatibility API. | Name it as smoke-only and keep it out of the parity surface. |
 | The smoke only proves text emission rather than renderer coupling. | Route VBA through OxVba's portable COM-like host projection and assert Rust-side display-list/render state. |
+| OxVba adapter details leak into the PAL core. | Keep `oxforms-pal` free of OxVba dependencies; place `PortableDispatch`/`Variant` marshalling in `oxforms-oxvba-adapter`. |
 | Visible window work becomes flaky or blocks CI. | Make headless rendering the automated oracle; keep Windows visible smoke manual/ignored if needed. |
 | OxVba form-module support is not ready. | Use procedural/class VBA smoke first; track real form-module closure separately. |
 | Cross-boundary command serialization churns too early. | Version the display list and keep W002 to `FillRect` only. |

@@ -3,7 +3,7 @@
 Status: `CLOSED`
 Initial evidence bead: `oxforms-dwm.6`
 Structural repair bead: `oxforms-dwm.7`
-Current closure bead: `oxforms-dwm.9`
+Current closure bead: `oxforms-dwm.10`
 Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 
 ## Platform
@@ -24,6 +24,7 @@ Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 | `oxforms-dwm.7` | see git commit for bead | Replace Debug.Print trace with host-injected PAL canvas |
 | `oxforms-dwm.8` | see git commit for bead | Turn W002 smoke through OxForms VBA library project |
 | `oxforms-dwm.9` | see git commit for bead | Rename OxVba-facing PAL adapter module |
+| `oxforms-dwm.10` | see git commit for bead | Split OxVba adapter from PAL core |
 
 ## Structural Coupling Repairs
 
@@ -46,7 +47,7 @@ fixture still put too much PAL knowledge in the app side. The library-oriented
 smoke now proves this direction:
 
 ```text
-RectangleSmokeApp.basproj -> OxForms.basproj -> OxForms.SmokeCanvas -> render_headless
+RectangleSmokeApp.basproj -> OxForms.basproj -> oxforms-oxvba-adapter -> oxforms-pal::render_headless
 ```
 
 - OxVba loads `vba/smoke/projects/rectangle_app/RectangleSmokeApp.basproj`.
@@ -57,6 +58,15 @@ RectangleSmokeApp.basproj -> OxForms.basproj -> OxForms.SmokeCanvas -> render_he
   `OxForms.SmokeCanvas` internally.
 - Rust records the same display list and `Flush` still calls
   `oxforms_pal::render_headless`.
+
+W002 was reopened for `oxforms-dwm.10` after review found the adapter was still
+compiled into `oxforms-pal`. The durable layering now is:
+
+- `oxforms-pal`: host/runtime-independent PAL core, display-list types, and
+  headless renderer.
+- `oxforms-oxvba-adapter`: OxVba-specific `PortableDispatch`,
+  `PortableComProjection`, and `Variant` marshalling.
+- The smoke test lives with the adapter, not with the PAL core.
 
 ## Fixture And Artifacts
 
@@ -81,11 +91,13 @@ Primary artifact paths and SHA-256 at capture time:
 | `vba/oxforms/OxForms.basproj` | `A1AEF98E5CCBCC2AC1F7E00D7CA9129E45860EBEFEFE3E33C5E9B3660C4D7AF7` |
 | `vba/oxforms/OxForms.bas` | `52163EE34D952658D198C219B56C7446396F55715D953C800A6B835A8A5B417E` |
 | `vba/oxforms/OxFormsSmokeForm.cls` | `CA61BCAF8AFCF530250F838B4781C127DC5C5476B083516E3FC6F4623362B9C3` |
-| `Cargo.lock` | `0A5FE6A5E0B0A2E56478B9DE4A1DDC33428BEDDC316DEE4711ABD74A97A36AD5` |
-| `crates/oxforms-pal/Cargo.toml` | `7AAB91E2CE0229CF8BBDB53649852AF03850B1FB49A8EC2574A264FCB2700DA8` |
-| `crates/oxforms-pal/src/lib.rs` | `E4D22461E94D7F020DF55104796235547E0952043EF00C70994C5E6FD1EA5197` |
-| `crates/oxforms-pal/src/oxvba_pal_adapter.rs` | `11657E033BAEC2E9236CC4E029B9AB080DE06C1613940E5BDCB5A0BEE9E9907D` |
-| `crates/oxforms-pal/tests/oxvba_rectangle_smoke.rs` | `FBC54989B9295385E87FA2B8BA0E0A0AE443719752D734BBE46E0F3B8A1C0054` |
+| `Cargo.toml` | `8CA51BEE9FF76132B1FF15CF60B053D149DE61D8E01D9D696A3F0DB395DB224A` |
+| `Cargo.lock` | `4E04B39846B4288942F176807CB7AE5E8FB3866325F9CDF402691D1EEB345974` |
+| `crates/oxforms-pal/Cargo.toml` | `12655618D83E1CE890EECEAB081DF42BEA4E546CF2F1D774739E9C96B12A7AFA` |
+| `crates/oxforms-pal/src/lib.rs` | `20BFC66648A4A7462F18EB87512659CFC5A4F7E7F2D73C3B277D34DA820D6C89` |
+| `crates/oxforms-oxvba-adapter/Cargo.toml` | `99A9F3691B95CE5BD3C144BA9A5E1001BA018A2795253EFDBBA00831949C35D5` |
+| `crates/oxforms-oxvba-adapter/src/lib.rs` | `991A9AEF01397BE6AFD22CD0D853E30785166FE1533AA9E8ECB5F0A179D08390` |
+| `crates/oxforms-oxvba-adapter/tests/oxvba_rectangle_smoke.rs` | `2476AE6FC8B93E3829CCB91921934894A184F72537E8EE3CC3EEEC495F1A05AD` |
 | `crates/oxforms-pal/examples/visible_rectangle_smoke.rs` | `2E765DC21A906A6CC5899775941FE420D1B7E7774F0B72F6594E4AC31431F07A` |
 
 ## Commands And Results
@@ -113,7 +125,17 @@ cargo test --workspace
 ```
 
 Result after repair: exit code 0; five `oxforms-pal` unit tests passed, one
-`oxvba_rectangle_smoke` integration test passed, and doc-tests had zero tests.
+`oxforms-oxvba-adapter` integration test passed, and doc-tests had zero tests.
+
+PAL core independence:
+
+```powershell
+cargo test -p oxforms-pal --no-default-features
+```
+
+Result after `oxforms-dwm.10`: exit code 0; five `oxforms-pal` unit tests
+passed and doc-tests had zero tests. This proves the PAL core builds without
+OxVba dependencies or adapter features.
 
 Targeted headless rectangle fixture:
 
@@ -128,19 +150,20 @@ The checked hash is `13797848596963948501`.
 Targeted OxVba smoke:
 
 ```powershell
-cargo test -p oxforms-pal --test oxvba_rectangle_smoke -- --nocapture
+cargo test -p oxforms-oxvba-adapter --test oxvba_rectangle_smoke -- --nocapture
 ```
 
 Result: exit code 0; output included
 `test oxvba_rectangle_smoke_app_loads_oxforms_library_and_reaches_renderer ... ok`.
-This loads `vba/smoke/projects/rectangle_app/RectangleSmokeApp.basproj` through
-OxVba's project-closure loader, follows its reference to
-`vba/oxforms/OxForms.basproj`, registers only `OxForms.SmokeCanvas` in OxVba's
-portable COM-like projection, and asserts that the app source does not directly
-create that PAL object. The OxForms library creates the PAL canvas internally,
-calls `CreateSurface`, `FillRect`, and `Flush`, and the Rust PAL adapter records
-the expected display list, renders through `oxforms_pal::render_headless`, and
-returns command count `1` to VBA.
+This adapter-crate test loads
+`vba/smoke/projects/rectangle_app/RectangleSmokeApp.basproj` through OxVba's
+project-closure loader, follows its reference to `vba/oxforms/OxForms.basproj`,
+registers only `OxForms.SmokeCanvas` in OxVba's portable COM-like projection,
+and asserts that the app source does not directly create that PAL object. The
+OxForms library creates the PAL canvas internally, calls `CreateSurface`,
+`FillRect`, and `Flush`; `oxforms-oxvba-adapter` records the expected display
+list, renders through the `oxforms-pal` core `render_headless`, and returns
+command count `1` to VBA.
 
 Windows visible smoke dry run:
 
@@ -171,7 +194,7 @@ visible smoke presented for up to 300 ms in a native Windows window
 Dependency policy review:
 
 ```powershell
-rg -n "\.\./OxVba|path\s*=|git\s*=|rev\s*=" Cargo.toml crates\oxforms-pal\Cargo.toml docs\SOURCE_REFERENCES.md
+rg -n "\.\./OxVba|path\s*=|git\s*=|rev\s*=" Cargo.toml crates\oxforms-pal\Cargo.toml crates\oxforms-oxvba-adapter\Cargo.toml docs\SOURCE_REFERENCES.md
 ```
 
 Result: exit code 0. Committed Cargo manifests use the pinned OxVba git rev
@@ -201,24 +224,26 @@ Ready-work review:
 br ready --json
 ```
 
-Result during `oxforms-dwm.8`: `[]`. Reopening W002 and adding explicit
-temporary dependencies blocked W003 execution while the library-oriented smoke
+Result during `oxforms-dwm.10`: `[]`. Reopening W002 and adding explicit
+temporary dependencies blocked W003 execution while the PAL core/adapter split
 repair was in progress. After W002 was reclosed, the command returned the
 expected W003 starter beads `oxforms-fg9.1` and `oxforms-fg9.2`.
 
 ## Fresh-Eyes Review
 
 Review scope: W002 docs, `docs/WORKSET_REGISTER.md`, `docs/SOURCE_REFERENCES.md`,
-the PAL crate API/tests/example, the OxForms VBA library fixture, the app project
-fixture, VBA smoke fixture/readmes, command names, dependency policy, smoke-only
-wording, and the bead graph.
+the PAL core crate API/tests/example, the OxVba adapter crate API/test, the
+OxForms VBA library fixture, the app project fixture, VBA smoke fixture/readmes,
+command names, dependency policy, smoke-only wording, and the bead graph.
 
 Findings:
 
 - The implemented surface remains W002-scoped: `DisplayCommand::FillRect`,
   versioned display list, RGBA8 color, deterministic headless renderer,
-  OxVba-facing PAL adapter dispatch, and Windows visible presentation of the
-  same headless pixels.
+  OxVba-facing adapter dispatch, and Windows visible presentation of the same
+  headless pixels.
+- `oxforms-pal` has no OxVba dependencies; `PortableDispatch`,
+  `PortableComProjection`, and `Variant` live in `oxforms-oxvba-adapter`.
 - The repaired smoke proves the intended ownership direction: a VBA app project
   loads the OxForms VBA library, the app creates a smoke form through the
   library, the library creates `OxForms.SmokeCanvas`, member dispatch reaches

@@ -1,17 +1,18 @@
-//! Experimental PAL crate for the W002 rectangle smoke.
+//! OxForms PAL core contracts and renderers.
 //!
 //! This crate currently exposes only the smoke display-list contract needed by
 //! W002: a versioned logical surface, RGBA8 colors, `FillRect`, and a
-//! deterministic headless renderer. Later beads should reuse these types instead
-//! of adding parallel VBA or Windows command paths.
+//! deterministic headless renderer.
+//!
+//! The PAL core deliberately has no dependency on OxVba or any host runtime.
+//! Runtime-specific bridges, such as OxVba's portable COM projection adapter,
+//! live in sibling adapter crates and translate host values into these typed
+//! display-list contracts.
 
 #![forbid(unsafe_code)]
 
 use std::error::Error;
 use std::fmt;
-
-#[cfg(feature = "oxvba-host-object")]
-pub mod oxvba_pal_adapter;
 
 /// First display-list version for the W002 smoke contract.
 pub const DISPLAY_LIST_VERSION: u16 = 1;

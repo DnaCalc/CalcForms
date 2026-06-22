@@ -1,9 +1,12 @@
-//! OxVba-facing PAL adapter for the W002 smoke canvas.
+//! OxVba-facing PAL adapter for OxForms.
 //!
 //! This is deliberately smoke-only. It proves the D2 integration shape from the
 //! spec: the OxForms VBA library obtains an injected COM-like PAL object and
 //! calls flat, value-typed drawing members that Rust can also expose through a
 //! C ABI later.
+//!
+//! This crate is the only W002 layer that depends on OxVba. The core PAL crate
+//! remains host/runtime independent.
 
 use std::sync::{Arc, Mutex};
 
@@ -13,7 +16,7 @@ use oxvba_com::{
 };
 use oxvba_runtime::Variant;
 
-use crate::{
+use oxforms_pal::{
     render_headless, Color, DisplayCommand, DisplayList, HeadlessRender, Rect, SurfaceSize,
 };
 

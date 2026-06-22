@@ -14,7 +14,7 @@ headless renderer.
 Targeted command:
 
 ```powershell
-cargo test -p oxforms-pal --test oxvba_rectangle_smoke -- --nocapture
+cargo test -p oxforms-oxvba-adapter --test oxvba_rectangle_smoke -- --nocapture
 ```
 
 The smoke API in this directory is temporary proof plumbing. It is not the final
