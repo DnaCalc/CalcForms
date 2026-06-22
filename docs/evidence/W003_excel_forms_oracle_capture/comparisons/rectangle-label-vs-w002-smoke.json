@@ -1,0 +1,309 @@
+{
+  "schema": "oxforms.office_oracle.comparison_manifest.v1",
+  "bead": "oxforms-fg9.6",
+  "comparison_id": "rectangle-label-vs-w002-smoke",
+  "created_utc": "2026-06-22T17:30:00Z",
+  "status": "calibration_only",
+  "linked_report": "docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.md",
+  "purpose": "Relate the first live Excel/MSForms rectangle-label oracle capture to the current W002 OxForms rectangle smoke output. This is an observation artifact, not a runtime adapter, compatibility bridge, fallback path, or final pass/fail pixel oracle.",
+  "evidence_files": [
+    {
+      "role": "excel_fixture_input",
+      "path": "fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json",
+      "sha256": "c37aa02ccc771fec0bbdbaa2260744addd7fcafd89d25cbcae1b1076f3feb8b2"
+    },
+    {
+      "role": "excel_generated_workbook",
+      "path": "docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/rectangle-label-oracle.xlsm",
+      "sha256": "f3d5a93028cbbd401c52422d09ca4d05c8461a444f0dfbd5f1e03872b9a2edff"
+    },
+    {
+      "role": "excel_screenshot",
+      "path": "docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/window-capture.png",
+      "sha256": "382af49ace240ffef41a1334613e200a091623648e7dded90443a98b6b95cf58"
+    },
+    {
+      "role": "excel_oracle_manifest",
+      "path": "docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/oracle-capture-manifest.json",
+      "sha256": "725048a5fe09b12f0e1124e3b61afecbb23dccb6b4b10a02bb9a209a4e45df61"
+    },
+    {
+      "role": "excel_window_capture_manifest",
+      "path": "docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/window-capture-manifest.json",
+      "sha256": "41d198e449e633c946343cbbb2eec53239be53e7e8d393e87a3c710aff466f2f"
+    },
+    {
+      "role": "w002_evidence",
+      "path": "docs/evidence/W002_initial_windows_rectangle.md",
+      "sha256": "c19d2753c72abf68dcda328a9f191e3b36cec42c275d9f4e170c4270ad32d5d2"
+    },
+    {
+      "role": "w002_vba_smoke_fixture",
+      "path": "vba/smoke/fixtures/rectangle_fillrect_smoke.bas",
+      "sha256": "4e9671219ed22e31eb7db990df663a952626e446cc8d4ba63681c6c578d17d1a"
+    },
+    {
+      "role": "w002_vba_smoke_app_project",
+      "path": "vba/smoke/projects/rectangle_app/RectangleSmokeApp.basproj",
+      "sha256": "bd5775c79de115fc2da739ddbda143bfbfb59efbb4415ccef7c3466ec4e926cd"
+    },
+    {
+      "role": "w002_oxforms_vba_project",
+      "path": "vba/oxforms/OxForms.basproj",
+      "sha256": "a1aef98e5ccbcc2ac1f7e00d7ca9129e45860ebefefe3e33c5e9b3660c4d7af7"
+    },
+    {
+      "role": "w002_oxforms_vba_library",
+      "path": "vba/oxforms/OxForms.bas",
+      "sha256": "52163ee34d952658d198c219b56c7446396f55715d953c800a6b835a8a5b417e"
+    },
+    {
+      "role": "w002_oxforms_smoke_form",
+      "path": "vba/oxforms/OxFormsSmokeForm.cls",
+      "sha256": "ca61bcaf8afcf530250f838b4781c127dc5c5476b083516e3fc6f4623362b9c3"
+    },
+    {
+      "role": "w002_pal_renderer",
+      "path": "crates/oxforms-pal/src/lib.rs",
+      "sha256": "7a8be61fb2b83d975c5d9671e7fae4f6e031b6b9df68b50dc3197163d92da71b"
+    },
+    {
+      "role": "w002_visible_smoke_example",
+      "path": "crates/oxforms-pal/examples/visible_rectangle_smoke.rs",
+      "sha256": "2e765dc21a906a6cc5899775941fe420d1b7e7774f0b72f6594e4ac31431f07a"
+    }
+  ],
+  "excel_oracle": {
+    "fixture": {
+      "id": "excel-msforms-rectangle-label-v1",
+      "form_name": "OxFormsRectangleOracleForm",
+      "form_caption": "OxForms W003 Rectangle Oracle",
+      "form_size_points": {
+        "width": 240,
+        "height": 180
+      },
+      "startup_position": "CenterScreen",
+      "control": {
+        "type": "Forms.Label.1",
+        "kind": "MSForms.Label",
+        "name": "OracleRectangleLabel",
+        "caption": "",
+        "geometry_points": {
+          "left": 24,
+          "top": 24,
+          "width": 96,
+          "height": 48
+        },
+        "back_color_rgb": {
+          "red": 32,
+          "green": 112,
+          "blue": 192,
+          "hex": "#2070C0"
+        },
+        "border_style": "fmBorderStyleSingle"
+      }
+    },
+    "capture": {
+      "capture_id": "rectangle-label-20260622T170958Z",
+      "screenshot": {
+        "path": "docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/window-capture.png",
+        "sha256": "382af49ace240ffef41a1334613e200a091623648e7dded90443a98b6b95cf58",
+        "width": 320,
+        "height": 240,
+        "format": "png",
+        "coordinate_origin": "top_left_of_captured_top_level_window"
+      },
+      "window": {
+        "title": "OxForms W003 Rectangle Oracle",
+        "class_name": "ThunderDFrame",
+        "process_name": "EXCEL",
+        "bounds_screen_pixels": {
+          "left": 800,
+          "top": 420,
+          "right": 1120,
+          "bottom": 660,
+          "width": 320,
+          "height": 240
+        },
+        "dpi": 96
+      },
+      "platform": {
+        "os": "Microsoft Windows NT 10.0.26200.0",
+        "powershell": "5.1.26100.8655",
+        "theme": {
+          "apps_use_light_theme": 1,
+          "system_uses_light_theme": 1
+        },
+        "excel_file_version": "16.0.20026.20182"
+      }
+    },
+    "observed_pixels": {
+      "method": "Read committed PNG with System.Drawing.Bitmap and count exact RGB values in the captured screenshot.",
+      "full_capture": {
+        "width": 320,
+        "height": 240
+      },
+      "label_fill_exact_color_region": {
+        "rgb_hex": "#2070C0",
+        "x": 41,
+        "y": 64,
+        "width": 126,
+        "height": 62,
+        "pixel_count": 7812,
+        "note": "Exact fixture fill color observed inside the label rectangle."
+      },
+      "label_border_region": {
+        "rgb_hex": "#646464",
+        "x": 40,
+        "y": 63,
+        "width": 128,
+        "height": 64,
+        "pixel_count_in_local_region": 380,
+        "note": "Dark border pixels counted inside the rough label crop x=35..175, y=55..135."
+      },
+      "rough_crop_regions": [
+        {
+          "name": "label_with_border",
+          "x": 40,
+          "y": 63,
+          "width": 128,
+          "height": 64,
+          "basis": "Observed border-color bounding box within the local label region."
+        },
+        {
+          "name": "label_fill",
+          "x": 41,
+          "y": 64,
+          "width": 126,
+          "height": 62,
+          "basis": "Observed exact #2070C0 bounding box."
+        }
+      ],
+      "background_samples": [
+        {
+          "point": {
+            "x": 39,
+            "y": 62
+          },
+          "rgb_hex": "#F0F0F0",
+          "meaning": "UserForm client area near label."
+        },
+        {
+          "point": {
+            "x": 10,
+            "y": 10
+          },
+          "rgb_hex": "#F3F3F3",
+          "meaning": "Title bar/background chrome area."
+        }
+      ]
+    }
+  },
+  "oxforms_counterpart": {
+    "source": "W002 initial Windows rectangle smoke",
+    "evidence_doc": "docs/evidence/W002_initial_windows_rectangle.md",
+    "current_commands_run": [
+      {
+        "command": "cargo test -p oxforms-pal fill_rect_renders_expected_pixels_and_diagnostics -- --nocapture",
+        "result": "exit code 0; 1 test passed"
+      },
+      {
+        "command": "cargo run -p oxforms-pal --example visible_rectangle_smoke -- --dry-run",
+        "result": "exit code 0; output reported 4x3, commands=1, hash=13797848596963948501 (fnv1a64-rgba8-framebuffer-v1)"
+      }
+    ],
+    "render_diagnostics": {
+      "width": 4,
+      "height": 3,
+      "command_count": 1,
+      "framebuffer_hash": "13797848596963948501",
+      "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1"
+    },
+    "display_command": {
+      "type": "FillRect",
+      "x": 1,
+      "y": 1,
+      "width": 2,
+      "height": 1,
+      "rgba": {
+        "red": 16,
+        "green": 32,
+        "blue": 48,
+        "alpha": 255,
+        "hex": "#102030"
+      }
+    },
+    "current_hashes": [
+      {
+        "path": "vba/smoke/fixtures/rectangle_fillrect_smoke.bas",
+        "sha256": "4e9671219ed22e31eb7db990df663a952626e446cc8d4ba63681c6c578d17d1a"
+      },
+      {
+        "path": "vba/smoke/projects/rectangle_app/RectangleSmokeApp.basproj",
+        "sha256": "bd5775c79de115fc2da739ddbda143bfbfb59efbb4415ccef7c3466ec4e926cd"
+      },
+      {
+        "path": "vba/oxforms/OxForms.basproj",
+        "sha256": "a1aef98e5ccbcc2ac1f7e00d7ca9129e45860ebefefe3e33c5e9b3660c4d7af7"
+      },
+      {
+        "path": "vba/oxforms/OxForms.bas",
+        "sha256": "52163ee34d952658d198c219b56c7446396f55715d953c800a6b835a8a5b417e"
+      },
+      {
+        "path": "vba/oxforms/OxFormsSmokeForm.cls",
+        "sha256": "ca61bcaf8afcf530250f838b4781c127dc5c5476b083516e3fc6f4623362b9c3"
+      },
+      {
+        "path": "crates/oxforms-pal/src/lib.rs",
+        "sha256": "7a8be61fb2b83d975c5d9671e7fae4f6e031b6b9df68b50dc3197163d92da71b"
+      },
+      {
+        "path": "crates/oxforms-pal/examples/visible_rectangle_smoke.rs",
+        "sha256": "2e765dc21a906a6cc5899775941fe420d1b7e7774f0b72f6594e4ac31431f07a"
+      }
+    ]
+  },
+  "comparison": {
+    "meaningful_now": [
+      "Both artifacts contain a single rectangle-like visual target backed by a deterministic manifest and hashes.",
+      "The Excel oracle capture proves the live MSForms fixture displayed a 320x240 top-level window with a #2070C0 label fill region at x=41..166, y=64..125.",
+      "The current OxForms W002 counterpart proves the smoke PAL can render one FillRect into a 4x3 RGBA framebuffer and report a stable hash.",
+      "The artifacts can be linked by paths, hashes, commands, and rough rectangle-region observations."
+    ],
+    "not_meaningful_yet": [
+      "A pixel diff between the Excel screenshot and W002 framebuffer is not justified because they use different surfaces, dimensions, colors, units, chrome, and control semantics.",
+      "The Excel label is an MSForms control inside a themed UserForm window; W002 is a PAL FillRect smoke command, not an OxForms UserForm or Label implementation.",
+      "The observed point-to-pixel relationship is not a calibrated Twips/points-to-pixels rule."
+    ],
+    "current_relationship": "Calibration only: the Excel oracle supplies a measured target shape and metadata for future renderer work, while W002 supplies the current minimal OxForms rectangle output."
+  },
+  "observed_facts": [
+    "Excel capture screenshot is 320 by 240 PNG pixels with SHA-256 382af49ace240ffef41a1334613e200a091623648e7dded90443a98b6b95cf58.",
+    "Captured top-level window title is OxForms W003 Rectangle Oracle, class is ThunderDFrame, process is EXCEL, bounds are left 800, top 420, right 1120, bottom 660, DPI 96.",
+    "Fixture input hash is c37aa02ccc771fec0bbdbaa2260744addd7fcafd89d25cbcae1b1076f3feb8b2.",
+    "Generated workbook hash is f3d5a93028cbbd401c52422d09ca4d05c8461a444f0dfbd5f1e03872b9a2edff.",
+    "Exact #2070C0 fill pixels in the screenshot occupy x=41..166 and y=64..125, 126 by 62 pixels, 7812 pixels total.",
+    "W002 current dry-run output reports 4x3, commands=1, hash=13797848596963948501 using fnv1a64-rgba8-framebuffer-v1.",
+    "W002 display command is FillRect x=1, y=1, width=2, height=1, RGBA (16, 32, 48, 255)."
+  ],
+  "assumptions": [
+    "The observed #2070C0 region corresponds to the MSForms Label BackColor from the repo-owned fixture because the color matches exactly and the region sits where the label is visually displayed.",
+    "The rough border region corresponds to fmBorderStyleSingle, but border rendering semantics are not yet generalized from this one capture.",
+    "The screenshot coordinate system is the captured top-level window bitmap produced by CopyFromScreen, not a form-client coordinate system."
+  ],
+  "deferred_items": [
+    "Calibrated Twips/points-to-pixel mapping.",
+    "Full form chrome and client-area coordinate handling.",
+    "Themed controls across Windows themes, DPI values, and Office versions.",
+    "Pass/fail pixel tolerances.",
+    "Text and font fidelity.",
+    "Exact pixel diff between Excel/MSForms oracle output and OxForms output.",
+    "OxForms UserForm/Label runtime behavior and intrinsic-control rendering.",
+    "Portable golden-image policy for non-Windows backends."
+  ],
+  "clean_room": {
+    "allowed_sources_used": "Repo-owned fixture input, public Excel/VBIDE automation outputs, public Win32/.NET screenshot metadata, committed OxForms W002 evidence and source hashes.",
+    "prohibited_sources_not_used": "No Office internals, decompilation, disassembly, or non-public source."
+  }
+}

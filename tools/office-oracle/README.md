@@ -22,6 +22,10 @@ Current scaffold:
   Excel/MSForms UserForm oracle workbook from repo-owned manifest input. Live
   generation uses public Excel/VBIDE automation and requires local Excel macro
   and VBA project access policy to allow it.
+- `Test-OracleComparisonManifest.ps1` validates W003 comparison manifests by
+  checking their schema, linked report, evidence paths, and SHA-256 values. It
+  does not start Excel, capture screenshots, run OxForms, or perform pixel
+  parity checks.
 
 Safe self-test, no Excel required:
 
@@ -71,4 +75,10 @@ Live fixture generation/opening shape:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label -Open -HoldSeconds 300
+```
+
+Comparison manifest validation:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-OracleComparisonManifest.ps1 -ManifestPath docs\evidence\W003_excel_forms_oracle_capture\comparisons\rectangle-label-vs-w002-smoke.json
 ```
