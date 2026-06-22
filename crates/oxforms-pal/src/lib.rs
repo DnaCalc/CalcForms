@@ -4,9 +4,9 @@
 //! W005 normalized input contract: value-typed, serializable event rows that a
 //! platform adapter can feed to the reducer without leaking host-runtime types.
 //!
-//! The PAL core deliberately has no dependency on any host runtime.
-//! Runtime-specific bridges live in sibling adapter crates and translate host
-//! values into these typed display-list contracts.
+//! The PAL core deliberately has no dependency on any host runtime. Sibling
+//! adapter crates own runtime-specific marshalling and project host values into
+//! these typed display-list and input contracts.
 
 #![forbid(unsafe_code)]
 

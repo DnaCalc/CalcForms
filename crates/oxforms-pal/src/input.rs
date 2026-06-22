@@ -829,7 +829,11 @@ mod tests {
         };
         let mouse_wheel = UiEvent {
             target: UiEventTarget::window("window-1"),
-            diagnostics: vec![RawDiagnostic::unsigned("win32", "wparam", 0x0078_0001)],
+            diagnostics: vec![RawDiagnostic::unsigned(
+                "platform",
+                "native_wheel_code",
+                0x0078_0001,
+            )],
             ..UiEvent::new(
                 UiEventId(7),
                 UiEventSource::Pal,

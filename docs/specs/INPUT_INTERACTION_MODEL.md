@@ -34,10 +34,10 @@ This spec refines the top-level architecture rather than replacing it:
   section 12, open questions and deferred work.
 
 Charter constraints apply: compatibility with MSForms and observed VBA behavior
-wins, claims require clean-room evidence, and initial OxForms scaffolds have no
-backward-compatibility protection. Operations constraints also apply: behavior
-changes update spec/evidence in the same bead, and event or runtime gaps become
-precise beads or handovers rather than private shortcuts.
+wins, claims require clean-room evidence, and initial OxForms scaffolds are not
+protected API shapes. Operations constraints also apply: behavior changes update
+spec/evidence in the same bead, and event or runtime gaps become precise beads
+or handovers rather than private shortcuts.
 
 ## 2. Scope And Non-goals
 

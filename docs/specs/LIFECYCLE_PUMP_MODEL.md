@@ -28,7 +28,7 @@ MSForms ordering without live oracle evidence.
   not define input, lifecycle, or pump behavior.
 
 Charter section 3.1 applies directly: temporary smoke APIs and host bindings
-must not become compatibility shims or fallback runtime architecture. Lifecycle
+must not become durable runtime architecture by convenience or inertia. Lifecycle
 and pump behavior must enter OxForms through the same normalized input,
 reducer, effects, OxVba dispatch, and trace/replay path as other interaction
 behavior, not as private host side channels.
@@ -331,7 +331,7 @@ Deferred from the W005 first implementation:
 - file a precise blocker or handover if `Initialize`, `Activate`,
   `Deactivate`, `QueryClose`, `Resize`, or `Terminate` cannot be dispatched
   through the shared path;
-- avoid direct Rust callbacks into form code as a compatibility shortcut.
+- avoid direct Rust callbacks into form code as an architecture shortcut.
 
 `oxforms-xvx.11` visible input smoke work must:
 
@@ -344,7 +344,8 @@ Deferred from the W005 first implementation:
 ## 13. Blockers And Follow-up Rules
 
 Do not implement a forms-only event loop, private callback path, direct
-state-mutating host workaround, or legacy bridge to satisfy lifecycle behavior.
+state-mutating host workaround, or preserved temporary integration path to
+satisfy lifecycle behavior.
 If implementation hits missing shared runtime support, file a precise blocker
 or handover bead. Expected blocker categories are:
 

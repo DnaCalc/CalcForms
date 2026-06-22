@@ -79,7 +79,7 @@ These are settled and are treated as load-bearing assumptions, not open question
 | # | Decision | Rationale |
 |---|---|---|
 | D1 | **Single window + single canvas; owner-draw the whole control tree.** | Forced by fact §1.1; also the portability win. |
-| D2 | **PAL = one canonical flat value-typed contract; OxVba binds it through injected host objects.** | Injected host objects are the current best OxVba integration: no `Declare` marshalling on the hot path, explicit host ownership, and clean runtime injection. Any future native-body or C-ABI binding must be a first-class adapter generated from the same contract, not a fallback, bridge, shim, or legacy compatibility path. |
+| D2 | **PAL = one canonical flat value-typed contract; OxVba binds it through injected host objects.** | Injected host objects are the current best OxVba integration: no `Declare` marshalling on the hot path, explicit host ownership, and clean runtime injection. Any future native-body or C-ABI binding must be a first-class adapter generated from the same contract, not a legacy or convenience-maintained alternate path. |
 | D3 | **Purpose-built PAL — *not* a mirror of `IOleInPlaceSiteWindowless`, *not* GDI.** Take *inspiration* from both. | See §6.1. We own all controls, so we don't need the COM windowless-negotiation protocol; and GDI is Windows-only. We adopt the *concepts* (container lends a surface; GDI+/Canvas2D primitive vocabulary) without the baggage. |
 | D4 | **`.frm`/`.frx` (VB6-compatible) is the canonical OxForms form format**, sitting beside `.bas`/`.cls` in OxForms projects and OxVba integration surfaces. | Human-readable, diffable, git-friendly; matches how OxVba already treats VBA source while letting OxForms own form-specific persistence. |
 | D5 | **The binary MS-OFORMS form storage and the `.xlsm` container live in OxDoc**, which converts MS-OFORMS ⇄ `.frm`/`.frx`. The two repos meet at the `.frm`/`.frx` file. | OxDoc owns Office file formats; OxVba owns VBA source formats. Clean decoupling at the interchange file. |
@@ -128,7 +128,7 @@ Interchange with the Office world (separate repo):
 L1-L5 are the OxForms VBA library, written once and intended to run everywhere.
 The PAL contract is small, primitive, and canonical (§6). Runtime-specific
 adapters expose that one contract to their host environment; they are not
-compatibility bridges.
+retained alternate routes.
 
 ### 4.1 Proposed workspace layout (provisional names)
 - **`OxForms` VBA bundle** — the runtime library (L1–L5) as VBA source (`.cls`/`.bas`),
