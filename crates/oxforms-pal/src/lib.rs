@@ -4,10 +4,9 @@
 //! W002: a versioned logical surface, RGBA8 colors, `FillRect`, and a
 //! deterministic headless renderer.
 //!
-//! The PAL core deliberately has no dependency on OxVba or any host runtime.
-//! Runtime-specific bridges, such as OxVba's portable COM projection adapter,
-//! live in sibling adapter crates and translate host values into these typed
-//! display-list contracts.
+//! The PAL core deliberately has no dependency on any host runtime.
+//! Runtime-specific bridges live in sibling adapter crates and translate host
+//! values into these typed display-list contracts.
 
 #![forbid(unsafe_code)]
 

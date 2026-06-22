@@ -3,7 +3,7 @@
 Status: `CLOSED`
 Initial evidence bead: `oxforms-dwm.6`
 Structural repair bead: `oxforms-dwm.7`
-Current closure bead: `oxforms-dwm.10`
+Current closure bead: `oxforms-dwm.11`
 Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 
 ## Platform
@@ -25,6 +25,7 @@ Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 | `oxforms-dwm.8` | see git commit for bead | Turn W002 smoke through OxForms VBA library project |
 | `oxforms-dwm.9` | see git commit for bead | Rename OxVba-facing PAL adapter module |
 | `oxforms-dwm.10` | see git commit for bead | Split OxVba adapter from PAL core |
+| `oxforms-dwm.11` | see git commit for bead | Scope smoke canvas module and fresh-eyes review |
 
 ## Structural Coupling Repairs
 
@@ -68,6 +69,18 @@ compiled into `oxforms-pal`. The durable layering now is:
   `PortableComProjection`, and `Variant` marshalling.
 - The smoke test lives with the adapter, not with the PAL core.
 
+W002 was reopened for `oxforms-dwm.11` for one more fresh-eyes review before
+W003 starts. The review found the behavior sound but the adapter crate root made
+the temporary smoke API look more permanent than it should. The repair moved the
+W002 `OxForms.SmokeCanvas` projection under
+`oxforms_oxvba_adapter::smoke_canvas` and reduced the crate root to generic
+OxVba-facing adapter identity. The PAL core docs were also made fully
+host-neutral, with no OxVba/projection identifiers in `crates/oxforms-pal`.
+The top-level forms plan's workspace layout section was corrected to match D2:
+OxForms VBA obtains PAL services through injected objects, while flat
+native-body/C-ABI-style bindings remain a fallback-compatible contract shape
+rather than the primary OxVba path.
+
 ## Fixture And Artifacts
 
 The W002 display-list fixture is `4x3`, has one `FillRect` command at
@@ -94,10 +107,11 @@ Primary artifact paths and SHA-256 at capture time:
 | `Cargo.toml` | `8CA51BEE9FF76132B1FF15CF60B053D149DE61D8E01D9D696A3F0DB395DB224A` |
 | `Cargo.lock` | `4E04B39846B4288942F176807CB7AE5E8FB3866325F9CDF402691D1EEB345974` |
 | `crates/oxforms-pal/Cargo.toml` | `12655618D83E1CE890EECEAB081DF42BEA4E546CF2F1D774739E9C96B12A7AFA` |
-| `crates/oxforms-pal/src/lib.rs` | `20BFC66648A4A7462F18EB87512659CFC5A4F7E7F2D73C3B277D34DA820D6C89` |
+| `crates/oxforms-pal/src/lib.rs` | `7A8BE61FB2B83D975C5D9671E7FAE4F6E031B6B9DF68B50DC3197163D92DA71B` |
 | `crates/oxforms-oxvba-adapter/Cargo.toml` | `99A9F3691B95CE5BD3C144BA9A5E1001BA018A2795253EFDBBA00831949C35D5` |
-| `crates/oxforms-oxvba-adapter/src/lib.rs` | `991A9AEF01397BE6AFD22CD0D853E30785166FE1533AA9E8ECB5F0A179D08390` |
-| `crates/oxforms-oxvba-adapter/tests/oxvba_rectangle_smoke.rs` | `2476AE6FC8B93E3829CCB91921934894A184F72537E8EE3CC3EEEC495F1A05AD` |
+| `crates/oxforms-oxvba-adapter/src/lib.rs` | `FC9513859C480DF9C42F6FED3AEE7E3B7A4E802C6201283418AA9E7E1D3B0956` |
+| `crates/oxforms-oxvba-adapter/src/smoke_canvas.rs` | `286A2549C0CE7B344C8C5392D01BC48A0441C0ED6A35CC32A227062AFAA0DCFE` |
+| `crates/oxforms-oxvba-adapter/tests/oxvba_rectangle_smoke.rs` | `5515829525D8B7E37F3E309D8172661BBC61F5EDBAEA59C50B4077EC6A7922F1` |
 | `crates/oxforms-pal/examples/visible_rectangle_smoke.rs` | `2E765DC21A906A6CC5899775941FE420D1B7E7774F0B72F6594E4AC31431F07A` |
 
 ## Commands And Results
@@ -133,9 +147,19 @@ PAL core independence:
 cargo test -p oxforms-pal --no-default-features
 ```
 
-Result after `oxforms-dwm.10`: exit code 0; five `oxforms-pal` unit tests
+Result after `oxforms-dwm.11`: exit code 0; five `oxforms-pal` unit tests
 passed and doc-tests had zero tests. This proves the PAL core builds without
 OxVba dependencies or adapter features.
+
+PAL core host-leak scan:
+
+```powershell
+rg -n "PortableDispatch|PortableComProjection|Variant|oxvba-com|oxvba-runtime|oxvba-hal|oxvba-host|oxvba-project|OxVba|oxvba" crates\oxforms-pal
+```
+
+Result after `oxforms-dwm.11`: exit code 1 with no matches. This is the
+expected ripgrep result when no host/projection identifiers are present in the
+PAL core.
 
 Targeted headless rectangle fixture:
 
@@ -224,17 +248,18 @@ Ready-work review:
 br ready --json
 ```
 
-Result during `oxforms-dwm.10`: `[]`. Reopening W002 and adding explicit
-temporary dependencies blocked W003 execution while the PAL core/adapter split
-repair was in progress. After W002 was reclosed, the command returned the
-expected W003 starter beads `oxforms-fg9.1` and `oxforms-fg9.2`.
+Result during `oxforms-dwm.11`: `[]` after adding explicit temporary
+dependencies from the W003 starter beads to this review bead. After W002 was
+reclosed, the command returned the expected W003 starter beads `oxforms-fg9.1`
+and `oxforms-fg9.2`.
 
 ## Fresh-Eyes Review
 
-Review scope: W002 docs, `docs/WORKSET_REGISTER.md`, `docs/SOURCE_REFERENCES.md`,
-the PAL core crate API/tests/example, the OxVba adapter crate API/test, the
-OxForms VBA library fixture, the app project fixture, VBA smoke fixture/readmes,
-command names, dependency policy, smoke-only wording, and the bead graph.
+Review scope: W002 docs, `docs/FORMS_LIBRARY_SPEC_AND_PLAN.md`,
+`docs/WORKSET_REGISTER.md`, `docs/SOURCE_REFERENCES.md`, the PAL core crate
+API/tests/example, the OxVba adapter crate API/test, the OxForms VBA library
+fixture, the app project fixture, VBA smoke fixture/readmes, command names,
+dependency policy, smoke-only wording, and the bead graph.
 
 Findings:
 
@@ -244,6 +269,13 @@ Findings:
   headless pixels.
 - `oxforms-pal` has no OxVba dependencies; `PortableDispatch`,
   `PortableComProjection`, and `Variant` live in `oxforms-oxvba-adapter`.
+  A direct scan of `crates/oxforms-pal` found no OxVba/projection identifiers.
+- `oxforms-oxvba-adapter` keeps the temporary W002 projection in
+  `smoke_canvas`; the crate root stays generic and can grow real adapter
+  modules without treating the smoke API as permanent.
+- The main forms plan now matches D2: the OxVba path is injected host objects,
+  and native-body/C-ABI-style bindings are fallback-compatible shapes rather
+  than the primary W002 integration.
 - The repaired smoke proves the intended ownership direction: a VBA app project
   loads the OxForms VBA library, the app creates a smoke form through the
   library, the library creates `OxForms.SmokeCanvas`, member dispatch reaches
@@ -259,4 +291,4 @@ Findings:
 - No new out-of-scope defect requiring a follow-up bead was found during this
   closure review.
 
-Conclusion: W002 closure conditions are satisfied.
+Conclusion after `oxforms-dwm.11`: W002 closure conditions are satisfied.

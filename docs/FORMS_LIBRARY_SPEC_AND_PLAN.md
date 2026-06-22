@@ -130,9 +130,11 @@ is small and primitive (§6). Backends are Rust and largely shared across platfo
 
 ### 4.1 Proposed workspace layout (provisional names)
 - **`OxForms` VBA bundle** — the runtime library (L1–L5) as VBA source (`.cls`/`.bas`),
-  packaged as an internal referenced library like `oxvba-lib`. PAL boundary methods are
-  native-bodied procs (the `oxvba-lib` native-body mechanism), everything else is VBA
-  unless profiling and evidence justify a later Rust migration.
+  packaged as an internal referenced library like `oxvba-lib`. It obtains primitive
+  PAL services through host-injected objects supplied by runtime-specific adapter
+  crates; those PAL members stay flat and value-typed so a later native-body or
+  C-ABI binding can share the same contract. Everything else is VBA unless profiling
+  and evidence justify a later Rust migration.
 - **`oxforms-pal`** (Rust) — the host/runtime-independent PAL core: contract types,
   display-list renderer, reference/headless renderer, shared backend traits, and optional
   flat `extern "C"` surface. It must not depend on OxVba or any host runtime.

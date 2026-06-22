@@ -3,7 +3,7 @@ use std::{
     sync::Arc,
 };
 
-use oxforms_oxvba_adapter::{register_smoke_canvas, SmokeCanvasFactory};
+use oxforms_oxvba_adapter::smoke_canvas::{register_smoke_canvas, SmokeCanvasFactory};
 use oxforms_pal::{w002_rectangle_fixture_diagnostics, w002_rectangle_fixture_display_list};
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
