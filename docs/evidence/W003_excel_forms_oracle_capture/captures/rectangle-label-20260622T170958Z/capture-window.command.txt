@@ -1,0 +1,1 @@
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-Window.ps1 -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W003_excel_forms_oracle_capture\captures\rectangle-label-20260622T170958Z -TitleContains "OxForms W003 Rectangle Oracle" -ProcessName EXCEL -CaptureScreenshot

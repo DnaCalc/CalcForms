@@ -183,6 +183,18 @@ For the first captured UserForm, record durable evidence:
 The evidence must be enough for a future agent to rerun or inspect the capture
 without relying on this conversation.
 
+Current capture from `oxforms-fg9.5`:
+
+- `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/`
+  contains the first successful live Excel/MSForms UserForm capture.
+- `oracle-capture-manifest.json` records the fixture input hash, generated
+  workbook hash, screenshot path/hash, open and capture commands, platform and
+  Excel executable version notes, window identity, bounds, and warnings about
+  DPI/theme/scaling.
+- The capture helper briefly raises the selected target window before
+  screenshot capture so an occluding desktop window is not accidentally recorded
+  as the oracle pixels.
+
 ### 5. First Comparison Manifest
 
 Define a small comparison artifact that relates the Excel oracle to OxForms.

@@ -54,36 +54,31 @@ function Get-RequiredValue {
     return $property.Value
 }
 
-function Set-DesignerProperty {
-    param(
-        [Parameter(Mandatory = $true)]
-        $Target,
-        [Parameter(Mandatory = $true)]
-        [string]$Name,
-        [Parameter(Mandatory = $true)]
-        $Value
-    )
-
-    try {
-        if ($null -ne $Target.PSObject.Properties['Properties']) {
-            $Target.Properties.Item($Name).Value = $Value
-        } else {
-            $Target.$Name = $Value
-        }
-    } catch {
-        try {
-            $Target.$Name = $Value
-        } catch {
-            throw "Failed to set designer property '$Name' to '$Value': $($_.Exception.Message)"
-        }
-    }
-}
-
 function Release-ComObjectIfPresent {
     param($Object)
 
     if ($null -ne $Object -and [System.Runtime.InteropServices.Marshal]::IsComObject($Object)) {
         [void][System.Runtime.InteropServices.Marshal]::ReleaseComObject($Object)
+    }
+}
+
+function Get-Sha256Hex {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    $stream = [System.IO.File]::OpenRead($Path)
+    try {
+        $sha256 = [System.Security.Cryptography.SHA256]::Create()
+        try {
+            $bytes = $sha256.ComputeHash($stream)
+            return ([System.BitConverter]::ToString($bytes) -replace '-', '').ToUpperInvariant()
+        } finally {
+            $sha256.Dispose()
+        }
+    } finally {
+        $stream.Dispose()
     }
 }
 
@@ -155,6 +150,7 @@ $workbook = $null
 $vbProject = $null
 $formComponent = $null
 $standardModule = $null
+$generatedWorkbookPath = $null
 
 try {
     try {
@@ -181,10 +177,12 @@ try {
     $formComponent.Name = $formName
 
     $designer = $formComponent.Designer
-    Set-DesignerProperty $designer 'Caption' $formCaption
-    Set-DesignerProperty $designer 'Width' $formWidthPt
-    Set-DesignerProperty $designer 'Height' $formHeightPt
-    Set-DesignerProperty $designer 'StartUpPosition' $formStartupPosition
+    # Keep these direct and set the single-valued size properties first:
+    # PowerShell's COM binder can cache .Value setters too narrowly here.
+    $formComponent.Properties.Item('Width').Value = $formWidthPt
+    $formComponent.Properties.Item('Height').Value = $formHeightPt
+    $formComponent.Properties.Item('StartUpPosition').Value = [single]$formStartupPosition
+    & { param($Component, [string]$Caption) $Component.Properties.Item('Caption').Value = $Caption } $formComponent $formCaption
 
     $label = $designer.Controls.Add($controlType, $controlName, $true)
     $label.Caption = $controlCaption
@@ -214,9 +212,8 @@ End Sub
 
     $xlOpenXmlWorkbookMacroEnabled = 52
     $workbook.SaveAs($OutputWorkbook, $xlOpenXmlWorkbookMacroEnabled)
-
-    $hash = Get-FileHash -Algorithm SHA256 -LiteralPath $OutputWorkbook
-    Write-Host "Generated workbook SHA256: $($hash.Hash)"
+    $generatedWorkbookPath = $OutputWorkbook
+    Write-Host "Generated workbook: $OutputWorkbook"
 
     if ($Open) {
         Write-Host "Opening UserForm with macro: $showMacroName"
@@ -245,6 +242,15 @@ End Sub
                 $excel.Quit()
             } catch {
                 Write-Warning "Failed to quit Excel cleanly: $($_.Exception.Message)"
+            }
+
+            if (-not [string]::IsNullOrWhiteSpace($generatedWorkbookPath) -and (Test-Path -LiteralPath $generatedWorkbookPath)) {
+                try {
+                    $hash = Get-Sha256Hex -Path $generatedWorkbookPath
+                    Write-Host "Generated workbook SHA256: $hash"
+                } catch {
+                    Write-Warning "Failed to hash generated workbook after closing Excel: $($_.Exception.Message)"
+                }
             }
         } else {
             Write-Host 'Leaving Excel open because -KeepExcelOpen was supplied.'

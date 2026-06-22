@@ -14,4 +14,12 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-
 ```
 
 Those self-test files are not Excel/MSForms oracle artifacts. The first real
-Excel UserForm capture belongs to a later W003 bead.
+Excel UserForm capture is:
+
+- `rectangle-label-20260622T170958Z/` from `oxforms-fg9.5`.
+
+Its `oracle-capture-manifest.json` is the durable entry point for rerun
+commands, fixture/workbook/screenshot hashes, Excel executable version, window
+identity, bounds, and DPI/theme/scaling warnings. The PNG is a live
+Excel/MSForms oracle screenshot only; exact OxForms comparison is deferred to
+the W003 comparison bead.

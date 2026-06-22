@@ -14,8 +14,10 @@ Current scaffold:
   capture screenshots, or create a UserForm fixture.
 - `Capture-Window.ps1` discovers visible top-level Windows desktop windows
   using public Win32 APIs through PowerShell/.NET, records structured metadata,
-  and can optionally capture a PNG screenshot. It is a black-box evidence helper
-  only; it is not an OxForms runtime API.
+  and can optionally capture a PNG screenshot. Screenshot capture briefly raises
+  the selected target window before copying pixels so an occluding desktop
+  window is not accidentally recorded as the oracle. It is a black-box evidence
+  helper only; it is not an OxForms runtime API.
 - `Open-ExcelUserFormFixture.ps1` validates or generates the first
   Excel/MSForms UserForm oracle workbook from repo-owned manifest input. Live
   generation uses public Excel/VBIDE automation and requires local Excel macro

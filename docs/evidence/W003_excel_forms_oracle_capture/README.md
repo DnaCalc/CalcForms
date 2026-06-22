@@ -32,6 +32,18 @@ Current scaffold:
 No capture has been performed by `oxforms-fg9.1`. Files added here by this bead
 are path guides only, not captured evidence.
 
+Current Excel/MSForms oracle capture from `oxforms-fg9.5`:
+
+- `captures/rectangle-label-20260622T170958Z/` contains the first successful
+  live Excel UserForm capture for
+  `excel-msforms-rectangle-label-v1`.
+- `captures/rectangle-label-20260622T170958Z/oracle-capture-manifest.json`
+  records the open/capture commands, platform notes, Excel executable version,
+  window identity and bounds, screenshot hash, generated workbook hash, fixture
+  input hash, and DPI/theme/scaling warnings.
+- `captures/rectangle-label-20260622T170958Z/window-capture.png` is black-box
+  Office/MSForms evidence, not an OxForms pixel-parity claim.
+
 W003 evidence should record at least:
 
 - fixture input paths and hashes;

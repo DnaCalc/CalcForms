@@ -172,6 +172,15 @@ namespace OxForms.OfficeOracle
 
         [DllImport("user32.dll")]
         public static extern uint GetDpiForWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern bool SetWindowPos(IntPtr hWnd, IntPtr hWndInsertAfter, int X, int Y, int cx, int cy, uint uFlags);
     }
 }
 '@
@@ -340,6 +349,16 @@ function Save-WindowScreenshot {
 
     Add-Type -AssemblyName System.Drawing
 
+    $handleValue = [System.IntPtr]::new([Convert]::ToInt64($Window.handle.Substring(2), 16))
+    $hwndTopMost = [System.IntPtr]::new(-1)
+    $hwndNoTopMost = [System.IntPtr]::new(-2)
+    $swpNoMove = 0x0002
+    $swpNoSize = 0x0001
+    [void][OxForms.OfficeOracle.NativeMethods]::ShowWindow($handleValue, 5)
+    [void][OxForms.OfficeOracle.NativeMethods]::SetWindowPos($handleValue, $hwndTopMost, 0, 0, 0, 0, ($swpNoMove -bor $swpNoSize))
+    [void][OxForms.OfficeOracle.NativeMethods]::SetForegroundWindow($handleValue)
+    Start-Sleep -Milliseconds 300
+
     $imagePath = Join-Path $Directory 'window-capture.png'
     $bitmap = [System.Drawing.Bitmap]::new([int]$Window.bounds.width, [int]$Window.bounds.height)
     $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
@@ -350,6 +369,7 @@ function Save-WindowScreenshot {
     finally {
         $graphics.Dispose()
         $bitmap.Dispose()
+        [void][OxForms.OfficeOracle.NativeMethods]::SetWindowPos($handleValue, $hwndNoTopMost, 0, 0, 0, 0, ($swpNoMove -bor $swpNoSize))
     }
 
     $hash = Get-FileHash -Algorithm SHA256 -LiteralPath $imagePath
