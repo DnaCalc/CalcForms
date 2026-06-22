@@ -166,6 +166,10 @@ code name events. The fact matrix should record:
 This lane is not runtime code. It prevents later beads from inventing event
 signatures in fixture macros, trace schemas, or OxVba dispatch glue.
 
+Current output: [`../specs/FM20_EVENT_FACTS.md`](../specs/FM20_EVENT_FACTS.md),
+with raw FM20 type-library evidence under
+[`../evidence/W005_input_interaction_model_exploration/`](../evidence/W005_input_interaction_model_exploration/).
+
 ### 4. Coordinate Systems And Calibration
 
 W005 should name every coordinate space that crosses an architectural boundary:

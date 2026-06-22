@@ -15,6 +15,10 @@ planning truth.
    W005 input/event architecture surface for normalized `UiEvent`, interaction
    `FormState`, effects, ordering, trace/replay, and the fact/model homes for
    event signatures, coordinates, and lifecycle/pump semantics.
+2. [`specs/FM20_EVENT_FACTS.md`](specs/FM20_EVENT_FACTS.md) - W005
+   FM20/MSForms event signature and argument fact matrix, with public
+   type-library metadata, public documentation anchors, W005 probe subset
+   status, mutation semantics, coordinate argument notes, and explicit unknowns.
 
 ## Source References
 

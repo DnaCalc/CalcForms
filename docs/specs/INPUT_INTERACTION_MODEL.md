@@ -222,7 +222,7 @@ pure state transition. Every effect must have an `EffectId`, a causal
 
 | Effect | Required payload | Completion behavior |
 |---|---|---|
-| `FireVbaEvent` | target object/control, event name, argument list, ByRef/cancel metadata, fact-source reference when known | Executed through OxVba shared event machinery. Completion records success/error and mutated ByRef arguments. |
+| `FireVbaEvent` | target object/control, event name, argument list, ByRef or mutable-helper metadata, cancel metadata, fact-source reference when known | Executed through OxVba shared event machinery. Completion records success/error and scalar ByRef or helper-object mutations. |
 | `RequestRepaint` | dirty region/subtree, reason, target window/form | May complete immediately as scheduled or later when renderer reports diagnostics. |
 | `CaptureMouse` | target control/form, pointer/button/reason | Completion records success/failure; platform capture loss returns as input/service event. |
 | `ReleaseMouse` | target control/form, reason | Completion records success/failure and final capture owner. |
@@ -259,9 +259,9 @@ W005 uses these ordering principles until evidence refines them:
    the reducer.
 6. Execute effects outside the reducer through the PAL, host capability layer,
    or OxVba shared event dispatcher.
-7. Record effect completions, VBA dispatch results, ByRef mutations, service
-   results, and errors as trace rows. If they affect state, feed them back as
-   normalized events or reducer inputs.
+7. Record effect completions, VBA dispatch results, scalar ByRef mutations,
+   mutable-helper-object mutations, service results, and errors as trace rows.
+   If they affect state, feed them back as normalized events or reducer inputs.
 8. If VBA dispatch, a modal pump, or a host callback produces reentrant input,
    assign nested sequence metadata and re-enter the same `UiEvent` path. Reentrant
    code must not mutate `FormState` outside the reducer.
@@ -277,10 +277,10 @@ host/runtime blocker. Such behavior must appear in trace output.
 ## 9. FM20 Event Fact Home
 
 `oxforms-xvx.17` owns the W005 FM20/MSForms event signature and argument fact
-surface. The expected curated spec home is `docs/specs/FM20_EVENT_FACTS.md`.
-Generated/raw evidence belongs under
-`docs/evidence/W005_input_interaction_model_exploration/`. When the fact matrix
-exists, it must be linked from this spec and from `docs/SPEC.md`.
+surface. The curated spec home is
+[`FM20_EVENT_FACTS.md`](FM20_EVENT_FACTS.md). Generated/raw evidence belongs
+under `docs/evidence/W005_input_interaction_model_exploration/`, starting with
+[`fm20_typelib_w005_events.json`](../evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json).
 
 The fact matrix must use these columns or direct equivalents:
 
@@ -414,8 +414,9 @@ must preserve these families:
 - reducer transition log: state summary before/after, not necessarily full
   state dumps;
 - effects log: requested effects, effect completions, errors, and cancellations;
-- VBA event log: event names, dispatch order, arguments, ByRef mutations, and
-  dispatch errors where applicable;
+- VBA event log: event names, dispatch order, arguments, scalar ByRef
+  mutations, mutable-helper-object mutations, and dispatch errors where
+  applicable;
 - invalidation log: dirty regions/subtrees and reasons;
 - display-list references: command batch ids, checksums, and render target
   metadata;
@@ -454,8 +455,11 @@ blocker before proceeding.
 W005 should keep these open until the named fact/model/evidence beads resolve
 or precisely block them:
 
-- Exact FM20 event DISPIDs, signatures, ByRef status, and cancel/mutation
-  semantics for the W005 event subset.
+- Remaining FM20 event unknowns after
+  [`FM20_EVENT_FACTS.md`](FM20_EVENT_FACTS.md): per-probe exposure of generic
+  `ControlEvents`, the `KeyAscii`/`KeyANSI` spelling discrepancy, exact
+  mutation effects for `MSForms.Return*` helper arguments, and lifecycle DISPIDs
+  not found in the captured FM20 source interfaces.
 - Exact MSForms mouse coordinate units, origins, and relation to screenshot
   pixels under DPI scaling.
 - Event ordering for focus transfer, validation, `Enter`, `Exit`,
