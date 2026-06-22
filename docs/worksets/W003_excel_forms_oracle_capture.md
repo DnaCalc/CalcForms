@@ -128,6 +128,31 @@ Windows UI Automation is useful here, but W003 should avoid turning into a broad
 accessibility abstraction. The target is reliable oracle capture, not a general
 desktop automation framework.
 
+Current implementation from `oxforms-fg9.2`:
+
+- `tools/office-oracle/Capture-Window.ps1` is a PowerShell harness for
+  Office/MSForms oracle evidence capture. It is not an OxForms runtime API,
+  adapter, bridge, fallback, or compatibility shim.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File
+  tools\office-oracle\Capture-Window.ps1 -SelfTest -OutDir
+  docs\evidence\W003_excel_forms_oracle_capture\captures\self-test` opens a
+  small native sample window on Windows, verifies a deliberate no-target
+  diagnostic, and writes JSON manifests plus a PNG screenshot. On non-Windows
+  hosts it writes an explicit unsupported manifest.
+- `powershell -NoProfile -ExecutionPolicy Bypass -File
+  tools\office-oracle\Capture-Window.ps1 -OutDir <capture-dir>
+  -TitleContains <text> [-ProcessName EXCEL] [-ProcessContains <text>]
+  [-ClassName <class>] [-CaptureScreenshot]` records title, class, process
+  id/path when available, bounds, DPI when available, screenshot path/hash when
+  requested, warnings, and failure diagnostics.
+- Written manifests and screenshots are restricted to
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/`.
+- The implementation uses public Win32 APIs through PowerShell/.NET:
+  `EnumWindows`, `IsWindowVisible`, `GetWindowTextLengthW`, `GetWindowTextW`,
+  `GetClassNameW`, `GetWindowThreadProcessId`, `GetWindowRect`, and
+  `GetDpiForWindow`, plus .NET `System.Drawing.Graphics.CopyFromScreen` for
+  screenshot pixels.
+
 ### 4. Oracle Artifact Set
 
 For the first captured UserForm, record durable evidence:
