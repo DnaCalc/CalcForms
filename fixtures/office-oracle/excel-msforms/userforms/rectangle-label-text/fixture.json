@@ -1,0 +1,78 @@
+{
+  "id": "excel-msforms-rectangle-label-text-v1",
+  "title": "Text-bearing Excel MSForms rectangle-label oracle fixture",
+  "bead": "oxforms-kgn.3",
+  "cleanRoom": {
+    "source": "Repo-owned manifest consumed through public Excel/VBIDE automation.",
+    "prohibited": "No Office internals, decompilation, disassembly, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA.",
+    "A stable desktop scaling/theme should be recorded by the capture bead; this fixture does not claim pixel parity."
+  ],
+  "workbook": {
+    "fileName": "rectangle-label-text-oracle.xlsm",
+    "vbaModuleName": "OxFormsTextLabelOracle",
+    "showMacroName": "ShowTextLabelOracle",
+    "hideMacroName": "HideTextLabelOracle"
+  },
+  "evidence": {
+    "defaultGeneratedWorkbookDir": "docs/evidence/W004_text_label_oracle_pixels/captures/generated-workbooks"
+  },
+  "form": {
+    "name": "OxFormsTextLabelOracleForm",
+    "caption": "OxForms W004 Text Label Oracle",
+    "widthPt": 240,
+    "heightPt": 180,
+    "startupPosition": 2,
+    "startupPositionName": "CenterScreen"
+  },
+  "control": {
+    "type": "Forms.Label.1",
+    "kind": "MSForms.Label",
+    "name": "OracleTextLabel",
+    "caption": "OxForms",
+    "leftPt": 24,
+    "topPt": 24,
+    "widthPt": 96,
+    "heightPt": 48,
+    "backColorOle": 12611616,
+    "backColorHex": "&H00C07020&",
+    "backColorRgb": {
+      "red": 32,
+      "green": 112,
+      "blue": 192
+    },
+    "foreColorOle": 16777215,
+    "foreColorHex": "&H00FFFFFF&",
+    "foreColorRgb": {
+      "red": 255,
+      "green": 255,
+      "blue": 255
+    },
+    "borderStyle": 1,
+    "borderStyleName": "fmBorderStyleSingle",
+    "textAlign": 1,
+    "textAlignName": "fmTextAlignLeft",
+    "wordWrap": false,
+    "autoSize": false,
+    "font": {
+      "name": "Tahoma",
+      "sizePt": 8.25,
+      "bold": false,
+      "italic": false,
+      "underline": false,
+      "strikethrough": false
+    }
+  },
+  "notes": {
+    "units": "MSForms automation geometry values are in points. The capture bead records resulting pixels under the active DPI and theme.",
+    "font": "The label uses explicit regular Tahoma 8.25 point text so the first text oracle is simple, normal-size, and reproducible enough to inspect. If the host substitutes the font, the capture evidence must record that limitation.",
+    "text": "The caption is intentionally short and unwrapped so the first observation focuses on baseline placement, anti-aliasing, and glyph pixel colors rather than layout complexity.",
+    "colors": "The label keeps the W003 blue fill and adds white foreground text so glyph pixels are visually and programmatically easy to distinguish from the fill.",
+    "generatedArtifacts": "Generated .xlsm files are evidence artifacts, not source inputs. Keep them under docs/evidence/W004_text_label_oracle_pixels/ with hashes if committed."
+  }
+}

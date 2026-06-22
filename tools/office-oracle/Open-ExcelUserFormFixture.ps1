@@ -56,7 +56,6 @@ function Get-RequiredValue {
 
 function Get-OptionalValue {
     param(
-        [Parameter(Mandatory = $true)]
         $Object,
         [Parameter(Mandatory = $true)]
         [string]$Name
@@ -113,6 +112,7 @@ $fixtureId = Get-RequiredValue $manifest 'id'
 $form = Get-RequiredValue $manifest 'form'
 $control = Get-RequiredValue $manifest 'control'
 $workbookSpec = Get-RequiredValue $manifest 'workbook'
+$evidenceSpec = Get-OptionalValue $manifest 'evidence'
 
 $formName = Get-RequiredValue $form 'name'
 $formCaption = Get-RequiredValue $form 'caption'
@@ -139,7 +139,12 @@ $showMacroName = Get-RequiredValue $workbookSpec 'showMacroName'
 $hideMacroName = Get-RequiredValue $workbookSpec 'hideMacroName'
 
 if ([string]::IsNullOrWhiteSpace($OutputWorkbook)) {
-    $OutputWorkbook = Join-Path $repoRoot (Join-Path 'docs\evidence\W003_excel_forms_oracle_capture\captures\generated-workbooks' $workbookFileName)
+    $defaultGeneratedWorkbookDir = Get-OptionalValue $evidenceSpec 'defaultGeneratedWorkbookDir'
+    if ([string]::IsNullOrWhiteSpace([string]$defaultGeneratedWorkbookDir)) {
+        $defaultGeneratedWorkbookDir = 'docs\evidence\W003_excel_forms_oracle_capture\captures\generated-workbooks'
+    }
+
+    $OutputWorkbook = Join-Path $repoRoot (Join-Path $defaultGeneratedWorkbookDir $workbookFileName)
 } else {
     $OutputWorkbook = Resolve-InRepoPath $OutputWorkbook
 }

@@ -12,3 +12,7 @@ Current fixtures:
 - `rectangle-label/` is the first fixture. It defines one Excel-hosted
   `UserForm` and one empty-caption `MSForms.Label` rectangle from repo-owned
   manifest data.
+- `rectangle-label-text/` is the first text-bearing fixture. It keeps the same
+  simple UserForm/Label shape but adds caption `OxForms`, explicit regular
+  `Tahoma` 8.25 point text, and fixed foreground/alignment settings for W004
+  text pixel observation.
