@@ -19,6 +19,19 @@ pixel facts; live MSForms event argument calibration is blocked on the W005
 interaction oracle fixture and capture beads (`oxforms-xvx.2` and
 `oxforms-xvx.3`).
 
+## Lifecycle And Pump Model
+
+[`lifecycle-pump-model.md`](lifecycle-pump-model.md) records the W005
+lifecycle/pump evidence status and the required downstream observations for
+modal/modeless show, activation, close/query/hide/unload, terminate, and
+reentrancy. The curated lifecycle contract is
+[`../../specs/LIFECYCLE_PUMP_MODEL.md`](../../specs/LIFECYCLE_PUMP_MODEL.md).
+
+Current status: the architecture model is defined, W002 is explicitly
+smoke-only and not lifecycle evidence, and live MSForms lifecycle ordering is
+blocked on the W005 interaction oracle fixture and capture beads
+(`oxforms-xvx.2` and `oxforms-xvx.3`).
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

@@ -213,6 +213,16 @@ inside a Windows smoke host or VBA dispatch workaround. The model should cover:
 The W005 implementation subset can stay small, but the architecture must leave
 a named place for lifecycle effects and oracle observations.
 
+Current output:
+[`../specs/LIFECYCLE_PUMP_MODEL.md`](../specs/LIFECYCLE_PUMP_MODEL.md), with
+evidence/status notes in
+[`../evidence/W005_input_interaction_model_exploration/lifecycle-pump-model.md`](../evidence/W005_input_interaction_model_exploration/lifecycle-pump-model.md).
+The model defines lifecycle state, modal/modeless pump terms, lifecycle
+`UiEvent`/`Effect` families, close/query/hide/unload separation, reentrancy
+rules, W005 probe subset, and downstream fixture/reducer/dispatch/visible-smoke
+requirements. It records that live MSForms ordering remains blocked on
+`oxforms-xvx.2` and `oxforms-xvx.3`.
+
 ### 6. PAL Normalized Input Contract
 
 The PAL input boundary must remain host/runtime independent, flat,

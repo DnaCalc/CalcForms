@@ -23,6 +23,9 @@ planning truth.
    coordinate-space model and calibration procedure for PAL input, reducer
    routing, display-list rendering, MSForms event arguments, screenshots,
    trace/replay, and comparison artifacts.
+4. [`specs/LIFECYCLE_PUMP_MODEL.md`](specs/LIFECYCLE_PUMP_MODEL.md) - W005
+   form lifecycle, modal/modeless pump, activation, close/query/hide/unload,
+   terminate, reentrancy, and downstream oracle/smoke/reducer guidance.
 
 ## Source References
 

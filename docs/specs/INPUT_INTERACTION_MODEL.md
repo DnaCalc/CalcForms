@@ -372,41 +372,34 @@ host-extension event sequence.
 
 `oxforms-xvx.19` owns the detailed lifecycle, modal/modeless pump, activation,
 close, query, hide, unload, and terminate model. The expected curated spec home
-is `docs/specs/LIFECYCLE_PUMP_MODEL.md`, with oracle or smoke evidence under
-`docs/evidence/W005_input_interaction_model_exploration/`. Until that file
-exists, this section reserves the W005 terms.
+is [`LIFECYCLE_PUMP_MODEL.md`](LIFECYCLE_PUMP_MODEL.md), with evidence/status
+notes under
+[`lifecycle-pump-model.md`](../evidence/W005_input_interaction_model_exploration/lifecycle-pump-model.md).
+That model is the required source for W005 fixture, reducer/effects, VBA event
+dispatch, visible-smoke, trace/replay, and comparison lifecycle behavior.
 
 Lifecycle state names should cover:
 
-- created but not loaded;
-- loaded;
-- initialized;
-- hidden;
-- showing modeless;
-- showing modal;
-- active;
-- deactivated;
-- close requested;
-- query close pending;
-- hiding;
-- unloading;
-- terminated.
+- `allocated`, `loading`, `loaded`, `initializing`, `initialized`, `hidden`;
+- `showing_modeless`, `modeless_visible`, `showing_modal`, `modal_visible`;
+- `active`, `deactivated`;
+- `close_requested`, `query_close_pending`, `close_cancelled`;
+- `hide_pending`, `unloading`, and `terminated`.
 
 Pump terms should cover:
 
-- host idle/modeless pump;
-- modal nested pump;
-- nested modal depth;
-- DoEvents-like yield;
-- VBA dispatch reentrancy;
-- host callback reentrancy;
-- close/unload cancellation.
+- `host_modeless_pump`;
+- `modal_frame`;
+- `nested_modal_depth`;
+- `doevents_yield`;
+- `vba_dispatch_reentrancy`;
+- `host_callback_reentrancy`;
+- `close_unload_cancellation`.
 
 Lifecycle and pump transitions are represented as `UiEvent` inputs and
-`Effects`, not as private host side channels. Unknown MSForms orderings,
-including initialize/activate/show, query-close cancellation, nested modal forms,
-and close/unload/terminate timing, remain open until the lifecycle bead and
-oracle evidence settle them.
+`Effects`, not as private host side channels. Unknown MSForms orderings remain
+evidence-gated in `LIFECYCLE_PUMP_MODEL.md` until oracle fixture/capture beads
+settle them.
 
 ## 13. Trace And Replay Obligations
 
@@ -442,7 +435,8 @@ replay without live Excel or another host.
 - `oxforms-xvx.18` creates or updates the coordinate model home named in section
   10 and links coordinate conversion and calibration evidence.
 - `oxforms-xvx.19` creates or updates the lifecycle/pump home named in section
-  12 and links lifecycle, modal/modeless, activation, and close evidence.
+  12 and links lifecycle, modal/modeless, activation, close, and pump evidence
+  status.
 - `oxforms-xvx.2` and `oxforms-xvx.3` use sections 9, 10, and 12 to build and
   capture MSForms oracle fixtures, including separate `msforms_event_args`,
   fixture point geometry, screenshot/window metadata, and raw input coordinates.
@@ -476,9 +470,10 @@ or precisely block them:
 - Whether platform double-click messages should be normalized as distinct
   `MouseDoubleClick` events, synthesized from down/up/click sequences, or both
   with explicit diagnostics.
-- Minimal lifecycle order for create/load/initialize/show/activate/deactivate,
-  close/query/hide/unload/terminate, modal/modeless show, nested modal forms,
-  and DoEvents-like yielding.
+- Live MSForms lifecycle order for create/load/initialize/show/activate,
+  resize/deactivate, close/query/hide/unload/terminate, modal/modeless show,
+  nested modal forms, and DoEvents-like yielding as detailed in
+  [`LIFECYCLE_PUMP_MODEL.md`](LIFECYCLE_PUMP_MODEL.md).
 - How much TextBox editing belongs in W005 beyond simple single-line character
   insertion, caret movement placeholders, selection placeholders, and `Change`.
 - How clipboard shortcuts and `DataObject` behavior should be represented before
