@@ -1,9 +1,10 @@
 # W004 Text Label Oracle Pixels
 
-Status: `OPEN`
+Status: `CLOSED`
 Epic bead: `oxforms-kgn`
 Depends on: `W003_excel_forms_oracle_capture`
 Owning plan bead: `oxforms-kgn.1`
+Closed by: `oxforms-kgn.5`
 
 ## Purpose
 
@@ -26,6 +27,33 @@ repo-owned text Label fixture
 This deliberately observes MSForms text before implementing OxForms text. Text
 metrics, anti-aliasing, baseline placement, and clipping are compatibility
 surfaces; guessing here would bake in bad assumptions.
+
+## Final Evidence
+
+W004 captured a live Excel/MSForms text-bearing `Forms.Label.1` on Windows:
+
+- fixture:
+  `fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json`
+- capture directory:
+  `docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/`
+- durable manifest:
+  `docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/oracle-capture-manifest.json`
+- screenshot:
+  `docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/window-capture.png`
+- pixel facts:
+  `docs/evidence/W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/pixel-facts.json`
+
+The captured top-level window was `ThunderDFrame` from `EXCEL`, titled
+`OxForms W004 Text Label Oracle`, at 320 x 240 pixels and 96 DPI. The fixture
+requested caption `OxForms`, fill `#2070C0`, foreground `#FFFFFF`, and regular
+Tahoma 8.25 pt. The pixel-fact report records an exact-fill region at
+x=41..166, y=64..125 and a text-candidate region at x=41..83, y=67..74,
+with representative anti-aliasing colors. These are sample observations only,
+not OxForms text parity or general MSForms typography rules.
+
+Residual work is filed as `oxforms-54n`: plan the next calibration/rendering
+workset for client-coordinate mapping, font evidence, text metrics, tolerance
+policy, and the first OxForms text rendering comparison.
 
 ## Non-goals
 
@@ -183,6 +211,10 @@ W004 closes when all of these are true:
 5. Docs remain precise that W004 is text oracle/capture work, not OxForms text
    rendering or text parity.
 6. Any blocker or out-of-scope discovery has a follow-up bead before closure.
+
+Closure result: satisfied on 2026-06-22 by `oxforms-kgn.5`. No blocker bead was
+needed because the live capture succeeded. Follow-up `oxforms-54n` covers the
+deferred calibration/rendering questions that are out of W004 scope.
 
 ## Verification Shape
 
