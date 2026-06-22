@@ -9,8 +9,10 @@ Expected future shape:
 - Optional generation/opening scripts only when they are explicit about local
   Excel prerequisites and clean-room boundaries.
 
-The first real fixture is intentionally deferred to `oxforms-fg9.4`. This bead
-only establishes where that fixture belongs.
+Current fixtures:
+
+- `userforms/rectangle-label/` contains the first stable Excel/MSForms
+  UserForm oracle fixture input from `oxforms-fg9.4`.
 
 Do not commit opaque generated workbooks here as the only source of truth. If a
 future bead must preserve a generated binary workbook, place it with the W003

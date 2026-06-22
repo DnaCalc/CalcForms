@@ -6,9 +6,12 @@ $ErrorActionPreference = 'Stop'
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 $requiredRelativePaths = @(
     'tools/office-oracle/README.md',
+    'tools/office-oracle/Open-ExcelUserFormFixture.ps1',
     'fixtures/office-oracle/README.md',
     'fixtures/office-oracle/excel-msforms/README.md',
     'fixtures/office-oracle/excel-msforms/userforms/README.md',
+    'fixtures/office-oracle/excel-msforms/userforms/rectangle-label/README.md',
+    'fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json',
     'docs/evidence/W003_excel_forms_oracle_capture/README.md',
     'docs/evidence/W003_excel_forms_oracle_capture/captures/README.md',
     'docs/evidence/W003_excel_forms_oracle_capture/comparisons/README.md'

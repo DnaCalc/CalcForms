@@ -16,6 +16,10 @@ Current scaffold:
   using public Win32 APIs through PowerShell/.NET, records structured metadata,
   and can optionally capture a PNG screenshot. It is a black-box evidence helper
   only; it is not an OxForms runtime API.
+- `Open-ExcelUserFormFixture.ps1` validates or generates the first
+  Excel/MSForms UserForm oracle workbook from repo-owned manifest input. Live
+  generation uses public Excel/VBIDE automation and requires local Excel macro
+  and VBA project access policy to allow it.
 
 Safe self-test, no Excel required:
 
@@ -41,7 +45,7 @@ manifest or screenshot must be under
 
 Future W003 beads should keep Office-specific commands explicit and local:
 
-- `oxforms-fg9.4` should add repo-owned Excel/VBA fixture inputs under
+- `oxforms-fg9.4` adds repo-owned Excel/VBA fixture inputs under
   `fixtures/office-oracle/excel-msforms/`.
 - `oxforms-fg9.5` should write generated capture artifacts under
   `docs/evidence/W003_excel_forms_oracle_capture/captures/`.
@@ -54,3 +58,15 @@ Local Office prerequisites, when a future command actually uses Excel:
 - A desktop session where the UserForm can be shown and captured.
 
 Non-Office scaffold checks must not require those prerequisites.
+
+Safe fixture validation, no Excel required:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label -DryRun
+```
+
+Live fixture generation/opening shape:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label -Open -HoldSeconds 300
+```

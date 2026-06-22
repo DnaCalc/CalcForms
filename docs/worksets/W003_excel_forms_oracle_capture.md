@@ -81,8 +81,8 @@ Current scaffold from `oxforms-fg9.1`:
 - `tools/office-oracle/` contains Office oracle harness utilities. These tools
   are test/evidence helpers, not OxForms runtime APIs.
 - `fixtures/office-oracle/excel-msforms/` contains repo-owned Excel/MSForms
-  fixture inputs. The first real UserForm fixture is deferred to
-  `oxforms-fg9.4`.
+  fixture inputs. `oxforms-fg9.4` adds the first real UserForm fixture under
+  `userforms/rectangle-label/`.
 - `docs/evidence/W003_excel_forms_oracle_capture/captures/` is the destination
   for generated screenshots, metadata, logs, platform/Excel notes, and hashes.
 - `docs/evidence/W003_excel_forms_oracle_capture/comparisons/` is the
@@ -110,6 +110,21 @@ rectangle-like, for example:
 
 The fixture may be generated through Excel automation or opened manually through
 a documented procedure, but it must be reproducible from repo-owned inputs.
+
+Current fixture from `oxforms-fg9.4`:
+
+- `fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json`
+  is the repo-owned source input for one Excel-hosted `UserForm` named
+  `OxFormsRectangleOracleForm`.
+- The form caption is `OxForms W003 Rectangle Oracle`, size is `240 x 180`
+  points, and startup position is `CenterScreen`.
+- The only control is an empty-caption `Forms.Label.1` named
+  `OracleRectangleLabel` at `Left 24`, `Top 24`, `Width 96`, `Height 48`
+  points, with BackColor `&H00C07020&` / RGB `(32, 112, 192)` and
+  `fmBorderStyleSingle`.
+- `tools/office-oracle/Open-ExcelUserFormFixture.ps1` validates the manifest
+  with `-DryRun` and can generate/open the `.xlsm` workbook through public
+  Excel/VBIDE automation when the host has Excel and macro/VBIDE policy enabled.
 
 ### 3. Windows Discovery And Capture
 

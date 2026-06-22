@@ -1,0 +1,55 @@
+{
+  "id": "excel-msforms-rectangle-label-v1",
+  "title": "First Excel MSForms rectangle-label oracle fixture",
+  "bead": "oxforms-fg9.4",
+  "cleanRoom": {
+    "source": "Repo-owned manifest consumed through public Excel/VBIDE automation.",
+    "prohibited": "No Office internals, decompilation, disassembly, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA.",
+    "A stable desktop scaling/theme should be recorded by the capture bead; this fixture does not claim pixel parity."
+  ],
+  "workbook": {
+    "fileName": "rectangle-label-oracle.xlsm",
+    "vbaModuleName": "OxFormsRectangleOracle",
+    "showMacroName": "ShowRectangleLabelOracle",
+    "hideMacroName": "HideRectangleLabelOracle"
+  },
+  "form": {
+    "name": "OxFormsRectangleOracleForm",
+    "caption": "OxForms W003 Rectangle Oracle",
+    "widthPt": 240,
+    "heightPt": 180,
+    "startupPosition": 2,
+    "startupPositionName": "CenterScreen"
+  },
+  "control": {
+    "type": "Forms.Label.1",
+    "kind": "MSForms.Label",
+    "name": "OracleRectangleLabel",
+    "caption": "",
+    "leftPt": 24,
+    "topPt": 24,
+    "widthPt": 96,
+    "heightPt": 48,
+    "backColorOle": 12611616,
+    "backColorHex": "&H00C07020&",
+    "backColorRgb": {
+      "red": 32,
+      "green": 112,
+      "blue": 192
+    },
+    "borderStyle": 1,
+    "borderStyleName": "fmBorderStyleSingle"
+  },
+  "notes": {
+    "units": "MSForms automation geometry values are in points. The capture bead records resulting pixels under the active DPI and theme.",
+    "font": "The rectangle label has an empty Caption, so label font metrics should not affect the visual target. The UserForm title bar uses the host Windows theme and caption font.",
+    "choice": "A Label with empty caption, fixed fill, and single border gives a simple colored rectangle while staying inside intrinsic MSForms controls.",
+    "generatedArtifacts": "Generated .xlsm files are evidence artifacts, not source inputs. Keep them under docs/evidence/W003_excel_forms_oracle_capture/ with hashes if committed."
+  }
+}

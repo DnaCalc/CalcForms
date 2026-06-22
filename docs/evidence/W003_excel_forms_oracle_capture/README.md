@@ -11,6 +11,11 @@ Current scaffold:
   hashes, and platform/Excel notes from `oxforms-fg9.5`.
 - `comparisons/` will hold comparison manifests or reports relating the Excel
   oracle to current OxForms artifacts from `oxforms-fg9.6`.
+- The first fixture input from `oxforms-fg9.4` is
+  `fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json`.
+  It can be validated without Excel, or generated/opened through
+  `tools/office-oracle/Open-ExcelUserFormFixture.ps1` when local Excel/VBIDE
+  policy allows it.
 - The capture primitive self-test can write generated PNG/JSON artifacts under
   `captures/self-test/` with:
 
