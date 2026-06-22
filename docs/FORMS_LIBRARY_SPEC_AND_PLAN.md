@@ -79,7 +79,7 @@ These are settled and are treated as load-bearing assumptions, not open question
 | # | Decision | Rationale |
 |---|---|---|
 | D1 | **Single window + single canvas; owner-draw the whole control tree.** | Forced by fact §1.1; also the portability win. |
-| D2 | **PAL = injected host object (Option C), contract shaped so a flat C-ABI fallback (Option B) is trivial.** | Cleanest OxVba integration, no `Declare` marshalling on the hot path; flat value-typed surface keeps a C-ABI export cheap if OxForms is ever run outside OxVba. |
+| D2 | **PAL = one canonical flat value-typed contract; OxVba binds it through injected host objects.** | Injected host objects are the current best OxVba integration: no `Declare` marshalling on the hot path, explicit host ownership, and clean runtime injection. Any future native-body or C-ABI binding must be a first-class adapter generated from the same contract, not a fallback, bridge, shim, or legacy compatibility path. |
 | D3 | **Purpose-built PAL — *not* a mirror of `IOleInPlaceSiteWindowless`, *not* GDI.** Take *inspiration* from both. | See §6.1. We own all controls, so we don't need the COM windowless-negotiation protocol; and GDI is Windows-only. We adopt the *concepts* (container lends a surface; GDI+/Canvas2D primitive vocabulary) without the baggage. |
 | D4 | **`.frm`/`.frx` (VB6-compatible) is the canonical OxForms form format**, sitting beside `.bas`/`.cls` in OxForms projects and OxVba integration surfaces. | Human-readable, diffable, git-friendly; matches how OxVba already treats VBA source while letting OxForms own form-specific persistence. |
 | D5 | **The binary MS-OFORMS form storage and the `.xlsm` container live in OxDoc**, which converts MS-OFORMS ⇄ `.frm`/`.frx`. The two repos meet at the `.frm`/`.frx` file. | OxDoc owns Office file formats; OxVba owns VBA source formats. Clean decoupling at the interchange file. |
@@ -112,7 +112,7 @@ Everything below follows from D1–D12.
 │   L1 Interaction    hit-test · focus/tab · capture · drag-drop ·        │
 │                     keyboard routing → reducer effects + VBA events     │
 ├───────────────────────────────────────────────────────────────────────┤
-│  PAL CONTRACT  (flat, value-typed; injected host object · C-ABI-ready) │
+│  PAL CONTRACT  (canonical, flat, value-typed; adapter-bound)           │
 │   window · display-list renderer · text metrics · input · timers ·     │
 │   clipboard · system colors/metrics · image decode                     │
 ├───────────────────────────────────────────────────────────────────────┤
@@ -125,19 +125,25 @@ Interchange with the Office world (separate repo):
    OxForms  ⇄  .frm/.frx  ⇄  OxDoc  ⇄  vbaProject.bin (MS-OFORMS)  ⇄  .xlsm
 ```
 
-L1–L5 are the OxForms VBA library — written once, runs everywhere. The PAL contract
-is small and primitive (§6). Backends are Rust and largely shared across platforms.
+L1-L5 are the OxForms VBA library, written once and intended to run everywhere.
+The PAL contract is small, primitive, and canonical (§6). Runtime-specific
+adapters expose that one contract to their host environment; they are not
+compatibility bridges.
 
 ### 4.1 Proposed workspace layout (provisional names)
 - **`OxForms` VBA bundle** — the runtime library (L1–L5) as VBA source (`.cls`/`.bas`),
   packaged as an internal referenced library like `oxvba-lib`. It obtains primitive
   PAL services through host-injected objects supplied by runtime-specific adapter
-  crates; those PAL members stay flat and value-typed so a later native-body or
-  C-ABI binding can share the same contract. Everything else is VBA unless profiling
-  and evidence justify a later Rust migration.
+  crates. Those PAL members stay flat and value-typed because that makes them
+  testable, replayable, optimizable, and suitable for first-class alternate adapters
+  if a future host needs one. No alternate binding exists by default or remains for
+  convenience; if it is not the best long-term architecture, it must not stay in the
+  implementation path. Everything else is VBA unless profiling and evidence justify
+  a later Rust migration.
 - **`oxforms-pal`** (Rust) — the host/runtime-independent PAL core: contract types,
-  display-list renderer, reference/headless renderer, shared backend traits, and optional
-  flat `extern "C"` surface. It must not depend on OxVba or any host runtime.
+  display-list renderer, reference/headless renderer, shared backend traits, and any
+  future first-class native surface derived from the same canonical contract. It must
+  not depend on OxVba or any host runtime.
 - **`oxforms-oxvba-adapter`** (Rust) — the OxVba-specific injected-object adapter. It
   owns `PortableDispatch`/`Variant` marshalling, `CreateObject`/projection registration,
   and maps OxForms VBA calls onto the typed `oxforms-pal` core contract.
@@ -400,11 +406,11 @@ purpose-built?** → **Purpose-built, taking inspiration from both, binding to n
   CoreGraphics all implement that same model). It is the portable lowest common
   denominator.
 
-Net: a small, flat, GDI+/Canvas2D-shaped primitive vocabulary — which is also exactly
-what keeps the C-ABI fallback (D2) trivial, since the surface is value types, not COM
-interfaces. The normal paint path batches those primitives into a display list; the
-contract remains immediate-mode-shaped so VBA control authors can reason about drawing
-simply.
+Net: a small, flat, GDI+/Canvas2D-shaped primitive vocabulary. Because the surface
+is value types rather than host-object internals, runtime-specific adapters can
+project the same canonical contract without inventing separate drawing APIs. The
+normal paint path batches those primitives into a display list; the contract remains
+immediate-mode-shaped so VBA control authors can reason about drawing simply.
 
 ### 6.2 Contract surface
 - **Window:** create/destroy; set caption/icon/size/position; show/hide; modal-run /
@@ -559,8 +565,8 @@ decode differences.
   modal/modeless event dispatch. Performance data guides JIT work and any hot-path Rust
   migrations.
 - **Host extension coverage:** keep a separate matrix for extension controls. Excel
-  RefEdit coverage should include deterministic non-Excel fallback tests, synthetic
-  range-selection replay tests, and optional live Excel differential tests.
+  RefEdit coverage should include deterministic non-Excel capability-diagnostic tests,
+  synthetic range-selection replay tests, and optional live Excel differential tests.
 
 ---
 
@@ -591,7 +597,7 @@ rather than only a visual smoke test.
   timers, clipboard, text metrics, image decode handles, display-list renderer, headless
   reference renderer, modal loop, close. *Artifact: PAL primitive kernel + "hello form"
   smoke + headless render smoke.*
-- **P1.5 — Form-module bridge.** Accept `.frm` as `ModuleKind::Form`; parse the minimal
+- **P1.5 — Form-module integration.** Accept `.frm` as `ModuleKind::Form`; parse the minimal
   designer block; preserve code-behind identity; materialize the form default instance;
   generate designer-declared typed control members; wire handler names such as
   `CommandButton1_Click`. *Artifact: a form module compiles and exposes its default
@@ -603,9 +609,9 @@ rather than only a visual smoke test.
   a `.frm`, with replayable event/render evidence.*
 - **P2.5 — Extension-control seam + RefEdit readiness.** Add extension-control
   registration, unknown-control preservation, host-capability diagnostics, synthetic
-  host-selection events, and a non-Excel fallback fixture. Add an Excel RefEdit design
-  spike that proves the core architecture can host a TextBox-like control with external
-  range-selection effects without hardcoding Excel into FM20 OxForms. *Artifact:
+  host-selection events, and a non-Excel capability-diagnostic fixture. Add an Excel
+  RefEdit design spike that proves the core architecture can host a TextBox-like control
+  with external range-selection effects without hardcoding Excel into FM20 OxForms. *Artifact:
   extension-control harness + RefEdit readiness notes/tests.*
 - **P3 — Persistence.** Full `.frm`/`.frx` load/save into the model; resource offsets;
   image handles; unknown-field preservation strategy; corpus load/render tests.

@@ -55,6 +55,26 @@ When values conflict, prefer them in this order:
 Performance matters, but it does not justify guessing. First make behavior
 correct and measurable; then optimize or migrate hot paths with evidence.
 
+## 3.1 Development Architecture Doctrine
+OxForms is in initial development. Internal OxForms draft APIs, smoke APIs,
+bridge APIs, temporary projections, scaffolds, and experimental integration
+paths have no backward-compatibility protection. The compatibility target is
+Microsoft Forms / FM20 observed behavior and output, plus supported VBA
+semantics, not earlier OxForms implementation shapes.
+
+Do not preserve a temporary shape merely because later work has seen it. If a
+scaffold is useful to prove a slice, later work must either replace it with the
+intended architecture, delete it, or explicitly quarantine it as non-pattern
+test infrastructure before it can influence implementation work.
+
+When implementation speed conflicts with architecture quality, choose the
+long-term architecture: canonical contracts, clean layering, deterministic
+evidence, future extreme optimization, cross-platform robustness, and code
+maintainability. Alternate host bindings are allowed only when they are
+first-class implementations of the same canonical contract and remain the best
+long-term architecture. They must not exist as legacy fallbacks, compatibility
+shims, or bridges kept alive for development convenience.
+
 ## 4. Clean-room Rule
 OxForms development uses only:
 

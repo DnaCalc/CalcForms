@@ -55,7 +55,7 @@ RectangleSmokeApp.basproj -> OxForms.basproj -> oxforms-oxvba-adapter -> oxforms
 - The app project references `vba/oxforms/OxForms.basproj`.
 - The app fixture creates a smoke-only OxForms form through `OxForms.NewSmokeForm`.
 - The app fixture does not contain `OxForms.SmokeCanvas`.
-- The OxForms library fixture owns the temporary PAL bridge and creates
+- The OxForms library fixture owns the temporary PAL projection and creates
   `OxForms.SmokeCanvas` internally.
 - Rust records the same display list and `Flush` still calls
   `oxforms_pal::render_headless`.
@@ -76,10 +76,11 @@ W002 `OxForms.SmokeCanvas` projection under
 `oxforms_oxvba_adapter::smoke_canvas` and reduced the crate root to generic
 OxVba-facing adapter identity. The PAL core docs were also made fully
 host-neutral, with no OxVba/projection identifiers in `crates/oxforms-pal`.
-The top-level forms plan's workspace layout section was corrected to match D2:
-OxForms VBA obtains PAL services through injected objects, while flat
-native-body/C-ABI-style bindings remain a fallback-compatible contract shape
-rather than the primary OxVba path.
+The top-level forms plan was corrected to match D2: OxForms has one canonical
+flat value-typed PAL contract, and OxVba currently binds it through injected
+host objects because that is the intended architecture. Future native-body or
+C-ABI bindings, if any, must be first-class adapters derived from the same
+contract, not fallback bridges or legacy compatibility paths.
 
 ## Fixture And Artifacts
 
@@ -273,9 +274,10 @@ Findings:
 - `oxforms-oxvba-adapter` keeps the temporary W002 projection in
   `smoke_canvas`; the crate root stays generic and can grow real adapter
   modules without treating the smoke API as permanent.
-- The main forms plan now matches D2: the OxVba path is injected host objects,
-  and native-body/C-ABI-style bindings are fallback-compatible shapes rather
-  than the primary W002 integration.
+- The main forms plan now matches D2: there is one canonical flat value-typed
+  PAL contract, the OxVba path uses injected host objects, and any future
+  native-body/C-ABI binding must be a first-class adapter rather than a fallback
+  bridge or legacy compatibility path.
 - The repaired smoke proves the intended ownership direction: a VBA app project
   loads the OxForms VBA library, the app creates a smoke form through the
   library, the library creates `OxForms.SmokeCanvas`, member dispatch reaches

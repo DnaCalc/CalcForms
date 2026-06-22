@@ -43,6 +43,8 @@ The spec should be:
 - clear enough for a fresh agent to implement from it;
 - specific enough to generate checks, traces, examples, or evidence rows;
 - honest about unsupported, partial, or host-specific subsets;
+- explicit about any temporary scaffold and what deletes, replaces, or quarantines
+  it before later implementation treats it as a pattern;
 - updated in the same bead as behavior changes.
 
 ## 4. Worksets
@@ -83,6 +85,8 @@ Every executable bead should state:
 - parent epic/workset;
 - dependencies;
 - touched truth surfaces;
+- whether it introduces temporary scaffolding, and the condition under which that
+  scaffolding is deleted, replaced, or quarantined as non-pattern test infrastructure;
 - residual or blocker behavior if completion is not possible.
 
 ### Bead Loop
@@ -96,6 +100,8 @@ For each bead:
 6. Run relevant checks.
 7. Fresh-eyes review: reread, rerun, or use the changed surface as if new and
    actively look for mistakes, omissions, bad assumptions, regressions, and bugs.
+   Include an explicit check that temporary bridges, shims, and scaffolds have not
+   become implicit architecture.
 8. File discovered out-of-scope work as beads before closing.
 9. Sync bead state: `br sync --flush-only`.
 10. Commit the code/docs/evidence/bead state.
@@ -130,7 +136,7 @@ Normal floors as they become available:
 | VBA library fixtures | OxVba compile/run fixture or targeted harness |
 | Rendering | display-list golden, headless render hash/screenshot, or visual diff |
 | MSForms behavior | generated fact row plus Office/MSForms oracle where available |
-| Excel RefEdit | non-Excel fallback test, synthetic range-selection replay, optional live Excel differential |
+| Excel RefEdit | non-Excel capability-diagnostic test, synthetic range-selection replay, optional live Excel differential |
 | Docs/doctrine | careful read-through, link/path scan, `br` sanity check |
 
 Compatibility claims require reproducible evidence: public spec references,

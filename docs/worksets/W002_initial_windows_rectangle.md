@@ -21,7 +21,7 @@ maps it into the OxForms PAL core, and the renderer draws a small rectangle. The
 slice should prove the project direction without pretending that full
 `UserForm`, `.frm`, event routing, or MSForms parity exists yet.
 
-This is the smallest useful bridge between the charter and implementation:
+This is the smallest useful vertical slice between the charter and implementation:
 
 ```
 VBA app project -> OxForms VBA library -> OxVba adapter -> Rust PAL core -> rectangle evidence
@@ -99,9 +99,9 @@ Use the pinned OxVba baseline from `docs/SOURCE_REFERENCES.md` for committed
 Rust dependencies. Local path overrides to `../OxVba` are acceptable only for
 explicit coordinated development and must not become the shared default.
 
-OxVba-specific bridge code lives in `oxforms-oxvba-adapter`. The adapter owns the
-smoke `OxForms.SmokeCanvas` projection and maps dynamic OxVba calls onto typed
-`oxforms-pal` display-list operations. `oxforms-pal` itself remains the
+OxVba-specific adapter code lives in `oxforms-oxvba-adapter`. The adapter owns
+the smoke `OxForms.SmokeCanvas` projection and maps dynamic OxVba calls onto
+typed `oxforms-pal` display-list operations. `oxforms-pal` itself remains the
 host/runtime-independent PAL core.
 
 Known boundary at W002 start:
@@ -194,7 +194,7 @@ decode, and MSForms parity. Those remain future workset scope.
 | `oxforms-dwm.7` | Repair VBA smoke coupling through host-injected PAL canvas | `oxforms-dwm.4` | VBA creates `OxForms.SmokeCanvas`, calls drawing members, and Rust renders on `Flush`; the old text-trace proof is no longer the coupling mechanism. |
 | `oxforms-dwm.8` | Turn W002 smoke through the OxForms VBA library project | `oxforms-dwm.7` | OxVba loads an app `.basproj` plus referenced `OxForms.basproj`; the app creates an OxForms smoke form, the library owns the PAL canvas, and Rust render evidence still matches the fixture. |
 | `oxforms-dwm.9` | Rename OxVba PAL adapter module | `oxforms-dwm.8` | Rust module/file names say OxVba-facing PAL adapter rather than implying Rust hosts VBA; behavior and evidence stay unchanged. |
-| `oxforms-dwm.10` | Split OxVba adapter from PAL core | `oxforms-dwm.9` | `oxforms-pal` has no OxVba dependencies; `oxforms-oxvba-adapter` owns the portable COM projection bridge and the OxVba smoke test. |
+| `oxforms-dwm.10` | Split OxVba adapter from PAL core | `oxforms-dwm.9` | `oxforms-pal` has no OxVba dependencies; `oxforms-oxvba-adapter` owns the portable COM projection adapter and the OxVba smoke test. |
 | `oxforms-dwm.11` | Fresh-eyes review W002 smoke architecture | `oxforms-dwm.10` | Smoke-only adapter API is scoped under `smoke_canvas`; `oxforms-pal` remains host-neutral; W002 evidence/register/checks reflect the final shape. |
 
 ## Closure Condition
