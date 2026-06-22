@@ -3,6 +3,9 @@
 Comparison ID: `rectangle-label-vs-w002-smoke`
 Bead: `oxforms-fg9.6`
 Status: calibration only
+Recorded: first committed in `ed52b2c45816c00f08702a78b8380a0645385457` at
+`2026-06-22T19:24:19+02:00` / `2026-06-22T17:24:19Z`; the exact manifest
+generation timestamp was not preserved.
 
 This report explains the first comparison manifest under W003. It relates the
 live Excel/MSForms rectangle-label oracle capture from `oxforms-fg9.5` to the

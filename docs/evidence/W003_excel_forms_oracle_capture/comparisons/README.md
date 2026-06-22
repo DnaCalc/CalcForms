@@ -13,6 +13,9 @@ Each manifest should keep the comparison small and explicit:
 
 - `schema`, `bead`, `comparison_id`, `status`, and `linked_report` identify the
   artifact.
+- `recorded` describes how the artifact entered the evidence set. If the exact
+  generation timestamp was not preserved, record the commit or other durable
+  basis instead of guessing a creation time.
 - `purpose` states the comparison question and its limits.
 - `evidence_files` lists every source artifact used by path, role, and SHA-256
   where available.

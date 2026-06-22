@@ -2,7 +2,13 @@
   "schema": "oxforms.office_oracle.comparison_manifest.v1",
   "bead": "oxforms-fg9.6",
   "comparison_id": "rectangle-label-vs-w002-smoke",
-  "created_utc": "2026-06-22T17:30:00Z",
+  "recorded": {
+    "basis": "git_commit",
+    "commit": "ed52b2c45816c00f08702a78b8380a0645385457",
+    "committed_at": "2026-06-22T19:24:19+02:00",
+    "committed_utc": "2026-06-22T17:24:19Z",
+    "note": "Exact manifest generation time was not preserved; this records when the first comparison artifact was committed."
+  },
   "status": "calibration_only",
   "linked_report": "docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.md",
   "purpose": "Relate the first live Excel/MSForms rectangle-label oracle capture to the current W002 OxForms rectangle smoke output. This is an observation artifact, not a runtime adapter, compatibility bridge, fallback path, or final pass/fail pixel oracle.",
