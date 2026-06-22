@@ -9,6 +9,13 @@ planning truth.
    top-level spec, architecture, and work plan for the VBA-first MSForms-compatible
    forms library.
 
+## Focused Specs
+
+1. [`specs/INPUT_INTERACTION_MODEL.md`](specs/INPUT_INTERACTION_MODEL.md) -
+   W005 input/event architecture surface for normalized `UiEvent`, interaction
+   `FormState`, effects, ordering, trace/replay, and the fact/model homes for
+   event signatures, coordinates, and lifecycle/pump semantics.
+
 ## Source References
 
 1. [`SOURCE_REFERENCES.md`](SOURCE_REFERENCES.md) - current Foundation MS-OFORMS
@@ -16,8 +23,8 @@ planning truth.
    policy.
 
 ## Planned Splits
-As work grows, split the top-level document into focused specs and keep them
-listed here:
+Completed splits are listed above. As work grows, split the top-level document
+into additional focused specs and keep them reachable from this index:
 
 - object model and generated fact pack;
 - `.frm` / `.frx` persistence;
