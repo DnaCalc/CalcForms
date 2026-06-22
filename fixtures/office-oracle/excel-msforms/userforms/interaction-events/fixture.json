@@ -1,0 +1,190 @@
+{
+  "id": "excel-msforms-w005-interaction-events-v1",
+  "title": "W005 Excel MSForms interaction event oracle fixture",
+  "bead": "oxforms-xvx.2",
+  "cleanRoom": {
+    "source": "Repo-owned manifest and VBA source consumed through public Excel/VBIDE automation.",
+    "prohibited": "No Office internals, decompilation, disassembly, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA.",
+    "A stable desktop scaling/theme should be recorded by the capture bead; this fixture does not claim event-order, coordinate, or pixel parity."
+  ],
+  "workbook": {
+    "fileName": "w005-interaction-events-oracle.xlsm",
+    "vbaModuleName": "OxFormsW005InteractionOracle",
+    "showMacroName": "ShowW005InteractionOracleModeless",
+    "hideMacroName": "HideW005InteractionOracle",
+    "additionalModuleSourcePath": "standard-module-extra.bas"
+  },
+  "evidence": {
+    "defaultGeneratedWorkbookDir": "docs/evidence/W005_input_interaction_model_exploration/captures/generated-workbooks",
+    "futureCaptureRoot": "docs/evidence/W005_input_interaction_model_exploration/captures"
+  },
+  "codeBehind": {
+    "sourcePath": "form-code-behind.bas",
+    "language": "VBA",
+    "targetModule": "OxFormsW005InteractionOracleForm"
+  },
+  "eventFactSource": {
+    "curated": "docs/specs/FM20_EVENT_FACTS.md",
+    "rawMetadata": "docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json",
+    "coordinateModel": "docs/specs/COORDINATE_MODEL.md",
+    "lifecycleModel": "docs/specs/LIFECYCLE_PUMP_MODEL.md",
+    "traceSchema": "docs/specs/TRACE_REPLAY_SCHEMA.md"
+  },
+  "form": {
+    "name": "OxFormsW005InteractionOracleForm",
+    "caption": "OxForms W005 Interaction Oracle",
+    "widthPt": 240,
+    "heightPt": 180,
+    "startupPosition": 2,
+    "startupPositionName": "CenterScreen"
+  },
+  "controls": [
+    {
+      "type": "Forms.Label.1",
+      "kind": "MSForms.Label",
+      "name": "OracleProbeLabel",
+      "caption": "Probe Label",
+      "leftPt": 24,
+      "topPt": 24,
+      "widthPt": 96,
+      "heightPt": 48,
+      "backColorOle": 12611616,
+      "backColorHex": "&H00C07020&",
+      "backColorRgb": {
+        "red": 32,
+        "green": 112,
+        "blue": 192
+      },
+      "foreColorOle": 16777215,
+      "foreColorHex": "&H00FFFFFF&",
+      "foreColorRgb": {
+        "red": 255,
+        "green": 255,
+        "blue": 255
+      },
+      "borderStyle": 1,
+      "borderStyleName": "fmBorderStyleSingle",
+      "textAlign": 1,
+      "textAlignName": "fmTextAlignLeft",
+      "wordWrap": false,
+      "autoSize": false,
+      "enabled": true,
+      "visible": true,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    },
+    {
+      "type": "Forms.TextBox.1",
+      "kind": "MSForms.TextBox",
+      "name": "OracleTextBox",
+      "text": "",
+      "leftPt": 132,
+      "topPt": 24,
+      "widthPt": 72,
+      "heightPt": 24,
+      "backColorOle": 16777215,
+      "backColorHex": "&H00FFFFFF&",
+      "foreColorOle": 0,
+      "foreColorHex": "&H00000000&",
+      "borderStyle": 1,
+      "borderStyleName": "fmBorderStyleSingle",
+      "textAlign": 1,
+      "textAlignName": "fmTextAlignLeft",
+      "tabIndex": 0,
+      "tabStop": true,
+      "multiLine": false,
+      "enterKeyBehavior": false,
+      "hideSelection": false,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    },
+    {
+      "type": "Forms.CommandButton.1",
+      "kind": "MSForms.CommandButton",
+      "name": "OracleDefaultButton",
+      "caption": "&OK",
+      "leftPt": 132,
+      "topPt": 60,
+      "widthPt": 72,
+      "heightPt": 24,
+      "tabIndex": 1,
+      "tabStop": true,
+      "default": true,
+      "cancel": false,
+      "accelerator": "O",
+      "takeFocusOnClick": true,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    },
+    {
+      "type": "Forms.CommandButton.1",
+      "kind": "MSForms.CommandButton",
+      "name": "OracleCancelButton",
+      "caption": "&Cancel",
+      "leftPt": 132,
+      "topPt": 96,
+      "widthPt": 72,
+      "heightPt": 24,
+      "tabIndex": 2,
+      "tabStop": true,
+      "default": false,
+      "cancel": true,
+      "accelerator": "C",
+      "takeFocusOnClick": true,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    }
+  ],
+  "logging": {
+    "worksheetName": "W005EventLog",
+    "sequenceField": "sequence",
+    "coordinateSpaceForMouseArgs": "msforms_event_args",
+    "rowsAreEvidenceOnlyAfterLiveCapture": true
+  },
+  "manualInteractionScript": [
+    "Show the fixture modeless, capture the top-level window manifest and screenshot, and preserve the command logs under W005 evidence.",
+    "Click and move over OracleProbeLabel near top-left and center, then press inside it, drag outside its bounds, and release to exercise captured/out-of-bounds mouse coordinates.",
+    "Click OracleTextBox, type 'ab', press Backspace, press Tab, press Shift+Tab back to the TextBox, and record key, character, Change, focus, validation, and active-control rows.",
+    "Press Enter for the default CommandButton path, press Escape for the cancel CommandButton path, and press Alt+O and Alt+C for accelerator observations.",
+    "Click both CommandButtons directly, double-click each probe where practical, then close with the window close button to observe QueryClose and Terminate where available.",
+    "Repeat a modal run with ShowW005InteractionOracleModal before classifying lifecycle and pump ordering."
+  ],
+  "notes": {
+    "scope": "This fixture builds repo-owned Excel/MSForms oracle inputs only. It does not implement OxForms behavior and does not settle final MSForms event ordering by itself.",
+    "labelGeometry": "OracleProbeLabel intentionally reuses the W003/W004 label left/top/width/height point geometry for coordinate calibration continuity.",
+    "events": "Event handler names and argument names follow docs/specs/FM20_EVENT_FACTS.md. Live output from oxforms-xvx.3 remains the oracle evidence.",
+    "coordinates": "Mouse handlers log X and Y as msforms_event_args points. Raw screen_pixels, window_rect, screenshot_pixels, form_logical, and control_local derivations belong to the capture evidence.",
+    "lifecycle": "The code-behind logs Initialize, Activate, Deactivate, Resize, QueryClose, and Terminate when MSForms raises them, plus show_mode from the macro path.",
+    "generatedArtifacts": "Generated .xlsm files, screenshots, logs, exported worksheets, and hashes belong under docs/evidence/W005_input_interaction_model_exploration/ when captured."
+  }
+}

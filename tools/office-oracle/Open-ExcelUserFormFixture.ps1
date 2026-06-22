@@ -120,6 +120,112 @@ function ConvertTo-VbaNumberLiteral {
     return ([double]$Value).ToString([System.Globalization.CultureInfo]::InvariantCulture)
 }
 
+function Resolve-FixtureSourcePath {
+    param(
+        [Parameter(Mandatory = $true)]
+        [string]$FixtureRoot,
+        [Parameter(Mandatory = $true)]
+        [string]$Path
+    )
+
+    if ([System.IO.Path]::IsPathRooted($Path)) {
+        $fullPath = Resolve-InRepoPath $Path
+    } else {
+        $fullPath = [System.IO.Path]::GetFullPath((Join-Path $FixtureRoot $Path))
+        $repoPrefix = $repoRoot.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+        if ($fullPath -ne $repoRoot -and -not $fullPath.StartsWith($repoPrefix, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw "Fixture source path must stay inside the repository: $Path"
+        }
+    }
+
+    if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
+        throw "Fixture source file not found: $fullPath"
+    }
+
+    return $fullPath
+}
+
+function Set-ControlPropertyIfPresent {
+    param(
+        [Parameter(Mandatory = $true)]
+        $ControlObject,
+        [Parameter(Mandatory = $true)]
+        [string]$FixtureId,
+        [Parameter(Mandatory = $true)]
+        [string]$ControlName,
+        [Parameter(Mandatory = $true)]
+        $Spec,
+        [Parameter(Mandatory = $true)]
+        [string]$ManifestName,
+        [Parameter(Mandatory = $true)]
+        [scriptblock]$Apply
+    )
+
+    $value = Get-OptionalValue $Spec $ManifestName
+    if ($null -eq $value) {
+        return
+    }
+
+    try {
+        & $Apply $ControlObject $value
+    }
+    catch {
+        throw "Failed to apply optional control property '$ManifestName' to '$ControlName' from fixture '$FixtureId': $($_.Exception.Message)"
+    }
+}
+
+function Add-FontSetupLines {
+    param(
+        [Parameter(Mandatory = $true)]
+        [System.Collections.Generic.List[string]]$Lines,
+        [Parameter(Mandatory = $true)]
+        [string]$ControlName,
+        $ControlFont
+    )
+
+    if ($null -eq $ControlFont) {
+        return
+    }
+
+    $fontLines = [System.Collections.Generic.List[string]]::new()
+    $fontName = Get-OptionalValue $ControlFont 'name'
+    $fontSizePt = Get-OptionalValue $ControlFont 'sizePt'
+    $fontBold = Get-OptionalValue $ControlFont 'bold'
+    $fontItalic = Get-OptionalValue $ControlFont 'italic'
+    $fontUnderline = Get-OptionalValue $ControlFont 'underline'
+    $fontStrikethrough = Get-OptionalValue $ControlFont 'strikethrough'
+
+    if ($null -ne $fontName -and -not [string]::IsNullOrWhiteSpace([string]$fontName)) {
+        $fontLines.Add("        .Font.Name = $(ConvertTo-VbaStringLiteral ([string]$fontName))")
+    }
+    if ($null -ne $fontSizePt) {
+        $fontLines.Add("        .Font.Size = $(ConvertTo-VbaNumberLiteral $fontSizePt)")
+    }
+    if ($null -ne $fontBold) {
+        $fontLines.Add("        .Font.Bold = $(ConvertTo-VbaBooleanLiteral $fontBold)")
+    }
+    if ($null -ne $fontItalic) {
+        $fontLines.Add("        .Font.Italic = $(ConvertTo-VbaBooleanLiteral $fontItalic)")
+    }
+    if ($null -ne $fontUnderline) {
+        $fontLines.Add("        .Font.Underline = $(ConvertTo-VbaBooleanLiteral $fontUnderline)")
+    }
+    if ($null -ne $fontStrikethrough) {
+        $fontLines.Add("        .Font.Strikethrough = $(ConvertTo-VbaBooleanLiteral $fontStrikethrough)")
+    }
+
+    if ($fontLines.Count -eq 0) {
+        return
+    }
+
+    $controlNameLiteral = ConvertTo-VbaStringLiteral $ControlName
+    $Lines.Add("    With $formName.Controls($controlNameLiteral)")
+    foreach ($line in $fontLines) {
+        $Lines.Add($line)
+    }
+    $Lines.Add('    End With')
+}
+
 $fixtureRoot = Resolve-InRepoPath $FixtureDir
 $manifestPath = Join-Path $fixtureRoot 'fixture.json'
 if (-not (Test-Path -LiteralPath $manifestPath)) {
@@ -129,33 +235,54 @@ if (-not (Test-Path -LiteralPath $manifestPath)) {
 $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
 $fixtureId = Get-RequiredValue $manifest 'id'
 $form = Get-RequiredValue $manifest 'form'
-$control = Get-RequiredValue $manifest 'control'
+$legacyControl = Get-OptionalValue $manifest 'control'
+$controlsValue = Get-OptionalValue $manifest 'controls'
 $workbookSpec = Get-RequiredValue $manifest 'workbook'
 $evidenceSpec = Get-OptionalValue $manifest 'evidence'
+$codeBehindSpec = Get-OptionalValue $manifest 'codeBehind'
 
 $formName = Get-RequiredValue $form 'name'
 $formCaption = Get-RequiredValue $form 'caption'
 $formWidthPt = [single](Get-RequiredValue $form 'widthPt')
 $formHeightPt = [single](Get-RequiredValue $form 'heightPt')
 $formStartupPosition = [int](Get-RequiredValue $form 'startupPosition')
-$controlName = Get-RequiredValue $control 'name'
-$controlType = Get-RequiredValue $control 'type'
-$controlCaption = [string](Get-RequiredValue $control 'caption' -AllowEmpty)
-$controlLeftPt = [single](Get-RequiredValue $control 'leftPt')
-$controlTopPt = [single](Get-RequiredValue $control 'topPt')
-$controlWidthPt = [single](Get-RequiredValue $control 'widthPt')
-$controlHeightPt = [single](Get-RequiredValue $control 'heightPt')
-$controlBackColorOle = [int](Get-RequiredValue $control 'backColorOle')
-$controlBorderStyle = [int](Get-RequiredValue $control 'borderStyle')
-$controlForeColorOle = Get-OptionalValue $control 'foreColorOle'
-$controlTextAlign = Get-OptionalValue $control 'textAlign'
-$controlWordWrap = Get-OptionalValue $control 'wordWrap'
-$controlAutoSize = Get-OptionalValue $control 'autoSize'
-$controlFont = Get-OptionalValue $control 'font'
 $workbookFileName = Get-RequiredValue $workbookSpec 'fileName'
 $vbaModuleName = Get-RequiredValue $workbookSpec 'vbaModuleName'
 $showMacroName = Get-RequiredValue $workbookSpec 'showMacroName'
 $hideMacroName = Get-RequiredValue $workbookSpec 'hideMacroName'
+$additionalModuleSourcePath = Get-OptionalValue $workbookSpec 'additionalModuleSourcePath'
+
+if ($null -ne $controlsValue) {
+    $controls = @($controlsValue)
+} elseif ($null -ne $legacyControl) {
+    $controls = @($legacyControl)
+} else {
+    throw "Fixture manifest is missing required value: control or controls"
+}
+
+if ($controls.Count -eq 0) {
+    throw "Fixture manifest must define at least one control."
+}
+
+foreach ($control in $controls) {
+    [void](Get-RequiredValue $control 'name')
+    [void](Get-RequiredValue $control 'type')
+    [void](Get-RequiredValue $control 'leftPt')
+    [void](Get-RequiredValue $control 'topPt')
+    [void](Get-RequiredValue $control 'widthPt')
+    [void](Get-RequiredValue $control 'heightPt')
+}
+
+$codeBehindSourcePath = $null
+if ($null -ne $codeBehindSpec) {
+    $sourcePath = Get-RequiredValue $codeBehindSpec 'sourcePath'
+    $codeBehindSourcePath = Resolve-FixtureSourcePath -FixtureRoot $fixtureRoot -Path $sourcePath
+}
+
+$additionalModuleFullPath = $null
+if (-not [string]::IsNullOrWhiteSpace([string]$additionalModuleSourcePath)) {
+    $additionalModuleFullPath = Resolve-FixtureSourcePath -FixtureRoot $fixtureRoot -Path ([string]$additionalModuleSourcePath)
+}
 
 if ([string]::IsNullOrWhiteSpace($OutputWorkbook)) {
     $defaultGeneratedWorkbookDir = Get-OptionalValue $evidenceSpec 'defaultGeneratedWorkbookDir'
@@ -172,9 +299,17 @@ Write-Host "Fixture: $fixtureId"
 Write-Host "Manifest: $manifestPath"
 Write-Host "Output workbook: $OutputWorkbook"
 Write-Host "Form: $formName / '$formCaption'"
-Write-Host "Control: $controlType $controlName"
-if (-not [string]::IsNullOrEmpty($controlCaption)) {
-    Write-Host "Control caption: '$controlCaption'"
+Write-Host "Controls: $($controls.Count)"
+foreach ($control in $controls) {
+    $controlName = Get-RequiredValue $control 'name'
+    $controlType = Get-RequiredValue $control 'type'
+    Write-Host "Control: $controlType $controlName"
+}
+if ($null -ne $codeBehindSourcePath) {
+    Write-Host "Form code-behind: $codeBehindSourcePath"
+}
+if ($null -ne $additionalModuleFullPath) {
+    Write-Host "Additional module code: $additionalModuleFullPath"
 }
 
 if ($DryRun) {
@@ -236,92 +371,81 @@ try {
     $formComponent.Properties.Item('StartUpPosition').Value = [single]$formStartupPosition
     & { param($Component, [string]$Caption) $Component.Properties.Item('Caption').Value = $Caption } $formComponent $formCaption
 
-    $label = $designer.Controls.Add($controlType, $controlName, $true)
-    $label.Caption = $controlCaption
-    $label.Left = $controlLeftPt
-    $label.Top = $controlTopPt
-    $label.Width = $controlWidthPt
-    $label.Height = $controlHeightPt
-    $label.BackColor = $controlBackColorOle
-    $label.BorderStyle = $controlBorderStyle
-    try {
-        if ($null -ne $controlForeColorOle) {
-            $label.ForeColor = [int]$controlForeColorOle
-        }
-        if ($null -ne $controlTextAlign) {
-            $label.TextAlign = [int]$controlTextAlign
-        }
-        if ($null -ne $controlWordWrap) {
-            $label.WordWrap = [bool]$controlWordWrap
-        }
-        if ($null -ne $controlAutoSize) {
-            $label.AutoSize = [bool]$controlAutoSize
-        }
+    $fontSetupLines = [System.Collections.Generic.List[string]]::new()
+    foreach ($control in $controls) {
+        $controlName = Get-RequiredValue $control 'name'
+        $controlType = Get-RequiredValue $control 'type'
+        $controlLeftPt = [single](Get-RequiredValue $control 'leftPt')
+        $controlTopPt = [single](Get-RequiredValue $control 'topPt')
+        $controlWidthPt = [single](Get-RequiredValue $control 'widthPt')
+        $controlHeightPt = [single](Get-RequiredValue $control 'heightPt')
+
+        $createdControl = $designer.Controls.Add($controlType, $controlName, $true)
+        $createdControl.Left = $controlLeftPt
+        $createdControl.Top = $controlTopPt
+        $createdControl.Width = $controlWidthPt
+        $createdControl.Height = $controlHeightPt
+
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'caption' { param($c, $v) $c.Caption = [string]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'text' { param($c, $v) $c.Text = [string]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'value' { param($c, $v) $c.Value = $v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'backColorOle' { param($c, $v) $c.BackColor = [int]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'foreColorOle' { param($c, $v) $c.ForeColor = [int]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'borderStyle' { param($c, $v) $c.BorderStyle = [int]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'textAlign' { param($c, $v) $c.TextAlign = [int]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'wordWrap' { param($c, $v) $c.WordWrap = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'autoSize' { param($c, $v) $c.AutoSize = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'enabled' { param($c, $v) $c.Enabled = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'visible' { param($c, $v) $c.Visible = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'tabIndex' { param($c, $v) $c.TabIndex = [int]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'tabStop' { param($c, $v) $c.TabStop = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'default' { param($c, $v) $c.Default = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'cancel' { param($c, $v) $c.Cancel = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'accelerator' { param($c, $v) $c.Accelerator = [string]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'takeFocusOnClick' { param($c, $v) $c.TakeFocusOnClick = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'multiLine' { param($c, $v) $c.MultiLine = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'enterKeyBehavior' { param($c, $v) $c.EnterKeyBehavior = [bool]$v }
+        Set-ControlPropertyIfPresent $createdControl $fixtureId $controlName $control 'hideSelection' { param($c, $v) $c.HideSelection = [bool]$v }
+
+        Add-FontSetupLines -Lines $fontSetupLines -ControlName $controlName -ControlFont (Get-OptionalValue $control 'font')
     }
-    catch {
-        throw "Failed to apply optional Label visual property from fixture '$fixtureId': $($_.Exception.Message)"
+
+    if ($null -ne $codeBehindSourcePath) {
+        $formCodeBehind = Get-Content -Raw -LiteralPath $codeBehindSourcePath
+        $formComponent.CodeModule.AddFromString($formCodeBehind)
     }
 
     $standardModule = $vbProject.VBComponents.Add($vbextCtStdModule)
     $standardModule.Name = $vbaModuleName
 
-    $setupProcedure = ''
-    $setupInvocation = ''
-    if ($null -ne $controlFont) {
-        $fontLines = [System.Collections.Generic.List[string]]::new()
-        $fontName = Get-OptionalValue $controlFont 'name'
-        $fontSizePt = Get-OptionalValue $controlFont 'sizePt'
-        $fontBold = Get-OptionalValue $controlFont 'bold'
-        $fontItalic = Get-OptionalValue $controlFont 'italic'
-        $fontUnderline = Get-OptionalValue $controlFont 'underline'
-        $fontStrikethrough = Get-OptionalValue $controlFont 'strikethrough'
+    if ($fontSetupLines.Count -gt 0) {
+        $fontSetupBody = $fontSetupLines -join "`r`n"
+    } else {
+        $fontSetupBody = "    ' No runtime font requests in this fixture."
+    }
 
-        if ($null -ne $fontName -and -not [string]::IsNullOrWhiteSpace([string]$fontName)) {
-            $fontLines.Add("        .Font.Name = $(ConvertTo-VbaStringLiteral ([string]$fontName))")
-        }
-        if ($null -ne $fontSizePt) {
-            $fontLines.Add("        .Font.Size = $(ConvertTo-VbaNumberLiteral $fontSizePt)")
-        }
-        if ($null -ne $fontBold) {
-            $fontLines.Add("        .Font.Bold = $(ConvertTo-VbaBooleanLiteral $fontBold)")
-        }
-        if ($null -ne $fontItalic) {
-            $fontLines.Add("        .Font.Italic = $(ConvertTo-VbaBooleanLiteral $fontItalic)")
-        }
-        if ($null -ne $fontUnderline) {
-            $fontLines.Add("        .Font.Underline = $(ConvertTo-VbaBooleanLiteral $fontUnderline)")
-        }
-        if ($null -ne $fontStrikethrough) {
-            $fontLines.Add("        .Font.Strikethrough = $(ConvertTo-VbaBooleanLiteral $fontStrikethrough)")
-        }
-
-        if ($fontLines.Count -gt 0) {
-            $fontLineText = $fontLines -join "`r`n"
-            $controlNameLiteral = ConvertTo-VbaStringLiteral $controlName
-            $setupProcedure = @"
-Private Sub ConfigureOracleControl()
-    With $formName.Controls($controlNameLiteral)
-$fontLineText
-    End With
-End Sub
-
-"@
-            $setupInvocation = '    ConfigureOracleControl'
-        }
+    $additionalModuleCode = ''
+    if ($null -ne $additionalModuleFullPath) {
+        $additionalModuleCode = "`r`n" + (Get-Content -Raw -LiteralPath $additionalModuleFullPath)
     }
 
     $moduleCode = @"
 Option Explicit
 
-$setupProcedure
+Private Sub ConfigureOracleControls()
+$fontSetupBody
+End Sub
+
 Public Sub $showMacroName()
-$setupInvocation
+    ConfigureOracleControls
+    $formName.Tag = "show_mode=modeless"
     $formName.Show vbModeless
 End Sub
 
 Public Sub $hideMacroName()
     Unload $formName
 End Sub
+$additionalModuleCode
 "@
 
     $standardModule.CodeModule.AddFromString($moduleCode)

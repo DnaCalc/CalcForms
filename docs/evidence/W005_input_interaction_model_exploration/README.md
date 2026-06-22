@@ -7,6 +7,18 @@ This directory holds raw or generated evidence for W005 input/event facts,
 coordinate calibration, lifecycle/pump observations, oracle captures, and
 trace/replay artifacts.
 
+## Interaction Oracle Fixture
+
+The repo-owned Excel/MSForms fixture input for `oxforms-xvx.2` lives at
+[`../../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/`](../../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/).
+It defines one `UserForm` with a `Label`, `TextBox`, default
+`CommandButton`, and cancel `CommandButton`, plus code-behind that logs
+representative events to worksheet `W005EventLog`.
+
+Current status: fixture source and dry-run validation exist. Live workbook,
+event log, screenshot, window metadata, command logs, and checksums are still
+owned by `oxforms-xvx.3`; this fixture source is not live oracle evidence.
+
 ## Coordinate Calibration
 
 [`coordinate-calibration.md`](coordinate-calibration.md) records the W003/W004

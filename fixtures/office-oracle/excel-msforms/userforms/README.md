@@ -16,3 +16,7 @@ Current fixtures:
   simple UserForm/Label shape but adds caption `OxForms`, explicit regular
   `Tahoma` 8.25 point text, and fixed foreground/alignment settings for W004
   text pixel observation.
+- `interaction-events/` is the W005 interaction/event fixture. It creates one
+  `UserForm` with a Label, TextBox, default CommandButton, and cancel
+  CommandButton, plus repo-owned code-behind that logs representative MSForms
+  events for later live oracle capture.

@@ -3,9 +3,9 @@
 This directory is reserved for tooling that observes real
 Excel/MSForms behavior as a black-box oracle.
 
-The tools here are not OxForms runtime APIs, adapter APIs, or compatibility
-bridges. They are local harness utilities for generating, opening, capturing,
-or checking Office oracle fixtures and their evidence artifacts.
+The tools here are not OxForms runtime APIs or adapter APIs. They are local
+harness utilities for generating, opening, capturing, or checking Office oracle
+fixtures and their evidence artifacts.
 
 Current tools:
 
@@ -18,10 +18,13 @@ Current tools:
   the selected target window before copying pixels so an occluding desktop
   window is not accidentally recorded as the oracle. It is a black-box evidence
   helper only; it is not an OxForms runtime API.
-- `Open-ExcelUserFormFixture.ps1` validates or generates the first
-  Excel/MSForms UserForm oracle workbook from repo-owned manifest input. Live
-  generation uses public Excel/VBIDE automation and requires local Excel macro
-  and VBA project access policy to allow it.
+- `Open-ExcelUserFormFixture.ps1` validates or generates Excel/MSForms
+  UserForm oracle workbooks from repo-owned manifest input. Live generation
+  uses public Excel/VBIDE automation and requires local Excel macro and VBA
+  project access policy to allow it.
+- `Test-W005InteractionFixture.ps1` statically validates the W005 interaction
+  fixture manifest, required controls, code-behind handler/logging surface, and
+  capture README guidance without starting Excel.
 - `Test-OracleComparisonManifest.ps1` validates W003 comparison manifests by
   checking their schema, linked report, evidence paths, and SHA-256 values. It
   does not start Excel, capture screenshots, run OxForms, or perform pixel
@@ -80,14 +83,33 @@ Live fixture generation/opening shape:
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label -Open -HoldSeconds 300
 ```
 
-Fixture manifests may include optional text-specific label fields such as
-`foreColorOle`, `textAlign`, `wordWrap`, `autoSize`, and `font` values
-(`name`, `sizePt`, `bold`, `italic`, `underline`, `strikethrough`). These are
-used by W004 text-bearing fixtures and ignored when absent, so the W003 blank
-rectangle fixture remains valid. Font values are emitted into the generated VBA
-show macro and applied immediately before the form is shown; this keeps the
-request explicit in the generated workbook even when the VBIDE designer COM
-wrapper does not reliably expose design-time font setters to PowerShell.
+Fixture manifests may use the original single `control` object or a `controls`
+array. Optional visual and interaction fields include `foreColorOle`,
+`textAlign`, `wordWrap`, `autoSize`, `tabIndex`, `tabStop`, `default`, `cancel`,
+`accelerator`, TextBox editing flags, and `font` values (`name`, `sizePt`,
+`bold`, `italic`, `underline`, `strikethrough`). Font values are emitted into
+the generated VBA show macro and applied immediately before the form is shown;
+this keeps the request explicit in the generated workbook even when the VBIDE
+designer COM wrapper does not reliably expose design-time font setters to
+PowerShell.
+
+W005 interaction fixtures may also include:
+
+- `codeBehind.sourcePath`, a fixture-relative UserForm code module input.
+- `workbook.additionalModuleSourcePath`, fixture-relative standard-module code
+  appended after the generated show/hide macros.
+
+Dry runs validate those source paths without starting Excel:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\interaction-events -DryRun
+```
+
+W005 interaction fixture static validation:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-W005InteractionFixture.ps1
+```
 
 Comparison manifest validation:
 

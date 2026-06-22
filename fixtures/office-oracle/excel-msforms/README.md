@@ -13,6 +13,10 @@ Current fixtures:
 
 - `userforms/rectangle-label/` contains the first stable Excel/MSForms
   UserForm oracle fixture input from `oxforms-fg9.4`.
+- `userforms/rectangle-label-text/` contains the W004 text-bearing Label
+  oracle fixture input from `oxforms-kgn.3`.
+- `userforms/interaction-events/` contains the W005 interaction/event oracle
+  fixture input from `oxforms-xvx.2`.
 
 Do not commit opaque generated workbooks here as the only source of truth. If a
 future bead must preserve a generated binary workbook, place it with the W003

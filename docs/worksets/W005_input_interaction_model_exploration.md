@@ -149,6 +149,11 @@ first fixture should be small but interaction-rich:
 The goal is not exhaustive event parity. The goal is to create a measured event
 corpus that informs the reducer/router design and later differential tests.
 
+Current fixture input:
+[`../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/`](../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/)
+from `oxforms-xvx.2`. Live MSForms event logs, generated workbooks,
+screenshots, command logs, and hashes remain owned by `oxforms-xvx.3`.
+
 ### 3. FM20 Event Signature And Event-Argument Facts
 
 W005 needs a small, cited fact surface before fixtures, traces, and dispatch
