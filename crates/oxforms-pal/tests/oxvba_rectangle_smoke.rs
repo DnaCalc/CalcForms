@@ -4,7 +4,7 @@ use std::{
 };
 
 use oxforms_pal::{
-    oxvba_host_object::{register_smoke_canvas, SmokeCanvasFactory},
+    oxvba_pal_adapter::{register_smoke_canvas, SmokeCanvasFactory},
     w002_rectangle_fixture_diagnostics, w002_rectangle_fixture_display_list,
 };
 use oxvba_com::PortableComProjection;
@@ -92,7 +92,7 @@ fn oxvba_rectangle_smoke_app_loads_oxforms_library_and_reaches_renderer() {
     assert_eq!(
         snapshot.calls,
         ["CreateSurface:2", "FillRect:8", "Flush:0"],
-        "VBA should drive the Rust PAL canvas through member dispatch, not through debug text"
+        "VBA should drive the Rust PAL adapter through member dispatch, not through debug text"
     );
 
     let observed_display_list = snapshot
@@ -115,6 +115,6 @@ fn oxvba_rectangle_smoke_app_loads_oxforms_library_and_reaches_renderer() {
     assert_eq!(
         i32_values(&globals),
         [1],
-        "VBA should receive the Flush return value from the Rust host object"
+        "VBA should receive the Flush return value from the Rust PAL adapter"
     );
 }

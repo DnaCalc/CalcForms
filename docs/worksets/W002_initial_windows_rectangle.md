@@ -4,10 +4,11 @@ Status: `CLOSED`
 Epic bead: `oxforms-dwm`
 Depends on: `W001_repo_bootstrap`
 Owning plan bead: `oxforms-dwm.1`
-Closed by: `oxforms-dwm.8`
+Closed by: `oxforms-dwm.9`
 Initial evidence bead: `oxforms-dwm.6`
 Structural coupling repair: `oxforms-dwm.7`
 Library-oriented smoke repair: `oxforms-dwm.8`
+PAL adapter naming repair: `oxforms-dwm.9`
 
 ## Purpose
 
@@ -133,7 +134,9 @@ It was reopened and repaired by `oxforms-dwm.7` after review found that the
 original `Debug.Print` trace proved only text emission, not meaningful
 VBA-to-renderer coupling. It was then repaired by `oxforms-dwm.8` so the smoke
 executes in the intended direction: app project -> OxForms VBA library -> Rust
-PAL renderer.
+PAL renderer. `oxforms-dwm.9` then aligned the Rust module that exposes the
+OxVba-facing PAL adapter as `oxvba_pal_adapter.rs`, so the source layout matches
+that ownership direction.
 
 Final proved scope:
 
@@ -170,6 +173,7 @@ decode, and MSForms parity. Those remain future workset scope.
 | `oxforms-dwm.6` | Record evidence and fresh-eyes review | `oxforms-dwm.4`, `oxforms-dwm.5` | Evidence links commands, artifacts, hashes, and any platform blocker. |
 | `oxforms-dwm.7` | Repair VBA smoke coupling through host-injected PAL canvas | `oxforms-dwm.4` | VBA creates `OxForms.SmokeCanvas`, calls drawing members, and Rust renders on `Flush`; the old text-trace proof is no longer the coupling mechanism. |
 | `oxforms-dwm.8` | Turn W002 smoke through the OxForms VBA library project | `oxforms-dwm.7` | OxVba loads an app `.basproj` plus referenced `OxForms.basproj`; the app creates an OxForms smoke form, the library owns the PAL canvas, and Rust render evidence still matches the fixture. |
+| `oxforms-dwm.9` | Rename OxVba PAL adapter module | `oxforms-dwm.8` | Rust module/file names say OxVba-facing PAL adapter rather than implying Rust hosts VBA; behavior and evidence stay unchanged. |
 
 ## Closure Condition
 

@@ -3,7 +3,7 @@
 Status: `CLOSED`
 Initial evidence bead: `oxforms-dwm.6`
 Structural repair bead: `oxforms-dwm.7`
-Current closure bead: `oxforms-dwm.8`
+Current closure bead: `oxforms-dwm.9`
 Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 
 ## Platform
@@ -23,6 +23,7 @@ Captured: 2026-06-22 on `C:\Work\DnaCalc\OxForms`
 | `oxforms-dwm.5` | `b6f35cea8d490bce2b013d93bd2b198dd24f0e28` | Add Windows visible rectangle smoke |
 | `oxforms-dwm.7` | see git commit for bead | Replace Debug.Print trace with host-injected PAL canvas |
 | `oxforms-dwm.8` | see git commit for bead | Turn W002 smoke through OxForms VBA library project |
+| `oxforms-dwm.9` | see git commit for bead | Rename OxVba-facing PAL adapter module |
 
 ## Structural Coupling Repairs
 
@@ -35,7 +36,7 @@ projection:
 - Rust registers `OxForms.SmokeCanvas` in `PortableComProjection`.
 - VBA executes `Set canvas = CreateObject("OxForms.SmokeCanvas")`.
 - VBA calls `CreateSurface`, `FillRect`, and `Flush` on the projected object.
-- The Rust host object records the `DisplayList`; `Flush` calls
+- The Rust PAL adapter records the `DisplayList`; `Flush` calls
   `oxforms_pal::render_headless` and returns the command count to VBA.
 
 The old text trace decoder is no longer the W002 coupling proof.
@@ -82,9 +83,9 @@ Primary artifact paths and SHA-256 at capture time:
 | `vba/oxforms/OxFormsSmokeForm.cls` | `CA61BCAF8AFCF530250F838B4781C127DC5C5476B083516E3FC6F4623362B9C3` |
 | `Cargo.lock` | `0A5FE6A5E0B0A2E56478B9DE4A1DDC33428BEDDC316DEE4711ABD74A97A36AD5` |
 | `crates/oxforms-pal/Cargo.toml` | `7AAB91E2CE0229CF8BBDB53649852AF03850B1FB49A8EC2574A264FCB2700DA8` |
-| `crates/oxforms-pal/src/lib.rs` | `65F3F08D3F5DE0AEFF0646D6BDFB33A4BB633579E393B68CEE52CDE481924137` |
-| `crates/oxforms-pal/src/oxvba_host_object.rs` | `552368A26ED1D02C4178EF0851F021C306596949CFB867FA3A50640E8A88F922` |
-| `crates/oxforms-pal/tests/oxvba_rectangle_smoke.rs` | `864332E16AA0E2C5B63AA043038507041564FAF130817AD207FF14CE18A51C6F` |
+| `crates/oxforms-pal/src/lib.rs` | `E4D22461E94D7F020DF55104796235547E0952043EF00C70994C5E6FD1EA5197` |
+| `crates/oxforms-pal/src/oxvba_pal_adapter.rs` | `11657E033BAEC2E9236CC4E029B9AB080DE06C1613940E5BDCB5A0BEE9E9907D` |
+| `crates/oxforms-pal/tests/oxvba_rectangle_smoke.rs` | `FBC54989B9295385E87FA2B8BA0E0A0AE443719752D734BBE46E0F3B8A1C0054` |
 | `crates/oxforms-pal/examples/visible_rectangle_smoke.rs` | `2E765DC21A906A6CC5899775941FE420D1B7E7774F0B72F6594E4AC31431F07A` |
 
 ## Commands And Results
@@ -137,7 +138,7 @@ OxVba's project-closure loader, follows its reference to
 `vba/oxforms/OxForms.basproj`, registers only `OxForms.SmokeCanvas` in OxVba's
 portable COM-like projection, and asserts that the app source does not directly
 create that PAL object. The OxForms library creates the PAL canvas internally,
-calls `CreateSurface`, `FillRect`, and `Flush`, and the Rust host object records
+calls `CreateSurface`, `FillRect`, and `Flush`, and the Rust PAL adapter records
 the expected display list, renders through `oxforms_pal::render_headless`, and
 returns command count `1` to VBA.
 
@@ -215,9 +216,9 @@ wording, and the bead graph.
 Findings:
 
 - The implemented surface remains W002-scoped: `DisplayCommand::FillRect`,
-  versioned display list, RGBA8 color, deterministic headless renderer, OxVba
-  portable host-object dispatch, and Windows visible presentation of the same
-  headless pixels.
+  versioned display list, RGBA8 color, deterministic headless renderer,
+  OxVba-facing PAL adapter dispatch, and Windows visible presentation of the
+  same headless pixels.
 - The repaired smoke proves the intended ownership direction: a VBA app project
   loads the OxForms VBA library, the app creates a smoke form through the
   library, the library creates `OxForms.SmokeCanvas`, member dispatch reaches

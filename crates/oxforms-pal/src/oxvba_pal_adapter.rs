@@ -1,8 +1,9 @@
-//! OxVba portable host-object adapter for the W002 smoke canvas.
+//! OxVba-facing PAL adapter for the W002 smoke canvas.
 //!
 //! This is deliberately smoke-only. It proves the D2 integration shape from the
-//! spec: VBA obtains an injected COM-like host object and calls flat,
-//! value-typed drawing members that Rust can also expose through a C ABI later.
+//! spec: the OxForms VBA library obtains an injected COM-like PAL object and
+//! calls flat, value-typed drawing members that Rust can also expose through a
+//! C ABI later.
 
 use std::sync::{Arc, Mutex};
 

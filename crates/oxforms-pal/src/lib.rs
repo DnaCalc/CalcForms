@@ -11,7 +11,7 @@ use std::error::Error;
 use std::fmt;
 
 #[cfg(feature = "oxvba-host-object")]
-pub mod oxvba_host_object;
+pub mod oxvba_pal_adapter;
 
 /// First display-list version for the W002 smoke contract.
 pub const DISPLAY_LIST_VERSION: u16 = 1;
