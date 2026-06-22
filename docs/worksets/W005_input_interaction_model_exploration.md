@@ -242,6 +242,12 @@ value-typed, and serializable. The contract should cover:
 The PAL does not decide control behavior. It normalizes platform events and
 passes them to the reducer path.
 
+Current output: [`../../crates/oxforms-pal/src/input.rs`](../../crates/oxforms-pal/src/input.rs)
+defines the W005 `UiEvent` schema/version and host-neutral value types for
+coordinates, mouse, keyboard, character input, focus, activation, close, timer,
+clipboard, service completion, resize/DPI, lifecycle, and generic
+host-extension event rows. Runtime adapter logic remains outside `oxforms-pal`.
+
 ### 7. Trace And Replay
 
 Trace/replay is a required output, not a debugging convenience. W005 artifacts

@@ -437,6 +437,8 @@ name = "oxforms-pal"
 version = "0.0.0"
 dependencies = [
  "minifb",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

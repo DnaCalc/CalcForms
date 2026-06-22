@@ -1,8 +1,8 @@
 //! OxForms PAL core contracts and renderers.
 //!
-//! This crate currently exposes only the smoke display-list contract needed by
-//! W002: a versioned logical surface, RGBA8 colors, `FillRect`, and a
-//! deterministic headless renderer.
+//! This crate currently exposes the W002 smoke display-list contract and the
+//! W005 normalized input contract: value-typed, serializable event rows that a
+//! platform adapter can feed to the reducer without leaking host-runtime types.
 //!
 //! The PAL core deliberately has no dependency on any host runtime.
 //! Runtime-specific bridges live in sibling adapter crates and translate host
@@ -10,8 +10,12 @@
 
 #![forbid(unsafe_code)]
 
+pub mod input;
+
 use std::error::Error;
 use std::fmt;
+
+pub use input::*;
 
 /// First display-list version for the W002 smoke contract.
 pub const DISPLAY_LIST_VERSION: u16 = 1;
