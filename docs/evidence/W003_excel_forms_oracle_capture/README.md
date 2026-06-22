@@ -5,11 +5,11 @@ This directory is reserved for generated W003 evidence and evidence manifests.
 It separates captured black-box Office/MSForms outputs from repo-owned fixture
 inputs under `fixtures/office-oracle/excel-msforms/`.
 
-Current scaffold:
+Contents:
 
-- `captures/` will hold Excel/MSForms oracle screenshots, metadata, logs,
-  hashes, and platform/Excel notes from `oxforms-fg9.5`.
-- `comparisons/` will hold comparison manifests or reports relating the Excel
+- `captures/` holds Excel/MSForms oracle screenshots, metadata, logs, hashes,
+  and platform/Excel notes from `oxforms-fg9.5`.
+- `comparisons/` holds comparison manifests or reports relating the Excel
   oracle to current OxForms artifacts from `oxforms-fg9.6`.
 - The first fixture input from `oxforms-fg9.4` is
   `fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json`.
@@ -29,8 +29,8 @@ Current scaffold:
   `oxforms-fg9.2`; it is not an Excel/MSForms oracle capture and should not be
   used as a parity claim.
 
-No capture has been performed by `oxforms-fg9.1`. Files added here by this bead
-are path guides only, not captured evidence.
+Files added by `oxforms-fg9.1` were path guides only, not captured evidence.
+The live Excel/MSForms evidence starts with `oxforms-fg9.5`.
 
 Current Excel/MSForms oracle capture from `oxforms-fg9.5`:
 
@@ -43,8 +43,11 @@ Current Excel/MSForms oracle capture from `oxforms-fg9.5`:
   input hash, and DPI/theme/scaling warnings.
 - `captures/rectangle-label-20260622T170958Z/window-capture.png` is black-box
   Office/MSForms evidence, not an OxForms pixel-parity claim.
+- `captures/rectangle-label-20260622T170958Z/checksums.sha256` records hashes
+  for the fixture input, command text, preserved stdout/stderr logs, manifests,
+  generated workbook, and screenshot.
 
-W003 evidence should record at least:
+W003 evidence records at least:
 
 - fixture input paths and hashes;
 - command or manual steps used to open/generate the fixture;

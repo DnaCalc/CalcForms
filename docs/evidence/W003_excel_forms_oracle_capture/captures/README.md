@@ -2,9 +2,9 @@
 
 Generated Excel/MSForms oracle capture outputs belong here.
 
-Expected future artifacts include screenshots or pixel buffers, window metadata,
-capture logs, platform and Excel notes, and hashes that tie the capture back to
-repo-owned fixture inputs.
+Artifacts include screenshots or pixel buffers, window metadata, capture logs,
+platform and Excel notes, and hashes that tie the capture back to repo-owned
+fixture inputs.
 
 `oxforms-fg9.2` adds a capture primitive self-test that may write generated
 local artifacts under `self-test/`:
@@ -21,5 +21,5 @@ Excel UserForm capture is:
 Its `oracle-capture-manifest.json` is the durable entry point for rerun
 commands, fixture/workbook/screenshot hashes, Excel executable version, window
 identity, bounds, and DPI/theme/scaling warnings. The PNG is a live
-Excel/MSForms oracle screenshot only; exact OxForms comparison is deferred to
-the W003 comparison bead.
+Excel/MSForms oracle screenshot only; exact OxForms comparison remains deferred
+by the W003 calibration manifest.

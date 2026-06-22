@@ -1,9 +1,10 @@
 # W003 Excel Forms Oracle And Windows Capture
 
-Status: `OPEN`
+Status: `CLOSED`
 Epic bead: `oxforms-fg9`
 Depends on: `W002_initial_windows_rectangle`
 Owning plan bead: `oxforms-fg9.3`
+Closure bead: `oxforms-fg9.7`
 
 ## Purpose
 
@@ -76,7 +77,7 @@ The layout must distinguish repo-owned source inputs from generated evidence.
 Generated binary Office artifacts should either be excluded, placed under an
 evidence path with hashes, or justified in text.
 
-Current scaffold from `oxforms-fg9.1`:
+Harness and artifact layout from `oxforms-fg9.1`:
 
 - `tools/office-oracle/` contains Office oracle harness utilities. These tools
   are test/evidence helpers, not OxForms runtime APIs.
@@ -213,6 +214,23 @@ It should record:
 
 The report must distinguish observed facts from assumptions.
 
+Current comparison from `oxforms-fg9.6`:
+
+- `docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.json`
+  is the first comparison manifest, using schema
+  `oxforms.office_oracle.comparison_manifest.v1`.
+- `docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.md`
+  is the human-readable report.
+- The comparison status is `calibration_only`: it links the Excel/MSForms
+  rectangle-label oracle capture to the current W002 rectangle smoke output,
+  records observed screenshot regions and W002 render diagnostics, and
+  explicitly defers pixel diffing, calibrated point-to-pixel mapping, form
+  chrome handling, themed control coverage, text/font fidelity, and pass/fail
+  tolerances.
+- The comparison is an evidence artifact only. It is not a runtime adapter,
+  compatibility bridge, fallback path, shim, final pixel oracle, or parity
+  claim.
+
 ## Why Other Directions Wait
 
 Other backends still matter, especially wasm/Tauri and browser-hosted wasm.
@@ -252,6 +270,102 @@ W003 closes when all of these are true:
 5. The docs remain precise that this is oracle/capture plumbing, not OxForms
    Forms-runtime parity.
 6. Any blocker or out-of-scope discovery has a follow-up bead before closure.
+
+## Final Evidence And Closure Review
+
+Closure bead: `oxforms-fg9.7`.
+
+Final artifact set:
+
+- Fixture input:
+  `fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json`,
+  SHA-256
+  `c37aa02ccc771fec0bbdbaa2260744addd7fcafd89d25cbcae1b1076f3feb8b2`.
+- Generated workbook:
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/rectangle-label-oracle.xlsm`,
+  SHA-256
+  `f3d5a93028cbbd401c52422d09ca4d05c8461a444f0dfbd5f1e03872b9a2edff`.
+- Oracle screenshot:
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/window-capture.png`,
+  `320 x 240` PNG, SHA-256
+  `382af49ace240ffef41a1334613e200a091623648e7dded90443a98b6b95cf58`.
+- Oracle capture manifest:
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/oracle-capture-manifest.json`.
+- Window capture manifest:
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/window-capture-manifest.json`.
+- Command files and logs:
+  `open-fixture.command.txt`, `open-fixture.stdout.log`,
+  `open-fixture.stderr.log`, `capture-window.command.txt`,
+  `capture-window.stdout.log`, and `capture-window.stderr.log` in the capture
+  directory. The stderr logs are empty for the successful run.
+- Capture run summary:
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/run-summary.json`.
+- Capture checksums:
+  `docs/evidence/W003_excel_forms_oracle_capture/captures/rectangle-label-20260622T170958Z/checksums.sha256`.
+- First comparison manifest/report:
+  `docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.json`
+  and
+  `docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.md`.
+
+Recorded live capture environment:
+
+- Windows: `Microsoft Windows NT 10.0.26200.0`.
+- PowerShell: `5.1.26100.8655`.
+- Excel executable:
+  `C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE`.
+- Excel file/product version: `16.0.20026.20182`.
+- Captured top-level UserForm window: title
+  `OxForms W003 Rectangle Oracle`, class `ThunderDFrame`, process `EXCEL`,
+  bounds `left=800`, `top=420`, `right=1120`, `bottom=660`, DPI `96`.
+- Theme notes: `apps_use_light_theme=1`, `system_uses_light_theme=1`.
+
+Recorded commands:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Open-ExcelUserFormFixture.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\rectangle-label -OutputWorkbook C:\Work\DnaCalc\OxForms\docs\evidence\W003_excel_forms_oracle_capture\captures\rectangle-label-20260622T170958Z\rectangle-label-oracle.xlsm -Open -HoldSeconds 60
+```
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-Window.ps1 -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W003_excel_forms_oracle_capture\captures\rectangle-label-20260622T170958Z -TitleContains "OxForms W003 Rectangle Oracle" -ProcessName EXCEL -CaptureScreenshot
+```
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-OracleComparisonManifest.ps1 -ManifestPath docs\evidence\W003_excel_forms_oracle_capture\comparisons\rectangle-label-vs-w002-smoke.json
+```
+
+Closure review results:
+
+- Closure condition 1 is satisfied by the repo-owned fixture manifest and dry-run
+  validation path.
+- Closure condition 2 is satisfied by the live Excel/MSForms capture manifests,
+  screenshot, preserved command logs, platform notes, Excel version notes, and
+  hashes under the capture directory.
+- Closure condition 3 is satisfied by the documented evidence paths under
+  `docs/evidence/W003_excel_forms_oracle_capture/`.
+- Closure condition 4 is satisfied by the calibration-only comparison manifest
+  and report against W002 rectangle smoke output.
+- Closure condition 5 is satisfied: W003 remains oracle/capture/comparison
+  plumbing and does not claim OxForms Forms-runtime parity, `UserForm`, `Label`,
+  intrinsic-control support, exact pixel matching, or backend expansion.
+- Closure condition 6 is satisfied: the final review found deferred future
+  renderer/parity work already recorded as comparison `deferred_items`, with no
+  new W003-blocking or out-of-scope defect requiring a follow-up bead.
+
+Residual work after W003 is intentional future scope, not a W003 blocker:
+
+- calibrate Twips/points-to-pixel mapping;
+- define form chrome and client-area coordinate handling;
+- build OxForms `UserForm`/`Label` runtime behavior and intrinsic-control
+  rendering;
+- define pass/fail pixel tolerances and portable golden-image policy;
+- broaden themed control, DPI, Office-version, text, and font coverage.
+
+Fresh-eyes review covered the clean-room boundary, Office automation
+prerequisites, capture reliability, artifact locations, command names, W002
+relationship, comparison metadata, ignored log handling, and the bead graph. The
+only correction found in this closure bead was that the existing stdout/stderr
+logs were ignored by the general `*.log` rule; they are now explicitly included
+as evidence, and `checksums.sha256` records their hashes.
 
 ## Verification Shape
 

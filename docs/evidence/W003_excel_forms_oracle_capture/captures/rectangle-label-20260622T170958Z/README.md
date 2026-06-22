@@ -23,3 +23,12 @@ See `oracle-capture-manifest.json` for platform, Excel executable version,
 window identity, bounds, artifact hashes, and warnings about DPI/theme/scaling.
 `window-capture.png` is a live desktop screenshot of the Excel/MSForms UserForm,
 not an OxForms parity claim.
+
+The preserved command logs are:
+
+- `open-fixture.stdout.log` / `open-fixture.stderr.log`
+- `capture-window.stdout.log` / `capture-window.stderr.log`
+
+The stderr logs are intentionally empty for this successful capture. Hashes for
+the command files, logs, manifests, workbook, and screenshot are recorded in
+`checksums.sha256`.

@@ -7,7 +7,7 @@ The tools here are not OxForms runtime APIs, adapter APIs, or compatibility
 bridges. They are local harness utilities for generating, opening, capturing,
 or checking Office oracle fixtures and their evidence artifacts.
 
-Current scaffold:
+Current tools:
 
 - `Test-OfficeOracleScaffold.ps1` checks that the W003 fixture, tool, capture,
   and comparison directories exist. It does not start Excel, automate Office,
@@ -49,11 +49,11 @@ reports `ambiguous_target` unless `-AllowAmbiguous` is supplied. Any written
 manifest or screenshot must be under
 `docs/evidence/W003_excel_forms_oracle_capture/captures/`.
 
-Future W003 beads should keep Office-specific commands explicit and local:
+W003 kept Office-specific commands explicit and local:
 
-- `oxforms-fg9.4` adds repo-owned Excel/VBA fixture inputs under
+- `oxforms-fg9.4` added repo-owned Excel/VBA fixture inputs under
   `fixtures/office-oracle/excel-msforms/`.
-- `oxforms-fg9.5` should write generated capture artifacts under
+- `oxforms-fg9.5` wrote generated capture artifacts under
   `docs/evidence/W003_excel_forms_oracle_capture/captures/`.
 
 Local Office prerequisites, when a future command actually uses Excel:
