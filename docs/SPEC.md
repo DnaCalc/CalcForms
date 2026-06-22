@@ -26,6 +26,11 @@ planning truth.
 4. [`specs/LIFECYCLE_PUMP_MODEL.md`](specs/LIFECYCLE_PUMP_MODEL.md) - W005
    form lifecycle, modal/modeless pump, activation, close/query/hide/unload,
    terminate, reentrancy, and downstream oracle/smoke/reducer guidance.
+5. [`specs/TRACE_REPLAY_SCHEMA.md`](specs/TRACE_REPLAY_SCHEMA.md) - W005
+   trace/replay artifact schema for normalized input, coordinate tags, reducer
+   transitions, effects, VBA dispatches, lifecycle/pump rows, invalidation,
+   display-list/render references, environment metadata, ordering, nesting,
+   sample artifacts, and validator checks.
 
 ## Source References
 

@@ -268,6 +268,16 @@ The same conceptual script should be able to run against:
 - OxForms headless/replay path;
 - OxForms visible Windows smoke path.
 
+Current output: [`../specs/TRACE_REPLAY_SCHEMA.md`](../specs/TRACE_REPLAY_SCHEMA.md),
+with the machine-readable schema at
+[`../schemas/trace-replay-artifact.v1.schema.json`](../schemas/trace-replay-artifact.v1.schema.json),
+the schema-only sample at
+[`../evidence/W005_input_interaction_model_exploration/trace-replay/synthetic-click-trace.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/synthetic-click-trace.v1.json),
+and the validator at
+[`../../tools/trace-replay/Test-TraceReplaySchema.ps1`](../../tools/trace-replay/Test-TraceReplaySchema.ps1).
+This output defines artifact shape and validation only; the full replay runner
+and golden interaction evidence remain scoped to `oxforms-xvx.12`.
+
 ### 8. Reducer And Effects
 
 The reducer shape remains:
@@ -393,7 +403,7 @@ It is an observation artifact, not a final pass/fail parity oracle.
 | `oxforms-xvx.2` | Build MSForms interaction oracle fixtures | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.17`, `oxforms-xvx.18`, `oxforms-xvx.19` | Repo-owned fixtures log representative Label/Button/TextBox events. |
 | `oxforms-xvx.3` | Capture MSForms interaction event oracle evidence | `oxforms-54n`, `oxforms-xvx.2` | Live event evidence or concrete blocker exists. |
 | `oxforms-xvx.4` | Define PAL normalized input contract | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.18` | PAL input contract is value-typed, serializable, host-neutral. |
-| `oxforms-xvx.5` | Define trace/replay artifact schema and validators | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.17`, `oxforms-xvx.18` | Schema and validation path exist for W005 traces. |
+| `oxforms-xvx.5` | Define trace/replay artifact schema and validators | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.17`, `oxforms-xvx.18` | Schema, validation path, and synthetic schema sample exist for W005 traces. |
 | `oxforms-xvx.6` | Implement reducer/effects skeleton | `oxforms-54n`, `oxforms-xvx.4`, `oxforms-xvx.5`, `oxforms-xvx.19` | Deterministic reducer/effects skeleton and tests exist. |
 | `oxforms-xvx.7` | Implement hit-test, focus, capture, and tab routing core | `oxforms-54n`, `oxforms-xvx.6`, `oxforms-xvx.18` | Router tests cover hit/focus/capture/tab basics. |
 | `oxforms-xvx.8` | Implement keyboard, char, accelerator, default, cancel routing | `oxforms-54n`, `oxforms-xvx.6` | Keyboard route tests cover chars, default, cancel, accelerators. |

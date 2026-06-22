@@ -32,6 +32,22 @@ smoke-only and not lifecycle evidence, and live MSForms lifecycle ordering is
 blocked on the W005 interaction oracle fixture and capture beads
 (`oxforms-xvx.2` and `oxforms-xvx.3`).
 
+## Trace Replay
+
+[`trace-replay/`](trace-replay/) holds the W005 trace/replay schema sample for
+`oxforms-xvx.5`. The curated artifact contract is
+[`../../specs/TRACE_REPLAY_SCHEMA.md`](../../specs/TRACE_REPLAY_SCHEMA.md), the
+machine-readable schema is
+[`../../schemas/trace-replay-artifact.v1.schema.json`](../../schemas/trace-replay-artifact.v1.schema.json),
+and the validator is
+[`../../../tools/trace-replay/Test-TraceReplaySchema.ps1`](../../../tools/trace-replay/Test-TraceReplaySchema.ps1).
+
+Current status: a synthetic schema-only trace validates and records normalized
+input rows, coordinate-space tags, reducer transition summaries, ordered
+effects, VBA dispatch rows, lifecycle/pump rows, invalidation, display-list and
+render references, environment metadata, logical ordering, and reentrant
+nesting. This is not live MSForms oracle evidence and not a full replay runner.
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

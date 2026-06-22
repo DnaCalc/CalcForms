@@ -1,0 +1,375 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://dnacalc.local/oxforms/schemas/trace-replay-artifact.v1.schema.json",
+  "title": "OxForms W005 Trace Replay Artifact v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "schema_version",
+    "trace_id",
+    "bead",
+    "artifact_status",
+    "scenario",
+    "environment",
+    "ordering",
+    "rows",
+    "artifacts",
+    "clean_room"
+  ],
+  "properties": {
+    "schema": {
+      "const": "oxforms.trace_replay.v1"
+    },
+    "schema_version": {
+      "const": 1
+    },
+    "trace_id": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "bead": {
+      "$ref": "#/$defs/non_empty_string"
+    },
+    "artifact_status": {
+      "enum": [
+        "synthetic_schema_sample",
+        "oxforms_observation",
+        "oxforms_golden",
+        "msforms_oracle_observation",
+        "comparison_input",
+        "blocked_or_incomplete"
+      ]
+    },
+    "scenario": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "scenario_id",
+        "source_kind",
+        "description"
+      ],
+      "properties": {
+        "scenario_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "source_kind": {
+          "enum": [
+            "synthetic",
+            "oxforms_headless",
+            "oxforms_visible",
+            "msforms_oracle",
+            "comparison"
+          ]
+        },
+        "description": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "not_oracle_evidence": {
+          "type": "boolean"
+        },
+        "input_script": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": true,
+      "required": [
+        "source",
+        "pal",
+        "path_policy"
+      ],
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "recorded_at_utc": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "os": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "host": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "pal": {
+          "type": "object",
+          "additionalProperties": true,
+          "required": [
+            "input_contract",
+            "ui_event_schema_version"
+          ],
+          "properties": {
+            "input_contract": {
+              "$ref": "#/$defs/repo_relative_path"
+            },
+            "ui_event_schema_version": {
+              "type": "integer",
+              "minimum": 1
+            }
+          }
+        },
+        "display": {
+          "type": "object",
+          "additionalProperties": true
+        },
+        "path_policy": {
+          "const": "canonical_artifact_paths_are_repo_relative"
+        }
+      }
+    },
+    "ordering": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "sequence_scope",
+        "clock",
+        "nesting_model",
+        "first_sequence"
+      ],
+      "properties": {
+        "sequence_scope": {
+          "const": "trace"
+        },
+        "clock": {
+          "enum": [
+            "logical_tick",
+            "monotonic_timestamp",
+            "mixed_with_logical_tick"
+          ]
+        },
+        "nesting_model": {
+          "const": "parent_row_id_and_nesting_depth"
+        },
+        "first_sequence": {
+          "type": "integer",
+          "minimum": 1
+        }
+      }
+    },
+    "rows": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/trace_row"
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "display_lists",
+        "renders",
+        "screenshots",
+        "external_files"
+      ],
+      "properties": {
+        "display_lists": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact_ref"
+          }
+        },
+        "renders": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact_ref"
+          }
+        },
+        "screenshots": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact_ref"
+          }
+        },
+        "external_files": {
+          "type": "array",
+          "items": {
+            "$ref": "#/$defs/artifact_ref"
+          }
+        }
+      }
+    },
+    "clean_room": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "source",
+        "prohibited"
+      ],
+      "properties": {
+        "source": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "prohibited": {
+          "$ref": "#/$defs/non_empty_string"
+        }
+      }
+    },
+    "warnings": {
+      "type": "array",
+      "items": {
+        "$ref": "#/$defs/non_empty_string"
+      }
+    }
+  },
+  "$defs": {
+    "non_empty_string": {
+      "type": "string",
+      "minLength": 1
+    },
+    "repo_relative_path": {
+      "type": "string",
+      "minLength": 1,
+      "not": {
+        "pattern": "^(?:[A-Za-z]:[\\\\/]|[\\\\/]{1,2})"
+      }
+    },
+    "trace_row": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "row_id",
+        "sequence",
+        "logical_tick",
+        "parent_row_id",
+        "nesting_depth",
+        "phase",
+        "kind",
+        "payload"
+      ],
+      "properties": {
+        "row_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "logical_tick": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "parent_row_id": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "nesting_depth": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "phase": {
+          "enum": [
+            "script",
+            "input",
+            "routing",
+            "reducer",
+            "effect",
+            "dispatch",
+            "pump",
+            "render",
+            "evidence"
+          ]
+        },
+        "kind": {
+          "enum": [
+            "input_script_step",
+            "ui_event",
+            "routing_decision",
+            "reducer_transition",
+            "effect_requested",
+            "effect_completed",
+            "vba_dispatch",
+            "lifecycle_pump",
+            "invalidation",
+            "display_list",
+            "render_artifact",
+            "oracle_annotation",
+            "comparison_annotation",
+            "diagnostic"
+          ]
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "artifact_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "artifact_id",
+        "role",
+        "storage"
+      ],
+      "properties": {
+        "artifact_id": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "role": {
+          "$ref": "#/$defs/non_empty_string"
+        },
+        "storage": {
+          "enum": [
+            "repo_file",
+            "inline_trace_row",
+            "external_uncommitted_note"
+          ]
+        },
+        "path": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "not": {
+            "pattern": "^(?:[A-Za-z]:[\\\\/]|[\\\\/]{1,2})"
+          }
+        },
+        "uri_fragment": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "sha256": {
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "notes": {
+          "type": [
+            "string",
+            "null"
+          ]
+        }
+      }
+    },
+    "coordinate_space": {
+      "enum": [
+        "screen_pixels",
+        "window_rect",
+        "screenshot_pixels",
+        "client_pixels",
+        "form_logical",
+        "control_local",
+        "display_list_logical",
+        "msforms_event_args",
+        "raw_diagnostic"
+      ]
+    }
+  }
+}

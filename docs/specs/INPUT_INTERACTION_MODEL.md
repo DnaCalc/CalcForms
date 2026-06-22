@@ -404,8 +404,15 @@ settle them.
 ## 13. Trace And Replay Obligations
 
 Trace/replay is an architectural output of W005, not a debug afterthought.
-Later schema and runner beads may choose exact file formats, but W005 artifacts
-must preserve these families:
+The curated W005 artifact contract is
+[`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md), with a machine-readable
+schema at
+[`trace-replay-artifact.v1.schema.json`](../schemas/trace-replay-artifact.v1.schema.json),
+a synthetic schema sample at
+[`synthetic-click-trace.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/synthetic-click-trace.v1.json),
+and a validator at
+[`Test-TraceReplaySchema.ps1`](../../tools/trace-replay/Test-TraceReplaySchema.ps1).
+W005 artifacts must preserve these families:
 
 - input script: the intended logical scenario, independent of a live desktop;
 - normalized input event log: `UiEvent` rows and raw diagnostics;
@@ -442,8 +449,10 @@ replay without live Excel or another host.
   fixture point geometry, screenshot/window metadata, and raw input coordinates.
 - `oxforms-xvx.4` uses sections 5, 10, and 11 to define the PAL normalized input
   contract.
-- `oxforms-xvx.5` uses sections 4, 8, 10, and 13 to define trace schema and
-  validators with explicit coordinate-space tags.
+- `oxforms-xvx.5` uses sections 4, 8, 10, 12, and 13 to define
+  [`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md), the v1 schema, validator,
+  and synthetic sample with explicit coordinate-space tags, event/effect/VBA
+  dispatch ordering, lifecycle/pump rows, and reentrant nesting.
 - `oxforms-xvx.6` through `oxforms-xvx.13` use the reducer/effects, routing,
   probe, dispatch, smoke, replay, coordinate, and comparison vocabulary here.
 
@@ -483,4 +492,6 @@ or precisely block them:
 - Exact host-extension payloads for Excel `RefEdit`, including host `Range`
   object return, reference string return, activation/focus restoration, and
   cancel behavior.
-- Exact trace serialization and versioning format.
+- Future trace serialization changes after
+  [`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md) v1, including any runner
+  extensions needed by `oxforms-xvx.12`.

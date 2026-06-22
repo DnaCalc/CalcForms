@@ -1,0 +1,1155 @@
+{
+  "schema": "oxforms.trace_replay.v1",
+  "schema_version": 1,
+  "trace_id": "w005-synthetic-click-trace-v1",
+  "bead": "oxforms-xvx.5",
+  "artifact_status": "synthetic_schema_sample",
+  "scenario": {
+    "scenario_id": "w005.synthetic.lifecycle-commandbutton-click",
+    "source_kind": "synthetic",
+    "description": "Synthetic modeless show and CommandButton click trace used only to validate the W005 trace/replay artifact shape.",
+    "not_oracle_evidence": true,
+    "input_script": [
+      {
+        "script_step_id": "script-0001",
+        "action": "show_form_modeless",
+        "target": {
+          "form_id": "form-main"
+        }
+      },
+      {
+        "script_step_id": "script-0002",
+        "action": "mouse_click",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "coordinates": [
+          {
+            "space": "form_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "point": {
+              "x": 72.0,
+              "y": 60.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "synthetic.script",
+            "certainty": "synthetic"
+          }
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "source": "synthetic",
+    "recorded_at_utc": "2026-06-22T23:00:00Z",
+    "os": {
+      "name": "synthetic",
+      "version": "n/a",
+      "is_windows": false
+    },
+    "host": {
+      "name": "none",
+      "scope_id": null
+    },
+    "pal": {
+      "input_contract": "crates/oxforms-pal/src/input.rs",
+      "ui_event_schema_version": 1
+    },
+    "display": {
+      "dpi_x": 96.0,
+      "dpi_y": 96.0,
+      "scale_x": 1.0,
+      "scale_y": 1.0
+    },
+    "path_policy": "canonical_artifact_paths_are_repo_relative"
+  },
+  "ordering": {
+    "sequence_scope": "trace",
+    "clock": "logical_tick",
+    "nesting_model": "parent_row_id_and_nesting_depth",
+    "first_sequence": 1
+  },
+  "rows": [
+    {
+      "row_id": "row-0001",
+      "sequence": 1,
+      "logical_tick": 0,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "script",
+      "kind": "input_script_step",
+      "payload": {
+        "script_step_id": "script-0001",
+        "action": "show_form_modeless",
+        "target": {
+          "form_id": "form-main"
+        }
+      }
+    },
+    {
+      "row_id": "row-0002",
+      "sequence": 2,
+      "logical_tick": 1,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0001",
+        "ui_event_schema_version": 1,
+        "source": "replay",
+        "target": {
+          "form_id": "form-main",
+          "window_id": null,
+          "control_id": null
+        },
+        "normalized_input": {
+          "kind": "form_instance_requested",
+          "payload": {
+            "form_id": "form-main",
+            "form_class_name": "W005SyntheticForm",
+            "owner": null,
+            "show_mode": "modeless",
+            "reason": "replay"
+          }
+        },
+        "diagnostics": [
+          {
+            "source": "sample",
+            "name": "purpose",
+            "value": "schema validation only"
+          }
+        ]
+      }
+    },
+    {
+      "row_id": "row-0003",
+      "sequence": 3,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "reducer",
+      "kind": "reducer_transition",
+      "payload": {
+        "transition_id": "transition-0001",
+        "causal_ui_event_id": "ui-0001",
+        "before": {
+          "lifecycle_state": "allocated",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": null,
+          "capture_owner": null
+        },
+        "after": {
+          "lifecycle_state": "loading",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": null,
+          "capture_owner": null
+        },
+        "emitted_effect_ids": [
+          "effect-0001"
+        ],
+        "invalidation_ids": []
+      }
+    },
+    {
+      "row_id": "row-0004",
+      "sequence": 4,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0001",
+        "effect_kind": "materialize_form",
+        "cause": {
+          "ui_event_id": "ui-0001",
+          "transition_id": "transition-0001"
+        },
+        "target": {
+          "form_id": "form-main"
+        },
+        "completion_policy": "service_result_required"
+      }
+    },
+    {
+      "row_id": "row-0005",
+      "sequence": 5,
+      "logical_tick": 3,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_completed",
+      "payload": {
+        "effect_id": "effect-0001",
+        "status": "success",
+        "result_ui_event_id": "ui-0002",
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0006",
+      "sequence": 6,
+      "logical_tick": 4,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0002",
+        "ui_event_schema_version": 1,
+        "source": "service",
+        "target": {
+          "form_id": "form-main",
+          "window_id": null,
+          "control_id": null
+        },
+        "normalized_input": {
+          "kind": "form_loaded",
+          "payload": {
+            "form_id": "form-main",
+            "load_source": "synthetic_fixture",
+            "control_count": 2
+          }
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0007",
+      "sequence": 7,
+      "logical_tick": 5,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0003",
+        "ui_event_schema_version": 1,
+        "source": "replay",
+        "target": {
+          "form_id": "form-main",
+          "window_id": null,
+          "control_id": null
+        },
+        "normalized_input": {
+          "kind": "show_requested",
+          "payload": {
+            "form_id": "form-main",
+            "show_mode": "modeless",
+            "owner": null,
+            "initial_bounds": {
+              "space": "form_logical",
+              "unit": "points",
+              "origin": "form_design_surface_top_left",
+              "rect": {
+                "x": 0.0,
+                "y": 0.0,
+                "width": 240.0,
+                "height": 180.0
+              },
+              "dpi": {
+                "dpi_x": 96.0,
+                "dpi_y": 96.0
+              },
+              "source": "synthetic.fixture",
+              "certainty": "synthetic"
+            },
+            "reason": "replay"
+          }
+        },
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0008",
+      "sequence": 8,
+      "logical_tick": 6,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "reducer",
+      "kind": "reducer_transition",
+      "payload": {
+        "transition_id": "transition-0002",
+        "causal_ui_event_id": "ui-0003",
+        "before": {
+          "lifecycle_state": "loaded",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": null,
+          "capture_owner": null
+        },
+        "after": {
+          "lifecycle_state": "showing_modeless",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": null,
+          "capture_owner": null
+        },
+        "emitted_effect_ids": [
+          "effect-0002",
+          "effect-0003"
+        ],
+        "invalidation_ids": [
+          "inv-0001"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0009",
+      "sequence": 9,
+      "logical_tick": 6,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0002",
+        "effect_kind": "fire_vba_event",
+        "event_name": "Initialize",
+        "cause": {
+          "ui_event_id": "ui-0003",
+          "transition_id": "transition-0002"
+        },
+        "target": {
+          "form_id": "form-main"
+        },
+        "completion_policy": "dispatch_result_required"
+      }
+    },
+    {
+      "row_id": "row-0010",
+      "sequence": 10,
+      "logical_tick": 6,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0003",
+        "effect_kind": "show_form_modeless",
+        "cause": {
+          "ui_event_id": "ui-0003",
+          "transition_id": "transition-0002"
+        },
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "completion_policy": "window_shown_event_required"
+      }
+    },
+    {
+      "row_id": "row-0011",
+      "sequence": 11,
+      "logical_tick": 7,
+      "parent_row_id": "row-0009",
+      "nesting_depth": 1,
+      "phase": "dispatch",
+      "kind": "vba_dispatch",
+      "payload": {
+        "dispatch_id": "dispatch-0001",
+        "effect_id": "effect-0002",
+        "event_name": "Initialize",
+        "target": {
+          "form_id": "form-main"
+        },
+        "fact_source": {
+          "path": "docs/specs/FM20_EVENT_FACTS.md",
+          "event": "Initialize",
+          "evidence_class": "public-doc"
+        },
+        "arguments": [],
+        "mutable_helpers": [],
+        "result": {
+          "status": "completed",
+          "handler": "UserForm_Initialize"
+        }
+      }
+    },
+    {
+      "row_id": "row-0012",
+      "sequence": 12,
+      "logical_tick": 8,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_completed",
+      "payload": {
+        "effect_id": "effect-0002",
+        "status": "success",
+        "dispatch_id": "dispatch-0001",
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0013",
+      "sequence": 13,
+      "logical_tick": 9,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "pump",
+      "kind": "lifecycle_pump",
+      "payload": {
+        "lifecycle_state_before": "showing_modeless",
+        "lifecycle_state_after": "modeless_visible",
+        "pump_term": "host_modeless_pump",
+        "modal_depth": 0,
+        "active": {
+          "form_id": "form-main",
+          "window_id": "window-main",
+          "focus_owner": null
+        },
+        "cause": {
+          "effect_id": "effect-0003"
+        }
+      }
+    },
+    {
+      "row_id": "row-0014",
+      "sequence": 14,
+      "logical_tick": 10,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "invalidation",
+      "payload": {
+        "invalidation_id": "inv-0001",
+        "target": {
+          "form_id": "form-main"
+        },
+        "reason": "initial_show",
+        "regions": [
+          {
+            "space": "display_list_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "rect": {
+              "x": 0.0,
+              "y": 0.0,
+              "width": 240.0,
+              "height": 180.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "reducer.transition-0002",
+            "certainty": "synthetic"
+          }
+        ],
+        "dirty_subtrees": [
+          "form-main"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0015",
+      "sequence": 15,
+      "logical_tick": 11,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "display_list",
+      "payload": {
+        "display_list_id": "display-list-0001",
+        "producer": "synthetic.sample",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "coordinate_space": "display_list_logical",
+        "command_count": 2,
+        "checksum": null,
+        "artifact_ref": {
+          "artifact_id": "display-list-0001",
+          "storage": "inline_trace_row",
+          "uri_fragment": "#/rows/14/payload",
+          "path": null
+        }
+      }
+    },
+    {
+      "row_id": "row-0016",
+      "sequence": 16,
+      "logical_tick": 12,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "render_artifact",
+      "payload": {
+        "render_id": "render-0001",
+        "source_display_list_id": "display-list-0001",
+        "target": {
+          "window_id": "window-main"
+        },
+        "output_kind": "hash",
+        "hash_algorithm": "synthetic-none",
+        "hash": null,
+        "artifact_ref": {
+          "artifact_id": "render-0001",
+          "storage": "inline_trace_row",
+          "uri_fragment": "#/rows/15/payload",
+          "path": null
+        }
+      }
+    },
+    {
+      "row_id": "row-0017",
+      "sequence": 17,
+      "logical_tick": 20,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "script",
+      "kind": "input_script_step",
+      "payload": {
+        "script_step_id": "script-0002",
+        "action": "mouse_click",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        }
+      }
+    },
+    {
+      "row_id": "row-0018",
+      "sequence": 18,
+      "logical_tick": 21,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0004",
+        "ui_event_schema_version": 1,
+        "source": "replay",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main",
+          "control_id": null
+        },
+        "normalized_input": {
+          "kind": "mouse_down",
+          "payload": {
+            "pointer_id": 1,
+            "button": "left",
+            "buttons_down": {
+              "left": true,
+              "right": false,
+              "middle": false
+            },
+            "modifiers": {
+              "shift": false,
+              "control": false,
+              "alt": false,
+              "meta": false
+            },
+            "click_count": 1
+          }
+        },
+        "coordinates": [
+          {
+            "space": "client_pixels",
+            "unit": "pixels",
+            "origin": "window_client_top_left",
+            "point": {
+              "x": 96.0,
+              "y": 80.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "replay.script",
+            "certainty": "synthetic"
+          },
+          {
+            "space": "form_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "point": {
+              "x": 72.0,
+              "y": 60.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "pal_to_reducer.synthetic",
+            "certainty": "derived"
+          },
+          {
+            "space": "control_local",
+            "unit": "points",
+            "origin": "target_control_top_left",
+            "point": {
+              "x": 12.0,
+              "y": 8.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "router.control_local",
+            "certainty": "derived"
+          },
+          {
+            "space": "raw_diagnostic",
+            "unit": "platform",
+            "origin": "replay_script",
+            "point": {
+              "x": 96.0,
+              "y": 80.0
+            },
+            "dpi": null,
+            "source": "synthetic.raw_pointer",
+            "certainty": "synthetic"
+          }
+        ],
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0019",
+      "sequence": 19,
+      "logical_tick": 21,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "routing",
+      "kind": "routing_decision",
+      "payload": {
+        "routing_id": "route-0001",
+        "causal_ui_event_id": "ui-0004",
+        "route_kind": "mouse_hit_test",
+        "selected_target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "considered": [
+          {
+            "control_id": "label-title",
+            "hit": false,
+            "reason": "outside_half_open_bounds"
+          },
+          {
+            "control_id": "command-ok",
+            "hit": true,
+            "reason": "inside_half_open_bounds"
+          }
+        ],
+        "capture_owner_before": null,
+        "capture_owner_after": "command-ok"
+      }
+    },
+    {
+      "row_id": "row-0020",
+      "sequence": 20,
+      "logical_tick": 22,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "reducer",
+      "kind": "reducer_transition",
+      "payload": {
+        "transition_id": "transition-0003",
+        "causal_ui_event_id": "ui-0004",
+        "before": {
+          "lifecycle_state": "modeless_visible",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": null,
+          "capture_owner": null,
+          "pressed_state": null
+        },
+        "after": {
+          "lifecycle_state": "modeless_visible",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": "command-ok",
+          "capture_owner": "command-ok",
+          "pressed_state": {
+            "control_id": "command-ok",
+            "origin": "mouse"
+          }
+        },
+        "emitted_effect_ids": [
+          "effect-0004",
+          "effect-0005"
+        ],
+        "invalidation_ids": [
+          "inv-0002"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0021",
+      "sequence": 21,
+      "logical_tick": 22,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0004",
+        "effect_kind": "capture_mouse",
+        "cause": {
+          "ui_event_id": "ui-0004",
+          "transition_id": "transition-0003"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "platform_completion_or_diagnostic"
+      }
+    },
+    {
+      "row_id": "row-0022",
+      "sequence": 22,
+      "logical_tick": 22,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0005",
+        "effect_kind": "request_repaint",
+        "cause": {
+          "ui_event_id": "ui-0004",
+          "transition_id": "transition-0003"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "render_diagnostic_optional"
+      }
+    },
+    {
+      "row_id": "row-0023",
+      "sequence": 23,
+      "logical_tick": 23,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "invalidation",
+      "payload": {
+        "invalidation_id": "inv-0002",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "reason": "pressed_state_changed",
+        "regions": [
+          {
+            "space": "display_list_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "rect": {
+              "x": 60.0,
+              "y": 52.0,
+              "width": 72.0,
+              "height": 24.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "reducer.transition-0003",
+            "certainty": "synthetic"
+          }
+        ],
+        "dirty_subtrees": [
+          "command-ok"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0024",
+      "sequence": 24,
+      "logical_tick": 30,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0005",
+        "ui_event_schema_version": 1,
+        "source": "replay",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main",
+          "control_id": null
+        },
+        "normalized_input": {
+          "kind": "mouse_up",
+          "payload": {
+            "pointer_id": 1,
+            "button": "left",
+            "buttons_down": {
+              "left": false,
+              "right": false,
+              "middle": false
+            },
+            "modifiers": {
+              "shift": false,
+              "control": false,
+              "alt": false,
+              "meta": false
+            },
+            "click_count": 1
+          }
+        },
+        "coordinates": [
+          {
+            "space": "client_pixels",
+            "unit": "pixels",
+            "origin": "window_client_top_left",
+            "point": {
+              "x": 96.0,
+              "y": 80.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "replay.script",
+            "certainty": "synthetic"
+          },
+          {
+            "space": "form_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "point": {
+              "x": 72.0,
+              "y": 60.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "pal_to_reducer.synthetic",
+            "certainty": "derived"
+          },
+          {
+            "space": "control_local",
+            "unit": "points",
+            "origin": "target_control_top_left",
+            "point": {
+              "x": 12.0,
+              "y": 8.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "router.control_local",
+            "certainty": "derived"
+          }
+        ],
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0025",
+      "sequence": 25,
+      "logical_tick": 30,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "routing",
+      "kind": "routing_decision",
+      "payload": {
+        "routing_id": "route-0002",
+        "causal_ui_event_id": "ui-0005",
+        "route_kind": "mouse_capture",
+        "selected_target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "capture_owner_before": "command-ok",
+        "capture_owner_after": null,
+        "inside_target_bounds": true
+      }
+    },
+    {
+      "row_id": "row-0026",
+      "sequence": 26,
+      "logical_tick": 31,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "reducer",
+      "kind": "reducer_transition",
+      "payload": {
+        "transition_id": "transition-0004",
+        "causal_ui_event_id": "ui-0005",
+        "before": {
+          "lifecycle_state": "modeless_visible",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": "command-ok",
+          "capture_owner": "command-ok",
+          "pressed_state": {
+            "control_id": "command-ok",
+            "origin": "mouse"
+          }
+        },
+        "after": {
+          "lifecycle_state": "modeless_visible",
+          "pump_state": "host_modeless_pump",
+          "focus_owner": "command-ok",
+          "capture_owner": null,
+          "pressed_state": null
+        },
+        "emitted_effect_ids": [
+          "effect-0006",
+          "effect-0007",
+          "effect-0008"
+        ],
+        "invalidation_ids": [
+          "inv-0003"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0027",
+      "sequence": 27,
+      "logical_tick": 31,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0006",
+        "effect_kind": "release_mouse",
+        "cause": {
+          "ui_event_id": "ui-0005",
+          "transition_id": "transition-0004"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "platform_completion_or_diagnostic"
+      }
+    },
+    {
+      "row_id": "row-0028",
+      "sequence": 28,
+      "logical_tick": 31,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0007",
+        "effect_kind": "fire_vba_event",
+        "event_name": "Click",
+        "cause": {
+          "ui_event_id": "ui-0005",
+          "transition_id": "transition-0004"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "dispatch_result_required"
+      }
+    },
+    {
+      "row_id": "row-0029",
+      "sequence": 29,
+      "logical_tick": 31,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0008",
+        "effect_kind": "request_repaint",
+        "cause": {
+          "ui_event_id": "ui-0005",
+          "transition_id": "transition-0004"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "render_diagnostic_optional"
+      }
+    },
+    {
+      "row_id": "row-0030",
+      "sequence": 30,
+      "logical_tick": 32,
+      "parent_row_id": "row-0028",
+      "nesting_depth": 1,
+      "phase": "dispatch",
+      "kind": "vba_dispatch",
+      "payload": {
+        "dispatch_id": "dispatch-0002",
+        "effect_id": "effect-0007",
+        "event_name": "Click",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "fact_source": {
+          "path": "docs/specs/FM20_EVENT_FACTS.md",
+          "event": "Click",
+          "evidence_class": "metadata"
+        },
+        "arguments": [],
+        "mutable_helpers": [],
+        "result": {
+          "status": "completed",
+          "handler": "CommandButton1_Click"
+        }
+      }
+    },
+    {
+      "row_id": "row-0031",
+      "sequence": 31,
+      "logical_tick": 33,
+      "parent_row_id": "row-0030",
+      "nesting_depth": 2,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0006",
+        "ui_event_schema_version": 1,
+        "source": "service",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main",
+          "control_id": null
+        },
+        "normalized_input": {
+          "kind": "pump_yield_requested",
+          "payload": {
+            "source_effect_id": 7,
+            "reason": "synthetic_click_handler_yield"
+          }
+        },
+        "diagnostics": [
+          {
+            "source": "sample",
+            "name": "reentrancy",
+            "value": "synthetic nested input during VBA dispatch"
+          }
+        ]
+      }
+    },
+    {
+      "row_id": "row-0032",
+      "sequence": 32,
+      "logical_tick": 33,
+      "parent_row_id": "row-0031",
+      "nesting_depth": 3,
+      "phase": "pump",
+      "kind": "lifecycle_pump",
+      "payload": {
+        "lifecycle_state_before": "modeless_visible",
+        "lifecycle_state_after": "modeless_visible",
+        "pump_term": "vba_dispatch_reentrancy",
+        "modal_depth": 0,
+        "active": {
+          "form_id": "form-main",
+          "window_id": "window-main",
+          "focus_owner": "command-ok"
+        },
+        "cause": {
+          "dispatch_id": "dispatch-0002",
+          "ui_event_id": "ui-0006"
+        }
+      }
+    },
+    {
+      "row_id": "row-0033",
+      "sequence": 33,
+      "logical_tick": 34,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_completed",
+      "payload": {
+        "effect_id": "effect-0007",
+        "status": "success",
+        "dispatch_id": "dispatch-0002",
+        "diagnostics": []
+      }
+    },
+    {
+      "row_id": "row-0034",
+      "sequence": 34,
+      "logical_tick": 35,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "invalidation",
+      "payload": {
+        "invalidation_id": "inv-0003",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "reason": "pressed_state_released",
+        "regions": [
+          {
+            "space": "display_list_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "rect": {
+              "x": 60.0,
+              "y": 52.0,
+              "width": 72.0,
+              "height": 24.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "reducer.transition-0004",
+            "certainty": "synthetic"
+          }
+        ],
+        "dirty_subtrees": [
+          "command-ok"
+        ]
+      }
+    }
+  ],
+  "artifacts": {
+    "display_lists": [
+      {
+        "artifact_id": "display-list-0001",
+        "role": "initial synthetic display list reference",
+        "storage": "inline_trace_row",
+        "path": null,
+        "uri_fragment": "#/rows/14/payload",
+        "sha256": null,
+        "notes": "No display-list file is emitted by this schema-only bead."
+      }
+    ],
+    "renders": [
+      {
+        "artifact_id": "render-0001",
+        "role": "initial synthetic render reference",
+        "storage": "inline_trace_row",
+        "path": null,
+        "uri_fragment": "#/rows/15/payload",
+        "sha256": null,
+        "notes": "No rendered pixels are emitted by this schema-only bead."
+      }
+    ],
+    "screenshots": [],
+    "external_files": []
+  },
+  "clean_room": {
+    "source": "Synthetic repo-authored artifact based on OxForms W005 specs and public/repo-owned fact surfaces.",
+    "prohibited": "No Office internals, decompilation, disassembly, or non-public source were used."
+  },
+  "warnings": [
+    "This sample is not MSForms oracle evidence.",
+    "This sample is not an OxForms runtime trace.",
+    "This sample defines artifact shape only; it does not define parity tolerances."
+  ]
+}
