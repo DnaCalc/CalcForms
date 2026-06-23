@@ -77,6 +77,17 @@ nesting. The `oxforms-xvx.6` reducer sample cites the host-neutral
 `crates/oxforms-pal/src/input.rs` as the PAL input contract. This is not live
 MSForms oracle evidence and not a full replay runner.
 
+The `oxforms-xvx.8` reducer tests add keyboard trace/effect coverage in
+`crates/oxforms-core`: `KeyDown`/`KeyUp` dispatch effects with normalized
+key/modifier/raw diagnostics, committed printable `CharacterInput` routed to a
+focused TextBox probe with `KeyPress`/`Change`/repaint effects, `Enter`
+default-button routing, `Escape` cancel-button routing, and `Alt+Character`
+caption accelerators such as `&OK`. The known deferred keyboard evidence
+surfaces are IME/composition, dead keys, selection/caret granularity,
+clipboard shortcuts, platform key identity parity, `ReturnInteger` helper
+mutation, accelerator ambiguity/display behavior, and final event-order parity
+against live MSForms captures.
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

@@ -21,9 +21,10 @@ pub use probe::{hit_test_control_tree, ControlNode, HitTestResult, ProbeControlK
 
 use oxforms_pal::{
     CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, ControlId, FormId, HostScopeId,
-    KeyCode, KeyEvent, LifecycleReason, LogicalRect, MouseButton, MouseButtonEvent, MouseMoveEvent,
-    PointerId, QueryCloseCompletedEvent, ShowMode, ShowRequestedEvent, UiEvent, UiEventId,
-    UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
+    KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalRect, MouseButton,
+    MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics,
+    ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId,
+    WindowShownEvent,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
@@ -49,6 +50,7 @@ pub struct FormState {
     pub pressed_state: Option<PressedState>,
     pub default_button: Option<ControlId>,
     pub cancel_button: Option<ControlId>,
+    pub keyboard: KeyboardState,
     pub active: ActiveState,
     pub lifecycle: LifecycleState,
     pub pump: PumpState,
@@ -78,6 +80,7 @@ impl FormState {
             pressed_state: None,
             default_button: None,
             cancel_button: None,
+            keyboard: KeyboardState::default(),
             lifecycle: LifecycleState::Allocated,
             pump: PumpState::default(),
             text_boxes: Vec::new(),
@@ -269,6 +272,38 @@ pub struct TextCaretState {
     pub anchor: usize,
     pub active: usize,
     pub preferred_column: Option<usize>,
+}
+
+#[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
+pub struct KeyboardState {
+    pub last_key_down: Option<KeyEventSummary>,
+    pub last_key_up: Option<KeyEventSummary>,
+    pub last_character_input: Option<CharacterInputSummary>,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct KeyEventSummary {
+    pub key: KeyCode,
+    pub modifiers: KeyboardModifiers,
+    pub repeat: KeyRepeat,
+    pub raw: RawKeyDiagnostics,
+}
+
+impl From<&KeyEvent> for KeyEventSummary {
+    fn from(event: &KeyEvent) -> Self {
+        Self {
+            key: event.key.clone(),
+            modifiers: event.modifiers,
+            repeat: event.repeat,
+            raw: event.raw,
+        }
+    }
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CharacterInputSummary {
+    pub text_len: usize,
+    pub modifiers: KeyboardModifiers,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -637,6 +672,9 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::KeyDown(payload) => {
             reduce_key_down(&mut state, &mut context, payload);
+        }
+        UiEventKind::KeyUp(payload) => {
+            reduce_key_up(&mut state, &mut context, payload);
         }
         UiEventKind::Activate(payload) => {
             state.active.active_form = event.target.form_id.clone().or_else(|| {
@@ -1076,17 +1114,79 @@ fn reduce_mouse_up(
 }
 
 fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payload: &KeyEvent) {
-    if payload.key != KeyCode::Tab {
+    state.keyboard.last_key_down = Some(KeyEventSummary::from(payload));
+    let keyboard_target = keyboard_event_target(state);
+    queue_key_event(state, context, keyboard_target, "KeyDown", payload);
+
+    match &payload.key {
+        KeyCode::Tab => reduce_tab_key_down(state, context, payload.modifiers.shift),
+        KeyCode::Enter => {
+            if let Some(control_id) = state.default_button.clone() {
+                activate_command_button(
+                    state,
+                    context,
+                    &control_id,
+                    PressedOrigin::KeyboardDefault,
+                );
+            }
+        }
+        KeyCode::Escape => {
+            if let Some(control_id) = state.cancel_button.clone() {
+                activate_command_button(state, context, &control_id, PressedOrigin::KeyboardCancel);
+            }
+        }
+        KeyCode::Character(character) if payload.modifiers.alt => {
+            if let Some(control_id) = accelerator_command_button(state, character) {
+                activate_command_button(state, context, &control_id, PressedOrigin::Accelerator);
+            }
+        }
+        _ => {}
+    }
+}
+
+fn reduce_key_up(state: &mut FormState, context: &mut ReducerContext<'_>, payload: &KeyEvent) {
+    state.keyboard.last_key_up = Some(KeyEventSummary::from(payload));
+    let keyboard_target = keyboard_event_target(state);
+    queue_key_event(state, context, keyboard_target, "KeyUp", payload);
+
+    let Some(pressed_state) = state.pressed_state.clone() else {
+        return;
+    };
+
+    if !matches!(
+        pressed_state.origin,
+        PressedOrigin::KeyboardDefault | PressedOrigin::KeyboardCancel | PressedOrigin::Accelerator
+    ) {
         return;
     }
 
+    state.pressed_state = None;
+    if let Some(target) = target_for_focus(&pressed_state.target, &state.form_id) {
+        let invalidation_id = context.push_invalidation(
+            state,
+            target.clone(),
+            InvalidationReason::PressedStateChanged,
+        );
+        context.push_effect(
+            state,
+            target,
+            EffectKind::RequestRepaint {
+                invalidation_ids: vec![invalidation_id],
+                reason: InvalidationReason::PressedStateChanged,
+            },
+            CompletionPolicy::RenderDiagnosticOptional,
+        );
+    }
+}
+
+fn reduce_tab_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, reverse: bool) {
     let Some(next_focus) = next_tab_focus_target(
         &state.controls,
         state
             .focus_owner
             .as_ref()
             .and_then(FocusTarget::as_control_id),
-        payload.modifiers.shift,
+        reverse,
     ) else {
         return;
     };
@@ -1125,6 +1225,44 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
         },
         CompletionPolicy::RenderDiagnosticOptional,
     );
+}
+
+fn activate_command_button(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    control_id: &ControlId,
+    origin: PressedOrigin,
+) -> bool {
+    let Some(control) = find_control(state, control_id) else {
+        return false;
+    };
+    if control.kind != ProbeControlKind::CommandButton || !control.visible || !control.enabled {
+        return false;
+    }
+
+    let target = FocusTarget::Control(control_id.clone());
+    let effect_target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    state.pressed_state = Some(PressedState {
+        target,
+        origin,
+        armed: true,
+    });
+    queue_vba_event(state, context, effect_target.clone(), "Click");
+    let invalidation_id = context.push_invalidation(
+        state,
+        effect_target.clone(),
+        InvalidationReason::PressedStateChanged,
+    );
+    context.push_effect(
+        state,
+        effect_target,
+        EffectKind::RequestRepaint {
+            invalidation_ids: vec![invalidation_id],
+            reason: InvalidationReason::PressedStateChanged,
+        },
+        CompletionPolicy::RenderDiagnosticOptional,
+    );
+    true
 }
 
 #[derive(Clone, Debug)]
@@ -1252,17 +1390,51 @@ fn next_tab_focus_target<'a>(
     Some(candidates[next_index].1)
 }
 
+fn keyboard_event_target(state: &FormState) -> UiEventTarget {
+    state
+        .focus_owner
+        .as_ref()
+        .and_then(|target| target_for_focus(target, &state.form_id))
+        .unwrap_or_else(|| UiEventTarget::form(state.form_id.0.clone()))
+}
+
+fn accelerator_command_button(state: &FormState, character: &str) -> Option<ControlId> {
+    let normalized = character.chars().next()?.to_uppercase().next()?;
+    state
+        .controls
+        .iter()
+        .filter(|control| {
+            control.kind == ProbeControlKind::CommandButton && control.visible && control.enabled
+        })
+        .find(|control| control.accelerator_key() == Some(normalized))
+        .map(|control| control.control_id.clone())
+}
+
 fn reduce_character_input(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
     payload: &CharacterInputEvent,
 ) {
+    state.keyboard.last_character_input = Some(CharacterInputSummary {
+        text_len: payload.text.len(),
+        modifiers: payload.modifiers,
+    });
+    if payload.text.is_empty() || payload.text.chars().any(char::is_control) {
+        return;
+    }
+
     let Some(focus_owner) = state.focus_owner.clone() else {
         return;
     };
     let Some(control_id) = focus_owner.as_control_id().cloned() else {
         return;
     };
+    let Some(control) = find_control(state, &control_id) else {
+        return;
+    };
+    if control.kind != ProbeControlKind::TextBox || !control.visible || !control.enabled {
+        return;
+    }
 
     let text_box = state.ensure_text_box(control_id.clone());
     let insert_at = text_box.caret.active.min(text_box.text.len());
@@ -1274,6 +1446,7 @@ fn reduce_character_input(
     text_box.edit_sequence += 1;
 
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    queue_character_event(state, context, target.clone(), payload);
     queue_vba_event(state, context, target.clone(), "Change");
     let invalidation_id =
         context.push_invalidation(state, target.clone(), InvalidationReason::TextChanged);
@@ -1465,6 +1638,161 @@ fn reduce_query_close_completed(
         },
         CompletionPolicy::PlatformCompletionOrDiagnostic,
     );
+}
+
+fn queue_key_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    event_name: &str,
+    payload: &KeyEvent,
+) {
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: event_name.to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: key_event_arguments(payload),
+            cancel_metadata: Some(
+                "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005."
+                    .to_string(),
+            ),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
+fn queue_character_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    payload: &CharacterInputEvent,
+) {
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "KeyPress".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: vec![
+                EffectArgument {
+                    name: "text".to_string(),
+                    value: payload.text.clone(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "key_ascii_placeholder".to_string(),
+                    value: payload.text.chars().next().map_or(0, u32::from).to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "modifiers".to_string(),
+                    value: modifier_summary(payload.modifiers),
+                    by_ref: false,
+                },
+            ],
+            cancel_metadata: Some(
+                "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005."
+                    .to_string(),
+            ),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
+fn key_event_arguments(payload: &KeyEvent) -> Vec<EffectArgument> {
+    let mut arguments = vec![
+        EffectArgument {
+            name: "key".to_string(),
+            value: key_code_summary(&payload.key),
+            by_ref: true,
+        },
+        EffectArgument {
+            name: "modifiers".to_string(),
+            value: modifier_summary(payload.modifiers),
+            by_ref: false,
+        },
+        EffectArgument {
+            name: "repeat".to_string(),
+            value: payload.repeat.repeat_count.map_or_else(
+                || payload.repeat.is_repeat.to_string(),
+                |count| count.to_string(),
+            ),
+            by_ref: false,
+        },
+    ];
+
+    if let Some(virtual_key) = payload.raw.virtual_key {
+        arguments.push(EffectArgument {
+            name: "raw_virtual_key".to_string(),
+            value: virtual_key.to_string(),
+            by_ref: false,
+        });
+    }
+    if let Some(scan_code) = payload.raw.scan_code {
+        arguments.push(EffectArgument {
+            name: "raw_scan_code".to_string(),
+            value: scan_code.to_string(),
+            by_ref: false,
+        });
+    }
+    if let Some(native_code) = payload.raw.native_code {
+        arguments.push(EffectArgument {
+            name: "raw_native_code".to_string(),
+            value: native_code.to_string(),
+            by_ref: false,
+        });
+    }
+
+    arguments
+}
+
+fn key_code_summary(key: &KeyCode) -> String {
+    match key {
+        KeyCode::Enter => "enter".to_string(),
+        KeyCode::Escape => "escape".to_string(),
+        KeyCode::Tab => "tab".to_string(),
+        KeyCode::Backspace => "backspace".to_string(),
+        KeyCode::Delete => "delete".to_string(),
+        KeyCode::ArrowLeft => "arrow_left".to_string(),
+        KeyCode::ArrowRight => "arrow_right".to_string(),
+        KeyCode::ArrowUp => "arrow_up".to_string(),
+        KeyCode::ArrowDown => "arrow_down".to_string(),
+        KeyCode::Home => "home".to_string(),
+        KeyCode::End => "end".to_string(),
+        KeyCode::PageUp => "page_up".to_string(),
+        KeyCode::PageDown => "page_down".to_string(),
+        KeyCode::Space => "space".to_string(),
+        KeyCode::Function(number) => format!("function:{number}"),
+        KeyCode::Character(character) => format!("character:{character}"),
+        KeyCode::Other(key) => format!("other:{key}"),
+        KeyCode::Unidentified => "unidentified".to_string(),
+    }
+}
+
+fn modifier_summary(modifiers: KeyboardModifiers) -> String {
+    let mut active = Vec::new();
+    if modifiers.shift {
+        active.push("shift");
+    }
+    if modifiers.control {
+        active.push("control");
+    }
+    if modifiers.alt {
+        active.push("alt");
+    }
+    if modifiers.meta {
+        active.push("meta");
+    }
+    if modifiers.platform {
+        active.push("platform");
+    }
+    if active.is_empty() {
+        "none".to_string()
+    } else {
+        active.join("+")
+    }
 }
 
 fn queue_vba_event(
@@ -1745,7 +2073,11 @@ mod tests {
         );
         assert_eq!(
             effect_names(&output.effects),
-            vec!["transfer_focus", "request_repaint"]
+            vec![
+                "fire_vba_event:KeyDown",
+                "transfer_focus",
+                "request_repaint"
+            ]
         );
 
         let output = reduce(
@@ -1889,6 +2221,12 @@ mod tests {
     #[test]
     fn character_input_updates_textbox_probe_and_emits_change_effect() {
         let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
         state.ensure_text_box(ControlId::new("text-1"));
 
@@ -1919,9 +2257,50 @@ mod tests {
         assert!(text_box.dirty);
         assert_eq!(
             effect_names(&output.effects),
-            vec!["fire_vba_event:Change", "request_repaint"]
+            vec![
+                "fire_vba_event:KeyPress",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
         );
         assert_eq!(output.transition.invalidation_ids, vec![InvalidationId(1)]);
+    }
+
+    #[test]
+    fn character_input_ignores_non_textbox_focus_and_control_characters() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::command_button(
+            "ok",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("ok")));
+
+        let output = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(51),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "\r".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+
+        assert!(output.effects.is_empty());
+        assert!(output.state.text_boxes.is_empty());
+        assert_eq!(
+            output
+                .state
+                .keyboard
+                .last_character_input
+                .as_ref()
+                .map(|input| input.text_len),
+            Some(1)
+        );
     }
 
     #[test]
@@ -2050,23 +2429,188 @@ mod tests {
     }
 
     #[test]
-    fn unused_keyboard_shape_does_not_gain_hidden_behavior() {
-        let event = UiEvent::new(
-            UiEventId(40),
-            UiEventSource::Replay,
-            UiEventKind::KeyDown(oxforms_pal::KeyEvent {
-                key: oxforms_pal::KeyCode::Enter,
-                modifiers: KeyboardModifiers::default(),
-                repeat: KeyRepeat::default(),
-                raw: RawKeyDiagnostics::default(),
-            }),
+    fn key_down_and_key_up_are_routed_to_focused_control_with_diagnostics() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        let down = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(40),
+                UiEventSource::Replay,
+                UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                    key: oxforms_pal::KeyCode::Character("A".to_string()),
+                    modifiers: KeyboardModifiers {
+                        shift: true,
+                        ..KeyboardModifiers::default()
+                    },
+                    repeat: KeyRepeat::default(),
+                    raw: RawKeyDiagnostics {
+                        virtual_key: Some(0x41),
+                        scan_code: Some(0x1e),
+                        native_code: None,
+                        is_extended: Some(false),
+                    },
+                }),
+            ),
         );
 
-        let output = reduce(FormState::new("form-main"), event);
+        assert_eq!(effect_names(&down.effects), vec!["fire_vba_event:KeyDown"]);
+        assert_eq!(
+            down.effects[0].target,
+            UiEventTarget::control("form-main", "text-1")
+        );
+        let encoded = serde_json::to_string(&down.effects).expect("key effect should serialize");
+        assert!(encoded.contains("raw_virtual_key"));
+        assert!(encoded.contains("character:A"));
 
-        assert!(output.effects.is_empty());
-        assert!(output.invalidations.is_empty());
-        assert!(output.state.pending_effects.is_empty());
+        let up = reduce(
+            down.state,
+            UiEvent::new(
+                UiEventId(41),
+                UiEventSource::Replay,
+                UiEventKind::KeyUp(oxforms_pal::KeyEvent {
+                    key: oxforms_pal::KeyCode::Character("A".to_string()),
+                    modifiers: KeyboardModifiers::default(),
+                    repeat: KeyRepeat::default(),
+                    raw: RawKeyDiagnostics::default(),
+                }),
+            ),
+        );
+
+        assert_eq!(effect_names(&up.effects), vec!["fire_vba_event:KeyUp"]);
+        assert!(up.state.keyboard.last_key_up.is_some());
+    }
+
+    #[test]
+    fn enter_routes_to_default_command_button_and_key_up_releases_pressed_state() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::command_button("ok", LogicalRect::new(0.0, 24.0, 64.0, 20.0), 0, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.default_button = Some(ControlId::new("ok"));
+
+        let down = reduce(state, key_down_event(UiEventId(52), KeyCode::Enter, false));
+
+        assert_eq!(
+            effect_names(&down.effects),
+            vec![
+                "fire_vba_event:KeyDown",
+                "fire_vba_event:Click",
+                "request_repaint"
+            ]
+        );
+        assert_eq!(
+            down.effects[1].target,
+            UiEventTarget::control("form-main", "ok")
+        );
+        assert_eq!(
+            down.state
+                .pressed_state
+                .as_ref()
+                .map(|pressed| pressed.origin),
+            Some(PressedOrigin::KeyboardDefault)
+        );
+
+        let up = reduce(down.state, key_up_event(UiEventId(53), KeyCode::Enter));
+        assert_eq!(
+            effect_names(&up.effects),
+            vec!["fire_vba_event:KeyUp", "request_repaint"]
+        );
+        assert!(up.state.pressed_state.is_none());
+    }
+
+    #[test]
+    fn escape_routes_to_cancel_command_button() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::command_button("cancel", LogicalRect::new(0.0, 24.0, 64.0, 20.0), 0, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.cancel_button = Some(ControlId::new("cancel"));
+
+        let output = reduce(state, key_down_event(UiEventId(54), KeyCode::Escape, false));
+
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "fire_vba_event:KeyDown",
+                "fire_vba_event:Click",
+                "request_repaint"
+            ]
+        );
+        assert_eq!(
+            output.effects[1].target,
+            UiEventTarget::control("form-main", "cancel")
+        );
+        assert_eq!(
+            output
+                .state
+                .pressed_state
+                .as_ref()
+                .map(|pressed| pressed.origin),
+            Some(PressedOrigin::KeyboardCancel)
+        );
+    }
+
+    #[test]
+    fn alt_character_routes_to_caption_accelerator_command_button() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::command_button("ok", LogicalRect::new(0.0, 24.0, 64.0, 20.0), 0, 1)
+                .with_caption("&OK"),
+            ControlNode::command_button("other", LogicalRect::new(72.0, 24.0, 64.0, 20.0), 0, 2)
+                .with_caption("O&ther"),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        let output = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(55),
+                UiEventSource::Replay,
+                UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                    key: KeyCode::Character("o".to_string()),
+                    modifiers: KeyboardModifiers {
+                        alt: true,
+                        ..KeyboardModifiers::default()
+                    },
+                    repeat: KeyRepeat::default(),
+                    raw: RawKeyDiagnostics::default(),
+                }),
+            ),
+        );
+
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "fire_vba_event:KeyDown",
+                "fire_vba_event:Click",
+                "request_repaint"
+            ]
+        );
+        assert_eq!(
+            output.effects[1].target,
+            UiEventTarget::control("form-main", "ok")
+        );
+        assert_eq!(
+            output
+                .state
+                .pressed_state
+                .as_ref()
+                .map(|pressed| pressed.origin),
+            Some(PressedOrigin::Accelerator)
+        );
     }
 
     fn mouse_button_event(left_down: bool) -> MouseButtonEvent {
@@ -2118,6 +2662,19 @@ mod tests {
                     shift,
                     ..KeyboardModifiers::default()
                 },
+                repeat: KeyRepeat::default(),
+                raw: RawKeyDiagnostics::default(),
+            }),
+        )
+    }
+
+    fn key_up_event(event_id: UiEventId, key: KeyCode) -> UiEvent {
+        UiEvent::new(
+            event_id,
+            UiEventSource::Replay,
+            UiEventKind::KeyUp(oxforms_pal::KeyEvent {
+                key,
+                modifiers: KeyboardModifiers::default(),
                 repeat: KeyRepeat::default(),
                 raw: RawKeyDiagnostics::default(),
             }),

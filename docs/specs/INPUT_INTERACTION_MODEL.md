@@ -468,6 +468,17 @@ replay without live Excel or another host.
   CommandButton pressed-state invalidation, and deterministic Tab/Shift-Tab
   traversal by `tab_index` plus tree-order tie-break. This is a W005 probe
   model, not full MSForms tab-order, container, drag/drop, or modal parity.
+- `oxforms-xvx.8` extends that core reducer/reference subset with keyboard
+  routing: `KeyDown`/`KeyUp` effects to focused control/form targets,
+  printable committed `CharacterInput` insertion into focused TextBox probes
+  with `KeyPress`/`Change`/repaint effects, `Enter` default-button routing,
+  `Escape` cancel-button routing, and `Alt+Character` caption accelerators
+  derived from the first unescaped `&` in CommandButton probe captions. The
+  effects preserve normalized key/modifier summaries and raw key diagnostics
+  for later comparison. This is not a final MSForms keyboard ordering claim;
+  IME/composition, dead keys, grapheme/selection behavior, clipboard shortcuts,
+  accelerator ambiguity/display behavior, platform key identity parity, and
+  `MSForms.ReturnInteger` helper mutation remain deferred.
 
 If a downstream bead discovers a contradiction in this document, it should
 update this spec in the same bead as the corrected behavior or file a focused
@@ -502,6 +513,9 @@ or precisely block them:
   full drag/drop and paste work.
 - How IME, dead keys, composed text, and platform text services enter the
   portable model.
+- How platform key identity, accelerator ambiguity/display state, and
+  `ReturnInteger` helper mutation should be modeled once live MSForms keyboard
+  ordering evidence is compared against OxForms traces.
 - Exact host-extension payloads for Excel `RefEdit`, including host `Range`
   object return, reference string return, activation/focus restoration, and
   cancel behavior.

@@ -377,6 +377,41 @@ W005 should explicitly defer IME, dead keys, rich editing, clipboard shortcuts,
 and full TextBox behavior unless the simplest durable implementation naturally
 includes part of them.
 
+Current implementation from `oxforms-xvx.8`:
+
+- `crates/oxforms-core/src/lib.rs` consumes `oxforms-pal` `KeyDown`, `KeyUp`,
+  and `CharacterInput` rows in the reducer/reference layer. `oxforms-pal`
+  remains only the normalized input/render contract and does not own routing or
+  control behavior.
+- `KeyDown` and `KeyUp` emit explicit `FireVbaEvent` effects to the focused
+  control or the form target, with normalized key/modifier summaries and raw
+  virtual-key/scancode/native-code diagnostics preserved as effect arguments.
+  `MSForms.ReturnInteger` helper mutation is represented as deferred metadata;
+  no helper-object mutation is executed in W005.
+- `CharacterInput` represents committed printable text. For a visible/enabled
+  focused `TextBox` probe it inserts the text at the placeholder caret,
+  advances the caret by byte length for this ASCII-oriented subset, marks the
+  text state dirty, and emits `KeyPress`, `Change`, and repaint effects.
+  Character input to non-TextBox focus owners and control characters is ignored
+  after recording keyboard diagnostics.
+- `Enter` routes to `FormState.default_button` when it names a visible/enabled
+  `CommandButton` probe; `Escape` routes to `FormState.cancel_button` under the
+  same constraints. Routing emits a `Click` effect and pressed-state repaint
+  invalidation; the keyboard pressed state is cleared on `KeyUp`.
+- Accelerator routing is derived from probe captions using the first unescaped
+  ampersand mnemonic, for example `&OK`. The W005 subset activates the first
+  visible/enabled `CommandButton` whose caption mnemonic matches an
+  `Alt+Character` `KeyDown`; ambiguity diagnostics and full platform mnemonic
+  behavior are deferred.
+- Unit tests cover key down/up, printable char input, TextBox mutation,
+  non-TextBox/control-character deferral, Enter default routing, Escape cancel
+  routing, caption accelerator routing, serialized key diagnostics, and
+  trace/effect rows.
+- Known gaps remain: IME/composition, dead keys, grapheme-aware selection and
+  caret movement, clipboard shortcuts, full TextBox editing, accelerator
+  ambiguity/display rules, platform key identity parity, ReturnInteger helper
+  mutation, and final MSForms keyboard/default/cancel event-order parity.
+
 ### 11. Probe Controls
 
 The three W005 probe controls are interaction probes:

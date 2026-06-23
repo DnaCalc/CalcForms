@@ -6,6 +6,7 @@ use oxforms_pal::{ControlId, LogicalPoint, LogicalRect};
 pub struct ControlNode {
     pub control_id: ControlId,
     pub kind: ProbeControlKind,
+    pub caption: String,
     pub bounds: LogicalRect,
     pub z_order: i32,
     pub visible: bool,
@@ -21,6 +22,7 @@ impl ControlNode {
         Self {
             control_id: ControlId::new(control_id),
             kind: ProbeControlKind::Label,
+            caption: String::new(),
             bounds,
             z_order,
             visible: true,
@@ -41,6 +43,7 @@ impl ControlNode {
         Self {
             control_id: ControlId::new(control_id),
             kind: ProbeControlKind::CommandButton,
+            caption: String::new(),
             bounds,
             z_order,
             visible: true,
@@ -61,6 +64,7 @@ impl ControlNode {
         Self {
             control_id: ControlId::new(control_id),
             kind: ProbeControlKind::TextBox,
+            caption: String::new(),
             bounds,
             z_order,
             visible: true,
@@ -90,6 +94,12 @@ impl ControlNode {
     }
 
     #[must_use]
+    pub fn with_caption(mut self, caption: impl Into<String>) -> Self {
+        self.caption = caption.into();
+        self
+    }
+
+    #[must_use]
     pub fn contains_form_logical(&self, point: LogicalPoint) -> bool {
         self.visible
             && self.enabled
@@ -112,6 +122,26 @@ impl ControlNode {
     #[must_use]
     pub fn participates_in_tab_order(&self) -> bool {
         self.can_receive_focus() && self.tab_stop
+    }
+
+    #[must_use]
+    pub fn accelerator_key(&self) -> Option<char> {
+        let mut chars = self.caption.chars();
+        while let Some(character) = chars.next() {
+            if character != '&' {
+                continue;
+            }
+
+            match chars.next() {
+                Some('&') => continue,
+                Some(accelerator) if !accelerator.is_control() => {
+                    return accelerator.to_uppercase().next();
+                }
+                _ => return None,
+            }
+        }
+
+        None
     }
 }
 

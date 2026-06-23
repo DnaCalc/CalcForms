@@ -20,6 +20,13 @@ contract is [`../../../specs/TRACE_REPLAY_SCHEMA.md`](../../../specs/TRACE_REPLA
   does not own or re-export reducer behavior. This is trace-schema integration
   evidence only; it is not a replay-runner golden trace.
 
+`oxforms-xvx.8` extends the reducer test surface, not this historical JSON
+sample. Keyboard assertions in `crates/oxforms-core` now cover serialized
+`KeyDown`/`KeyUp` effect diagnostics, printable `CharacterInput` TextBox
+mutation, `KeyPress`/`Change` effects, Enter default routing, Escape cancel
+routing, and `Alt+Character` caption accelerators. The full replay-runner
+golden trace remains scoped to `oxforms-xvx.12`.
+
 The sample is not Office/MSForms oracle evidence and is not an OxForms runtime
 trace. It exists to keep downstream W005 traces from inventing local artifact
 shapes before the replay runner exists.
