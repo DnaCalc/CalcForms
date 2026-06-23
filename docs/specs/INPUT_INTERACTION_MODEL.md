@@ -1,6 +1,6 @@
 # OxForms Input Interaction Model
 
-Status: W005 draft spec surface.
+Status: W005 architecture surface closed by `oxforms-xvx.14`.
 Owning workset: [`W005_input_interaction_model_exploration`](../worksets/W005_input_interaction_model_exploration.md).
 Created by bead: `oxforms-xvx.1`.
 

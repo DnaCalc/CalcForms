@@ -28,7 +28,8 @@ The older
 [`captures/interaction-events-20260623T001238Z/`](captures/interaction-events-20260623T001238Z/)
 run is superseded diagnostic evidence only because its actual injected
 label-intended mouse coordinates came from the pre-repair calibration.
-Modal-show capture remains tracked by follow-up bead `oxforms-xvx.20`.
+Modal-show capture was completed by `oxforms-xvx.20` at
+[`captures/interaction-events-modal-20260623T045300Z/`](captures/interaction-events-modal-20260623T045300Z/).
 
 ## Coordinate Calibration
 
@@ -41,8 +42,9 @@ Current status: screenshot geometry is grounded by W003/W004 manifests and W004
 pixel facts. The authoritative modeless W005 capture records a scoped
 probe-label calibration (`x=40`, `y=63`, `width=128`, `height=64` in
 `screenshot_pixels`, with form origin `x=8`, `y=31`) and its actual automated
-input coordinates are derived from that repaired calibration. Modal-show
-coordinate capture remains tracked by `oxforms-xvx.20`.
+input coordinates are derived from that repaired calibration. The modal-show
+capture records corresponding modal and modeless coordinate artifacts in
+[`captures/interaction-events-modal-20260623T045300Z/`](captures/interaction-events-modal-20260623T045300Z/).
 
 ## Lifecycle And Pump Model
 
@@ -55,8 +57,9 @@ reentrancy. The curated lifecycle contract is
 Current status: the architecture model is defined, W002 is explicitly
 smoke-only and not lifecycle evidence, and the modeless W005 capture records
 live `Initialize`, `Activate`, `QueryClose`, and `Terminate` lifecycle rows
-alongside input events. Modal-show pump evidence remains tracked by
-`oxforms-xvx.20`.
+alongside input events. Modal-show pump evidence was captured by
+`oxforms-xvx.20` and records a first modal run without claiming nested modal or
+full pump parity.
 
 ## Trace Replay
 
@@ -180,9 +183,10 @@ MSForms interaction event capture and the current OxForms headless probe replay
 golden. The comparison is observation-only: it links exact artifacts and hashes,
 maps only the overlapping show/TextBox/type/Button slices, classifies differences
 as implemented match, known gap, uncertain oracle, or out-of-scope, and does
-not claim full parity. It newly files `oxforms-9pr` for the TextBox `Click`
-mismatch, while citing existing follow-ups `oxforms-xvx.20` for modal evidence
-and `oxforms-xvx.21` for tracked command-log hygiene.
+not claim full parity. It originally filed `oxforms-9pr` for the TextBox
+`Click` mismatch, which is now resolved. The comparison remains modeless-only;
+modal evidence exists separately under
+[`captures/interaction-events-modal-20260623T045300Z/`](captures/interaction-events-modal-20260623T045300Z/).
 
 ## FM20 Type-library Event Capture
 

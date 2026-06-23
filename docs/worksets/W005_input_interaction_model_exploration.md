@@ -1,9 +1,10 @@
 # W005 Input Interaction Model Exploration
 
-Status: `OPEN`
+Status: `CLOSED`
 Epic bead: `oxforms-xvx`
 Depends on: `W004_text_label_oracle_pixels`
 Owning plan bead: `oxforms-54n`
+Closure bead: `oxforms-xvx.14`
 
 ## Purpose
 
@@ -642,7 +643,8 @@ not rely only on transitive dependencies.
 
 ## Closure Condition
 
-W005 closes only after all of these are true:
+W005 closed by `oxforms-xvx.14` after all of these were reviewed as true for
+the W005 exploration scope:
 
 1. The input/interaction spec surface exists and records the W005 architecture
    decisions and open questions.
@@ -665,6 +667,37 @@ W005 closes only after all of these are true:
 10. Public Windows automation/inspection has been accepted, rejected, or filed
    as follow-up evidence infrastructure.
 11. Any out-of-scope residuals are filed as beads before closure.
+
+Closure summary:
+
+- The interaction spec surface, FM20 event facts, coordinate model, lifecycle
+  model, trace/replay schema, PAL input contract, reducer/effects skeleton,
+  routing lanes, probe controls, dispatch smoke, visible smoke, replay golden,
+  comparison artifact, and Windows automation/inspection decision all exist and
+  are linked from this workset and the evidence directory.
+- Live MSForms modeless evidence exists at
+  [`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/).
+- Live MSForms modal-show evidence exists at
+  [`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/).
+- OxForms headless replay evidence exists at
+  [`../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json).
+- Windows visible input smoke evidence exists at
+  [`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/).
+- The comparison artifact at
+  [`../evidence/W005_input_interaction_model_exploration/comparisons/interaction-events-modeless-vs-headless-probe.json`](../evidence/W005_input_interaction_model_exploration/comparisons/interaction-events-modeless-vs-headless-probe.json)
+  is observation-only and relates only the modeless MSForms capture to the
+  headless replay golden.
+- Residual work is filed under W006 rollout epic `oxforms-0a0`:
+  `oxforms-0a0.1` richer TextBox editing, `oxforms-0a0.2` native FM20 event
+  dispatch through OxVba, `oxforms-0a0.3` lifecycle/modal/nested pump runtime,
+  `oxforms-0a0.4` `.frm`/`.frx` integration, `oxforms-0a0.5` full intrinsic
+  control parity lanes, `oxforms-0a0.6` IME/clipboard/paste/drag-drop,
+  `oxforms-0a0.7` runtime accessibility semantics, and `oxforms-0a0.8`
+  harness/comparison hardening.
+
+W005 remains explicitly non-claiming: it does not provide full UserForm or
+control parity, pixel-perfect rendering parity, runtime accessibility
+semantics, native FM20-named OxVba dispatch, or a final pass/fail parity oracle.
 
 ## Verification Shape
 

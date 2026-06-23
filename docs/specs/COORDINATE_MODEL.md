@@ -242,11 +242,14 @@ The smallest useful W005 calibration fixture/procedure is:
    target-dependent, or still unknown. Keep the raw rows even if the relation is
    surprising.
 
-Current exact blocker for completing steps 6 and 7: the W005 interaction oracle
-fixture and live event capture beads (`oxforms-xvx.2` and `oxforms-xvx.3`) have
-not run yet. This bead therefore defines the coordinate vocabulary, preserves
-the W003/W004 screenshot calibration facts, and gives the required procedure
-for downstream oracle, visible-smoke, trace/replay, and comparison work.
+W005 completion status: the interaction oracle fixture and live event capture
+beads produced modeless and modal calibration artifacts under
+[`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/)
+and
+[`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/).
+This document remains the coordinate vocabulary and calibration procedure for
+downstream oracle, visible-smoke, trace/replay, and comparison work; it still
+does not claim final MSForms coordinate rounding or chrome/client parity.
 
 ## 11. Downstream Requirements
 

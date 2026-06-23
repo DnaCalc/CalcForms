@@ -1,8 +1,8 @@
 # W005 Coordinate Calibration Evidence
 
 Status: calibration model and procedure defined; modeless live W005 event
-calibration captured by `oxforms-xvx.3`; modal-show calibration remains tracked
-by `oxforms-xvx.20`.
+calibration captured by `oxforms-xvx.3`; modal-show calibration captured by
+`oxforms-xvx.20`.
 Owning bead: `oxforms-xvx.18`.
 Spec: [`../../specs/COORDINATE_MODEL.md`](../../specs/COORDINATE_MODEL.md).
 
@@ -137,10 +137,12 @@ Downstream W005 oracle and visible-smoke beads must still:
 7. Preserve raw event arguments and derived values even when the derived
    relation does not match the expected equation in the coordinate model.
 
-## Residual Blocker
+## W005 Modal Capture Status
 
-The `oxforms-xvx.3` run completed modeless event-argument capture but did not
-complete a modal-show run. Modal Excel/MSForms interaction capture is filed as
-`oxforms-xvx.20` so later work can preserve modal workbook, event log,
-screenshot, window metadata, command logs, checksums, and platform notes without
-mixing that residual into the modeless evidence above.
+The `oxforms-xvx.3` run completed authoritative modeless event-argument
+capture. The later `oxforms-xvx.20` run completed modal-show capture under
+[`captures/interaction-events-modal-20260623T045300Z/`](captures/interaction-events-modal-20260623T045300Z/),
+including modal workbook, event log, screenshot, window metadata, coordinate
+calibration, command logs, checksums, and platform notes. That modal evidence
+does not settle nested modal forms, DoEvents-like yielding, hide/unload
+semantics, or full coordinate parity; those are W006/downstream concerns.

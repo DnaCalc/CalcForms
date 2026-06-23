@@ -36,7 +36,7 @@
     {
       "role": "msforms_oracle_manifest",
       "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/oracle-capture-manifest.json",
-      "sha256": "c882c4d0dae37410c37fc789ae6884d05aa7ca9bd00f8b9d82a10e5d1d25c891"
+      "sha256": "344a88c7a4193ed0107aad538305ae127b4f10b5f7d5862d9f52bdb8326aa23c"
     },
     {
       "role": "msforms_generated_workbook",
@@ -329,8 +329,7 @@
     {
       "id": "lifecycle-modal",
       "classification": "known_gap",
-      "follow_up_bead": "oxforms-xvx.20",
-      "summary": "Only modeless MSForms lifecycle evidence is included. Modal-show lifecycle/pump evidence remains tracked by oxforms-xvx.20."
+      "summary": "Only modeless MSForms lifecycle evidence is included in this comparison. Modal-show lifecycle/pump evidence now exists separately under captures/interaction-events-modal-20260623T045300Z, but this artifact remains modeless-only and does not settle modal or nested pump parity."
     },
     {
       "id": "evidence-command-logs",
@@ -356,11 +355,11 @@
     },
     {
       "id": "oxforms-xvx.20",
-      "reason": "Existing follow-up: modal MSForms interaction oracle evidence is not captured yet."
+      "reason": "Resolved follow-up: modal MSForms interaction oracle evidence was captured under captures/interaction-events-modal-20260623T045300Z; it is not part of this modeless comparison artifact."
     },
     {
       "id": "oxforms-xvx.21",
-      "reason": "Existing follow-up: preserve tracked command logs for the modeless interaction capture."
+      "reason": "Resolved follow-up: tracked command logs for the modeless interaction capture are preserved."
     }
   ],
   "validation": {

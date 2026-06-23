@@ -122,7 +122,10 @@ coordinates.
 ## Lifecycle And Rendering
 
 MSForms modeless evidence includes `Initialize`, `Activate`, `QueryClose`, and
-`Terminate`. Modal evidence remains open in `oxforms-xvx.20`.
+`Terminate`. Modal evidence now exists separately at
+`docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/`.
+This comparison remains modeless-only and does not settle modal or nested pump
+parity.
 
 OxForms replay records lifecycle/pump state for modeless visibility and records
 display-list/invalidation/render-hash rows. MSForms evidence records a
@@ -136,8 +139,9 @@ the same scripted scenario as the headless golden.
 
 ## Follow-Ups
 
-- `oxforms-xvx.20`: existing modal MSForms interaction oracle capture.
-- `oxforms-xvx.21`: existing evidence hygiene follow-up for ignored `.log`
+- `oxforms-xvx.20`: completed modal MSForms interaction oracle capture; not
+  part of this modeless comparison artifact.
+- `oxforms-xvx.21`: completed evidence hygiene follow-up for ignored `.log`
   command files referenced by the modeless capture manifest.
 
 `oxforms-9pr` resolves the earlier TextBox `Click` mismatch by removing the

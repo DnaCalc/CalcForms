@@ -46,9 +46,11 @@ Current facts:
 - W002 visible smoke opens a short-lived native window and paints a display
   list. It has no normalized input pump, no `UserForm.Show`, and no lifecycle
   event observations.
-- No W005 live MSForms lifecycle event log exists yet. The fixture and capture
-  beads `oxforms-xvx.2` and `oxforms-xvx.3` must capture the observations named
-  here.
+- W005 live MSForms lifecycle event logs now exist for the interaction fixture:
+  the modeless capture from `oxforms-xvx.3` and the modal-show capture from
+  `oxforms-xvx.20` both observed `Initialize`, `Activate`, `QueryClose`, and
+  `Terminate` rows. They do not settle nested modal, `DoEvents`, hide/unload,
+  object-lifetime, or full `UserForm.Show` parity.
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
