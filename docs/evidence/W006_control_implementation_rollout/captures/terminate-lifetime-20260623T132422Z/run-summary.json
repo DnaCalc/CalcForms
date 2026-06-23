@@ -1,0 +1,322 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_terminate_lifetime_run_summary.v1",
+    "bead":  "oxforms-0a0.21",
+    "capture_id":  "terminate-lifetime-20260623T132422Z",
+    "status":  "captured",
+    "row_count":  25,
+    "event_names":  [
+                        "Activate",
+                        "AfterCreateInstance",
+                        "AfterHeldReferenceRelease",
+                        "AfterHide",
+                        "AfterLocalReferenceRelease",
+                        "AfterShowModeless",
+                        "AfterUnload",
+                        "BeforeHeldReferenceRelease",
+                        "BeforeHide",
+                        "BeforeShowModeless",
+                        "BeforeUnload",
+                        "Initialize",
+                        "QueryClose",
+                        "ScenarioEnd",
+                        "ScenarioStart",
+                        "Terminate"
+                    ],
+    "scenario_coverage":  {
+                              "hide_held_release":  "observed_rows",
+                              "unload_held_release":  "observed_rows",
+                              "modeless_system_close_held_release":  "not_observed_in_this_run",
+                              "modal_hide_return_held_release":  "not_observed_in_this_run",
+                              "modal_unload_return_held_release":  "not_observed_in_this_run"
+                          },
+    "terminate_row_count":  1,
+    "scenario_summaries":  [
+                               {
+                                   "scenario":  "hide_held_release",
+                                   "row_count":  12,
+                                   "observed":  true,
+                                   "terminate_sequences":  [
+
+                                                           ],
+                                   "terminate_reference_states":  [
+
+                                                                  ],
+                                   "query_close":  [
+
+                                                   ],
+                                   "action_sequence":  [
+                                                           {
+                                                               "sequence":  "1",
+                                                               "event_name":  "ScenarioStart",
+                                                               "action":  "scenario_start",
+                                                               "local_ref_state":  "none",
+                                                               "held_ref_state":  "none",
+                                                               "release_phase":  "none"
+                                                           },
+                                                           {
+                                                               "sequence":  "3",
+                                                               "event_name":  "AfterCreateInstance",
+                                                               "action":  "create_instance",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "4",
+                                                               "event_name":  "BeforeShowModeless",
+                                                               "action":  "show_modeless",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "5",
+                                                               "event_name":  "AfterShowModeless",
+                                                               "action":  "show_modeless_return",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "6",
+                                                               "event_name":  "BeforeHide",
+                                                               "action":  "hide",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "7",
+                                                               "event_name":  "AfterHide",
+                                                               "action":  "hide_return",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "8",
+                                                               "event_name":  "AfterLocalReferenceRelease",
+                                                               "action":  "release_local_ref",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "local_ref_release_after_hide"
+                                                           },
+                                                           {
+                                                               "sequence":  "9",
+                                                               "event_name":  "BeforeHeldReferenceRelease",
+                                                               "action":  "release_held_ref",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "local_ref_release_after_hide"
+                                                           },
+                                                           {
+                                                               "sequence":  "10",
+                                                               "event_name":  "AfterHeldReferenceRelease",
+                                                               "action":  "release_held_ref_return",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "released",
+                                                               "release_phase":  "held_ref_release_after_hide"
+                                                           },
+                                                           {
+                                                               "sequence":  "11",
+                                                               "event_name":  "ScenarioEnd",
+                                                               "action":  "scenario_end",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "released",
+                                                               "release_phase":  "scenario_end"
+                                                           }
+                                                       ]
+                               },
+                               {
+                                   "scenario":  "unload_held_release",
+                                   "row_count":  13,
+                                   "observed":  true,
+                                   "terminate_sequences":  [
+                                                               "20"
+                                                           ],
+                                   "terminate_reference_states":  [
+                                                                      {
+                                                                          "sequence":  "20",
+                                                                          "instance_id":  "instance-002",
+                                                                          "local_ref_state":  "held",
+                                                                          "held_ref_state":  "held",
+                                                                          "default_instance_state":  "not_used",
+                                                                          "release_phase":  "create_instance"
+                                                                      }
+                                                                  ],
+                                   "query_close":  [
+                                                       {
+                                                           "sequence":  "19",
+                                                           "close_origin":  "fixture_unload",
+                                                           "cancel_before":  "0",
+                                                           "cancel_after":  "0",
+                                                           "close_mode":  "1"
+                                                       }
+                                                   ],
+                                   "action_sequence":  [
+                                                           {
+                                                               "sequence":  "13",
+                                                               "event_name":  "ScenarioStart",
+                                                               "action":  "scenario_start",
+                                                               "local_ref_state":  "none",
+                                                               "held_ref_state":  "none",
+                                                               "release_phase":  "none"
+                                                           },
+                                                           {
+                                                               "sequence":  "15",
+                                                               "event_name":  "AfterCreateInstance",
+                                                               "action":  "create_instance",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "16",
+                                                               "event_name":  "BeforeShowModeless",
+                                                               "action":  "show_modeless",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "17",
+                                                               "event_name":  "AfterShowModeless",
+                                                               "action":  "show_modeless_return",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "18",
+                                                               "event_name":  "BeforeUnload",
+                                                               "action":  "unload",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "21",
+                                                               "event_name":  "AfterUnload",
+                                                               "action":  "unload_return",
+                                                               "local_ref_state":  "held",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "create_instance"
+                                                           },
+                                                           {
+                                                               "sequence":  "22",
+                                                               "event_name":  "AfterLocalReferenceRelease",
+                                                               "action":  "release_local_ref",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "local_ref_release_after_unload"
+                                                           },
+                                                           {
+                                                               "sequence":  "23",
+                                                               "event_name":  "BeforeHeldReferenceRelease",
+                                                               "action":  "release_held_ref",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "held",
+                                                               "release_phase":  "local_ref_release_after_unload"
+                                                           },
+                                                           {
+                                                               "sequence":  "24",
+                                                               "event_name":  "AfterHeldReferenceRelease",
+                                                               "action":  "release_held_ref_return",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "released",
+                                                               "release_phase":  "held_ref_release_after_unload"
+                                                           },
+                                                           {
+                                                               "sequence":  "25",
+                                                               "event_name":  "ScenarioEnd",
+                                                               "action":  "scenario_end",
+                                                               "local_ref_state":  "released",
+                                                               "held_ref_state":  "released",
+                                                               "release_phase":  "scenario_end"
+                                                           }
+                                                       ]
+                               },
+                               {
+                                   "scenario":  "modeless_system_close_held_release",
+                                   "row_count":  0,
+                                   "observed":  false,
+                                   "terminate_sequences":  [
+
+                                                           ],
+                                   "terminate_reference_states":  [
+
+                                                                  ],
+                                   "query_close":  [
+
+                                                   ],
+                                   "action_sequence":  [
+
+                                                       ]
+                               },
+                               {
+                                   "scenario":  "modal_hide_return_held_release",
+                                   "row_count":  0,
+                                   "observed":  false,
+                                   "terminate_sequences":  [
+
+                                                           ],
+                                   "terminate_reference_states":  [
+
+                                                                  ],
+                                   "query_close":  [
+
+                                                   ],
+                                   "action_sequence":  [
+
+                                                       ]
+                               },
+                               {
+                                   "scenario":  "modal_unload_return_held_release",
+                                   "row_count":  0,
+                                   "observed":  false,
+                                   "terminate_sequences":  [
+
+                                                           ],
+                                   "terminate_reference_states":  [
+
+                                                                  ],
+                                   "query_close":  [
+
+                                                   ],
+                                   "action_sequence":  [
+
+                                                       ]
+                               }
+                           ],
+    "blockers":  [
+                     {
+                         "surface":  "modeless_system_close_held_release",
+                         "reason":  "This stable row capture was run with -SkipModelessCloseAttempt after the live public WM_CLOSE branch made Excel COM unavailable before the held-reference release/export step could complete.",
+                         "detail":  "The modeless close branch remains blocked unless a future capture can close the visible modeless UserForm and still export W006TerminateLog after releasing the held reference.",
+                         "non_claim":  "No modeless system-close Terminate timing is claimed from this stable row capture."
+                     },
+                     {
+                         "surface":  "modal_hide_return_held_release",
+                         "reason":  "This stable row capture was run with -SkipModalReturnAttempt after the modal auto-return macro path left Excel blocked inside the modal Show call before the capture could export evidence.",
+                         "detail":  "The fixture plan distinguishes the modal Hide-return and modal Unload-return paths, but this run does not claim either path because public automation did not produce a bounded modal return/export sequence.",
+                         "non_claim":  "No modal_hide_return_held_release Terminate timing is claimed from this stable row capture."
+                     },
+                     {
+                         "surface":  "modal_unload_return_held_release",
+                         "reason":  "This stable row capture was run with -SkipModalReturnAttempt after the modal auto-return macro path left Excel blocked inside the modal Show call before the capture could export evidence.",
+                         "detail":  "The fixture plan distinguishes the modal Hide-return and modal Unload-return paths, but this run does not claim either path because public automation did not produce a bounded modal return/export sequence.",
+                         "non_claim":  "No modal_unload_return_held_release Terminate timing is claimed from this stable row capture."
+                     }
+                 ],
+    "trace_replay_implications":  [
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: future object-lifetime rows need ordered sequence, parent_row_id when causal nesting exists, and nesting_depth.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 9: hide_form, unload_form, fire_vba_event, and platform close work must keep effect_requested separate from effect_completed.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 11: lifecycle_pump rows must keep Show, close, hide, unload, and terminate as separate trace concepts.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 14: validators must continue checking reducer/effect/dispatch causal ordering."
+                                  ],
+    "non_claims":  [
+                       "Observed Terminate rows are tied to this fixture reference-state sequence only.",
+                       "No OxForms runtime Terminate behavior is implemented or claimed.",
+                       "Unloaded and Terminated remain separate concepts; this summary does not collapse them."
+                   ]
+}

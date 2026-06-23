@@ -448,12 +448,13 @@ try {
 
     $additionalModuleCode = ''
     if ($null -ne $additionalModuleFullPath) {
-        $additionalModuleCode = "`r`n" + (Get-Content -Raw -LiteralPath $additionalModuleFullPath)
+        $additionalModuleCode = (Get-Content -Raw -LiteralPath $additionalModuleFullPath).TrimEnd() + "`r`n`r`n"
     }
 
     $moduleCode = @"
 Option Explicit
 
+$additionalModuleCode
 Private Sub ConfigureOracleControls()
 $fontSetupBody
 End Sub
@@ -467,7 +468,6 @@ End Sub
 Public Sub $hideMacroName()
     Unload $formName
 End Sub
-$additionalModuleCode
 "@
 
     $standardModule.CodeModule.AddFromString($moduleCode)

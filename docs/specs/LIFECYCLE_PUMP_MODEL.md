@@ -76,6 +76,18 @@ Current facts:
   it timed out before `workbook_generated`, so no nested-modal MSForms event
   rows were recorded. The fixture/blocker does not change the remaining live
   ordering unknowns and does not treat missing rows as negative facts.
+- `oxforms-0a0.21` adds a repo-owned Excel/MSForms `Terminate` lifetime
+  fixture and the narrowed live capture
+  [`terminate-lifetime-20260623T132422Z`](../evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260623T132422Z/).
+  The capture exported 25 rows. `hide_held_release` recorded modeless show,
+  `Hide`, local-reference release, held-reference release, and scenario end
+  with no `Terminate` row in that sequence. `unload_held_release` recorded
+  `QueryClose` row 19 (`close_mode=1`, `cancel_before=0`, `cancel_after=0`)
+  followed by `Terminate` row 20 before `AfterUnload` row 21 while the fixture's
+  explicit reference-state columns still said local and held refs were `held`.
+  Modeless system close, modal hide return, and modal unload return remain
+  explicit blockers in the capture. The artifact is evidence only; it does not
+  implement or claim OxForms runtime `Terminate` timing parity.
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
@@ -285,6 +297,17 @@ native FM20-named `QueryClose` dispatch through OxVba remains unavailable.
 `Unloaded` does not imply `Terminated`; object-lifetime parity remains a
 follow-up.
 
+Current `oxforms-0a0.21` evidence refines only one object-lifetime subset:
+`terminate-lifetime-20260623T132422Z` ties an observed `Terminate` row to the
+fixture's explicit `unload_held_release` sequence and reference-state columns.
+It does not prove `Hide` termination absence, modeless system-close timing,
+modal return timing, default-instance timing, or private Office reference-count
+state. Trace/replay rows must continue to follow
+[`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md): section 9 keeps lifecycle
+effect requests and completions separate, section 11 requires `lifecycle_pump`
+rows to carry close/query/hide/unload/terminate reasons separately, and section
+14 validates causal ordering.
+
 ## 10. Reentrancy Rules
 
 Reentrant lifecycle behavior is expected and must be traceable.
@@ -381,7 +404,8 @@ Deferred from the W005 first implementation:
 
 - full `UserForm.Show` parity;
 - final `DoEvents` parity;
-- exact object-lifetime/`Terminate` timing;
+- remaining exact object-lifetime/`Terminate` timing beyond the narrowed W006
+  modeless `Unload` observation;
 - multiple owner-window policies and task-modal/application-modal distinctions;
 - full dynamic `AddControl`/`RemoveControl`, `Layout`, `Scroll`, and `Zoom`;
 - Excel `RefEdit` range-selection lifecycle beyond host-extension event shape;
@@ -469,7 +493,10 @@ the downstream bead it blocks.
 - Whether `QueryClose.Cancel` scalar mutation is visible by ordinary assignment
   exactly as public docs describe in all W005 scenarios.
 - Exact hide versus unload behavior for modal return and modeless visibility.
-- Exact `Terminate` timing relative to unload and remaining object references.
+- Exact `Terminate` timing remains unknown for modeless system close, modal hide
+  return, modal unload return, default instances, host shutdown, cancellation,
+  and error paths. The W006 capture only narrows one modeless `Unload` sequence
+  with explicit fixture reference-state rows.
 - How `DoEvents` interacts with modal frames, nested forms, pending effects, and
   host callbacks.
 - Whether the W006 nested-modal fixture can be captured after hardening the

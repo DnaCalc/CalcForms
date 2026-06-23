@@ -1,0 +1,10 @@
+Fixture: excel-msforms-w006-terminate-lifetime-v1
+Manifest: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\terminate-lifetime\fixture.json
+Output workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\terminate-lifetime-20260623T132422Z\w006-terminate-lifetime-oracle.xlsm
+Form: OxFormsW006TerminateForm / 'OxForms W006 Terminate Oracle'
+Controls: 1
+Control: Forms.Label.1 OracleStatusLabel
+Form code-behind: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\terminate-lifetime\form-code-behind.bas
+Additional module code: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\terminate-lifetime\standard-module-extra.bas
+Generated workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\terminate-lifetime-20260623T132422Z\w006-terminate-lifetime-oracle.xlsm
+Generated workbook SHA256: E88A620001EFE0CB7D3B73BBCA54C001B3470C4D82AEE0D42EB059C8C500897B

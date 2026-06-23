@@ -1,0 +1,120 @@
+{
+  "id": "excel-msforms-w006-terminate-lifetime-v1",
+  "title": "W006 Excel MSForms UserForm Terminate object lifetime oracle fixture",
+  "bead": "oxforms-0a0.21",
+  "cleanRoom": {
+    "source": "Repo-owned manifest and VBA source consumed through public Excel/VBIDE automation.",
+    "prohibited": "No Office internals, decompilation, disassembly, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA."
+  ],
+  "workbook": {
+    "fileName": "w006-terminate-lifetime-oracle.xlsm",
+    "vbaModuleName": "OxFormsW006TerminateOracle",
+    "showMacroName": "ShowW006TerminateOracleModeless",
+    "hideMacroName": "HideW006TerminateOracle",
+    "additionalModuleSourcePath": "standard-module-extra.bas"
+  },
+  "evidence": {
+    "defaultGeneratedWorkbookDir": "docs/evidence/W006_control_implementation_rollout/captures/generated-workbooks",
+    "futureCaptureRoot": "docs/evidence/W006_control_implementation_rollout/captures"
+  },
+  "codeBehind": {
+    "sourcePath": "form-code-behind.bas",
+    "language": "VBA",
+    "targetModule": "OxFormsW006TerminateForm"
+  },
+  "eventFactSource": {
+    "curated": "docs/specs/FM20_EVENT_FACTS.md",
+    "lifecycleModel": "docs/specs/LIFECYCLE_PUMP_MODEL.md",
+    "traceSchema": "docs/specs/TRACE_REPLAY_SCHEMA.md"
+  },
+  "form": {
+    "name": "OxFormsW006TerminateForm",
+    "caption": "OxForms W006 Terminate Oracle",
+    "widthPt": 260,
+    "heightPt": 132,
+    "startupPosition": 2,
+    "startupPositionName": "CenterScreen"
+  },
+  "controls": [
+    {
+      "type": "Forms.Label.1",
+      "kind": "MSForms.Label",
+      "name": "OracleStatusLabel",
+      "caption": "Terminate lifetime oracle",
+      "leftPt": 18,
+      "topPt": 18,
+      "widthPt": 198,
+      "heightPt": 36,
+      "backColorOle": 16777215,
+      "backColorHex": "&H00FFFFFF&",
+      "foreColorOle": 0,
+      "foreColorHex": "&H00000000&",
+      "borderStyle": 1,
+      "borderStyleName": "fmBorderStyleSingle",
+      "textAlign": 1,
+      "textAlignName": "fmTextAlignLeft",
+      "wordWrap": false,
+      "autoSize": false,
+      "enabled": true,
+      "visible": true,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    }
+  ],
+  "logging": {
+    "worksheetName": "W006TerminateLog",
+    "sequenceField": "sequence",
+    "rowsAreEvidenceOnlyAfterLiveCapture": true,
+    "referenceStateColumns": [
+      "local_ref_state",
+      "held_ref_state",
+      "default_instance_state",
+      "release_phase"
+    ]
+  },
+  "scenarios": [
+    {
+      "name": "hide_held_release",
+      "showMode": "modeless",
+      "path": "New instance is held in local and global fixture references, shown modeless, hidden with Hide, then local and held references are released separately."
+    },
+    {
+      "name": "unload_held_release",
+      "showMode": "modeless",
+      "path": "New instance is held in local and global fixture references, shown modeless, unloaded with Unload, then local and held references are released separately."
+    },
+    {
+      "name": "modeless_system_close_held_release",
+      "showMode": "modeless",
+      "path": "New instance is held in a global fixture reference after the local reference is released; public window close is sent to the modeless UserForm, then the held reference is released."
+    },
+    {
+      "name": "modal_hide_return_held_release",
+      "showMode": "modal",
+      "path": "New instance is held in local and global fixture references, shown modal, hidden from the Activate handler to force modal return, then local and held references are released separately."
+    },
+    {
+      "name": "modal_unload_return_held_release",
+      "showMode": "modal",
+      "path": "New instance is held in local and global fixture references, shown modal, unloaded from the Activate handler to force modal return, then local and held references are released separately."
+    }
+  ],
+  "notes": {
+    "scope": "This fixture builds repo-owned Excel/MSForms oracle inputs only. It does not implement OxForms behavior and does not settle final MSForms event ordering by itself.",
+    "referenceState": "Reference-state columns are explicit fixture state around local variables, the global held reference, and whether a default instance was intentionally used. They are not private Office reference counts.",
+    "defaultInstance": "The committed scenarios avoid default-instance release claims because the fixture does not have a public, reproducible way to release Excel/VBA's default UserForm instance independently from ordinary object references.",
+    "generatedArtifacts": "Generated .xlsm files, logs, exported worksheets, command logs, and hashes belong under docs/evidence/W006_control_implementation_rollout/ when captured."
+  }
+}
