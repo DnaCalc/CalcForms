@@ -8,8 +8,8 @@
   "purpose": "Relate the authoritative W005 modeless Excel/MSForms interaction event oracle evidence to the current OxForms headless probe replay golden and supporting visible-input smoke evidence. This is an observation artifact, not a final parity oracle.",
   "recorded": {
     "basis": "working_tree_artifact_before_commit",
-    "recorded_utc": "2026-06-23T04:42:00Z",
-    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. Refreshed by oxforms-0a0.8 after the trace-replay checksum manifest changed to account for harness-hardening README documentation. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
+    "recorded_utc": "2026-06-23T06:55:00Z",
+    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. Refreshed by oxforms-0a0.8 after the trace-replay checksum manifest changed to account for harness-hardening README documentation. Refreshed by oxforms-0a0.1 after the TextBox editing-slice replay/display golden update added caret/navigation/delete/backspace evidence. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
   },
   "classification_vocabulary": [
     "implemented_match",
@@ -81,17 +81,17 @@
     {
       "role": "oxforms_headless_replay_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-      "sha256": "db3f62196bef38b2d25979046ddb1ca77335474a0305c2edf0327ff03dde4843"
+      "sha256": "b7d35007163440852c94bfb57bdc1ab93fe87c0cadf02ad1b491412f0fcc8199"
     },
     {
       "role": "oxforms_headless_display_list_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
-      "sha256": "8a2c9a100a13b4ab9f2278a358280e0c292e140e6245cffc2474def530132684"
+      "sha256": "f9e26d7f8477993ae96257d422f220bf4592594db13f568f3acfdfd052fe6a73"
     },
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "dac5af8dcd64f66e9fa220ccc9dec160c03eb6c4f5922d4033434a2683a3f356"
+      "sha256": "6063f5cd4708cfb59dc90c5f96a27b8c4a3219b7d410dae0f479559360af7f0a"
     },
     {
       "role": "oxforms_visible_smoke_manifest",
@@ -181,7 +181,7 @@
     "oxforms_headless_replay": {
       "trace_id": "w005-headless-probe-replay-golden-v1",
       "scenario_id": "w005.oxforms.headless.probe-click-type-click",
-      "row_count": 110,
+      "row_count": 228,
       "script_steps": [
         {
           "script_step_id": "script-0001",
@@ -197,11 +197,18 @@
         {
           "script_step_id": "script-0003",
           "action": "type_committed_text",
-          "text": "A",
+          "text": "AB",
           "mapped_msforms_slice": "msforms-type-a"
         },
         {
           "script_step_id": "script-0004",
+          "action": "navigate_textbox",
+          "keys": ["arrow_left", "delete", "home", "end", "backspace"],
+          "mapped_msforms_slice": null,
+          "comparison_note": "TextBox caret/navigation/delete/backspace evidence added by oxforms-0a0.1; retained as OxForms replay evidence and not mapped to a W005 modeless MSForms parity slice here."
+        },
+        {
+          "script_step_id": "script-0005",
           "action": "mouse_click",
           "target": "ok",
           "mapped_msforms_slice": "msforms-default-button-direct-click"
@@ -252,14 +259,14 @@
       "id": "order-command-button-click",
       "classification": "implemented_match",
       "msforms_rows": [567, 568, 569],
-      "oxforms_rows": ["row-0082", "row-0098", "row-0100"],
+      "oxforms_rows": ["row-0200", "row-0216", "row-0218"],
       "summary": "Both artifacts record CommandButton MouseDown, MouseUp, and Click in that order for a direct button click."
     },
     {
       "id": "order-focus-validation-around-button",
       "classification": "known_gap",
       "msforms_rows": [254, 255, 256, 257, 565, 566],
-      "oxforms_rows": ["row-0078"],
+      "oxforms_rows": ["row-0196"],
       "summary": "MSForms records BeforeUpdate/AfterUpdate/Exit/Enter rows around focus transfer in the broader modeless run. The current OxForms replay only records a transfer_focus effect and does not emit validation or focus event dispatch rows for that parity surface."
     },
     {
@@ -287,7 +294,7 @@
       "id": "args-command-button-xy",
       "classification": "known_gap",
       "msforms_rows": [567, 568],
-      "oxforms_rows": ["row-0082", "row-0098"],
+      "oxforms_rows": ["row-0200", "row-0216"],
       "summary": "MSForms direct OK click records msforms_event_args X=36, Y=12 for OracleDefaultButton. OxForms records control_local X=16, Y=12 for ok because the replay uses different probe geometry and a synthetic form_logical point."
     },
     {

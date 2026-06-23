@@ -2,7 +2,7 @@
 
 Comparison ID: `interaction-events-modeless-vs-headless-probe`
 Bead: `oxforms-xvx.13`; updated by `oxforms-9pr`; checksum pin refreshed by
-`oxforms-0a0.8`
+`oxforms-0a0.8`; replay/display/checksum pins refreshed by `oxforms-0a0.1`
 Status: observation only
 
 This report relates the authoritative W005 modeless Excel/MSForms interaction
@@ -28,18 +28,22 @@ OxForms evidence:
 The JSON manifest records exact source hashes.
 Its trace-replay checksum-manifest pin was refreshed after the W006 harness
 hardening README documentation changed the committed
-`trace-replay/checksums.sha256` file.
+`trace-replay/checksums.sha256` file. Its replay/display/checksum pins were
+then refreshed after the `oxforms-0a0.1` TextBox editing-slice update
+regenerated the committed headless replay and display-list goldens.
 
 ## Scenario Mapping
 
 The mapping is partial by design. The MSForms capture is a long modeless run
 with 21 automated input actions and 1116 event rows. The OxForms headless
-golden is a focused four-step script:
+golden is a focused five-step script with 228 trace rows:
 
 1. show modeless;
 2. click the TextBox probe;
-3. type committed text `A`;
-4. click the default CommandButton probe.
+3. type committed text `AB`;
+4. exercise TextBox navigation/editing with Left, Delete, Home, End, and
+   Backspace;
+5. click the default CommandButton probe.
 
 The comparison therefore maps only the matching MSForms slices:
 
@@ -49,7 +53,8 @@ The comparison therefore maps only the matching MSForms slices:
 | TextBox mouse down/up | `114..115` | `row-0031`, `row-0044` | implemented match |
 | TextBox native `Click` | none | none | implemented match with current oracle and FM20 metadata |
 | TextBox character `a`/`A` | `157..161` | `row-0052`, `row-0058`, `row-0060`, `row-0072` | implemented match for order; known argument gap |
-| CommandButton direct click | `567..569` | `row-0082`, `row-0098`, `row-0100` | implemented match |
+| TextBox editing-slice extension | not mapped here | `row-0078` through `row-0190` | OxForms replay evidence added by `oxforms-0a0.1`; not a W005 modeless parity slice |
+| CommandButton direct click | `567..569` | `row-0200`, `row-0216`, `row-0218` | implemented match |
 | Close/query/terminate | `1114..1116` | none in headless replay | known gap for this comparison |
 
 The other MSForms actions, including label drag, Backspace, Tab, Shift+Tab,
@@ -71,6 +76,14 @@ Implemented matches:
   order for the first committed character.
 - Both record CommandButton `MouseDown`, `MouseUp`, and `Click` in that order
   for a direct button click.
+
+Additional OxForms replay evidence:
+
+- The replay now also records the `oxforms-0a0.1` TextBox editing extension:
+  second character input, Left/Delete/Home/End/Backspace `KeyDown`/`KeyUp`,
+  caret-state transitions, `text_selection_changed` invalidations for
+  movement-only keys, and `Change` rows only for text mutation. These rows are
+  not a new W005 modeless parity mapping.
 
 Known gaps:
 
