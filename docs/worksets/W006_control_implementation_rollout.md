@@ -114,6 +114,8 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.3` | Implement or precisely block the first modeless lifecycle close slice. | `oxforms-0a0.9`, `oxforms-0a0.2`, `oxforms-0a0.8` | Modeless show/materialize/window-shown/activate plus close request -> QueryClose -> hide-or-unload flows through normalized events/effects with evidence or blockers; nested modal, DoEvents, broad reentrancy, and object-lifetime Terminate are deferred. |
 | `oxforms-0a0.10` | Design nested modal, DoEvents-like yield, reentrant pump, modal completion, and Terminate timing follow-up. | `oxforms-0a0.9`, `oxforms-0a0.3` | Facts, assumptions, unknowns, blockers, and any implementation-ready child beads are separated before broad modal/runtime work begins. |
 | `oxforms-0a0.5` | Split the first intrinsic-control implementation lane beyond W005 probes. | `oxforms-0a0.9`, `oxforms-0a0.4`, `oxforms-0a0.8` | First control lane is fact-backed or precisely blocked; implementation work is split into control-specific beads; W005 probe scaffolds are promoted, replaced, deleted, or quarantined intentionally. |
+| `oxforms-0a0.11` | Ground the first CheckBox boolean-value lane with public facts, fixture input, oracle evidence, or exact blockers. | `oxforms-0a0.9`, `oxforms-0a0.8` | CheckBox property/event/rendering/state surfaces are named before implementation starts; broad morph-control parity remains deferred. |
+| `oxforms-0a0.12` | Implement or precisely block the first MSForms.CheckBox boolean-value reducer/display/.frm slice. | `oxforms-0a0.9`, `oxforms-0a0.8`, `oxforms-0a0.4`, `oxforms-0a0.11` | Only the fact-backed boolean CheckBox subset is implemented; W005 probe scaffolds are replaced/renamed or explicitly quarantined. |
 | `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9`, `oxforms-0a0.8` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
 | `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
 
@@ -148,6 +150,14 @@ resource decoding is not implemented in this bead; the loader detects and
 reports `.frx` property references, and the selected fixture intentionally has
 none. Evidence and scaffold classification are recorded in
 [`../evidence/W006_control_implementation_rollout/frm-frx-interaction-slice.md`](../evidence/W006_control_implementation_rollout/frm-frx-interaction-slice.md).
+
+Current `oxforms-0a0.5` status: splitter-complete for the first
+intrinsic-control lane. The selected lane is the `MSForms.CheckBox`
+boolean-value slice, grounded by the morph-control planning in the top-level
+spec, W005 event/reducer/trace facts, and the W006 `.frm` projection path, but
+runtime implementation is split into `oxforms-0a0.11` and `oxforms-0a0.12`.
+Scaffold classification and required surfaces are recorded in
+[`../evidence/W006_control_implementation_rollout/first-intrinsic-control-lane.md`](../evidence/W006_control_implementation_rollout/first-intrinsic-control-lane.md).
 
 W006 closes only when:
 
