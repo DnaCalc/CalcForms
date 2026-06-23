@@ -95,7 +95,7 @@ namespace OxForms.W005InputDiagnostics
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
 
-        [DllImport("user32.dll")]
+        [DllImport("user32.dll", SetLastError = true)]
         public static extern bool SetCursorPos(int X, int Y);
 
         [DllImport("user32.dll", SetLastError = true)]
@@ -267,6 +267,61 @@ function Set-W005ForegroundWindow {
     }
 }
 
+function Assert-W005SetCursorPosSucceeded {
+    param(
+        [Parameter(Mandatory = $true)][bool]$Result,
+        [Parameter(Mandatory = $true)][string]$Action,
+        [Parameter(Mandatory = $true)][string]$PointName,
+        [Parameter(Mandatory = $true)][int]$ScreenX,
+        [Parameter(Mandatory = $true)][int]$ScreenY,
+        [System.IntPtr]$TargetHandle = [System.IntPtr]::Zero
+    )
+
+    if ($Result) {
+        return
+    }
+
+    $lastError = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $targetText = ConvertTo-W005HandleText -Handle $TargetHandle
+    throw "SetCursorPos failed while preparing W005 $Action input at $PointName screen pixels ($ScreenX,$ScreenY); target_handle=$targetText; last_win32_error=$lastError."
+}
+
+function Assert-W005SendInputCount {
+    param(
+        [Parameter(Mandatory = $true)][uint32]$Sent,
+        [Parameter(Mandatory = $true)][uint32]$Requested,
+        [Parameter(Mandatory = $true)][string]$Action,
+        [Parameter(Mandatory = $true)][string]$Phase,
+        [Parameter(Mandatory = $true)][int]$ScreenX,
+        [Parameter(Mandatory = $true)][int]$ScreenY,
+        [System.IntPtr]$TargetHandle = [System.IntPtr]::Zero
+    )
+
+    if ($Sent -eq $Requested) {
+        return
+    }
+
+    $lastError = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    $targetText = ConvertTo-W005HandleText -Handle $TargetHandle
+    throw "SendInput injected fewer W005 $Action $Phase events than requested at screen pixels ($ScreenX,$ScreenY); requested=$Requested; sent=$Sent; target_handle=$targetText; last_win32_error=$lastError."
+}
+
+function Invoke-W005BestEffortMouseUpRelease {
+    $upMouse = New-Object OxForms.W005InputDiagnostics.NativeMethods+MOUSEINPUT
+    $upMouse.dwFlags = 0x0004
+    $up = New-Object OxForms.W005InputDiagnostics.NativeMethods+INPUT
+    $up.type = 0
+    $up.mi = $upMouse
+
+    $sentUp = [OxForms.W005InputDiagnostics.NativeMethods]::SendInput(1, @($up), [System.Runtime.InteropServices.Marshal]::SizeOf([type][OxForms.W005InputDiagnostics.NativeMethods+INPUT]))
+    $lastError = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    return [ordered]@{
+        requested_up = 1
+        sent_up = [int]$sentUp
+        last_win32_error = [int]$lastError
+    }
+}
+
 function Invoke-W005SendInputMouseClick {
     param(
         [Parameter(Mandatory = $true)][int]$ScreenX,
@@ -279,6 +334,7 @@ function Invoke-W005SendInputMouseClick {
     Ensure-W005InputDiagnosticsNativeTypes
     $before = Get-W005InputDiagnosticsSnapshot -TargetHandle $TargetHandle -Phase 'before_sendinput_mouse_click'
     $setCursorResult = [OxForms.W005InputDiagnostics.NativeMethods]::SetCursorPos($ScreenX, $ScreenY)
+    Assert-W005SetCursorPosSucceeded -Result $setCursorResult -Action 'mouse_click' -PointName 'target' -ScreenX $ScreenX -ScreenY $ScreenY -TargetHandle $TargetHandle
     if ($AfterDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds $AfterDelayMilliseconds
     }
@@ -296,10 +352,12 @@ function Invoke-W005SendInputMouseClick {
     $up.mi = $upMouse
 
     $sentDown = [OxForms.W005InputDiagnostics.NativeMethods]::SendInput(1, @($down), [System.Runtime.InteropServices.Marshal]::SizeOf([type][OxForms.W005InputDiagnostics.NativeMethods+INPUT]))
+    Assert-W005SendInputCount -Sent $sentDown -Requested 1 -Action 'mouse_click' -Phase 'down' -ScreenX $ScreenX -ScreenY $ScreenY -TargetHandle $TargetHandle
     if ($DownUpDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds $DownUpDelayMilliseconds
     }
     $sentUp = [OxForms.W005InputDiagnostics.NativeMethods]::SendInput(1, @($up), [System.Runtime.InteropServices.Marshal]::SizeOf([type][OxForms.W005InputDiagnostics.NativeMethods+INPUT]))
+    Assert-W005SendInputCount -Sent $sentUp -Requested 1 -Action 'mouse_click' -Phase 'up' -ScreenX $ScreenX -ScreenY $ScreenY -TargetHandle $TargetHandle
     if ($AfterDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds $AfterDelayMilliseconds
     }
@@ -338,6 +396,7 @@ function Invoke-W005SendInputMouseDrag {
     Ensure-W005InputDiagnosticsNativeTypes
     $before = Get-W005InputDiagnosticsSnapshot -TargetHandle $TargetHandle -Phase 'before_sendinput_mouse_drag'
     $setStartResult = [OxForms.W005InputDiagnostics.NativeMethods]::SetCursorPos($StartScreenX, $StartScreenY)
+    Assert-W005SetCursorPosSucceeded -Result $setStartResult -Action 'mouse_drag' -PointName 'start' -ScreenX $StartScreenX -ScreenY $StartScreenY -TargetHandle $TargetHandle
     if ($StepDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds $StepDelayMilliseconds
     }
@@ -355,14 +414,22 @@ function Invoke-W005SendInputMouseDrag {
     $up.mi = $upMouse
 
     $sentDown = [OxForms.W005InputDiagnostics.NativeMethods]::SendInput(1, @($down), [System.Runtime.InteropServices.Marshal]::SizeOf([type][OxForms.W005InputDiagnostics.NativeMethods+INPUT]))
+    Assert-W005SendInputCount -Sent $sentDown -Requested 1 -Action 'mouse_drag' -Phase 'down' -ScreenX $StartScreenX -ScreenY $StartScreenY -TargetHandle $TargetHandle
     if ($StepDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds $StepDelayMilliseconds
     }
     $setEndResult = [OxForms.W005InputDiagnostics.NativeMethods]::SetCursorPos($EndScreenX, $EndScreenY)
+    if (-not $setEndResult) {
+        $setEndLastError = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+        $release = Invoke-W005BestEffortMouseUpRelease
+        $targetText = ConvertTo-W005HandleText -Handle $TargetHandle
+        throw "SetCursorPos failed while preparing W005 mouse_drag input at end screen pixels ($EndScreenX,$EndScreenY); target_handle=$targetText; last_win32_error=$setEndLastError; best_effort_release_requested_up=$($release.requested_up); best_effort_release_sent_up=$($release.sent_up); best_effort_release_last_win32_error=$($release.last_win32_error)."
+    }
     if ($StepDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds ($StepDelayMilliseconds * 2)
     }
     $sentUp = [OxForms.W005InputDiagnostics.NativeMethods]::SendInput(1, @($up), [System.Runtime.InteropServices.Marshal]::SizeOf([type][OxForms.W005InputDiagnostics.NativeMethods+INPUT]))
+    Assert-W005SendInputCount -Sent $sentUp -Requested 1 -Action 'mouse_drag' -Phase 'up' -ScreenX $EndScreenX -ScreenY $EndScreenY -TargetHandle $TargetHandle
     if ($AfterDelayMilliseconds -gt 0) {
         Start-Sleep -Milliseconds $AfterDelayMilliseconds
     }
