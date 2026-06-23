@@ -65,19 +65,21 @@ object identity, and no unexpected payload text.
 - Rich data formats, cross-application drag sources, rejected drops, cancellation
   behavior, modifier combinations, and handler mutation variations remain
   unobserved.
-- This capture does not implement OxForms runtime drag/drop behavior and does
-  not emit reserved trace/replay row names.
+- This capture itself does not implement OxForms runtime drag/drop behavior.
+  `oxforms-0a0.15` separately implements only the first host-neutral
+  text-drop subset using serializable `drag_over` and `drop_or_paste` rows.
 - Paste observations from `oxforms-0a0.13` remain adjacent evidence only and are
   not mixed with this true drag/drop oracle.
 
 ## Downstream Impact
 
-`oxforms-0a0.15` is now unblocked for a first drag/drop DataObject trace and
-dispatch subset. It may use this capture for live `BeforeDragOver`,
-`BeforeDropOrPaste`, target-local coordinate, helper-value, drag-state/action,
-and public `DataObject` summary facts. It must still keep broad DataObject
-parity, rich formats, cancellation/mutation breadth, and final runtime parity as
-non-claims unless it implements and tests those named subsets.
+`oxforms-0a0.15` implements a first drag/drop DataObject trace and dispatch
+subset from this oracle: value-shaped `DragOver`/`DropOrPaste` rows, serializable
+data snapshots, target-local coordinates, `BeforeDragOver`/`BeforeDropOrPaste`
+metadata, and helper-result boundaries for the accepted repo-owned text drop.
+Broad DataObject parity, rich formats, cancellation/mutation breadth,
+cross-application drags, and final runtime parity remain non-claims unless later
+beads implement and test those named subsets.
 
 ## Follow-up Beads
 

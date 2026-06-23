@@ -3,12 +3,13 @@ use std::collections::BTreeMap;
 use oxforms_pal::{
     render_headless, ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation,
     CloseQueryPolicy, CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId,
-    CoordinatePayload, CoordinatePoint, CoordinateSpace, DpiScale, FormId, KeyCode, KeyEvent,
-    KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize,
-    MouseButton, MouseButtonEvent, MouseButtons, PointerId, QueryCloseCompletedEvent,
-    RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics, ServiceOutcome, ShowMode,
-    ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId, UiEventKind, UiEventSource, UiEventTarget,
-    UnloadedEvent, WindowHiddenEvent, WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
+    CoordinatePayload, CoordinatePoint, CoordinateSpace, DataObjectSnapshot, DpiScale,
+    DropOrPasteOrigin, FormId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
+    LogicalPoint, LogicalRect, LogicalSize, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
+    QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics,
+    ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId,
+    UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent, WindowId,
+    WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
 };
 use serde_json::{json, Value};
 
@@ -1183,6 +1184,30 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
                 })
             }
         }),
+        UiEventKind::DragOver(payload) => json!({
+            "kind": "drag_over",
+            "payload": {
+                "drag_session_id": payload.drag_session_id,
+                "coordinates": coordinate_payload_summary_json(&payload.coordinates),
+                "modifiers": modifiers_json(payload.modifiers),
+                "buttons_down": buttons_json(&payload.buttons_down),
+                "drag_state": payload.drag_state,
+                "effect": payload.effect,
+                "data": data_object_snapshot_json(&payload.data)
+            }
+        }),
+        UiEventKind::DropOrPaste(payload) => json!({
+            "kind": "drop_or_paste",
+            "payload": {
+                "transfer_session_id": payload.transfer_session_id,
+                "origin": drop_or_paste_origin(payload.origin),
+                "coordinates": coordinate_payload_summary_json(&payload.coordinates),
+                "modifiers": modifiers_json(payload.modifiers),
+                "action": payload.action,
+                "effect": payload.effect,
+                "data": data_object_snapshot_json(&payload.data)
+            }
+        }),
         UiEventKind::Activate(payload) => json!({
             "kind": "activate",
             "payload": {
@@ -1207,6 +1232,33 @@ fn clipboard_operation(operation: ClipboardOperation) -> &'static str {
         ClipboardOperation::Get => "get",
         ClipboardOperation::Set => "set",
     }
+}
+
+fn drop_or_paste_origin(origin: DropOrPasteOrigin) -> &'static str {
+    match origin {
+        DropOrPasteOrigin::DragDrop => "drag_drop",
+        DropOrPasteOrigin::ClipboardPaste => "clipboard_paste",
+        DropOrPasteOrigin::Code => "code",
+        DropOrPasteOrigin::Replay => "replay",
+    }
+}
+
+fn data_object_snapshot_json(snapshot: &DataObjectSnapshot) -> Value {
+    json!({
+        "snapshot_id": snapshot.snapshot_id.0,
+        "formats": snapshot.formats,
+        "payload": snapshot.payload.as_ref().map(service_payload_json),
+        "metadata": snapshot.metadata.iter().map(diagnostic_json).collect::<Vec<_>>()
+    })
+}
+
+fn service_payload_json(payload: &ServicePayload) -> Value {
+    json!({
+        "content_type": payload.content_type,
+        "text": payload.text,
+        "bytes_sha256": payload.bytes_sha256,
+        "metadata": payload.metadata.iter().map(diagnostic_json).collect::<Vec<_>>()
+    })
 }
 
 fn service_outcome_json(outcome: &ServiceOutcome) -> Value {
@@ -1248,6 +1300,29 @@ fn key_input_json(kind: &str, payload: &KeyEvent) -> Value {
                 "is_extended": payload.raw.is_extended
             }
         }
+    })
+}
+
+fn coordinate_payload_summary_json(payload: &CoordinatePayload) -> Value {
+    json!({
+        "screen_pixels": payload.screen_pixels.map(|point| json!({ "x": point.x, "y": point.y })),
+        "window_rect": payload.window_rect.map(|rect| json!({
+            "x": rect.x,
+            "y": rect.y,
+            "width": rect.width,
+            "height": rect.height
+        })),
+        "client_pixels": payload.client_pixels.map(|point| json!({ "x": point.x, "y": point.y })),
+        "form_logical": payload.form_logical.map(|point| json!({ "x": point.x, "y": point.y })),
+        "control_local": payload.control_local.map(|point| json!({ "x": point.x, "y": point.y })),
+        "dpi": payload.dpi.map(dpi_value_json),
+        "raw_samples": payload.raw_samples.iter().map(|sample| {
+            json!({
+                "space": coordinate_space(sample.space),
+                "point": { "x": sample.point.x, "y": sample.point.y },
+                "source": sample.source
+            })
+        }).collect::<Vec<_>>()
     })
 }
 
@@ -1774,6 +1849,7 @@ fn fnv1a64(bytes: &[u8]) -> u64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use oxforms_pal::{DragOverEvent, DropOrPasteEvent, ServiceRequestId};
 
     #[test]
     fn w005_trace_replay_golden_matches_committed_artifacts() {
@@ -1791,6 +1867,62 @@ mod tests {
                 env!("CARGO_MANIFEST_DIR"),
                 "/../../docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json"
             ))
+        );
+    }
+
+    #[test]
+    fn w006_drag_drop_projection_uses_supported_ui_event_names() {
+        let coordinates = CoordinatePayload {
+            control_local: Some(LogicalPoint::new(63.0, 15.0)),
+            ..CoordinatePayload::default()
+        };
+        let data = DataObjectSnapshot {
+            snapshot_id: ServiceRequestId::new("snapshot-drag-1"),
+            formats: vec!["cf_text".to_string()],
+            payload: Some(ServicePayload {
+                content_type: Some("text/plain".to_string()),
+                text: Some("repo_owned_drag_text_seed_v1".to_string()),
+                bytes_sha256: None,
+                metadata: vec![RawDiagnostic::text(
+                    "test",
+                    "repo_owned_drag_seed",
+                    "repo_owned_drag_text_seed_v1",
+                )],
+            }),
+            metadata: vec![RawDiagnostic::text(
+                "policy",
+                "live_object_identity",
+                "not_recorded",
+            )],
+        };
+
+        let drag_over = normalized_input_json(&UiEventKind::DragOver(DragOverEvent {
+            drag_session_id: "drag-1".to_string(),
+            coordinates: coordinates.clone(),
+            modifiers: KeyboardModifiers::default(),
+            buttons_down: MouseButtons {
+                left: true,
+                ..MouseButtons::default()
+            },
+            drag_state: 2,
+            effect: 1,
+            data: data.clone(),
+        }));
+        let drop = normalized_input_json(&UiEventKind::DropOrPaste(DropOrPasteEvent {
+            transfer_session_id: "drag-1".to_string(),
+            origin: DropOrPasteOrigin::DragDrop,
+            coordinates,
+            modifiers: KeyboardModifiers::default(),
+            action: 3,
+            effect: 1,
+            data,
+        }));
+
+        assert_eq!(drag_over["kind"], "drag_over");
+        assert_eq!(drop["kind"], "drop_or_paste");
+        assert_eq!(
+            drop["payload"]["data"]["metadata"][0]["value"]["value"],
+            "not_recorded"
         );
     }
 }

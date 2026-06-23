@@ -78,6 +78,11 @@ selection UI parity, or native FM20-named dispatch. `oxforms-0a0.14` adds only
 the first host-neutral text-only paste subset for successful service-origin
 `ClipboardResult(Get)` rows with serializable plain text; unsupported formats
 remain diagnostic no-ops and live platform clipboard/COM objects stay outside
+core `FormState`. `oxforms-0a0.15` adds only the first host-neutral true
+drag/drop text subset for serializable `DragOver` and `DropOrPaste` rows:
+`BeforeDragOver`/`BeforeDropOrPaste` metadata cites `FM20_EVENT_FACTS.md`, a
+plain-text drop can update the target TextBox before `Change` and repaint, and
+live platform drag objects plus COM `MSForms.DataObject` instances stay outside
 core `FormState`.
 
 Each later bead may claim only the subset it implements and proves with the
@@ -123,7 +128,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9`, `oxforms-0a0.8` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
 | `oxforms-0a0.13` | Capture public `TextBox.Paste`/`BeforeDropOrPaste` oracle facts and precisely block undriven text-service/transfer surfaces. | `oxforms-0a0.6` | Repo-owned fixture evidence separates observations from assumptions; true OLE drag/drop and keyboard/text-service driver gaps were split into explicit follow-ups before runtime parity claims. |
 | `oxforms-0a0.14` | Implement or precisely block the first text-only TextBox clipboard paste subset. | `oxforms-0a0.6`, `oxforms-0a0.13` | Platform clipboard objects stay outside core state; focused tests cover accepted text paste, selection replacement, Change/repaint behavior, and unsupported format diagnostics; DataObject/rich paste remains non-claim. |
-| `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6`, `oxforms-0a0.13`, `oxforms-0a0.16` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked; `.16` must capture or precisely block the live OLE drag-session oracle before runtime drag/drop parity/dispatch claims. |
+| `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6`, `oxforms-0a0.13`, `oxforms-0a0.16` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked; `.16` supplies the live OLE drag-session oracle for any true drag/drop facts used here. |
 | `oxforms-0a0.16` | Build or precisely block the live OLE drag/drop `DataObject` oracle driver. | `oxforms-0a0.13` | A real drag-session `DataObject` fixture/driver captures `BeforeDragOver` and `BeforeDropOrPaste` facts, or records the exact public-capability blocker; `.13` paste observations remain adjacent evidence, not true drag/drop parity evidence. |
 | `oxforms-0a0.17` | Build or precisely block deterministic clipboard shortcut and text-service oracle drivers. | `oxforms-0a0.13` | `Ctrl+V`, IME/composition, and dead-key scenarios are captured with deterministic setup metadata or remain explicit non-claims; clean-room clipboard policy matches `.13`. |
 | `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
@@ -151,10 +156,12 @@ blocker that keeps `Ctrl+V`, IME/dead-key behavior, rich formats, and broad
 `DataObject` parity as non-claims. `oxforms-0a0.16` later supplied the separate
 live drag-session `DataObject` oracle, so `oxforms-0a0.15` is no longer blocked
 on absence of true OLE drag/drop evidence; it remains responsible for any
-runtime trace/dispatch implementation or precise blocker. The current v1 trace
-validator and `UI_EVENT_SCHEMA_VERSION = 1` do not accept the reserved
-`TextComposition*`, `PasteRequest`, or drag/drop event names; implementation
-must update those contracts in the same change that emits such rows.
+runtime trace/dispatch implementation or precise blocker. After
+`oxforms-0a0.15`, the v1 trace validator and `UI_EVENT_SCHEMA_VERSION = 1`
+accept only `DragOver`/`drag_over` and `DropOrPaste`/`drop_or_paste` from the
+drag/drop family; `TextComposition*`, `PasteRequest`, `DragEnter`, `DragLeave`,
+and `create_data_object_snapshot` remain reserved and must update those
+contracts in the same change that emits such rows.
 
 ## Closure Conditions
 
@@ -246,6 +253,21 @@ diagnostic no-ops. This is not a live clipboard adapter, not a COM
 `DataObject`, not a `Ctrl+V` shortcut-ordering claim, and not rich-format/menu
 paste or true drag/drop parity.
 
+Current `oxforms-0a0.15` status: implemented-subset in the host-neutral
+`oxforms-pal`/`oxforms-core` reducer and trace projection surfaces. The PAL now
+has value-shaped `DragOver` and `DropOrPaste` events with serializable
+`DataObjectSnapshot` summaries. The reducer emits `BeforeDragOver` metadata for
+drag-over rows, accepts only plain-text drag/drop snapshots for visible/enabled
+TextBox targets, emits `BeforeDropOrPaste` metadata before `Change`, and records
+helper-result boundaries in dispatch metadata when dispatch is attempted by the
+headless/core path. Unsupported formats, missing text payloads, unsupported
+text, and missing TextBox targets are diagnostic no-ops. The trace validator now
+accepts `drag_over` and `drop_or_paste`; `drag_enter`, `drag_leave`,
+`paste_request`, IME/composition rows, and `create_data_object_snapshot` remain
+reserved. This is not rich-format `DataObject` parity, not cross-application
+drag parity, not cancellation/mutation breadth, not final MSForms ordering, and
+not native FM20-named OxVba dispatch.
+
 Current `oxforms-0a0.16` status: live Office/MSForms true OLE drag/drop oracle
 captured in
 [`../evidence/W006_control_implementation_rollout/ole-drag-drop-transfer-oracle.md`](../evidence/W006_control_implementation_rollout/ole-drag-drop-transfer-oracle.md).
@@ -255,9 +277,8 @@ that log `BeforeDragOver` and `BeforeDropOrPaste` with X/Y, Shift,
 DragState/Action, public DataObject summaries, and before/after `Cancel` and
 `Effect` helper values. The capture stores no live COM object identity or
 private Office implementation detail, and `.13` paste observations remain
-separate adjacent evidence. `oxforms-0a0.15` is now unblocked for its first
-drag/drop trace/dispatch subset, while rich formats, cancellation/mutation
-breadth, cross-application drags, and full drag/drop parity remain non-claims.
+separate adjacent evidence. Rich formats, cancellation/mutation breadth,
+cross-application drags, and full drag/drop parity remain non-claims.
 
 W006 closes only when:
 

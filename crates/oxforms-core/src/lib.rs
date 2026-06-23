@@ -31,11 +31,12 @@ pub use trace_replay::{
 
 use oxforms_pal::{
     CharacterInputEvent, ClipboardOperation, ClipboardResultEvent, CloseQueryPolicy, CloseReason,
-    CloseRequestEvent, CloseRequestOrigin, Color, ControlId, DisplayList, FormId, HostScopeId,
-    KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalRect, LogicalSize,
-    MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent,
-    RawKeyDiagnostics, Rect as PalRect, ServiceOutcome, ShowMode, ShowRequestedEvent, SurfaceSize,
-    UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
+    CloseRequestEvent, CloseRequestOrigin, Color, ControlId, DataObjectSnapshot, DisplayList,
+    DragOverEvent, DropOrPasteEvent, FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat,
+    KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize, MouseButton,
+    MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics,
+    Rect as PalRect, ServiceOutcome, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId,
+    UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
 };
 
 pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
@@ -857,6 +858,12 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::ClipboardResult(payload) => {
             reduce_clipboard_result(&mut state, &mut context, payload);
+        }
+        UiEventKind::DragOver(payload) => {
+            reduce_drag_over(&mut state, &mut context, payload);
+        }
+        UiEventKind::DropOrPaste(payload) => {
+            reduce_drop_or_paste(&mut state, &mut context, payload);
         }
         UiEventKind::Activate(payload) => {
             state.active.active_form = event.target.form_id.clone().or_else(|| {
@@ -2091,6 +2098,22 @@ fn focused_text_box_control_id(state: &FormState) -> Option<ControlId> {
     }
 }
 
+fn event_or_focused_text_box_control_id(state: &FormState, event: &UiEvent) -> Option<ControlId> {
+    if let Some(control_id) = &event.target.control_id {
+        if is_text_box_control(state, control_id) {
+            return Some(control_id.clone());
+        }
+    }
+
+    focused_text_box_control_id(state)
+}
+
+fn is_text_box_control(state: &FormState, control_id: &ControlId) -> bool {
+    find_control(state, control_id).is_some_and(|control| {
+        control.kind == ControlKind::TextBox && control.visible && control.enabled
+    })
+}
+
 fn reduce_character_input(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -2126,6 +2149,67 @@ fn reduce_character_input(
     );
 }
 
+fn reduce_drag_over(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &DragOverEvent,
+) {
+    let Some(control_id) = event_or_focused_text_box_control_id(state, context.event) else {
+        queue_data_transfer_diagnostic(state, context, &payload.data, "no_textbox_target");
+        return;
+    };
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    queue_before_drag_over_event(state, context, target, payload);
+}
+
+fn reduce_drop_or_paste(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &DropOrPasteEvent,
+) {
+    if !data_formats_include_plain_text(&payload.data.formats) {
+        queue_data_transfer_diagnostic(state, context, &payload.data, "unsupported_data_format");
+        return;
+    }
+
+    let Some(text) = payload
+        .data
+        .payload
+        .as_ref()
+        .and_then(|payload| payload.text.as_deref())
+    else {
+        queue_data_transfer_diagnostic(state, context, &payload.data, "missing_text_payload");
+        return;
+    };
+
+    if text.is_empty() || text.chars().any(char::is_control) {
+        queue_data_transfer_diagnostic(state, context, &payload.data, "unsupported_text_payload");
+        return;
+    }
+
+    let Some(control_id) = event_or_focused_text_box_control_id(state, context.event) else {
+        queue_data_transfer_diagnostic(state, context, &payload.data, "no_textbox_target");
+        return;
+    };
+
+    insert_text_box_text(state, &control_id, text);
+
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    queue_before_drop_or_paste_drag_event(state, context, target.clone(), payload);
+    queue_vba_event(state, context, target.clone(), "Change");
+    let invalidation_id =
+        context.push_invalidation(state, target.clone(), InvalidationReason::TextChanged);
+    context.push_effect(
+        state,
+        target,
+        EffectKind::RequestRepaint {
+            invalidation_ids: vec![invalidation_id],
+            reason: InvalidationReason::TextChanged,
+        },
+        CompletionPolicy::RenderDiagnosticOptional,
+    );
+}
+
 fn reduce_clipboard_result(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -2141,7 +2225,7 @@ fn reduce_clipboard_result(
         return;
     }
 
-    if !clipboard_formats_include_plain_text(&payload.formats) {
+    if !data_formats_include_plain_text(&payload.formats) {
         queue_clipboard_diagnostic(state, context, payload, "unsupported_clipboard_format");
         return;
     }
@@ -2195,7 +2279,7 @@ fn insert_text_box_text(state: &mut FormState, control_id: &ControlId, text: &st
     text_box.edit_sequence += 1;
 }
 
-fn clipboard_formats_include_plain_text(formats: &[String]) -> bool {
+fn data_formats_include_plain_text(formats: &[String]) -> bool {
     formats.iter().any(|format| {
         matches!(
             format.to_ascii_lowercase().as_str(),
@@ -2223,6 +2307,30 @@ fn queue_clipboard_diagnostic(
                 payload.request_id.0,
                 payload.operation,
                 payload.formats.join(",")
+            )),
+        },
+        CompletionPolicy::ImmediateDiagnostic,
+    );
+}
+
+fn queue_data_transfer_diagnostic(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    snapshot: &DataObjectSnapshot,
+    reason: &str,
+) {
+    let target = context.event.target.clone();
+    context.push_effect(
+        state,
+        target,
+        EffectKind::HostCapabilityRequest {
+            host_namespace: "oxforms-core".to_string(),
+            capability: "drag_drop_data_transfer_diagnostic".to_string(),
+            host_scope_id: None,
+            payload_summary: Some(format!(
+                "snapshot_id={}; reason={reason}; formats={}",
+                snapshot.snapshot_id.0,
+                snapshot.formats.join(",")
             )),
         },
         CompletionPolicy::ImmediateDiagnostic,
@@ -2695,6 +2803,165 @@ fn queue_before_drop_or_paste_event(
     );
 }
 
+fn queue_before_drag_over_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    payload: &DragOverEvent,
+) {
+    let point = msforms_event_point(&payload.coordinates);
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "BeforeDragOver".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: vec![
+                EffectArgument {
+                    name: "Cancel".to_string(),
+                    value: "False".to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "Data".to_string(),
+                    value: data_object_snapshot_summary(&payload.data, "drag_session"),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "X".to_string(),
+                    value: point.x.to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Y".to_string(),
+                    value: point.y.to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "DragState".to_string(),
+                    value: payload.drag_state.to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Effect".to_string(),
+                    value: payload.effect.to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "Shift".to_string(),
+                    value: fm20_shift_state(payload.modifiers).to_string(),
+                    by_ref: false,
+                },
+            ],
+            cancel_metadata: Some(format!(
+                "W006 drag/drop subset: cites FM20_EVENT_FACTS.md BeforeDragOver; Data is serializable snapshot {}; helper result boundary Cancel False->False, Effect {}->{} when dispatch is not executed by core; live MSForms.DataObject/platform drag objects remain adapter-owned.",
+                payload.data.snapshot_id.0, payload.effect, payload.effect
+            )),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
+fn queue_before_drop_or_paste_drag_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    payload: &DropOrPasteEvent,
+) {
+    let point = msforms_event_point(&payload.coordinates);
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "BeforeDropOrPaste".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: vec![
+                EffectArgument {
+                    name: "Cancel".to_string(),
+                    value: "False".to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "Action".to_string(),
+                    value: payload.action.to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Data".to_string(),
+                    value: data_object_snapshot_summary(&payload.data, "drop_or_paste"),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "X".to_string(),
+                    value: point.x.to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Y".to_string(),
+                    value: point.y.to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Effect".to_string(),
+                    value: payload.effect.to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "Shift".to_string(),
+                    value: fm20_shift_state(payload.modifiers).to_string(),
+                    by_ref: false,
+                },
+            ],
+            cancel_metadata: Some(format!(
+                "W006 drag/drop subset: cites FM20_EVENT_FACTS.md BeforeDropOrPaste; Data is serializable snapshot {}; helper result boundary Cancel False->False, Effect {}->{} when dispatch is not executed by core; Action mutation remains a non-claim.",
+                payload.data.snapshot_id.0, payload.effect, payload.effect
+            )),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
+fn msforms_event_point(coordinates: &oxforms_pal::CoordinatePayload) -> LogicalPoint {
+    coordinates
+        .control_local
+        .or(coordinates.form_logical)
+        .unwrap_or(LogicalPoint::new(0.0, 0.0))
+}
+
+fn data_object_snapshot_summary(snapshot: &DataObjectSnapshot, role: &str) -> String {
+    let metadata = snapshot
+        .metadata
+        .iter()
+        .map(|entry| format!("{}:{}", entry.source, entry.name))
+        .collect::<Vec<_>>()
+        .join(",");
+    format!(
+        "{role}_data_snapshot:{}; formats={}; payload_text_present={}; metadata={}",
+        snapshot.snapshot_id.0,
+        snapshot.formats.join(","),
+        snapshot
+            .payload
+            .as_ref()
+            .and_then(|payload| payload.text.as_ref())
+            .is_some(),
+        metadata
+    )
+}
+
+fn fm20_shift_state(modifiers: KeyboardModifiers) -> i32 {
+    let mut shift = 0;
+    if modifiers.shift {
+        shift |= 1;
+    }
+    if modifiers.control {
+        shift |= 2;
+    }
+    if modifiers.alt {
+        shift |= 4;
+    }
+    shift
+}
+
 fn queue_mouse_event(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -2946,10 +3213,11 @@ mod tests {
     use super::*;
     use oxforms_pal::{
         ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation,
-        ClipboardResultEvent, CloseRequestEvent, CloseRequestOrigin, KeyCode, KeyRepeat,
+        ClipboardResultEvent, CloseRequestEvent, CloseRequestOrigin, CoordinatePayload,
+        DataObjectSnapshot, DragOverEvent, DropOrPasteEvent, DropOrPasteOrigin, KeyCode, KeyRepeat,
         KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons,
-        RawDiagnostic, RawKeyDiagnostics, ServiceOutcome, ServicePayload, ServiceRequestId,
-        ShowRequestedEvent, UiEventSource, UnloadedEvent, WindowHiddenEvent,
+        RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics, ServiceOutcome, ServicePayload,
+        ServiceRequestId, ShowRequestedEvent, UiEventSource, UnloadedEvent, WindowHiddenEvent,
     };
 
     #[test]
@@ -3636,6 +3904,198 @@ mod tests {
         assert!(payload_summary
             .as_ref()
             .is_some_and(|summary| summary.contains("unsupported_clipboard_format")));
+    }
+
+    #[test]
+    fn drag_over_dispatches_before_drag_over_with_snapshot_metadata() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 120.0, 24.0),
+            0,
+            0,
+        )];
+
+        let output = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget::control("form-main", "text-1"),
+                ..UiEvent::new(
+                    UiEventId(94),
+                    UiEventSource::Pal,
+                    UiEventKind::DragOver(drag_over_event("drag-1", 2, 1, &["cf_text"])),
+                )
+            },
+        );
+
+        assert_eq!(
+            effect_names(&output.effects),
+            vec!["fire_vba_event:BeforeDragOver"]
+        );
+        let EffectKind::FireVbaEvent {
+            event_name,
+            fact_source,
+            arguments,
+            cancel_metadata,
+        } = &output.effects[0].kind
+        else {
+            panic!("expected BeforeDragOver dispatch effect");
+        };
+        assert_eq!(event_name, "BeforeDragOver");
+        assert_eq!(
+            fact_source.as_deref(),
+            Some("docs/specs/FM20_EVENT_FACTS.md")
+        );
+        assert_eq!(
+            arguments
+                .iter()
+                .map(|argument| argument.name.as_str())
+                .collect::<Vec<_>>(),
+            vec!["Cancel", "Data", "X", "Y", "DragState", "Effect", "Shift"]
+        );
+        assert_eq!(arguments[2].value, "63");
+        assert_eq!(arguments[3].value, "15");
+        assert_eq!(arguments[4].value, "2");
+        assert_eq!(arguments[5].value, "1");
+        assert!(cancel_metadata.as_ref().is_some_and(|metadata| metadata
+            .contains("Cancel False->False")
+            && metadata.contains("Effect 1->1")
+            && metadata
+                .contains("live MSForms.DataObject/platform drag objects remain adapter-owned")));
+    }
+
+    #[test]
+    fn drop_or_paste_drag_text_inserts_and_dispatches_before_change() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 120.0, 24.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+
+        let output = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget::control("form-main", "text-1"),
+                ..UiEvent::new(
+                    UiEventId(95),
+                    UiEventSource::Pal,
+                    UiEventKind::DropOrPaste(drop_or_paste_drag_event(
+                        "drag-1",
+                        "repo_owned_drag_text_seed_v1",
+                        3,
+                        1,
+                        &["cf_text"],
+                    )),
+                )
+            },
+        );
+
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "repo_owned_drag_text_seed_v1");
+        assert_eq!(text_box.caret.active, "repo_owned_drag_text_seed_v1".len());
+        assert_eq!(text_box.edit_sequence, 1);
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "fire_vba_event:BeforeDropOrPaste",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+        let EffectKind::FireVbaEvent {
+            event_name,
+            arguments,
+            cancel_metadata,
+            ..
+        } = &output.effects[0].kind
+        else {
+            panic!("expected BeforeDropOrPaste dispatch effect");
+        };
+        assert_eq!(event_name, "BeforeDropOrPaste");
+        assert_eq!(
+            arguments
+                .iter()
+                .map(|argument| argument.name.as_str())
+                .collect::<Vec<_>>(),
+            vec!["Cancel", "Action", "Data", "X", "Y", "Effect", "Shift"]
+        );
+        assert_eq!(arguments[1].value, "3");
+        assert!(arguments[2].value.contains("drop_or_paste_data_snapshot"));
+        assert_eq!(arguments[3].value, "63");
+        assert_eq!(arguments[4].value, "15");
+        assert_eq!(arguments[5].value, "1");
+        assert!(cancel_metadata
+            .as_ref()
+            .is_some_and(|metadata| metadata.contains("Action mutation remains a non-claim")));
+    }
+
+    #[test]
+    fn drop_or_paste_unsupported_format_records_diagnostic_without_mutation() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 120.0, 24.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "ABC".to_string();
+        text_box.caret.anchor = 3;
+        text_box.caret.active = 3;
+
+        let output = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget::control("form-main", "text-1"),
+                ..UiEvent::new(
+                    UiEventId(96),
+                    UiEventSource::Pal,
+                    UiEventKind::DropOrPaste(drop_or_paste_drag_event(
+                        "drag-image",
+                        "ignored",
+                        3,
+                        1,
+                        &["image/png"],
+                    )),
+                )
+            },
+        );
+
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "ABC");
+        assert_eq!(text_box.edit_sequence, 0);
+        assert!(output.invalidations.is_empty());
+        assert_eq!(
+            effect_names(&output.effects),
+            vec!["host_capability_request"]
+        );
+        let EffectKind::HostCapabilityRequest {
+            capability,
+            payload_summary,
+            ..
+        } = &output.effects[0].kind
+        else {
+            panic!("expected drag/drop diagnostic effect");
+        };
+        assert_eq!(capability, "drag_drop_data_transfer_diagnostic");
+        assert!(payload_summary
+            .as_ref()
+            .is_some_and(|summary| summary.contains("unsupported_data_format")));
     }
 
     #[test]
@@ -4679,6 +5139,78 @@ mod tests {
                 }),
             )
         }
+    }
+
+    fn drag_over_event(
+        drag_session_id: &str,
+        drag_state: i32,
+        effect: i32,
+        formats: &[&str],
+    ) -> DragOverEvent {
+        DragOverEvent {
+            drag_session_id: drag_session_id.to_string(),
+            coordinates: drag_drop_coordinates(),
+            modifiers: KeyboardModifiers::default(),
+            buttons_down: MouseButtons {
+                left: true,
+                ..MouseButtons::default()
+            },
+            drag_state,
+            effect,
+            data: drag_data_snapshot(drag_session_id, "repo_owned_drag_text_seed_v1", formats),
+        }
+    }
+
+    fn drop_or_paste_drag_event(
+        transfer_session_id: &str,
+        text: &str,
+        action: i32,
+        effect: i32,
+        formats: &[&str],
+    ) -> DropOrPasteEvent {
+        DropOrPasteEvent {
+            transfer_session_id: transfer_session_id.to_string(),
+            origin: DropOrPasteOrigin::DragDrop,
+            coordinates: drag_drop_coordinates(),
+            modifiers: KeyboardModifiers::default(),
+            action,
+            effect,
+            data: drag_data_snapshot(transfer_session_id, text, formats),
+        }
+    }
+
+    fn drag_data_snapshot(snapshot_id: &str, text: &str, formats: &[&str]) -> DataObjectSnapshot {
+        DataObjectSnapshot {
+            snapshot_id: ServiceRequestId::new(format!("snapshot-{snapshot_id}")),
+            formats: formats.iter().map(|format| (*format).to_string()).collect(),
+            payload: Some(ServicePayload {
+                content_type: Some("text/plain".to_string()),
+                text: Some(text.to_string()),
+                bytes_sha256: None,
+                metadata: vec![RawDiagnostic::text(
+                    "test",
+                    "repo_owned_drag_seed",
+                    "repo_owned_drag_text_seed_v1",
+                )],
+            }),
+            metadata: vec![
+                RawDiagnostic::text("oracle", "data_object_get_format_1", "true"),
+                RawDiagnostic::text("policy", "live_object_identity", "not_recorded"),
+            ],
+        }
+    }
+
+    fn drag_drop_coordinates() -> CoordinatePayload {
+        let mut coordinates = CoordinatePayload {
+            control_local: Some(LogicalPoint::new(63.0, 15.0)),
+            ..CoordinatePayload::default()
+        };
+        coordinates.raw_samples.push(RawCoordinateSample {
+            space: oxforms_pal::CoordinateSpace::MsformsEventArgs,
+            point: oxforms_pal::CoordinatePoint::new(63.0, 15.0),
+            source: "oxforms-0a0.16".to_string(),
+        });
+        coordinates
     }
 
     fn query_close_completed_event(event_id: UiEventId, form_id: &str, cancelled: bool) -> UiEvent {

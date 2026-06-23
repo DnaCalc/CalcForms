@@ -215,6 +215,8 @@ $allowedUiEventKinds = [System.Collections.Generic.HashSet[string]]::new([System
     'close_request',
     'timer_fired',
     'clipboard_result',
+    'drag_over',
+    'drop_or_paste',
     'service_result',
     'dpi_changed',
     'resize',

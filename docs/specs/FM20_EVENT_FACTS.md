@@ -81,7 +81,7 @@ Public documentation anchors:
 | `MSForms.ReturnBoolean` helper | `VT_PTR` to `ReturnBoolean`, `PARAMFLAG_FIN` | `ByVal Cancel As MSForms.ReturnBoolean` or `ByVal CancelDisplay As MSForms.ReturnBoolean` | Mutable helper object; log `.Value` before and after dispatch. Not a scalar `ByRef Boolean`. | `DblClick`, `Exit`, `BeforeUpdate`, `Error`, `BeforeDragOver`, `BeforeDropOrPaste` |
 | `MSForms.ReturnInteger` helper | `VT_PTR` to `ReturnInteger`, `PARAMFLAG_FIN` | `ByVal KeyCode As MSForms.ReturnInteger`, `ByVal KeyAscii/KeyANSI As MSForms.ReturnInteger` | Mutable helper object; exact effect of assigning `.Value` remains `unknown` until observed. | `KeyDown`, `KeyUp`, `KeyPress` |
 | `MSForms.ReturnString` helper | `VT_PTR` to `ReturnString`, `PARAMFLAG_FIN` | `ByVal Description As MSForms.ReturnString` | Mutable helper object; exact display/error effect remains `unknown`. | `Error` |
-| `MSForms.ReturnEffect` helper | `VT_PTR` to `ReturnEffect`, `PARAMFLAG_FIN` | `ByVal Effect As MSForms.ReturnEffect` | Mutable helper object; drag/drop behavior deferred. | `BeforeDragOver`, `BeforeDropOrPaste` |
+| `MSForms.ReturnEffect` helper | `VT_PTR` to `ReturnEffect`, `PARAMFLAG_FIN` | `ByVal Effect As MSForms.ReturnEffect` | Mutable helper object; `oxforms-0a0.15` records helper-result boundaries for the first text-only drag/drop subset, while broad mutation behavior remains deferred. | `BeforeDragOver`, `BeforeDropOrPaste` |
 | `MSForms.ReturnSingle` helper | `VT_PTR` to `ReturnSingle`, `PARAMFLAG_FIN` | No W005 probe handler uses it directly. | Mutable helper object; deferred. | `Scroll` |
 | Object reference | `VT_PTR` to `Control` or `DataObject`, `PARAMFLAG_FIN` | Public docs vary between omitted `ByVal` and `ByVal`, depending on event page/source shape. | Treat as an object reference; do not claim full object mutation semantics in W005. | `AddControl`, `RemoveControl`, drag/drop events |
 | Scalar or enum value | `VT_I2`, `VT_I4`, `VT_R4`, `VT_BSTR`, or `VT_USERDEFINED`, usually `PARAMFLAG_FIN` | `ByVal` scalar or enum in public docs, except lifecycle `QueryClose` docs use plain `Integer` params. | Non-mutable unless black-box observation proves otherwise. `BeforeDropOrPaste.Action` is explicitly `unknown` because docs describe updating it despite by-value metadata/docs syntax. | Mouse/key modifiers, coordinates, `fmAction`, `fmDragState`, `SCode`, strings, lifecycle `CloseMode` |
@@ -188,6 +188,20 @@ OxForms implementation relying on those observations:
   `Ctrl+V` shortcut ordering, menu paste, rich formats, true drag/drop,
   IME/dead-key behavior, broad `DataObject` parity, `Action` mutation, handler
   cancellation behavior, or native FM20-named OxVba dispatch.
+- `oxforms-0a0.15` implements only a host-neutral text-only true drag/drop
+  subset for TextBox targets. Normalized `DragOver` rows emit
+  `BeforeDragOver` metadata in the public argument order above. Normalized
+  `DropOrPaste` rows whose serializable `DataObjectSnapshot` contains accepted
+  plain text emit `BeforeDropOrPaste` metadata before `Change` and repaint, and
+  insert the text into the target/focused TextBox. The `Data` argument is a
+  serializable snapshot summary, not a live `MSForms.DataObject`. Dispatch
+  metadata cites this file and records headless/helper result boundaries for
+  `Cancel` and `Effect` when the core path attempts dispatch. Unsupported
+  formats, missing/unsupported text, and missing TextBox targets are diagnostic
+  no-ops. This subset relies on the `.16` true drag/drop oracle only for the
+  repo-owned text-drop shape; rich formats, cross-application drag sources,
+  cancellation/mutation breadth, final MSForms ordering, broad `DataObject`
+  parity, and native FM20-named OxVba dispatch remain non-claims.
 
 Design assumptions that are not facts:
 

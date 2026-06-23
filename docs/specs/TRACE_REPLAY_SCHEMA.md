@@ -309,6 +309,17 @@ The reserved `paste_request`, drag/drop, composition, and data-object snapshot
 names above still require validator/schema changes in the same bead that first
 emits them.
 
+`oxforms-0a0.15` implements the first true drag/drop text subset and updates
+the validator to accept `drag_over` and `drop_or_paste` `ui_event` payload
+names. Those rows carry only serializable session ids, target/coordinate data,
+modifier/button state, action/state/effect candidates, and data snapshot
+summaries. The machine-readable schema keeps `schema_version = 1` because row
+shape remains the same generic v1 trace row; the stricter row-name allow-list
+lives in `tools/trace-replay/Test-TraceReplaySchema.ps1`. `drag_enter`,
+`drag_leave`, `paste_request`, composition rows, and
+`create_data_object_snapshot` remain reserved until a later implementation bead
+updates the validator and tests.
+
 For the `oxforms-0a0.3` modeless lifecycle close slice, the headless replay
 golden records first-class normalized lifecycle input rows for
 `close_request`, `query_close_completed`, `window_hidden`, and `unloaded`.
@@ -423,9 +434,11 @@ sample; pass `-TracePath` for the `oxforms-xvx.12` golden. It checks:
 - absence of machine-local absolute paths in the canonical sample.
 
 The validator's current allowed `ui_event` vocabulary does not include the
-`oxforms-0a0.6` reserved design names. A future implementation bead must extend
-the validator and `docs/schemas/trace-replay-artifact.v1.schema.json` before
-committing traces that use IME/composition, paste request, drag/drop, or
+`oxforms-0a0.6` reserved design names. After `oxforms-0a0.15`,
+`drag_over` and `drop_or_paste` are accepted row names for the first text-only
+drag/drop subset. A future implementation bead must extend the validator and
+`docs/schemas/trace-replay-artifact.v1.schema.json` before committing traces
+that use IME/composition, paste request, `drag_enter`, `drag_leave`, or
 data-object snapshot rows.
 
 The original sample is synthetic and intentionally small. Its purpose is to lock
@@ -471,6 +484,14 @@ probe reducer path against committed output.
   clipboard objects and live COM `DataObject` references out of `FormState` and
   trace artifacts, and leaves `paste_request`, rich formats, shortcut ordering,
   IME/dead keys, true drag/drop, and broad `DataObject` parity as non-claims.
+- `oxforms-0a0.15` adds focused PAL/core/runtime coverage for `drag_over` and
+  `drop_or_paste` rows carrying serializable data snapshots for the first
+  text-only true drag/drop subset. It keeps platform drag objects and live COM
+  `DataObject` references out of `FormState` and trace artifacts, records
+  `BeforeDragOver`/`BeforeDropOrPaste` dispatch metadata with helper-result
+  boundaries, and leaves `drag_enter`, `drag_leave`, rich formats,
+  cross-application drags, cancellation/mutation breadth, final MSForms
+  ordering, and broad `DataObject` parity as non-claims.
 - `oxforms-xvx.13` comparison artifacts should link rows by `row_id`,
   `ui_event_id`, `effect_id`, `dispatch_id`, `display_list_id`, and
   `render_id`, then classify differences as observations rather than final

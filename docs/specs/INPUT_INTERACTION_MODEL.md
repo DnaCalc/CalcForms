@@ -223,12 +223,13 @@ Future normalized event families:
 | `TextCompositionCommit` | composition id, committed text segment, modifiers/input locale if known, raw diagnostics | May reduce like committed `CharacterInput` only after the target control, ordering against `KeyDown`/`KeyPress`/`KeyUp`, and `ReturnInteger` mutation policy are specified by an implementation bead. |
 | `TextCompositionCancel` | composition id, reason, raw diagnostics | Blocked from runtime until composition state exists; clears pending composition diagnostics only. |
 | `PasteRequest` | origin (`keyboard_shortcut`, `menu`, `code`, `replay`, `drag_drop`), requested formats, target hint, coordinates if pointer-originated, raw diagnostics | Design-only. Keyboard shortcuts remain `KeyDown`/`KeyUp` until a reducer bead emits `ClipboardGet`. |
-| `ClipboardResult` extension | request id, operation, success/error, selected serializable formats, payload summaries and text payload when allowed by the requesting effect | Existing family name is present, but W006 paste needs a versioned payload extension before runtime use. |
-| `DragEnter` / `DragOver` / `DragLeave` / `DropOrPaste` | drag session id, target hint, coordinates with named spaces, button/modifier state, action/effect candidates, serializable data metadata, raw diagnostics | Design-only. These events model platform drag/drop service input; they are distinct from the FM20 VBA events raised later by `FireVbaEvent`. |
+| `ClipboardResult` extension | request id, operation, success/error, selected serializable formats, payload summaries and text payload when allowed by the requesting effect | Implemented only for the `oxforms-0a0.14` text-only paste subset. Broader clipboard/DataObject behavior still needs versioned payload work. |
+| `DragEnter` / `DragOver` / `DragLeave` / `DropOrPaste` | drag session id, target hint, coordinates with named spaces, button/modifier state, action/effect candidates, serializable data metadata, raw diagnostics | `DragOver` and `DropOrPaste` are implemented by `oxforms-0a0.15` for the first serializable text-only drag/drop subset. `DragEnter` and `DragLeave` remain design-only. These events model platform drag/drop service input; they are distinct from the FM20 VBA events raised later by `FireVbaEvent`. |
 
-The exact enum/type names above are reserved design names, not implemented PAL
-variants in `UI_EVENT_SCHEMA_VERSION = 1`. Any implementation bead that emits
-them must update `crates/oxforms-pal/src/input.rs`,
+Except for `ClipboardResult`, `DragOver`, and `DropOrPaste`, the exact enum/type
+names above are reserved design names, not implemented PAL variants in
+`UI_EVENT_SCHEMA_VERSION = 1`. Any implementation bead that emits the remaining
+reserved names must update `crates/oxforms-pal/src/input.rs`,
 `tools/trace-replay/Test-TraceReplaySchema.ps1`, the machine-readable trace
 schema, and focused tests in the same change.
 
@@ -599,6 +600,21 @@ replay without live Excel or another host.
   ordering, menu paste, rich formats, true drag/drop, IME/dead-key behavior,
   full `DataObject` parity, `BeforeDropOrPaste.Action` mutation, handler
   cancellation semantics, or native FM20-named OxVba dispatch.
+- `oxforms-0a0.15` extends the host-neutral PAL/core contract with the first
+  true drag/drop text subset. `DragOver` and `DropOrPaste` carry session ids,
+  target-local coordinates, modifier/button state, FM20 action/state/effect
+  candidates, and a serializable `DataObjectSnapshot` summary. `DragOver`
+  emits `FireVbaEvent(BeforeDragOver)` metadata. A `DropOrPaste` row with a
+  plain-text snapshot inserts into the target/focused TextBox, emits
+  `FireVbaEvent(BeforeDropOrPaste)` metadata before `Change`, then requests a
+  repaint. Unsupported formats, missing text, unsupported text, and missing
+  TextBox targets are diagnostic no-ops. Dispatch metadata cites
+  `FM20_EVENT_FACTS.md` and records headless helper-result boundaries for
+  `Cancel` and `Effect`. The subset stores no platform drag object or live COM
+  `MSForms.DataObject` in `FormState`; `Data` remains a serializable snapshot
+  summary. It does not claim `DragEnter`/`DragLeave`, rich formats,
+  cross-application drags, cancellation/mutation breadth, final MSForms
+  ordering, broad `DataObject` parity, or native FM20-named OxVba dispatch.
 - `oxforms-xvx.9` completes the first W005 probe-control reducer/render
   reference slice in `crates/oxforms-core`: Label remains non-focus but
   mouse-routable and text-bearing, CommandButton is focusable/clickable with
@@ -699,13 +715,15 @@ or precisely block them:
   resize/deactivate, close/query/hide/unload/terminate, modal/modeless show,
   nested modal forms, and DoEvents-like yielding as detailed in
   [`LIFECYCLE_PUMP_MODEL.md`](LIFECYCLE_PUMP_MODEL.md).
-- TextBox behavior beyond the `oxforms-0a0.1` single-line committed-text slice
-  and the `oxforms-0a0.14` text-only paste subset: multiline, password mode,
-  scrolling, IME/composition, dead keys, clipboard shortcuts, menu paste, rich
-  paste/DataObject, drag/drop, full validation ordering, platform text-service
-  integration, exact MSForms selection UI, and live native FM20-named dispatch.
-- How clipboard shortcuts and `DataObject` behavior should be represented beyond
-  the first text-only paste subset and before full drag/drop work.
+- TextBox behavior beyond the `oxforms-0a0.1` single-line committed-text slice,
+  the `oxforms-0a0.14` text-only paste subset, and the `oxforms-0a0.15`
+  text-only drag/drop subset: multiline, password mode, scrolling,
+  IME/composition, dead keys, clipboard shortcuts, menu paste, rich
+  paste/DataObject formats, broad drag/drop behavior, full validation ordering,
+  platform text-service integration, exact MSForms selection UI, and live native
+  FM20-named dispatch.
+- How clipboard shortcuts and broad `DataObject` behavior should be represented
+  beyond the first text-only paste and drag/drop subsets.
 - How IME, dead keys, composed text, and platform text services enter the
   portable model.
 - How platform key identity, accelerator ambiguity/display state, and

@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://dnacalc.local/oxforms/schemas/trace-replay-artifact.v1.schema.json",
   "title": "OxForms W005 Trace Replay Artifact v1",
+  "$comment": "ui_event payload.kind values are fail-closed by tools/trace-replay/Test-TraceReplaySchema.ps1; oxforms-0a0.15 adds drag_over and drop_or_paste for the first W006 drag/drop subset without changing schema_version.",
   "type": "object",
   "additionalProperties": false,
   "required": [

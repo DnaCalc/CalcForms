@@ -179,6 +179,8 @@ pub enum UiEventKind {
     CloseRequest(CloseRequestEvent),
     TimerFired(TimerFiredEvent),
     ClipboardResult(ClipboardResultEvent),
+    DragOver(DragOverEvent),
+    DropOrPaste(DropOrPasteEvent),
     ServiceResult(ServiceResultEvent),
     DpiChanged(DpiChangedEvent),
     Resize(ResizeEvent),
@@ -639,6 +641,47 @@ pub struct ClipboardResultEvent {
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct DataObjectSnapshot {
+    pub snapshot_id: ServiceRequestId,
+    pub formats: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub payload: Option<ServicePayload>,
+    #[serde(default)]
+    pub metadata: Vec<RawDiagnostic>,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct DragOverEvent {
+    pub drag_session_id: String,
+    pub coordinates: CoordinatePayload,
+    pub modifiers: KeyboardModifiers,
+    pub buttons_down: MouseButtons,
+    pub drag_state: i32,
+    pub effect: i32,
+    pub data: DataObjectSnapshot,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DropOrPasteOrigin {
+    DragDrop,
+    ClipboardPaste,
+    Code,
+    Replay,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct DropOrPasteEvent {
+    pub transfer_session_id: String,
+    pub origin: DropOrPasteOrigin,
+    pub coordinates: CoordinatePayload,
+    pub modifiers: KeyboardModifiers,
+    pub action: i32,
+    pub effect: i32,
+    pub data: DataObjectSnapshot,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ServiceResultEvent {
     pub request_id: ServiceRequestId,
     pub service_kind: String,
@@ -964,6 +1007,80 @@ mod tests {
             serde_json::from_str(&encoded).expect("events should deserialize");
 
         assert_eq!(decoded, events);
+    }
+
+    #[test]
+    fn drag_drop_shapes_round_trip_with_serializable_data_snapshot() {
+        let mut coordinates = CoordinatePayload {
+            control_local: Some(LogicalPoint::new(63.0, 15.0)),
+            dpi: Some(DpiScale::new(96.0, 96.0)),
+            ..CoordinatePayload::default()
+        };
+        coordinates.raw_samples.push(RawCoordinateSample {
+            space: CoordinateSpace::MsformsEventArgs,
+            point: CoordinatePoint::new(63.0, 15.0),
+            source: "repo_owned_oracle".to_string(),
+        });
+        let data = DataObjectSnapshot {
+            snapshot_id: ServiceRequestId::new("drag-snapshot-1"),
+            formats: vec!["cf_text".to_string()],
+            payload: Some(ServicePayload {
+                content_type: Some("text/plain".to_string()),
+                text: Some("repo_owned_drag_text_seed_v1".to_string()),
+                bytes_sha256: None,
+                metadata: vec![RawDiagnostic::text(
+                    "oracle",
+                    "data_object_get_format_1",
+                    "true",
+                )],
+            }),
+            metadata: vec![RawDiagnostic::text(
+                "policy",
+                "live_object_identity",
+                "not_recorded",
+            )],
+        };
+
+        let events = vec![
+            UiEvent::new(
+                UiEventId(17),
+                UiEventSource::Pal,
+                UiEventKind::DragOver(DragOverEvent {
+                    drag_session_id: "drag-session-1".to_string(),
+                    coordinates: coordinates.clone(),
+                    modifiers: KeyboardModifiers::default(),
+                    buttons_down: MouseButtons {
+                        left: true,
+                        ..MouseButtons::default()
+                    },
+                    drag_state: 2,
+                    effect: 1,
+                    data: data.clone(),
+                }),
+            ),
+            UiEvent::new(
+                UiEventId(18),
+                UiEventSource::Pal,
+                UiEventKind::DropOrPaste(DropOrPasteEvent {
+                    transfer_session_id: "drag-session-1".to_string(),
+                    origin: DropOrPasteOrigin::DragDrop,
+                    coordinates,
+                    modifiers: KeyboardModifiers::default(),
+                    action: 3,
+                    effect: 1,
+                    data,
+                }),
+            ),
+        ];
+
+        let encoded = serde_json::to_string_pretty(&events).expect("events should serialize");
+        let decoded: Vec<UiEvent> =
+            serde_json::from_str(&encoded).expect("events should deserialize");
+
+        assert_eq!(decoded, events);
+        assert!(encoded.contains("drag_over"));
+        assert!(encoded.contains("drop_or_paste"));
+        assert!(encoded.contains("live_object_identity"));
     }
 
     #[test]
