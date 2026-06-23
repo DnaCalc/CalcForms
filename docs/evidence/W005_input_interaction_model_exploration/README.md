@@ -160,6 +160,20 @@ This capture is W005 evidence/test infrastructure only. It does not claim final
 and it does not replace headless reducer tests or the deterministic
 `oxforms-xvx.12` trace/replay runner.
 
+## Interaction Comparison
+
+[`comparisons/interaction-events-modeless-vs-headless-probe.json`](comparisons/interaction-events-modeless-vs-headless-probe.json)
+and
+[`comparisons/interaction-events-modeless-vs-headless-probe.md`](comparisons/interaction-events-modeless-vs-headless-probe.md)
+record the `oxforms-xvx.13` comparison between the authoritative modeless
+MSForms interaction event capture and the current OxForms headless probe replay
+golden. The comparison is observation-only: it links exact artifacts and hashes,
+maps only the overlapping show/TextBox/type/Button slices, classifies differences
+as implemented match, known gap, uncertain oracle, or out-of-scope, and does
+not claim full parity. It newly files `oxforms-9pr` for the TextBox `Click`
+mismatch, while citing existing follow-ups `oxforms-xvx.20` for modal evidence
+and `oxforms-xvx.21` for tracked command-log hygiene.
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

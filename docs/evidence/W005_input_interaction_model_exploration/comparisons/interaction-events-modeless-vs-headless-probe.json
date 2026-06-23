@@ -1,0 +1,385 @@
+{
+  "schema": "oxforms.w005.interaction_comparison_manifest.v1",
+  "schema_version": 1,
+  "bead": "oxforms-xvx.13",
+  "comparison_id": "interaction-events-modeless-vs-headless-probe",
+  "status": "observation_only",
+  "linked_report": "docs/evidence/W005_input_interaction_model_exploration/comparisons/interaction-events-modeless-vs-headless-probe.md",
+  "purpose": "Relate the authoritative W005 modeless Excel/MSForms interaction event oracle evidence to the current OxForms headless probe replay golden and supporting visible-input smoke evidence. This is an observation artifact, not a final parity oracle.",
+  "recorded": {
+    "basis": "working_tree_artifact_before_commit",
+    "recorded_utc": "2026-06-23T04:08:00Z",
+    "note": "The exact comparison is preserved by this manifest's source paths, hashes, row links, and report. The final commit records the durable repository state."
+  },
+  "classification_vocabulary": [
+    "implemented_match",
+    "known_gap",
+    "uncertain_oracle",
+    "out_of_scope"
+  ],
+  "evidence_files": [
+    {
+      "role": "msforms_fixture_manifest",
+      "path": "fixtures/office-oracle/excel-msforms/userforms/interaction-events/fixture.json",
+      "sha256": "bc2d98c566e687a5619bebead1a453fc686f207744dde6fda07817b81fe23e33"
+    },
+    {
+      "role": "msforms_fixture_form_code",
+      "path": "fixtures/office-oracle/excel-msforms/userforms/interaction-events/form-code-behind.bas",
+      "sha256": "6e185879c1a1a1e979420d7c8871a491a9fd8594ce5d2999a39e8bee96356c1f"
+    },
+    {
+      "role": "msforms_fixture_standard_module",
+      "path": "fixtures/office-oracle/excel-msforms/userforms/interaction-events/standard-module-extra.bas",
+      "sha256": "bbc98a918ff5d80a0a16a6f408e9e9df9abc5a5e98e148f3ab66f5c07aa2fe54"
+    },
+    {
+      "role": "msforms_oracle_manifest",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/oracle-capture-manifest.json",
+      "sha256": "c882c4d0dae37410c37fc789ae6884d05aa7ca9bd00f8b9d82a10e5d1d25c891"
+    },
+    {
+      "role": "msforms_generated_workbook",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/w005-interaction-events-oracle.xlsm",
+      "sha256": "6a6b37b0e94ce04a4e7850f4b3c72c792ce4adb235b66a3018e3442620e24ad4"
+    },
+    {
+      "role": "msforms_run_summary",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/run-summary.json",
+      "sha256": "b0e6c38da8ebd85a5039d501b251e5f5055468dd4b8074fe38810b6d61ef1f7c"
+    },
+    {
+      "role": "msforms_modeless_event_log_json",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-event-log.json",
+      "sha256": "62697e22413221a01ef1b0911c29da570a888686b3cf24c9e6f9f4ff10b3a8ae"
+    },
+    {
+      "role": "msforms_modeless_event_log_csv",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-event-log.csv",
+      "sha256": "d8b77e6365539c29e40b47cf026935e20e8dd2d7a165359f0526fc4f679c920d"
+    },
+    {
+      "role": "msforms_modeless_input_actions",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-input-actions.json",
+      "sha256": "9047016e0d61e4fe3a750dbbee5192506ab717ab8d200b3ede21a96a758db488"
+    },
+    {
+      "role": "msforms_modeless_coordinate_calibration",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-coordinate-calibration.json",
+      "sha256": "c0619c232311c019deec5e92724da733e944f966d125ffe6f61283c313bdefb9"
+    },
+    {
+      "role": "msforms_modeless_window_manifest",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-window/window-capture-manifest.json",
+      "sha256": "d4c2315c86c93364de5766f22b90ce285dbc8ca9c782984079ff6bfd90858b05"
+    },
+    {
+      "role": "msforms_modeless_screenshot",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-window/window-capture.png",
+      "sha256": "17ec1994a12da67d9f1181f43fee052c10cda443933af85dbe599ce4285c7933"
+    },
+    {
+      "role": "oxforms_headless_replay_golden",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
+      "sha256": "e9b3c0526f5edfa5b5396d038e686435d8d00624f92bc0e9e6d746b65194aeff"
+    },
+    {
+      "role": "oxforms_headless_display_list_golden",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
+      "sha256": "8a2c9a100a13b4ab9f2278a358280e0c292e140e6245cffc2474def530132684"
+    },
+    {
+      "role": "oxforms_trace_replay_checksums",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
+      "sha256": "92631cba762b8cd19c274dcc09896914d1443c1d9ad9bae2fa0d6c3c1d6e4094"
+    },
+    {
+      "role": "oxforms_visible_smoke_manifest",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-smoke-manifest.json",
+      "sha256": "256c50a2db6843c7d7bb0b689d6f0abe0c7d7720f7af4db8dac56b34b5c2e7b3"
+    },
+    {
+      "role": "oxforms_visible_smoke_trace",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-trace.json",
+      "sha256": "792aa79b7ca318b2708eaae1c6902f814bcab28d3415b0a4964ef3047c096131"
+    },
+    {
+      "role": "oxforms_visible_smoke_input_actions",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-actions.json",
+      "sha256": "5ba058e61cee2f27386d7c093496b18e55e6855f442a7749b42ecdd61283e6e4"
+    },
+    {
+      "role": "oxforms_visible_smoke_window_manifest",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/window/window-capture-manifest.json",
+      "sha256": "50526e8f99b69808bfc193d132542d14d03c0f2b8d585fd9d62b31ecd6f135a6"
+    },
+    {
+      "role": "oxforms_visible_smoke_screenshot",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/window/window-capture.png",
+      "sha256": "3f23fb44ce1b63882d458eeecb942649c6a1d53dc0d894b57175c4c36c4eef7c"
+    },
+    {
+      "role": "oxforms_visible_smoke_frame",
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-frame.ppm",
+      "sha256": "e0c6bd763f9ad8743125b92ee949e55fbb4c6750f8b2ca65ca0ea1d58be17a16"
+    }
+  ],
+  "scenario_mapping": {
+    "mapping_status": "partial_overlap",
+    "msforms_capture": {
+      "capture_id": "interaction-events-20260623T004914Z",
+      "run": "modeless",
+      "row_count": 1116,
+      "event_names": [
+        "Activate",
+        "AfterUpdate",
+        "BeforeUpdate",
+        "Change",
+        "Click",
+        "Enter",
+        "Exit",
+        "Initialize",
+        "KeyDown",
+        "KeyPress",
+        "KeyUp",
+        "MouseDown",
+        "MouseMove",
+        "MouseUp",
+        "QueryClose",
+        "Terminate"
+      ],
+      "mapped_rows": [
+        {
+          "slice_id": "msforms-modeless-show",
+          "sequence_range": [1, 3],
+          "events": ["Initialize", "Enter", "Activate"]
+        },
+        {
+          "slice_id": "msforms-textbox-click-focus",
+          "sequence_range": [114, 115],
+          "events": ["MouseDown", "MouseUp"]
+        },
+        {
+          "slice_id": "msforms-type-a",
+          "sequence_range": [157, 161],
+          "events": ["KeyDown", "KeyPress", "Change", "KeyUp"]
+        },
+        {
+          "slice_id": "msforms-default-button-direct-click",
+          "sequence_range": [565, 569],
+          "events": ["Exit", "Enter", "MouseDown", "MouseUp", "Click"]
+        },
+        {
+          "slice_id": "msforms-close",
+          "sequence_range": [1114, 1116],
+          "events": ["QueryClose", "Exit", "Terminate"]
+        }
+      ],
+      "input_actions_used": [4, 5, 13, 21],
+      "extra_actions_not_compared": [1, 2, 3, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20]
+    },
+    "oxforms_headless_replay": {
+      "trace_id": "w005-headless-probe-replay-golden-v1",
+      "scenario_id": "w005.oxforms.headless.probe-click-type-click",
+      "row_count": 113,
+      "script_steps": [
+        {
+          "script_step_id": "script-0001",
+          "action": "show_form_modeless",
+          "mapped_msforms_slice": "msforms-modeless-show"
+        },
+        {
+          "script_step_id": "script-0002",
+          "action": "mouse_click",
+          "target": "text-1",
+          "mapped_msforms_slice": "msforms-textbox-click-focus"
+        },
+        {
+          "script_step_id": "script-0003",
+          "action": "type_committed_text",
+          "text": "A",
+          "mapped_msforms_slice": "msforms-type-a"
+        },
+        {
+          "script_step_id": "script-0004",
+          "action": "mouse_click",
+          "target": "ok",
+          "mapped_msforms_slice": "msforms-default-button-direct-click"
+        }
+      ]
+    },
+    "supporting_oxforms_visible_smoke": {
+      "capture_id": "visible-input-smoke-20260623T035500Z",
+      "role": "supporting evidence that real Windows input enters the OxForms W005 path; not the main MSForms comparison trace",
+      "observed_coverage": {
+        "ui_event_count": 18,
+        "effect_count": 43,
+        "final_textbox_text": "ab",
+        "framebuffer_hash": "5186182932999671525"
+      }
+    }
+  },
+  "event_order_comparison": [
+    {
+      "id": "order-modeless-show-activate",
+      "classification": "implemented_match",
+      "msforms_rows": [1, 3],
+      "oxforms_rows": ["row-0002", "row-0010", "row-0013"],
+      "summary": "Both artifacts contain a modeless show/visibility path that reaches Activate. MSForms also records Initialize and an initial TextBox Enter before Activate; those are tracked separately as gaps or uncertainty."
+    },
+    {
+      "id": "order-textbox-mouse-down-up",
+      "classification": "implemented_match",
+      "msforms_rows": [114, 115],
+      "oxforms_rows": ["row-0031", "row-0044"],
+      "summary": "Both artifacts record TextBox mouse down followed by mouse up with left button metadata on the mapped TextBox focus click."
+    },
+    {
+      "id": "order-textbox-click-extra",
+      "classification": "known_gap",
+      "msforms_rows": [],
+      "oxforms_rows": ["row-0046"],
+      "follow_up_bead": "oxforms-9pr",
+      "summary": "OxForms headless replay emits a TextBox Click dispatch after MouseUp. FM20_EVENT_FACTS.md records no Click member on MdcTextEvents/TextBox, and the modeless MSForms capture records OracleTextBox MouseDown/MouseUp without TextBox Click."
+    },
+    {
+      "id": "order-textbox-key-a",
+      "classification": "implemented_match",
+      "msforms_rows": [157, 158, 159, 161],
+      "oxforms_rows": ["row-0055", "row-0061", "row-0063", "row-0075"],
+      "summary": "Both artifacts record KeyDown, KeyPress, Change, and KeyUp for the first committed TextBox character in that order."
+    },
+    {
+      "id": "order-command-button-click",
+      "classification": "implemented_match",
+      "msforms_rows": [567, 568, 569],
+      "oxforms_rows": ["row-0085", "row-0101", "row-0103"],
+      "summary": "Both artifacts record CommandButton MouseDown, MouseUp, and Click in that order for a direct button click."
+    },
+    {
+      "id": "order-focus-validation-around-button",
+      "classification": "known_gap",
+      "msforms_rows": [254, 255, 256, 257, 565, 566],
+      "oxforms_rows": ["row-0081"],
+      "summary": "MSForms records BeforeUpdate/AfterUpdate/Exit/Enter rows around focus transfer in the broader modeless run. The current OxForms replay only records a transfer_focus effect and does not emit validation or focus event dispatch rows for that parity surface."
+    },
+    {
+      "id": "order-close-query-terminate",
+      "classification": "known_gap",
+      "msforms_rows": [1114, 1115, 1116],
+      "oxforms_rows": [],
+      "summary": "MSForms records QueryClose, Exit, and Terminate on the modeless close path. The headless replay scenario does not include close. The visible smoke records CloseRequest/QueryClose support, but not Terminate parity."
+    },
+    {
+      "id": "order-extra-msforms-actions",
+      "classification": "out_of_scope",
+      "msforms_rows": [12, 13, 14, 33, 34, 35, 70, 71, 208, 209, 210, 253, 302, 303, 398, 401, 446, 451, 497, 502, 628, 630, 714, 716, 782, 784, 870, 936, 985, 987, 1052, 1054],
+      "oxforms_rows": [],
+      "summary": "The authoritative MSForms capture intentionally includes label clicks, capture/out-of-bounds drag, Backspace, Tab, Shift+Tab, Enter/Escape/default/cancel/accelerator paths, direct cancel click, double-click probes, and close. Those are not part of the four-step headless replay golden compared here."
+    }
+  ],
+  "argument_and_metadata_comparison": [
+    {
+      "id": "args-mouse-button-shift",
+      "classification": "implemented_match",
+      "summary": "Mapped TextBox and CommandButton mouse rows preserve left button and Shift=0 metadata on both sides."
+    },
+    {
+      "id": "args-command-button-xy",
+      "classification": "known_gap",
+      "msforms_rows": [567, 568],
+      "oxforms_rows": ["row-0085", "row-0101"],
+      "summary": "MSForms direct OK click records msforms_event_args X=36, Y=12 for OracleDefaultButton. OxForms records control_local X=16, Y=12 for ok because the replay uses different probe geometry and a synthetic form_logical point."
+    },
+    {
+      "id": "args-textbox-xy",
+      "classification": "known_gap",
+      "msforms_rows": [114, 115],
+      "oxforms_rows": ["row-0031", "row-0044"],
+      "summary": "MSForms TextBox focus click records msforms_event_args X=36, Y=12. OxForms records X=8, Y=8 for text-1 because the headless replay uses a different target point and probe rectangle."
+    },
+    {
+      "id": "args-key-a-case",
+      "classification": "known_gap",
+      "msforms_rows": [157, 158, 161],
+      "oxforms_rows": ["row-0055", "row-0061", "row-0075"],
+      "summary": "MSForms action typed lowercase 'a' through SendKeys and records KeyCode=65, KeyAscii=97, Shift=0. OxForms replay types uppercase 'A' and records normalized shift diagnostics plus key_ascii_placeholder=65."
+    },
+    {
+      "id": "args-vba-dispatch-execution",
+      "classification": "known_gap",
+      "summary": "MSForms rows are real VBA handler observations. OxForms headless vba_dispatch rows are reconstructed from FireVbaEvent effects with status not_executed_headless_replay; native FM20-named dispatch remains outside this replay artifact."
+    },
+    {
+      "id": "args-msforms-return-helper-mutation",
+      "classification": "uncertain_oracle",
+      "summary": "The mapped lowercase 'a' rows do not mutate ReturnInteger helpers. The capture contains Cancel before/after observations for validation and close rows, but the current mapped replay does not exercise helper mutation parity."
+    }
+  ],
+  "coordinate_lifecycle_render_notes": [
+    {
+      "id": "coordinate-vocabulary",
+      "classification": "implemented_match",
+      "summary": "Both evidence sets use the W005 coordinate vocabulary. MSForms preserves screen_pixels, screenshot_pixels, form_logical, control_local derivations, and msforms_event_args; OxForms replay preserves client_pixels, form_logical, control_local, display_list_logical, and render metadata."
+    },
+    {
+      "id": "coordinate-calibration",
+      "classification": "uncertain_oracle",
+      "summary": "The MSForms modeless calibration derives a 96 DPI point scale and form origin x=8, y=31 from the scoped label border. The OxForms headless replay uses synthetic 1:1 client/form coordinates, so this comparison does not prove final MSForms coordinate rounding or chrome/client parity."
+    },
+    {
+      "id": "lifecycle-modal",
+      "classification": "known_gap",
+      "follow_up_bead": "oxforms-xvx.20",
+      "summary": "Only modeless MSForms lifecycle evidence is included. Modal-show lifecycle/pump evidence remains tracked by oxforms-xvx.20."
+    },
+    {
+      "id": "evidence-command-logs",
+      "classification": "known_gap",
+      "follow_up_bead": "oxforms-xvx.21",
+      "summary": "The modeless MSForms manifest references .log command outputs that are ignored by the repo-level *.log rule. This comparison uses tracked command .txt files and tracked core artifacts, and cites oxforms-xvx.21 as evidence hygiene follow-up."
+    },
+    {
+      "id": "render-invalidation",
+      "classification": "known_gap",
+      "summary": "OxForms replay records invalidation rows, display-list references, and PAL smoke render hashes. MSForms event evidence records a screenshot and window metadata but no comparable invalidation/display-list stream. No screenshot or pixel diff is attempted."
+    },
+    {
+      "id": "visible-smoke",
+      "classification": "implemented_match",
+      "summary": "The visible smoke is supporting OxForms evidence that public Windows input enters the W005 path and reaches Label, TextBox, CommandButton, text mutation, click effects, and QueryClose. It is not compared as the main trace because it is not the same scripted scenario as the headless golden."
+    }
+  ],
+  "follow_up_beads": [
+    {
+      "id": "oxforms-9pr",
+      "reason": "Newly filed from this comparison: align TextBox probe Click emission with FM20 and MSForms evidence."
+    },
+    {
+      "id": "oxforms-xvx.20",
+      "reason": "Existing follow-up: modal MSForms interaction oracle evidence is not captured yet."
+    },
+    {
+      "id": "oxforms-xvx.21",
+      "reason": "Existing follow-up: preserve tracked command logs for the modeless interaction capture."
+    }
+  ],
+  "validation": {
+    "comparison_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/evidence/Test-W005InteractionComparison.ps1 -ManifestPath docs/evidence/W005_input_interaction_model_exploration/comparisons/interaction-events-modeless-vs-headless-probe.json",
+    "trace_schema_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/trace-replay/Test-TraceReplaySchema.ps1 -TracePath docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
+    "trace_replay_check": "cargo run -p oxforms-core --example w005_trace_replay -- --check",
+    "msforms_checksum_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/evidence/Test-ChecksumManifest.ps1 -Directory docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z -GitTrackedOnly",
+    "oxforms_trace_checksum_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/evidence/Test-ChecksumManifest.ps1 -Directory docs/evidence/W005_input_interaction_model_exploration/trace-replay -GitTrackedOnly"
+  },
+  "clean_room": {
+    "source": "Repo-owned fixtures and OxForms traces, public Excel/VBIDE automation output, public Windows input/capture metadata, public FM20 type-library facts already committed in W005 evidence.",
+    "prohibited": "No Office internals, decompilation, disassembly, or non-public source were used."
+  },
+  "non_claims": [
+    "This comparison does not claim full MSForms parity.",
+    "This comparison does not compare unrelated screenshots or attempt a pixel diff.",
+    "This comparison does not treat the headless replay as live OxVba execution.",
+    "This comparison does not settle modal lifecycle/pump behavior."
+  ]
+}
+
