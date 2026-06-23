@@ -33,18 +33,25 @@ W004 text-label capture:
 - Fixture:
   [`../../../fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json`](../../../fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json)
 
-W005 modeless interaction capture:
+Authoritative W005 modeless interaction capture:
 
 - Manifest:
-  [`captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json`](captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json)
+  [`captures/interaction-events-20260623T004914Z/oracle-capture-manifest.json`](captures/interaction-events-20260623T004914Z/oracle-capture-manifest.json)
 - Event log:
-  [`captures/interaction-events-20260623T001238Z/modeless-event-log.json`](captures/interaction-events-20260623T001238Z/modeless-event-log.json)
+  [`captures/interaction-events-20260623T004914Z/modeless-event-log.json`](captures/interaction-events-20260623T004914Z/modeless-event-log.json)
 - Coordinate calibration:
-  [`captures/interaction-events-20260623T001238Z/modeless-coordinate-calibration.json`](captures/interaction-events-20260623T001238Z/modeless-coordinate-calibration.json)
+  [`captures/interaction-events-20260623T004914Z/modeless-coordinate-calibration.json`](captures/interaction-events-20260623T004914Z/modeless-coordinate-calibration.json)
 - Input actions:
-  [`captures/interaction-events-20260623T001238Z/modeless-input-actions.json`](captures/interaction-events-20260623T001238Z/modeless-input-actions.json)
+  [`captures/interaction-events-20260623T004914Z/modeless-input-actions.json`](captures/interaction-events-20260623T004914Z/modeless-input-actions.json)
 - Screenshot:
-  [`captures/interaction-events-20260623T001238Z/modeless-window/window-capture.png`](captures/interaction-events-20260623T001238Z/modeless-window/window-capture.png)
+  [`captures/interaction-events-20260623T004914Z/modeless-window/window-capture.png`](captures/interaction-events-20260623T004914Z/modeless-window/window-capture.png)
+
+Superseded diagnostic W005 modeless interaction capture:
+
+- [`captures/interaction-events-20260623T001238Z/`](captures/interaction-events-20260623T001238Z/)
+  preserves its actual injected coordinates, but those label-intended
+  coordinates came from the pre-repair bad origin. Use it only to diagnose the
+  calibration failure, not as current modeless oracle input.
 
 ## Observed Facts
 
@@ -80,7 +87,7 @@ These facts are evidence for the captured fixture, DPI, Windows theme, Excel
 version, and screenshot method. They are not a final rule for every MSForms
 window, nor do they settle mouse event `X`/`Y` rounding.
 
-The modeless W005 capture records the same top-level window class
+The authoritative modeless W005 capture records the same top-level window class
 `ThunderDFrame`, top-level window bounds `800,420,1120,660`, screenshot size
 `320 x 240`, and DPI `96`. Its repaired coordinate calibration records the
 `OracleProbeLabel` exact fill rectangle at `x=41`, `y=64`, `width=126`,
@@ -91,12 +98,16 @@ unscoped global border-color match (`x=18`, `y=11`, `width=262`,
 `height=116`) is retained only as a rejected diagnostic because it includes
 unrelated window/title/sibling-control pixels.
 
-Its event log preserves raw `msforms_event_args`; the input action artifact
-preserves the actual `screen_pixels` and `screenshot_pixels` values injected
-during the original modeless run. Because those historical inputs were driven
-before the calibration repair, corrected fixture-derived target points are
-recorded separately under `post_capture_calibration_repair` instead of
-rewriting the actual injected coordinates.
+Its input action artifact records actual corrected automated input coordinates:
+`OracleProbeLabel center` was injected at screenshot pixel `x=104`, `y=95` and
+screen pixel `x=904`, `y=515`. Its event log preserves raw
+`msforms_event_args` and records target/event counts; the label rows include
+`MouseMove=201`, `MouseDown=5`, `MouseUp=5`, and `Click=4`.
+
+The superseded `20260623T001238Z` capture preserves its actual
+`screen_pixels` and `screenshot_pixels` values separately from the repaired
+calibration. Do not rewrite those historical injected coordinates, and do not
+use that run as current modeless oracle input.
 
 The event log marks `observed_facts`, `assumptions`, and `manual_input`; the
 captured modeless run recorded zero manual inputs.

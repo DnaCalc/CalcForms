@@ -1,0 +1,358 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w005_input_actions.v1",
+    "bead":  "oxforms-xvx.3",
+    "run":  "modeless",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "sequence":  1,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleProbeLabel near top-left",
+                                 "action":  "click",
+                                 "screenshot_pixels":  {
+                                                           "x":  50.239999999999995,
+                                                           "y":  70.679999999999993
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  850,
+                                                       "y":  491
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  2,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleProbeLabel center",
+                                 "action":  "click",
+                                 "screenshot_pixels":  {
+                                                           "x":  104,
+                                                           "y":  95
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  904,
+                                                       "y":  515
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  3,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleProbeLabel capture/out-of-bounds drag",
+                                 "action":  "drag_outside_bounds",
+                                 "screenshot_pixels":  {
+                                                           "start":  {
+                                                                         "x":  104,
+                                                                         "y":  95
+                                                                     },
+                                                           "end":  {
+                                                                       "x":  184,
+                                                                       "y":  137.66666666666666
+                                                                   }
+                                                       },
+                                 "screen_pixels":  {
+                                                       "start":  {
+                                                                     "x":  904,
+                                                                     "y":  515
+                                                                 },
+                                                       "end":  {
+                                                                   "x":  984,
+                                                                   "y":  558
+                                                               }
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Drag starts inside the label and releases outside the label half-open bounds to probe capture/out-of-bounds coordinates."
+                             },
+                             {
+                                 "sequence":  4,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleTextBox center focus",
+                                 "action":  "click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  79
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  499
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  5,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "OracleTextBox character input",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "ab",
+                                 "notes":  "Printable text input intended to produce KeyDown/KeyPress/Change/KeyUp rows where MSForms raises them."
+                             },
+                             {
+                                 "sequence":  6,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "OracleTextBox Backspace",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "{BACKSPACE}",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  7,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Tab focus transfer from TextBox",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "{TAB}",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  8,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Shift+Tab focus transfer back toward TextBox",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "+{TAB}",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  9,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Default CommandButton Enter path",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "{ENTER}",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  10,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Cancel CommandButton Escape path",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "{ESC}",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  11,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Alt+O default button accelerator",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "%o",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  12,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Alt+C cancel button accelerator",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "%c",
+                                 "notes":  ""
+                             },
+                             {
+                                 "sequence":  13,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleDefaultButton direct click",
+                                 "action":  "click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  127
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  547
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  14,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleCancelButton direct click",
+                                 "action":  "click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  175
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  595
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  15,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleProbeLabel double-click probe",
+                                 "action":  "double_click_first_click",
+                                 "screenshot_pixels":  {
+                                                           "x":  104,
+                                                           "y":  95
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  904,
+                                                       "y":  515
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  16,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleProbeLabel double-click probe",
+                                 "action":  "double_click_second_click",
+                                 "screenshot_pixels":  {
+                                                           "x":  104,
+                                                           "y":  95
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  904,
+                                                       "y":  515
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  17,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleTextBox double-click probe",
+                                 "action":  "double_click_first_click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  79
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  499
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  18,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleTextBox double-click probe",
+                                 "action":  "double_click_second_click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  79
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  499
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  19,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleDefaultButton double-click probe",
+                                 "action":  "double_click_first_click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  127
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  547
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  20,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendinput_mouse",
+                                 "manual":  false,
+                                 "target_intent":  "OracleDefaultButton double-click probe",
+                                 "action":  "double_click_second_click",
+                                 "screenshot_pixels":  {
+                                                           "x":  232,
+                                                           "y":  127
+                                                       },
+                                 "screen_pixels":  {
+                                                       "x":  1032,
+                                                       "y":  547
+                                                   },
+                                 "keys":  "",
+                                 "notes":  "Mouse event was injected with public user32 mouse_event after SetCursorPos."
+                             },
+                             {
+                                 "sequence":  21,
+                                 "run":  "modeless",
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "UserForm close request via Alt+F4",
+                                 "action":  "key_sequence",
+                                 "screenshot_pixels":  null,
+                                 "screen_pixels":  null,
+                                 "keys":  "%{F4}",
+                                 "notes":  "Intended to produce QueryClose and Terminate/lifecycle rows if MSForms raises them for this run."
+                             }
+                         ],
+    "coordinate_vocabulary":  [
+                                  "screen_pixels",
+                                  "window_rect",
+                                  "screenshot_pixels",
+                                  "form_logical",
+                                  "control_local",
+                                  "msforms_event_args"
+                              ],
+    "assumptions":  [
+                        "Automated input target points are derived from fixture point geometry and the scoped probe-label calibration rectangle; live event rows remain the observed MSForms facts.",
+                        "The use of SendKeys and user32 mouse_event is evidence-driving infrastructure only and is not an OxForms runtime architecture decision."
+                    ]
+}

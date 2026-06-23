@@ -28,11 +28,11 @@ narrower lifecycle or pump claims.
 - W002 OxVba adapter smoke code:
   [`../../../crates/oxforms-oxvba-adapter/src/smoke_canvas.rs`](../../../crates/oxforms-oxvba-adapter/src/smoke_canvas.rs)
 - W005 modeless interaction capture manifest:
-  [`captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json`](captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json)
+  [`captures/interaction-events-20260623T004914Z/oracle-capture-manifest.json`](captures/interaction-events-20260623T004914Z/oracle-capture-manifest.json)
 - W005 modeless event log:
-  [`captures/interaction-events-20260623T001238Z/modeless-event-log.json`](captures/interaction-events-20260623T001238Z/modeless-event-log.json)
+  [`captures/interaction-events-20260623T004914Z/modeless-event-log.json`](captures/interaction-events-20260623T004914Z/modeless-event-log.json)
 - W005 modeless run summary:
-  [`captures/interaction-events-20260623T001238Z/run-summary.json`](captures/interaction-events-20260623T001238Z/run-summary.json)
+  [`captures/interaction-events-20260623T004914Z/run-summary.json`](captures/interaction-events-20260623T004914Z/run-summary.json)
 
 ## Current Facts
 
@@ -47,10 +47,10 @@ narrower lifecycle or pump claims.
 - The W005 FM20 type-library capture did not find those lifecycle names as
   members of source interfaces attached to `UserForm` or `UserForm2`; lifecycle
   DISPIDs remain unknown in repo evidence.
-- The W005 modeless capture observed `Initialize`, `Activate`, `QueryClose`,
-  and `Terminate` rows, with event sequence numbers, observed-fact text,
-  assumption text, active/focused control fields, close-request context, and
-  zero manual inputs.
+- The authoritative W005 modeless capture observed `Initialize`, `Activate`,
+  `QueryClose`, and `Terminate` rows, with event sequence numbers,
+  observed-fact text, assumption text, active/focused control fields,
+  close-request context, and zero manual inputs.
 - The W005 modeless capture did not settle modal pump behavior and did not
   observe every lifecycle name in the W005 fact matrix.
 

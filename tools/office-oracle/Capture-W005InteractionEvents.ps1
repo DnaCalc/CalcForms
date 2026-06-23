@@ -771,6 +771,20 @@ function Export-WorksheetLog {
         $rows.Add([pscustomobject]$row) | Out-Null
     }
 
+    $targetEventCounts = @(
+        $rows |
+            Group-Object target_name, event_name |
+            Sort-Object Name |
+            ForEach-Object {
+                $parts = $_.Name -split ', ', 2
+                [ordered]@{
+                    target_name = $parts[0]
+                    event_name = $parts[1]
+                    row_count = $_.Count
+                }
+            }
+    )
+
     $csvPath = Join-Path $ResolvedOutDir "$CurrentRunName-event-log.csv"
     @($rows) | Export-Csv -LiteralPath $csvPath -NoTypeInformation -Encoding UTF8
 
@@ -787,6 +801,7 @@ function Export-WorksheetLog {
             row_count = $rows.Count
             event_names = @($rows | ForEach-Object { $_.event_name } | Sort-Object -Unique)
             targets = @($rows | ForEach-Object { $_.target_name } | Sort-Object -Unique)
+            target_event_counts = $targetEventCounts
             event_rows = @($rows)
         }
         assumptions = @(
@@ -875,6 +890,33 @@ function Write-Checksums {
     }
 
     Set-Content -LiteralPath $checksumPath -Value $lines -Encoding ASCII
+}
+
+function Get-ExistingRepoRelativeFiles {
+    param(
+        [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
+        [string[]]$Paths
+    )
+
+    $existing = [System.Collections.Generic.List[string]]::new()
+    foreach ($path in $Paths) {
+        if ([string]::IsNullOrWhiteSpace($path)) {
+            continue
+        }
+
+        $fullPath = if ([System.IO.Path]::IsPathRooted($path)) {
+            [System.IO.Path]::GetFullPath($path)
+        } else {
+            [System.IO.Path]::GetFullPath((Join-Path $repoRoot $path))
+        }
+
+        if (Test-Path -LiteralPath $fullPath -PathType Leaf) {
+            $existing.Add((ConvertTo-RepoRelative $fullPath)) | Out-Null
+        }
+    }
+
+    return @($existing)
 }
 
 function Invoke-MainCapture {
@@ -1064,6 +1106,24 @@ function Invoke-MainCapture {
         }
     }
 
+    $commandLogCandidates = @(
+        (Join-Path $ResolvedOutDir 'capture-w005.stdout.log'),
+        (Join-Path $ResolvedOutDir 'capture-w005.stderr.log'),
+        (Join-Path $ResolvedOutDir 'generate-workbook.stdout.log'),
+        (Join-Path $ResolvedOutDir 'generate-workbook.stderr.log'),
+        (Join-Path $ResolvedOutDir 'capture-window-modeless.stdout.log'),
+        (Join-Path $ResolvedOutDir 'capture-window-modeless.stderr.log'),
+        (Join-Path $ResolvedOutDir 'capture-window-modal.stdout.log'),
+        (Join-Path $ResolvedOutDir 'capture-window-modal.stderr.log'),
+        (Join-Path $ResolvedOutDir 'drive-modal.stdout.log'),
+        (Join-Path $ResolvedOutDir 'drive-modal.stderr.log')
+    )
+    $modalEventNames = if ($null -ne $modalLog) {
+        @($modalLog.event_names)
+    } else {
+        [object[]]@()
+    }
+
     $manifest = [ordered]@{
         schema = 'oxforms.office_oracle.w005_interaction_event_capture.v1'
         bead = 'oxforms-xvx.3'
@@ -1110,22 +1170,11 @@ function Invoke-MainCapture {
             } else {
                 $null
             }
-            command_logs = (@(
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'capture-w005.stdout.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'capture-w005.stderr.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'generate-workbook.stdout.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'generate-workbook.stderr.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'capture-window-modeless.stdout.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'capture-window-modeless.stderr.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'capture-window-modal.stdout.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'capture-window-modal.stderr.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'drive-modal.stdout.log'),
-                ConvertTo-RepoRelative (Join-Path $ResolvedOutDir 'drive-modal.stderr.log')
-            ) | Where-Object { $null -ne $_ -and (Test-Path -LiteralPath (Join-Path $repoRoot $_) -PathType Leaf) })
+            command_logs = Get-ExistingRepoRelativeFiles -Paths $commandLogCandidates
         }
         observed_coverage = [ordered]@{
             modeless_event_names = $modelessLog.event_names
-            modal_event_names = if ($null -ne $modalLog) { $modalLog.event_names } else { @() }
+            modal_event_names = $modalEventNames
             manual_inputs = @()
             input_method = 'automated public Windows SendKeys/user32 mouse_event'
         }

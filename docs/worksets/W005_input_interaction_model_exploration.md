@@ -153,7 +153,9 @@ Current fixture input:
 [`../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/`](../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/)
 from `oxforms-xvx.2`. Modeless live MSForms event evidence from `oxforms-xvx.3`
 lives under
-[`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/).
+[`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/).
+The earlier `interaction-events-20260623T001238Z` run is retained only as
+superseded diagnostic evidence for the pre-repair coordinate bug.
 Modal-show capture remains tracked by `oxforms-xvx.20`.
 
 ### 3. FM20 Event Signature And Event-Argument Facts

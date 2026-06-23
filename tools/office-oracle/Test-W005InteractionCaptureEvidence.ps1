@@ -99,6 +99,34 @@ function Assert-EventLog {
     return $log
 }
 
+function Assert-TargetEventCounts {
+    param(
+        [object]$Log,
+        [string]$TargetName,
+        [hashtable]$RequiredMinimums
+    )
+
+    $rows = @($Log.observed_facts.event_rows | Where-Object { $_.target_name -eq $TargetName })
+    if ($rows.Count -eq 0) {
+        throw "Event log '$($Log.source.workbook)' has no observed rows for target '$TargetName'."
+    }
+
+    foreach ($eventName in $RequiredMinimums.Keys) {
+        $actual = @($rows | Where-Object { $_.event_name -eq $eventName }).Count
+        $minimum = [int]$RequiredMinimums[$eventName]
+        if ($actual -lt $minimum) {
+            throw "Event log '$($Log.source.workbook)' target '$TargetName' has $actual '$eventName' rows; expected at least $minimum."
+        }
+
+        $countRows = @($Log.observed_facts.target_event_counts | Where-Object {
+            $_.target_name -eq $TargetName -and $_.event_name -eq $eventName
+        })
+        if ($countRows.Count -ne 1 -or [int]$countRows[0].row_count -ne $actual) {
+            throw "Event log '$($Log.source.workbook)' target_event_counts does not match observed rows for '$TargetName'/'$eventName'."
+        }
+    }
+}
+
 function Assert-CoordinateCalibration {
     param(
         [string]$Path,
@@ -164,6 +192,54 @@ function Assert-CoordinateCalibration {
     return $calibration
 }
 
+function Assert-InputActions {
+    param(
+        [string]$Path,
+        [object]$Calibration,
+        [object]$Fixture
+    )
+
+    $fullPath = Assert-File $Path
+    $actions = Get-Content -Raw -LiteralPath $fullPath | ConvertFrom-Json
+    if ($actions.schema -ne 'oxforms.office_oracle.w005_input_actions.v1') {
+        throw "Unexpected input actions schema in $Path"
+    }
+    if ($actions.bead -ne 'oxforms-xvx.3') {
+        throw "Unexpected bead in input actions $Path"
+    }
+    if ($null -eq $actions.manual_inputs) {
+        throw "Input actions must include manual_inputs, even when empty: $Path"
+    }
+    if ($null -eq $actions.automated_inputs -or @($actions.automated_inputs).Count -eq 0) {
+        throw "Input actions must include automated_inputs: $Path"
+    }
+
+    $label = @($Fixture.controls | Where-Object { $_.name -eq 'OracleProbeLabel' })
+    if ($label.Count -ne 1) {
+        throw 'Fixture must define exactly one OracleProbeLabel for input-action validation.'
+    }
+
+    $scale = [double]$Calibration.points_to_pixels
+    $expectedCenterX = [double]$Calibration.form_origin_screenshot_pixels.x + (([double]$label[0].leftPt + ([double]$label[0].widthPt * 0.5)) * $scale)
+    $expectedCenterY = [double]$Calibration.form_origin_screenshot_pixels.y + (([double]$label[0].topPt + ([double]$label[0].heightPt * 0.5)) * $scale)
+
+    $centerActions = @($actions.automated_inputs | Where-Object {
+        $_.target_intent -eq 'OracleProbeLabel center' -and $_.action -eq 'click'
+    })
+    if ($centerActions.Count -ne 1) {
+        throw "Input actions '$Path' must contain exactly one OracleProbeLabel center click; found $($centerActions.Count)."
+    }
+
+    $center = $centerActions[0].screenshot_pixels
+    if ($null -eq $center) {
+        throw "Input actions '$Path' OracleProbeLabel center click is missing screenshot_pixels."
+    }
+    if ([Math]::Abs([double]$center.x - $expectedCenterX) -gt 0.001 -or
+        [Math]::Abs([double]$center.y - $expectedCenterY) -gt 0.001) {
+        throw "Input actions '$Path' OracleProbeLabel center click used screenshot_pixels x=$($center.x) y=$($center.y), expected calibrated x=$expectedCenterX y=$expectedCenterY."
+    }
+}
+
 $resolvedCaptureDir = Resolve-RepoPath $CaptureDir
 $manifestPath = Join-Path $resolvedCaptureDir 'oracle-capture-manifest.json'
 $checksumPath = Join-Path $resolvedCaptureDir 'checksums.sha256'
@@ -213,9 +289,24 @@ foreach ($path in $artifactPaths) {
     [void](Assert-File $path)
 }
 
-[void](Assert-EventLog -Path $manifest.artifacts.modeless.event_log_json -RequiredEvents @('Initialize', 'MouseDown', 'MouseUp', 'Click', 'Change', 'KeyDown', 'KeyPress', 'KeyUp', 'Enter', 'Exit', 'QueryClose'))
+$commandLogs = @($manifest.artifacts.command_logs)
+if ($commandLogs.Count -lt 4) {
+    throw "Manifest must list command stdout/stderr logs; found $($commandLogs.Count)."
+}
+foreach ($path in $commandLogs) {
+    [void](Assert-File $path)
+}
+
+$modelessLog = Assert-EventLog -Path $manifest.artifacts.modeless.event_log_json -RequiredEvents @('Initialize', 'MouseDown', 'MouseUp', 'Click', 'Change', 'KeyDown', 'KeyPress', 'KeyUp', 'Enter', 'Exit', 'QueryClose')
 [void](Assert-EventCsv -Path $manifest.artifacts.modeless.event_log_csv)
-[void](Assert-CoordinateCalibration -Path $manifest.artifacts.modeless.coordinate_calibration -Fixture $fixture)
+$modelessCalibration = Assert-CoordinateCalibration -Path $manifest.artifacts.modeless.coordinate_calibration -Fixture $fixture
+[void](Assert-InputActions -Path $manifest.artifacts.modeless.input_actions -Calibration $modelessCalibration -Fixture $fixture)
+Assert-TargetEventCounts -Log $modelessLog -TargetName 'OracleProbeLabel' -RequiredMinimums @{
+    MouseMove = 1
+    MouseDown = 1
+    MouseUp = 1
+    Click = 1
+}
 
 if ($null -ne $manifest.artifacts.modal) {
     [void](Assert-File $manifest.artifacts.modal.window_capture_manifest)
@@ -224,9 +315,16 @@ if ($null -ne $manifest.artifacts.modal) {
     [void](Assert-File $manifest.artifacts.modal.input_actions)
     [void](Assert-File $manifest.artifacts.modal.event_log_json)
     [void](Assert-File $manifest.artifacts.modal.event_log_csv)
-    [void](Assert-EventLog -Path $manifest.artifacts.modal.event_log_json -RequiredEvents @('Initialize', 'MouseDown', 'MouseUp', 'Click', 'Change', 'KeyDown', 'KeyPress', 'KeyUp', 'Enter', 'Exit', 'QueryClose'))
+    $modalLog = Assert-EventLog -Path $manifest.artifacts.modal.event_log_json -RequiredEvents @('Initialize', 'MouseDown', 'MouseUp', 'Click', 'Change', 'KeyDown', 'KeyPress', 'KeyUp', 'Enter', 'Exit', 'QueryClose')
     [void](Assert-EventCsv -Path $manifest.artifacts.modal.event_log_csv)
-    [void](Assert-CoordinateCalibration -Path $manifest.artifacts.modal.coordinate_calibration -Fixture $fixture)
+    $modalCalibration = Assert-CoordinateCalibration -Path $manifest.artifacts.modal.coordinate_calibration -Fixture $fixture
+    [void](Assert-InputActions -Path $manifest.artifacts.modal.input_actions -Calibration $modalCalibration -Fixture $fixture)
+    Assert-TargetEventCounts -Log $modalLog -TargetName 'OracleProbeLabel' -RequiredMinimums @{
+        MouseMove = 1
+        MouseDown = 1
+        MouseUp = 1
+        Click = 1
+    }
 }
 
 $checksumLines = Get-Content -LiteralPath $checksumPath | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }

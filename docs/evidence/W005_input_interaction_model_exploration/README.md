@@ -15,13 +15,20 @@ It defines one `UserForm` with a `Label`, `TextBox`, default
 `CommandButton`, and cancel `CommandButton`, plus code-behind that logs
 representative events to worksheet `W005EventLog`.
 
-Current status: modeless live Excel/MSForms capture exists at
-[`captures/interaction-events-20260623T001238Z/`](captures/interaction-events-20260623T001238Z/).
+Current status: the authoritative modeless live Excel/MSForms capture is
+[`captures/interaction-events-20260623T004914Z/`](captures/interaction-events-20260623T004914Z/).
 It preserves the generated workbook, `W005EventLog` CSV/JSON export,
 screenshot/window metadata, coordinate calibration, automated input actions,
 command logs, manifest, and SHA-256 hashes. The capture used public Windows
 input automation, recorded no manual inputs, and does not compare OxForms
-output. Modal-show capture remains tracked by follow-up bead `oxforms-xvx.20`.
+output. `modeless-input-actions.json` records the corrected calibrated
+`OracleProbeLabel` center at screenshot pixel `x=104`, `y=95`; the observed
+event rows include `OracleProbeLabel` `MouseDown`, `MouseUp`, and `Click`.
+The older
+[`captures/interaction-events-20260623T001238Z/`](captures/interaction-events-20260623T001238Z/)
+run is superseded diagnostic evidence only because its actual injected
+label-intended mouse coordinates came from the pre-repair calibration.
+Modal-show capture remains tracked by follow-up bead `oxforms-xvx.20`.
 
 ## Coordinate Calibration
 
@@ -31,12 +38,11 @@ calibration procedure for MSForms mouse event arguments. The curated coordinate
 contract is [`../../specs/COORDINATE_MODEL.md`](../../specs/COORDINATE_MODEL.md).
 
 Current status: screenshot geometry is grounded by W003/W004 manifests and W004
-pixel facts. The modeless W005 capture now records a repaired scoped
+pixel facts. The authoritative modeless W005 capture records a scoped
 probe-label calibration (`x=40`, `y=63`, `width=128`, `height=64` in
-`screenshot_pixels`, with form origin `x=8`, `y=31`) and preserves the
-historical automated input coordinates separately from corrected
-fixture-derived target points. Modal-show coordinate capture remains tracked by
-`oxforms-xvx.20`.
+`screenshot_pixels`, with form origin `x=8`, `y=31`) and its actual automated
+input coordinates are derived from that repaired calibration. Modal-show
+coordinate capture remains tracked by `oxforms-xvx.20`.
 
 ## Lifecycle And Pump Model
 
