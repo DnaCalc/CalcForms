@@ -88,6 +88,16 @@ clipboard shortcuts, platform key identity parity, `ReturnInteger` helper
 mutation, accelerator ambiguity/display behavior, and final event-order parity
 against live MSForms captures.
 
+The `oxforms-xvx.9` reducer tests add the first W005 probe-control render
+reference in `crates/oxforms-core`: Label mouse routing without focus transfer,
+TextBox focus plus committed character mutation, CommandButton mouse
+activation, invalidation, serialized probe display-list commands for fill,
+border, text, focus, and caret placeholders, and a PAL `FillRect` smoke
+projection that uses the existing PAL display-list contract. These tests are
+code-level trace/replay preparation only; they are not an Office/MSForms visual
+parity claim and do not replace the full replay-runner golden evidence scoped
+to `oxforms-xvx.12`.
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

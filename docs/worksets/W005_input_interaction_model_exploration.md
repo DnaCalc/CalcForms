@@ -426,6 +426,37 @@ The three W005 probe controls are interaction probes:
 Each probe should be marked as partial. The workset must avoid accidentally
 declaring these controls implemented as full MSForms replacements.
 
+Current implementation from `oxforms-xvx.9`:
+
+- `crates/oxforms-core/src/lib.rs` and `crates/oxforms-core/src/probe.rs`
+  keep the W005 probe behavior in the core reducer/reference layer. The PAL
+  remains the normalized input and primitive render contract surface only.
+- `Label` probes are visible/enabled hit-test participants, do not take focus,
+  route `MouseDown`/`MouseUp`/`Click` effects through capture, and expose their
+  caption as a text draw command in the core-owned probe display reference.
+- `CommandButton` probes are focusable, participate in Tab traversal,
+  mouse/default/cancel/accelerator activation, pressed-state invalidation, and
+  `Click` effect generation. The probe display reference records normal versus
+  pressed face state, caption text, border, and focus indication.
+- `TextBox` probes are focusable, accept committed printable
+  `CharacterInput`, update a single-line text value at the placeholder caret,
+  emit `KeyPress`/`Change`/repaint effects, and record text, focus, and caret
+  placeholder commands in the display reference.
+- `build_probe_display_list` emits a serializable W005 reference display list
+  with fill, border, text, focus, and caret commands for trace/replay evidence.
+  `build_probe_pal_smoke_display_list` projects visible probe faces into the
+  existing PAL `FillRect` display-list contract for visual smoke only; text is
+  not rendered by the PAL smoke projection.
+- Tests cover Label mouse click without focus transfer, TextBox focus and char
+  input, CommandButton click activation, default/cancel/accelerator activation
+  inherited from `oxforms-xvx.8`, invalidation, trace rows, and display-list
+  emission.
+- Known gaps remain: full MSForms property surfaces, final event ordering,
+  validation/Enter/Exit/BeforeUpdate/AfterUpdate parity, full Label visual
+  parity from W004 pixels, complete button theming, full TextBox editing,
+  selection, IME/composition, dead keys, scrolling, password mode, multiline,
+  clipboard, drag/drop, and real OxVba event dispatch.
+
 ### 12. OxVba Event Dispatch
 
 OxForms should reuse the shared OxVba event spine. If W005 exposes gaps in

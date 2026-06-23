@@ -479,6 +479,18 @@ replay without live Excel or another host.
   IME/composition, dead keys, grapheme/selection behavior, clipboard shortcuts,
   accelerator ambiguity/display behavior, platform key identity parity, and
   `MSForms.ReturnInteger` helper mutation remain deferred.
+- `oxforms-xvx.9` completes the first W005 probe-control reducer/render
+  reference slice in `crates/oxforms-core`: Label remains non-focus but
+  mouse-routable and text-bearing, CommandButton is focusable/clickable with
+  pressed/default/cancel/accelerator state, and TextBox is focusable with
+  minimal single-line committed-character mutation plus `Change` effect
+  generation. The same crate now emits a serializable core-owned probe display
+  reference for fill, border, text, focus, and caret placeholder commands, and
+  a PAL `FillRect` smoke projection that consumes the existing PAL display-list
+  contract without moving control behavior into `oxforms-pal`. This is still a
+  W005 probe subset: full control property surfaces, pixel parity, TextBox
+  editing/IME/clipboard/multiline behavior, validation ordering, and live OxVba
+  event dispatch remain downstream work.
 
 If a downstream bead discovers a contradiction in this document, it should
 update this spec in the same bead as the corrected behavior or file a focused

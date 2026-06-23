@@ -20,12 +20,14 @@ use serde::{Deserialize, Serialize};
 pub use probe::{hit_test_control_tree, ControlNode, HitTestResult, ProbeControlKind};
 
 use oxforms_pal::{
-    CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, ControlId, FormId, HostScopeId,
-    KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalRect, MouseButton,
-    MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics,
-    ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId,
-    WindowShownEvent,
+    CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, Color, ControlId, DisplayList,
+    FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
+    LogicalRect, LogicalSize, MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId,
+    QueryCloseCompletedEvent, RawKeyDiagnostics, Rect as PalRect, ShowMode, ShowRequestedEvent,
+    SurfaceSize, UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
 };
+
+pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
 #[serde(transparent)]
@@ -652,6 +654,90 @@ pub enum ReducerTracePayload {
     Invalidation(Box<RenderInvalidation>),
 }
 
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ProbeDisplayList {
+    pub schema_version: u16,
+    pub form_id: FormId,
+    pub surface: LogicalSize,
+    pub commands: Vec<ProbeDisplayCommand>,
+}
+
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+#[serde(tag = "kind", content = "payload", rename_all = "snake_case")]
+pub enum ProbeDisplayCommand {
+    FillRect {
+        target: UiEventTarget,
+        rect: LogicalRect,
+        color: ProbeColor,
+        role: ProbeDisplayRole,
+    },
+    StrokeRect {
+        target: UiEventTarget,
+        rect: LogicalRect,
+        color: ProbeColor,
+        role: ProbeDisplayRole,
+    },
+    DrawText {
+        target: UiEventTarget,
+        rect: LogicalRect,
+        text: String,
+        color: ProbeColor,
+        role: ProbeDisplayRole,
+    },
+    Caret {
+        target: UiEventTarget,
+        x: f64,
+        y: f64,
+        height: f64,
+        caret_index: usize,
+        color: ProbeColor,
+    },
+    FocusRect {
+        target: UiEventTarget,
+        rect: LogicalRect,
+        color: ProbeColor,
+    },
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct ProbeColor {
+    pub red: u8,
+    pub green: u8,
+    pub blue: u8,
+    pub alpha: u8,
+}
+
+impl ProbeColor {
+    #[must_use]
+    pub const fn rgba(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
+        Self {
+            red,
+            green,
+            blue,
+            alpha,
+        }
+    }
+
+    #[must_use]
+    pub const fn to_pal_color(self) -> Color {
+        Color::rgba(self.red, self.green, self.blue, self.alpha)
+    }
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ProbeDisplayRole {
+    LabelFace,
+    LabelText,
+    CommandButtonFace,
+    CommandButtonPressedFace,
+    CommandButtonText,
+    TextBoxFace,
+    TextBoxText,
+    Border,
+    DisabledOverlay,
+}
+
 #[must_use]
 pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
     let before = StateSummary::from_state(&state);
@@ -889,6 +975,225 @@ pub fn transition_trace_rows(
     }
 
     rows
+}
+
+#[must_use]
+pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> ProbeDisplayList {
+    let mut commands = Vec::new();
+    for control in visible_controls_in_paint_order(&state.controls) {
+        let target = UiEventTarget::control(state.form_id.0.clone(), control.control_id.0.clone());
+        let is_focused = state
+            .focus_owner
+            .as_ref()
+            .and_then(FocusTarget::as_control_id)
+            == Some(&control.control_id);
+        let is_pressed = state
+            .pressed_state
+            .as_ref()
+            .and_then(|pressed| pressed.target.as_control_id())
+            == Some(&control.control_id);
+
+        let face_role = match (control.kind, is_pressed) {
+            (ProbeControlKind::Label, _) => ProbeDisplayRole::LabelFace,
+            (ProbeControlKind::CommandButton, true) => ProbeDisplayRole::CommandButtonPressedFace,
+            (ProbeControlKind::CommandButton, false) => ProbeDisplayRole::CommandButtonFace,
+            (ProbeControlKind::TextBox, _) => ProbeDisplayRole::TextBoxFace,
+        };
+        commands.push(ProbeDisplayCommand::FillRect {
+            target: target.clone(),
+            rect: control.bounds,
+            color: probe_face_color(control.kind, is_pressed, control.enabled),
+            role: face_role,
+        });
+        commands.push(ProbeDisplayCommand::StrokeRect {
+            target: target.clone(),
+            rect: control.bounds,
+            color: ProbeColor::rgba(0x64, 0x64, 0x64, 0xff),
+            role: ProbeDisplayRole::Border,
+        });
+
+        let text = display_text_for_control(state, control);
+        if !text.is_empty() {
+            let role = match control.kind {
+                ProbeControlKind::Label => ProbeDisplayRole::LabelText,
+                ProbeControlKind::CommandButton => ProbeDisplayRole::CommandButtonText,
+                ProbeControlKind::TextBox => ProbeDisplayRole::TextBoxText,
+            };
+            commands.push(ProbeDisplayCommand::DrawText {
+                target: target.clone(),
+                rect: inset_rect(control.bounds, 4.0, 3.0),
+                text,
+                color: probe_text_color(control.kind, control.enabled),
+                role,
+            });
+        }
+
+        if !control.enabled {
+            commands.push(ProbeDisplayCommand::FillRect {
+                target: target.clone(),
+                rect: control.bounds,
+                color: ProbeColor::rgba(0xf0, 0xf0, 0xf0, 0x80),
+                role: ProbeDisplayRole::DisabledOverlay,
+            });
+        }
+
+        if is_focused && control.kind != ProbeControlKind::Label {
+            commands.push(ProbeDisplayCommand::FocusRect {
+                target: target.clone(),
+                rect: inset_rect(control.bounds, 2.0, 2.0),
+                color: ProbeColor::rgba(0x00, 0x00, 0x00, 0xff),
+            });
+        }
+
+        if is_focused && control.kind == ProbeControlKind::TextBox {
+            if let Some(text_box) = text_box_state(state, &control.control_id) {
+                let x = caret_x(control.bounds, text_box.caret.active);
+                commands.push(ProbeDisplayCommand::Caret {
+                    target,
+                    x,
+                    y: control.bounds.y + 3.0,
+                    height: (control.bounds.height - 6.0).max(1.0),
+                    caret_index: text_box.caret.active,
+                    color: ProbeColor::rgba(0x00, 0x00, 0x00, 0xff),
+                });
+            }
+        }
+    }
+
+    ProbeDisplayList {
+        schema_version: PROBE_DISPLAY_LIST_SCHEMA_VERSION,
+        form_id: state.form_id.clone(),
+        surface,
+        commands,
+    }
+}
+
+#[must_use]
+pub fn build_probe_pal_smoke_display_list(state: &FormState, surface: SurfaceSize) -> DisplayList {
+    let mut display_list = DisplayList::new(surface);
+    for command in build_probe_display_list(
+        state,
+        LogicalSize::new(f64::from(surface.width), f64::from(surface.height)),
+    )
+    .commands
+    {
+        let ProbeDisplayCommand::FillRect {
+            rect, color, role, ..
+        } = command
+        else {
+            continue;
+        };
+
+        if matches!(role, ProbeDisplayRole::DisabledOverlay) {
+            continue;
+        }
+
+        if let Some(rect) = pal_rect_from_logical(rect) {
+            display_list = display_list.with_fill_rect(rect, color.to_pal_color());
+        }
+    }
+
+    display_list
+}
+
+fn visible_controls_in_paint_order(controls: &[ControlNode]) -> Vec<&ControlNode> {
+    let mut controls = controls
+        .iter()
+        .enumerate()
+        .filter(|(_, control)| control.visible)
+        .collect::<Vec<_>>();
+    controls.sort_by_key(|(index, control)| (control.z_order, *index));
+    controls
+        .into_iter()
+        .map(|(_, control)| control)
+        .collect::<Vec<_>>()
+}
+
+fn display_text_for_control(state: &FormState, control: &ControlNode) -> String {
+    match control.kind {
+        ProbeControlKind::Label | ProbeControlKind::CommandButton => control.caption.clone(),
+        ProbeControlKind::TextBox => text_box_state(state, &control.control_id)
+            .map(|text_box| text_box.text.clone())
+            .unwrap_or_default(),
+    }
+}
+
+fn text_box_state<'a>(
+    state: &'a FormState,
+    control_id: &ControlId,
+) -> Option<&'a TextBoxProbeState> {
+    state
+        .text_boxes
+        .iter()
+        .find(|entry| entry.control_id == *control_id)
+}
+
+fn probe_face_color(kind: ProbeControlKind, is_pressed: bool, is_enabled: bool) -> ProbeColor {
+    if !is_enabled {
+        return ProbeColor::rgba(0xd9, 0xd9, 0xd9, 0xff);
+    }
+
+    match kind {
+        ProbeControlKind::Label => ProbeColor::rgba(0x20, 0x70, 0xc0, 0xff),
+        ProbeControlKind::CommandButton if is_pressed => ProbeColor::rgba(0xb8, 0xc7, 0xdd, 0xff),
+        ProbeControlKind::CommandButton => ProbeColor::rgba(0xdc, 0xdc, 0xdc, 0xff),
+        ProbeControlKind::TextBox => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
+    }
+}
+
+fn probe_text_color(kind: ProbeControlKind, is_enabled: bool) -> ProbeColor {
+    if !is_enabled {
+        return ProbeColor::rgba(0x80, 0x80, 0x80, 0xff);
+    }
+
+    match kind {
+        ProbeControlKind::Label => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
+        ProbeControlKind::CommandButton | ProbeControlKind::TextBox => {
+            ProbeColor::rgba(0x00, 0x00, 0x00, 0xff)
+        }
+    }
+}
+
+fn inset_rect(rect: LogicalRect, dx: f64, dy: f64) -> LogicalRect {
+    LogicalRect::new(
+        rect.x + dx,
+        rect.y + dy,
+        (rect.width - (dx * 2.0)).max(1.0),
+        (rect.height - (dy * 2.0)).max(1.0),
+    )
+}
+
+fn caret_x(bounds: LogicalRect, caret_index: usize) -> f64 {
+    let approximate_cell_width = 6.0;
+    let left_padding = 4.0;
+    let right_padding = 3.0;
+    let max_x = (bounds.x + bounds.width - right_padding).max(bounds.x + left_padding);
+    (bounds.x + left_padding + (caret_index as f64 * approximate_cell_width)).min(max_x)
+}
+
+fn pal_rect_from_logical(rect: LogicalRect) -> Option<PalRect> {
+    let x = round_to_i32(rect.x)?;
+    let y = round_to_i32(rect.y)?;
+    let width = round_to_i32(rect.width.max(1.0))?;
+    let height = round_to_i32(rect.height.max(1.0))?;
+    if width <= 0 || height <= 0 {
+        return None;
+    }
+
+    Some(PalRect::new(x, y, width, height))
+}
+
+fn round_to_i32(value: f64) -> Option<i32> {
+    if !value.is_finite() {
+        return None;
+    }
+
+    let rounded = value.round();
+    if rounded < f64::from(i32::MIN) || rounded > f64::from(i32::MAX) {
+        return None;
+    }
+
+    Some(rounded as i32)
 }
 
 struct ReducerContext<'event> {
@@ -2267,6 +2572,179 @@ mod tests {
     }
 
     #[test]
+    fn w005_probe_controls_route_input_and_emit_probe_display_list() {
+        let mut state = w005_probe_form_state();
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+
+        let label_down = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(60),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 8.0, 8.0)),
+            ),
+        );
+        assert_eq!(
+            label_down.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert_eq!(
+            effect_names(&label_down.effects),
+            vec!["capture_mouse", "fire_vba_event:MouseDown"]
+        );
+
+        let label_up = reduce(
+            label_down.state,
+            UiEvent::new(
+                UiEventId(61),
+                UiEventSource::Replay,
+                UiEventKind::MouseUp(mouse_button_event_at(false, 8.0, 8.0)),
+            ),
+        );
+        assert_eq!(
+            effect_names(&label_up.effects),
+            vec![
+                "release_mouse",
+                "fire_vba_event:MouseUp",
+                "fire_vba_event:Click"
+            ]
+        );
+
+        let text_down = reduce(
+            label_up.state,
+            UiEvent::new(
+                UiEventId(62),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 8.0, 28.0)),
+            ),
+        );
+        assert_eq!(
+            text_down.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        let text_up = reduce(
+            text_down.state,
+            UiEvent::new(
+                UiEventId(66),
+                UiEventSource::Replay,
+                UiEventKind::MouseUp(mouse_button_event_at(false, 8.0, 28.0)),
+            ),
+        );
+        let typed = reduce(
+            text_up.state,
+            UiEvent::new(
+                UiEventId(63),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "A".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+        assert_eq!(
+            text_box_state(&typed.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.as_str()),
+            Some("A")
+        );
+        assert_eq!(
+            effect_names(&typed.effects),
+            vec![
+                "fire_vba_event:KeyPress",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+
+        let display_list = build_probe_display_list(&typed.state, LogicalSize::new(120.0, 80.0));
+        let encoded =
+            serde_json::to_string_pretty(&display_list).expect("display list should serialize");
+        assert!(encoded.contains("draw_text"));
+        assert!(encoded.contains("OxForms"));
+        assert!(encoded.contains("\"A\""));
+        assert!(encoded.contains("caret"));
+        assert!(encoded.contains("focus_rect"));
+
+        let button_down = reduce(
+            typed.state,
+            UiEvent::new(
+                UiEventId(64),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 8.0, 52.0)),
+            ),
+        );
+        let button_up = reduce(
+            button_down.state,
+            UiEvent::new(
+                UiEventId(65),
+                UiEventSource::Replay,
+                UiEventKind::MouseUp(mouse_button_event_at(false, 8.0, 52.0)),
+            ),
+        );
+        assert_eq!(
+            effect_names(&button_up.effects),
+            vec![
+                "release_mouse",
+                "fire_vba_event:MouseUp",
+                "fire_vba_event:Click",
+                "request_repaint"
+            ]
+        );
+    }
+
+    #[test]
+    fn probe_display_list_records_pressed_focus_text_and_pal_smoke_fills() {
+        let mut state = w005_probe_form_state();
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "Hi".to_string();
+        text_box.caret.anchor = 2;
+        text_box.caret.active = 2;
+        state.pressed_state = Some(PressedState {
+            target: FocusTarget::Control(ControlId::new("ok")),
+            origin: PressedOrigin::Mouse,
+            armed: true,
+        });
+
+        let display_list = build_probe_display_list(&state, LogicalSize::new(120.0, 80.0));
+        assert_eq!(
+            display_list.schema_version,
+            PROBE_DISPLAY_LIST_SCHEMA_VERSION
+        );
+        assert_eq!(
+            display_list
+                .commands
+                .iter()
+                .filter(|command| matches!(command, ProbeDisplayCommand::DrawText { .. }))
+                .count(),
+            3
+        );
+        assert!(display_list.commands.iter().any(|command| matches!(
+            command,
+            ProbeDisplayCommand::FillRect {
+                role: ProbeDisplayRole::CommandButtonPressedFace,
+                ..
+            }
+        )));
+        assert!(display_list.commands.iter().any(|command| matches!(
+            command,
+            ProbeDisplayCommand::Caret {
+                target,
+                caret_index: 2,
+                ..
+            } if target.control_id == Some(ControlId::new("text-1"))
+        )));
+
+        let pal_display_list =
+            build_probe_pal_smoke_display_list(&state, SurfaceSize::new(120, 80));
+        assert_eq!(pal_display_list.commands.len(), 3);
+        pal_display_list
+            .validate()
+            .expect("PAL smoke display list should validate");
+    }
+
+    #[test]
     fn character_input_ignores_non_textbox_focus_and_control_characters() {
         let mut state = FormState::new("form-main");
         state.controls = vec![ControlNode::command_button(
@@ -2679,6 +3157,19 @@ mod tests {
                 raw: RawKeyDiagnostics::default(),
             }),
         )
+    }
+
+    fn w005_probe_form_state() -> FormState {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::label("label", LogicalRect::new(4.0, 4.0, 60.0, 16.0), 0)
+                .with_caption("OxForms"),
+            ControlNode::text_box("text-1", LogicalRect::new(4.0, 24.0, 80.0, 18.0), 0, 0),
+            ControlNode::command_button("ok", LogicalRect::new(4.0, 48.0, 44.0, 20.0), 0, 1)
+                .with_caption("&OK"),
+        ];
+        state.default_button = Some(ControlId::new("ok"));
+        state
     }
 
     fn effect_names(effects: &[EffectRequest]) -> Vec<String> {

@@ -27,6 +27,14 @@ mutation, `KeyPress`/`Change` effects, Enter default routing, Escape cancel
 routing, and `Alt+Character` caption accelerators. The full replay-runner
 golden trace remains scoped to `oxforms-xvx.12`.
 
+`oxforms-xvx.9` also extends the reducer test surface rather than this
+historical JSON sample. Probe assertions in `crates/oxforms-core` now cover
+Label mouse click routing, TextBox focus and committed character input,
+CommandButton activation, render invalidation, a serializable core-owned probe
+display reference with text/focus/caret placeholders, and a PAL `FillRect`
+smoke projection. The full replay-runner golden trace remains scoped to
+`oxforms-xvx.12`.
+
 The sample is not Office/MSForms oracle evidence and is not an OxForms runtime
 trace. It exists to keep downstream W005 traces from inventing local artifact
 shapes before the replay runner exists.
