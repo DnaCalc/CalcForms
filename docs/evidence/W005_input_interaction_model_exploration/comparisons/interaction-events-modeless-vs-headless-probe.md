@@ -3,6 +3,7 @@
 Comparison ID: `interaction-events-modeless-vs-headless-probe`
 Bead: `oxforms-xvx.13`; updated by `oxforms-9pr`; checksum pin refreshed by
 `oxforms-0a0.8`; replay/display/checksum pins refreshed by `oxforms-0a0.1`
+and lifecycle-close replay/checksum pins refreshed by `oxforms-0a0.3`
 Status: observation only
 
 This report relates the authoritative W005 modeless Excel/MSForms interaction
@@ -30,7 +31,9 @@ Its trace-replay checksum-manifest pin was refreshed after the W006 harness
 hardening README documentation changed the committed
 `trace-replay/checksums.sha256` file. Its replay/display/checksum pins were
 then refreshed after the `oxforms-0a0.1` TextBox editing-slice update
-regenerated the committed headless replay and display-list goldens.
+regenerated the committed headless replay and display-list goldens. The replay
+and checksum pins were refreshed again after `oxforms-0a0.3` added the
+modeless lifecycle close-slice rows to the committed headless replay golden.
 
 ## Scenario Mapping
 

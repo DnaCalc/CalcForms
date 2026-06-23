@@ -2207,6 +2207,13 @@ fn reduce_query_close_completed(
     context: &mut ReducerContext<'_>,
     payload: &QueryCloseCompletedEvent,
 ) {
+    if payload.form_id != state.form_id
+        || state.lifecycle != LifecycleState::QueryClosePending
+        || state.close_flow.is_none()
+    {
+        return;
+    }
+
     let target = UiEventTarget::form(payload.form_id.0.clone());
     if let Some(flow) = &mut state.close_flow {
         flow.cancelled = Some(payload.cancelled);
@@ -2218,9 +2225,7 @@ fn reduce_query_close_completed(
     if payload.cancelled {
         state.lifecycle = LifecycleState::CloseCancelled;
         state.pump.term = PumpTerm::HostModelessPump;
-        if let Some(flow) = &mut state.close_flow {
-            flow.awaiting_window_hide_for_unload = false;
-        }
+        state.close_flow = None;
         let invalidation_id =
             context.push_invalidation(state, target.clone(), InvalidationReason::CloseStateChanged);
         context.push_effect(
@@ -3583,6 +3588,96 @@ mod tests {
     }
 
     #[test]
+    fn foreign_query_close_completion_does_not_authorize_hide() {
+        let pending = reduce(
+            FormState::new("form-main"),
+            UiEvent {
+                target: UiEventTarget {
+                    form_id: Some(FormId::new("form-main")),
+                    window_id: Some(WindowId::new("window-main")),
+                    control_id: None,
+                },
+                ..UiEvent::new(
+                    UiEventId(26),
+                    UiEventSource::Pal,
+                    UiEventKind::CloseRequest(CloseRequestEvent {
+                        origin: CloseRequestOrigin::CloseButton,
+                        reason: CloseReason::User,
+                        query_policy: CloseQueryPolicy::Query,
+                        coordinates: None,
+                    }),
+                )
+            },
+        );
+
+        let output = reduce(
+            pending.state,
+            query_close_completed_event(UiEventId(27), "other-form", false),
+        );
+
+        assert_eq!(output.state.lifecycle, LifecycleState::QueryClosePending);
+        assert_eq!(effect_names(&output.effects), Vec::<String>::new());
+        assert!(output.state.close_flow.is_some());
+    }
+
+    #[test]
+    fn stale_query_close_completion_without_close_flow_does_not_authorize_hide() {
+        let mut state = FormState::new("form-main");
+        state.lifecycle = LifecycleState::QueryClosePending;
+
+        let output = reduce(
+            state,
+            query_close_completed_event(UiEventId(28), "form-main", false),
+        );
+
+        assert_eq!(output.state.lifecycle, LifecycleState::QueryClosePending);
+        assert_eq!(output.state.close_flow, None);
+        assert_eq!(effect_names(&output.effects), Vec::<String>::new());
+    }
+
+    #[test]
+    fn cancelled_query_close_consumes_pending_close_authority() {
+        let pending = reduce(
+            FormState::new("form-main"),
+            UiEvent {
+                target: UiEventTarget {
+                    form_id: Some(FormId::new("form-main")),
+                    window_id: Some(WindowId::new("window-main")),
+                    control_id: None,
+                },
+                ..UiEvent::new(
+                    UiEventId(29),
+                    UiEventSource::Pal,
+                    UiEventKind::CloseRequest(CloseRequestEvent {
+                        origin: CloseRequestOrigin::CloseButton,
+                        reason: CloseReason::User,
+                        query_policy: CloseQueryPolicy::Query,
+                        coordinates: None,
+                    }),
+                )
+            },
+        );
+
+        let cancelled = reduce(
+            pending.state,
+            query_close_completed_event(UiEventId(30), "form-main", true),
+        );
+
+        assert_eq!(cancelled.state.lifecycle, LifecycleState::CloseCancelled);
+        assert_eq!(cancelled.state.close_flow, None);
+        assert_eq!(effect_names(&cancelled.effects), vec!["request_repaint"]);
+
+        let stale = reduce(
+            cancelled.state,
+            query_close_completed_event(UiEventId(31), "form-main", false),
+        );
+
+        assert_eq!(stale.state.lifecycle, LifecycleState::CloseCancelled);
+        assert_eq!(stale.state.close_flow, None);
+        assert_eq!(effect_names(&stale.effects), Vec::<String>::new());
+    }
+
+    #[test]
     fn transition_log_rows_match_trace_schema_vocabulary() {
         let output = reduce(
             FormState::new("form-main"),
@@ -3888,6 +3983,23 @@ mod tests {
                 raw: RawKeyDiagnostics::default(),
             }),
         )
+    }
+
+    fn query_close_completed_event(event_id: UiEventId, form_id: &str, cancelled: bool) -> UiEvent {
+        UiEvent {
+            target: UiEventTarget::form(form_id),
+            ..UiEvent::new(
+                event_id,
+                UiEventSource::Service,
+                UiEventKind::QueryCloseCompleted(QueryCloseCompletedEvent {
+                    form_id: FormId::new(form_id),
+                    reason: CloseReason::User,
+                    cancelled,
+                    close_mode: Some(0),
+                    dispatch_diagnostics: Vec::new(),
+                }),
+            )
+        }
     }
 
     fn w005_probe_form_state() -> FormState {

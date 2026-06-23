@@ -28,6 +28,13 @@ unload completion and returns the form to hidden/unloaded interaction state; it
 does not claim object-lifetime `Terminate` parity. Only an explicit
 `Terminated` normalized event moves the core state to `terminated`.
 
+`QueryCloseCompleted` is accepted only for the current form while the reducer is
+still in the pending query-close state and has an active `close_flow`. Foreign
+or stale completions are ignored and cannot authorize `HideForm` or
+`UnloadForm`. A cancelled `QueryCloseCompleted` consumes the pending close
+authority, records `close_cancelled`, and leaves any later uncancelled stale
+completion unable to continue the close tail.
+
 The deterministic headless replay golden now includes a modeless close script
 step after the existing probe interactions. It records normalized
 `close_request`, `query_close_completed`, `window_hidden`, and `unloaded` rows,

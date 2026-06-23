@@ -9,7 +9,7 @@
   "recorded": {
     "basis": "working_tree_artifact_before_commit",
     "recorded_utc": "2026-06-23T06:55:00Z",
-    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. Refreshed by oxforms-0a0.8 after the trace-replay checksum manifest changed to account for harness-hardening README documentation. Refreshed by oxforms-0a0.1 after the TextBox editing-slice replay/display golden update added caret/navigation/delete/backspace evidence. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
+    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. Refreshed by oxforms-0a0.8 after the trace-replay checksum manifest changed to account for harness-hardening README documentation. Refreshed by oxforms-0a0.1 after the TextBox editing-slice replay/display golden update added caret/navigation/delete/backspace evidence. Refreshed by oxforms-0a0.3 after the modeless lifecycle close-slice replay golden update added close/query/hide/unload evidence. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
   },
   "classification_vocabulary": [
     "implemented_match",
@@ -81,7 +81,7 @@
     {
       "role": "oxforms_headless_replay_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-      "sha256": "b7d35007163440852c94bfb57bdc1ab93fe87c0cadf02ad1b491412f0fcc8199"
+      "sha256": "d3a6385648c922b53e49c1303f05bc1de508ba001a85db7650f5c4ffb9f061d8"
     },
     {
       "role": "oxforms_headless_display_list_golden",
@@ -91,7 +91,7 @@
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "6063f5cd4708cfb59dc90c5f96a27b8c4a3219b7d410dae0f479559360af7f0a"
+      "sha256": "bc0590bb2c7d3198fa126d459ab489e93e537239dc155079d3b7595da8f5ffde"
     },
     {
       "role": "oxforms_visible_smoke_manifest",
