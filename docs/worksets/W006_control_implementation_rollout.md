@@ -87,9 +87,11 @@ All executable W006 implementation or design beads depend on
 5. keep W006 open.
 
 After the gate closes, implementation lanes can proceed only in their scoped
-beads. Some lanes may still need additional ordering discovered by
-`oxforms-0a0.9`; those dependencies should be added before the relevant work
-starts.
+beads. The first downstream support lanes are native FM20-named event dispatch
+and harness/comparison hardening; TextBox editing, lifecycle runtime,
+`.frm`/`.frx`, and control-breadth work wait for the support beads they cite.
+Broad lifecycle and intrinsic-control residuals are split into explicit design
+or splitter beads before any all-surface implementation is attempted.
 
 ## Bead Plan
 
@@ -98,12 +100,13 @@ starts.
 | `oxforms-0a0.9` | Review and harden the W006 rollout before implementation starts. | `oxforms-0a0` parent only | W006 doc/register/bead graph are coherent; broad beads are split or tightened; implementation beads are blocked behind the gate; W006 remains open. |
 | `oxforms-0a0.8` | Harden W005 interaction harnesses and comparison/oracle validators for future scenarios. | `oxforms-0a0.9` | Harness changes preserve logs, hashes, coordinate tags, source paths, and observation-only comparison posture. |
 | `oxforms-0a0.2` | Implement or precisely block native FM20-named event dispatch through OxVba shared machinery. | `oxforms-0a0.9` | Direct event handlers work for a named subset, or exact OxVba blockers/handovers exist; W005 generic carrier stays test-only. |
-| `oxforms-0a0.4` | Connect W005 interaction state to canonical `.frm` / `.frx` loading for selected fixtures. | `oxforms-0a0.9` | Fixture inputs produce equivalent logical control trees for selected scenarios; probe construction is test-only or intentionally replaced. |
-| `oxforms-0a0.1` | Extend TextBox editing from the W005 committed-character subset. | `oxforms-0a0.9` | Caret, selection, deletion/backspace, and chosen mode semantics are specified and evidenced for the selected subset. |
-| `oxforms-0a0.3` | Implement lifecycle, modal/nested pump, and close semantics for a named subset. | `oxforms-0a0.9` | Behavior flows through normalized events, reducer effects, and OxVba/PAL completions with replay/oracle evidence or precise blockers. |
-| `oxforms-0a0.5` | Plan and implement additional intrinsic-control lanes beyond W005 probes. | `oxforms-0a0.9` | Selected control subset is fact-backed; W005 probe scaffolds are promoted, replaced, deleted, or quarantined intentionally. |
-| `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
-| `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
+| `oxforms-0a0.4` | Connect W005 interaction state to canonical `.frm` / `.frx` loading for selected fixtures. | `oxforms-0a0.9`, `oxforms-0a0.8` | Fixture inputs produce equivalent logical control trees for selected scenarios; probe construction is test-only or intentionally replaced. |
+| `oxforms-0a0.1` | Implement the first single-line TextBox editing slice: caret movement, selection state representation, Backspace/Delete, and named navigation keys. | `oxforms-0a0.9`, `oxforms-0a0.2`, `oxforms-0a0.8` | The selected single-line editing subset is specified/evidenced; multiline, password, scrolling, IME, clipboard, paste/DataObject, drag/drop, and broad validation remain non-claims or follow-up beads. |
+| `oxforms-0a0.3` | Implement or precisely block the first modeless lifecycle close slice. | `oxforms-0a0.9`, `oxforms-0a0.2`, `oxforms-0a0.8` | Modeless show/materialize/window-shown/activate plus close request -> QueryClose -> hide-or-unload flows through normalized events/effects with evidence or blockers; nested modal, DoEvents, broad reentrancy, and object-lifetime Terminate are deferred. |
+| `oxforms-0a0.10` | Design nested modal, DoEvents-like yield, reentrant pump, modal completion, and Terminate timing follow-up. | `oxforms-0a0.9`, `oxforms-0a0.3` | Facts, assumptions, unknowns, blockers, and any implementation-ready child beads are separated before broad modal/runtime work begins. |
+| `oxforms-0a0.5` | Split the first intrinsic-control implementation lane beyond W005 probes. | `oxforms-0a0.9`, `oxforms-0a0.4`, `oxforms-0a0.8` | First control lane is fact-backed or precisely blocked; implementation work is split into control-specific beads; W005 probe scaffolds are promoted, replaced, deleted, or quarantined intentionally. |
+| `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9`, `oxforms-0a0.8` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
+| `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
 
 ## Closure Conditions
 
