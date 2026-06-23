@@ -1,0 +1,518 @@
+{
+  "schema": "oxforms.trace_replay.v1",
+  "schema_version": 1,
+  "trace_id": "w005-reducer-skeleton-transition-log-v1",
+  "bead": "oxforms-xvx.6",
+  "artifact_status": "synthetic_schema_sample",
+  "scenario": {
+    "scenario_id": "w005.synthetic.reducer-commandbutton-mousedown",
+    "source_kind": "synthetic",
+    "description": "Synthetic trace showing the first oxforms-pal reducer skeleton transition for a CommandButton-shaped mouse down.",
+    "not_oracle_evidence": true,
+    "input_script": [
+      {
+        "script_step_id": "script-0001",
+        "action": "mouse_down",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        }
+      }
+    ]
+  },
+  "environment": {
+    "source": "synthetic",
+    "recorded_at_utc": "2026-06-23T01:30:00Z",
+    "os": {
+      "name": "synthetic",
+      "version": "n/a",
+      "is_windows": false
+    },
+    "host": {
+      "name": "none",
+      "scope_id": null
+    },
+    "pal": {
+      "input_contract": "crates/oxforms-pal/src/input.rs",
+      "ui_event_schema_version": 1
+    },
+    "display": {
+      "dpi_x": 96.0,
+      "dpi_y": 96.0,
+      "scale_x": 1.0,
+      "scale_y": 1.0
+    },
+    "path_policy": "canonical_artifact_paths_are_repo_relative"
+  },
+  "ordering": {
+    "sequence_scope": "trace",
+    "clock": "logical_tick",
+    "nesting_model": "parent_row_id_and_nesting_depth",
+    "first_sequence": 1
+  },
+  "rows": [
+    {
+      "row_id": "row-0001",
+      "sequence": 1,
+      "logical_tick": 0,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "script",
+      "kind": "input_script_step",
+      "payload": {
+        "script_step_id": "script-0001",
+        "action": "mouse_down",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        }
+      }
+    },
+    {
+      "row_id": "row-0002",
+      "sequence": 2,
+      "logical_tick": 1,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "input",
+      "kind": "ui_event",
+      "payload": {
+        "ui_event_id": "ui-0001",
+        "ui_event_schema_version": 1,
+        "source": "replay",
+        "target": {
+          "form_id": "form-main",
+          "window_id": null,
+          "control_id": "command-ok"
+        },
+        "normalized_input": {
+          "kind": "mouse_down",
+          "payload": {
+            "pointer_id": 1,
+            "button": "left",
+            "buttons_down": {
+              "left": true,
+              "right": false,
+              "middle": false
+            },
+            "modifiers": {
+              "shift": false,
+              "control": false,
+              "alt": false,
+              "meta": false
+            },
+            "click_count": 1
+          }
+        },
+        "coordinates": [
+          {
+            "space": "form_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "point": {
+              "x": 72.0,
+              "y": 60.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "synthetic.script",
+            "certainty": "synthetic"
+          },
+          {
+            "space": "control_local",
+            "unit": "points",
+            "origin": "target_control_top_left",
+            "point": {
+              "x": 12.0,
+              "y": 8.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "synthetic.route_hint",
+            "certainty": "synthetic"
+          }
+        ],
+        "diagnostics": [
+          {
+            "source": "reducer_skeleton_sample",
+            "name": "implementation",
+            "value": "crates/oxforms-pal/src/reducer.rs"
+          }
+        ]
+      }
+    },
+    {
+      "row_id": "row-0003",
+      "sequence": 3,
+      "logical_tick": 1,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "routing",
+      "kind": "routing_decision",
+      "payload": {
+        "routing_id": "route-0001",
+        "causal_ui_event_id": "ui-0001",
+        "route_kind": "target_hint_for_reducer_skeleton",
+        "selected_target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "capture_owner_before": null,
+        "capture_owner_after": "command-ok"
+      }
+    },
+    {
+      "row_id": "row-0004",
+      "sequence": 4,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "reducer",
+      "kind": "reducer_transition",
+      "payload": {
+        "transition_id": "transition-0001",
+        "causal_ui_event_id": "ui-0001",
+        "before": {
+          "lifecycle_state": "allocated",
+          "pump_term": "host_modeless_pump",
+          "nested_modal_depth": 0,
+          "focus_owner": null,
+          "capture_owner": null,
+          "hover_path": [],
+          "pressed_state": null,
+          "active_form": null,
+          "active_window": null,
+          "text_values": [],
+          "validation_active": false,
+          "pending_effect_count": 4
+        },
+        "after": {
+          "lifecycle_state": "allocated",
+          "pump_term": "host_modeless_pump",
+          "nested_modal_depth": 0,
+          "focus_owner": {
+            "kind": "control",
+            "target": "command-ok"
+          },
+          "capture_owner": {
+            "kind": "control",
+            "target": "command-ok"
+          },
+          "hover_path": [],
+          "pressed_state": {
+            "target": {
+              "kind": "control",
+              "target": "command-ok"
+            },
+            "origin": "mouse",
+            "armed": true
+          },
+          "active_form": null,
+          "active_window": null,
+          "text_values": [],
+          "validation_active": false,
+          "pending_effect_count": 0
+        },
+        "emitted_effect_ids": [
+          "effect-0001",
+          "effect-0002",
+          "effect-0003",
+          "effect-0004"
+        ],
+        "invalidation_ids": [
+          "inv-0001"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0005",
+      "sequence": 5,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0001",
+        "effect_kind": "transfer_focus",
+        "cause": {
+          "ui_event_id": "ui-0001",
+          "transition_id": "transition-0001"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "dispatch_result_required"
+      }
+    },
+    {
+      "row_id": "row-0006",
+      "sequence": 6,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0002",
+        "effect_kind": "capture_mouse",
+        "cause": {
+          "ui_event_id": "ui-0001",
+          "transition_id": "transition-0001"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "platform_completion_or_diagnostic"
+      }
+    },
+    {
+      "row_id": "row-0007",
+      "sequence": 7,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0003",
+        "effect_kind": "fire_vba_event",
+        "event_name": "MouseDown",
+        "cause": {
+          "ui_event_id": "ui-0001",
+          "transition_id": "transition-0001"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "dispatch_result_required"
+      }
+    },
+    {
+      "row_id": "row-0008",
+      "sequence": 8,
+      "logical_tick": 2,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_requested",
+      "payload": {
+        "effect_id": "effect-0004",
+        "effect_kind": "request_repaint",
+        "cause": {
+          "ui_event_id": "ui-0001",
+          "transition_id": "transition-0001"
+        },
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "completion_policy": "render_diagnostic_optional"
+      }
+    },
+    {
+      "row_id": "row-0009",
+      "sequence": 9,
+      "logical_tick": 3,
+      "parent_row_id": "row-0007",
+      "nesting_depth": 1,
+      "phase": "dispatch",
+      "kind": "vba_dispatch",
+      "payload": {
+        "dispatch_id": "dispatch-0001",
+        "effect_id": "effect-0003",
+        "event_name": "MouseDown",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "fact_source": {
+          "path": "docs/specs/FM20_EVENT_FACTS.md",
+          "event": "MouseDown",
+          "evidence_class": "metadata"
+        },
+        "arguments": [],
+        "mutable_helpers": [],
+        "result": {
+          "status": "not_executed_in_reducer_sample",
+          "handler": null
+        }
+      }
+    },
+    {
+      "row_id": "row-0010",
+      "sequence": 10,
+      "logical_tick": 4,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "effect",
+      "kind": "effect_completed",
+      "payload": {
+        "effect_id": "effect-0002",
+        "status": "diagnostic_only",
+        "diagnostics": [
+          {
+            "source": "synthetic",
+            "name": "note",
+            "value": "Reducer requested capture; no platform capture was performed."
+          }
+        ]
+      }
+    },
+    {
+      "row_id": "row-0011",
+      "sequence": 11,
+      "logical_tick": 5,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "pump",
+      "kind": "lifecycle_pump",
+      "payload": {
+        "lifecycle_state_before": "allocated",
+        "lifecycle_state_after": "allocated",
+        "pump_term": "host_modeless_pump",
+        "modal_depth": 0,
+        "active": {
+          "form_id": null,
+          "window_id": null,
+          "focus_owner": "command-ok"
+        },
+        "cause": {
+          "ui_event_id": "ui-0001",
+          "transition_id": "transition-0001"
+        }
+      }
+    },
+    {
+      "row_id": "row-0012",
+      "sequence": 12,
+      "logical_tick": 6,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "invalidation",
+      "payload": {
+        "invalidation_id": "inv-0001",
+        "target": {
+          "form_id": "form-main",
+          "control_id": "command-ok"
+        },
+        "reason": "pressed_state_changed",
+        "regions": [
+          {
+            "space": "display_list_logical",
+            "unit": "points",
+            "origin": "form_design_surface_top_left",
+            "rect": {
+              "x": 60.0,
+              "y": 52.0,
+              "width": 72.0,
+              "height": 24.0
+            },
+            "dpi": {
+              "dpi_x": 96.0,
+              "dpi_y": 96.0
+            },
+            "source": "synthetic.reducer_skeleton",
+            "certainty": "synthetic"
+          }
+        ],
+        "dirty_subtrees": [
+          "command-ok"
+        ]
+      }
+    },
+    {
+      "row_id": "row-0013",
+      "sequence": 13,
+      "logical_tick": 7,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "display_list",
+      "payload": {
+        "display_list_id": "display-list-0001",
+        "producer": "synthetic.reducer_skeleton",
+        "target": {
+          "form_id": "form-main"
+        },
+        "coordinate_space": "display_list_logical",
+        "command_count": 0,
+        "checksum": null,
+        "artifact_ref": {
+          "artifact_id": "display-list-0001",
+          "storage": "inline_trace_row",
+          "uri_fragment": "#/rows/12/payload",
+          "path": null
+        }
+      }
+    },
+    {
+      "row_id": "row-0014",
+      "sequence": 14,
+      "logical_tick": 8,
+      "parent_row_id": null,
+      "nesting_depth": 0,
+      "phase": "render",
+      "kind": "render_artifact",
+      "payload": {
+        "render_id": "render-0001",
+        "source_display_list_id": "display-list-0001",
+        "target": {
+          "form_id": "form-main"
+        },
+        "output_kind": "hash",
+        "hash_algorithm": "synthetic-none",
+        "hash": null,
+        "artifact_ref": {
+          "artifact_id": "render-0001",
+          "storage": "inline_trace_row",
+          "uri_fragment": "#/rows/13/payload",
+          "path": null
+        }
+      }
+    }
+  ],
+  "artifacts": {
+    "display_lists": [
+      {
+        "artifact_id": "display-list-0001",
+        "role": "synthetic display-list placeholder for reducer skeleton trace integration",
+        "storage": "inline_trace_row",
+        "path": null,
+        "uri_fragment": "#/rows/12/payload",
+        "sha256": null,
+        "notes": "No display-list file or rendered pixels are emitted by oxforms-xvx.6."
+      }
+    ],
+    "renders": [
+      {
+        "artifact_id": "render-0001",
+        "role": "synthetic render placeholder for reducer skeleton trace integration",
+        "storage": "inline_trace_row",
+        "path": null,
+        "uri_fragment": "#/rows/13/payload",
+        "sha256": null,
+        "notes": "No renderer was invoked by the reducer skeleton."
+      }
+    ],
+    "screenshots": [],
+    "external_files": []
+  },
+  "clean_room": {
+    "source": "Synthetic repo-authored artifact based on crates/oxforms-pal/src/reducer.rs and W005 specs.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms/MSForms output comparison were used."
+  },
+  "warnings": [
+    "This sample is not MSForms oracle evidence.",
+    "This sample is not a replay-runner golden trace.",
+    "This sample demonstrates reducer transition/effect/invalidation trace integration only."
+  ]
+}

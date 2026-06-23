@@ -11,11 +11,13 @@
 #![forbid(unsafe_code)]
 
 pub mod input;
+pub mod reducer;
 
 use std::error::Error;
 use std::fmt;
 
 pub use input::*;
+pub use reducer::*;
 
 /// First display-list version for the W002 smoke contract.
 pub const DISPLAY_LIST_VERSION: u16 = 1;

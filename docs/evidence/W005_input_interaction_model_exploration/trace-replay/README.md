@@ -12,6 +12,11 @@ contract is [`../../../specs/TRACE_REPLAY_SCHEMA.md`](../../../specs/TRACE_REPLA
   families: normalized input, coordinate tags, reducer transition, effect
   request/completion, VBA dispatch, lifecycle/pump, invalidation, display-list
   reference, render reference, and reentrant nesting.
+- [`reducer-skeleton-transition-log.v1.json`](reducer-skeleton-transition-log.v1.json)
+  is a synthetic `oxforms-xvx.6` transition log showing the first
+  `oxforms-pal` reducer skeleton's ordered focus/capture/effect/invalidation
+  output for a CommandButton-shaped mouse down. It is trace-schema integration
+  evidence only; it is not a replay-runner golden trace.
 
 The sample is not Office/MSForms oracle evidence and is not an OxForms runtime
 trace. It exists to keep downstream W005 traces from inventing local artifact
