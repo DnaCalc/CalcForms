@@ -117,30 +117,6 @@
       }
     },
     {
-      "kind": "draw_text",
-      "payload": {
-        "color": {
-          "alpha": 255,
-          "blue": 0,
-          "green": 0,
-          "red": 0
-        },
-        "rect": {
-          "height": 22.0,
-          "width": 116.0,
-          "x": 16.0,
-          "y": 55.0
-        },
-        "role": "text_box_text",
-        "target": {
-          "control_id": "text-1",
-          "form_id": "form-main",
-          "window_id": null
-        },
-        "text": "A"
-      }
-    },
-    {
       "kind": "fill_rect",
       "payload": {
         "color": {

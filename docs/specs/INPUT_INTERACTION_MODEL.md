@@ -479,6 +479,21 @@ replay without live Excel or another host.
   IME/composition, dead keys, grapheme/selection behavior, clipboard shortcuts,
   accelerator ambiguity/display behavior, platform key identity parity, and
   `MSForms.ReturnInteger` helper mutation remain deferred.
+- `oxforms-0a0.1` extends only the TextBox probe's first reviewable
+  single-line editing slice. Focused, visible, enabled TextBox probes now
+  consume `KeyDown` for `Backspace`, `Delete`, `ArrowLeft`, `ArrowRight`,
+  `Home`, and `End`; the reducer updates committed text, caret anchor/active
+  byte offsets, and collapsed or Shift-extended selection state. Backspace and
+  Delete remove a selected range first, otherwise remove the previous or next
+  character boundary, and emit `Change` plus repaint only when text actually
+  mutates. Navigation emits `KeyDown`/`KeyUp` event rows and a
+  `text_selection_changed` repaint invalidation when the caret or selection
+  changes, but does not emit `KeyPress` or `Change`. This claim is grounded in
+  the public `FM20_EVENT_FACTS.md` keyboard facts that distinguish navigation
+  keys from ANSI/typeable `KeyPress`, plus the updated headless replay golden.
+  It is still not multiline editing, password mode, scrolling, IME/composition,
+  dead keys, clipboard, paste/DataObject, drag/drop, full validation ordering,
+  full MSForms selection UI, or native FM20-named OxVba dispatch.
 - `oxforms-xvx.9` completes the first W005 probe-control reducer/render
   reference slice in `crates/oxforms-core`: Label remains non-focus but
   mouse-routable and text-bearing, CommandButton is focusable/clickable with
@@ -555,8 +570,10 @@ or precisely block them:
   resize/deactivate, close/query/hide/unload/terminate, modal/modeless show,
   nested modal forms, and DoEvents-like yielding as detailed in
   [`LIFECYCLE_PUMP_MODEL.md`](LIFECYCLE_PUMP_MODEL.md).
-- How much TextBox editing belongs in W005 beyond simple single-line character
-  insertion, caret movement placeholders, selection placeholders, and `Change`.
+- TextBox behavior beyond the `oxforms-0a0.1` single-line committed-text slice:
+  multiline, password mode, scrolling, IME/composition, dead keys, clipboard,
+  paste/DataObject, drag/drop, full validation ordering, platform text-service
+  integration, exact MSForms selection UI, and live native FM20-named dispatch.
 - How clipboard shortcuts and `DataObject` behavior should be represented before
   full drag/drop and paste work.
 - How IME, dead keys, composed text, and platform text services enter the

@@ -59,6 +59,60 @@
       {
         "artifact_id": "display-list-0007",
         "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
+        "path": null,
+        "role": "post_invalidation probe display-list reference",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "display-list-0008",
+        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
+        "path": null,
+        "role": "post_invalidation probe display-list reference",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "display-list-0009",
+        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
+        "path": null,
+        "role": "post_invalidation probe display-list reference",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "display-list-0010",
+        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
+        "path": null,
+        "role": "post_invalidation probe display-list reference",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "display-list-0011",
+        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
+        "path": null,
+        "role": "post_invalidation probe display-list reference",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "display-list-0012",
+        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
+        "path": null,
+        "role": "post_invalidation probe display-list reference",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "display-list-0013",
+        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
         "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
         "role": "final_after_command_click probe display-list reference",
         "sha256": null,
@@ -136,6 +190,60 @@
         "artifact_id": "render-0007",
         "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
         "path": null,
+        "role": "post_invalidation PAL smoke headless render hash",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "render-0008",
+        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
+        "path": null,
+        "role": "post_invalidation PAL smoke headless render hash",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "render-0009",
+        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
+        "path": null,
+        "role": "post_invalidation PAL smoke headless render hash",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "render-0010",
+        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
+        "path": null,
+        "role": "post_invalidation PAL smoke headless render hash",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "render-0011",
+        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
+        "path": null,
+        "role": "post_invalidation PAL smoke headless render hash",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "render-0012",
+        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
+        "path": null,
+        "role": "post_invalidation PAL smoke headless render hash",
+        "sha256": null,
+        "storage": "inline_trace_row",
+        "uri_fragment": null
+      },
+      {
+        "artifact_id": "render-0013",
+        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
+        "path": null,
         "role": "final_after_command_click PAL smoke headless render hash",
         "sha256": null,
         "storage": "inline_trace_row",
@@ -144,7 +252,7 @@
     ],
     "screenshots": []
   },
-  "bead": "oxforms-xvx.12",
+  "bead": "oxforms-0a0.1",
   "clean_room": {
     "prohibited": "No Office internals, decompilation, disassembly, non-public source, live Excel/MSForms, or live desktop input were used.",
     "source": "Repo-authored deterministic OxForms replay over crates/oxforms-pal and crates/oxforms-core W005 probe code."
@@ -2733,8 +2841,4501 @@
       "sequence": 73
     },
     {
-      "kind": "input_script_step",
+      "kind": "ui_event",
       "logical_tick": 73,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_down",
+          "payload": {
+            "key": "character:B",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": true
+            },
+            "raw": {
+              "is_extended": false,
+              "native_code": null,
+              "scan_code": 30,
+              "virtual_key": 65
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0008",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0074",
+      "sequence": 74
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 74,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0008",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0008",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0075",
+      "sequence": 75
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 75,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0008",
+        "emitted_effect_ids": [
+          "effect-0017"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0008"
+      },
+      "phase": "reducer",
+      "row_id": "row-0076",
+      "sequence": 76
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 76,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "character:B"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "shift"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_scan_code",
+            "value": "30"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0008",
+          "ui_event_id": "ui-0008"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0017",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyDown",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0077",
+      "sequence": 77
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 77,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0077",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "character:B"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "shift"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_scan_code",
+            "value": "30"
+          }
+        ],
+        "dispatch_id": "dispatch-0008",
+        "effect_id": "effect-0017",
+        "event_name": "KeyDown",
+        "fact_source": {
+          "event": "KeyDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "character:B",
+            "before": "character:B",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0078",
+      "sequence": 78
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 78,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0017",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0079",
+      "sequence": 79
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 79,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [],
+        "normalized_input": {
+          "kind": "character_input",
+          "payload": {
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": true
+            },
+            "raw": [
+              {
+                "name": "text_source",
+                "source": "w005_trace_replay",
+                "value": {
+                  "kind": "text",
+                  "value": "scripted_committed_text"
+                }
+              }
+            ],
+            "text": "B"
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0009",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0080",
+      "sequence": 80
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 80,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0009",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0009",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0081",
+      "sequence": 81
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 81,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 3,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 2,
+                "anchor": 2,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0009",
+        "emitted_effect_ids": [
+          "effect-0018",
+          "effect-0019",
+          "effect-0020"
+        ],
+        "invalidation_ids": [
+          "inv-0004"
+        ],
+        "transition_id": "transition-0009"
+      },
+      "phase": "reducer",
+      "row_id": "row-0082",
+      "sequence": 82
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 82,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": false,
+            "name": "text",
+            "value": "B"
+          },
+          {
+            "by_ref": true,
+            "name": "key_ascii_placeholder",
+            "value": "66"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "shift"
+          }
+        ],
+        "cancel_metadata": "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0009",
+          "ui_event_id": "ui-0009"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0018",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyPress",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0083",
+      "sequence": 83
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 83,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0083",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": false,
+            "name": "text",
+            "value": "B"
+          },
+          {
+            "by_ref": true,
+            "name": "key_ascii_placeholder",
+            "value": "66"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "shift"
+          }
+        ],
+        "dispatch_id": "dispatch-0009",
+        "effect_id": "effect-0018",
+        "event_name": "KeyPress",
+        "fact_source": {
+          "event": "KeyPress",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "66",
+            "before": "66",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key_ascii_placeholder"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0084",
+      "sequence": 84
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 84,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [],
+        "cancel_metadata": null,
+        "cause": {
+          "transition_id": "transition-0009",
+          "ui_event_id": "ui-0009"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0019",
+        "effect_kind": "fire_vba_event",
+        "event_name": "Change",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0085",
+      "sequence": 85
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 85,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0085",
+      "payload": {
+        "arguments": [],
+        "dispatch_id": "dispatch-0010",
+        "effect_id": "effect-0019",
+        "event_name": "Change",
+        "fact_source": {
+          "event": "Change",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [],
+        "result": {
+          "cancel_metadata": null,
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0086",
+      "sequence": 86
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 86,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0009",
+          "ui_event_id": "ui-0009"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0020",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0087",
+      "sequence": 87
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 87,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "text-1",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0004",
+        "reason": "text_changed",
+        "regions": [],
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0088",
+      "sequence": 88
+    },
+    {
+      "kind": "display_list",
+      "logical_tick": 88,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "display-list-0005",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
+        "command_count": 11,
+        "coordinate_space": "display_list_logical",
+        "display_list_id": "display-list-0005",
+        "producer": "oxforms-core::build_probe_display_list",
+        "reason": "post_invalidation",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0089",
+      "sequence": 89
+    },
+    {
+      "kind": "render_artifact",
+      "logical_tick": 89,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "render-0005",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "command_count": 3,
+        "hash": "13378383770080117221",
+        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
+        "height": 128,
+        "output_kind": "headless_framebuffer_hash",
+        "render_id": "render-0005",
+        "source_display_list_id": "display-list-0005",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "width": 260
+      },
+      "phase": "render",
+      "row_id": "row-0090",
+      "sequence": 90
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 90,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0018",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0091",
+      "sequence": 91
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 91,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0019",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0092",
+      "sequence": 92
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 92,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0020",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0093",
+      "sequence": 93
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 93,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_up",
+          "payload": {
+            "key": "character:B",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": true
+            },
+            "raw": {
+              "is_extended": false,
+              "native_code": null,
+              "scan_code": 30,
+              "virtual_key": 65
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0010",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0094",
+      "sequence": 94
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 94,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0010",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0010",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0095",
+      "sequence": 95
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 95,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 2,
+                "anchor": 2,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 2,
+                "anchor": 2,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0010",
+        "emitted_effect_ids": [
+          "effect-0021"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0010"
+      },
+      "phase": "reducer",
+      "row_id": "row-0096",
+      "sequence": 96
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 96,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "character:B"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "shift"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_scan_code",
+            "value": "30"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0010",
+          "ui_event_id": "ui-0010"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0021",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyUp",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0097",
+      "sequence": 97
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 97,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0097",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "character:B"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "shift"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": false,
+            "name": "raw_scan_code",
+            "value": "30"
+          }
+        ],
+        "dispatch_id": "dispatch-0011",
+        "effect_id": "effect-0021",
+        "event_name": "KeyUp",
+        "fact_source": {
+          "event": "KeyUp",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "character:B",
+            "before": "character:B",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0098",
+      "sequence": 98
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 98,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0021",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0099",
+      "sequence": 99
+    },
+    {
+      "kind": "input_script_step",
+      "logical_tick": 99,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "action": "navigate_textbox",
+        "script_step_id": "script-0004",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main"
+        }
+      },
+      "phase": "script",
+      "row_id": "row-0100",
+      "sequence": 100
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 100,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_down",
+          "payload": {
+            "key": "arrow_left",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0011",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0101",
+      "sequence": 101
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 101,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0011",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0011",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0102",
+      "sequence": 102
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 102,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 2,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 2,
+                "anchor": 2,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0011",
+        "emitted_effect_ids": [
+          "effect-0022",
+          "effect-0023"
+        ],
+        "invalidation_ids": [
+          "inv-0005"
+        ],
+        "transition_id": "transition-0011"
+      },
+      "phase": "reducer",
+      "row_id": "row-0103",
+      "sequence": 103
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 103,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "arrow_left"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0011",
+          "ui_event_id": "ui-0011"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0022",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyDown",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0104",
+      "sequence": 104
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 104,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0104",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "arrow_left"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0012",
+        "effect_id": "effect-0022",
+        "event_name": "KeyDown",
+        "fact_source": {
+          "event": "KeyDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "arrow_left",
+            "before": "arrow_left",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0105",
+      "sequence": 105
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 105,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0011",
+          "ui_event_id": "ui-0011"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0023",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0106",
+      "sequence": 106
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 106,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "text-1",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0005",
+        "reason": "text_selection_changed",
+        "regions": [],
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0107",
+      "sequence": 107
+    },
+    {
+      "kind": "display_list",
+      "logical_tick": 107,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "display-list-0006",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "checksum": "fnv1a64-json-bytes-v1:430020ddccdd4597",
+        "command_count": 11,
+        "coordinate_space": "display_list_logical",
+        "display_list_id": "display-list-0006",
+        "producer": "oxforms-core::build_probe_display_list",
+        "reason": "post_invalidation",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0108",
+      "sequence": 108
+    },
+    {
+      "kind": "render_artifact",
+      "logical_tick": 108,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "render-0006",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "command_count": 3,
+        "hash": "13378383770080117221",
+        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
+        "height": 128,
+        "output_kind": "headless_framebuffer_hash",
+        "render_id": "render-0006",
+        "source_display_list_id": "display-list-0006",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "width": 260
+      },
+      "phase": "render",
+      "row_id": "row-0109",
+      "sequence": 109
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 109,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0022",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0110",
+      "sequence": 110
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 110,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0023",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0111",
+      "sequence": 111
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 111,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_up",
+          "payload": {
+            "key": "arrow_left",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0012",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0112",
+      "sequence": 112
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 112,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0012",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0012",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0113",
+      "sequence": 113
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 113,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0012",
+        "emitted_effect_ids": [
+          "effect-0024"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0012"
+      },
+      "phase": "reducer",
+      "row_id": "row-0114",
+      "sequence": 114
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 114,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "arrow_left"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0012",
+          "ui_event_id": "ui-0012"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0024",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyUp",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0115",
+      "sequence": 115
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 115,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0115",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "arrow_left"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0013",
+        "effect_id": "effect-0024",
+        "event_name": "KeyUp",
+        "fact_source": {
+          "event": "KeyUp",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "arrow_left",
+            "before": "arrow_left",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0116",
+      "sequence": 116
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 116,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0024",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0117",
+      "sequence": 117
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 117,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_down",
+          "payload": {
+            "key": "delete",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0013",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0118",
+      "sequence": 118
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 118,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0013",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0013",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0119",
+      "sequence": 119
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 119,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 3,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 2
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0013",
+        "emitted_effect_ids": [
+          "effect-0025",
+          "effect-0026",
+          "effect-0027"
+        ],
+        "invalidation_ids": [
+          "inv-0006"
+        ],
+        "transition_id": "transition-0013"
+      },
+      "phase": "reducer",
+      "row_id": "row-0120",
+      "sequence": 120
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 120,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "delete"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0013",
+          "ui_event_id": "ui-0013"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0025",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyDown",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0121",
+      "sequence": 121
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 121,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0121",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "delete"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0014",
+        "effect_id": "effect-0025",
+        "event_name": "KeyDown",
+        "fact_source": {
+          "event": "KeyDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "delete",
+            "before": "delete",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0122",
+      "sequence": 122
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 122,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [],
+        "cancel_metadata": null,
+        "cause": {
+          "transition_id": "transition-0013",
+          "ui_event_id": "ui-0013"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0026",
+        "effect_kind": "fire_vba_event",
+        "event_name": "Change",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0123",
+      "sequence": 123
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 123,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0123",
+      "payload": {
+        "arguments": [],
+        "dispatch_id": "dispatch-0015",
+        "effect_id": "effect-0026",
+        "event_name": "Change",
+        "fact_source": {
+          "event": "Change",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [],
+        "result": {
+          "cancel_metadata": null,
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0124",
+      "sequence": 124
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 124,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0013",
+          "ui_event_id": "ui-0013"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0027",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0125",
+      "sequence": 125
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 125,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "text-1",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0006",
+        "reason": "text_changed",
+        "regions": [],
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0126",
+      "sequence": 126
+    },
+    {
+      "kind": "display_list",
+      "logical_tick": 126,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "display-list-0007",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "checksum": "fnv1a64-json-bytes-v1:55238b1f5fe44fd2",
+        "command_count": 11,
+        "coordinate_space": "display_list_logical",
+        "display_list_id": "display-list-0007",
+        "producer": "oxforms-core::build_probe_display_list",
+        "reason": "post_invalidation",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0127",
+      "sequence": 127
+    },
+    {
+      "kind": "render_artifact",
+      "logical_tick": 127,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "render-0007",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "command_count": 3,
+        "hash": "13378383770080117221",
+        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
+        "height": 128,
+        "output_kind": "headless_framebuffer_hash",
+        "render_id": "render-0007",
+        "source_display_list_id": "display-list-0007",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "width": 260
+      },
+      "phase": "render",
+      "row_id": "row-0128",
+      "sequence": 128
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 128,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0025",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0129",
+      "sequence": 129
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 129,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0026",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0130",
+      "sequence": 130
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 130,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0027",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0131",
+      "sequence": 131
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 131,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_up",
+          "payload": {
+            "key": "delete",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0014",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0132",
+      "sequence": 132
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 132,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0014",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0014",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0133",
+      "sequence": 133
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 133,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0014",
+        "emitted_effect_ids": [
+          "effect-0028"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0014"
+      },
+      "phase": "reducer",
+      "row_id": "row-0134",
+      "sequence": 134
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 134,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "delete"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0014",
+          "ui_event_id": "ui-0014"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0028",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyUp",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0135",
+      "sequence": 135
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 135,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0135",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "delete"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0016",
+        "effect_id": "effect-0028",
+        "event_name": "KeyUp",
+        "fact_source": {
+          "event": "KeyUp",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "delete",
+            "before": "delete",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0136",
+      "sequence": 136
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 136,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0028",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0137",
+      "sequence": 137
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 137,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_down",
+          "payload": {
+            "key": "home",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0015",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0138",
+      "sequence": 138
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 138,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0015",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0015",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0139",
+      "sequence": 139
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 139,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 2,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0015",
+        "emitted_effect_ids": [
+          "effect-0029",
+          "effect-0030"
+        ],
+        "invalidation_ids": [
+          "inv-0007"
+        ],
+        "transition_id": "transition-0015"
+      },
+      "phase": "reducer",
+      "row_id": "row-0140",
+      "sequence": 140
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 140,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "home"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0015",
+          "ui_event_id": "ui-0015"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0029",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyDown",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0141",
+      "sequence": 141
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 141,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0141",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "home"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0017",
+        "effect_id": "effect-0029",
+        "event_name": "KeyDown",
+        "fact_source": {
+          "event": "KeyDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "home",
+            "before": "home",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0142",
+      "sequence": 142
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 142,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0015",
+          "ui_event_id": "ui-0015"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0030",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0143",
+      "sequence": 143
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 143,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "text-1",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0007",
+        "reason": "text_selection_changed",
+        "regions": [],
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0144",
+      "sequence": 144
+    },
+    {
+      "kind": "display_list",
+      "logical_tick": 144,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "display-list-0008",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
+        "command_count": 11,
+        "coordinate_space": "display_list_logical",
+        "display_list_id": "display-list-0008",
+        "producer": "oxforms-core::build_probe_display_list",
+        "reason": "post_invalidation",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0145",
+      "sequence": 145
+    },
+    {
+      "kind": "render_artifact",
+      "logical_tick": 145,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "render-0008",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "command_count": 3,
+        "hash": "13378383770080117221",
+        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
+        "height": 128,
+        "output_kind": "headless_framebuffer_hash",
+        "render_id": "render-0008",
+        "source_display_list_id": "display-list-0008",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "width": 260
+      },
+      "phase": "render",
+      "row_id": "row-0146",
+      "sequence": 146
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 146,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0029",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0147",
+      "sequence": 147
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 147,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0030",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0148",
+      "sequence": 148
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 148,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_up",
+          "payload": {
+            "key": "home",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0016",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0149",
+      "sequence": 149
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 149,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0016",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0016",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0150",
+      "sequence": 150
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 150,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0016",
+        "emitted_effect_ids": [
+          "effect-0031"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0016"
+      },
+      "phase": "reducer",
+      "row_id": "row-0151",
+      "sequence": 151
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 151,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "home"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0016",
+          "ui_event_id": "ui-0016"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0031",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyUp",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0152",
+      "sequence": 152
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 152,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0152",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "home"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0018",
+        "effect_id": "effect-0031",
+        "event_name": "KeyUp",
+        "fact_source": {
+          "event": "KeyUp",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "home",
+            "before": "home",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0153",
+      "sequence": 153
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 153,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0031",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0154",
+      "sequence": 154
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 154,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_down",
+          "payload": {
+            "key": "end",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0017",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0155",
+      "sequence": 155
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 155,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0017",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0017",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0156",
+      "sequence": 156
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 156,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 2,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0017",
+        "emitted_effect_ids": [
+          "effect-0032",
+          "effect-0033"
+        ],
+        "invalidation_ids": [
+          "inv-0008"
+        ],
+        "transition_id": "transition-0017"
+      },
+      "phase": "reducer",
+      "row_id": "row-0157",
+      "sequence": 157
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 157,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "end"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0017",
+          "ui_event_id": "ui-0017"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0032",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyDown",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0158",
+      "sequence": 158
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 158,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0158",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "end"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0019",
+        "effect_id": "effect-0032",
+        "event_name": "KeyDown",
+        "fact_source": {
+          "event": "KeyDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "end",
+            "before": "end",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0159",
+      "sequence": 159
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 159,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0017",
+          "ui_event_id": "ui-0017"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0033",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0160",
+      "sequence": 160
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 160,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "text-1",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0008",
+        "reason": "text_selection_changed",
+        "regions": [],
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0161",
+      "sequence": 161
+    },
+    {
+      "kind": "display_list",
+      "logical_tick": 161,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "display-list-0009",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "checksum": "fnv1a64-json-bytes-v1:3c76b6ba94c21c8c",
+        "command_count": 11,
+        "coordinate_space": "display_list_logical",
+        "display_list_id": "display-list-0009",
+        "producer": "oxforms-core::build_probe_display_list",
+        "reason": "post_invalidation",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0162",
+      "sequence": 162
+    },
+    {
+      "kind": "render_artifact",
+      "logical_tick": 162,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "render-0009",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "command_count": 3,
+        "hash": "13378383770080117221",
+        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
+        "height": 128,
+        "output_kind": "headless_framebuffer_hash",
+        "render_id": "render-0009",
+        "source_display_list_id": "display-list-0009",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "width": 260
+      },
+      "phase": "render",
+      "row_id": "row-0163",
+      "sequence": 163
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 163,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0032",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0164",
+      "sequence": 164
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 164,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0033",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0165",
+      "sequence": 165
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 165,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_up",
+          "payload": {
+            "key": "end",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0018",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0166",
+      "sequence": 166
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 166,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0018",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0018",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0167",
+      "sequence": 167
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 167,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0018",
+        "emitted_effect_ids": [
+          "effect-0034"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0018"
+      },
+      "phase": "reducer",
+      "row_id": "row-0168",
+      "sequence": 168
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 168,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "end"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0018",
+          "ui_event_id": "ui-0018"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0034",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyUp",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0169",
+      "sequence": 169
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 169,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0169",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "end"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0020",
+        "effect_id": "effect-0034",
+        "event_name": "KeyUp",
+        "fact_source": {
+          "event": "KeyUp",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "end",
+            "before": "end",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0170",
+      "sequence": 170
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 170,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0034",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0171",
+      "sequence": 171
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 171,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_down",
+          "payload": {
+            "key": "backspace",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0019",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0172",
+      "sequence": 172
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 172,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0019",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0019",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0173",
+      "sequence": 173
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 173,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 3,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 1,
+                "anchor": 1,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 1
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0019",
+        "emitted_effect_ids": [
+          "effect-0035",
+          "effect-0036",
+          "effect-0037"
+        ],
+        "invalidation_ids": [
+          "inv-0009"
+        ],
+        "transition_id": "transition-0019"
+      },
+      "phase": "reducer",
+      "row_id": "row-0174",
+      "sequence": 174
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 174,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "backspace"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0019",
+          "ui_event_id": "ui-0019"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0035",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyDown",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0175",
+      "sequence": 175
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 175,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0175",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "backspace"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0021",
+        "effect_id": "effect-0035",
+        "event_name": "KeyDown",
+        "fact_source": {
+          "event": "KeyDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "backspace",
+            "before": "backspace",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0176",
+      "sequence": 176
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 176,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [],
+        "cancel_metadata": null,
+        "cause": {
+          "transition_id": "transition-0019",
+          "ui_event_id": "ui-0019"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0036",
+        "effect_kind": "fire_vba_event",
+        "event_name": "Change",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0177",
+      "sequence": 177
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 177,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0177",
+      "payload": {
+        "arguments": [],
+        "dispatch_id": "dispatch-0022",
+        "effect_id": "effect-0036",
+        "event_name": "Change",
+        "fact_source": {
+          "event": "Change",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [],
+        "result": {
+          "cancel_metadata": null,
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0178",
+      "sequence": 178
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 178,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0019",
+          "ui_event_id": "ui-0019"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0037",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0179",
+      "sequence": 179
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 179,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "text-1",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0009",
+        "reason": "text_changed",
+        "regions": [],
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0180",
+      "sequence": 180
+    },
+    {
+      "kind": "display_list",
+      "logical_tick": 180,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "display-list-0010",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
+        "command_count": 11,
+        "coordinate_space": "display_list_logical",
+        "display_list_id": "display-list-0010",
+        "producer": "oxforms-core::build_probe_display_list",
+        "reason": "post_invalidation",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0181",
+      "sequence": 181
+    },
+    {
+      "kind": "render_artifact",
+      "logical_tick": 181,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "artifact_ref": {
+          "artifact_id": "render-0010",
+          "path": null,
+          "storage": "inline_trace_row",
+          "uri_fragment": null
+        },
+        "command_count": 3,
+        "hash": "13378383770080117221",
+        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
+        "height": 128,
+        "output_kind": "headless_framebuffer_hash",
+        "render_id": "render-0010",
+        "source_display_list_id": "display-list-0010",
+        "target": {
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "width": 260
+      },
+      "phase": "render",
+      "row_id": "row-0182",
+      "sequence": 182
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 182,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0035",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0183",
+      "sequence": 183
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 183,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0036",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0184",
+      "sequence": 184
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 184,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0037",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0185",
+      "sequence": 185
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 185,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [
+          {
+            "name": "key_source",
+            "source": "w005_trace_replay",
+            "value": {
+              "kind": "text",
+              "value": "scripted_normalized_key"
+            }
+          }
+        ],
+        "normalized_input": {
+          "kind": "key_up",
+          "payload": {
+            "key": "backspace",
+            "modifiers": {
+              "alt": false,
+              "caps_lock": false,
+              "control": false,
+              "meta": false,
+              "num_lock": false,
+              "platform": false,
+              "scroll_lock": false,
+              "shift": false
+            },
+            "raw": {
+              "is_extended": null,
+              "native_code": null,
+              "scan_code": null,
+              "virtual_key": null
+            },
+            "repeat": {
+              "is_repeat": false,
+              "repeat_count": 1
+            }
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0020",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0186",
+      "sequence": 186
+    },
+    {
+      "kind": "routing_decision",
+      "logical_tick": 186,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "capture_owner_after": null,
+        "capture_owner_before": null,
+        "causal_ui_event_id": "ui-0020",
+        "considered": [],
+        "route_kind": "keyboard_focus_owner",
+        "routing_id": "route-for-ui-0020",
+        "selected_target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "routing",
+      "row_id": "row-0187",
+      "sequence": 187
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 187,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "text-1"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0020",
+        "emitted_effect_ids": [
+          "effect-0038"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0020"
+      },
+      "phase": "reducer",
+      "row_id": "row-0188",
+      "sequence": 188
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 188,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "backspace"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cause": {
+          "transition_id": "transition-0020",
+          "ui_event_id": "ui-0020"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0038",
+        "effect_kind": "fire_vba_event",
+        "event_name": "KeyUp",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0189",
+      "sequence": 189
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 189,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0189",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "key",
+            "value": "backspace"
+          },
+          {
+            "by_ref": false,
+            "name": "modifiers",
+            "value": "none"
+          },
+          {
+            "by_ref": false,
+            "name": "repeat",
+            "value": "1"
+          }
+        ],
+        "dispatch_id": "dispatch-0023",
+        "effect_id": "effect-0038",
+        "event_name": "KeyUp",
+        "fact_source": {
+          "event": "KeyUp",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "backspace",
+            "before": "backspace",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "key"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0190",
+      "sequence": 190
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 190,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0038",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0191",
+      "sequence": 191
+    },
+    {
+      "kind": "input_script_step",
+      "logical_tick": 191,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2756,19 +7357,19 @@
             "unit": "points"
           }
         ],
-        "script_step_id": "script-0004",
+        "script_step_id": "script-0005",
         "target": {
           "control_id": "ok",
           "form_id": "form-main"
         }
       },
       "phase": "script",
-      "row_id": "row-0074",
-      "sequence": 74
+      "row_id": "row-0192",
+      "sequence": 192
     },
     {
       "kind": "ui_event",
-      "logical_tick": 74,
+      "logical_tick": 192,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2867,22 +7468,22 @@
           "form_id": "form-main",
           "window_id": "window-main"
         },
-        "ui_event_id": "ui-0008",
+        "ui_event_id": "ui-0021",
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0075",
-      "sequence": 75
+      "row_id": "row-0193",
+      "sequence": 193
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 75,
+      "logical_tick": 193,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "capture_owner_after": "ok",
         "capture_owner_before": null,
-        "causal_ui_event_id": "ui-0008",
+        "causal_ui_event_id": "ui-0021",
         "considered": [
           {
             "control_id": "label-title",
@@ -2907,7 +7508,7 @@
           }
         ],
         "route_kind": "mouse_hit_test",
-        "routing_id": "route-for-ui-0008",
+        "routing_id": "route-for-ui-0021",
         "selected_target": {
           "control_id": "ok",
           "form_id": "form-main",
@@ -2915,12 +7516,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0076",
-      "sequence": 76
+      "row_id": "row-0194",
+      "sequence": 194
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 76,
+      "logical_tick": 194,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2951,13 +7552,13 @@
           "text_values": [
             {
               "caret": {
-                "active": 1,
-                "anchor": 1,
+                "active": 0,
+                "anchor": 0,
                 "preferred_column": null
               },
               "control_id": "text-1",
               "dirty": true,
-              "text_len": 1
+              "text_len": 0
             }
           ],
           "validation_active": false
@@ -2979,47 +7580,47 @@
           "text_values": [
             {
               "caret": {
-                "active": 1,
-                "anchor": 1,
+                "active": 0,
+                "anchor": 0,
                 "preferred_column": null
               },
               "control_id": "text-1",
               "dirty": true,
-              "text_len": 1
+              "text_len": 0
             }
           ],
           "validation_active": false
         },
-        "causal_ui_event_id": "ui-0008",
+        "causal_ui_event_id": "ui-0021",
         "emitted_effect_ids": [
-          "effect-0017",
-          "effect-0018",
-          "effect-0019",
-          "effect-0020",
-          "effect-0021"
+          "effect-0039",
+          "effect-0040",
+          "effect-0041",
+          "effect-0042",
+          "effect-0043"
         ],
         "invalidation_ids": [
-          "inv-0004",
-          "inv-0005"
+          "inv-0010",
+          "inv-0011"
         ],
-        "transition_id": "transition-0008"
+        "transition_id": "transition-0021"
       },
       "phase": "reducer",
-      "row_id": "row-0077",
-      "sequence": 77
+      "row_id": "row-0195",
+      "sequence": 195
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 77,
+      "logical_tick": 195,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "cause": {
-          "transition_id": "transition-0008",
-          "ui_event_id": "ui-0008"
+          "transition_id": "transition-0021",
+          "ui_event_id": "ui-0021"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0017",
+        "effect_id": "effect-0039",
         "effect_kind": "transfer_focus",
         "target": {
           "control_id": "ok",
@@ -3028,21 +7629,21 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0078",
-      "sequence": 78
+      "row_id": "row-0196",
+      "sequence": 196
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 78,
+      "logical_tick": 196,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "cause": {
-          "transition_id": "transition-0008",
-          "ui_event_id": "ui-0008"
+          "transition_id": "transition-0021",
+          "ui_event_id": "ui-0021"
         },
         "completion_policy": "render_diagnostic_optional",
-        "effect_id": "effect-0018",
+        "effect_id": "effect-0040",
         "effect_kind": "request_repaint",
         "target": {
           "control_id": "ok",
@@ -3051,21 +7652,21 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0079",
-      "sequence": 79
+      "row_id": "row-0197",
+      "sequence": 197
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 79,
+      "logical_tick": 197,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "cause": {
-          "transition_id": "transition-0008",
-          "ui_event_id": "ui-0008"
+          "transition_id": "transition-0021",
+          "ui_event_id": "ui-0021"
         },
         "completion_policy": "platform_completion_or_diagnostic",
-        "effect_id": "effect-0019",
+        "effect_id": "effect-0041",
         "effect_kind": "capture_mouse",
         "target": {
           "control_id": "ok",
@@ -3074,12 +7675,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0080",
-      "sequence": 80
+      "row_id": "row-0198",
+      "sequence": 198
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 80,
+      "logical_tick": 198,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3107,11 +7708,11 @@
         ],
         "cancel_metadata": null,
         "cause": {
-          "transition_id": "transition-0008",
-          "ui_event_id": "ui-0008"
+          "transition_id": "transition-0021",
+          "ui_event_id": "ui-0021"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0020",
+        "effect_id": "effect-0042",
         "effect_kind": "fire_vba_event",
         "event_name": "MouseDown",
         "target": {
@@ -3121,14 +7722,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0081",
-      "sequence": 81
+      "row_id": "row-0199",
+      "sequence": 199
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 81,
+      "logical_tick": 199,
       "nesting_depth": 1,
-      "parent_row_id": "row-0081",
+      "parent_row_id": "row-0199",
       "payload": {
         "arguments": [
           {
@@ -3152,8 +7753,8 @@
             "value": "12"
           }
         ],
-        "dispatch_id": "dispatch-0008",
-        "effect_id": "effect-0020",
+        "dispatch_id": "dispatch-0024",
+        "effect_id": "effect-0042",
         "event_name": "MouseDown",
         "fact_source": {
           "event": "MouseDown",
@@ -3174,21 +7775,21 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0082",
-      "sequence": 82
+      "row_id": "row-0200",
+      "sequence": 200
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 82,
+      "logical_tick": 200,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "cause": {
-          "transition_id": "transition-0008",
-          "ui_event_id": "ui-0008"
+          "transition_id": "transition-0021",
+          "ui_event_id": "ui-0021"
         },
         "completion_policy": "render_diagnostic_optional",
-        "effect_id": "effect-0021",
+        "effect_id": "effect-0043",
         "effect_kind": "request_repaint",
         "target": {
           "control_id": "ok",
@@ -3197,12 +7798,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0083",
-      "sequence": 83
+      "row_id": "row-0201",
+      "sequence": 201
     },
     {
       "kind": "invalidation",
-      "logical_tick": 83,
+      "logical_tick": 201,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3213,7 +7814,7 @@
             "window_id": null
           }
         ],
-        "invalidation_id": "inv-0004",
+        "invalidation_id": "inv-0010",
         "reason": "focus_changed",
         "regions": [],
         "target": {
@@ -3223,12 +7824,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0084",
-      "sequence": 84
+      "row_id": "row-0202",
+      "sequence": 202
     },
     {
       "kind": "invalidation",
-      "logical_tick": 84,
+      "logical_tick": 202,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3239,7 +7840,7 @@
             "window_id": null
           }
         ],
-        "invalidation_id": "inv-0005",
+        "invalidation_id": "inv-0011",
         "reason": "pressed_state_changed",
         "regions": [],
         "target": {
@@ -3249,25 +7850,25 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0085",
-      "sequence": 85
+      "row_id": "row-0203",
+      "sequence": 203
     },
     {
       "kind": "display_list",
-      "logical_tick": 85,
+      "logical_tick": 203,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "artifact_ref": {
-          "artifact_id": "display-list-0005",
+          "artifact_id": "display-list-0011",
           "path": null,
           "storage": "inline_trace_row",
           "uri_fragment": null
         },
-        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
-        "command_count": 11,
+        "checksum": "fnv1a64-json-bytes-v1:19f7c7539024cebb",
+        "command_count": 10,
         "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0005",
+        "display_list_id": "display-list-0011",
         "producer": "oxforms-core::build_probe_display_list",
         "reason": "post_invalidation",
         "target": {
@@ -3276,17 +7877,17 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0086",
-      "sequence": 86
+      "row_id": "row-0204",
+      "sequence": 204
     },
     {
       "kind": "render_artifact",
-      "logical_tick": 86,
+      "logical_tick": 204,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "artifact_ref": {
-          "artifact_id": "render-0005",
+          "artifact_id": "render-0011",
           "path": null,
           "storage": "inline_trace_row",
           "uri_fragment": null
@@ -3296,8 +7897,8 @@
         "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
         "height": 128,
         "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0005",
-        "source_display_list_id": "display-list-0005",
+        "render_id": "render-0011",
+        "source_display_list_id": "display-list-0011",
         "target": {
           "form_id": "form-main",
           "window_id": "window-main"
@@ -3305,17 +7906,17 @@
         "width": 260
       },
       "phase": "render",
-      "row_id": "row-0087",
-      "sequence": 87
+      "row_id": "row-0205",
+      "sequence": 205
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 87,
+      "logical_tick": 205,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0017",
+        "effect_id": "effect-0039",
         "result": {
           "effect_kind": "transfer_focus",
           "runner": "oxforms-core headless trace replay"
@@ -3323,17 +7924,17 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0088",
-      "sequence": 88
+      "row_id": "row-0206",
+      "sequence": 206
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 88,
+      "logical_tick": 206,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0018",
+        "effect_id": "effect-0040",
         "result": {
           "effect_kind": "request_repaint",
           "runner": "oxforms-core headless trace replay"
@@ -3341,17 +7942,17 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0089",
-      "sequence": 89
+      "row_id": "row-0207",
+      "sequence": 207
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 89,
+      "logical_tick": 207,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0019",
+        "effect_id": "effect-0041",
         "result": {
           "effect_kind": "capture_mouse",
           "runner": "oxforms-core headless trace replay"
@@ -3359,17 +7960,17 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0090",
-      "sequence": 90
+      "row_id": "row-0208",
+      "sequence": 208
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 90,
+      "logical_tick": 208,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0020",
+        "effect_id": "effect-0042",
         "result": {
           "effect_kind": "fire_vba_event",
           "runner": "oxforms-core headless trace replay"
@@ -3377,17 +7978,17 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0091",
-      "sequence": 91
+      "row_id": "row-0209",
+      "sequence": 209
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 91,
+      "logical_tick": 209,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0021",
+        "effect_id": "effect-0043",
         "result": {
           "effect_kind": "request_repaint",
           "runner": "oxforms-core headless trace replay"
@@ -3395,12 +7996,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0092",
-      "sequence": 92
+      "row_id": "row-0210",
+      "sequence": 210
     },
     {
       "kind": "ui_event",
-      "logical_tick": 92,
+      "logical_tick": 210,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3499,22 +8100,22 @@
           "form_id": "form-main",
           "window_id": "window-main"
         },
-        "ui_event_id": "ui-0009",
+        "ui_event_id": "ui-0022",
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0093",
-      "sequence": 93
+      "row_id": "row-0211",
+      "sequence": 211
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 93,
+      "logical_tick": 211,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "capture_owner_after": null,
         "capture_owner_before": "ok",
-        "causal_ui_event_id": "ui-0009",
+        "causal_ui_event_id": "ui-0022",
         "considered": [
           {
             "control_id": "label-title",
@@ -3539,7 +8140,7 @@
           }
         ],
         "route_kind": "mouse_capture",
-        "routing_id": "route-for-ui-0009",
+        "routing_id": "route-for-ui-0022",
         "selected_target": {
           "control_id": "ok",
           "form_id": "form-main",
@@ -3547,12 +8148,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0094",
-      "sequence": 94
+      "row_id": "row-0212",
+      "sequence": 212
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 94,
+      "logical_tick": 212,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3573,13 +8174,13 @@
           "text_values": [
             {
               "caret": {
-                "active": 1,
-                "anchor": 1,
+                "active": 0,
+                "anchor": 0,
                 "preferred_column": null
               },
               "control_id": "text-1",
               "dirty": true,
-              "text_len": 1
+              "text_len": 0
             }
           ],
           "validation_active": false
@@ -3611,45 +8212,45 @@
           "text_values": [
             {
               "caret": {
-                "active": 1,
-                "anchor": 1,
+                "active": 0,
+                "anchor": 0,
                 "preferred_column": null
               },
               "control_id": "text-1",
               "dirty": true,
-              "text_len": 1
+              "text_len": 0
             }
           ],
           "validation_active": false
         },
-        "causal_ui_event_id": "ui-0009",
+        "causal_ui_event_id": "ui-0022",
         "emitted_effect_ids": [
-          "effect-0022",
-          "effect-0023",
-          "effect-0024",
-          "effect-0025"
+          "effect-0044",
+          "effect-0045",
+          "effect-0046",
+          "effect-0047"
         ],
         "invalidation_ids": [
-          "inv-0006"
+          "inv-0012"
         ],
-        "transition_id": "transition-0009"
+        "transition_id": "transition-0022"
       },
       "phase": "reducer",
-      "row_id": "row-0095",
-      "sequence": 95
+      "row_id": "row-0213",
+      "sequence": 213
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 95,
+      "logical_tick": 213,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "cause": {
-          "transition_id": "transition-0009",
-          "ui_event_id": "ui-0009"
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
         },
         "completion_policy": "platform_completion_or_diagnostic",
-        "effect_id": "effect-0022",
+        "effect_id": "effect-0044",
         "effect_kind": "release_mouse",
         "target": {
           "control_id": "ok",
@@ -3658,12 +8259,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0096",
-      "sequence": 96
+      "row_id": "row-0214",
+      "sequence": 214
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 96,
+      "logical_tick": 214,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3691,11 +8292,11 @@
         ],
         "cancel_metadata": null,
         "cause": {
-          "transition_id": "transition-0009",
-          "ui_event_id": "ui-0009"
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0023",
+        "effect_id": "effect-0045",
         "effect_kind": "fire_vba_event",
         "event_name": "MouseUp",
         "target": {
@@ -3705,14 +8306,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0097",
-      "sequence": 97
+      "row_id": "row-0215",
+      "sequence": 215
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 97,
+      "logical_tick": 215,
       "nesting_depth": 1,
-      "parent_row_id": "row-0097",
+      "parent_row_id": "row-0215",
       "payload": {
         "arguments": [
           {
@@ -3736,8 +8337,8 @@
             "value": "12"
           }
         ],
-        "dispatch_id": "dispatch-0009",
-        "effect_id": "effect-0023",
+        "dispatch_id": "dispatch-0025",
+        "effect_id": "effect-0045",
         "event_name": "MouseUp",
         "fact_source": {
           "event": "MouseUp",
@@ -3758,23 +8359,23 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0098",
-      "sequence": 98
+      "row_id": "row-0216",
+      "sequence": 216
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 98,
+      "logical_tick": 216,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "arguments": [],
         "cancel_metadata": null,
         "cause": {
-          "transition_id": "transition-0009",
-          "ui_event_id": "ui-0009"
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0024",
+        "effect_id": "effect-0046",
         "effect_kind": "fire_vba_event",
         "event_name": "Click",
         "target": {
@@ -3784,18 +8385,18 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0099",
-      "sequence": 99
+      "row_id": "row-0217",
+      "sequence": 217
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 99,
+      "logical_tick": 217,
       "nesting_depth": 1,
-      "parent_row_id": "row-0099",
+      "parent_row_id": "row-0217",
       "payload": {
         "arguments": [],
-        "dispatch_id": "dispatch-0010",
-        "effect_id": "effect-0024",
+        "dispatch_id": "dispatch-0026",
+        "effect_id": "effect-0046",
         "event_name": "Click",
         "fact_source": {
           "event": "Click",
@@ -3816,21 +8417,21 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0100",
-      "sequence": 100
+      "row_id": "row-0218",
+      "sequence": 218
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 100,
+      "logical_tick": 218,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "cause": {
-          "transition_id": "transition-0009",
-          "ui_event_id": "ui-0009"
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
         },
         "completion_policy": "render_diagnostic_optional",
-        "effect_id": "effect-0025",
+        "effect_id": "effect-0047",
         "effect_kind": "request_repaint",
         "target": {
           "control_id": "ok",
@@ -3839,12 +8440,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0101",
-      "sequence": 101
+      "row_id": "row-0219",
+      "sequence": 219
     },
     {
       "kind": "invalidation",
-      "logical_tick": 101,
+      "logical_tick": 219,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3855,7 +8456,7 @@
             "window_id": null
           }
         ],
-        "invalidation_id": "inv-0006",
+        "invalidation_id": "inv-0012",
         "reason": "pressed_state_changed",
         "regions": [],
         "target": {
@@ -3865,25 +8466,25 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0102",
-      "sequence": 102
+      "row_id": "row-0220",
+      "sequence": 220
     },
     {
       "kind": "display_list",
-      "logical_tick": 102,
+      "logical_tick": 220,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "artifact_ref": {
-          "artifact_id": "display-list-0006",
+          "artifact_id": "display-list-0012",
           "path": null,
           "storage": "inline_trace_row",
           "uri_fragment": null
         },
-        "checksum": "fnv1a64-json-bytes-v1:6490d2b666f2b965",
-        "command_count": 10,
+        "checksum": "fnv1a64-json-bytes-v1:8ccfd1c465201578",
+        "command_count": 9,
         "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0006",
+        "display_list_id": "display-list-0012",
         "producer": "oxforms-core::build_probe_display_list",
         "reason": "post_invalidation",
         "target": {
@@ -3892,17 +8493,17 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0103",
-      "sequence": 103
+      "row_id": "row-0221",
+      "sequence": 221
     },
     {
       "kind": "render_artifact",
-      "logical_tick": 103,
+      "logical_tick": 221,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "artifact_ref": {
-          "artifact_id": "render-0006",
+          "artifact_id": "render-0012",
           "path": null,
           "storage": "inline_trace_row",
           "uri_fragment": null
@@ -3912,8 +8513,8 @@
         "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
         "height": 128,
         "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0006",
-        "source_display_list_id": "display-list-0006",
+        "render_id": "render-0012",
+        "source_display_list_id": "display-list-0012",
         "target": {
           "form_id": "form-main",
           "window_id": "window-main"
@@ -3921,17 +8522,17 @@
         "width": 260
       },
       "phase": "render",
-      "row_id": "row-0104",
-      "sequence": 104
+      "row_id": "row-0222",
+      "sequence": 222
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 104,
+      "logical_tick": 222,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0022",
+        "effect_id": "effect-0044",
         "result": {
           "effect_kind": "release_mouse",
           "runner": "oxforms-core headless trace replay"
@@ -3939,17 +8540,17 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0105",
-      "sequence": 105
+      "row_id": "row-0223",
+      "sequence": 223
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 105,
+      "logical_tick": 223,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0023",
+        "effect_id": "effect-0045",
         "result": {
           "effect_kind": "fire_vba_event",
           "runner": "oxforms-core headless trace replay"
@@ -3957,17 +8558,17 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0106",
-      "sequence": 106
+      "row_id": "row-0224",
+      "sequence": 224
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 106,
+      "logical_tick": 224,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0024",
+        "effect_id": "effect-0046",
         "result": {
           "effect_kind": "fire_vba_event",
           "runner": "oxforms-core headless trace replay"
@@ -3975,17 +8576,17 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0107",
-      "sequence": 107
+      "row_id": "row-0225",
+      "sequence": 225
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 107,
+      "logical_tick": 225,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0025",
+        "effect_id": "effect-0047",
         "result": {
           "effect_kind": "request_repaint",
           "runner": "oxforms-core headless trace replay"
@@ -3993,25 +8594,25 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0108",
-      "sequence": 108
+      "row_id": "row-0226",
+      "sequence": 226
     },
     {
       "kind": "display_list",
-      "logical_tick": 108,
+      "logical_tick": 226,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "artifact_ref": {
-          "artifact_id": "display-list-0007",
+          "artifact_id": "display-list-0013",
           "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
           "storage": "repo_file",
           "uri_fragment": null
         },
-        "checksum": "fnv1a64-json-bytes-v1:08575f3393b13c73",
-        "command_count": 10,
+        "checksum": "fnv1a64-json-bytes-v1:b7d0e2171af1b3fe",
+        "command_count": 9,
         "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0007",
+        "display_list_id": "display-list-0013",
         "producer": "oxforms-core::build_probe_display_list",
         "reason": "final_after_command_click",
         "target": {
@@ -4020,17 +8621,17 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0109",
-      "sequence": 109
+      "row_id": "row-0227",
+      "sequence": 227
     },
     {
       "kind": "render_artifact",
-      "logical_tick": 109,
+      "logical_tick": 227,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
         "artifact_ref": {
-          "artifact_id": "render-0007",
+          "artifact_id": "render-0013",
           "path": null,
           "storage": "inline_trace_row",
           "uri_fragment": null
@@ -4040,8 +8641,8 @@
         "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
         "height": 128,
         "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0007",
-        "source_display_list_id": "display-list-0007",
+        "render_id": "render-0013",
+        "source_display_list_id": "display-list-0013",
         "target": {
           "form_id": "form-main",
           "window_id": "window-main"
@@ -4049,8 +8650,8 @@
         "width": 260
       },
       "phase": "render",
-      "row_id": "row-0110",
-      "sequence": 110
+      "row_id": "row-0228",
+      "sequence": 228
     }
   ],
   "scenario": {
@@ -4083,7 +8684,22 @@
           "control_id": "text-1",
           "form_id": "form-main"
         },
-        "text": "A"
+        "text": "AB"
+      },
+      {
+        "action": "navigate_textbox",
+        "keys": [
+          "arrow_left",
+          "delete",
+          "home",
+          "end",
+          "backspace"
+        ],
+        "script_step_id": "script-0004",
+        "target": {
+          "control_id": "text-1",
+          "form_id": "form-main"
+        }
       },
       {
         "action": "mouse_click",
@@ -4092,7 +8708,7 @@
           "x": 176.0,
           "y": 64.0
         },
-        "script_step_id": "script-0004",
+        "script_step_id": "script-0005",
         "target": {
           "control_id": "ok",
           "form_id": "form-main"

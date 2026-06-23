@@ -238,8 +238,8 @@ Reducer transition rows summarize:
 
 - the causal `ui_event_id`;
 - relevant state before and after, such as focus owner, capture owner,
-  lifecycle state, pressed state, text value summary, validation state, and
-  modal depth;
+  lifecycle state, pressed state, text value summary, TextBox caret/selection
+  anchor and active offsets where present, validation state, and modal depth;
 - emitted effect ids in order;
 - invalidation ids in order;
 - unsupported or unknown behavior as diagnostics, not hidden behavior.
@@ -268,6 +268,11 @@ Effect rows use effect names from `INPUT_INTERACTION_MODEL.md` and
 
 The trace records effect requests separately from effect completions because VBA
 dispatch, modal pumps, host callbacks, and platform services can be reentrant.
+For the `oxforms-0a0.1` TextBox probe slice, movement-only edits record
+`text_selection_changed` invalidations while text mutations record
+`text_changed` invalidations and `Change` dispatch rows. Navigation keys remain
+`key_down`/`key_up` input and dispatch rows; they do not produce `KeyPress`
+rows in this subset.
 
 ## 10. VBA Dispatch Rows
 

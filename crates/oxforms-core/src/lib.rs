@@ -382,6 +382,7 @@ pub enum InvalidationReason {
     HoverChanged,
     PressedStateChanged,
     TextChanged,
+    TextSelectionChanged,
     LifecycleChanged,
     CloseStateChanged,
     Unknown,
@@ -1444,6 +1445,12 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
 
     match &payload.key {
         KeyCode::Tab => reduce_tab_key_down(state, context, payload.modifiers.shift),
+        KeyCode::Backspace
+        | KeyCode::Delete
+        | KeyCode::ArrowLeft
+        | KeyCode::ArrowRight
+        | KeyCode::Home
+        | KeyCode::End => reduce_text_box_editing_key_down(state, context, payload),
         KeyCode::Enter => {
             if let Some(control_id) = state.default_button.clone() {
                 activate_command_button(
@@ -1466,6 +1473,72 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
         }
         _ => {}
     }
+}
+
+fn reduce_text_box_editing_key_down(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &KeyEvent,
+) {
+    let Some(control_id) = focused_text_box_control_id(state) else {
+        return;
+    };
+    let text_box = state.ensure_text_box(control_id.clone());
+    let before_text = text_box.text.clone();
+    let before_caret = text_box.caret.clone();
+
+    match payload.key {
+        KeyCode::Backspace => {
+            delete_text_box_backwards(text_box);
+        }
+        KeyCode::Delete => {
+            delete_text_box_forwards(text_box);
+        }
+        KeyCode::ArrowLeft => {
+            move_text_box_caret_left(text_box, payload.modifiers.shift);
+        }
+        KeyCode::ArrowRight => {
+            move_text_box_caret_right(text_box, payload.modifiers.shift);
+        }
+        KeyCode::Home => {
+            move_text_box_caret_to(text_box, 0, payload.modifiers.shift);
+        }
+        KeyCode::End => {
+            move_text_box_caret_to(text_box, text_box.text.len(), payload.modifiers.shift);
+        }
+        _ => return,
+    }
+
+    let text_changed = text_box.text != before_text;
+    let caret_changed = text_box.caret != before_caret;
+    if !text_changed && !caret_changed {
+        return;
+    }
+
+    if text_changed {
+        text_box.dirty = true;
+        text_box.edit_sequence += 1;
+    }
+
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    if text_changed {
+        queue_vba_event(state, context, target.clone(), "Change");
+    }
+    let reason = if text_changed {
+        InvalidationReason::TextChanged
+    } else {
+        InvalidationReason::TextSelectionChanged
+    };
+    let invalidation_id = context.push_invalidation(state, target.clone(), reason);
+    context.push_effect(
+        state,
+        target,
+        EffectKind::RequestRepaint {
+            invalidation_ids: vec![invalidation_id],
+            reason,
+        },
+        CompletionPolicy::RenderDiagnosticOptional,
+    );
 }
 
 fn reduce_key_up(state: &mut FormState, context: &mut ReducerContext<'_>, payload: &KeyEvent) {
@@ -1760,6 +1833,16 @@ fn accelerator_command_button(state: &FormState, character: &str) -> Option<Cont
         .map(|control| control.control_id.clone())
 }
 
+fn focused_text_box_control_id(state: &FormState) -> Option<ControlId> {
+    let control_id = state.focus_owner.as_ref()?.as_control_id()?;
+    let control = find_control(state, control_id)?;
+    if control.kind == ProbeControlKind::TextBox && control.visible && control.enabled {
+        Some(control_id.clone())
+    } else {
+        None
+    }
+}
+
 fn reduce_character_input(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -1773,21 +1856,13 @@ fn reduce_character_input(
         return;
     }
 
-    let Some(focus_owner) = state.focus_owner.clone() else {
+    let Some(control_id) = focused_text_box_control_id(state) else {
         return;
     };
-    let Some(control_id) = focus_owner.as_control_id().cloned() else {
-        return;
-    };
-    let Some(control) = find_control(state, &control_id) else {
-        return;
-    };
-    if control.kind != ProbeControlKind::TextBox || !control.visible || !control.enabled {
-        return;
-    }
 
     let text_box = state.ensure_text_box(control_id.clone());
-    let insert_at = text_box.caret.active.min(text_box.text.len());
+    delete_selected_text(text_box);
+    let insert_at = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
     text_box.text.insert_str(insert_at, &payload.text);
     let next_caret = insert_at + payload.text.len();
     text_box.caret.anchor = next_caret;
@@ -1809,6 +1884,129 @@ fn reduce_character_input(
         },
         CompletionPolicy::RenderDiagnosticOptional,
     );
+}
+
+fn delete_text_box_backwards(text_box: &mut TextBoxProbeState) {
+    if delete_selected_text(text_box) {
+        return;
+    }
+    let active = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
+    if active == 0 {
+        collapse_text_box_caret(text_box, 0);
+        return;
+    }
+    let previous = previous_char_boundary(&text_box.text, active);
+    text_box.text.replace_range(previous..active, "");
+    collapse_text_box_caret(text_box, previous);
+}
+
+fn delete_text_box_forwards(text_box: &mut TextBoxProbeState) {
+    if delete_selected_text(text_box) {
+        return;
+    }
+    let active = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
+    if active >= text_box.text.len() {
+        collapse_text_box_caret(text_box, text_box.text.len());
+        return;
+    }
+    let next = next_char_boundary(&text_box.text, active);
+    text_box.text.replace_range(active..next, "");
+    collapse_text_box_caret(text_box, active);
+}
+
+fn delete_selected_text(text_box: &mut TextBoxProbeState) -> bool {
+    let (start, end) = selected_range(&text_box.text, &text_box.caret);
+    if start == end {
+        collapse_text_box_caret(text_box, start);
+        return false;
+    }
+    text_box.text.replace_range(start..end, "");
+    collapse_text_box_caret(text_box, start);
+    true
+}
+
+fn move_text_box_caret_left(text_box: &mut TextBoxProbeState, extend_selection: bool) {
+    if !extend_selection && text_box.caret.anchor != text_box.caret.active {
+        let (start, _) = selected_range(&text_box.text, &text_box.caret);
+        collapse_text_box_caret(text_box, start);
+        return;
+    }
+    let active = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
+    let next = previous_char_boundary(&text_box.text, active);
+    move_text_box_caret_to(text_box, next, extend_selection);
+}
+
+fn move_text_box_caret_right(text_box: &mut TextBoxProbeState, extend_selection: bool) {
+    if !extend_selection && text_box.caret.anchor != text_box.caret.active {
+        let (_, end) = selected_range(&text_box.text, &text_box.caret);
+        collapse_text_box_caret(text_box, end);
+        return;
+    }
+    let active = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
+    let next = next_char_boundary(&text_box.text, active);
+    move_text_box_caret_to(text_box, next, extend_selection);
+}
+
+fn move_text_box_caret_to(
+    text_box: &mut TextBoxProbeState,
+    position: usize,
+    extend_selection: bool,
+) {
+    let next = clamp_to_char_boundary(&text_box.text, position);
+    if extend_selection {
+        text_box.caret.anchor = clamp_to_char_boundary(&text_box.text, text_box.caret.anchor);
+        text_box.caret.active = next;
+    } else {
+        collapse_text_box_caret(text_box, next);
+    }
+    text_box.caret.preferred_column = None;
+}
+
+fn collapse_text_box_caret(text_box: &mut TextBoxProbeState, position: usize) {
+    let position = clamp_to_char_boundary(&text_box.text, position);
+    text_box.caret.anchor = position;
+    text_box.caret.active = position;
+    text_box.caret.preferred_column = None;
+}
+
+fn selected_range(text: &str, caret: &TextCaretState) -> (usize, usize) {
+    let anchor = clamp_to_char_boundary(text, caret.anchor);
+    let active = clamp_to_char_boundary(text, caret.active);
+    if anchor <= active {
+        (anchor, active)
+    } else {
+        (active, anchor)
+    }
+}
+
+fn previous_char_boundary(text: &str, position: usize) -> usize {
+    let position = clamp_to_char_boundary(text, position);
+    if position == 0 {
+        return 0;
+    }
+    text[..position]
+        .char_indices()
+        .last()
+        .map_or(0, |(index, _)| index)
+}
+
+fn next_char_boundary(text: &str, position: usize) -> usize {
+    let position = clamp_to_char_boundary(text, position);
+    if position >= text.len() {
+        return text.len();
+    }
+    text[position..]
+        .char_indices()
+        .nth(1)
+        .map_or(text.len(), |(offset, _)| position + offset)
+}
+
+fn clamp_to_char_boundary(text: &str, position: usize) -> usize {
+    let mut position = position.min(text.len());
+    while position > 0 && !text.is_char_boundary(position) {
+        position -= 1;
+    }
+    position
 }
 
 fn reduce_show_requested(
@@ -2726,6 +2924,187 @@ mod tests {
             ]
         );
         assert_eq!(output.transition.invalidation_ids, vec![InvalidationId(1)]);
+    }
+
+    #[test]
+    fn textbox_navigation_keys_move_caret_without_change_effect() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "ABC".to_string();
+        text_box.caret.anchor = 3;
+        text_box.caret.active = 3;
+
+        let left = reduce(
+            state,
+            key_down_event(UiEventId(71), KeyCode::ArrowLeft, false),
+        );
+        let text_box = left
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "ABC");
+        assert_eq!(text_box.caret.anchor, 2);
+        assert_eq!(text_box.caret.active, 2);
+        assert_eq!(
+            effect_names(&left.effects),
+            vec!["fire_vba_event:KeyDown", "request_repaint"]
+        );
+        assert_eq!(
+            left.invalidations[0].reason,
+            InvalidationReason::TextSelectionChanged
+        );
+
+        let home = reduce(
+            left.state,
+            key_down_event(UiEventId(72), KeyCode::Home, false),
+        );
+        let text_box = home
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.caret.anchor, 0);
+        assert_eq!(text_box.caret.active, 0);
+
+        let end = reduce(
+            home.state,
+            key_down_event(UiEventId(73), KeyCode::End, false),
+        );
+        let text_box = end
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.caret.anchor, 3);
+        assert_eq!(text_box.caret.active, 3);
+    }
+
+    #[test]
+    fn textbox_shift_navigation_represents_selection_and_character_input_replaces_it() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "ABC".to_string();
+        text_box.caret.anchor = 3;
+        text_box.caret.active = 3;
+
+        let selected = reduce(
+            state,
+            key_down_event(UiEventId(74), KeyCode::ArrowLeft, true),
+        );
+        let text_box = selected
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.caret.anchor, 3);
+        assert_eq!(text_box.caret.active, 2);
+
+        let typed = reduce(
+            selected.state,
+            UiEvent::new(
+                UiEventId(75),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "Z".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+        let text_box = typed
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "ABZ");
+        assert_eq!(text_box.caret.anchor, 3);
+        assert_eq!(text_box.caret.active, 3);
+        assert_eq!(
+            effect_names(&typed.effects),
+            vec![
+                "fire_vba_event:KeyPress",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+    }
+
+    #[test]
+    fn textbox_backspace_and_delete_emit_change_only_when_text_mutates() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "ABC".to_string();
+        text_box.caret.anchor = 2;
+        text_box.caret.active = 2;
+
+        let backspace = reduce(
+            state,
+            key_down_event(UiEventId(76), KeyCode::Backspace, false),
+        );
+        let text_box = backspace
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "AC");
+        assert_eq!(text_box.caret.active, 1);
+        assert_eq!(
+            effect_names(&backspace.effects),
+            vec![
+                "fire_vba_event:KeyDown",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+
+        let delete = reduce(
+            backspace.state,
+            key_down_event(UiEventId(77), KeyCode::Delete, false),
+        );
+        let text_box = delete
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "A");
+        assert_eq!(text_box.caret.active, 1);
+        assert_eq!(
+            effect_names(&delete.effects),
+            vec![
+                "fire_vba_event:KeyDown",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
     }
 
     #[test]

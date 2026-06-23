@@ -21,7 +21,7 @@ pub const W005_TRACE_REPLAY_GOLDEN_TRACE_PATH: &str =
 pub const W005_TRACE_REPLAY_DISPLAY_LIST_PATH: &str =
     "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json";
 
-const BEAD: &str = "oxforms-xvx.12";
+const BEAD: &str = "oxforms-0a0.1";
 const TRACE_ID: &str = "w005-headless-probe-replay-golden-v1";
 const FORM_ID: &str = "form-main";
 const WINDOW_ID: &str = "window-main";
@@ -119,15 +119,48 @@ impl W005TraceReplayRunner {
             json!({ "form_id": FORM_ID, "control_id": "text-1" }),
             None,
         );
-        self.apply_next_event(|event_id| key_event(event_id, true));
+        self.apply_next_event(|event_id| character_key_event(event_id, "A", true));
         self.complete_non_dispatch_effects();
         self.apply_next_event(|event_id| character_event(event_id, "A"));
         self.complete_non_dispatch_effects();
-        self.apply_next_event(|event_id| key_event(event_id, false));
+        self.apply_next_event(|event_id| character_key_event(event_id, "A", false));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| character_key_event(event_id, "B", true));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| character_event(event_id, "B"));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| character_key_event(event_id, "B", false));
         self.complete_non_dispatch_effects();
 
         self.push_script_step(
             "script-0004",
+            "navigate_textbox",
+            json!({ "form_id": FORM_ID, "control_id": "text-1" }),
+            None,
+        );
+        self.apply_next_event(|event_id| navigation_key_event(event_id, KeyCode::ArrowLeft));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_up_event(event_id, KeyCode::ArrowLeft));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_event(event_id, KeyCode::Delete));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_up_event(event_id, KeyCode::Delete));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_event(event_id, KeyCode::Home));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_up_event(event_id, KeyCode::Home));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_event(event_id, KeyCode::End));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_up_event(event_id, KeyCode::End));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_event(event_id, KeyCode::Backspace));
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(|event_id| navigation_key_up_event(event_id, KeyCode::Backspace));
+        self.complete_non_dispatch_effects();
+
+        self.push_script_step(
+            "script-0005",
             "mouse_click",
             json!({ "form_id": FORM_ID, "control_id": "ok" }),
             Some(LogicalPoint::new(176.0, 64.0)),
@@ -813,9 +846,9 @@ fn mouse_button_event(event_id: UiEventId, x: f64, y: f64, down: bool) -> UiEven
     }
 }
 
-fn key_event(event_id: UiEventId, down: bool) -> UiEvent {
+fn character_key_event(event_id: UiEventId, text: &str, down: bool) -> UiEvent {
     let payload = KeyEvent {
-        key: KeyCode::Character("A".to_string()),
+        key: KeyCode::Character(text.to_string()),
         modifiers: KeyboardModifiers {
             shift: true,
             ..KeyboardModifiers::default()
@@ -830,6 +863,43 @@ fn key_event(event_id: UiEventId, down: bool) -> UiEvent {
             native_code: None,
             is_extended: Some(false),
         },
+    };
+    UiEvent {
+        target: target(),
+        diagnostics: vec![RawDiagnostic::text(
+            "w005_trace_replay",
+            "key_source",
+            "scripted_normalized_key",
+        )],
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Replay,
+            if down {
+                UiEventKind::KeyDown(payload)
+            } else {
+                UiEventKind::KeyUp(payload)
+            },
+        )
+    }
+}
+
+fn navigation_key_event(event_id: UiEventId, key: KeyCode) -> UiEvent {
+    key_event(event_id, key, true)
+}
+
+fn navigation_key_up_event(event_id: UiEventId, key: KeyCode) -> UiEvent {
+    key_event(event_id, key, false)
+}
+
+fn key_event(event_id: UiEventId, key: KeyCode, down: bool) -> UiEvent {
+    let payload = KeyEvent {
+        key,
+        modifiers: KeyboardModifiers::default(),
+        repeat: KeyRepeat {
+            is_repeat: false,
+            repeat_count: Some(1),
+        },
+        raw: RawKeyDiagnostics::default(),
     };
     UiEvent {
         target: target(),
@@ -1130,10 +1200,16 @@ fn input_script_summary() -> Vec<Value> {
             "script_step_id": "script-0003",
             "action": "type_committed_text",
             "target": { "form_id": FORM_ID, "control_id": "text-1" },
-            "text": "A"
+            "text": "AB"
         }),
         json!({
             "script_step_id": "script-0004",
+            "action": "navigate_textbox",
+            "target": { "form_id": FORM_ID, "control_id": "text-1" },
+            "keys": ["arrow_left", "delete", "home", "end", "backspace"]
+        }),
+        json!({
+            "script_step_id": "script-0005",
             "action": "mouse_click",
             "target": { "form_id": FORM_ID, "control_id": "ok" },
             "point": { "space": "form_logical", "x": 176.0, "y": 64.0 }
@@ -1282,8 +1358,24 @@ fn mouse_button(button: MouseButton) -> String {
 
 fn key_code(key: &KeyCode) -> String {
     match key {
+        KeyCode::Enter => "enter".to_string(),
+        KeyCode::Escape => "escape".to_string(),
+        KeyCode::Tab => "tab".to_string(),
+        KeyCode::Backspace => "backspace".to_string(),
+        KeyCode::Delete => "delete".to_string(),
+        KeyCode::ArrowLeft => "arrow_left".to_string(),
+        KeyCode::ArrowRight => "arrow_right".to_string(),
+        KeyCode::ArrowUp => "arrow_up".to_string(),
+        KeyCode::ArrowDown => "arrow_down".to_string(),
+        KeyCode::Home => "home".to_string(),
+        KeyCode::End => "end".to_string(),
+        KeyCode::PageUp => "page_up".to_string(),
+        KeyCode::PageDown => "page_down".to_string(),
+        KeyCode::Space => "space".to_string(),
+        KeyCode::Function(number) => format!("function:{number}"),
         KeyCode::Character(value) => format!("character:{value}"),
-        other => format!("{other:?}").to_ascii_lowercase(),
+        KeyCode::Other(key) => format!("other:{key}"),
+        KeyCode::Unidentified => "unidentified".to_string(),
     }
 }
 
@@ -1338,6 +1430,7 @@ fn invalidation_reason(reason: InvalidationReason) -> &'static str {
         InvalidationReason::HoverChanged => "hover_changed",
         InvalidationReason::PressedStateChanged => "pressed_state_changed",
         InvalidationReason::TextChanged => "text_changed",
+        InvalidationReason::TextSelectionChanged => "text_selection_changed",
         InvalidationReason::LifecycleChanged => "lifecycle_changed",
         InvalidationReason::CloseStateChanged => "close_state_changed",
         InvalidationReason::Unknown => "unknown",

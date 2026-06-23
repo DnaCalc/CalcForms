@@ -20,15 +20,18 @@ contract is [`../../../specs/TRACE_REPLAY_SCHEMA.md`](../../../specs/TRACE_REPLA
   does not own or re-export reducer behavior. This is trace-schema integration
   evidence only; it is not a replay-runner golden trace.
 - [`w005-headless-probe-replay.golden.v1.json`](w005-headless-probe-replay.golden.v1.json)
-  is the `oxforms-xvx.12` deterministic OxForms golden trace. It replays a
-  repo-authored script through the W005 headless probe path: show modeless,
-  click the TextBox probe, type committed text `A`, and click the default
-  `CommandButton` probe. The trace records normalized input events, routing
-  decisions, reducer transition summaries, effect request/completion rows, VBA
-  dispatch metadata reconstructed from `FireVbaEvent` effects, invalidation,
-  probe display-list references, PAL smoke render hashes, and clean-room/path
-  policy metadata. It does not require Excel/MSForms, OxVba execution, or a live
-  desktop.
+  is the deterministic OxForms golden trace created by `oxforms-xvx.12` and
+  updated by `oxforms-0a0.1`. It replays a repo-authored script through the
+  W005 headless probe path: show modeless, click the TextBox probe, type
+  committed text `AB`, run the `ArrowLeft`, `Delete`, `Home`, `End`, and
+  `Backspace` single-line editing keys, and click the default `CommandButton`
+  probe. The trace records normalized input events, routing decisions, reducer
+  transition summaries including TextBox text length plus caret anchor/active
+  offsets, effect request/completion rows, VBA dispatch metadata reconstructed
+  from `FireVbaEvent` effects, text mutation and `text_selection_changed`
+  invalidations, probe display-list references, PAL smoke render hashes, and
+  clean-room/path policy metadata. It does not require Excel/MSForms, OxVba
+  execution, or a live desktop.
 - [`w005-headless-probe-display-list.golden.v1.json`](w005-headless-probe-display-list.golden.v1.json)
   is the final core-owned probe display-list snapshot emitted by the same
   runner. It records fill, border, text, focus, and caret placeholder commands
@@ -52,6 +55,15 @@ CommandButton activation, render invalidation, a serializable core-owned probe
 display reference with text/focus/caret placeholders, and a PAL `FillRect`
 smoke projection. The full replay-runner golden trace remains scoped to
 `oxforms-xvx.12`.
+
+`oxforms-0a0.1` intentionally updates the replay-runner golden for the first
+reviewable TextBox editing slice. The evidence covers committed single-line
+text, caret movement, collapsed or Shift-extended anchor/active selection
+state, Backspace/Delete deletion, and `Change` rows for actual text mutation.
+It remains non-oracle OxForms regression evidence, not live MSForms parity
+evidence. Multiline, password mode, scrolling, IME/composition, dead keys,
+clipboard, paste/DataObject, drag/drop, full validation ordering, full
+selection UI parity, and native FM20-named event dispatch remain non-claims.
 
 The synthetic samples are not Office/MSForms oracle evidence and are not
 OxForms runtime traces. The headless replay golden is OxForms regression

@@ -67,6 +67,15 @@ W006 does not claim:
 - complete `.frm` / `.frx` persistence integration;
 - a final pass/fail parity oracle.
 
+Current TextBox status from `oxforms-0a0.1`: implemented-subset for the
+host-neutral W005 TextBox probe only. The subset covers committed single-line
+text, caret anchor/active selection state, Backspace/Delete, Left/Right/Home/End
+navigation, `KeyDown`/`KeyUp` rows, `Change` rows for actual text mutation, and
+headless replay evidence. It still does not claim multiline, password mode,
+scrolling, IME/composition, dead keys, clipboard, paste/DataObject, drag/drop,
+full validation ordering, full selection UI parity, or native FM20-named
+dispatch.
+
 Each later bead may claim only the subset it implements and proves with the
 checks/evidence named in that bead.
 
