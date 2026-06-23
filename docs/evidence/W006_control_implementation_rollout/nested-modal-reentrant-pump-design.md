@@ -1,7 +1,8 @@
 # W006 Nested Modal And Reentrant Pump Design
 
-Status: design/blocker split plus shared ownership contract complete.
-Beads: `oxforms-0a0.10`, `oxforms-0a0.20`
+Status: design/blocker split, shared ownership contract, and first synthetic
+modal-frame trace subset complete.
+Beads: `oxforms-0a0.10`, `oxforms-0a0.20`, `oxforms-0a0.22`
 Date: 2026-06-23
 
 This note classifies the lifecycle/pump surfaces deferred from the first
@@ -163,6 +164,40 @@ Oracle/evidence blockers:
 | Reentrant dispatch during modal frames | Native event dispatch must preserve parent call/effect ids and allow handler-triggered modal show, close, unload, host callback, or yield rows to reenter the shared path. | OxVba dispatch plus OxForms trace/effect runner. | Reentrant modal runtime and trace/replay parity beyond synthetic rows. | `oxforms-0a0.19`, `oxforms-0a0.22`, and OxVba handover. |
 | `QueryClose` mutation | `Cancel As Integer` and `CloseMode As Integer` before/after values through native FM20-named dispatch. | OxVba dispatch/object argument machinery. | Real close cancellation, modal close cancellation, and close-mode parity. | `HANDOVER_OxVba_w005_fm20_event_raise.md`, native dispatch blocker doc, and OxVba modal handover. |
 | `Terminate` timing | Default-instance/reference/object-lifetime diagnostics and `Terminate` dispatch only when the form instance is terminal. | OxVba object model/runtime lifetime. | Object-lifetime parity and any claim that `Unloaded` implies `Terminated`. | `oxforms-0a0.21` and OxVba modal handover. |
+
+## Synthetic Modal-frame Trace Subset
+
+`oxforms-0a0.22` adds the first host-neutral replay artifact for a modal frame:
+
+- Trace:
+  `docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json`.
+- Generator/check CLI:
+  `cargo run -p oxforms-core --example w006_modal_frame_trace -- --check`.
+- Focused Rust pin:
+  `cargo test -p oxforms-core w006_modal_frame_trace_subset_matches_committed_artifact`.
+- Schema validation:
+  `tools/trace-replay/Test-TraceReplaySchema.ps1 -TracePath docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json`.
+
+The trace records `ShowFormModal`, `EnterModalFrame`, a synthetic click while
+the modal frame is active, `PumpFrameExited`, `ExitModalFrame`,
+`lifecycle_pump`, `effect_requested`, and `effect_completed` rows. The
+modal-frame activity uses `parent_row_id` and `nesting_depth` under the
+`show_form_modal` effect request, and `lifecycle_pump` rows carry
+`modal_depth=1` while the modal frame is active. The `ShowFormModal` and
+`EnterModalFrame` completion rows are emitted only after the synthetic
+`PumpFrameExited` and `ExitModalFrame` rows.
+
+This subset is synthetic and host-neutral. It does not create live modal
+windows, run Excel/MSForms, execute OxVba, block or resume caller-side VBA,
+implement `DoEvents`, or claim nested modal/MSForms parity. Missing live
+support remains explicit:
+
+- PAL/effect-runner support for first-class live modal frame enter/exit
+  completions.
+- PAL/window diagnostics for owner/activation/deactivation during modal frames.
+- OxVba caller-side modal `UserForm.Show` blocking/resume semantics.
+- OxVba native FM20-named dispatch, `QueryClose` mutation, `DoEvents`, and
+  object-lifetime `Terminate` evidence.
 
 ## Child Beads Filed
 

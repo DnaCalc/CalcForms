@@ -6,10 +6,10 @@ use oxforms_pal::{
     CoordinatePayload, CoordinatePoint, CoordinateSpace, DataObjectSnapshot, DpiScale,
     DropOrPasteOrigin, FormId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
     LogicalPoint, LogicalRect, LogicalSize, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
-    QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics,
-    ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId,
-    UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent, WindowId,
-    WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
+    PumpFrameExitedEvent, QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic,
+    RawKeyDiagnostics, ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, SurfaceSize,
+    UiEvent, UiEventId, UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent,
+    WindowHiddenEvent, WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
 };
 use serde_json::{json, Value};
 
@@ -23,9 +23,13 @@ pub const W005_TRACE_REPLAY_GOLDEN_TRACE_PATH: &str =
     "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json";
 pub const W005_TRACE_REPLAY_DISPLAY_LIST_PATH: &str =
     "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json";
+pub const W006_MODAL_FRAME_TRACE_PATH: &str =
+    "docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json";
 
 const BEAD: &str = "oxforms-0a0.3";
+const W006_MODAL_BEAD: &str = "oxforms-0a0.22";
 const TRACE_ID: &str = "w005-headless-probe-replay-golden-v1";
+const W006_MODAL_TRACE_ID: &str = "w006-modal-frame-subset-synthetic-v1";
 const FORM_ID: &str = "form-main";
 const WINDOW_ID: &str = "window-main";
 const SURFACE_WIDTH: u32 = 260;
@@ -48,6 +52,13 @@ pub fn build_w005_trace_replay_golden_artifacts() -> W005TraceReplayGoldenArtifa
     runner.finish()
 }
 
+#[must_use]
+pub fn build_w006_modal_frame_trace_subset_artifact() -> String {
+    let mut runner = W005TraceReplayRunner::new();
+    runner.run_w006_modal_frame_subset();
+    runner.finish_w006_modal_frame_subset()
+}
+
 struct W005TraceReplayRunner {
     state: FormState,
     sequence: u64,
@@ -61,6 +72,12 @@ struct W005TraceReplayRunner {
     display_artifacts: Vec<Value>,
     render_artifacts: Vec<Value>,
     final_display_list: Option<ProbeDisplayList>,
+}
+
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum EffectCompletionParent {
+    None,
+    EffectRequestRow,
 }
 
 impl W005TraceReplayRunner {
@@ -218,6 +235,152 @@ impl W005TraceReplayRunner {
         self.record_lifecycle_pump("unloading", "hidden", "host_modeless_pump", "unloaded");
     }
 
+    fn run_w006_modal_frame_subset(&mut self) {
+        self.push_script_step(
+            "script-0001",
+            "show_form_modal",
+            json!({
+                "form_id": FORM_ID,
+                "subset": "synthetic_host_neutral_modal_frame",
+                "not_live_msforms_parity": true
+            }),
+            None,
+        );
+        self.apply_next_event(modal_show_requested_event);
+        let show_modal_row = self
+            .expect_pending_effect_row_id(|kind| matches!(kind, EffectKind::ShowFormModal { .. }));
+
+        self.record_lifecycle_pump_with_parent(
+            "allocated",
+            "showing_modal",
+            "modal_frame",
+            "show_requested_enter_modal_frame",
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.complete_pending_effects_matching(
+            |effect| matches!(effect.kind, EffectKind::CreateWindowSurface { .. }),
+            |_| "diagnostic_only",
+            EffectCompletionParent::EffectRequestRow,
+            1,
+            |_| modal_subset_diagnostics(),
+        );
+
+        self.apply_next_event_with_trace_parent(
+            modal_window_shown_event,
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.record_lifecycle_pump_with_parent(
+            "showing_modal",
+            "modal_visible",
+            "modal_frame",
+            "window_shown_event",
+            Some(show_modal_row.clone()),
+            1,
+        );
+
+        self.push_script_step_with_parent(
+            "script-0002",
+            "mouse_click_inside_modal_frame",
+            json!({
+                "form_id": FORM_ID,
+                "control_id": "ok",
+                "modal_depth": self.state.pump.nested_modal_depth
+            }),
+            Some(LogicalPoint::new(176.0, 64.0)),
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.apply_next_event_with_trace_parent(
+            |event_id| mouse_button_event(event_id, 176.0, 64.0, true),
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.complete_pending_effects_matching(
+            |effect| {
+                matches!(
+                    effect.kind,
+                    EffectKind::FireVbaEvent { .. }
+                        | EffectKind::RequestRepaint { .. }
+                        | EffectKind::CaptureMouse { .. }
+                        | EffectKind::ReleaseMouse { .. }
+                        | EffectKind::TransferFocus { .. }
+                )
+            },
+            headless_effect_completion_status,
+            EffectCompletionParent::EffectRequestRow,
+            2,
+            |_| Vec::new(),
+        );
+        self.apply_next_event_with_trace_parent(
+            |event_id| mouse_button_event(event_id, 176.0, 64.0, false),
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.complete_pending_effects_matching(
+            |effect| {
+                matches!(
+                    effect.kind,
+                    EffectKind::FireVbaEvent { .. }
+                        | EffectKind::RequestRepaint { .. }
+                        | EffectKind::CaptureMouse { .. }
+                        | EffectKind::ReleaseMouse { .. }
+                        | EffectKind::TransferFocus { .. }
+                )
+            },
+            headless_effect_completion_status,
+            EffectCompletionParent::EffectRequestRow,
+            2,
+            |_| Vec::new(),
+        );
+
+        self.push_script_step_with_parent(
+            "script-0003",
+            "pump_frame_exited",
+            json!({
+                "form_id": FORM_ID,
+                "modal_depth": self.state.pump.nested_modal_depth,
+                "exit_reason": "synthetic_replay_exit_without_live_window"
+            }),
+            None,
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.apply_next_event_with_trace_parent(
+            pump_frame_exited_event,
+            Some(show_modal_row.clone()),
+            1,
+        );
+        self.record_lifecycle_pump_with_parent(
+            "modal_visible",
+            "modal_visible",
+            "host_modeless_pump",
+            "pump_frame_exited",
+            Some(show_modal_row),
+            1,
+        );
+        self.complete_pending_effects_matching(
+            |effect| matches!(effect.kind, EffectKind::ExitModalFrame { .. }),
+            |_| "synthetic_pump_frame_exit_recorded",
+            EffectCompletionParent::EffectRequestRow,
+            2,
+            |_| modal_subset_diagnostics(),
+        );
+        self.complete_pending_effects_matching(
+            |effect| {
+                matches!(
+                    effect.kind,
+                    EffectKind::EnterModalFrame { .. } | EffectKind::ShowFormModal { .. }
+                )
+            },
+            |_| "completed_after_pump_frame_exited",
+            EffectCompletionParent::EffectRequestRow,
+            1,
+            |_| modal_subset_diagnostics(),
+        );
+    }
+
     fn finish(self) -> W005TraceReplayGoldenArtifacts {
         let display_list = self
             .final_display_list
@@ -310,6 +473,99 @@ impl W005TraceReplayRunner {
         }
     }
 
+    fn finish_w006_modal_frame_subset(self) -> String {
+        let display_list = self
+            .final_display_list
+            .expect("modal subset runner should render at least one display list");
+        let _display_list_json = pretty_json(&json!(display_list));
+        let artifact = json!({
+            "schema": "oxforms.trace_replay.v1",
+            "schema_version": 1,
+            "trace_id": W006_MODAL_TRACE_ID,
+            "bead": W006_MODAL_BEAD,
+            "artifact_status": "synthetic_host_neutral_trace_subset",
+            "scenario": {
+                "scenario_id": "w006.oxforms.synthetic.modal-frame-subset",
+                "source_kind": "oxforms_headless",
+                "description": "Synthetic host-neutral OxForms modal-frame trace subset exercising ShowFormModal, EnterModalFrame, modal-frame input, PumpFrameExited, ExitModalFrame, modal_depth, parent_row_id, nesting_depth, effect_requested, effect_completed, and lifecycle_pump rows without live windows or MSForms parity claims.",
+                "not_oracle_evidence": true,
+                "synthetic_host_neutral": true,
+                "not_live_msforms_modal_parity": true,
+                "input_script": input_script_summary_w006_modal_frame()
+            },
+            "environment": {
+                "source": "oxforms_headless_replay_runner",
+                "recorded_at_utc": null,
+                "os": {
+                    "name": "not_required",
+                    "version": null,
+                    "is_windows": null
+                },
+                "host": {
+                    "name": "none",
+                    "scope_id": null,
+                    "requires_excel_or_msforms": false,
+                    "requires_live_desktop": false
+                },
+                "pal": {
+                    "input_contract": "crates/oxforms-pal/src/input.rs",
+                    "ui_event_schema_version": UI_EVENT_SCHEMA_VERSION,
+                    "live_modal_window_runtime": false
+                },
+                "display": {
+                    "surface_width": SURFACE_WIDTH,
+                    "surface_height": SURFACE_HEIGHT,
+                    "dpi_x": DPI,
+                    "dpi_y": DPI,
+                    "scale_x": 1.0,
+                    "scale_y": 1.0,
+                    "projection": "form_logical_points_to_pal_smoke_fill_rects"
+                },
+                "runner": {
+                    "implementation": "crates/oxforms-core/src/trace_replay.rs",
+                    "golden_trace_path": W006_MODAL_FRAME_TRACE_PATH
+                },
+                "path_policy": "canonical_artifact_paths_are_repo_relative"
+            },
+            "ordering": {
+                "sequence_scope": "trace",
+                "clock": "logical_tick",
+                "nesting_model": "parent_row_id_and_nesting_depth",
+                "first_sequence": 1,
+                "modal_completion_policy": "ShowFormModal and EnterModalFrame effect_completed rows are emitted only after PumpFrameExited and ExitModalFrame in this synthetic subset."
+            },
+            "rows": self.rows,
+            "artifacts": {
+                "display_lists": self.display_artifacts,
+                "renders": self.render_artifacts,
+                "screenshots": [],
+                "external_files": [
+                    {
+                        "artifact_id": "w006-modal-frame-subset-trace-json",
+                        "role": "committed synthetic host-neutral modal-frame trace subset generated by the OxForms headless replay runner",
+                        "storage": "repo_file",
+                        "path": W006_MODAL_FRAME_TRACE_PATH,
+                        "uri_fragment": null,
+                        "sha256": null,
+                        "notes": "No live PAL modal window runtime or OxVba caller-side modal blocking/resume is executed by this artifact."
+                    }
+                ]
+            },
+            "clean_room": {
+                "source": "Repo-authored deterministic OxForms replay over crates/oxforms-pal and crates/oxforms-core modal reducer/effect metadata.",
+                "prohibited": "No Office internals, decompilation, disassembly, non-public source, live Excel/MSForms, live modal windows, or live desktop input were used."
+            },
+            "warnings": [
+                "This artifact is synthetic host-neutral OxForms trace/replay evidence, not live MSForms modal parity evidence.",
+                "No live modal window pump/runtime behavior is introduced or executed by this runner.",
+                "OxVba caller-side UserForm.Show blocking/resume semantics, native FM20-named dispatch, QueryClose mutation, DoEvents, and object-lifetime Terminate timing remain outside this subset.",
+                "PAL/effect-runner live modal frame enter/exit completions remain implementation blockers for runtime parity; this runner records replayable rows only."
+            ]
+        });
+
+        pretty_json(&artifact)
+    }
+
     fn next_event_id(&mut self) -> UiEventId {
         let id = UiEventId(self.next_ui_event_id);
         self.next_ui_event_id += 1;
@@ -322,12 +578,35 @@ impl W005TraceReplayRunner {
         self.apply_event(event);
     }
 
+    fn apply_next_event_with_trace_parent(
+        &mut self,
+        build: impl FnOnce(UiEventId) -> UiEvent,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+    ) -> String {
+        let event_id = self.next_event_id();
+        let event = build(event_id);
+        self.apply_event_with_trace_parent(event, parent_row_id, nesting_depth)
+    }
+
     fn push_script_step(
         &mut self,
         script_step_id: &str,
         action: &str,
         target: Value,
         point: Option<LogicalPoint>,
+    ) {
+        self.push_script_step_with_parent(script_step_id, action, target, point, None, 0);
+    }
+
+    fn push_script_step_with_parent(
+        &mut self,
+        script_step_id: &str,
+        action: &str,
+        target: Value,
+        point: Option<LogicalPoint>,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
     ) {
         let mut payload = json!({
             "script_step_id": script_step_id,
@@ -345,31 +624,58 @@ impl W005TraceReplayRunner {
                 "synthetic"
             )]);
         }
-        self.push_row("script", "input_script_step", payload, None, 0);
+        self.push_row(
+            "script",
+            "input_script_step",
+            payload,
+            parent_row_id,
+            nesting_depth,
+        );
     }
 
     fn apply_event(&mut self, event: UiEvent) {
+        self.apply_event_with_trace_parent(event, None, 0);
+    }
+
+    fn apply_event_with_trace_parent(
+        &mut self,
+        event: UiEvent,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+    ) -> String {
         let route = route_summary(&self.state, &event);
-        self.push_row(
+        let ui_row_id = self.push_row(
             "input",
             "ui_event",
             ui_event_payload(&event, &route),
-            None,
-            0,
+            parent_row_id.clone(),
+            nesting_depth,
         );
 
         if let Some(route_payload) = route.as_ref().map(RouteSummary::to_payload) {
-            self.push_row("routing", "routing_decision", route_payload, None, 0);
+            self.push_row(
+                "routing",
+                "routing_decision",
+                route_payload,
+                parent_row_id.clone(),
+                nesting_depth,
+            );
         }
 
         let output = crate::reduce(self.state.clone(), event);
-        self.push_reducer_transition(&output);
-        self.push_effect_requests(&output.effects);
-        self.push_invalidations(&output);
+        self.push_reducer_transition(&output, parent_row_id.clone(), nesting_depth);
+        self.push_effect_requests(&output.effects, parent_row_id.clone(), nesting_depth);
+        self.push_invalidations(&output, parent_row_id, nesting_depth);
         self.state = output.state;
+        ui_row_id
     }
 
-    fn push_reducer_transition(&mut self, output: &ReducerOutput) {
+    fn push_reducer_transition(
+        &mut self,
+        output: &ReducerOutput,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+    ) {
         self.push_row(
             "reducer",
             "reducer_transition",
@@ -391,29 +697,39 @@ impl W005TraceReplayRunner {
                     .map(|id| invalidation_id(id.0))
                     .collect::<Vec<_>>()
             }),
-            None,
-            0,
+            parent_row_id,
+            nesting_depth,
         );
     }
 
-    fn push_effect_requests(&mut self, effects: &[EffectRequest]) {
+    fn push_effect_requests(
+        &mut self,
+        effects: &[EffectRequest],
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+    ) {
         for effect in effects {
             let row_id = self.push_row(
                 "effect",
                 "effect_requested",
                 effect_requested_payload(effect),
-                None,
-                0,
+                parent_row_id.clone(),
+                nesting_depth,
             );
             self.effect_row_ids
                 .insert(effect.effect_id.0, row_id.clone());
             if matches!(effect.kind, EffectKind::FireVbaEvent { .. }) {
-                self.push_vba_dispatch(effect, row_id);
+                self.push_vba_dispatch(effect, row_id, nesting_depth + 1);
             }
         }
     }
 
-    fn push_vba_dispatch(&mut self, effect: &EffectRequest, parent_row_id: String) {
+    fn push_vba_dispatch(
+        &mut self,
+        effect: &EffectRequest,
+        parent_row_id: String,
+        nesting_depth: u32,
+    ) {
         let EffectKind::FireVbaEvent {
             event_name,
             fact_source,
@@ -471,11 +787,16 @@ impl W005TraceReplayRunner {
                 }
             }),
             Some(parent_row_id),
-            1,
+            nesting_depth,
         );
     }
 
-    fn push_invalidations(&mut self, output: &ReducerOutput) {
+    fn push_invalidations(
+        &mut self,
+        output: &ReducerOutput,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+    ) {
         for invalidation in &output.invalidations {
             self.push_row(
                 "render",
@@ -520,8 +841,8 @@ impl W005TraceReplayRunner {
                         .map(target_json)
                         .collect::<Vec<_>>()
                 }),
-                None,
-                0,
+                parent_row_id.clone(),
+                nesting_depth,
             );
         }
 
@@ -531,39 +852,101 @@ impl W005TraceReplayRunner {
     }
 
     fn complete_non_dispatch_effects(&mut self) {
-        let pending = self.state.pending_effects.clone();
+        self.complete_pending_effects_matching(
+            |_| true,
+            headless_effect_completion_status,
+            EffectCompletionParent::None,
+            0,
+            |_| Vec::new(),
+        );
+    }
+
+    fn complete_pending_effects_matching(
+        &mut self,
+        mut should_complete: impl FnMut(&EffectRequest) -> bool,
+        mut status_for: impl FnMut(&EffectRequest) -> &'static str,
+        parent: EffectCompletionParent,
+        nesting_depth: u32,
+        mut diagnostics_for: impl FnMut(&EffectRequest) -> Vec<Value>,
+    ) {
+        let pending = std::mem::take(&mut self.state.pending_effects);
+        let mut remaining = Vec::new();
         for effect in pending {
-            let status = match effect.kind {
-                EffectKind::FireVbaEvent { .. } => "recorded_not_executed",
-                EffectKind::RequestRepaint { .. } => "completed_by_headless_render",
-                EffectKind::TransferFocus { .. }
-                | EffectKind::CaptureMouse { .. }
-                | EffectKind::ReleaseMouse { .. }
-                | EffectKind::CreateWindowSurface { .. }
-                | EffectKind::ShowFormModeless { .. }
-                | EffectKind::ScheduleModeless => "diagnostic_only",
-                _ => "not_applicable_in_headless_subset",
-            };
-            self.push_row(
-                "effect",
-                "effect_completed",
-                json!({
-                    "effect_id": effect_id(effect.effect_id.0),
-                    "status": status,
-                    "result": {
-                        "runner": "oxforms-core headless trace replay",
-                        "effect_kind": effect_kind_name(&effect.kind)
-                    },
-                    "diagnostics": []
-                }),
-                None,
-                0,
-            );
+            if should_complete(&effect) {
+                let parent_row_id = match parent {
+                    EffectCompletionParent::None => None,
+                    EffectCompletionParent::EffectRequestRow => Some(
+                        self.effect_row_ids
+                            .get(&effect.effect_id.0)
+                            .cloned()
+                            .expect("effect completion should have a recorded request row"),
+                    ),
+                };
+                self.push_effect_completion(
+                    &effect,
+                    status_for(&effect),
+                    parent_row_id,
+                    nesting_depth,
+                    diagnostics_for(&effect),
+                );
+            } else {
+                remaining.push(effect);
+            }
         }
-        self.state.pending_effects.clear();
+        self.state.pending_effects = remaining;
+    }
+
+    fn push_effect_completion(
+        &mut self,
+        effect: &EffectRequest,
+        status: &str,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+        diagnostics: Vec<Value>,
+    ) {
+        self.push_row(
+            "effect",
+            "effect_completed",
+            json!({
+                "effect_id": effect_id(effect.effect_id.0),
+                "status": status,
+                "result": {
+                    "runner": "oxforms-core headless trace replay",
+                    "effect_kind": effect_kind_name(&effect.kind)
+                },
+                "diagnostics": diagnostics
+            }),
+            parent_row_id,
+            nesting_depth,
+        );
+    }
+
+    fn expect_pending_effect_row_id(
+        &self,
+        mut matches_kind: impl FnMut(&EffectKind) -> bool,
+    ) -> String {
+        self.state
+            .pending_effects
+            .iter()
+            .find(|effect| matches_kind(&effect.kind))
+            .and_then(|effect| self.effect_row_ids.get(&effect.effect_id.0))
+            .cloned()
+            .expect("expected pending effect row id")
     }
 
     fn record_lifecycle_pump(&mut self, before: &str, after: &str, pump_term: &str, cause: &str) {
+        self.record_lifecycle_pump_with_parent(before, after, pump_term, cause, None, 0);
+    }
+
+    fn record_lifecycle_pump_with_parent(
+        &mut self,
+        before: &str,
+        after: &str,
+        pump_term: &str,
+        cause: &str,
+        parent_row_id: Option<String>,
+        nesting_depth: u32,
+    ) {
         self.push_row(
             "pump",
             "lifecycle_pump",
@@ -590,8 +973,8 @@ impl W005TraceReplayRunner {
                     "runner": cause
                 }
             }),
-            None,
-            0,
+            parent_row_id,
+            nesting_depth,
         );
     }
 
@@ -846,6 +1229,28 @@ fn show_requested_event(event_id: UiEventId) -> UiEvent {
     }
 }
 
+fn modal_show_requested_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: target(),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Replay,
+            UiEventKind::ShowRequested(ShowRequestedEvent {
+                form_id: FormId::new(FORM_ID),
+                show_mode: ShowMode::Modal,
+                owner: None,
+                initial_bounds: Some(LogicalRect::new(
+                    0.0,
+                    0.0,
+                    f64::from(SURFACE_WIDTH),
+                    f64::from(SURFACE_HEIGHT),
+                )),
+                reason: oxforms_pal::LifecycleReason::Replay,
+            }),
+        )
+    }
+}
+
 fn window_shown_event(event_id: UiEventId) -> UiEvent {
     UiEvent {
         target: target(),
@@ -856,6 +1261,23 @@ fn window_shown_event(event_id: UiEventId) -> UiEvent {
                 form_id: FormId::new(FORM_ID),
                 window_id: WindowId::new(WINDOW_ID),
                 show_mode: ShowMode::Modeless,
+                window_rect: None,
+                dpi: Some(DpiScale::new(DPI, DPI)),
+            }),
+        )
+    }
+}
+
+fn modal_window_shown_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: target(),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::WindowShown(WindowShownEvent {
+                form_id: FormId::new(FORM_ID),
+                window_id: WindowId::new(WINDOW_ID),
+                show_mode: ShowMode::Modal,
                 window_rect: None,
                 dpi: Some(DpiScale::new(DPI, DPI)),
             }),
@@ -924,6 +1346,20 @@ fn unloaded_event(event_id: UiEventId) -> UiEvent {
             UiEventKind::Unloaded(UnloadedEvent {
                 form_id: FormId::new(FORM_ID),
                 reason: LifecycleReason::User,
+            }),
+        )
+    }
+}
+
+fn pump_frame_exited_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: UiEventTarget::form(FORM_ID),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::PumpFrameExited(PumpFrameExitedEvent {
+                modal_depth: 1,
+                exit_reason: "synthetic_replay_exit_without_live_window".to_string(),
             }),
         )
     }
@@ -1153,6 +1589,13 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
             "payload": {
                 "form_id": payload.form_id.0,
                 "reason": lifecycle_reason(payload.reason)
+            }
+        }),
+        UiEventKind::PumpFrameExited(payload) => json!({
+            "kind": "pump_frame_exited",
+            "payload": {
+                "modal_depth": payload.modal_depth,
+                "exit_reason": payload.exit_reason
             }
         }),
         UiEventKind::MouseDown(payload) => mouse_input_json("mouse_down", payload),
@@ -1411,7 +1854,53 @@ fn effect_requested_payload(effect: &EffectRequest) -> Value {
             .collect::<Vec<_>>());
         payload["cancel_metadata"] = json!(cancel_metadata);
     }
+    match &effect.kind {
+        EffectKind::ShowFormModal { owner, reason } => {
+            payload["owner"] = json!(owner.as_ref().map(target_json));
+            payload["reason"] = json!(lifecycle_reason(*reason));
+        }
+        EffectKind::EnterModalFrame { modal_depth } => {
+            payload["modal_depth"] = json!(modal_depth);
+        }
+        EffectKind::ExitModalFrame {
+            modal_depth,
+            reason,
+        } => {
+            payload["modal_depth"] = json!(modal_depth);
+            payload["reason"] = json!(reason);
+        }
+        _ => {}
+    }
     payload
+}
+
+fn headless_effect_completion_status(effect: &EffectRequest) -> &'static str {
+    match &effect.kind {
+        EffectKind::FireVbaEvent { .. } => "recorded_not_executed",
+        EffectKind::RequestRepaint { .. } => "completed_by_headless_render",
+        EffectKind::TransferFocus { .. }
+        | EffectKind::CaptureMouse { .. }
+        | EffectKind::ReleaseMouse { .. }
+        | EffectKind::CreateWindowSurface { .. }
+        | EffectKind::ShowFormModeless { .. }
+        | EffectKind::ScheduleModeless => "diagnostic_only",
+        _ => "not_applicable_in_headless_subset",
+    }
+}
+
+fn modal_subset_diagnostics() -> Vec<Value> {
+    vec![
+        json!({
+            "source": W006_MODAL_BEAD,
+            "name": "synthetic_host_neutral_subset",
+            "value": "Rows are replay-generated OxForms trace evidence only; no live PAL modal window pump or MSForms modal parity is executed."
+        }),
+        json!({
+            "source": W006_MODAL_BEAD,
+            "name": "runtime_blocker",
+            "value": "OxVba caller-side modal Show blocking/resume and PAL/effect-runner live modal frame completions remain outside this subset."
+        }),
+    ]
 }
 
 fn state_summary_json(summary: &StateSummary) -> Value {
@@ -1501,6 +1990,31 @@ fn input_script_summary() -> Vec<Value> {
             "action": "mouse_click",
             "target": { "form_id": FORM_ID, "control_id": "ok" },
             "point": { "space": "form_logical", "x": 176.0, "y": 64.0 }
+        }),
+    ]
+}
+
+fn input_script_summary_w006_modal_frame() -> Vec<Value> {
+    vec![
+        json!({
+            "script_step_id": "script-0001",
+            "action": "show_form_modal",
+            "target": { "form_id": FORM_ID },
+            "synthetic_host_neutral": true
+        }),
+        json!({
+            "script_step_id": "script-0002",
+            "action": "mouse_click_inside_modal_frame",
+            "target": { "form_id": FORM_ID, "control_id": "ok" },
+            "point": { "space": "form_logical", "x": 176.0, "y": 64.0 },
+            "modal_depth": 1
+        }),
+        json!({
+            "script_step_id": "script-0003",
+            "action": "pump_frame_exited",
+            "target": { "form_id": FORM_ID },
+            "modal_depth": 1,
+            "exit_reason": "synthetic_replay_exit_without_live_window"
         }),
     ]
 }
@@ -1868,6 +2382,134 @@ mod tests {
                 "/../../docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json"
             ))
         );
+    }
+
+    #[test]
+    fn w006_modal_frame_trace_subset_matches_committed_artifact() {
+        let artifact = build_w006_modal_frame_trace_subset_artifact();
+        assert_eq!(
+            artifact,
+            include_str!(concat!(
+                env!("CARGO_MANIFEST_DIR"),
+                "/../../docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json"
+            ))
+        );
+
+        let trace: Value = serde_json::from_str(&artifact).expect("trace json should parse");
+        assert_eq!(trace["bead"].as_str(), Some(W006_MODAL_BEAD));
+        assert_eq!(
+            trace["scenario"]["not_live_msforms_modal_parity"].as_bool(),
+            Some(true)
+        );
+        assert_eq!(
+            trace["environment"]["pal"]["live_modal_window_runtime"].as_bool(),
+            Some(false)
+        );
+
+        let rows = trace["rows"].as_array().expect("trace should contain rows");
+        let show_request = rows
+            .iter()
+            .find(|row| {
+                row["kind"].as_str() == Some("effect_requested")
+                    && row["payload"]["effect_kind"].as_str() == Some("show_form_modal")
+            })
+            .expect("trace should request ShowFormModal");
+        let show_row_id = show_request["row_id"]
+            .as_str()
+            .expect("show request should have a row id");
+        let show_effect_id = show_request["payload"]["effect_id"]
+            .as_str()
+            .expect("show request should have an effect id");
+        assert!(show_request["parent_row_id"].is_null());
+        assert_eq!(show_request["nesting_depth"].as_u64(), Some(0));
+
+        let enter_request = rows
+            .iter()
+            .find(|row| {
+                row["kind"].as_str() == Some("effect_requested")
+                    && row["payload"]["effect_kind"].as_str() == Some("enter_modal_frame")
+            })
+            .expect("trace should request EnterModalFrame");
+        assert_eq!(enter_request["payload"]["modal_depth"].as_u64(), Some(1));
+        let enter_effect_id = enter_request["payload"]["effect_id"]
+            .as_str()
+            .expect("enter request should have an effect id");
+
+        let pump_exit = rows
+            .iter()
+            .find(|row| {
+                row["kind"].as_str() == Some("ui_event")
+                    && row["payload"]["normalized_input"]["kind"].as_str()
+                        == Some("pump_frame_exited")
+            })
+            .expect("trace should contain PumpFrameExited");
+        assert_eq!(pump_exit["parent_row_id"].as_str(), Some(show_row_id));
+        assert_eq!(pump_exit["nesting_depth"].as_u64(), Some(1));
+        assert_eq!(
+            pump_exit["payload"]["normalized_input"]["payload"]["modal_depth"].as_u64(),
+            Some(1)
+        );
+
+        let exit_request = rows
+            .iter()
+            .find(|row| {
+                row["kind"].as_str() == Some("effect_requested")
+                    && row["payload"]["effect_kind"].as_str() == Some("exit_modal_frame")
+            })
+            .expect("trace should request ExitModalFrame");
+        let exit_row_id = exit_request["row_id"]
+            .as_str()
+            .expect("exit request should have a row id");
+        let exit_effect_id = exit_request["payload"]["effect_id"]
+            .as_str()
+            .expect("exit request should have an effect id");
+        assert_eq!(exit_request["parent_row_id"].as_str(), Some(show_row_id));
+        assert_eq!(exit_request["nesting_depth"].as_u64(), Some(1));
+        assert_eq!(exit_request["payload"]["modal_depth"].as_u64(), Some(1));
+
+        let exit_completion = rows
+            .iter()
+            .find(|row| {
+                row["kind"].as_str() == Some("effect_completed")
+                    && row["payload"]["effect_id"].as_str() == Some(exit_effect_id)
+            })
+            .expect("trace should complete ExitModalFrame");
+        assert_eq!(exit_completion["parent_row_id"].as_str(), Some(exit_row_id));
+        assert_eq!(exit_completion["nesting_depth"].as_u64(), Some(2));
+
+        for (effect_id, parent_row_id) in [
+            (show_effect_id, show_row_id),
+            (
+                enter_effect_id,
+                enter_request["row_id"]
+                    .as_str()
+                    .expect("enter request should have a row id"),
+            ),
+        ] {
+            let completion = rows
+                .iter()
+                .find(|row| {
+                    row["kind"].as_str() == Some("effect_completed")
+                        && row["payload"]["effect_id"].as_str() == Some(effect_id)
+                })
+                .expect("modal effect should complete after PumpFrameExited");
+            assert_eq!(completion["parent_row_id"].as_str(), Some(parent_row_id));
+            assert_eq!(completion["nesting_depth"].as_u64(), Some(1));
+            assert!(
+                completion["sequence"]
+                    .as_u64()
+                    .expect("completion sequence")
+                    > pump_exit["sequence"].as_u64().expect("pump sequence")
+            );
+        }
+
+        assert!(rows.iter().any(|row| {
+            row["kind"].as_str() == Some("lifecycle_pump")
+                && row["payload"]["pump_term"].as_str() == Some("modal_frame")
+                && row["payload"]["modal_depth"].as_u64() == Some(1)
+                && row["parent_row_id"].as_str() == Some(show_row_id)
+                && row["nesting_depth"].as_u64() == Some(1)
+        }));
     }
 
     #[test]
