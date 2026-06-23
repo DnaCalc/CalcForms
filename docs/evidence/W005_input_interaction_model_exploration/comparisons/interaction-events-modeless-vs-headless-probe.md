@@ -157,4 +157,3 @@ This comparison uses repo-owned fixtures and OxForms traces, public
 Excel/VBIDE automation output, public Windows input/capture metadata, and
 committed public FM20 type-library facts. It uses no Office internals,
 decompilation, disassembly, or non-public source.
-

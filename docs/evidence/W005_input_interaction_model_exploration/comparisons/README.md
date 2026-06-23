@@ -16,4 +16,3 @@ Validate the current comparison manifest from the repository root:
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\evidence\Test-W005InteractionComparison.ps1 -ManifestPath docs\evidence\W005_input_interaction_model_exploration\comparisons\interaction-events-modeless-vs-headless-probe.json
 ```
-
