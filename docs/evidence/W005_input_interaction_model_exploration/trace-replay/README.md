@@ -100,11 +100,8 @@ git diff -- docs\evidence\W005_input_interaction_model_exploration\trace-replay
 Validate the committed checksum file from the repository root:
 
 ```powershell
-$dir = 'docs\evidence\W005_input_interaction_model_exploration\trace-replay'
-Get-Content "$dir\checksums.sha256" | ForEach-Object {
-  $hash, $name = $_ -split '\s+', 2
-  if ((Get-FileHash -Algorithm SHA256 -LiteralPath (Join-Path $dir $name)).Hash.ToLowerInvariant() -ne $hash) {
-    throw "checksum mismatch: $name"
-  }
-}
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\evidence\Test-ChecksumManifest.ps1 -Directory docs\evidence\W005_input_interaction_model_exploration\trace-replay -GitTrackedOnly
 ```
+
+Checksum entries are relative to this directory and use forward slashes for
+nested paths.

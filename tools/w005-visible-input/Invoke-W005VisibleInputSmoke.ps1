@@ -59,6 +59,22 @@ function ConvertTo-RepoRelative {
     return $fullPath
 }
 
+function ConvertTo-DirectoryRelative {
+    param(
+        [Parameter(Mandatory = $true)][string]$Directory,
+        [Parameter(Mandatory = $true)][string]$Path
+    )
+
+    $directoryFull = [System.IO.Path]::GetFullPath($Directory).TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar)
+    $pathFull = [System.IO.Path]::GetFullPath($Path)
+    $directoryWithSeparator = $directoryFull + [System.IO.Path]::DirectorySeparatorChar
+    if (-not $pathFull.StartsWith($directoryWithSeparator, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw "Path '$Path' is not under '$Directory'."
+    }
+
+    return $pathFull.Substring($directoryWithSeparator.Length).Replace([System.IO.Path]::DirectorySeparatorChar, '/').Replace([System.IO.Path]::AltDirectorySeparatorChar, '/')
+}
+
 function Get-Sha256Hex {
     param([Parameter(Mandatory = $true)][string]$Path)
 
@@ -429,10 +445,10 @@ function Write-Checksums {
     $checksumPath = Join-Path $Directory 'checksums.sha256'
     $files = Get-ChildItem -LiteralPath $Directory -Recurse -File |
         Where-Object { $_.FullName -ne $checksumPath } |
-        Sort-Object FullName
+        Sort-Object @{ Expression = { ConvertTo-DirectoryRelative -Directory $Directory -Path $_.FullName } }
 
     $lines = foreach ($file in $files) {
-        "$(Get-Sha256Hex -Path $file.FullName)  $(ConvertTo-RepoRelative $file.FullName)"
+        "$(Get-Sha256Hex -Path $file.FullName)  $(ConvertTo-DirectoryRelative -Directory $Directory -Path $file.FullName)"
     }
     Set-Content -LiteralPath $checksumPath -Encoding ASCII -Value $lines
 }
@@ -454,8 +470,18 @@ function Write-Readme {
         '## Scope',
         '',
         '- Evidence/test infrastructure only; not a final host, runtime, or `UserForm.Show` parity claim.',
-        '- The visible path supplements headless reducer tests and future trace/replay; it is not the only verification path.',
-        '- Coordinates record both driver-side screen/client injection points and smoke-side normalized `client_pixels` / `form_logical` payloads.'
+        '- The visible path supplements headless reducer tests and the deterministic trace/replay runner; it is not the only verification path.',
+        '- Coordinates record both driver-side screen/client injection points and smoke-side normalized `client_pixels` / `form_logical` payloads.',
+        '',
+        '## Validation',
+        '',
+        'Run from the repository root:',
+        '',
+        '```powershell',
+        "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\evidence\Test-ChecksumManifest.ps1 -Directory docs\evidence\W005_input_interaction_model_exploration\captures\$($Manifest.capture_id) -GitTrackedOnly",
+        '```',
+        '',
+        'Checksum entries are relative to this capture directory and use forward slashes for nested paths, for example `window/window-capture.png`.'
     )
     Set-Content -LiteralPath (Join-Path $Directory 'README.md') -Encoding UTF8 -Value $lines
 }
