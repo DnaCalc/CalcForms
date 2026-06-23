@@ -310,6 +310,14 @@ foreach ($row in $rows) {
                 $expectedAfterPending = $beforePending + $emittedEffectIds.Count
                 Assert-True -Condition ($beforePending -eq 0) -Message "Reducer skeleton sample transition '$transitionId' must start from a fresh FormState with before.pending_effect_count=0."
                 Assert-True -Condition ($afterPending -eq $expectedAfterPending) -Message "Reducer skeleton sample transition '$transitionId' pending_effect_count must increase by emitted_effect_ids count; before=$beforePending emitted=$($emittedEffectIds.Count) after=$afterPending."
+
+                $implementationDiagnostic = @($rows | Where-Object {
+                    $_.kind -eq 'ui_event'
+                })[0].payload.diagnostics | Where-Object {
+                    $_.source -eq 'reducer_skeleton_sample' -and $_.name -eq 'implementation'
+                } | Select-Object -First 1
+                Assert-True -Condition ($null -ne $implementationDiagnostic) -Message "Reducer skeleton sample must record its implementation source."
+                Assert-True -Condition ($implementationDiagnostic.value -eq 'crates/oxforms-core/src/lib.rs') -Message "Reducer skeleton sample must cite crates/oxforms-core/src/lib.rs, not the PAL crate."
             }
         }
         'effect_requested' {

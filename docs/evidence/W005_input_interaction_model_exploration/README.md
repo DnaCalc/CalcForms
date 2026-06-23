@@ -72,7 +72,10 @@ Current status: a synthetic schema-only trace validates and records normalized
 input rows, coordinate-space tags, reducer transition summaries, ordered
 effects, VBA dispatch rows, lifecycle/pump rows, invalidation, display-list and
 render references, environment metadata, logical ordering, and reentrant
-nesting. This is not live MSForms oracle evidence and not a full replay runner.
+nesting. The `oxforms-xvx.6` reducer sample cites the host-neutral
+`crates/oxforms-core/src/lib.rs` reducer/model skeleton while retaining
+`crates/oxforms-pal/src/input.rs` as the PAL input contract. This is not live
+MSForms oracle evidence and not a full replay runner.
 
 ## FM20 Type-library Event Capture
 

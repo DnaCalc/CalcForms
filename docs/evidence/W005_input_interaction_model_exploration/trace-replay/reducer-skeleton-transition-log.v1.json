@@ -7,7 +7,7 @@
   "scenario": {
     "scenario_id": "w005.synthetic.reducer-commandbutton-mousedown",
     "source_kind": "synthetic",
-    "description": "Synthetic trace showing the first oxforms-pal reducer skeleton transition for a CommandButton-shaped mouse down.",
+    "description": "Synthetic trace showing the first oxforms-core reducer skeleton transition for a CommandButton-shaped mouse down.",
     "not_oracle_evidence": true,
     "input_script": [
       {
@@ -140,7 +140,7 @@
           {
             "source": "reducer_skeleton_sample",
             "name": "implementation",
-            "value": "crates/oxforms-pal/src/reducer.rs"
+            "value": "crates/oxforms-core/src/lib.rs"
           }
         ]
       }
@@ -507,7 +507,7 @@
     "external_files": []
   },
   "clean_room": {
-    "source": "Synthetic repo-authored artifact based on crates/oxforms-pal/src/reducer.rs and W005 specs.",
+    "source": "Synthetic repo-authored artifact based on crates/oxforms-core/src/lib.rs and W005 specs.",
     "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms/MSForms output comparison were used."
   },
   "warnings": [

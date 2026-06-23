@@ -308,6 +308,13 @@ W005 should implement or explicitly block the first skeleton with:
 - dirty region or dirty subtree markers;
 - effect queue and sequence numbers.
 
+Current output: [`../../crates/oxforms-core/src/lib.rs`](../../crates/oxforms-core/src/lib.rs)
+contains the W005 host-neutral reducer/model reference skeleton and tests. It
+depends on the `oxforms-pal` normalized input/coordinate contract but is not
+owned or re-exported by the PAL. This Rust layer is a contract/reference/test
+spine and possible future hot-path migration target; the durable runtime
+doctrine remains VBA-first.
+
 ### 9. Hit-test, Focus, Capture, And Tab
 
 The router should make these decisions explicit:

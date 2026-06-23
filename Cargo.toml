@@ -1,5 +1,9 @@
 [workspace]
-members = ["crates/oxforms-pal", "crates/oxforms-oxvba-adapter"]
+members = [
+    "crates/oxforms-core",
+    "crates/oxforms-pal",
+    "crates/oxforms-oxvba-adapter",
+]
 resolver = "2"
 
 [workspace.package]

@@ -140,10 +140,17 @@ retained alternate routes.
   convenience; if it is not the best long-term architecture, it must not stay in the
   implementation path. Everything else is VBA unless profiling and evidence justify
   a later Rust migration.
+- **`oxforms-core`** (Rust) — host-neutral reducer/model reference and test-spine
+  contracts used by W005 and future replay/golden checks. This crate may consume
+  `oxforms-pal` value types such as normalized input and coordinates, but it is not
+  the primary VBA runtime implementation and does not make the PAL responsible for
+  control behavior. Any future Rust hot-path migration must still satisfy the
+  VBA-first migration rule in section 4.6.
 - **`oxforms-pal`** (Rust) — the host/runtime-independent PAL core: contract types,
   display-list renderer, reference/headless renderer, shared backend traits, and any
   future first-class native surface derived from the same canonical contract. It must
-  not depend on OxVba or any host runtime.
+  not depend on OxVba or any host runtime, and it does not own reducer/control
+  behavior.
 - **`oxforms-oxvba-adapter`** (Rust) — the OxVba-specific injected-object adapter. It
   owns `PortableDispatch`/`Variant` marshalling, `CreateObject`/projection registration,
   and maps OxForms VBA calls onto the typed `oxforms-pal` core contract.

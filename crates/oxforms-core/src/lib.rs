@@ -2,13 +2,20 @@
 //!
 //! The reducer owns logical state transitions only. It records explicit,
 //! serializable effects for PAL work, host-capability work, and VBA-compatible
-//! event-dispatch requests. Adapters and effect runners outside `oxforms-pal`
+//! event-dispatch requests. Adapters and effect runners outside this crate
 //! perform those operations later and feed completions back as normalized
-//! [`UiEvent`] rows.
+//! [`UiEvent`] rows from `oxforms-pal`.
+//!
+//! This crate is a host-neutral reference/model layer for W005 and future
+//! reducer tests. It is not the final VBA runtime implementation; VBA remains
+//! the primary control/runtime home unless profiling and evidence justify a
+//! hot-path Rust migration behind the same reducer/effects contract.
+
+#![forbid(unsafe_code)]
 
 use serde::{Deserialize, Serialize};
 
-use crate::input::{
+use oxforms_pal::{
     CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, ControlId, FormId, HostScopeId,
     LifecycleReason, LogicalRect, MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId,
     QueryCloseCompletedEvent, ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind,
@@ -359,7 +366,7 @@ pub struct EffectCause {
 pub enum EffectKind {
     /// Request a later VBA-compatible event dispatch.
     ///
-    /// `oxforms-pal` records the request only; it does not execute VBA or
+    /// `oxforms-core` records the request only; it does not execute VBA or
     /// depend on OxVba runtime types.
     FireVbaEvent {
         event_name: String,
@@ -1291,7 +1298,7 @@ fn target_for_focus(target: &FocusTarget, default_form: &FormId) -> Option<UiEve
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::input::{
+    use oxforms_pal::{
         ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, KeyRepeat,
         KeyboardModifiers, MouseButton, MouseButtonEvent, MouseButtons, RawKeyDiagnostics,
         ShowRequestedEvent, UiEventSource,
@@ -1594,8 +1601,8 @@ mod tests {
         let event = UiEvent::new(
             UiEventId(40),
             UiEventSource::Replay,
-            UiEventKind::KeyDown(crate::input::KeyEvent {
-                key: crate::input::KeyCode::Enter,
+            UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                key: oxforms_pal::KeyCode::Enter,
                 modifiers: KeyboardModifiers::default(),
                 repeat: KeyRepeat::default(),
                 raw: RawKeyDiagnostics::default(),

@@ -35,6 +35,9 @@ and it does not define final pass/fail tolerances for MSForms parity.
   for the W005 PAL `UiEvent` schema version, source names, target identifiers,
   event family names, coordinate payload families, keyboard/mouse payloads,
   host-extension event rows, and lifecycle event families.
+- [`crates/oxforms-core/src/lib.rs`](../../crates/oxforms-core/src/lib.rs), for
+  the W005 reducer/effects reference skeleton that consumes PAL input without
+  making the PAL own control behavior.
 - [`FORMS_LIBRARY_SPEC_AND_PLAN.md`](../FORMS_LIBRARY_SPEC_AND_PLAN.md),
   decision D11 and section 4.5.
 - W003/W004 evidence manifests for artifact style and clean-room notes:
@@ -357,8 +360,9 @@ OxForms or MSForms traces that follow the same contract.
 
 ## 15. Downstream Contracts
 
-- `oxforms-xvx.6` reducer/effects work must emit or test transition/effect rows
-  that conform to this schema.
+- `oxforms-xvx.6` reducer/effects work lives in the host-neutral
+  `oxforms-core` model/reference crate and must emit or test transition/effect
+  rows that conform to this schema.
 - `oxforms-xvx.10` VBA dispatch smoke must populate `vba_dispatch` rows using
   `FM20_EVENT_FACTS.md`.
 - `oxforms-xvx.11` visible smoke must populate PAL coordinate diagnostics and

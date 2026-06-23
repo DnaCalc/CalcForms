@@ -453,7 +453,12 @@ replay without live Excel or another host.
   [`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md), the v1 schema, validator,
   and synthetic sample with explicit coordinate-space tags, event/effect/VBA
   dispatch ordering, lifecycle/pump rows, and reentrant nesting.
-- `oxforms-xvx.6` through `oxforms-xvx.13` use the reducer/effects, routing,
+- `oxforms-xvx.6` places the W005 reducer/effects reference skeleton in
+  [`../../crates/oxforms-core/src/lib.rs`](../../crates/oxforms-core/src/lib.rs).
+  That crate consumes the `oxforms-pal` input contract but keeps control
+  behavior out of the PAL. It is a Rust contract/reference/test spine, not a
+  replacement for the VBA-first runtime doctrine.
+- `oxforms-xvx.7` through `oxforms-xvx.13` use the reducer/effects, routing,
   probe, dispatch, smoke, replay, coordinate, and comparison vocabulary here.
 
 If a downstream bead discovers a contradiction in this document, it should

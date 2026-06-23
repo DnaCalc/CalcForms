@@ -2,22 +2,23 @@
 //!
 //! This crate currently exposes the W002 smoke display-list contract and the
 //! W005 normalized input contract: value-typed, serializable event rows that a
-//! platform adapter can feed to the reducer without leaking host-runtime types.
+//! platform adapter can feed to the core/model reducer path without leaking
+//! host-runtime types.
 //!
 //! The PAL core deliberately has no dependency on any host runtime. Sibling
 //! adapter crates own runtime-specific marshalling and project host values into
-//! these typed display-list and input contracts.
+//! these typed display-list and input contracts. It also deliberately does not
+//! own control behavior; W005 reducer/effects reference code lives in
+//! `oxforms-core`.
 
 #![forbid(unsafe_code)]
 
 pub mod input;
-pub mod reducer;
 
 use std::error::Error;
 use std::fmt;
 
 pub use input::*;
-pub use reducer::*;
 
 /// First display-list version for the W002 smoke contract.
 pub const DISPLAY_LIST_VERSION: u16 = 1;
