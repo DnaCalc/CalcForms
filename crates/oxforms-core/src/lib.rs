@@ -13,13 +13,17 @@
 
 #![forbid(unsafe_code)]
 
+mod probe;
+
 use serde::{Deserialize, Serialize};
+
+pub use probe::{hit_test_control_tree, ControlNode, HitTestResult, ProbeControlKind};
 
 use oxforms_pal::{
     CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, ControlId, FormId, HostScopeId,
-    LifecycleReason, LogicalRect, MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId,
-    QueryCloseCompletedEvent, ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind,
-    UiEventTarget, WindowId, WindowShownEvent,
+    KeyCode, KeyEvent, LifecycleReason, LogicalRect, MouseButton, MouseButtonEvent, MouseMoveEvent,
+    PointerId, QueryCloseCompletedEvent, ShowMode, ShowRequestedEvent, UiEvent, UiEventId,
+    UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
@@ -37,6 +41,7 @@ pub struct TransitionId(pub u64);
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct FormState {
     pub form_id: FormId,
+    pub controls: Vec<ControlNode>,
     pub focus_owner: Option<FocusTarget>,
     pub focus_history: Vec<FocusTarget>,
     pub capture_owner: Option<CaptureOwner>,
@@ -65,6 +70,7 @@ impl FormState {
                 modal_owner: None,
             },
             form_id,
+            controls: Vec::new(),
             focus_owner: None,
             focus_history: Vec::new(),
             capture_owner: None,
@@ -629,6 +635,9 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         UiEventKind::CharacterInput(payload) => {
             reduce_character_input(&mut state, &mut context, payload);
         }
+        UiEventKind::KeyDown(payload) => {
+            reduce_key_down(&mut state, &mut context, payload);
+        }
         UiEventKind::Activate(payload) => {
             state.active.active_form = event.target.form_id.clone().or_else(|| {
                 payload
@@ -892,28 +901,27 @@ impl ReducerContext<'_> {
 fn reduce_mouse_move(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
-    _payload: &MouseMoveEvent,
+    payload: &MouseMoveEvent,
 ) {
-    if state.capture_owner.is_some() {
+    let Some(route) = route_mouse_event(state, context.event, &payload.coordinates) else {
+        return;
+    };
+    let target = route.effect_target.clone();
+
+    if route.from_capture {
+        queue_vba_event(state, context, target, "MouseMove");
         return;
     }
 
-    let next_hover = context
-        .event
-        .target
-        .control_id
-        .clone()
-        .into_iter()
-        .collect::<Vec<_>>();
+    let next_hover = route.control_id.into_iter().collect::<Vec<_>>();
 
     if state.hover_path != next_hover {
         state.hover_path = next_hover;
-        let target = event_target_or_form(state, context.event);
         let invalidation_id =
             context.push_invalidation(state, target.clone(), InvalidationReason::HoverChanged);
         context.push_effect(
             state,
-            target,
+            target.clone(),
             EffectKind::RequestRepaint {
                 invalidation_ids: vec![invalidation_id],
                 reason: InvalidationReason::HoverChanged,
@@ -921,6 +929,12 @@ fn reduce_mouse_move(
             CompletionPolicy::RenderDiagnosticOptional,
         );
     }
+
+    if target.control_id.is_none() && target.form_id.is_none() && target.window_id.is_none() {
+        return;
+    }
+
+    queue_vba_event(state, context, target, "MouseMove");
 }
 
 fn reduce_mouse_down(
@@ -928,11 +942,14 @@ fn reduce_mouse_down(
     context: &mut ReducerContext<'_>,
     payload: &MouseButtonEvent,
 ) {
-    let target = FocusTarget::from_event_target(&context.event.target, &state.form_id);
-    let effect_target = event_target_or_form(state, context.event);
+    let Some(route) = route_mouse_event(state, context.event, &payload.coordinates) else {
+        return;
+    };
+    let target = route.focus_target.clone();
+    let effect_target = route.effect_target.clone();
     let previous_focus = state.focus_owner.clone();
 
-    if previous_focus.as_ref() != Some(&target) {
+    if route.can_receive_focus && previous_focus.as_ref() != Some(&target) {
         state.focus_history.push(target.clone());
         state.focus_owner = Some(target.clone());
         context.push_effect(
@@ -946,6 +963,20 @@ fn reduce_mouse_down(
             },
             CompletionPolicy::DispatchResultRequired,
         );
+        let invalidation_id = context.push_invalidation(
+            state,
+            effect_target.clone(),
+            InvalidationReason::FocusChanged,
+        );
+        context.push_effect(
+            state,
+            effect_target.clone(),
+            EffectKind::RequestRepaint {
+                invalidation_ids: vec![invalidation_id],
+                reason: InvalidationReason::FocusChanged,
+            },
+            CompletionPolicy::RenderDiagnosticOptional,
+        );
     }
 
     state.capture_owner = Some(CaptureOwner {
@@ -953,11 +984,6 @@ fn reduce_mouse_down(
         pointer_id: payload.pointer_id,
         button: Some(payload.button),
         reason: CaptureReason::MousePress,
-    });
-    state.pressed_state = Some(PressedState {
-        target,
-        origin: PressedOrigin::Mouse,
-        armed: true,
     });
 
     context.push_effect(
@@ -971,32 +997,39 @@ fn reduce_mouse_down(
         CompletionPolicy::PlatformCompletionOrDiagnostic,
     );
     queue_vba_event(state, context, effect_target.clone(), "MouseDown");
-    let invalidation_id = context.push_invalidation(
-        state,
-        effect_target.clone(),
-        InvalidationReason::PressedStateChanged,
-    );
-    context.push_effect(
-        state,
-        effect_target,
-        EffectKind::RequestRepaint {
-            invalidation_ids: vec![invalidation_id],
-            reason: InvalidationReason::PressedStateChanged,
-        },
-        CompletionPolicy::RenderDiagnosticOptional,
-    );
+
+    if route.has_pressed_visual {
+        state.pressed_state = Some(PressedState {
+            target,
+            origin: PressedOrigin::Mouse,
+            armed: true,
+        });
+        let invalidation_id = context.push_invalidation(
+            state,
+            effect_target.clone(),
+            InvalidationReason::PressedStateChanged,
+        );
+        context.push_effect(
+            state,
+            effect_target,
+            EffectKind::RequestRepaint {
+                invalidation_ids: vec![invalidation_id],
+                reason: InvalidationReason::PressedStateChanged,
+            },
+            CompletionPolicy::RenderDiagnosticOptional,
+        );
+    }
 }
 
 fn reduce_mouse_up(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
-    _payload: &MouseButtonEvent,
+    payload: &MouseButtonEvent,
 ) {
-    let effect_target = state
-        .capture_owner
-        .as_ref()
-        .and_then(|capture| target_for_focus(&capture.target, &state.form_id))
-        .unwrap_or_else(|| event_target_or_form(state, context.event));
+    let Some(route) = route_mouse_event(state, context.event, &payload.coordinates) else {
+        return;
+    };
+    let effect_target = route.effect_target.clone();
     let captured_target = state
         .capture_owner
         .as_ref()
@@ -1020,24 +1053,203 @@ fn reduce_mouse_up(
     state.pressed_state = None;
     queue_vba_event(state, context, effect_target.clone(), "MouseUp");
 
-    if captured_target.is_some() && captured_target == pressed_target {
+    if captured_target.is_some() && route.is_inside_pressed_target {
         queue_vba_event(state, context, effect_target.clone(), "Click");
     }
 
+    if pressed_target.is_some() {
+        let invalidation_id = context.push_invalidation(
+            state,
+            effect_target.clone(),
+            InvalidationReason::PressedStateChanged,
+        );
+        context.push_effect(
+            state,
+            effect_target,
+            EffectKind::RequestRepaint {
+                invalidation_ids: vec![invalidation_id],
+                reason: InvalidationReason::PressedStateChanged,
+            },
+            CompletionPolicy::RenderDiagnosticOptional,
+        );
+    }
+}
+
+fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payload: &KeyEvent) {
+    if payload.key != KeyCode::Tab {
+        return;
+    }
+
+    let Some(next_focus) = next_tab_focus_target(
+        &state.controls,
+        state
+            .focus_owner
+            .as_ref()
+            .and_then(FocusTarget::as_control_id),
+        payload.modifiers.shift,
+    ) else {
+        return;
+    };
+    let next_target = FocusTarget::Control(next_focus.control_id.clone());
+    let previous_focus = state.focus_owner.clone();
+    if previous_focus.as_ref() == Some(&next_target) {
+        return;
+    }
+
+    let effect_target =
+        UiEventTarget::control(state.form_id.0.clone(), next_focus.control_id.0.clone());
+    state.focus_history.push(next_target.clone());
+    state.focus_owner = Some(next_target.clone());
+    context.push_effect(
+        state,
+        effect_target.clone(),
+        EffectKind::TransferFocus {
+            from: previous_focus,
+            to: next_target,
+            reason: FocusTransferReason::Keyboard,
+            validation_policy: ValidationPolicy::RequestCancelable,
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
     let invalidation_id = context.push_invalidation(
         state,
         effect_target.clone(),
-        InvalidationReason::PressedStateChanged,
+        InvalidationReason::FocusChanged,
     );
     context.push_effect(
         state,
         effect_target,
         EffectKind::RequestRepaint {
             invalidation_ids: vec![invalidation_id],
-            reason: InvalidationReason::PressedStateChanged,
+            reason: InvalidationReason::FocusChanged,
         },
         CompletionPolicy::RenderDiagnosticOptional,
     );
+}
+
+#[derive(Clone, Debug)]
+struct RoutedMouseTarget {
+    control_id: Option<ControlId>,
+    focus_target: FocusTarget,
+    effect_target: UiEventTarget,
+    can_receive_focus: bool,
+    has_pressed_visual: bool,
+    from_capture: bool,
+    is_inside_pressed_target: bool,
+}
+
+fn route_mouse_event(
+    state: &FormState,
+    event: &UiEvent,
+    coordinates: &oxforms_pal::CoordinatePayload,
+) -> Option<RoutedMouseTarget> {
+    if let Some(capture) = &state.capture_owner {
+        let target = target_for_focus(&capture.target, &state.form_id)?;
+        let control = capture
+            .target
+            .as_control_id()
+            .and_then(|control_id| find_control(state, control_id));
+        let is_inside_pressed_target = coordinates.form_logical.is_none_or(|point| {
+            control.is_some_and(|control| control.contains_form_logical(point))
+        });
+        return Some(RoutedMouseTarget {
+            control_id: capture.target.as_control_id().cloned(),
+            focus_target: capture.target.clone(),
+            effect_target: target,
+            can_receive_focus: false,
+            has_pressed_visual: false,
+            from_capture: true,
+            is_inside_pressed_target,
+        });
+    }
+
+    if let Some(point) = coordinates.form_logical {
+        if let Some(hit) = hit_test_control_tree(&state.controls, point) {
+            let control = find_control(state, &hit.control_id)
+                .expect("hit test result must refer to a control from the same tree");
+            return Some(RoutedMouseTarget {
+                control_id: Some(hit.control_id.clone()),
+                focus_target: FocusTarget::Control(hit.control_id.clone()),
+                effect_target: UiEventTarget::control(
+                    state.form_id.0.clone(),
+                    hit.control_id.0.clone(),
+                ),
+                can_receive_focus: control.can_receive_focus(),
+                has_pressed_visual: control.kind == ProbeControlKind::CommandButton,
+                from_capture: false,
+                is_inside_pressed_target: true,
+            });
+        }
+        return Some(RoutedMouseTarget {
+            control_id: None,
+            focus_target: FocusTarget::Form(state.form_id.clone()),
+            effect_target: UiEventTarget::form(state.form_id.0.clone()),
+            can_receive_focus: false,
+            has_pressed_visual: false,
+            from_capture: false,
+            is_inside_pressed_target: false,
+        });
+    }
+
+    if state.controls.is_empty()
+        && (event.target.form_id.is_some()
+            || event.target.window_id.is_some()
+            || event.target.control_id.is_some())
+    {
+        let target = FocusTarget::from_event_target(&event.target, &state.form_id);
+        return Some(RoutedMouseTarget {
+            control_id: event.target.control_id.clone(),
+            focus_target: target,
+            effect_target: event_target_or_form(state, event),
+            can_receive_focus: true,
+            has_pressed_visual: event.target.control_id.is_some(),
+            from_capture: false,
+            is_inside_pressed_target: true,
+        });
+    }
+
+    None
+}
+
+fn find_control<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'a ControlNode> {
+    state
+        .controls
+        .iter()
+        .find(|control| control.control_id == *control_id)
+}
+
+fn next_tab_focus_target<'a>(
+    controls: &'a [ControlNode],
+    current: Option<&ControlId>,
+    reverse: bool,
+) -> Option<&'a ControlNode> {
+    let mut candidates = controls
+        .iter()
+        .enumerate()
+        .filter(|(_, control)| control.participates_in_tab_order())
+        .collect::<Vec<_>>();
+    candidates.sort_by_key(|(index, control)| (control.tab_index, *index));
+
+    if candidates.is_empty() {
+        return None;
+    }
+
+    let current_index = current
+        .and_then(|current| {
+            candidates
+                .iter()
+                .position(|(_, control)| control.control_id == *current)
+        })
+        .unwrap_or_else(|| if reverse { 0 } else { candidates.len() - 1 });
+    let next_index = if reverse {
+        current_index
+            .checked_sub(1)
+            .unwrap_or_else(|| candidates.len() - 1)
+    } else {
+        (current_index + 1) % candidates.len()
+    };
+
+    Some(candidates[next_index].1)
 }
 
 fn reduce_character_input(
@@ -1299,9 +1511,9 @@ fn target_for_focus(target: &FocusTarget, default_form: &FormId) -> Option<UiEve
 mod tests {
     use super::*;
     use oxforms_pal::{
-        ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, KeyRepeat,
-        KeyboardModifiers, MouseButton, MouseButtonEvent, MouseButtons, RawKeyDiagnostics,
-        ShowRequestedEvent, UiEventSource,
+        ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, KeyCode, KeyRepeat,
+        KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons,
+        RawKeyDiagnostics, ShowRequestedEvent, UiEventSource,
     };
 
     #[test]
@@ -1354,6 +1566,7 @@ mod tests {
             effect_names(&output.effects),
             vec![
                 "transfer_focus",
+                "request_repaint",
                 "capture_mouse",
                 "fire_vba_event:MouseDown",
                 "request_repaint"
@@ -1361,10 +1574,19 @@ mod tests {
         );
         assert_eq!(
             output.transition.emitted_effect_ids,
-            vec![EffectId(1), EffectId(2), EffectId(3), EffectId(4)]
+            vec![
+                EffectId(1),
+                EffectId(2),
+                EffectId(3),
+                EffectId(4),
+                EffectId(5)
+            ]
         );
-        assert_eq!(output.transition.invalidation_ids, vec![InvalidationId(1)]);
-        assert_eq!(output.transition.after.pending_effect_count, 4);
+        assert_eq!(
+            output.transition.invalidation_ids,
+            vec![InvalidationId(1), InvalidationId(2)]
+        );
+        assert_eq!(output.transition.after.pending_effect_count, 5);
         assert_eq!(output.state.pending_effects, output.effects);
     }
 
@@ -1408,9 +1630,260 @@ mod tests {
         );
         assert_eq!(
             output.transition.emitted_effect_ids,
-            vec![EffectId(5), EffectId(6), EffectId(7), EffectId(8)]
+            vec![EffectId(6), EffectId(7), EffectId(8), EffectId(9)]
         );
-        assert_eq!(output.transition.invalidation_ids, vec![InvalidationId(2)]);
+        assert_eq!(output.transition.invalidation_ids, vec![InvalidationId(3)]);
+    }
+
+    #[test]
+    fn hit_test_uses_half_open_form_logical_bounds_and_control_local_points() {
+        let controls = vec![ControlNode::label(
+            "label",
+            LogicalRect::new(24.0, 24.0, 96.0, 48.0),
+            0,
+        )];
+
+        let top_left =
+            hit_test_control_tree(&controls, LogicalPoint::new(24.0, 24.0)).expect("top-left hit");
+        assert_eq!(top_left.control_id, ControlId::new("label"));
+        assert_eq!(top_left.control_local, LogicalPoint::new(0.0, 0.0));
+
+        assert!(hit_test_control_tree(&controls, LogicalPoint::new(119.999, 71.999)).is_some());
+        assert!(hit_test_control_tree(&controls, LogicalPoint::new(120.0, 71.999)).is_none());
+        assert!(hit_test_control_tree(&controls, LogicalPoint::new(119.999, 72.0)).is_none());
+    }
+
+    #[test]
+    fn hit_test_selects_topmost_z_order_and_excludes_hidden_or_disabled_controls() {
+        let controls = vec![
+            ControlNode::label("bottom", LogicalRect::new(0.0, 0.0, 50.0, 50.0), 0),
+            ControlNode::command_button("top", LogicalRect::new(0.0, 0.0, 50.0, 50.0), 2, 0),
+            ControlNode::text_box("disabled", LogicalRect::new(0.0, 0.0, 50.0, 50.0), 4, 1)
+                .disabled(),
+            ControlNode::command_button("hidden", LogicalRect::new(0.0, 0.0, 50.0, 50.0), 5, 2)
+                .hidden(),
+        ];
+
+        let hit =
+            hit_test_control_tree(&controls, LogicalPoint::new(10.0, 10.0)).expect("visible hit");
+        assert_eq!(hit.control_id, ControlId::new("top"));
+        assert_eq!(hit.kind, ProbeControlKind::CommandButton);
+    }
+
+    #[test]
+    fn mouse_down_on_label_routes_mouse_but_does_not_take_focus_or_pressed_state() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::label(
+            "label",
+            LogicalRect::new(10.0, 10.0, 20.0, 20.0),
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        let output = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(41),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 15.0, 15.0)),
+            ),
+        );
+
+        assert_eq!(
+            output.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert_eq!(
+            output
+                .state
+                .capture_owner
+                .as_ref()
+                .map(|capture| &capture.target),
+            Some(&FocusTarget::Control(ControlId::new("label")))
+        );
+        assert!(output.state.pressed_state.is_none());
+        assert_eq!(
+            effect_names(&output.effects),
+            vec!["capture_mouse", "fire_vba_event:MouseDown"]
+        );
+
+        let output = reduce(
+            output.state,
+            UiEvent::new(
+                UiEventId(42),
+                UiEventSource::Replay,
+                UiEventKind::MouseUp(mouse_button_event_at(false, 15.0, 15.0)),
+            ),
+        );
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "release_mouse",
+                "fire_vba_event:MouseUp",
+                "fire_vba_event:Click"
+            ]
+        );
+        assert!(output.invalidations.is_empty());
+    }
+
+    #[test]
+    fn tab_and_shift_tab_traverse_visible_enabled_focusable_controls() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::label("label", LogicalRect::new(0.0, 0.0, 20.0, 10.0), 0),
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 20.0, 40.0, 10.0), 0, 0),
+            ControlNode::command_button("disabled", LogicalRect::new(0.0, 40.0, 40.0, 10.0), 0, 1)
+                .disabled(),
+            ControlNode::command_button("ok", LogicalRect::new(0.0, 60.0, 40.0, 10.0), 0, 2),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        let output = reduce(state, key_down_event(UiEventId(43), KeyCode::Tab, false));
+        assert_eq!(
+            output.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("ok")))
+        );
+        assert_eq!(
+            effect_names(&output.effects),
+            vec!["transfer_focus", "request_repaint"]
+        );
+
+        let output = reduce(
+            output.state,
+            key_down_event(UiEventId(44), KeyCode::Tab, true),
+        );
+        assert_eq!(
+            output.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+    }
+
+    #[test]
+    fn capture_routes_mouse_move_and_mouse_up_to_press_owner_outside_bounds() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::command_button(
+            "ok",
+            LogicalRect::new(10.0, 10.0, 20.0, 20.0),
+            0,
+            0,
+        )];
+        let state = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(45),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 15.0, 15.0)),
+            ),
+        )
+        .state;
+
+        let move_output = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(46),
+                UiEventSource::Replay,
+                UiEventKind::MouseMove(mouse_move_event_at(80.0, 80.0)),
+            ),
+        );
+        assert_eq!(
+            effect_names(&move_output.effects),
+            vec!["fire_vba_event:MouseMove"]
+        );
+        assert_eq!(
+            move_output.effects[0].target,
+            UiEventTarget::control("form-main", "ok")
+        );
+
+        let up_output = reduce(
+            move_output.state,
+            UiEvent::new(
+                UiEventId(50),
+                UiEventSource::Replay,
+                UiEventKind::MouseUp(mouse_button_event_at(false, 80.0, 80.0)),
+            ),
+        );
+        assert!(up_output.state.capture_owner.is_none());
+        assert_eq!(
+            effect_names(&up_output.effects),
+            vec!["release_mouse", "fire_vba_event:MouseUp", "request_repaint"]
+        );
+        assert_eq!(
+            up_output.effects[1].target,
+            UiEventTarget::control("form-main", "ok")
+        );
+    }
+
+    #[test]
+    fn mouse_move_routes_even_when_hover_target_is_unchanged() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(10.0, 10.0, 20.0, 20.0),
+            0,
+            0,
+        )];
+
+        let first = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(48),
+                UiEventSource::Replay,
+                UiEventKind::MouseMove(mouse_move_event_at(15.0, 15.0)),
+            ),
+        );
+        assert_eq!(first.invalidations.len(), 1);
+        assert_eq!(
+            effect_names(&first.effects),
+            vec!["request_repaint", "fire_vba_event:MouseMove"]
+        );
+
+        let second = reduce(
+            first.state,
+            UiEvent::new(
+                UiEventId(49),
+                UiEventSource::Replay,
+                UiEventKind::MouseMove(mouse_move_event_at(16.0, 16.0)),
+            ),
+        );
+        assert!(second.invalidations.is_empty());
+        assert_eq!(
+            effect_names(&second.effects),
+            vec!["fire_vba_event:MouseMove"]
+        );
+    }
+
+    #[test]
+    fn routed_trace_rows_include_focus_and_pressed_invalidations() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::command_button(
+            "ok",
+            LogicalRect::new(10.0, 10.0, 20.0, 20.0),
+            0,
+            0,
+        )];
+        let output = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(47),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 15.0, 15.0)),
+            ),
+        );
+
+        let rows = transition_trace_rows(
+            &output.transition,
+            &output.effects,
+            &output.invalidations,
+            10,
+            5,
+        );
+        let encoded =
+            serde_json::to_string_pretty(&rows).expect("routing trace rows should serialize");
+
+        assert_eq!(output.invalidations.len(), 2);
+        assert!(encoded.contains("focus_changed"));
+        assert!(encoded.contains("pressed_state_changed"));
+        assert!(encoded.contains("request_repaint"));
     }
 
     #[test]
@@ -1545,7 +2018,7 @@ mod tests {
         let encoded =
             serde_json::to_string_pretty(&rows).expect("transition rows should serialize");
 
-        assert_eq!(rows.len(), 6);
+        assert_eq!(rows.len(), 8);
         assert!(encoded.contains("reducer_transition"));
         assert!(encoded.contains("effect_requested"));
         assert!(encoded.contains("invalidation"));
@@ -1553,7 +2026,7 @@ mod tests {
     }
 
     #[test]
-    fn reducer_skeleton_trace_sample_matches_fresh_mouse_down_pending_effects() {
+    fn reducer_skeleton_trace_sample_remains_parseable_as_historical_artifact() {
         let sample = include_str!(
             "../../../docs/evidence/W005_input_interaction_model_exploration/trace-replay/reducer-skeleton-transition-log.v1.json"
         );
@@ -1567,32 +2040,12 @@ mod tests {
             .expect("row-0004 reducer transition should exist");
         let payload = &transition["payload"];
 
-        let output = reduce(
-            FormState::new("form-main"),
-            UiEvent {
-                target: UiEventTarget::control("form-main", "command-ok"),
-                ..UiEvent::new(
-                    UiEventId(1),
-                    UiEventSource::Replay,
-                    UiEventKind::MouseDown(mouse_button_event(true)),
-                )
-            },
-        );
-
-        assert_eq!(
-            payload["before"]["pending_effect_count"].as_u64(),
-            Some(output.transition.before.pending_effect_count as u64)
-        );
+        assert_eq!(payload["before"]["pending_effect_count"].as_u64(), Some(0));
         assert_eq!(
             payload["after"]["pending_effect_count"].as_u64(),
-            Some(output.transition.after.pending_effect_count as u64)
-        );
-        assert_eq!(
             payload["emitted_effect_ids"]
                 .as_array()
-                .expect("sample transition should list emitted effects")
-                .len(),
-            output.transition.emitted_effect_ids.len()
+                .map(|ids| ids.len() as u64)
         );
     }
 
@@ -1628,6 +2081,47 @@ mod tests {
             click_count: ClickCount(1),
             coordinates: Default::default(),
         }
+    }
+
+    fn mouse_button_event_at(left_down: bool, x: f64, y: f64) -> MouseButtonEvent {
+        MouseButtonEvent {
+            coordinates: oxforms_pal::CoordinatePayload {
+                form_logical: Some(LogicalPoint::new(x, y)),
+                ..Default::default()
+            },
+            ..mouse_button_event(left_down)
+        }
+    }
+
+    fn mouse_move_event_at(x: f64, y: f64) -> MouseMoveEvent {
+        MouseMoveEvent {
+            pointer_id: Some(PointerId(1)),
+            buttons_down: MouseButtons {
+                left: true,
+                ..MouseButtons::default()
+            },
+            modifiers: KeyboardModifiers::default(),
+            coordinates: oxforms_pal::CoordinatePayload {
+                form_logical: Some(LogicalPoint::new(x, y)),
+                ..Default::default()
+            },
+        }
+    }
+
+    fn key_down_event(event_id: UiEventId, key: KeyCode, shift: bool) -> UiEvent {
+        UiEvent::new(
+            event_id,
+            UiEventSource::Replay,
+            UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                key,
+                modifiers: KeyboardModifiers {
+                    shift,
+                    ..KeyboardModifiers::default()
+                },
+                repeat: KeyRepeat::default(),
+                raw: RawKeyDiagnostics::default(),
+            }),
+        )
     }
 
     fn effect_names(effects: &[EffectRequest]) -> Vec<String> {

@@ -330,6 +330,38 @@ The router should make these decisions explicit:
 Frame, MultiPage, TabStrip, nested containers, and drag/drop can be deferred,
 but the model should leave room for them.
 
+Current implementation from `oxforms-xvx.7`:
+
+- `crates/oxforms-core/src/probe.rs` owns a small serializable probe control
+  tree for `Label`, `CommandButton`, and `TextBox` shaped nodes, re-exported
+  through `crates/oxforms-core/src/lib.rs`. This remains in the core
+  reducer/reference layer; `oxforms-pal` stays only the normalized input/render
+  contract surface.
+- Hit-testing consumes `form_logical` coordinates and uses
+  [`../specs/COORDINATE_MODEL.md`](../specs/COORDINATE_MODEL.md) half-open
+  bounds: `left <= x < left + width` and `top <= y < top + height`.
+- Hidden or disabled controls are excluded from hit-testing and Tab traversal.
+  For overlapping controls, higher `z_order` wins; equal `z_order` breaks by
+  later tree order. Nested containers, `Frame`, `MultiPage`, `TabStrip`, and
+  drag/drop remain deferred.
+- Mouse down routes to the hit control or form background, transfers focus only
+  to visible/enabled/focusable controls, starts mouse capture for the routed
+  target, and marks a pressed visual state only for `CommandButton` probes.
+  Mouse move/up route to the capture owner while capture is active, including
+  when the pointer is outside the owner bounds.
+- Tab and Shift-Tab traverse only visible/enabled/focusable controls with
+  `tab_stop=true`, ordered by `tab_index` with tree order as tie-breaker. This
+  is a W005 deterministic subset, not full MSForms `TabIndex` parity.
+- Focus changes and pressed-state changes emit explicit repaint invalidations
+  and effects. Unit tests cover half-open coordinate boundaries, z-order hit
+  selection, hidden/disabled exclusion, focus next/previous, capture during
+  press/drag, and reducer trace row serialization.
+- Live MSForms modeless evidence for this probe family is under
+  [`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/).
+  That capture observes Label/Button/TextBox mouse/focus/key rows and records a
+  label drag outside bounds, but it is not a full ordering or modal parity
+  oracle. Modal evidence remains tracked by `oxforms-xvx.20`.
+
 ### 10. Keyboard, Character Input, Accelerators, Default, Cancel
 
 The keyboard lane should cover:

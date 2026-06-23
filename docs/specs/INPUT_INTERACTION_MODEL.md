@@ -460,6 +460,14 @@ replay without live Excel or another host.
   replacement for the VBA-first runtime doctrine.
 - `oxforms-xvx.7` through `oxforms-xvx.13` use the reducer/effects, routing,
   probe, dispatch, smoke, replay, coordinate, and comparison vocabulary here.
+  `oxforms-xvx.7` implements the first core routing subset in
+  `crates/oxforms-core/src/lib.rs` and `crates/oxforms-core/src/probe.rs`:
+  half-open `form_logical` hit-testing for Label/CommandButton/TextBox probe
+  nodes, z-order and hidden/disabled filtering, focus transfer only to
+  visible/enabled/focusable controls, capture-owner mouse move/up routing,
+  CommandButton pressed-state invalidation, and deterministic Tab/Shift-Tab
+  traversal by `tab_index` plus tree-order tie-break. This is a W005 probe
+  model, not full MSForms tab-order, container, drag/drop, or modal parity.
 
 If a downstream bead discovers a contradiction in this document, it should
 update this spec in the same bead as the corrected behavior or file a focused
