@@ -21,4 +21,3 @@ Readiness scope:
 - It does not claim `OptionButton`, `ToggleButton`, tri-state/null,
   `ControlSource`, full morph-control persistence, native FM20-named dispatch,
   or pixel-perfect rendering parity.
-
