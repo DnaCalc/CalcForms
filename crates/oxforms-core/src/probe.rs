@@ -5,7 +5,7 @@ use oxforms_pal::{ControlId, LogicalPoint, LogicalRect};
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ControlNode {
     pub control_id: ControlId,
-    pub kind: ProbeControlKind,
+    pub kind: ControlKind,
     pub caption: String,
     pub bounds: LogicalRect,
     pub z_order: i32,
@@ -21,7 +21,7 @@ impl ControlNode {
     pub fn label(control_id: impl Into<String>, bounds: LogicalRect, z_order: i32) -> Self {
         Self {
             control_id: ControlId::new(control_id),
-            kind: ProbeControlKind::Label,
+            kind: ControlKind::Label,
             caption: String::new(),
             bounds,
             z_order,
@@ -42,7 +42,7 @@ impl ControlNode {
     ) -> Self {
         Self {
             control_id: ControlId::new(control_id),
-            kind: ProbeControlKind::CommandButton,
+            kind: ControlKind::CommandButton,
             caption: String::new(),
             bounds,
             z_order,
@@ -63,7 +63,28 @@ impl ControlNode {
     ) -> Self {
         Self {
             control_id: ControlId::new(control_id),
-            kind: ProbeControlKind::TextBox,
+            kind: ControlKind::TextBox,
+            caption: String::new(),
+            bounds,
+            z_order,
+            visible: true,
+            enabled: true,
+            focusable: true,
+            tab_stop: true,
+            tab_index,
+        }
+    }
+
+    #[must_use]
+    pub fn check_box(
+        control_id: impl Into<String>,
+        bounds: LogicalRect,
+        z_order: i32,
+        tab_index: u32,
+    ) -> Self {
+        Self {
+            control_id: ControlId::new(control_id),
+            kind: ControlKind::CheckBox,
             caption: String::new(),
             bounds,
             z_order,
@@ -147,16 +168,17 @@ impl ControlNode {
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(rename_all = "snake_case")]
-pub enum ProbeControlKind {
+pub enum ControlKind {
     Label,
     CommandButton,
     TextBox,
+    CheckBox,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct HitTestResult {
     pub control_id: ControlId,
-    pub kind: ProbeControlKind,
+    pub kind: ControlKind,
     pub bounds: LogicalRect,
     pub form_logical: LogicalPoint,
     pub control_local: LogicalPoint,

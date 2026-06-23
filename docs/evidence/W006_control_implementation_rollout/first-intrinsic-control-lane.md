@@ -3,7 +3,9 @@
 Status: splitter decision for `oxforms-0a0.5`.
 
 Readiness update: `oxforms-0a0.11` grounds the first CheckBox boolean-value
-lane before runtime implementation.
+lane before runtime implementation. Implementation update: `oxforms-0a0.12`
+implements the narrow host-neutral reducer/display/`.frm` subset described
+below without claiming broader CheckBox or morph-control parity.
 
 ## Decision
 
@@ -93,7 +95,7 @@ Minimum event/effect surface to ground before implementation:
 - mouse routing: `MouseDown`, `MouseMove`, `MouseUp`;
 - activation: `Click`;
 - value mutation: `Change`;
-- keyboard diagnostics and activation: `KeyDown`, `KeyUp`;
+- keyboard diagnostics and activation blockers: `KeyDown`, `KeyUp`;
 - focus/tab participation and any `Enter`/`Exit` exposure as facts,
   assumptions, unknowns, or blockers.
 
@@ -157,11 +159,15 @@ exact blocker; it must not infer tri-state/null behavior from this fixture.
 
 ### Implementation Surface For `oxforms-0a0.12`
 
+Status: implemented-subset in `crates/oxforms-core`.
+
 Property surface:
 
 - load `Begin MSForms.CheckBox` blocks from the selected `.frm` fixture path;
 - `Caption`;
-- `Value` limited to boolean false/true tokens only;
+- `Value` limited to boolean false/true tokens only. The selected loader accepts
+  `0`, `-1`, `False`, and `True`, and rejects other tokens such as `1` instead
+  of silently inventing coercion behavior;
 - `Enabled`;
 - `Visible`;
 - `Left`, `Top`, `Width`, and `Height` converted from twips to
@@ -173,18 +179,20 @@ State surface:
 
 - checkable/focusable control state separate from `TextBoxProbeState`;
 - boolean checked value;
-- pressed/armed state for pointer or keyboard activation;
+- pressed/armed state for pointer activation; keyboard pressed/toggle behavior
+  remains blocked below;
 - focus/tab participation for visible, enabled, focusable CheckBox controls;
-- invalidation reasons at least for `checkbox_value_changed`,
-  `checkbox_pressed_changed`, and focus visual changes, or exact equivalent
-  names documented in the implementation bead.
+- invalidation reasons `checkbox_value_changed`, `checkbox_pressed_changed`,
+  and existing `focus_changed` focus visual invalidation.
 
 Event/effect surface:
 
 - mouse routing/effects: `MouseDown`, `MouseMove`, `MouseUp`;
-- activation: `Click`;
-- value mutation: `Change`;
-- keyboard diagnostics/activation: `KeyDown`, `KeyUp`;
+- activation: `Click` on an inside mouse release after capture;
+- value mutation: `Change` when the boolean value toggles;
+- keyboard diagnostics: `KeyDown`, `KeyUp`;
+- keyboard value toggle remains blocked because exact Space/Enter activation
+  behavior and ordering are not live-oracle grounded in this repo;
 - `Enter`/`Exit`: focus participation may be modeled for routing, but native
   CheckBox dispatch is blocked until CheckBox-specific exposure of generic
   `ControlEvents` is observed or implemented through shared OxVba machinery.
@@ -242,10 +250,10 @@ For this selected lane:
 
 | Scaffold | Classification | Rationale |
 |---|---|---|
-| `ControlNode` as a host-neutral reference state shape | Quarantined pending replacement/rename | It is useful test-spine state, but the current name and `ProbeControlKind` coupling are W005-specific and must not become the production control factory by accident. |
-| `ControlNode::label`, `ControlNode::command_button`, and `ControlNode::text_box` constructors | Quarantined as non-pattern test infrastructure | They remain fine for W005 regression tests and existing fixtures, but a CheckBox implementation must not simply add another probe constructor and call that parity. |
-| `ProbeControlKind` | Replace before or during the CheckBox implementation bead | Adding `CheckBox` to a type named `ProbeControlKind` would blur the W005 probe/non-pattern boundary. |
-| `build_probe_display_list` and PAL smoke projection | Quarantined as display-reference test infrastructure | The command vocabulary is useful evidence scaffolding, but the implementation bead must either rename/generalize it or document a narrow test-only use. |
+| `ControlNode` as a host-neutral reference state shape | Still selected-subset infrastructure | `oxforms-0a0.12` keeps this shape but adds first-class `CheckBoxState` rather than storing boolean value in TextBox state or fixture-only metadata. |
+| `ControlNode::label`, `ControlNode::command_button`, and `ControlNode::text_box` constructors | Quarantined as non-pattern test infrastructure | They remain fine for W005 regression tests and existing fixtures. `ControlNode::check_box` is a local constructor for the selected CheckBox slice, not a full persistence/control factory API. |
+| `ProbeControlKind` | Replaced by `ControlKind` in `oxforms-0a0.12` | The enum no longer names W005 probes before CheckBox is added. This is a scoped architectural rename, not a claim that all `ControlKind` variants are complete MSForms implementations. |
+| `build_probe_display_list` and PAL smoke projection | Quarantined as display-reference test infrastructure | `oxforms-0a0.12` extends the serializable display intent for CheckBox and uses display-list schema version 2 only when CheckBox commands are present. The PAL smoke projection remains W005 fill-rect test infrastructure, not native control painting or pixel parity. |
 | W005 generic `Dispatched` event carrier | Quarantined as smoke/test infrastructure | Native FM20-named event dispatch remains blocked by `oxforms-0a0.2`; production CheckBox work must not route through the generic carrier as architecture. |
 | `load_selected_frm_interaction_state` selected `.frm` loader path | Promoted only as the current selected-fixture projection path | Its unsupported-control reporting, twips-to-points conversion, and metadata-only event hooks are useful. Its Label/TextBox/CommandButton-only support remains a selected subset, not a full persistence codec. |
 | W005 trace/replay runner and evidence validators | Promoted as regression/evidence pattern | Later CheckBox work should reuse the same deterministic trace/replay and validation posture, extending schemas or goldens only in a scoped bead. |

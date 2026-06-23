@@ -170,6 +170,21 @@ tri-state/null, `ControlSource`, native FM20-named dispatch, broad morph-control
 parity, and pixel-perfect rendering as non-claims unless separate beads ground
 them.
 
+Current `oxforms-0a0.12` status: implemented-subset in the host-neutral
+`oxforms-core` reducer/display/selected `.frm` path. The loader projects
+`Begin MSForms.CheckBox` controls from the W006 boolean fixture with `Caption`,
+boolean-only `Value`, enabled/visible state, tab participation, and twip-to-point
+geometry; `Value` tokens outside `0`, `-1`, `False`, and `True` remain blocked.
+Reducer state uses first-class `CheckBoxState`, mouse down/up routes
+`MouseDown`, `MouseUp`, `Click`, and value-changing `Change` effects, and
+display-list intent serializes the box glyph, check mark, caption, focus,
+disabled, pressed, and normal state. Keyboard `KeyDown`/`KeyUp` diagnostics are
+emitted for focused CheckBox controls, but Space/Enter value-toggle behavior
+remains blocked pending live-oracle ordering evidence. Native FM20-named
+dispatch remains blocked by `oxforms-0a0.2`, and pixel-perfect rendering,
+tri-state/null, `ControlSource`, accessibility, OptionButton/ToggleButton, and
+broad morph-control parity remain non-claims.
+
 W006 closes only when:
 
 1. the planning/review gate has closed and all executable W006 beads are either

@@ -284,6 +284,15 @@ dispatch remains blocked in OxVba, the `query_close_completed` row is a replayed
 uncancelled completion with an explicit blocker diagnostic, not executed VBA
 handler evidence.
 
+For the `oxforms-0a0.12` CheckBox boolean-value slice, future CheckBox traces
+must include `check_box_values` in reducer summaries when CheckBox state is
+present, use `checkbox_value_changed` and `checkbox_pressed_changed`
+invalidation reasons for value and pressed visual changes, and keep keyboard
+toggle rows as blocker/diagnostic evidence until Space/Enter activation ordering
+is live-oracle grounded. Native FM20-named dispatch remains blocked by
+`oxforms-0a0.2`; trace rows must not represent the W005 generic `Dispatched`
+carrier as production CheckBox dispatch.
+
 ## 10. VBA Dispatch Rows
 
 `vba_dispatch` rows must cite `FM20_EVENT_FACTS.md` when they name FM20 event

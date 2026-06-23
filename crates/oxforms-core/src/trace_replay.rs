@@ -1307,7 +1307,7 @@ fn effect_requested_payload(effect: &EffectRequest) -> Value {
 }
 
 fn state_summary_json(summary: &StateSummary) -> Value {
-    json!({
+    let mut payload = json!({
         "lifecycle_state": lifecycle_state(summary.lifecycle_state),
         "pump_term": pump_term(summary.pump_term),
         "nested_modal_depth": summary.nested_modal_depth,
@@ -1346,7 +1346,21 @@ fn state_summary_json(summary: &StateSummary) -> Value {
         }).collect::<Vec<_>>(),
         "validation_active": summary.validation_active,
         "pending_effect_count": summary.pending_effect_count
-    })
+    });
+    if !summary.check_box_values.is_empty() {
+        payload["check_box_values"] = json!(summary
+            .check_box_values
+            .iter()
+            .map(|check_box| {
+                json!({
+                    "control_id": check_box.control_id.0,
+                    "checked": check_box.checked,
+                    "dirty": check_box.dirty
+                })
+            })
+            .collect::<Vec<_>>());
+    }
+    payload
 }
 
 fn input_script_summary() -> Vec<Value> {
@@ -1639,6 +1653,8 @@ fn invalidation_reason(reason: InvalidationReason) -> &'static str {
         InvalidationReason::FocusChanged => "focus_changed",
         InvalidationReason::HoverChanged => "hover_changed",
         InvalidationReason::PressedStateChanged => "pressed_state_changed",
+        InvalidationReason::CheckBoxValueChanged => "checkbox_value_changed",
+        InvalidationReason::CheckBoxPressedChanged => "checkbox_pressed_changed",
         InvalidationReason::TextChanged => "text_changed",
         InvalidationReason::TextSelectionChanged => "text_selection_changed",
         InvalidationReason::LifecycleChanged => "lifecycle_changed",

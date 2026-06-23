@@ -543,6 +543,18 @@ replay without live Excel or another host.
   by the `oxforms-0a0.2` native FM20-named dispatch gap, so the replay completion
   carries an explicit blocker diagnostic rather than using a forms-only event
   runtime.
+- `oxforms-0a0.12` implements only the fact-backed
+  `MSForms.CheckBox` boolean-value slice in `crates/oxforms-core`: selected
+  `.frm` loading accepts `Begin MSForms.CheckBox` controls with `Caption`,
+  boolean-only `Value`, enabled/visible/tab state, and twip-to-point geometry;
+  `FormState` carries first-class `CheckBoxState`; mouse activation toggles the
+  boolean value and emits `MouseDown`, `MouseUp`, `Click`, `Change`, repaint,
+  and CheckBox-specific invalidation metadata; focused CheckBox controls emit
+  `KeyDown`/`KeyUp` diagnostics without claiming Space/Enter toggle ordering;
+  display-list intent serializes the box glyph, check mark, caption, focus,
+  disabled, pressed, and normal state. This remains outside full morph-control,
+  tri-state/null, native FM20-named dispatch, accessibility, and pixel-perfect
+  rendering parity.
 - `oxforms-xvx.11` adds a Windows visible input pump smoke in
   `crates/oxforms-core/examples/w005_visible_input_smoke.rs`, driven by
   `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1`. The smoke opens

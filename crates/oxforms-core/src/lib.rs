@@ -23,7 +23,7 @@ pub use frm::{
     load_selected_frm_interaction_state, FrmControlEventHooks, FrmControlRecord, FrmFrxReference,
     FrmInteractionModel, FrmLoadError, FrmUnsupportedRecord, COORDINATE_MODEL_SPEC_PATH,
 };
-pub use probe::{hit_test_control_tree, ControlNode, HitTestResult, ProbeControlKind};
+pub use probe::{hit_test_control_tree, ControlKind, ControlNode, HitTestResult};
 pub use trace_replay::{
     build_w005_trace_replay_golden_artifacts, W005_TRACE_REPLAY_DISPLAY_LIST_PATH,
     W005_TRACE_REPLAY_GOLDEN_TRACE_PATH,
@@ -39,6 +39,7 @@ use oxforms_pal::{
 };
 
 pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
+pub const CHECKBOX_DISPLAY_LIST_SCHEMA_VERSION: u16 = 2;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
 #[serde(transparent)]
@@ -69,6 +70,7 @@ pub struct FormState {
     pub pump: PumpState,
     pub close_flow: Option<CloseFlowState>,
     pub text_boxes: Vec<TextBoxProbeState>,
+    pub check_boxes: Vec<CheckBoxState>,
     pub validation: ValidationState,
     pub dirty: DirtyState,
     pub pending_effects: Vec<EffectRequest>,
@@ -99,6 +101,7 @@ impl FormState {
             pump: PumpState::default(),
             close_flow: None,
             text_boxes: Vec::new(),
+            check_boxes: Vec::new(),
             validation: ValidationState::default(),
             dirty: DirtyState::default(),
             pending_effects: Vec::new(),
@@ -119,6 +122,21 @@ impl FormState {
         self.text_boxes
             .last_mut()
             .expect("text box entry was just pushed")
+    }
+
+    pub fn ensure_check_box(&mut self, control_id: ControlId) -> &mut CheckBoxState {
+        if let Some(index) = self
+            .check_boxes
+            .iter()
+            .position(|entry| entry.control_id == control_id)
+        {
+            return &mut self.check_boxes[index];
+        }
+
+        self.check_boxes.push(CheckBoxState::new(control_id));
+        self.check_boxes
+            .last_mut()
+            .expect("check box entry was just pushed")
     }
 
     fn next_effect_id(&mut self) -> EffectId {
@@ -291,6 +309,26 @@ impl TextBoxProbeState {
     }
 }
 
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CheckBoxState {
+    pub control_id: ControlId,
+    pub checked: bool,
+    pub dirty: bool,
+    pub edit_sequence: u64,
+}
+
+impl CheckBoxState {
+    #[must_use]
+    pub fn new(control_id: ControlId) -> Self {
+        Self {
+            control_id,
+            checked: false,
+            dirty: false,
+            edit_sequence: 0,
+        }
+    }
+}
+
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
 pub struct TextCaretState {
     pub anchor: usize,
@@ -398,6 +436,8 @@ pub enum InvalidationReason {
     FocusChanged,
     HoverChanged,
     PressedStateChanged,
+    CheckBoxValueChanged,
+    CheckBoxPressedChanged,
     TextChanged,
     TextSelectionChanged,
     LifecycleChanged,
@@ -598,6 +638,7 @@ pub struct StateSummary {
     pub active_window: Option<WindowId>,
     pub close_flow: Option<CloseFlowState>,
     pub text_values: Vec<TextValueSummary>,
+    pub check_box_values: Vec<CheckBoxValueSummary>,
     pub validation_active: bool,
     pub pending_effect_count: usize,
 }
@@ -607,6 +648,13 @@ pub struct TextValueSummary {
     pub control_id: ControlId,
     pub text_len: usize,
     pub caret: TextCaretState,
+    pub dirty: bool,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CheckBoxValueSummary {
+    pub control_id: ControlId,
+    pub checked: bool,
     pub dirty: bool,
 }
 
@@ -635,6 +683,15 @@ impl StateSummary {
                     text_len: text_box.text.len(),
                     caret: text_box.caret.clone(),
                     dirty: text_box.dirty,
+                })
+                .collect(),
+            check_box_values: state
+                .check_boxes
+                .iter()
+                .map(|check_box| CheckBoxValueSummary {
+                    control_id: check_box.control_id.clone(),
+                    checked: check_box.checked,
+                    dirty: check_box.dirty,
                 })
                 .collect(),
             validation_active: state.validation.active,
@@ -709,6 +766,12 @@ pub enum ProbeDisplayCommand {
         color: ProbeColor,
         role: ProbeDisplayRole,
     },
+    CheckMark {
+        target: UiEventTarget,
+        rect: LogicalRect,
+        color: ProbeColor,
+        role: ProbeDisplayRole,
+    },
     Caret {
         target: UiEventTarget,
         x: f64,
@@ -759,6 +822,11 @@ pub enum ProbeDisplayRole {
     CommandButtonText,
     TextBoxFace,
     TextBoxText,
+    CheckBoxFace,
+    CheckBoxPressedFace,
+    CheckBoxText,
+    CheckBoxGlyph,
+    CheckBoxCheckMark,
     Border,
     DisabledOverlay,
 }
@@ -1041,10 +1109,12 @@ pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> Prob
             == Some(&control.control_id);
 
         let face_role = match (control.kind, is_pressed) {
-            (ProbeControlKind::Label, _) => ProbeDisplayRole::LabelFace,
-            (ProbeControlKind::CommandButton, true) => ProbeDisplayRole::CommandButtonPressedFace,
-            (ProbeControlKind::CommandButton, false) => ProbeDisplayRole::CommandButtonFace,
-            (ProbeControlKind::TextBox, _) => ProbeDisplayRole::TextBoxFace,
+            (ControlKind::CheckBox, true) => ProbeDisplayRole::CheckBoxPressedFace,
+            (ControlKind::CheckBox, false) => ProbeDisplayRole::CheckBoxFace,
+            (ControlKind::CommandButton, true) => ProbeDisplayRole::CommandButtonPressedFace,
+            (ControlKind::CommandButton, false) => ProbeDisplayRole::CommandButtonFace,
+            (ControlKind::Label, _) => ProbeDisplayRole::LabelFace,
+            (ControlKind::TextBox, _) => ProbeDisplayRole::TextBoxFace,
         };
         commands.push(ProbeDisplayCommand::FillRect {
             target: target.clone(),
@@ -1059,16 +1129,41 @@ pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> Prob
             role: ProbeDisplayRole::Border,
         });
 
+        if control.kind == ControlKind::CheckBox {
+            let glyph_rect = check_box_glyph_rect(control.bounds);
+            commands.push(ProbeDisplayCommand::FillRect {
+                target: target.clone(),
+                rect: glyph_rect,
+                color: ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
+                role: ProbeDisplayRole::CheckBoxGlyph,
+            });
+            commands.push(ProbeDisplayCommand::StrokeRect {
+                target: target.clone(),
+                rect: glyph_rect,
+                color: ProbeColor::rgba(0x32, 0x32, 0x32, 0xff),
+                role: ProbeDisplayRole::CheckBoxGlyph,
+            });
+            if check_box_state(state, &control.control_id).is_some_and(|entry| entry.checked) {
+                commands.push(ProbeDisplayCommand::CheckMark {
+                    target: target.clone(),
+                    rect: inset_rect(glyph_rect, 2.0, 2.0),
+                    color: probe_text_color(control.kind, control.enabled),
+                    role: ProbeDisplayRole::CheckBoxCheckMark,
+                });
+            }
+        }
+
         let text = display_text_for_control(state, control);
         if !text.is_empty() {
             let role = match control.kind {
-                ProbeControlKind::Label => ProbeDisplayRole::LabelText,
-                ProbeControlKind::CommandButton => ProbeDisplayRole::CommandButtonText,
-                ProbeControlKind::TextBox => ProbeDisplayRole::TextBoxText,
+                ControlKind::CheckBox => ProbeDisplayRole::CheckBoxText,
+                ControlKind::Label => ProbeDisplayRole::LabelText,
+                ControlKind::CommandButton => ProbeDisplayRole::CommandButtonText,
+                ControlKind::TextBox => ProbeDisplayRole::TextBoxText,
             };
             commands.push(ProbeDisplayCommand::DrawText {
                 target: target.clone(),
-                rect: inset_rect(control.bounds, 4.0, 3.0),
+                rect: text_rect_for_control(control),
                 text,
                 color: probe_text_color(control.kind, control.enabled),
                 role,
@@ -1084,7 +1179,7 @@ pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> Prob
             });
         }
 
-        if is_focused && control.kind != ProbeControlKind::Label {
+        if is_focused && control.kind != ControlKind::Label {
             commands.push(ProbeDisplayCommand::FocusRect {
                 target: target.clone(),
                 rect: inset_rect(control.bounds, 2.0, 2.0),
@@ -1092,7 +1187,7 @@ pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> Prob
             });
         }
 
-        if is_focused && control.kind == ProbeControlKind::TextBox {
+        if is_focused && control.kind == ControlKind::TextBox {
             if let Some(text_box) = text_box_state(state, &control.control_id) {
                 let x = caret_x(control.bounds, text_box.caret.active);
                 commands.push(ProbeDisplayCommand::Caret {
@@ -1108,10 +1203,22 @@ pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> Prob
     }
 
     ProbeDisplayList {
-        schema_version: PROBE_DISPLAY_LIST_SCHEMA_VERSION,
+        schema_version: display_list_schema_version(state),
         form_id: state.form_id.clone(),
         surface,
         commands,
+    }
+}
+
+fn display_list_schema_version(state: &FormState) -> u16 {
+    if state
+        .controls
+        .iter()
+        .any(|control| control.kind == ControlKind::CheckBox)
+    {
+        CHECKBOX_DISPLAY_LIST_SCHEMA_VERSION
+    } else {
+        PROBE_DISPLAY_LIST_SCHEMA_VERSION
     }
 }
 
@@ -1158,8 +1265,10 @@ fn visible_controls_in_paint_order(controls: &[ControlNode]) -> Vec<&ControlNode
 
 fn display_text_for_control(state: &FormState, control: &ControlNode) -> String {
     match control.kind {
-        ProbeControlKind::Label | ProbeControlKind::CommandButton => control.caption.clone(),
-        ProbeControlKind::TextBox => text_box_state(state, &control.control_id)
+        ControlKind::CheckBox | ControlKind::Label | ControlKind::CommandButton => {
+            control.caption.clone()
+        }
+        ControlKind::TextBox => text_box_state(state, &control.control_id)
             .map(|text_box| text_box.text.clone())
             .unwrap_or_default(),
     }
@@ -1175,30 +1284,63 @@ fn text_box_state<'a>(
         .find(|entry| entry.control_id == *control_id)
 }
 
-fn probe_face_color(kind: ProbeControlKind, is_pressed: bool, is_enabled: bool) -> ProbeColor {
+fn check_box_state<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'a CheckBoxState> {
+    state
+        .check_boxes
+        .iter()
+        .find(|entry| entry.control_id == *control_id)
+}
+
+fn probe_face_color(kind: ControlKind, is_pressed: bool, is_enabled: bool) -> ProbeColor {
     if !is_enabled {
         return ProbeColor::rgba(0xd9, 0xd9, 0xd9, 0xff);
     }
 
     match kind {
-        ProbeControlKind::Label => ProbeColor::rgba(0x20, 0x70, 0xc0, 0xff),
-        ProbeControlKind::CommandButton if is_pressed => ProbeColor::rgba(0xb8, 0xc7, 0xdd, 0xff),
-        ProbeControlKind::CommandButton => ProbeColor::rgba(0xdc, 0xdc, 0xdc, 0xff),
-        ProbeControlKind::TextBox => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
+        ControlKind::CheckBox if is_pressed => ProbeColor::rgba(0xe8, 0xe8, 0xe8, 0xff),
+        ControlKind::CheckBox => ProbeColor::rgba(0xf8, 0xf8, 0xf8, 0xff),
+        ControlKind::Label => ProbeColor::rgba(0x20, 0x70, 0xc0, 0xff),
+        ControlKind::CommandButton if is_pressed => ProbeColor::rgba(0xb8, 0xc7, 0xdd, 0xff),
+        ControlKind::CommandButton => ProbeColor::rgba(0xdc, 0xdc, 0xdc, 0xff),
+        ControlKind::TextBox => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
     }
 }
 
-fn probe_text_color(kind: ProbeControlKind, is_enabled: bool) -> ProbeColor {
+fn probe_text_color(kind: ControlKind, is_enabled: bool) -> ProbeColor {
     if !is_enabled {
         return ProbeColor::rgba(0x80, 0x80, 0x80, 0xff);
     }
 
     match kind {
-        ProbeControlKind::Label => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
-        ProbeControlKind::CommandButton | ProbeControlKind::TextBox => {
+        ControlKind::Label => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
+        ControlKind::CheckBox | ControlKind::CommandButton | ControlKind::TextBox => {
             ProbeColor::rgba(0x00, 0x00, 0x00, 0xff)
         }
     }
+}
+
+fn text_rect_for_control(control: &ControlNode) -> LogicalRect {
+    if control.kind == ControlKind::CheckBox {
+        let left = control.bounds.x + 22.0;
+        LogicalRect::new(
+            left,
+            control.bounds.y + 1.0,
+            (control.bounds.x + control.bounds.width - left - 2.0).max(1.0),
+            (control.bounds.height - 2.0).max(1.0),
+        )
+    } else {
+        inset_rect(control.bounds, 4.0, 3.0)
+    }
+}
+
+fn check_box_glyph_rect(bounds: LogicalRect) -> LogicalRect {
+    let size = bounds.height.clamp(6.0, 13.0);
+    LogicalRect::new(
+        bounds.x + 3.0,
+        bounds.y + ((bounds.height - size) / 2.0),
+        size,
+        size,
+    )
 }
 
 fn inset_rect(rect: LogicalRect, dx: f64, dy: f64) -> LogicalRect {
@@ -1401,17 +1543,19 @@ fn reduce_mouse_down(
             origin: PressedOrigin::Mouse,
             armed: true,
         });
-        let invalidation_id = context.push_invalidation(
-            state,
-            effect_target.clone(),
-            InvalidationReason::PressedStateChanged,
-        );
+        let reason = route
+            .control_id
+            .as_ref()
+            .map_or(InvalidationReason::PressedStateChanged, |control_id| {
+                pressed_invalidation_reason(state, control_id)
+            });
+        let invalidation_id = context.push_invalidation(state, effect_target.clone(), reason);
         context.push_effect(
             state,
             effect_target,
             EffectKind::RequestRepaint {
                 invalidation_ids: vec![invalidation_id],
-                reason: InvalidationReason::PressedStateChanged,
+                reason,
             },
             CompletionPolicy::RenderDiagnosticOptional,
         );
@@ -1459,20 +1603,30 @@ fn reduce_mouse_up(
 
     if captured_target.is_some() && route.is_inside_pressed_target && route.supports_click_event {
         queue_vba_event(state, context, effect_target.clone(), "Click");
+        if let Some(control_id) = route
+            .control_id
+            .as_ref()
+            .filter(|control_id| is_check_box_control(state, control_id))
+            .cloned()
+        {
+            toggle_check_box(state, context, control_id);
+        }
     }
 
     if pressed_target.is_some() {
-        let invalidation_id = context.push_invalidation(
-            state,
-            effect_target.clone(),
-            InvalidationReason::PressedStateChanged,
-        );
+        let reason = route
+            .control_id
+            .as_ref()
+            .map_or(InvalidationReason::PressedStateChanged, |control_id| {
+                pressed_invalidation_reason(state, control_id)
+            });
+        let invalidation_id = context.push_invalidation(state, effect_target.clone(), reason);
         context.push_effect(
             state,
             effect_target,
             EffectKind::RequestRepaint {
                 invalidation_ids: vec![invalidation_id],
-                reason: InvalidationReason::PressedStateChanged,
+                reason,
             },
             CompletionPolicy::RenderDiagnosticOptional,
         );
@@ -1674,7 +1828,7 @@ fn activate_command_button(
     let Some(control) = find_control(state, control_id) else {
         return false;
     };
-    if control.kind != ProbeControlKind::CommandButton || !control.visible || !control.enabled {
+    if control.kind != ControlKind::CommandButton || !control.visible || !control.enabled {
         return false;
     }
 
@@ -1701,6 +1855,53 @@ fn activate_command_button(
         CompletionPolicy::RenderDiagnosticOptional,
     );
     true
+}
+
+fn toggle_check_box(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    control_id: ControlId,
+) -> bool {
+    if !is_check_box_control(state, &control_id) {
+        return false;
+    }
+
+    let check_box = state.ensure_check_box(control_id.clone());
+    check_box.checked = !check_box.checked;
+    check_box.dirty = true;
+    check_box.edit_sequence += 1;
+
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    queue_vba_event(state, context, target.clone(), "Change");
+    let invalidation_id = context.push_invalidation(
+        state,
+        target.clone(),
+        InvalidationReason::CheckBoxValueChanged,
+    );
+    context.push_effect(
+        state,
+        target,
+        EffectKind::RequestRepaint {
+            invalidation_ids: vec![invalidation_id],
+            reason: InvalidationReason::CheckBoxValueChanged,
+        },
+        CompletionPolicy::RenderDiagnosticOptional,
+    );
+    true
+}
+
+fn is_check_box_control(state: &FormState, control_id: &ControlId) -> bool {
+    find_control(state, control_id).is_some_and(|control| {
+        control.kind == ControlKind::CheckBox && control.visible && control.enabled
+    })
+}
+
+fn pressed_invalidation_reason(state: &FormState, control_id: &ControlId) -> InvalidationReason {
+    if is_check_box_control(state, control_id) {
+        InvalidationReason::CheckBoxPressedChanged
+    } else {
+        InvalidationReason::PressedStateChanged
+    }
 }
 
 #[derive(Clone, Debug)]
@@ -1763,7 +1964,10 @@ fn route_mouse_event(
                 form_logical: Some(hit.form_logical),
                 control_local: Some(hit.control_local),
                 can_receive_focus: control.can_receive_focus(),
-                has_pressed_visual: control.kind == ProbeControlKind::CommandButton,
+                has_pressed_visual: matches!(
+                    control.kind,
+                    ControlKind::CommandButton | ControlKind::CheckBox
+                ),
                 from_capture: false,
                 is_inside_pressed_target: true,
                 supports_click_event: probe_control_supports_click_event(control),
@@ -1809,7 +2013,7 @@ fn route_mouse_event(
 fn probe_control_supports_click_event(control: &ControlNode) -> bool {
     matches!(
         control.kind,
-        ProbeControlKind::Label | ProbeControlKind::CommandButton
+        ControlKind::CheckBox | ControlKind::Label | ControlKind::CommandButton
     )
 }
 
@@ -1868,7 +2072,7 @@ fn accelerator_command_button(state: &FormState, character: &str) -> Option<Cont
         .controls
         .iter()
         .filter(|control| {
-            control.kind == ProbeControlKind::CommandButton && control.visible && control.enabled
+            control.kind == ControlKind::CommandButton && control.visible && control.enabled
         })
         .find(|control| control.accelerator_key() == Some(normalized))
         .map(|control| control.control_id.clone())
@@ -1877,7 +2081,7 @@ fn accelerator_command_button(state: &FormState, character: &str) -> Option<Cont
 fn focused_text_box_control_id(state: &FormState) -> Option<ControlId> {
     let control_id = state.focus_owner.as_ref()?.as_control_id()?;
     let control = find_control(state, control_id)?;
-    if control.kind == ProbeControlKind::TextBox && control.visible && control.enabled {
+    if control.kind == ControlKind::TextBox && control.visible && control.enabled {
         Some(control_id.clone())
     } else {
         None
@@ -2738,7 +2942,7 @@ mod tests {
         let hit =
             hit_test_control_tree(&controls, LogicalPoint::new(10.0, 10.0)).expect("visible hit");
         assert_eq!(hit.control_id, ControlId::new("top"));
-        assert_eq!(hit.kind, ProbeControlKind::CommandButton);
+        assert_eq!(hit.kind, ControlKind::CommandButton);
     }
 
     #[test]
@@ -3365,6 +3569,160 @@ mod tests {
         pal_display_list
             .validate()
             .expect("PAL smoke display list should validate");
+    }
+
+    #[test]
+    fn checkbox_mouse_click_toggles_boolean_value_and_emits_event_effects() {
+        let mut state = FormState::new("form-main");
+        state.controls =
+            vec![
+                ControlNode::check_box("agree", LogicalRect::new(0.0, 0.0, 96.0, 18.0), 0, 0)
+                    .with_caption("Agree"),
+            ];
+        state.ensure_check_box(ControlId::new("agree"));
+
+        let down = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(80),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 5.0, 5.0)),
+            ),
+        );
+
+        assert_eq!(
+            down.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("agree")))
+        );
+        assert_eq!(
+            down.state
+                .pressed_state
+                .as_ref()
+                .map(|pressed| &pressed.target),
+            Some(&FocusTarget::Control(ControlId::new("agree")))
+        );
+        assert_eq!(
+            effect_names(&down.effects),
+            vec![
+                "transfer_focus",
+                "request_repaint",
+                "capture_mouse",
+                "fire_vba_event:MouseDown",
+                "request_repaint"
+            ]
+        );
+        assert_eq!(
+            down.invalidations
+                .iter()
+                .map(|invalidation| invalidation.reason)
+                .collect::<Vec<_>>(),
+            vec![
+                InvalidationReason::FocusChanged,
+                InvalidationReason::CheckBoxPressedChanged,
+            ]
+        );
+
+        let up = reduce(
+            down.state,
+            UiEvent::new(
+                UiEventId(81),
+                UiEventSource::Replay,
+                UiEventKind::MouseUp(mouse_button_event_at(false, 5.0, 5.0)),
+            ),
+        );
+
+        assert!(up.state.capture_owner.is_none());
+        assert!(up.state.pressed_state.is_none());
+        assert_eq!(
+            check_box_state(&up.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(true)
+        );
+        assert_eq!(
+            effect_names(&up.effects),
+            vec![
+                "release_mouse",
+                "fire_vba_event:MouseUp",
+                "fire_vba_event:Click",
+                "fire_vba_event:Change",
+                "request_repaint",
+                "request_repaint"
+            ]
+        );
+        assert_eq!(
+            up.invalidations
+                .iter()
+                .map(|invalidation| invalidation.reason)
+                .collect::<Vec<_>>(),
+            vec![
+                InvalidationReason::CheckBoxValueChanged,
+                InvalidationReason::CheckBoxPressedChanged,
+            ]
+        );
+        assert_eq!(up.transition.after.check_box_values[0].checked, true);
+    }
+
+    #[test]
+    fn checkbox_keyboard_shape_emits_key_events_but_does_not_claim_toggle_ordering() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::check_box(
+            "agree",
+            LogicalRect::new(0.0, 0.0, 96.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
+        state.ensure_check_box(ControlId::new("agree"));
+
+        let down = reduce(state, key_down_event(UiEventId(82), KeyCode::Space, false));
+        assert_eq!(effect_names(&down.effects), vec!["fire_vba_event:KeyDown"]);
+        assert_eq!(
+            check_box_state(&down.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(false)
+        );
+
+        let up = reduce(down.state, key_up_event(UiEventId(83), KeyCode::Space));
+        assert_eq!(effect_names(&up.effects), vec!["fire_vba_event:KeyUp"]);
+        assert_eq!(
+            check_box_state(&up.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(false)
+        );
+    }
+
+    #[test]
+    fn checkbox_display_list_serializes_glyph_check_caption_focus_disabled_and_pressed_intent() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::check_box("agree", LogicalRect::new(0.0, 0.0, 96.0, 18.0), 0, 0)
+                .with_caption("Agree"),
+            ControlNode::check_box("disabled", LogicalRect::new(0.0, 24.0, 96.0, 18.0), 1, 1)
+                .with_caption("Disabled")
+                .disabled(),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
+        state.pressed_state = Some(PressedState {
+            target: FocusTarget::Control(ControlId::new("agree")),
+            origin: PressedOrigin::Mouse,
+            armed: true,
+        });
+        state.ensure_check_box(ControlId::new("agree")).checked = true;
+        state.ensure_check_box(ControlId::new("disabled")).checked = true;
+
+        let display_list = build_probe_display_list(&state, LogicalSize::new(120.0, 60.0));
+        let encoded =
+            serde_json::to_string_pretty(&display_list).expect("display list should serialize");
+
+        assert_eq!(
+            display_list.schema_version,
+            CHECKBOX_DISPLAY_LIST_SCHEMA_VERSION
+        );
+        assert!(encoded.contains("check_box_pressed_face"));
+        assert!(encoded.contains("check_box_glyph"));
+        assert!(encoded.contains("check_box_check_mark"));
+        assert!(encoded.contains("check_box_text"));
+        assert!(encoded.contains("Agree"));
+        assert!(encoded.contains("Disabled"));
+        assert!(encoded.contains("focus_rect"));
+        assert!(encoded.contains("disabled_overlay"));
     }
 
     #[test]

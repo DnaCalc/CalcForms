@@ -5,7 +5,8 @@ use oxforms_pal::{ControlId, LogicalRect, LogicalSize};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    ControlNode, FormState, LifecycleState, ProbeControlKind, TextBoxProbeState, TextCaretState,
+    CheckBoxState, ControlKind, ControlNode, FormState, LifecycleState, TextBoxProbeState,
+    TextCaretState,
 };
 
 pub const COORDINATE_MODEL_SPEC_PATH: &str = "docs/specs/COORDINATE_MODEL.md";
@@ -27,7 +28,7 @@ pub struct FrmInteractionModel {
 pub struct FrmControlRecord {
     pub name: String,
     pub type_name: String,
-    pub kind: ProbeControlKind,
+    pub kind: ControlKind,
     pub caption: String,
     pub bounds_twips: TwipRect,
     pub bounds_points: LogicalRect,
@@ -39,6 +40,7 @@ pub struct FrmControlRecord {
     pub default: bool,
     pub cancel: bool,
     pub initial_text: Option<String>,
+    pub initial_checked: Option<bool>,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -240,7 +242,7 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
             unsupported.push(FrmUnsupportedRecord {
                 owner_name: child.name.clone(),
                 type_name: child.type_name.clone(),
-                reason: "unsupported by oxforms-0a0.4 selected Label/TextBox/CommandButton slice"
+                reason: "unsupported by selected Label/TextBox/CommandButton/CheckBox slice"
                     .to_string(),
             });
             continue;
@@ -266,27 +268,39 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
             .and_then(|value| u32::try_from(value).ok())
             .unwrap_or(index as u32);
         let tab_stop = bool_property(&child.properties, "TabStop").unwrap_or(match kind {
-            ProbeControlKind::Label => false,
-            ProbeControlKind::CommandButton | ProbeControlKind::TextBox => true,
+            ControlKind::Label => false,
+            ControlKind::CheckBox | ControlKind::CommandButton | ControlKind::TextBox => true,
         });
         let visible = bool_property(&child.properties, "Visible").unwrap_or(true);
         let enabled = bool_property(&child.properties, "Enabled").unwrap_or(true);
         let caption = string_property(&child.properties, "Caption").unwrap_or_default();
         let default = bool_property(&child.properties, "Default").unwrap_or(false);
         let cancel = bool_property(&child.properties, "Cancel").unwrap_or(false);
-        let initial_text = string_property(&child.properties, "Text")
-            .or_else(|| string_property(&child.properties, "Value"));
+        let initial_text = if kind == ControlKind::TextBox {
+            string_property(&child.properties, "Text")
+                .or_else(|| string_property(&child.properties, "Value"))
+        } else {
+            None
+        };
+        let initial_checked = if kind == ControlKind::CheckBox {
+            Some(boolean_value_property(&child.properties, "Value", child.line)?.unwrap_or(false))
+        } else {
+            None
+        };
 
         let focusable = matches!(
             kind,
-            ProbeControlKind::CommandButton | ProbeControlKind::TextBox
+            ControlKind::CheckBox | ControlKind::CommandButton | ControlKind::TextBox
         );
         let mut node = match kind {
-            ProbeControlKind::Label => ControlNode::label(&child.name, bounds_points, index as i32),
-            ProbeControlKind::CommandButton => {
+            ControlKind::Label => ControlNode::label(&child.name, bounds_points, index as i32),
+            ControlKind::CheckBox => {
+                ControlNode::check_box(&child.name, bounds_points, index as i32, tab_index)
+            }
+            ControlKind::CommandButton => {
                 ControlNode::command_button(&child.name, bounds_points, index as i32, tab_index)
             }
-            ProbeControlKind::TextBox => {
+            ControlKind::TextBox => {
                 ControlNode::text_box(&child.name, bounds_points, index as i32, tab_index)
             }
         }
@@ -296,16 +310,22 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
         node.enabled = enabled;
 
         let control_id = node.control_id.clone();
-        if default && kind == ProbeControlKind::CommandButton {
+        if default && kind == ControlKind::CommandButton {
             state.default_button = Some(control_id.clone());
         }
-        if cancel && kind == ProbeControlKind::CommandButton {
+        if cancel && kind == ControlKind::CommandButton {
             state.cancel_button = Some(control_id.clone());
         }
-        if kind == ProbeControlKind::TextBox {
+        if kind == ControlKind::TextBox {
             state
                 .text_boxes
                 .push(text_box_state(control_id.clone(), initial_text.as_deref()));
+        }
+        if kind == ControlKind::CheckBox {
+            state.check_boxes.push(check_box_state(
+                control_id.clone(),
+                initial_checked.unwrap_or(false),
+            ));
         }
 
         state.controls.push(node);
@@ -324,6 +344,7 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
             default,
             cancel,
             initial_text,
+            initial_checked,
         });
         event_hooks.push(FrmControlEventHooks {
             control_id,
@@ -348,23 +369,34 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
     })
 }
 
-fn selected_control_kind(type_name: &str) -> Option<ProbeControlKind> {
+fn selected_control_kind(type_name: &str) -> Option<ControlKind> {
     let normalized = type_name.to_ascii_lowercase();
     if normalized.ends_with(".label") || normalized.contains(".label.") {
-        Some(ProbeControlKind::Label)
+        Some(ControlKind::Label)
+    } else if normalized.ends_with(".checkbox") || normalized.contains(".checkbox.") {
+        Some(ControlKind::CheckBox)
     } else if normalized.ends_with(".commandbutton") || normalized.contains(".commandbutton.") {
-        Some(ProbeControlKind::CommandButton)
+        Some(ControlKind::CommandButton)
     } else if normalized.ends_with(".textbox") || normalized.contains(".textbox.") {
-        Some(ProbeControlKind::TextBox)
+        Some(ControlKind::TextBox)
     } else {
         None
     }
 }
 
-fn selected_event_hooks(kind: ProbeControlKind) -> &'static [&'static str] {
+fn selected_event_hooks(kind: ControlKind) -> &'static [&'static str] {
     match kind {
-        ProbeControlKind::Label => &["MouseDown", "MouseMove", "MouseUp", "Click"],
-        ProbeControlKind::CommandButton => &[
+        ControlKind::CheckBox => &[
+            "MouseDown",
+            "MouseMove",
+            "MouseUp",
+            "Click",
+            "Change",
+            "KeyDown",
+            "KeyUp",
+        ],
+        ControlKind::Label => &["MouseDown", "MouseMove", "MouseUp", "Click"],
+        ControlKind::CommandButton => &[
             "MouseDown",
             "MouseMove",
             "MouseUp",
@@ -372,7 +404,7 @@ fn selected_event_hooks(kind: ProbeControlKind) -> &'static [&'static str] {
             "KeyDown",
             "KeyUp",
         ],
-        ProbeControlKind::TextBox => &[
+        ControlKind::TextBox => &[
             "MouseDown",
             "MouseMove",
             "MouseUp",
@@ -381,6 +413,15 @@ fn selected_event_hooks(kind: ProbeControlKind) -> &'static [&'static str] {
             "KeyUp",
             "Change",
         ],
+    }
+}
+
+fn check_box_state(control_id: ControlId, checked: bool) -> CheckBoxState {
+    CheckBoxState {
+        control_id,
+        checked,
+        dirty: false,
+        edit_sequence: 0,
     }
 }
 
@@ -435,6 +476,27 @@ fn bool_property(properties: &BTreeMap<String, String>, key: &str) -> Option<boo
     }
 }
 
+fn boolean_value_property(
+    properties: &BTreeMap<String, String>,
+    key: &str,
+    line: usize,
+) -> Result<Option<bool>, FrmLoadError> {
+    let Some(raw) = properties.get(key) else {
+        return Ok(None);
+    };
+    let value = unquote(raw);
+    if value.eq_ignore_ascii_case("true") || value == "-1" {
+        Ok(Some(true))
+    } else if value.eq_ignore_ascii_case("false") || value == "0" {
+        Ok(Some(false))
+    } else {
+        Err(FrmLoadError::at_line(
+            line,
+            format!("unsupported CheckBox Value token '{value}' for boolean-only W006 slice"),
+        ))
+    }
+}
+
 fn string_property(properties: &BTreeMap<String, String>, key: &str) -> Option<String> {
     properties.get(key).map(|value| unquote(value).to_string())
 }
@@ -459,6 +521,8 @@ mod tests {
 
     const W006_SELECTED_FRM: &str =
         include_str!("../../../fixtures/frm/w006-interaction-slice/w006-interaction-slice.frm");
+    const W006_CHECKBOX_FRM: &str =
+        include_str!("../../../fixtures/frm/w006-checkbox-boolean/w006-checkbox-boolean.frm");
 
     #[test]
     fn selected_frm_fixture_projects_to_w005_logical_tree() {
@@ -567,6 +631,97 @@ mod tests {
             .event_names
             .iter()
             .any(|event| event == "Click"));
+    }
+
+    #[test]
+    fn checkbox_boolean_fixture_projects_to_control_tree_and_state() {
+        let loaded = load_selected_frm_interaction_state(W006_CHECKBOX_FRM)
+            .expect("selected CheckBox fixture should load");
+
+        assert_eq!(loaded.form_name, "OxFormsW006CheckBoxBooleanForm");
+        assert_eq!(loaded.surface, LogicalSize::new(180.0, 120.0));
+        assert!(loaded.frx_references.is_empty());
+        assert!(loaded.unsupported.is_empty());
+        assert_eq!(loaded.state.controls.len(), 2);
+        assert_eq!(loaded.state.check_boxes.len(), 2);
+        assert_eq!(loaded.state.controls[0].kind, ControlKind::CheckBox);
+        assert_eq!(
+            loaded.state.controls[0],
+            ControlNode::check_box(
+                "OracleCheckBoxFalse",
+                LogicalRect::new(24.0, 24.0, 96.0, 18.0),
+                0,
+                0,
+            )
+            .with_caption("Unchecked")
+        );
+        assert_eq!(loaded.controls[0].initial_checked, Some(false));
+        assert_eq!(loaded.controls[1].initial_checked, Some(true));
+        assert_eq!(
+            loaded
+                .state
+                .check_boxes
+                .iter()
+                .map(|entry| (entry.control_id.clone(), entry.checked))
+                .collect::<Vec<_>>(),
+            vec![
+                (ControlId::new("OracleCheckBoxFalse"), false),
+                (ControlId::new("OracleCheckBoxTrue"), true),
+            ]
+        );
+    }
+
+    #[test]
+    fn checkbox_fixture_records_reducer_event_hooks_as_metadata_only() {
+        let loaded = load_selected_frm_interaction_state(W006_CHECKBOX_FRM)
+            .expect("selected CheckBox fixture should load");
+        let hooks = loaded
+            .event_hooks
+            .iter()
+            .find(|hooks| hooks.control_id == ControlId::new("OracleCheckBoxFalse"))
+            .expect("CheckBox hooks should exist");
+
+        assert_eq!(
+            hooks.dispatch_status,
+            FrmEventDispatchStatus::ReducerEffectMetadataOnly
+        );
+        assert_eq!(
+            hooks.event_names,
+            vec![
+                "MouseDown",
+                "MouseMove",
+                "MouseUp",
+                "Click",
+                "Change",
+                "KeyDown",
+                "KeyUp",
+            ]
+        );
+    }
+
+    #[test]
+    fn checkbox_value_rejects_non_boolean_tokens_in_selected_slice() {
+        let source = r#"
+VERSION 5.00
+Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} BadCheckBoxValue
+   ClientHeight = 1200
+   ClientWidth = 1200
+   Begin MSForms.CheckBox CheckBox1
+      Caption = "Bad"
+      Value = 1
+      Left = 0
+      Top = 0
+      Width = 1200
+      Height = 300
+   End
+End
+"#;
+        let error =
+            load_selected_frm_interaction_state(source).expect_err("Value=1 is outside this lane");
+
+        assert!(error
+            .message
+            .contains("unsupported CheckBox Value token '1'"));
     }
 
     #[test]
