@@ -128,6 +128,48 @@ Legend:
 | `BeforeDragOver` | `deferred`; W005 records signature for future drag/drop traces | `LabelControlEvents`, `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other controls. | `3`. | For `Label`/`CommandButton`/`TextBox`: `Cancel As MSForms.ReturnBoolean`, `Data As MSForms.DataObject`, `X As Single`, `Y As Single`, `DragState As MSForms.fmDragState`, `Effect As MSForms.ReturnEffect`, `Shift As Integer`. `UserForm`/`Frame` add `Control As MSForms.Control` before `Data`; `MultiPage`/`TabStrip` add index variations outside W005 probe. | `Cancel` and `Effect` are mutable return-helper objects. `Data` is an object reference. | Public docs define `X`/`Y` as point coordinates from the control's left/top edge and describe `DragState`. Full drag/drop behavior is outside W005 first probe. |
 | `BeforeDropOrPaste` | `deferred`; W005 records signature for future drag/drop/paste traces | Same broad source applicability as `BeforeDragOver`. | `4`. | For `Label`/`CommandButton`/`TextBox`: `Cancel As MSForms.ReturnBoolean`, `Action As MSForms.fmAction`, `Data As MSForms.DataObject`, `X As Single`, `Y As Single`, `Effect As MSForms.ReturnEffect`, `Shift As Integer`. `UserForm`/`Frame` add `Control As MSForms.Control`; `MultiPage`/`TabStrip` add index variations outside W005 probe. | `Cancel` and `Effect` are mutable return-helper objects. `Data` is an object reference. Public docs describe updating `Action`, but metadata/docs syntax show `Action` as a by-value enum; W005 treats `Action` mutation as `unknown` until black-box observation. | Public docs define drop `X`/`Y` as point coordinates from the control's left/top edge. Full paste/data-object semantics are deferred. |
 
+## W006 Deferred Input Surface Fact Split
+
+`oxforms-0a0.6` does not add live MSForms observations. It separates the public
+facts above from design assumptions for future IME, clipboard, paste, and
+drag/drop work.
+
+Public facts available now:
+
+- `KeyDown`, `KeyUp`, and `KeyPress` signatures and public-doc keyboard notes
+  are fact-backed by the event rows above. Public docs limit `KeyPress` to
+  ANSI/typeable input and exclude Tab, Enter, arrow keys, and focus-moving
+  keystrokes.
+- `Change` has no arguments and public docs tie it to control value changes from
+  code or user action, but exact TextBox ordering remains unknown.
+- `BeforeDragOver` and `BeforeDropOrPaste` signatures are fact-backed for
+  `Label`, `CommandButton`, `TextBox`, `UserForm`, and related source
+  interfaces. They include `MSForms.DataObject`, point coordinates, shift state,
+  mutable `Cancel`, and mutable `Effect`.
+- Public docs describe drag/drop `X`/`Y` as points from the target's left/top
+  edge. Coordinate conversion remains owned by `COORDINATE_MODEL.md`.
+
+Design assumptions that are not facts:
+
+- Clipboard shortcut routing through `KeyDown`/`KeyUp`, followed by a host/PAL
+  `ClipboardGet` effect, is an OxForms architecture assumption until a fixture
+  observes MSForms shortcut ordering and cancellation behavior.
+- Representing `MSForms.DataObject` as a serializable snapshot plus an
+  adapter-owned live object during dispatch is an OxForms layering assumption.
+  The raw public fact is only that the event argument is a `DataObject`
+  reference.
+- IME composition and dead-key preedit are not covered by the current FM20 event
+  fact rows. Any `TextComposition*` normalized events are OxForms design names
+  until public platform documentation plus Office/MSForms observations settle
+  ordering and mutation behavior.
+- Treating `BeforeDropOrPaste.Action` as mutable is not yet a fact. The public
+  docs describe updating it, while the metadata/docs syntax captured here look
+  by-value; this remains `unknown` until black-box observation.
+
+Implementation beads must cite which class they are relying on. They must not
+upgrade any assumption in this section to compatibility behavior without a
+repo-owned fixture, committed trace/evidence artifact, and focused tests.
+
 ## W006 CheckBox Boolean-Value Readiness Subset
 
 Status: curated for `oxforms-0a0.11`; runtime implementation belongs to

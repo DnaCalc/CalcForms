@@ -173,6 +173,83 @@ serializable input or service events enter the reducer; host or platform data
 objects stay behind capability/service effects; observations distinguish public
 metadata, black-box evidence, assumptions, and unknowns.
 
+### 5.4 W006 Text-service, Clipboard, Paste, And Drag/drop Design
+
+`oxforms-0a0.6` keeps the current runtime non-claims in place, but makes the
+deferred surfaces implementation-ready. The design rule is the same for every
+surface: core `FormState` stores only durable, serializable control state and
+small pending-service identifiers. It must not store platform handles, Windows
+clipboard objects, COM `MSForms.DataObject` instances, IME context handles, or
+host object references. Platform objects live behind PAL/host capabilities and
+return to the reducer only as normalized value-shaped `UiEvent` payloads.
+
+Evidence classes for this design:
+
+- Public facts: `FM20_EVENT_FACTS.md` records FM20 event signatures for
+  keyboard, `BeforeDragOver`, `BeforeDropOrPaste`, `MSForms.DataObject`, and
+  mutable `Return*` helper arguments from public FM20 type-library metadata and
+  Microsoft Learn pages.
+- Observed W005 evidence: the visible-input smoke proves ordinary platform mouse
+  input and committed `CharacterInput` rows can reach the W005 TextBox probe; it
+  does not observe IME, dead keys, clipboard shortcuts, paste, `DataObject`, or
+  drag/drop.
+- Assumptions: routing paste and drag/drop through serializable capabilities,
+  and representing IME/dead-key preedit separately from committed text, are
+  OxForms design assumptions until live Office/MSForms fixtures observe them.
+- Unknowns: exact MSForms event ordering, helper mutation effects, `Action`
+  mutation for `BeforeDropOrPaste`, DataObject format behavior, and platform
+  text-service details remain unknown.
+
+Future normalized event families:
+
+| Family | Required payload | Current status |
+|---|---|---|
+| `TextCompositionStart` | composition id, target hint, input locale/source, raw diagnostics | Blocked from runtime until PAL adapters and trace validator add it. No text mutation. |
+| `TextCompositionUpdate` | composition id, preedit text, optional caret/selection inside preedit, clauses/attributes if serializable, raw diagnostics | Blocked from runtime until live evidence determines whether OxForms needs visible composition UI or only diagnostics. No committed TextBox value mutation. |
+| `TextCompositionCommit` | composition id, committed text segment, modifiers/input locale if known, raw diagnostics | May reduce like committed `CharacterInput` only after the target control, ordering against `KeyDown`/`KeyPress`/`KeyUp`, and `ReturnInteger` mutation policy are specified by an implementation bead. |
+| `TextCompositionCancel` | composition id, reason, raw diagnostics | Blocked from runtime until composition state exists; clears pending composition diagnostics only. |
+| `PasteRequest` | origin (`keyboard_shortcut`, `menu`, `code`, `replay`, `drag_drop`), requested formats, target hint, coordinates if pointer-originated, raw diagnostics | Design-only. Keyboard shortcuts remain `KeyDown`/`KeyUp` until a reducer bead emits `ClipboardGet`. |
+| `ClipboardResult` extension | request id, operation, success/error, selected serializable formats, payload summaries and text payload when allowed by the requesting effect | Existing family name is present, but W006 paste needs a versioned payload extension before runtime use. |
+| `DragEnter` / `DragOver` / `DragLeave` / `DropOrPaste` | drag session id, target hint, coordinates with named spaces, button/modifier state, action/effect candidates, serializable data metadata, raw diagnostics | Design-only. These events model platform drag/drop service input; they are distinct from the FM20 VBA events raised later by `FireVbaEvent`. |
+
+The exact enum/type names above are reserved design names, not implemented PAL
+variants in `UI_EVENT_SCHEMA_VERSION = 1`. Any implementation bead that emits
+them must update `crates/oxforms-pal/src/input.rs`,
+`tools/trace-replay/Test-TraceReplaySchema.ps1`, the machine-readable trace
+schema, and focused tests in the same change.
+
+Effects for these surfaces:
+
+| Effect | Payload | Completion |
+|---|---|---|
+| `ClipboardGet` | request id, target, requested formats, origin event id, privacy/logging policy | `ClipboardResult` with only serializable payload selected by the request. |
+| `ClipboardSet` | request id, serializable formats, origin event id | `ClipboardResult`; no core state stores platform clipboard ownership. |
+| `CreateDataObjectSnapshot` | request id, source (`clipboard`, `drag_session`, `code`), requested formats, size/format limits | `ServiceResult` or versioned `ClipboardResult` carrying a replayable data-object snapshot. |
+| `FireVbaEvent(BeforeDragOver)` | FM20 argument list from `FM20_EVENT_FACTS.md`, with a data snapshot/request id; the effect runner supplies any live adapter-owned `DataObject` during dispatch | Dispatch result records `Cancel` and `Effect` helper mutations; platform object stays outside core. |
+| `FireVbaEvent(BeforeDropOrPaste)` | FM20 argument list from `FM20_EVENT_FACTS.md`, with action/effect candidates and data snapshot/request id | Dispatch result records `Cancel`, `Effect`, and observed `Action` behavior when evidence exists. |
+
+`CreateDataObjectSnapshot` is a design effect only. It is blocked until a
+runtime bead defines the serializable snapshot schema, supported formats, maximum
+payload policy, and adapter ownership of the live `MSForms.DataObject` or
+platform drag object. Text-only paste may start with `ClipboardGet` and a text
+payload, but it must still preserve the broader `DataObject` non-claim.
+
+Reducer-state requirements:
+
+- `text_selection` and `text_value_state` may change only on committed text,
+  accepted paste, accepted drop, or explicit code/property mutation. Preedit text
+  is not committed TextBox value.
+- A future `pending_text_service` field may store composition id, target, and
+  preedit summary, but not platform IME handles.
+- A future `pending_data_transfer` field may store request/session ids, target,
+  requested formats, effect/action candidates, and trace snapshot ids, but not
+  platform clipboard, drag session, or COM object references.
+- Clipboard shortcuts must not bypass `KeyDown`/`KeyUp` dispatch policy or
+  `ReturnInteger` helper mutation once that behavior is implemented.
+- Paste/drop text insertion must not claim validation, `BeforeUpdate`,
+  `AfterUpdate`, `Change`, or native FM20 dispatch ordering until live evidence
+  and focused reducer tests cover the named order.
+
 ## 6. Interaction FormState
 
 `FormState` is the complete logical state needed to decide interaction behavior
