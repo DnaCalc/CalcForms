@@ -1,0 +1,31 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_text_service_transfer_run_summary.v1",
+    "bead":  "oxforms-0a0.13",
+    "capture_id":  "text-service-transfer-20260623T084627Z",
+    "final_text_equals_clipboard_seed":  true,
+    "final_text_policy":  "The compared text is the repo-owned clipboard seed from the fixture manifest.",
+    "row_count":  6,
+    "event_names":  [
+                        "Activate",
+                        "BeforeDropOrPaste",
+                        "Change",
+                        "Initialize",
+                        "QueryClose",
+                        "Terminate"
+                    ],
+    "selected_surface_status":  {
+                                    "clipboard_shortcut_paste":  "blocked_keyboard_driver_blocked",
+                                    "public_textbox_paste_method":  "observed_textbox_text_equals_repo_seed_after_public_paste_method",
+                                    "change":  "observed",
+                                    "before_drop_or_paste":  "observed",
+                                    "before_drag_over":  "not_observed_in_this_run",
+                                    "ime_composition":  "blocked_no_deterministic_driver",
+                                    "dead_keys":  "blocked_no_deterministic_driver",
+                                    "true_ole_drag_drop":  "blocked_no_data_object_drag_driver"
+                                },
+    "non_claims":  [
+                       "A missing event row is not a negative claim about all MSForms inputs.",
+                       "This run does not implement or validate OxForms runtime paste, IME, dead-key, or drag/drop behavior.",
+                       "This run does not emit reserved trace/replay row names from oxforms-0a0.6."
+                   ]
+}

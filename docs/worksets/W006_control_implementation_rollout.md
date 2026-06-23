@@ -137,10 +137,14 @@ runtime beads must use normalized value-shaped events, service/effect
 completions, serializable data-object snapshots, and focused trace/PAL/core
 tests before claiming any of these surfaces. `oxforms-0a0.13` is the
 MSForms oracle/evidence gate for the first clipboard/paste and drag/drop
-implementation/blocker follow-ups: `oxforms-0a0.14` and `oxforms-0a0.15` must
-wait for `.13` to capture or precisely block the relevant text-service,
-clipboard, paste, drag/drop, and `DataObject` facts before they make runtime
-parity or dispatch claims. The current v1 trace validator and
+implementation/blocker follow-ups. `oxforms-0a0.13` captured a public
+`TextBox.Paste`/`BeforeDropOrPaste` oracle and exact blockers in
+[`../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md`](../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md):
+`oxforms-0a0.14` is unblocked only for a first text-only paste implementation or
+blocker that keeps `Ctrl+V`, IME/dead-key behavior, rich formats, and broad
+`DataObject` parity as non-claims; `oxforms-0a0.15` remains blocked for true
+OLE drag/drop parity until `oxforms-0a0.16` or equivalent evidence supplies a
+live drag-session `DataObject` oracle. The current v1 trace validator and
 `UI_EVENT_SCHEMA_VERSION = 1` do not accept the reserved `TextComposition*`,
 `PasteRequest`, or drag/drop event names; implementation must update those
 contracts in the same change that emits such rows.
@@ -210,6 +214,19 @@ remains blocked pending live-oracle ordering evidence. Native FM20-named
 dispatch remains blocked by `oxforms-0a0.2`, and pixel-perfect rendering,
 tri-state/null, `ControlSource`, accessibility, OptionButton/ToggleButton, and
 broad morph-control parity remain non-claims.
+
+Current `oxforms-0a0.13` status: live Office/MSForms evidence plus exact
+blockers for deferred text-service and data-transfer surfaces. Evidence is
+recorded in
+[`../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md`](../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md)
+and capture
+[`../evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T084627Z/`](../evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T084627Z/).
+The observed public MSForms `TextBox.Paste` path raises `BeforeDropOrPaste`
+before `Change`, records `Cancel` and `Effect` helper before/after values, and
+records a public `DataObject` text-format summary for the repo-owned seed. The
+current desktop session blocks `Ctrl+V` keyboard driving, IME/composition,
+dead-key preedit, and true OLE drag/drop; follow-up beads `oxforms-0a0.16` and
+`oxforms-0a0.17` track those oracle-driver gaps.
 
 W006 closes only when:
 

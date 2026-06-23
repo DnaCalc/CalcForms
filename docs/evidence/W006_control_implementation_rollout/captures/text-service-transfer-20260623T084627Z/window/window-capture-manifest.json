@@ -1,0 +1,64 @@
+﻿{
+    "schema":  "oxforms.office_oracle.window_capture.v1",
+    "tool":  "tools/office-oracle/Capture-Window.ps1",
+    "mode":  "capture",
+    "timestamp_utc":  "2026-06-23T08:46:38.3893360Z",
+    "command":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Work\\DnaCalc\\OxForms\\tools\\office-oracle\\Capture-Window.ps1 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W006_control_implementation_rollout\\captures\\text-service-transfer-20260623T084627Z\\window -TitleContains \"OxForms W006 Text Service Transfer Oracle\" -ProcessName EXCEL ",
+    "host":  {
+                 "os":  "Microsoft Windows NT 10.0.26200.0",
+                 "is_windows":  true,
+                 "powershell":  "5.1.26100.8655"
+             },
+    "query":  {
+                  "title_contains":  "OxForms W006 Text Service Transfer Oracle",
+                  "process_contains":  "",
+                  "process_name":  "EXCEL",
+                  "class_name":  ""
+              },
+    "status":  "ok",
+    "diagnostics":  [
+                        {
+                            "code":  "metadata_only",
+                            "severity":  "info",
+                            "message":  "Window metadata was captured without a screenshot because -CaptureScreenshot was not supplied."
+                        }
+                    ],
+    "visible_top_level_window_count":  24,
+    "match_count":  1,
+    "candidates":  [
+                       {
+                           "handle":  "0x36E164A",
+                           "title":  "OxForms W006 Text Service Transfer Oracle",
+                           "class_name":  "ThunderDFrame",
+                           "process_id":  54712,
+                           "process_name":  "EXCEL",
+                           "bounds":  {
+                                          "left":  760,
+                                          "top":  440,
+                                          "right":  1160,
+                                          "bottom":  640,
+                                          "width":  400,
+                                          "height":  200
+                                      }
+                       }
+                   ],
+    "selected_window":  {
+                            "handle":  "0x36E164A",
+                            "title":  "OxForms W006 Text Service Transfer Oracle",
+                            "class_name":  "ThunderDFrame",
+                            "process_id":  54712,
+                            "process_name":  "EXCEL",
+                            "process_path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                            "bounds":  {
+                                           "left":  760,
+                                           "top":  440,
+                                           "right":  1160,
+                                           "bottom":  640,
+                                           "width":  400,
+                                           "height":  200
+                                       },
+                            "dpi":  96
+                        },
+    "screenshot":  null,
+    "manifest_path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W006_control_implementation_rollout\\captures\\text-service-transfer-20260623T084627Z\\window\\window-capture-manifest.json"
+}

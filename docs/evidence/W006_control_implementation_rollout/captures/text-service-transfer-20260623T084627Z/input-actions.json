@@ -1,0 +1,90 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_text_service_transfer_input_actions.v1",
+    "bead":  "oxforms-0a0.13",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "sequence":  1,
+                                 "method":  "excel_vba_public_macro",
+                                 "action":  "focus_textbox",
+                                 "target_intent":  "OracleTextBox receives subsequent Ctrl+V",
+                                 "manual":  false,
+                                 "notes":  "Focus is prepared through a repo-owned public VBA fixture macro before public keyboard input is sent."
+                             },
+                             {
+                                 "sequence":  2,
+                                 "method":  "public_windows_clipboard",
+                                 "action":  "set_clipboard_text",
+                                 "target_intent":  "Clipboard contains repo-owned text seed before Ctrl+V",
+                                 "manual":  false,
+                                 "clipboard_seed_id":  "repo_owned_text_seed_v1",
+                                 "payload_policy":  "Repo-owned seed text may be identified by seed id in evidence."
+                             },
+                             {
+                                 "sequence":  3,
+                                 "method":  "system_windows_forms_sendkeys",
+                                 "action":  "ctrl_v",
+                                 "keys":  "^v",
+                                 "target_intent":  "Paste the repo-owned clipboard text into OracleTextBox",
+                                 "manual":  false,
+                                 "result":  {
+                                                "attempted":  true,
+                                                "driver":  "System.Windows.Forms.SendKeys.SendWait",
+                                                "keys":  "^v",
+                                                "set_foreground_result":  false,
+                                                "status":  "blocked",
+                                                "error":  "Exception calling \"SendWait\" with \"1\" argument(s): \"Access is denied\""
+                                            },
+                                 "notes":  "This is evidence-driving infrastructure, not OxForms runtime architecture."
+                             },
+                             {
+                                 "sequence":  4,
+                                 "method":  "public_msforms_textbox_paste_method",
+                                 "action":  "textbox_paste",
+                                 "target_intent":  "Paste the repo-owned clipboard text into OracleTextBox after keyboard shortcut driver failed or produced no text",
+                                 "manual":  false,
+                                 "result":  {
+                                                "attempted":  true,
+                                                "status":  "completed",
+                                                "error":  null
+                                            },
+                                 "notes":  "This is a narrower paste/DataObject oracle and is not evidence that Ctrl+V ordering worked."
+                             }
+                         ],
+    "blockers":  [
+                     {
+                         "surface":  "clipboard_shortcut_ctrl_v",
+                         "reason":  "The public keyboard driver did not complete Ctrl+V in this desktop session.",
+                         "detail":  {
+                                        "attempted":  true,
+                                        "driver":  "System.Windows.Forms.SendKeys.SendWait",
+                                        "keys":  "^v",
+                                        "set_foreground_result":  false,
+                                        "status":  "blocked",
+                                        "error":  "Exception calling \"SendWait\" with \"1\" argument(s): \"Access is denied\""
+                                    },
+                         "non_claim":  "No MSForms Ctrl+V keyboard ordering or ReturnInteger interaction is claimed from this run."
+                     },
+                     {
+                         "surface":  "ime_composition",
+                         "reason":  "No deterministic repo-owned IME composition driver or active input-method setup is defined for this bead.",
+                         "non_claim":  "No IME/composition ordering, helper mutation, or TextBox value behavior is claimed."
+                     },
+                     {
+                         "surface":  "dead_keys",
+                         "reason":  "No deterministic keyboard-layout/dead-key driver is defined for this bead; SendKeys text input does not prove dead-key preedit behavior.",
+                         "non_claim":  "No dead-key ordering, preedit, or committed text behavior is claimed."
+                     },
+                     {
+                         "surface":  "ole_drag_drop",
+                         "reason":  "The existing public SendInput mouse helper moves the pointer but does not create a live OLE/MSForms DataObject drag session.",
+                         "non_claim":  "No BeforeDragOver ordering, DataObject format behavior, or drop-effect negotiation is claimed unless rows appear in the event log."
+                     }
+                 ],
+    "notes":  [
+                  "WinForms Clipboard, SendKeys, and the public MSForms TextBox.Paste method are evidence-driving tools around live Excel/MSForms.",
+                  "The fixture does not store platform clipboard objects, COM DataObject identities, or private implementation details."
+              ]
+}

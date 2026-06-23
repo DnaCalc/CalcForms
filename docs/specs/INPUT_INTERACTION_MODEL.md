@@ -193,12 +193,20 @@ Evidence classes for this design:
   input and committed `CharacterInput` rows can reach the W005 TextBox probe; it
   does not observe IME, dead keys, clipboard shortcuts, paste, `DataObject`, or
   drag/drop.
+- Observed W006 evidence: `oxforms-0a0.13` captures a public MSForms
+  `TextBox.Paste` path where `BeforeDropOrPaste` is raised before `Change`, the
+  `DataObject` reports public text format availability for the repo-owned seed,
+  and `Cancel`/`Effect` helper values are logged before and after dispatch.
+  That capture also records exact blockers for `Ctrl+V` keyboard delivery,
+  IME/composition, dead-key preedit, and true OLE drag/drop.
 - Assumptions: routing paste and drag/drop through serializable capabilities,
   and representing IME/dead-key preedit separately from committed text, are
   OxForms design assumptions until live Office/MSForms fixtures observe them.
-- Unknowns: exact MSForms event ordering, helper mutation effects, `Action`
-  mutation for `BeforeDropOrPaste`, DataObject format behavior, and platform
-  text-service details remain unknown.
+- Unknowns: exact `Ctrl+V` keyboard shortcut ordering, IME/dead-key ordering,
+  true drag/drop ordering, helper mutation effects beyond the observed no-op
+  paste row, broader `BeforeDropOrPaste.Action` mutation behavior, rich
+  `DataObject` format behavior, and platform text-service details remain
+  unknown.
 
 Future normalized event families:
 

@@ -149,11 +149,30 @@ Public facts available now:
 - Public docs describe drag/drop `X`/`Y` as points from the target's left/top
   edge. Coordinate conversion remains owned by `COORDINATE_MODEL.md`.
 
+Repo-owned observations available now:
+
+- `oxforms-0a0.13` captures live Excel/MSForms `TextBox.Paste` evidence under
+  `docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T084627Z/`.
+  For the repo-owned text clipboard seed, MSForms raised `BeforeDropOrPaste`
+  before `Change`.
+- The observed `BeforeDropOrPaste` row records `X = 0`, `Y = 0`, `Shift = 0`,
+  `Action = 2`, `Cancel` before/after `False` -> `False`, and `Effect`
+  before/after `0` -> `0`.
+- The observed `DataObject` row records only public method summaries:
+  `GetFormat(1) = True` and `GetText(1)` matching the repo-owned seed id. It
+  stores no live COM object identity and no unexpected clipboard payload text.
+- The same capture records exact blockers for `Ctrl+V` keyboard delivery,
+  IME/composition, dead-key preedit, and true OLE drag/drop. No keyboard
+  shortcut ordering, IME/dead-key behavior, `BeforeDragOver`, or drag-session
+  `DataObject` behavior is claimed.
+
 Design assumptions that are not facts:
 
 - Clipboard shortcut routing through `KeyDown`/`KeyUp`, followed by a host/PAL
-  `ClipboardGet` effect, is an OxForms architecture assumption until a fixture
-  observes MSForms shortcut ordering and cancellation behavior.
+  `ClipboardGet` effect, remains an OxForms architecture assumption until a
+  fixture observes MSForms shortcut ordering and cancellation behavior. The
+  `oxforms-0a0.13` paste observation used public `TextBox.Paste`, not a
+  completed `Ctrl+V` keyboard shortcut.
 - Representing `MSForms.DataObject` as a serializable snapshot plus an
   adapter-owned live object during dispatch is an OxForms layering assumption.
   The raw public fact is only that the event argument is a `DataObject`
@@ -164,7 +183,8 @@ Design assumptions that are not facts:
   ordering and mutation behavior.
 - Treating `BeforeDropOrPaste.Action` as mutable is not yet a fact. The public
   docs describe updating it, while the metadata/docs syntax captured here look
-  by-value; this remains `unknown` until black-box observation.
+  by-value; `oxforms-0a0.13` records the observed scalar value for one paste row
+  but does not establish mutation behavior.
 
 Implementation beads must cite which class they are relying on. They must not
 upgrade any assumption in this section to compatibility behavior without a

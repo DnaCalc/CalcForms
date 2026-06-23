@@ -25,6 +25,10 @@ Current tools:
 - `Test-W005InteractionFixture.ps1` statically validates the W005 interaction
   fixture manifest, required controls, code-behind handler/logging surface, and
   capture README guidance without starting Excel.
+- `Capture-W006TextServiceTransfer.ps1` generates the W006 text-service
+  transfer fixture, opens live Excel/MSForms, attempts `Ctrl+V`, records the
+  exact keyboard-driver blocker when present, falls back to public
+  `TextBox.Paste`, and exports `BeforeDropOrPaste`/`Change` oracle evidence.
 - `Test-OracleComparisonManifest.ps1` validates W003 comparison manifests by
   checking their schema, linked report, evidence paths, and SHA-256 values. It
   does not start Excel, capture screenshots, run OxForms, or perform pixel

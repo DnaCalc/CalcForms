@@ -448,6 +448,11 @@ probe reducer path against committed output.
   contract is unchanged.
 - `oxforms-0a0.6` is design-only for IME/composition, dead keys, clipboard
   shortcuts, paste/DataObject, `BeforeDragOver`, and `BeforeDropOrPaste`.
+- `oxforms-0a0.13` records live Office/MSForms oracle evidence for a public
+  `TextBox.Paste` path and exact blockers for `Ctrl+V`, IME/dead keys, and
+  true OLE drag/drop. The committed evidence remains an oracle artifact under
+  `docs/evidence/W006_control_implementation_rollout/`; it does not authorize
+  emitting reserved runtime trace row names without validator/schema changes.
   Downstream implementation must add focused PAL/core/trace tests and preserve
   the `INPUT_INTERACTION_MODEL.md` rule that platform objects stay behind
   service/effect boundaries.
