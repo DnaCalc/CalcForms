@@ -1,0 +1,102 @@
+Option Explicit
+Implements IOxControlHost
+
+' MSForms-shaped UserForm container. Owns the control set and is the host the
+' controls notify on change. A user form (or, later, the .frm loader) builds its
+' controls through Add, which both registers the control and wires its
+' invalidation seam back to this form. The runtime enumerates Controls to
+' materialize the tree and drains InvalidatedControls to schedule repaints.
+
+Private mName As String
+Private mCaption As String
+Private mLeft As Single
+Private mTop As Single
+Private mWidth As Single
+Private mHeight As Single
+Private mControls As Collection
+Private mInvalidated As Collection
+
+Private Sub Class_Initialize()
+    Set mControls = New Collection
+    Set mInvalidated = New Collection
+End Sub
+
+' Create a control of the given kind, register it under Name, and bind it to this
+' form as its invalidation host. This is the one call sites use to add controls;
+' the factory in OxFormsModel keeps it control-agnostic.
+Public Function Add(ByVal Kind As OxControlKind, ByVal Name As String) As IOxControl
+    Dim Control As IOxControl
+    Set Control = OxCreateControl(Kind, Name)
+    Control.Core.Bind Me, Control
+    mControls.Add Control, Name
+    Set Add = Control
+End Function
+
+Public Property Get Controls() As Collection
+    Set Controls = mControls
+End Property
+
+Public Function ControlByName(ByVal Name As String) As IOxControl
+    Set ControlByName = mControls.Item(Name)
+End Function
+
+Public Property Get Count() As Long
+    Count = mControls.Count
+End Property
+
+' Controls whose render-affecting state changed since the last drain. The runtime
+' reads this to schedule repaints, then calls ClearInvalidations.
+Public Property Get InvalidatedControls() As Collection
+    Set InvalidatedControls = mInvalidated
+End Property
+
+Public Sub ClearInvalidations()
+    Set mInvalidated = New Collection
+End Sub
+
+Public Property Get Name() As String
+    Name = mName
+End Property
+Public Property Let Name(ByVal Value As String)
+    mName = Value
+End Property
+
+Public Property Get Caption() As String
+    Caption = mCaption
+End Property
+Public Property Let Caption(ByVal Value As String)
+    mCaption = Value
+End Property
+
+Public Property Get Left() As Single
+    Left = mLeft
+End Property
+Public Property Let Left(ByVal Value As Single)
+    mLeft = Value
+End Property
+
+Public Property Get Top() As Single
+    Top = mTop
+End Property
+Public Property Let Top(ByVal Value As Single)
+    mTop = Value
+End Property
+
+Public Property Get Width() As Single
+    Width = mWidth
+End Property
+Public Property Let Width(ByVal Value As Single)
+    mWidth = Value
+End Property
+
+Public Property Get Height() As Single
+    Height = mHeight
+End Property
+Public Property Let Height(ByVal Value As Single)
+    mHeight = Value
+End Property
+
+' --- IOxControlHost ---
+Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)
+    mInvalidated.Add Control
+End Sub

@@ -14,9 +14,12 @@
 #![forbid(unsafe_code)]
 
 pub mod input;
+pub mod scene;
 
 use std::error::Error;
 use std::fmt;
+
+use serde::{Deserialize, Serialize};
 
 pub use input::*;
 
@@ -32,11 +35,11 @@ pub const FRAMEBUFFER_HASH_ALGORITHM: &str = "fnv1a64-rgba8-framebuffer-v1";
 /// Conservative allocation ceiling for the smoke headless renderer.
 pub const MAX_HEADLESS_PIXELS: usize = 16_777_216;
 
-const FNV_OFFSET_BASIS: u64 = 0xcbf29ce484222325;
-const FNV_PRIME: u64 = 0x0000_0100_0000_01b3;
+pub(crate) const FNV_OFFSET_BASIS: u64 = 0xcbf29ce484222325;
+pub(crate) const FNV_PRIME: u64 = 0x0000_0100_0000_01b3;
 
 /// Logical pixel dimensions for a render target.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct SurfaceSize {
     pub width: u32,
     pub height: u32,
@@ -86,7 +89,7 @@ impl Rect {
 }
 
 /// Explicit RGBA byte order used by display-list colors and headless buffers.
-#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
 pub struct Color {
     pub red: u8,
     pub green: u8,
@@ -367,7 +370,7 @@ fn fill_rect(
     Ok(())
 }
 
-fn fnv1a64(bytes: &[u8]) -> u64 {
+pub(crate) fn fnv1a64(bytes: &[u8]) -> u64 {
     bytes.iter().fold(FNV_OFFSET_BASIS, |hash, byte| {
         (hash ^ u64::from(*byte)).wrapping_mul(FNV_PRIME)
     })

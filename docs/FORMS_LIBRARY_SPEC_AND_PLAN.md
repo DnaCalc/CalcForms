@@ -210,10 +210,19 @@ deterministic replay, minimizes hidden reentrancy, and leaves a clean seam for f
 Rust ports of proven hot reducers.
 
 ### 4.4 Rendering architecture: display lists
+> **Superseded framing (see D7 revised / [`specs/RENDERING_ARCHITECTURE.md`](specs/RENDERING_ARCHITECTURE.md)).**
+> The *authoring* model below is unchanged — VBA controls emit a platform-neutral
+> primitive stream in immediate mode. The *storage* model is now a control-agnostic
+> retained primitive tree (the **Scene**) in `oxforms-pal` that the kernel diffs for
+> incremental repaint; a full re-emit is byte-identical to the immediate display
+> list (`flatten(scene) == legacy list`). Read "DisplayList" below as the immediate
+> authoring vocabulary and the flattened legacy view, not the kernel's storage form.
+
 The render path should be:
 
 ```
-FormState -> LayoutTree -> DisplayList -> PAL renderer
+FormState -> LayoutTree -> per-control immediate Prim emit -> Scene (retained) -> PAL renderer
+            (legacy/flatten view: FormState -> LayoutTree -> DisplayList -> PAL renderer)
 ```
 
 The display list is platform-neutral and serializable enough for tests. It should

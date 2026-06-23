@@ -3,7 +3,19 @@
     <OutputType>Library</OutputType>
     <ProjectName>OxForms</ProjectName>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Label="Object model">
+    <Module Include="OxFormsModel.bas" />
+    <ClassModule Include="IOxControl.cls" />
+    <ClassModule Include="IOxControlHost.cls" />
+    <ClassModule Include="OxControlCore.cls" />
+    <ClassModule Include="OxReturnInteger.cls" />
+    <ClassModule Include="OxReturnBoolean.cls" />
+    <ClassModule Include="Label.cls" />
+    <ClassModule Include="TextBox.cls" />
+    <ClassModule Include="CommandButton.cls" />
+    <ClassModule Include="OxUserForm.cls" />
+  </ItemGroup>
+  <ItemGroup Label="W002 smoke (render path; retired when the runtime backend lands)">
     <Module Include="OxForms.bas" />
     <ClassModule Include="OxFormsSmokeForm.cls" />
   </ItemGroup>
