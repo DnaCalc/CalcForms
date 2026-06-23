@@ -1,0 +1,127 @@
+{
+  "schema": "oxforms.office_oracle.w005_interaction_event_capture.v1",
+  "bead": "oxforms-xvx.20",
+  "capture_id": "interaction-events-modal-20260623T045300Z",
+  "fixture": {
+    "id": "excel-msforms-w005-interaction-events-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/interaction-events/fixture.json",
+        "sha256": "bc2d98c566e687a5619bebead1a453fc686f207744dde6fda07817b81fe23e33"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/interaction-events/form-code-behind.bas",
+        "sha256": "6e185879c1a1a1e979420d7c8871a491a9fd8594ce5d2999a39e8bee96356c1f"
+      },
+      "standard_module_extra": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/interaction-events/standard-module-extra.bas",
+        "sha256": "bbc98a918ff5d80a0a16a6f408e9e9df9abc5a5e98e148f3ab66f5c07aa2fe54"
+      }
+    }
+  },
+  "commands": {
+    "generator": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/generate-workbook.command.txt",
+    "modeless_capture_window": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-window-modeless.command.txt",
+    "modal_drive": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/drive-modal.command.txt",
+    "rerun_note": "Run this script from the repository root. It generates the workbook, opens Excel, drives modeless input, optionally drives modal input, exports W005EventLog, writes manifests, and checksums artifacts."
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "5.1.26100.8655"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.20026.20182",
+    "product_version": "16.0.20026.20182",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": {
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/w005-interaction-events-oracle.xlsm",
+      "sha256": "e620b27d3ed646db1af106c244657bf9bb771e3fe325fa41f349e3f48cf4c658"
+    },
+    "run_summary": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/run-summary.json",
+    "modeless": {
+      "window_capture_manifest": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-window/window-capture-manifest.json",
+      "screenshot": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-window/window-capture.png",
+      "coordinate_calibration": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-coordinate-calibration.json",
+      "input_actions": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-input-actions.json",
+      "event_log_json": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.json",
+      "event_log_csv": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv"
+    },
+    "modal": {
+      "window_capture_manifest": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-window/window-capture-manifest.json",
+      "screenshot": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-window/window-capture.png",
+      "coordinate_calibration": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-coordinate-calibration.json",
+      "input_actions": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-input-actions.json",
+      "event_log_json": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-event-log.json",
+      "event_log_csv": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-event-log.csv",
+      "lifecycle_pump_observations": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modal-lifecycle-pump-observations.md"
+    },
+    "command_logs": [
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-w005.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-w005.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-window-modal.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-window-modal.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-window-modeless.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/capture-window-modeless.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/drive-modal.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/drive-modal.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/generate-workbook.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/generate-workbook.stdout.txt"
+    ]
+  },
+  "observed_coverage": {
+    "modeless_event_names": [
+      "Activate",
+      "AfterUpdate",
+      "BeforeUpdate",
+      "Change",
+      "Click",
+      "Enter",
+      "Exit",
+      "Initialize",
+      "KeyDown",
+      "KeyPress",
+      "KeyUp",
+      "MouseDown",
+      "MouseMove",
+      "MouseUp",
+      "QueryClose",
+      "Terminate"
+    ],
+    "modal_event_names": [
+      "Activate",
+      "AfterUpdate",
+      "BeforeUpdate",
+      "Change",
+      "Click",
+      "Enter",
+      "Exit",
+      "Initialize",
+      "KeyDown",
+      "KeyPress",
+      "KeyUp",
+      "MouseDown",
+      "MouseMove",
+      "MouseUp",
+      "QueryClose",
+      "Terminate"
+    ],
+    "manual_inputs": [],
+    "input_method": "automated public Windows SendKeys/user32 mouse_event"
+  },
+  "warnings": [
+    "This is black-box Excel/MSForms event evidence only; no OxForms output was compared.",
+    "The capture is not an exhaustive MSForms event parity claim.",
+    "Automation target coordinates are derived evidence annotations; live MSForms event X/Y values remain in event log rows tagged msforms_event_args.",
+    "Probe label border calibration scopes exact border-color matching to the label fill neighborhood so unrelated window or sibling-control pixels cannot expand the label rectangle.",
+    "Desktop theme, DPI, input focus, and Excel/MSForms version can affect observed ordering and screenshots."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows input APIs.",
+    "prohibited": "No Office internals, decompilation, disassembly, or non-public source were used."
+  }
+}

@@ -156,7 +156,8 @@ lives under
 [`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/).
 The earlier `interaction-events-20260623T001238Z` run is retained only as
 superseded diagnostic evidence for the pre-repair coordinate bug.
-Modal-show capture remains tracked by `oxforms-xvx.20`.
+Modal-show live MSForms event evidence from `oxforms-xvx.20` lives under
+[`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/).
 
 ### 3. FM20 Event Signature And Event-Argument Facts
 
@@ -205,8 +206,8 @@ The model defines `screen_pixels`, `window_rect`, `screenshot_pixels`,
 `msforms_event_args`, plus DPI/scale, rounding, half-open bounds,
 control-local conversion, raw diagnostic preservation, screenshot relation, and
 the MSForms event-argument calibration procedure. Modeless event-argument rows
-exist in the `oxforms-xvx.3` capture; modal-show calibration remains tracked by
-`oxforms-xvx.20`.
+exist in the `oxforms-xvx.3` capture; modal-show event-argument rows and
+calibration artifacts exist in the `oxforms-xvx.20` capture.
 
 ### 5. Form Lifecycle, Modal Pump, And Close/Activation
 
@@ -232,7 +233,7 @@ The model defines lifecycle state, modal/modeless pump terms, lifecycle
 `UiEvent`/`Effect` families, close/query/hide/unload separation, reentrancy
 rules, W005 probe subset, and downstream fixture/reducer/dispatch/visible-smoke
 requirements. It records the modeless lifecycle rows captured by
-`oxforms-xvx.3` and the modal-show residual tracked by `oxforms-xvx.20`.
+`oxforms-xvx.3` and the modal-show lifecycle rows captured by `oxforms-xvx.20`.
 
 ### 6. PAL Normalized Input Contract
 
@@ -370,7 +371,9 @@ Current implementation from `oxforms-xvx.7`:
   [`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/).
   That capture observes Label/Button/TextBox mouse/focus/key rows and records a
   label drag outside bounds, but it is not a full ordering or modal parity
-  oracle. Modal evidence remains tracked by `oxforms-xvx.20`.
+  oracle. Live MSForms modal-show evidence for the same fixture is under
+  [`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/);
+  it records 133 modal rows and still does not claim exhaustive modal parity.
 
 ### 10. Keyboard, Character Input, Accelerators, Default, Cancel
 

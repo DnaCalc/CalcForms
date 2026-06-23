@@ -1,0 +1,1 @@
+﻿powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-W005InteractionEvents.ps1 -DriveOnly -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-modal-20260623T045300Z -RunName modal -WindowTitle "OxForms W005 Interaction Oracle" -ActionDelayMilliseconds 180

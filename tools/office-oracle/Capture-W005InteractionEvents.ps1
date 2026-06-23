@@ -307,6 +307,25 @@ function Invoke-LoggedPowerShell {
     }
 }
 
+function Write-CaptureGitAttributes {
+    param(
+        [string]$ResolvedOutDir
+    )
+
+    $lines = @(
+        '.gitattributes text eol=crlf diff',
+        '*.json text eol=crlf diff',
+        '*.csv text eol=crlf diff',
+        '*.md text eol=crlf diff',
+        '*.txt text eol=crlf diff',
+        'checksums.sha256 text eol=crlf diff',
+        '*.xlsm -text -diff',
+        '*-window/*.png -text -diff'
+    )
+
+    Set-Content -LiteralPath (Join-Path $ResolvedOutDir '.gitattributes') -Value $lines -Encoding ASCII
+}
+
 function Invoke-CaptureWindow {
     param(
         [string]$ResolvedOutDir,
@@ -329,8 +348,8 @@ function Invoke-CaptureWindow {
 
     Invoke-LoggedPowerShell -Arguments $arguments `
         -CommandPath (Join-Path $ResolvedOutDir "capture-window-$CurrentRunName.command.txt") `
-        -StdoutPath (Join-Path $ResolvedOutDir "capture-window-$CurrentRunName.stdout.log") `
-        -StderrPath (Join-Path $ResolvedOutDir "capture-window-$CurrentRunName.stderr.log")
+        -StdoutPath (Join-Path $ResolvedOutDir "capture-window-$CurrentRunName.stdout.txt") `
+        -StderrPath (Join-Path $ResolvedOutDir "capture-window-$CurrentRunName.stderr.txt")
 
     $manifestPath = Join-Path $captureDir 'window-capture-manifest.json'
     if (-not (Test-Path -LiteralPath $manifestPath -PathType Leaf)) {
@@ -494,7 +513,7 @@ function Analyze-CaptureCoordinates {
 
     $calibration = [ordered]@{
         schema = 'oxforms.office_oracle.w005_coordinate_calibration.v1'
-        bead = 'oxforms-xvx.3'
+        bead = 'oxforms-xvx.20'
         run = $CurrentRunName
         coordinate_spaces = @('window_rect', 'screenshot_pixels', 'form_logical', 'control_local', 'msforms_event_args', 'screen_pixels')
         dpi = [double]$dpi
@@ -722,7 +741,7 @@ function Invoke-DriveExistingWindow {
 
     $actionLog = [ordered]@{
         schema = 'oxforms.office_oracle.w005_input_actions.v1'
-        bead = 'oxforms-xvx.3'
+        bead = 'oxforms-xvx.20'
         run = $CurrentRunName
         manual_inputs = @()
         automated_inputs = @($actions)
@@ -790,7 +809,7 @@ function Export-WorksheetLog {
 
     $eventLog = [ordered]@{
         schema = 'oxforms.office_oracle.w005_interaction_event_log.v1'
-        bead = 'oxforms-xvx.3'
+        bead = 'oxforms-xvx.20'
         run = $CurrentRunName
         source = [ordered]@{
             workbook = ConvertTo-RepoRelative $Workbook.FullName
@@ -856,6 +875,7 @@ function Write-CaptureReadme {
         '- `modeless-event-log.json` and `modeless-event-log.csv` contain observed worksheet rows emitted by the fixture''s VBA event handlers.',
         '- `modeless-input-actions.json` records the automated public Windows input used to drive the form; `manual_inputs` is empty.',
         '- `modeless-coordinate-calibration.json` records screenshot-to-fixture coordinate derivations using the W005 coordinate vocabulary and scopes border-color detection to the probe-label fill neighborhood.',
+        '- When present, `modal-event-log.json`, `modal-input-actions.json`, `modal-coordinate-calibration.json`, and `modal-window/` record the modal-show branch driven through `ShowW005InteractionOracleModal`.',
         '',
         '## Assumptions',
         '',
@@ -877,13 +897,15 @@ function Write-Checksums {
     )
 
     $checksumPath = Join-Path $ResolvedOutDir 'checksums.sha256'
+    $directoryWithSeparator = $ResolvedOutDir.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
     $files = Get-ChildItem -LiteralPath $ResolvedOutDir -Recurse -File |
         Where-Object { $_.FullName -ne $checksumPath } |
         Sort-Object FullName
 
     $lines = foreach ($file in $files) {
         try {
-            "$(Get-Sha256Hex -Path $file.FullName)  $(ConvertTo-RepoRelative $file.FullName)"
+            $relativePath = $file.FullName.Substring($directoryWithSeparator.Length).Replace([System.IO.Path]::DirectorySeparatorChar, '/').Replace([System.IO.Path]::AltDirectorySeparatorChar, '/')
+            "$(Get-Sha256Hex -Path $file.FullName)  $relativePath"
         } catch {
             Write-Warning "Skipping checksum for file that is not readable yet: $($file.FullName): $($_.Exception.Message)"
         }
@@ -927,6 +949,7 @@ function Invoke-MainCapture {
     $fixture = Get-Content -Raw -LiteralPath $fixturePath | ConvertFrom-Json
     $captureId = Split-Path -Leaf $ResolvedOutDir
     $workbookPath = Join-Path $ResolvedOutDir 'w005-interaction-events-oracle.xlsm'
+    Write-CaptureGitAttributes -ResolvedOutDir $ResolvedOutDir
 
     $generatorArgs = @(
         '-NoProfile',
@@ -941,8 +964,8 @@ function Invoke-MainCapture {
 
     Invoke-LoggedPowerShell -Arguments $generatorArgs `
         -CommandPath (Join-Path $ResolvedOutDir 'generate-workbook.command.txt') `
-        -StdoutPath (Join-Path $ResolvedOutDir 'generate-workbook.stdout.log') `
-        -StderrPath (Join-Path $ResolvedOutDir 'generate-workbook.stderr.log')
+        -StdoutPath (Join-Path $ResolvedOutDir 'generate-workbook.stdout.txt') `
+        -StderrPath (Join-Path $ResolvedOutDir 'generate-workbook.stderr.txt')
 
     $excel = $null
     $workbook = $null
@@ -1016,7 +1039,11 @@ function Invoke-MainCapture {
 
             Wait-Job -Job $job -Timeout 60 | Out-Null
             $modalJobOutput = Receive-Job -Job $job -Keep 4>&1
-            $modalJobOutput | Set-Content -LiteralPath (Join-Path $ResolvedOutDir 'drive-modal.stdout.log') -Encoding UTF8
+            if ($null -eq $modalJobOutput -or @($modalJobOutput).Count -eq 0) {
+                Set-Content -LiteralPath (Join-Path $ResolvedOutDir 'drive-modal.stdout.txt') -Value '' -Encoding UTF8
+            } else {
+                $modalJobOutput | Set-Content -LiteralPath (Join-Path $ResolvedOutDir 'drive-modal.stdout.txt') -Encoding UTF8
+            }
             if ($job.State -ne 'Completed') {
                 Stop-Job -Job $job -ErrorAction SilentlyContinue
                 throw "Modal drive job did not complete; state=$($job.State)."
@@ -1024,7 +1051,7 @@ function Invoke-MainCapture {
             if ($job.ChildJobs[0].JobStateInfo.Reason) {
                 throw "Modal drive job failed: $($job.ChildJobs[0].JobStateInfo.Reason.Message)"
             }
-            Set-Content -LiteralPath (Join-Path $ResolvedOutDir 'drive-modal.stderr.log') -Value '' -Encoding UTF8
+            Set-Content -LiteralPath (Join-Path $ResolvedOutDir 'drive-modal.stderr.txt') -Value '' -Encoding UTF8
             Remove-Job -Job $job
 
             $modalDrive = [ordered]@{
@@ -1059,7 +1086,7 @@ function Invoke-MainCapture {
 
     $runSummary = [ordered]@{
         schema = 'oxforms.office_oracle.w005_interaction_run_summary.v1'
-        bead = 'oxforms-xvx.3'
+        bead = 'oxforms-xvx.20'
         capture_id = $captureId
         runs = @(
             [ordered]@{
@@ -1107,16 +1134,16 @@ function Invoke-MainCapture {
     }
 
     $commandLogCandidates = @(
-        (Join-Path $ResolvedOutDir 'capture-w005.stdout.log'),
-        (Join-Path $ResolvedOutDir 'capture-w005.stderr.log'),
-        (Join-Path $ResolvedOutDir 'generate-workbook.stdout.log'),
-        (Join-Path $ResolvedOutDir 'generate-workbook.stderr.log'),
-        (Join-Path $ResolvedOutDir 'capture-window-modeless.stdout.log'),
-        (Join-Path $ResolvedOutDir 'capture-window-modeless.stderr.log'),
-        (Join-Path $ResolvedOutDir 'capture-window-modal.stdout.log'),
-        (Join-Path $ResolvedOutDir 'capture-window-modal.stderr.log'),
-        (Join-Path $ResolvedOutDir 'drive-modal.stdout.log'),
-        (Join-Path $ResolvedOutDir 'drive-modal.stderr.log')
+        (Join-Path $ResolvedOutDir 'capture-w005.stdout.txt'),
+        (Join-Path $ResolvedOutDir 'capture-w005.stderr.txt'),
+        (Join-Path $ResolvedOutDir 'generate-workbook.stdout.txt'),
+        (Join-Path $ResolvedOutDir 'generate-workbook.stderr.txt'),
+        (Join-Path $ResolvedOutDir 'capture-window-modeless.stdout.txt'),
+        (Join-Path $ResolvedOutDir 'capture-window-modeless.stderr.txt'),
+        (Join-Path $ResolvedOutDir 'capture-window-modal.stdout.txt'),
+        (Join-Path $ResolvedOutDir 'capture-window-modal.stderr.txt'),
+        (Join-Path $ResolvedOutDir 'drive-modal.stdout.txt'),
+        (Join-Path $ResolvedOutDir 'drive-modal.stderr.txt')
     )
     $modalEventNames = if ($null -ne $modalLog) {
         @($modalLog.event_names)
@@ -1126,7 +1153,7 @@ function Invoke-MainCapture {
 
     $manifest = [ordered]@{
         schema = 'oxforms.office_oracle.w005_interaction_event_capture.v1'
-        bead = 'oxforms-xvx.3'
+        bead = 'oxforms-xvx.20'
         capture_id = $captureId
         fixture = [ordered]@{
             id = $fixture.id

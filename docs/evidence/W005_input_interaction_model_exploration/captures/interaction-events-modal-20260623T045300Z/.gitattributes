@@ -1,0 +1,8 @@
+.gitattributes text eol=crlf diff
+*.json text eol=crlf diff
+*.csv text eol=crlf diff
+*.md text eol=crlf diff
+*.txt text eol=crlf diff
+checksums.sha256 text eol=crlf diff
+*.xlsm -text -diff
+*-window/*.png -text -diff

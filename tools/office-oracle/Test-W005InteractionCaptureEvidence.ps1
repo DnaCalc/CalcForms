@@ -8,6 +8,18 @@ Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
+$allowedCaptureBeads = @('oxforms-xvx.3', 'oxforms-xvx.20')
+
+function Assert-KnownCaptureBead {
+    param(
+        [string]$Bead,
+        [string]$Context
+    )
+
+    if ($allowedCaptureBeads -notcontains $Bead) {
+        throw "Unexpected bead in $Context`: $Bead"
+    }
+}
 
 function Resolve-RepoPath {
     param([string]$Path)
@@ -102,9 +114,7 @@ function Assert-EventLog {
     if ($log.schema -ne 'oxforms.office_oracle.w005_interaction_event_log.v1') {
         throw "Unexpected event log schema in $Path"
     }
-    if ($log.bead -ne 'oxforms-xvx.3') {
-        throw "Unexpected bead in event log $Path"
-    }
+    Assert-KnownCaptureBead -Bead $log.bead -Context "event log $Path"
     if ($null -eq $log.observed_facts -or [int]$log.observed_facts.row_count -le 0) {
         throw "Event log has no observed rows: $Path"
     }
@@ -164,9 +174,7 @@ function Assert-CoordinateCalibration {
     if ($calibration.schema -ne 'oxforms.office_oracle.w005_coordinate_calibration.v1') {
         throw "Unexpected coordinate calibration schema in $Path"
     }
-    if ($calibration.bead -ne 'oxforms-xvx.3') {
-        throw "Unexpected bead in coordinate calibration $Path"
-    }
+    Assert-KnownCaptureBead -Bead $calibration.bead -Context "coordinate calibration $Path"
     if ($calibration.label_rect_source -eq 'exact_border_color_region' -or $calibration.label_rect_source -like 'fallback*') {
         throw "Coordinate calibration '$Path' uses unscoped or fallback label_rect_source '$($calibration.label_rect_source)'."
     }
@@ -230,9 +238,7 @@ function Assert-InputActions {
     if ($actions.schema -ne 'oxforms.office_oracle.w005_input_actions.v1') {
         throw "Unexpected input actions schema in $Path"
     }
-    if ($actions.bead -ne 'oxforms-xvx.3') {
-        throw "Unexpected bead in input actions $Path"
-    }
+    Assert-KnownCaptureBead -Bead $actions.bead -Context "input actions $Path"
     if ($null -eq $actions.manual_inputs) {
         throw "Input actions must include manual_inputs, even when empty: $Path"
     }
@@ -281,9 +287,7 @@ $manifest = Get-Content -Raw -LiteralPath $manifestPath | ConvertFrom-Json
 if ($manifest.schema -ne 'oxforms.office_oracle.w005_interaction_event_capture.v1') {
     throw "Unexpected capture manifest schema: $($manifest.schema)"
 }
-if ($manifest.bead -ne 'oxforms-xvx.3') {
-    throw "Unexpected bead in manifest: $($manifest.bead)"
-}
+Assert-KnownCaptureBead -Bead $manifest.bead -Context 'manifest'
 if ($manifest.fixture.id -ne 'excel-msforms-w005-interaction-events-v1') {
     throw "Unexpected fixture id: $($manifest.fixture.id)"
 }

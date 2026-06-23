@@ -1,0 +1,63 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w005_coordinate_calibration.v1",
+    "bead":  "oxforms-xvx.20",
+    "run":  "modeless",
+    "coordinate_spaces":  [
+                              "window_rect",
+                              "screenshot_pixels",
+                              "form_logical",
+                              "control_local",
+                              "msforms_event_args",
+                              "screen_pixels"
+                          ],
+    "dpi":  96,
+    "points_to_pixels":  1.3333333333333333,
+    "screenshot":  {
+                       "path":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-window/window-capture.png",
+                       "width":  320,
+                       "height":  240,
+                       "sha256":  "6c899f02a5d48004dfec31282a45b942b7886a9e81e79372085be40958c466a1",
+                       "coordinate_origin":  "top_left_of_captured_top_level_window"
+                   },
+    "label_fill_rect_screenshot_pixels":  {
+                                              "x":  41,
+                                              "y":  64,
+                                              "width":  126,
+                                              "height":  62,
+                                              "pixel_count":  7513
+                                          },
+    "label_border_rect_screenshot_pixels":  {
+                                                "x":  40,
+                                                "y":  63,
+                                                "width":  128,
+                                                "height":  64,
+                                                "pixel_count":  380
+                                            },
+    "label_rect_source":  "exact_border_color_region_scoped_to_label_fill_neighborhood",
+    "label_border_search_rect_screenshot_pixels":  {
+                                                       "x":  29,
+                                                       "y":  52,
+                                                       "width":  150,
+                                                       "height":  86
+                                                   },
+    "rejected_global_border_color_region_screenshot_pixels":  {
+                                                                  "x":  40,
+                                                                  "y":  63,
+                                                                  "width":  240,
+                                                                  "height":  64,
+                                                                  "pixel_count":  632
+                                                              },
+    "form_origin_screenshot_pixels":  {
+                                          "x":  8,
+                                          "y":  31,
+                                          "source":  "exact_border_color_region_scoped_to_label_fill_neighborhood"
+                                      },
+    "assumptions":  [
+
+                    ],
+    "notes":  [
+                  "Rectangles use the W005 half-open convention: x \u003c= point_x \u003c x + width and y \u003c= point_y \u003c y + height.",
+                  "Border detection is scoped to the exact label-fill neighborhood so unrelated window, title, or sibling-control pixels with the same border color cannot expand the label rectangle.",
+                  "The derived form origin is an action-target calibration aid, not a final MSForms coordinate parity claim."
+              ]
+}

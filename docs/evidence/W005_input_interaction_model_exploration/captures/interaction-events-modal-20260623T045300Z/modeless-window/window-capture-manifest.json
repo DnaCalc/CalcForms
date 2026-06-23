@@ -1,0 +1,66 @@
+﻿{
+    "schema":  "oxforms.office_oracle.window_capture.v1",
+    "tool":  "tools/office-oracle/Capture-Window.ps1",
+    "mode":  "capture",
+    "timestamp_utc":  "2026-06-23T04:49:19.5386030Z",
+    "command":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Work\\DnaCalc\\OxForms\\tools\\office-oracle\\Capture-Window.ps1 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W005_input_interaction_model_exploration\\captures\\interaction-events-modal-20260623T045300Z\\modeless-window -TitleContains \"OxForms W005 Interaction Oracle\" -ProcessName EXCEL -CaptureScreenshot ",
+    "host":  {
+                 "os":  "Microsoft Windows NT 10.0.26200.0",
+                 "is_windows":  true,
+                 "powershell":  "5.1.26100.8655"
+             },
+    "query":  {
+                  "title_contains":  "OxForms W005 Interaction Oracle",
+                  "process_contains":  "",
+                  "process_name":  "EXCEL",
+                  "class_name":  ""
+              },
+    "status":  "ok",
+    "diagnostics":  [
+
+                    ],
+    "visible_top_level_window_count":  24,
+    "match_count":  1,
+    "candidates":  [
+                       {
+                           "handle":  "0x9314EA",
+                           "title":  "OxForms W005 Interaction Oracle",
+                           "class_name":  "ThunderDFrame",
+                           "process_id":  22308,
+                           "process_name":  "EXCEL",
+                           "bounds":  {
+                                          "left":  800,
+                                          "top":  420,
+                                          "right":  1120,
+                                          "bottom":  660,
+                                          "width":  320,
+                                          "height":  240
+                                      }
+                       }
+                   ],
+    "selected_window":  {
+                            "handle":  "0x9314EA",
+                            "title":  "OxForms W005 Interaction Oracle",
+                            "class_name":  "ThunderDFrame",
+                            "process_id":  22308,
+                            "process_name":  "EXCEL",
+                            "process_path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                            "bounds":  {
+                                           "left":  800,
+                                           "top":  420,
+                                           "right":  1120,
+                                           "bottom":  660,
+                                           "width":  320,
+                                           "height":  240
+                                       },
+                            "dpi":  96
+                        },
+    "screenshot":  {
+                       "path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W005_input_interaction_model_exploration\\captures\\interaction-events-modal-20260623T045300Z\\modeless-window\\window-capture.png",
+                       "sha256":  "6c899f02a5d48004dfec31282a45b942b7886a9e81e79372085be40958c466a1",
+                       "width":  320,
+                       "height":  240,
+                       "format":  "png"
+                   },
+    "manifest_path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W005_input_interaction_model_exploration\\captures\\interaction-events-modal-20260623T045300Z\\modeless-window\\window-capture-manifest.json"
+}

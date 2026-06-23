@@ -1,0 +1,15 @@
+WARNING: Skipping checksum for file that is not readable yet:
+C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-modal-202606
+23T045300Z\capture-w005.stderr.txt: Exception calling "OpenRead" with "1" argument(s): "The process cannot access the
+file
+'C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-modal-20260
+623T045300Z\capture-w005.stderr.txt' because it is being used by another process."
+WARNING: Skipping checksum for file that is not readable yet:
+C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-modal-202606
+23T045300Z\capture-w005.stdout.txt: Exception calling "OpenRead" with "1" argument(s): "The process cannot access the
+file
+'C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-modal-20260
+623T045300Z\capture-w005.stdout.txt' because it is being used by another process."
+W005 interaction capture complete: C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-modal-20260623T045300Z
+Modeless rows: 1101
+Modal rows: 133
