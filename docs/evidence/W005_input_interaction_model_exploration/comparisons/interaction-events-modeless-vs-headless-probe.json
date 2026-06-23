@@ -8,8 +8,8 @@
   "purpose": "Relate the authoritative W005 modeless Excel/MSForms interaction event oracle evidence to the current OxForms headless probe replay golden and supporting visible-input smoke evidence. This is an observation artifact, not a final parity oracle.",
   "recorded": {
     "basis": "working_tree_artifact_before_commit",
-    "recorded_utc": "2026-06-23T04:08:00Z",
-    "note": "The exact comparison is preserved by this manifest's source paths, hashes, row links, and report. The final commit records the durable repository state."
+    "recorded_utc": "2026-06-23T04:42:00Z",
+    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
   },
   "classification_vocabulary": [
     "implemented_match",
@@ -81,7 +81,7 @@
     {
       "role": "oxforms_headless_replay_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-      "sha256": "e9b3c0526f5edfa5b5396d038e686435d8d00624f92bc0e9e6d746b65194aeff"
+      "sha256": "db3f62196bef38b2d25979046ddb1ca77335474a0305c2edf0327ff03dde4843"
     },
     {
       "role": "oxforms_headless_display_list_golden",
@@ -91,7 +91,7 @@
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "92631cba762b8cd19c274dcc09896914d1443c1d9ad9bae2fa0d6c3c1d6e4094"
+      "sha256": "946871898ebbbface9f73573a172d4aafc779366ff8da709df77da631b79c65d"
     },
     {
       "role": "oxforms_visible_smoke_manifest",
@@ -181,7 +181,7 @@
     "oxforms_headless_replay": {
       "trace_id": "w005-headless-probe-replay-golden-v1",
       "scenario_id": "w005.oxforms.headless.probe-click-type-click",
-      "row_count": 113,
+      "row_count": 110,
       "script_steps": [
         {
           "script_step_id": "script-0001",
@@ -235,32 +235,31 @@
       "summary": "Both artifacts record TextBox mouse down followed by mouse up with left button metadata on the mapped TextBox focus click."
     },
     {
-      "id": "order-textbox-click-extra",
-      "classification": "known_gap",
+      "id": "order-textbox-click-absent",
+      "classification": "implemented_match",
       "msforms_rows": [],
-      "oxforms_rows": ["row-0046"],
-      "follow_up_bead": "oxforms-9pr",
-      "summary": "OxForms headless replay emits a TextBox Click dispatch after MouseUp. FM20_EVENT_FACTS.md records no Click member on MdcTextEvents/TextBox, and the modeless MSForms capture records OracleTextBox MouseDown/MouseUp without TextBox Click."
+      "oxforms_rows": [],
+      "summary": "Neither artifact records a native TextBox Click dispatch for the mapped TextBox focus click. This aligns with FM20_EVENT_FACTS.md, which records no Click member on MdcTextEvents/TextBox."
     },
     {
       "id": "order-textbox-key-a",
       "classification": "implemented_match",
       "msforms_rows": [157, 158, 159, 161],
-      "oxforms_rows": ["row-0055", "row-0061", "row-0063", "row-0075"],
+      "oxforms_rows": ["row-0052", "row-0058", "row-0060", "row-0072"],
       "summary": "Both artifacts record KeyDown, KeyPress, Change, and KeyUp for the first committed TextBox character in that order."
     },
     {
       "id": "order-command-button-click",
       "classification": "implemented_match",
       "msforms_rows": [567, 568, 569],
-      "oxforms_rows": ["row-0085", "row-0101", "row-0103"],
+      "oxforms_rows": ["row-0082", "row-0098", "row-0100"],
       "summary": "Both artifacts record CommandButton MouseDown, MouseUp, and Click in that order for a direct button click."
     },
     {
       "id": "order-focus-validation-around-button",
       "classification": "known_gap",
       "msforms_rows": [254, 255, 256, 257, 565, 566],
-      "oxforms_rows": ["row-0081"],
+      "oxforms_rows": ["row-0078"],
       "summary": "MSForms records BeforeUpdate/AfterUpdate/Exit/Enter rows around focus transfer in the broader modeless run. The current OxForms replay only records a transfer_focus effect and does not emit validation or focus event dispatch rows for that parity surface."
     },
     {
@@ -288,7 +287,7 @@
       "id": "args-command-button-xy",
       "classification": "known_gap",
       "msforms_rows": [567, 568],
-      "oxforms_rows": ["row-0085", "row-0101"],
+      "oxforms_rows": ["row-0082", "row-0098"],
       "summary": "MSForms direct OK click records msforms_event_args X=36, Y=12 for OracleDefaultButton. OxForms records control_local X=16, Y=12 for ok because the replay uses different probe geometry and a synthetic form_logical point."
     },
     {
@@ -302,7 +301,7 @@
       "id": "args-key-a-case",
       "classification": "known_gap",
       "msforms_rows": [157, 158, 161],
-      "oxforms_rows": ["row-0055", "row-0061", "row-0075"],
+      "oxforms_rows": ["row-0052", "row-0058", "row-0072"],
       "summary": "MSForms action typed lowercase 'a' through SendKeys and records KeyCode=65, KeyAscii=97, Shift=0. OxForms replay types uppercase 'A' and records normalized shift diagnostics plus key_ascii_placeholder=65."
     },
     {
@@ -353,7 +352,7 @@
   "follow_up_beads": [
     {
       "id": "oxforms-9pr",
-      "reason": "Newly filed from this comparison: align TextBox probe Click emission with FM20 and MSForms evidence."
+      "reason": "Resolved follow-up: TextBox probe Click emission was aligned with FM20 and MSForms evidence by removing the unsupported native TextBox Click dispatch from the headless replay."
     },
     {
       "id": "oxforms-xvx.20",

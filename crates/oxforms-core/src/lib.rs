@@ -1415,7 +1415,7 @@ fn reduce_mouse_up(
         &route,
     );
 
-    if captured_target.is_some() && route.is_inside_pressed_target {
+    if captured_target.is_some() && route.is_inside_pressed_target && route.supports_click_event {
         queue_vba_event(state, context, effect_target.clone(), "Click");
     }
 
@@ -1600,6 +1600,7 @@ struct RoutedMouseTarget {
     has_pressed_visual: bool,
     from_capture: bool,
     is_inside_pressed_target: bool,
+    supports_click_event: bool,
 }
 
 fn route_mouse_event(
@@ -1619,6 +1620,7 @@ fn route_mouse_event(
         let control_local = coordinates
             .form_logical
             .and_then(|point| control.map(|control| control.form_to_control_local(point)));
+        let supports_click_event = control.is_none_or(probe_control_supports_click_event);
         return Some(RoutedMouseTarget {
             control_id: capture.target.as_control_id().cloned(),
             focus_target: capture.target.clone(),
@@ -1629,6 +1631,7 @@ fn route_mouse_event(
             has_pressed_visual: false,
             from_capture: true,
             is_inside_pressed_target,
+            supports_click_event,
         });
     }
 
@@ -1649,6 +1652,7 @@ fn route_mouse_event(
                 has_pressed_visual: control.kind == ProbeControlKind::CommandButton,
                 from_capture: false,
                 is_inside_pressed_target: true,
+                supports_click_event: probe_control_supports_click_event(control),
             });
         }
         return Some(RoutedMouseTarget {
@@ -1661,6 +1665,7 @@ fn route_mouse_event(
             has_pressed_visual: false,
             from_capture: false,
             is_inside_pressed_target: false,
+            supports_click_event: true,
         });
     }
 
@@ -1680,10 +1685,18 @@ fn route_mouse_event(
             has_pressed_visual: event.target.control_id.is_some(),
             from_capture: false,
             is_inside_pressed_target: true,
+            supports_click_event: true,
         });
     }
 
     None
+}
+
+fn probe_control_supports_click_event(control: &ControlNode) -> bool {
+    matches!(
+        control.kind,
+        ProbeControlKind::Label | ProbeControlKind::CommandButton
+    )
 }
 
 fn find_control<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'a ControlNode> {
@@ -2774,6 +2787,10 @@ mod tests {
                 UiEventSource::Replay,
                 UiEventKind::MouseUp(mouse_button_event_at(false, 8.0, 28.0)),
             ),
+        );
+        assert_eq!(
+            effect_names(&text_up.effects),
+            vec!["release_mouse", "fire_vba_event:MouseUp"]
         );
         let typed = reduce(
             text_up.state,

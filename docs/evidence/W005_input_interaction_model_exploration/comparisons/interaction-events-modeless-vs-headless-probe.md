@@ -1,7 +1,7 @@
 # W005 Modeless Interaction Oracle vs Headless Probe
 
 Comparison ID: `interaction-events-modeless-vs-headless-probe`
-Bead: `oxforms-xvx.13`
+Bead: `oxforms-xvx.13`; updated by `oxforms-9pr`
 Status: observation only
 
 This report relates the authoritative W005 modeless Excel/MSForms interaction
@@ -43,9 +43,9 @@ The comparison therefore maps only the matching MSForms slices:
 |---|---:|---|---|
 | Modeless show/Activate | `1..3` | `row-0002`, `row-0010`, `row-0013` | implemented match, with lifecycle gaps below |
 | TextBox mouse down/up | `114..115` | `row-0031`, `row-0044` | implemented match |
-| TextBox `Click` | none | `row-0046` | known gap, follow-up `oxforms-9pr` |
-| TextBox character `a`/`A` | `157..161` | `row-0055`, `row-0061`, `row-0063`, `row-0075` | implemented match for order; known argument gap |
-| CommandButton direct click | `567..569` | `row-0085`, `row-0101`, `row-0103` | implemented match |
+| TextBox native `Click` | none | none | implemented match with current oracle and FM20 metadata |
+| TextBox character `a`/`A` | `157..161` | `row-0052`, `row-0058`, `row-0060`, `row-0072` | implemented match for order; known argument gap |
+| CommandButton direct click | `567..569` | `row-0082`, `row-0098`, `row-0100` | implemented match |
 | Close/query/terminate | `1114..1116` | none in headless replay | known gap for this comparison |
 
 The other MSForms actions, including label drag, Backspace, Tab, Shift+Tab,
@@ -60,6 +60,9 @@ Implemented matches:
 - Both artifacts reach `Activate` on the modeless show path.
 - Both record TextBox `MouseDown` before `MouseUp` for the mapped TextBox
   focus click.
+- Neither artifact records a native TextBox `Click` dispatch for the mapped
+  TextBox focus click. This aligns with `FM20_EVENT_FACTS.md`, which records
+  no `Click` member on `MdcTextEvents`/TextBox.
 - Both record TextBox `KeyDown`, `KeyPress`, `Change`, and `KeyUp` in that
   order for the first committed character.
 - Both record CommandButton `MouseDown`, `MouseUp`, and `Click` in that order
@@ -67,9 +70,6 @@ Implemented matches:
 
 Known gaps:
 
-- OxForms emits a TextBox `Click` dispatch in the headless replay. The FM20 fact
-  matrix says `MdcTextEvents`/TextBox has no `Click`, and the MSForms capture
-  has no OracleTextBox `Click` row. Follow-up: `oxforms-9pr`.
 - MSForms records focus/validation rows such as `BeforeUpdate`, `AfterUpdate`,
   `Exit`, and `Enter` around focus movement. The current replay has only a
   `transfer_focus` effect for this surface.
@@ -136,10 +136,12 @@ the same scripted scenario as the headless golden.
 
 ## Follow-Ups
 
-- `oxforms-9pr`: newly filed from this comparison for TextBox `Click` parity.
 - `oxforms-xvx.20`: existing modal MSForms interaction oracle capture.
 - `oxforms-xvx.21`: existing evidence hygiene follow-up for ignored `.log`
   command files referenced by the modeless capture manifest.
+
+`oxforms-9pr` resolves the earlier TextBox `Click` mismatch by removing the
+unsupported native TextBox `Click` dispatch from the OxForms headless replay.
 
 ## Validation
 
