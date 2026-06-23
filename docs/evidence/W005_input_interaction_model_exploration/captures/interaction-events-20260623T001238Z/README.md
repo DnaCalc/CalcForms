@@ -9,11 +9,11 @@ This directory contains black-box Excel/MSForms event evidence for the W005 inte
 
 - `modeless-event-log.json` and `modeless-event-log.csv` contain observed worksheet rows emitted by the fixture's VBA event handlers.
 - `modeless-input-actions.json` records the automated public Windows input used to drive the form; `manual_inputs` is empty.
-- `modeless-coordinate-calibration.json` records screenshot-to-fixture coordinate derivations using the W005 coordinate vocabulary.
+- `modeless-coordinate-calibration.json` records screenshot-to-fixture coordinate derivations using the W005 coordinate vocabulary. The accepted probe label border is the scoped exact border-color rectangle at x=40, y=63, width=128, height=64 in screenshot pixels; the unscoped global border-color rectangle at x=18, y=11, width=262, height=116 is retained only as a rejected diagnostic.
 
 ## Assumptions
 
-- Input target points are derived from fixture point geometry and the captured label rectangle.
+- The automated input coordinates are preserved as the actual coordinates injected during the original modeless capture. Corrected fixture-derived target points after the calibration repair are recorded separately in `modeless-input-actions.json`.
 - Missing event rows are not negative facts about MSForms; they are simply unobserved in this run.
 - The automation helper is evidence infrastructure only and not runtime architecture.
 

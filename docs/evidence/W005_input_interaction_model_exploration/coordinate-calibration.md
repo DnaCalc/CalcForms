@@ -82,12 +82,24 @@ window, nor do they settle mouse event `X`/`Y` rounding.
 
 The modeless W005 capture records the same top-level window class
 `ThunderDFrame`, top-level window bounds `800,420,1120,660`, screenshot size
-`320 x 240`, and DPI `96`. Its event log preserves raw
-`msforms_event_args` along with derived `screen_pixels`, `window_rect`,
-`screenshot_pixels`, `form_logical`, and `control_local` fields for automated
-click, drag, focus, keyboard, default-button, cancel-button, and close-request
-input actions. The event log marks `observed_facts`, `assumptions`, and
-`manual_input`; the captured modeless run recorded zero manual inputs.
+`320 x 240`, and DPI `96`. Its repaired coordinate calibration records the
+`OracleProbeLabel` exact fill rectangle at `x=41`, `y=64`, `width=126`,
+`height=62`, then scopes exact border-color matching to that label-fill
+neighborhood. The accepted label border is `x=40`, `y=63`, `width=128`,
+`height=64`, which gives `form_origin_screenshot_pixels x=8, y=31`. The old
+unscoped global border-color match (`x=18`, `y=11`, `width=262`,
+`height=116`) is retained only as a rejected diagnostic because it includes
+unrelated window/title/sibling-control pixels.
+
+Its event log preserves raw `msforms_event_args`; the input action artifact
+preserves the actual `screen_pixels` and `screenshot_pixels` values injected
+during the original modeless run. Because those historical inputs were driven
+before the calibration repair, corrected fixture-derived target points are
+recorded separately under `post_capture_calibration_repair` instead of
+rewriting the actual injected coordinates.
+
+The event log marks `observed_facts`, `assumptions`, and `manual_input`; the
+captured modeless run recorded zero manual inputs.
 
 These W005 rows are black-box Office/MSForms observations for one modeless run.
 They are not an OxForms comparison, not an exhaustive event-parity claim, and
@@ -101,8 +113,10 @@ Downstream W005 oracle and visible-smoke beads must still:
    geometry in the fixture manifest.
 2. Capture the top-level window manifest, screenshot, checksums, DPI, and
    platform/Excel notes for any new run.
-3. Detect a high-contrast control border/fill rectangle in `screenshot_pixels`
-   and convert any inclusive pixel ranges to half-open rectangles.
+3. Detect a high-contrast control fill rectangle in `screenshot_pixels`, then
+   scope border-color matching to the expected control neighborhood before
+   converting any inclusive pixel ranges to half-open rectangles. Do not use a
+   whole-window border-color bounding box as a control rectangle.
 4. Compute `pixels_per_point` and form origin from fixture point geometry.
 5. Log mouse input rows with separate fields for raw `screen_pixels`,
    `window_rect`, `screenshot_pixels`, derived `form_logical`,

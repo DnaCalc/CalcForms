@@ -345,7 +345,8 @@ function Get-ColorBounds {
         [System.Drawing.Bitmap]$Bitmap,
         [int]$Red,
         [int]$Green,
-        [int]$Blue
+        [int]$Blue,
+        [object]$SearchRect = $null
     )
 
     $minX = $Bitmap.Width
@@ -354,8 +355,24 @@ function Get-ColorBounds {
     $maxY = -1
     $count = 0
 
-    for ($y = 0; $y -lt $Bitmap.Height; $y++) {
-        for ($x = 0; $x -lt $Bitmap.Width; $x++) {
+    if ($null -ne $SearchRect) {
+        $startX = [Math]::Max(0, [int]$SearchRect.x)
+        $startY = [Math]::Max(0, [int]$SearchRect.y)
+        $endX = [Math]::Min($Bitmap.Width - 1, [int]$SearchRect.x + [int]$SearchRect.width - 1)
+        $endY = [Math]::Min($Bitmap.Height - 1, [int]$SearchRect.y + [int]$SearchRect.height - 1)
+    } else {
+        $startX = 0
+        $startY = 0
+        $endX = $Bitmap.Width - 1
+        $endY = $Bitmap.Height - 1
+    }
+
+    if ($endX -lt $startX -or $endY -lt $startY) {
+        throw "Invalid color search rectangle: $($SearchRect | ConvertTo-Json -Compress)"
+    }
+
+    for ($y = $startY; $y -le $endY; $y++) {
+        for ($x = $startX; $x -le $endX; $x++) {
             $pixel = $Bitmap.GetPixel($x, $y)
             if ($pixel.R -eq $Red -and $pixel.G -eq $Green -and $pixel.B -eq $Blue) {
                 $count++
@@ -377,6 +394,27 @@ function Get-ColorBounds {
         width = $maxX - $minX + 1
         height = $maxY - $minY + 1
         pixel_count = $count
+    }
+}
+
+function Expand-Rectangle {
+    param(
+        [object]$Rect,
+        [int]$Margin,
+        [int]$MaxWidth,
+        [int]$MaxHeight
+    )
+
+    $x = [Math]::Max(0, [int]$Rect.x - $Margin)
+    $y = [Math]::Max(0, [int]$Rect.y - $Margin)
+    $right = [Math]::Min($MaxWidth, [int]$Rect.x + [int]$Rect.width + $Margin)
+    $bottom = [Math]::Min($MaxHeight, [int]$Rect.y + [int]$Rect.height + $Margin)
+
+    return [ordered]@{
+        x = $x
+        y = $y
+        width = $right - $x
+        height = $bottom - $y
     }
 }
 
@@ -409,14 +447,6 @@ function Analyze-CaptureCoordinates {
         throw "Screenshot path missing from capture manifest for run '$CurrentRunName'."
     }
 
-    $bitmap = [System.Drawing.Bitmap]::new($screenshotPath)
-    try {
-        $fillBounds = Get-ColorBounds -Bitmap $bitmap -Red 32 -Green 112 -Blue 192
-        $borderBounds = Get-ColorBounds -Bitmap $bitmap -Red 100 -Green 100 -Blue 100
-    } finally {
-        $bitmap.Dispose()
-    }
-
     $assumptions = [System.Collections.Generic.List[string]]::new()
     $label = Get-ControlSpec -Fixture $Fixture -Name 'OracleProbeLabel'
     $dpi = $WindowManifest.selected_window.dpi
@@ -426,29 +456,34 @@ function Analyze-CaptureCoordinates {
     }
 
     $pointsToPixels = [double]$dpi / 72.0
+    $bitmap = [System.Drawing.Bitmap]::new($screenshotPath)
+    try {
+        $fillBounds = Get-ColorBounds -Bitmap $bitmap -Red 32 -Green 112 -Blue 192
+        if ($null -eq $fillBounds) {
+            throw "Could not find the exact OracleProbeLabel fill color in screenshot '$screenshotPath'."
+        }
+
+        $globalBorderBounds = Get-ColorBounds -Bitmap $bitmap -Red 100 -Green 100 -Blue 100
+        $borderSearchRect = Expand-Rectangle -Rect $fillBounds -Margin 12 -MaxWidth $bitmap.Width -MaxHeight $bitmap.Height
+        $borderBounds = Get-ColorBounds -Bitmap $bitmap -Red 100 -Green 100 -Blue 100 -SearchRect $borderSearchRect
+    } finally {
+        $bitmap.Dispose()
+    }
+
     if ($null -ne $borderBounds) {
         $labelRect = $borderBounds
-        $labelRectSource = 'exact_border_color_region'
-    } elseif ($null -ne $fillBounds) {
+        $labelRectSource = 'exact_border_color_region_scoped_to_label_fill_neighborhood'
+    } else {
         $labelRect = [ordered]@{
             x = [int]$fillBounds.x - 1
             y = [int]$fillBounds.y - 1
             width = [int]$fillBounds.width + 2
             height = [int]$fillBounds.height + 2
-            pixel_count = $fillBounds.pixel_count
-        }
-        $labelRectSource = 'derived_from_exact_fill_region_expanded_by_one_pixel'
-        $assumptions.Add('Exact border color was not detected; label border rectangle was derived from exact fill bounds expanded by one pixel.') | Out-Null
-    } else {
-        $labelRect = [ordered]@{
-            x = 40
-            y = 63
-            width = [int]([double]$label.widthPt * $pointsToPixels)
-            height = [int]([double]$label.heightPt * $pointsToPixels)
             pixel_count = 0
+            derived_from_fill_pixel_count = $fillBounds.pixel_count
         }
-        $labelRectSource = 'fallback_w004_geometry'
-        $assumptions.Add('Neither exact label fill nor border color was detected; used W004 screenshot geometry fallback for automated input targets.') | Out-Null
+        $labelRectSource = 'derived_from_exact_fill_region_expanded_by_known_single_border_pixels'
+        $assumptions.Add('Exact border color was not detected in the scoped label neighborhood; because the fixture sets OracleProbeLabel.BorderStyle=fmBorderStyleSingle and the exact fill rectangle was detected, the label border rectangle was derived by expanding the fill bounds by one pixel per side.') | Out-Null
     }
 
     $formOrigin = [ordered]@{
@@ -474,10 +509,13 @@ function Analyze-CaptureCoordinates {
         label_fill_rect_screenshot_pixels = $fillBounds
         label_border_rect_screenshot_pixels = $labelRect
         label_rect_source = $labelRectSource
+        label_border_search_rect_screenshot_pixels = $borderSearchRect
+        rejected_global_border_color_region_screenshot_pixels = $globalBorderBounds
         form_origin_screenshot_pixels = $formOrigin
         assumptions = @($assumptions)
         notes = @(
             'Rectangles use the W005 half-open convention: x <= point_x < x + width and y <= point_y < y + height.',
+            'Border detection is scoped to the exact label-fill neighborhood so unrelated window, title, or sibling-control pixels with the same border color cannot expand the label rectangle.',
             'The derived form origin is an action-target calibration aid, not a final MSForms coordinate parity claim.'
         )
     }
@@ -690,7 +728,7 @@ function Invoke-DriveExistingWindow {
         automated_inputs = @($actions)
         coordinate_vocabulary = @('screen_pixels', 'window_rect', 'screenshot_pixels', 'form_logical', 'control_local', 'msforms_event_args')
         assumptions = @(
-            'Automated input target points are derived from fixture point geometry and the captured label rectangle; live event rows remain the observed MSForms facts.',
+            'Automated input target points are derived from fixture point geometry and the scoped probe-label calibration rectangle; live event rows remain the observed MSForms facts.',
             'The use of SendKeys and user32 mouse_event is evidence-driving infrastructure only and is not an OxForms runtime architecture decision.'
         )
     }
@@ -730,7 +768,7 @@ function Export-WorksheetLog {
         for ($c = 1; $c -le $columnCount; $c++) {
             $row[$headers[$c - 1]] = $values[$r, $c]
         }
-        $rows.Add($row) | Out-Null
+        $rows.Add([pscustomobject]$row) | Out-Null
     }
 
     $csvPath = Join-Path $ResolvedOutDir "$CurrentRunName-event-log.csv"
@@ -802,11 +840,11 @@ function Write-CaptureReadme {
         '',
         '- `modeless-event-log.json` and `modeless-event-log.csv` contain observed worksheet rows emitted by the fixture''s VBA event handlers.',
         '- `modeless-input-actions.json` records the automated public Windows input used to drive the form; `manual_inputs` is empty.',
-        '- `modeless-coordinate-calibration.json` records screenshot-to-fixture coordinate derivations using the W005 coordinate vocabulary.',
+        '- `modeless-coordinate-calibration.json` records screenshot-to-fixture coordinate derivations using the W005 coordinate vocabulary and scopes border-color detection to the probe-label fill neighborhood.',
         '',
         '## Assumptions',
         '',
-        '- Input target points are derived from fixture point geometry and the captured label rectangle.',
+        '- Input target points are derived from fixture point geometry and the scoped probe-label calibration rectangle.',
         '- Missing event rows are not negative facts about MSForms; they are simply unobserved in this run.',
         '- The automation helper is evidence infrastructure only and not runtime architecture.',
         '',
@@ -1095,6 +1133,7 @@ function Invoke-MainCapture {
             'This is black-box Excel/MSForms event evidence only; no OxForms output was compared.',
             'The capture is not an exhaustive MSForms event parity claim.',
             'Automation target coordinates are derived evidence annotations; live MSForms event X/Y values remain in event log rows tagged msforms_event_args.',
+            'Probe label border calibration scopes exact border-color matching to the label fill neighborhood so unrelated window or sibling-control pixels cannot expand the label rectangle.',
             'Desktop theme, DPI, input focus, and Excel/MSForms version can affect observed ordering and screenshots.'
         )
         clean_room = [ordered]@{

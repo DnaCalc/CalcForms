@@ -31,10 +31,12 @@ calibration procedure for MSForms mouse event arguments. The curated coordinate
 contract is [`../../specs/COORDINATE_MODEL.md`](../../specs/COORDINATE_MODEL.md).
 
 Current status: screenshot geometry is grounded by W003/W004 manifests and W004
-pixel facts, and the modeless W005 capture records `screen_pixels`,
-`window_rect`, `screenshot_pixels`, `form_logical`, `control_local`, and
-`msforms_event_args` fields for the driven interaction path. Modal-show
-coordinate capture remains tracked by `oxforms-xvx.20`.
+pixel facts. The modeless W005 capture now records a repaired scoped
+probe-label calibration (`x=40`, `y=63`, `width=128`, `height=64` in
+`screenshot_pixels`, with form origin `x=8`, `y=31`) and preserves the
+historical automated input coordinates separately from corrected
+fixture-derived target points. Modal-show coordinate capture remains tracked by
+`oxforms-xvx.20`.
 
 ## Lifecycle And Pump Model
 

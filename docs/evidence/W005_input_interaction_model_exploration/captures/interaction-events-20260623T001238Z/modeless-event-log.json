@@ -16847,6 +16847,13 @@
                                  "notes":  "Intended to produce QueryClose and Terminate/lifecycle rows if MSForms raises them for this run."
                              }
                          ],
+    "post_capture_calibration_repair":  {
+                                            "bead":  "oxforms-xvx.3",
+                                            "status":  "repaired_after_original_capture",
+                                            "coordinate_calibration":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-coordinate-calibration.json",
+                                            "actual_injected_coordinates_note":  "The automated_inputs array preserves the screen_pixels and screenshot_pixels coordinates injected during the 2026-06-23 modeless capture. Those historical coordinates were generated before the border detector was repaired and must not be silently rewritten as if they were injected.",
+                                            "corrected_fixture_target_points_source":  "Derived from form_origin_screenshot_pixels x=8 y=31, points_to_pixels=1.3333333333333333, and the fixture control point geometry."
+                                        },
     "non_claims":  [
                        "This event log is not an exhaustive MSForms event parity claim.",
                        "This event log is not an OxForms comparison artifact."

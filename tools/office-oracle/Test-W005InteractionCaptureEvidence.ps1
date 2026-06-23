@@ -53,6 +53,18 @@ function Assert-File {
     return $fullPath
 }
 
+function Assert-EventCsv {
+    param([string]$Path)
+
+    $fullPath = Assert-File $Path
+    $firstLine = Get-Content -LiteralPath $fullPath -TotalCount 1
+    foreach ($requiredHeader in @('sequence', 'event_name', 'target_name', 'coordinate_space')) {
+        if ($firstLine -notmatch ('(^|,)"?' + [regex]::Escape($requiredHeader) + '"?(,|$)')) {
+            throw "Event CSV '$Path' is missing expected header '$requiredHeader'. Header: $firstLine"
+        }
+    }
+}
+
 function Assert-EventLog {
     param(
         [string]$Path,
@@ -87,6 +99,71 @@ function Assert-EventLog {
     return $log
 }
 
+function Assert-CoordinateCalibration {
+    param(
+        [string]$Path,
+        [object]$Fixture
+    )
+
+    $fullPath = Assert-File $Path
+    $calibration = Get-Content -Raw -LiteralPath $fullPath | ConvertFrom-Json
+    if ($calibration.schema -ne 'oxforms.office_oracle.w005_coordinate_calibration.v1') {
+        throw "Unexpected coordinate calibration schema in $Path"
+    }
+    if ($calibration.bead -ne 'oxforms-xvx.3') {
+        throw "Unexpected bead in coordinate calibration $Path"
+    }
+    if ($calibration.label_rect_source -eq 'exact_border_color_region' -or $calibration.label_rect_source -like 'fallback*') {
+        throw "Coordinate calibration '$Path' uses unscoped or fallback label_rect_source '$($calibration.label_rect_source)'."
+    }
+    if ($calibration.label_rect_source -notin @(
+        'exact_border_color_region_scoped_to_label_fill_neighborhood',
+        'derived_from_exact_fill_region_expanded_by_known_single_border_pixels'
+    )) {
+        throw "Coordinate calibration '$Path' has unknown label_rect_source '$($calibration.label_rect_source)'."
+    }
+
+    $fill = $calibration.label_fill_rect_screenshot_pixels
+    $border = $calibration.label_border_rect_screenshot_pixels
+    if ($null -eq $fill -or $null -eq $border) {
+        throw "Coordinate calibration '$Path' must include fill and border rectangles."
+    }
+    if ([int]$border.x -gt [int]$fill.x -or [int]$border.y -gt [int]$fill.y -or
+        ([int]$border.x + [int]$border.width) -lt ([int]$fill.x + [int]$fill.width) -or
+        ([int]$border.y + [int]$border.height) -lt ([int]$fill.y + [int]$fill.height)) {
+        throw "Coordinate calibration '$Path' label border rectangle does not contain the fill rectangle."
+    }
+
+    $label = @($Fixture.controls | Where-Object { $_.name -eq 'OracleProbeLabel' })
+    if ($label.Count -ne 1) {
+        throw 'Fixture must define exactly one OracleProbeLabel for calibration validation.'
+    }
+
+    $scale = [double]$calibration.points_to_pixels
+    $expectedWidth = [int][Math]::Round([double]$label[0].widthPt * $scale)
+    $expectedHeight = [int][Math]::Round([double]$label[0].heightPt * $scale)
+    if ([Math]::Abs([int]$border.width - $expectedWidth) -gt 2 -or [Math]::Abs([int]$border.height - $expectedHeight) -gt 2) {
+        throw "Coordinate calibration '$Path' label border dimensions $($border.width)x$($border.height) do not match fixture-derived size near ${expectedWidth}x$expectedHeight."
+    }
+
+    $expectedOriginX = [double]$border.x - ([double]$label[0].leftPt * $scale)
+    $expectedOriginY = [double]$border.y - ([double]$label[0].topPt * $scale)
+    if ([Math]::Abs([double]$calibration.form_origin_screenshot_pixels.x - $expectedOriginX) -gt 0.0001 -or
+        [Math]::Abs([double]$calibration.form_origin_screenshot_pixels.y - $expectedOriginY) -gt 0.0001) {
+        throw "Coordinate calibration '$Path' form origin is inconsistent with the label border rectangle and fixture point geometry."
+    }
+
+    if ($null -eq $calibration.label_border_search_rect_screenshot_pixels) {
+        throw "Coordinate calibration '$Path' must record the scoped border search rectangle."
+    }
+    if ($calibration.label_rect_source -eq 'exact_border_color_region_scoped_to_label_fill_neighborhood' -and
+        $null -eq $calibration.rejected_global_border_color_region_screenshot_pixels) {
+        throw "Coordinate calibration '$Path' must record the rejected unscoped global border-color diagnostic."
+    }
+
+    return $calibration
+}
+
 $resolvedCaptureDir = Resolve-RepoPath $CaptureDir
 $manifestPath = Join-Path $resolvedCaptureDir 'oracle-capture-manifest.json'
 $checksumPath = Join-Path $resolvedCaptureDir 'checksums.sha256'
@@ -116,6 +193,8 @@ if (($manifest.warnings -join "`n") -notmatch 'not an exhaustive MSForms event p
 }
 
 $captureRootRelative = "docs/evidence/W005_input_interaction_model_exploration/captures/$($manifest.capture_id)"
+$fixtureManifestPath = Assert-File $manifest.fixture.inputs.manifest.path
+$fixture = Get-Content -Raw -LiteralPath $fixtureManifestPath | ConvertFrom-Json
 
 $artifactPaths = @(
     $manifest.artifacts.generated_workbook.path,
@@ -135,6 +214,8 @@ foreach ($path in $artifactPaths) {
 }
 
 [void](Assert-EventLog -Path $manifest.artifacts.modeless.event_log_json -RequiredEvents @('Initialize', 'MouseDown', 'MouseUp', 'Click', 'Change', 'KeyDown', 'KeyPress', 'KeyUp', 'Enter', 'Exit', 'QueryClose'))
+[void](Assert-EventCsv -Path $manifest.artifacts.modeless.event_log_csv)
+[void](Assert-CoordinateCalibration -Path $manifest.artifacts.modeless.coordinate_calibration -Fixture $fixture)
 
 if ($null -ne $manifest.artifacts.modal) {
     [void](Assert-File $manifest.artifacts.modal.window_capture_manifest)
@@ -144,6 +225,8 @@ if ($null -ne $manifest.artifacts.modal) {
     [void](Assert-File $manifest.artifacts.modal.event_log_json)
     [void](Assert-File $manifest.artifacts.modal.event_log_csv)
     [void](Assert-EventLog -Path $manifest.artifacts.modal.event_log_json -RequiredEvents @('Initialize', 'MouseDown', 'MouseUp', 'Click', 'Change', 'KeyDown', 'KeyPress', 'KeyUp', 'Enter', 'Exit', 'QueryClose'))
+    [void](Assert-EventCsv -Path $manifest.artifacts.modal.event_log_csv)
+    [void](Assert-CoordinateCalibration -Path $manifest.artifacts.modal.coordinate_calibration -Fixture $fixture)
 }
 
 $checksumLines = Get-Content -LiteralPath $checksumPath | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }

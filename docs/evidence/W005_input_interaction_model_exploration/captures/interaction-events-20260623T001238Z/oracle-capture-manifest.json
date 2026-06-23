@@ -88,6 +88,7 @@
     "This is black-box Excel/MSForms event evidence only; no OxForms output was compared.",
     "The capture is not an exhaustive MSForms event parity claim.",
     "Automation target coordinates are derived evidence annotations; live MSForms event X/Y values remain in event log rows tagged msforms_event_args.",
+    "The modeless coordinate calibration was repaired after capture to reject the unscoped global border-color match; the automated input arrays preserve the actual originally injected coordinates and record corrected fixture-derived target points separately.",
     "Desktop theme, DPI, input focus, and Excel/MSForms version can affect observed ordering and screenshots."
   ],
   "clean_room": {
