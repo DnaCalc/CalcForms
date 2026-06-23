@@ -486,8 +486,11 @@ probe reducer path against committed output.
   IME/dead keys, true drag/drop, and broad `DataObject` parity as non-claims.
 - `oxforms-0a0.15` adds focused PAL/core/runtime coverage for `drag_over` and
   `drop_or_paste` rows carrying serializable data snapshots for the first
-  text-only true drag/drop subset. It keeps platform drag objects and live COM
-  `DataObject` references out of `FormState` and trace artifacts, records
+  text-only true drag/drop subset. Only `DropOrPaste` rows with origin
+  `DragDrop` enter the mutation/dispatch path; replayed true drag/drop rows may
+  have `UiEventSource::Replay` while keeping `DropOrPasteOrigin::DragDrop`.
+  It keeps platform drag objects and live COM `DataObject` references out of
+  `FormState` and trace artifacts, records
   `BeforeDragOver`/`BeforeDropOrPaste` dispatch metadata with helper-result
   boundaries, and leaves `drag_enter`, `drag_leave`, rich formats,
   cross-application drags, cancellation/mutation breadth, final MSForms

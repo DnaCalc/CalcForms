@@ -191,17 +191,21 @@ OxForms implementation relying on those observations:
 - `oxforms-0a0.15` implements only a host-neutral text-only true drag/drop
   subset for TextBox targets. Normalized `DragOver` rows emit
   `BeforeDragOver` metadata in the public argument order above. Normalized
-  `DropOrPaste` rows whose serializable `DataObjectSnapshot` contains accepted
-  plain text emit `BeforeDropOrPaste` metadata before `Change` and repaint, and
-  insert the text into the target/focused TextBox. The `Data` argument is a
-  serializable snapshot summary, not a live `MSForms.DataObject`. Dispatch
-  metadata cites this file and records headless/helper result boundaries for
-  `Cancel` and `Effect` when the core path attempts dispatch. Unsupported
-  formats, missing/unsupported text, and missing TextBox targets are diagnostic
-  no-ops. This subset relies on the `.16` true drag/drop oracle only for the
-  repo-owned text-drop shape; rich formats, cross-application drag sources,
-  cancellation/mutation breadth, final MSForms ordering, broad `DataObject`
-  parity, and native FM20-named OxVba dispatch remain non-claims.
+  `DropOrPaste` rows whose origin is `DragDrop` and whose serializable
+  `DataObjectSnapshot` contains accepted plain text emit
+  `BeforeDropOrPaste` metadata before `Change` and repaint, and insert the text
+  into the target/focused TextBox. The `Data` argument is a serializable
+  snapshot summary, not a live `MSForms.DataObject`. Dispatch metadata cites
+  this file and records headless/helper result boundaries for `Cancel` and
+  `Effect` when the core path attempts dispatch. Other `DropOrPaste` origins,
+  unsupported formats, missing/unsupported text, and missing TextBox targets are
+  diagnostic no-ops. A replayed true drag/drop trace may use
+  `UiEventSource::Replay` while keeping `DropOrPasteOrigin::DragDrop`; this is
+  not the same as the unsupported `DropOrPasteOrigin::Replay`. This subset
+  relies on the `.16` true drag/drop oracle only for the repo-owned text-drop
+  shape; rich formats, cross-application drag sources, cancellation/mutation
+  breadth, final MSForms ordering, broad `DataObject` parity, and native
+  FM20-named OxVba dispatch remain non-claims.
 
 Design assumptions that are not facts:
 

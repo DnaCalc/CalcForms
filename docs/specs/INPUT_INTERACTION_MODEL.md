@@ -605,10 +605,13 @@ replay without live Excel or another host.
   target-local coordinates, modifier/button state, FM20 action/state/effect
   candidates, and a serializable `DataObjectSnapshot` summary. `DragOver`
   emits `FireVbaEvent(BeforeDragOver)` metadata. A `DropOrPaste` row with a
-  plain-text snapshot inserts into the target/focused TextBox, emits
-  `FireVbaEvent(BeforeDropOrPaste)` metadata before `Change`, then requests a
-  repaint. Unsupported formats, missing text, unsupported text, and missing
-  TextBox targets are diagnostic no-ops. Dispatch metadata cites
+  `DragDrop` origin and plain-text snapshot inserts into the target/focused
+  TextBox, emits `FireVbaEvent(BeforeDropOrPaste)` metadata before `Change`,
+  then requests a repaint. Other `DropOrPaste` origins, unsupported formats,
+  missing text, unsupported text, and missing TextBox targets are diagnostic
+  no-ops. `UiEventSource::Replay` may replay a true drag/drop row whose
+  `DropOrPaste` origin remains `DragDrop`; it is distinct from
+  `DropOrPasteOrigin::Replay`. Dispatch metadata cites
   `FM20_EVENT_FACTS.md` and records headless helper-result boundaries for
   `Cancel` and `Effect`. The subset stores no platform drag object or live COM
   `MSForms.DataObject` in `FormState`; `Data` remains a serializable snapshot

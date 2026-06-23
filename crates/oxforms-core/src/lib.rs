@@ -32,11 +32,11 @@ pub use trace_replay::{
 use oxforms_pal::{
     CharacterInputEvent, ClipboardOperation, ClipboardResultEvent, CloseQueryPolicy, CloseReason,
     CloseRequestEvent, CloseRequestOrigin, Color, ControlId, DataObjectSnapshot, DisplayList,
-    DragOverEvent, DropOrPasteEvent, FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat,
-    KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize, MouseButton,
-    MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics,
-    Rect as PalRect, ServiceOutcome, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId,
-    UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
+    DragOverEvent, DropOrPasteEvent, DropOrPasteOrigin, FormId, HostScopeId, KeyCode, KeyEvent,
+    KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize,
+    MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent,
+    RawKeyDiagnostics, Rect as PalRect, ServiceOutcome, ShowMode, ShowRequestedEvent, SurfaceSize,
+    UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
 };
 
 pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
@@ -2167,6 +2167,16 @@ fn reduce_drop_or_paste(
     context: &mut ReducerContext<'_>,
     payload: &DropOrPasteEvent,
 ) {
+    if payload.origin != DropOrPasteOrigin::DragDrop {
+        queue_data_transfer_diagnostic(
+            state,
+            context,
+            &payload.data,
+            "unsupported_drop_or_paste_origin",
+        );
+        return;
+    }
+
     if !data_formats_include_plain_text(&payload.data.formats) {
         queue_data_transfer_diagnostic(state, context, &payload.data, "unsupported_data_format");
         return;
@@ -4039,6 +4049,122 @@ mod tests {
     }
 
     #[test]
+    fn drop_or_paste_non_drag_origins_are_diagnostic_noops() {
+        for origin in [
+            DropOrPasteOrigin::ClipboardPaste,
+            DropOrPasteOrigin::Code,
+            DropOrPasteOrigin::Replay,
+        ] {
+            let mut state = FormState::new("form-main");
+            state.controls = vec![ControlNode::text_box(
+                "text-1",
+                LogicalRect::new(0.0, 0.0, 120.0, 24.0),
+                0,
+                0,
+            )];
+            state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+            let text_box = state.ensure_text_box(ControlId::new("text-1"));
+            text_box.text = "ABC".to_string();
+            text_box.caret.anchor = 3;
+            text_box.caret.active = 3;
+
+            let output = reduce(
+                state,
+                UiEvent {
+                    target: UiEventTarget::control("form-main", "text-1"),
+                    ..UiEvent::new(
+                        UiEventId(196),
+                        UiEventSource::Pal,
+                        UiEventKind::DropOrPaste(drop_or_paste_event_with_origin(
+                            "non-drag-origin",
+                            origin,
+                            "repo_owned_drag_text_seed_v1",
+                            3,
+                            1,
+                            &["cf_text"],
+                        )),
+                    )
+                },
+            );
+
+            let text_box = output
+                .state
+                .text_boxes
+                .iter()
+                .find(|entry| entry.control_id == ControlId::new("text-1"))
+                .expect("text box state should exist");
+            assert_eq!(text_box.text, "ABC");
+            assert_eq!(text_box.caret.active, 3);
+            assert_eq!(text_box.edit_sequence, 0);
+            assert!(output.invalidations.is_empty());
+            assert_eq!(
+                effect_names(&output.effects),
+                vec!["host_capability_request"]
+            );
+            let EffectKind::HostCapabilityRequest {
+                capability,
+                payload_summary,
+                ..
+            } = &output.effects[0].kind
+            else {
+                panic!("expected drag/drop diagnostic effect");
+            };
+            assert_eq!(capability, "drag_drop_data_transfer_diagnostic");
+            assert!(payload_summary
+                .as_ref()
+                .is_some_and(|summary| summary.contains("unsupported_drop_or_paste_origin")));
+        }
+    }
+
+    #[test]
+    fn drop_or_paste_replay_source_with_drag_origin_still_replays_drag_drop() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 120.0, 24.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+
+        let output = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget::control("form-main", "text-1"),
+                ..UiEvent::new(
+                    UiEventId(197),
+                    UiEventSource::Replay,
+                    UiEventKind::DropOrPaste(drop_or_paste_drag_event(
+                        "drag-replay",
+                        "repo_owned_drag_text_seed_v1",
+                        3,
+                        1,
+                        &["cf_text"],
+                    )),
+                )
+            },
+        );
+
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "repo_owned_drag_text_seed_v1");
+        assert_eq!(text_box.edit_sequence, 1);
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "fire_vba_event:BeforeDropOrPaste",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+    }
+
+    #[test]
     fn drop_or_paste_unsupported_format_records_diagnostic_without_mutation() {
         let mut state = FormState::new("form-main");
         state.controls = vec![ControlNode::text_box(
@@ -5168,9 +5294,27 @@ mod tests {
         effect: i32,
         formats: &[&str],
     ) -> DropOrPasteEvent {
+        drop_or_paste_event_with_origin(
+            transfer_session_id,
+            DropOrPasteOrigin::DragDrop,
+            text,
+            action,
+            effect,
+            formats,
+        )
+    }
+
+    fn drop_or_paste_event_with_origin(
+        transfer_session_id: &str,
+        origin: DropOrPasteOrigin,
+        text: &str,
+        action: i32,
+        effect: i32,
+        formats: &[&str],
+    ) -> DropOrPasteEvent {
         DropOrPasteEvent {
             transfer_session_id: transfer_session_id.to_string(),
-            origin: DropOrPasteOrigin::DragDrop,
+            origin,
             coordinates: drag_drop_coordinates(),
             modifiers: KeyboardModifiers::default(),
             action,
