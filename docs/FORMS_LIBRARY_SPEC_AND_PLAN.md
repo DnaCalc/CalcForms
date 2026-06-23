@@ -465,6 +465,16 @@ OxForms first, then plugs into OxVba project loading beside `.vbp`/`.bas`/`.cls`
 The `.frx` *structure* (offsets/records) is parsed in VBA/Rust per D6; the *image
 bytes* are handed to the PAL to decode.
 
+Current W006 implementation subset: `oxforms-0a0.4` adds a host-neutral
+`oxforms-core` loader/projection for a selected `.frm` slice containing a
+UserForm plus `MSForms.Label`, `MSForms.TextBox`, and `MSForms.CommandButton`
+controls. The slice maps `.frm` twip geometry into point-based `form_logical`
+state per [`specs/COORDINATE_MODEL.md`](specs/COORDINATE_MODEL.md), carries
+caption/text, tab/focus, default/cancel, accelerator, enabled/visible, and
+event-effect metadata into the W005 `FormState` path, and records `.frx`
+references without decoding binary resources. It is not the full persistence
+codec or OxVba form-module ingestion surface.
+
 ### 7.2 In-document binary: MS-OFORMS (OxDoc)
 Inside `.xlsm`, forms live in `vbaProject.bin` (a CFBF compound file, **[MS-OVBA]**) as
 designer storages using the **[MS-OFORMS]** binary format (the `f`/Form stream =

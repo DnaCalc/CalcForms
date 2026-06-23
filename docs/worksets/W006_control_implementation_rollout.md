@@ -136,6 +136,19 @@ Unloaded`, maps that close origin to `CloseMode=0`, and keeps `Unloaded`
 separate from object-lifetime `Terminate`. Evidence is recorded in
 [`../evidence/W006_control_implementation_rollout/modeless-lifecycle-close-slice.md`](../evidence/W006_control_implementation_rollout/modeless-lifecycle-close-slice.md).
 
+Current `oxforms-0a0.4` status: implemented-subset in the host-neutral core
+loader/projection path. The selected fixture
+[`../../fixtures/frm/w006-interaction-slice/w006-interaction-slice.frm`](../../fixtures/frm/w006-interaction-slice/w006-interaction-slice.frm)
+loads a small UserForm with Label, TextBox, default CommandButton, and cancel
+CommandButton controls into the same W005 `FormState`/`ControlNode` logical
+tree used by hit-test, focus/tab, default/cancel, accelerator, text, and event
+effect tests. Twips are converted to point-based `form_logical` coordinates per
+[`../specs/COORDINATE_MODEL.md`](../specs/COORDINATE_MODEL.md). `.frx` binary
+resource decoding is not implemented in this bead; the loader detects and
+reports `.frx` property references, and the selected fixture intentionally has
+none. Evidence and scaffold classification are recorded in
+[`../evidence/W006_control_implementation_rollout/frm-frx-interaction-slice.md`](../evidence/W006_control_implementation_rollout/frm-frx-interaction-slice.md).
+
 W006 closes only when:
 
 1. the planning/review gate has closed and all executable W006 beads are either

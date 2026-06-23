@@ -13,11 +13,16 @@
 
 #![forbid(unsafe_code)]
 
+mod frm;
 mod probe;
 mod trace_replay;
 
 use serde::{Deserialize, Serialize};
 
+pub use frm::{
+    load_selected_frm_interaction_state, FrmControlEventHooks, FrmControlRecord, FrmFrxReference,
+    FrmInteractionModel, FrmLoadError, FrmUnsupportedRecord, COORDINATE_MODEL_SPEC_PATH,
+};
 pub use probe::{hit_test_control_tree, ControlNode, HitTestResult, ProbeControlKind};
 pub use trace_replay::{
     build_w005_trace_replay_golden_artifacts, W005_TRACE_REPLAY_DISPLAY_LIST_PATH,
