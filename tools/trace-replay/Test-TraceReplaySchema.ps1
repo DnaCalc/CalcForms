@@ -297,6 +297,20 @@ foreach ($row in $rows) {
             Assert-True -Condition ($uiEvents.ContainsKey($causalUiEventId)) -Message "Transition '$transitionId' refers to unknown or later ui_event_id '$causalUiEventId'."
             Assert-True -Condition ($null -ne (Get-PropertyValue -Object $row.payload -Name 'before')) -Message "Transition '$transitionId' requires before summary."
             Assert-True -Condition ($null -ne (Get-PropertyValue -Object $row.payload -Name 'after')) -Message "Transition '$transitionId' requires after summary."
+
+            $beforePending = Get-PropertyValue -Object $row.payload.before -Name 'pending_effect_count'
+            $afterPending = Get-PropertyValue -Object $row.payload.after -Name 'pending_effect_count'
+            if ($null -ne $beforePending -and $null -ne $afterPending) {
+                Assert-True -Condition ($beforePending -ge 0) -Message "Transition '$transitionId' before.pending_effect_count must be non-negative."
+                Assert-True -Condition ($afterPending -ge 0) -Message "Transition '$transitionId' after.pending_effect_count must be non-negative."
+            }
+
+            if ($trace.trace_id -eq 'w005-reducer-skeleton-transition-log-v1' -and $transitionId -eq 'transition-0001') {
+                $emittedEffectIds = @(Get-PropertyValue -Object $row.payload -Name 'emitted_effect_ids')
+                $expectedAfterPending = $beforePending + $emittedEffectIds.Count
+                Assert-True -Condition ($beforePending -eq 0) -Message "Reducer skeleton sample transition '$transitionId' must start from a fresh FormState with before.pending_effect_count=0."
+                Assert-True -Condition ($afterPending -eq $expectedAfterPending) -Message "Reducer skeleton sample transition '$transitionId' pending_effect_count must increase by emitted_effect_ids count; before=$beforePending emitted=$($emittedEffectIds.Count) after=$afterPending."
+            }
         }
         'effect_requested' {
             $effectId = Get-PropertyValue -Object $row.payload -Name 'effect_id'

@@ -188,7 +188,7 @@
           "active_window": null,
           "text_values": [],
           "validation_active": false,
-          "pending_effect_count": 4
+          "pending_effect_count": 0
         },
         "after": {
           "lifecycle_state": "allocated",
@@ -215,7 +215,7 @@
           "active_window": null,
           "text_values": [],
           "validation_active": false,
-          "pending_effect_count": 0
+          "pending_effect_count": 4
         },
         "emitted_effect_ids": [
           "effect-0001",

@@ -1,8 +1,10 @@
 //! Deterministic W005 reducer/effects skeleton.
 //!
-//! The reducer owns logical state transitions only. It records explicit effects
-//! for PAL, host, and OxVba work; effect runners perform those operations later
-//! and feed completions back as normalized [`UiEvent`] rows.
+//! The reducer owns logical state transitions only. It records explicit,
+//! serializable effects for PAL work, host-capability work, and VBA-compatible
+//! event-dispatch requests. Adapters and effect runners outside `oxforms-pal`
+//! perform those operations later and feed completions back as normalized
+//! [`UiEvent`] rows.
 
 use serde::{Deserialize, Serialize};
 
@@ -355,6 +357,10 @@ pub struct EffectCause {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "kind", content = "payload", rename_all = "snake_case")]
 pub enum EffectKind {
+    /// Request a later VBA-compatible event dispatch.
+    ///
+    /// `oxforms-pal` records the request only; it does not execute VBA or
+    /// depend on OxVba runtime types.
     FireVbaEvent {
         event_name: String,
         fact_source: Option<String>,
@@ -1356,7 +1362,7 @@ mod tests {
     }
 
     #[test]
-    fn mouse_up_releases_capture_and_requests_click_without_calling_vba() {
+    fn mouse_up_releases_capture_and_requests_click_dispatch_effects() {
         let state = reduce(
             FormState::new("form-main"),
             UiEvent {
@@ -1537,6 +1543,50 @@ mod tests {
         assert!(encoded.contains("effect_requested"));
         assert!(encoded.contains("invalidation"));
         assert!(encoded.contains("dirty_subtrees"));
+    }
+
+    #[test]
+    fn reducer_skeleton_trace_sample_matches_fresh_mouse_down_pending_effects() {
+        let sample = include_str!(
+            "../../../docs/evidence/W005_input_interaction_model_exploration/trace-replay/reducer-skeleton-transition-log.v1.json"
+        );
+        let trace: serde_json::Value =
+            serde_json::from_str(sample).expect("reducer skeleton trace sample should parse");
+        let transition = trace["rows"]
+            .as_array()
+            .expect("trace rows should be an array")
+            .iter()
+            .find(|row| row["row_id"] == "row-0004")
+            .expect("row-0004 reducer transition should exist");
+        let payload = &transition["payload"];
+
+        let output = reduce(
+            FormState::new("form-main"),
+            UiEvent {
+                target: UiEventTarget::control("form-main", "command-ok"),
+                ..UiEvent::new(
+                    UiEventId(1),
+                    UiEventSource::Replay,
+                    UiEventKind::MouseDown(mouse_button_event(true)),
+                )
+            },
+        );
+
+        assert_eq!(
+            payload["before"]["pending_effect_count"].as_u64(),
+            Some(output.transition.before.pending_effect_count as u64)
+        );
+        assert_eq!(
+            payload["after"]["pending_effect_count"].as_u64(),
+            Some(output.transition.after.pending_effect_count as u64)
+        );
+        assert_eq!(
+            payload["emitted_effect_ids"]
+                .as_array()
+                .expect("sample transition should list emitted effects")
+                .len(),
+            output.transition.emitted_effect_ids.len()
+        );
     }
 
     #[test]
