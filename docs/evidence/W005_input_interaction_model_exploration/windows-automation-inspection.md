@@ -11,6 +11,53 @@ input model. The durable verification path remains headless reducer tests and
 trace/replay; live Windows automation is an auxiliary evidence driver and
 diagnostic layer.
 
+## Keyboard SendInput Follow-up
+
+Follow-up bead `oxforms-8nj` evaluated whether the W005 Office oracle and
+visible-smoke drivers should replace `System.Windows.Forms.SendKeys` text and
+accelerator sequences with a diagnostics-only public `user32.SendInput`
+keyboard helper. The decision is to defer that replacement and keep `SendKeys`
+for the existing text/accelerator rows.
+
+Reasons:
+
+- The current committed W005 captures already validate the intended auxiliary
+  coverage with `SendKeys` for text/accelerators and shared `SendInput` for
+  mouse. No evidence in the existing action logs or validators shows that
+  `SendKeys` is the source of a live-driver failure that would justify changing
+  the input driver for the preserved captures.
+- A robust keyboard `SendInput` wrapper is not just the existing mouse helper
+  with a different flag. It needs a separate public interop surface for
+  `KEYBDINPUT`, virtual-key versus scan-code versus Unicode packet behavior,
+  modifier down/up ordering, key-up cleanup on partial failure, and action-log
+  fields that distinguish text characters from physical accelerator chords.
+- W005 must not infer keyboard parity from injected input alone. Replacing the
+  current driver now would risk making the live automation look more precise
+  than the evidence supports, especially for `{TAB}`, `+{TAB}`, `{ENTER}`,
+  `{ESC}`, `%o`, `%c`, and `%{F4}` rows whose real behavioral facts still come
+  from the MSForms event log or the OxForms normalized trace.
+- The current helper already records the useful foreground/focus diagnostics
+  around key actions through `Set-W005ForegroundWindow` and
+  `Get-W005InputDiagnosticsSnapshot`. Those diagnostics explain delivery risk
+  without adding a second keyboard injection semantics layer.
+
+Migration criteria for a future bead:
+
+- concrete evidence that `SendKeys` fails or is too nondeterministic for a
+  required W005 text/accelerator row on a supported Windows session;
+- non-live parse/import/type-size checks for the keyboard interop structs before
+  any live injection is attempted;
+- a diagnostics-only helper that records compatible additive fields
+  (`input_driver`, `coordinates`, and `diagnostics`) while explicitly separating
+  `text_unicode`, `virtual_key`, `scan_code`, `modifiers`, requested events,
+  sent events, and cleanup results;
+- isolated live validation, if needed, that proves only driver delivery into the
+  test surface, not MSForms or OxForms keyboard parity.
+
+Until those criteria are met, `SendKeys` remains the safer evidence driver for
+W005 text/accelerator rows, and public `SendInput` remains limited to the
+mouse-click and mouse-drag helper paths.
+
 ## Evidence Read
 
 Current W005 evidence already uses public Windows desktop APIs:
