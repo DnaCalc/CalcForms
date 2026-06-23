@@ -433,12 +433,16 @@ dependencies = [
 name = "oxforms-oxvba-adapter"
 version = "0.0.0"
 dependencies = [
+ "oxforms-core",
  "oxforms-pal",
+ "oxvba-bind",
+ "oxvba-bundle",
  "oxvba-com",
  "oxvba-hal",
  "oxvba-host",
  "oxvba-project",
  "oxvba-runtime",
+ "oxvba-symbol",
 ]
 
 [[package]]

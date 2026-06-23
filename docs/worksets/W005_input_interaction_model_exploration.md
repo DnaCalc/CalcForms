@@ -470,6 +470,29 @@ The first useful event smoke should prove at least a documented subset of:
 - focus enter/exit or a narrower focus event subset;
 - keyboard/mouse event handlers if the event spine and fixture surface allow.
 
+Current output from `oxforms-xvx.10`:
+
+- `crates/oxforms-oxvba-adapter/src/event_dispatch.rs` translates
+  `oxforms-core` `EffectKind::FireVbaEvent` requests into traceable dispatch
+  requests for the adapter layer. It does not execute VBA directly and does not
+  create a forms-only runtime.
+- `crates/oxforms-oxvba-adapter/tests/oxvba_w005_event_dispatch_smoke.rs`
+  replays a small W005 reducer scenario through `MouseDown`, `MouseUp`,
+  `Click`, `KeyPress`, and `Change` effects. The smoke invokes a VBA class
+  method that raises a normal `Dispatched` event; an attached `WithEvents`
+  handler records the original W005 event names, targets, order, and serialized
+  arguments.
+- Evidence is recorded at
+  [`../evidence/W005_input_interaction_model_exploration/event-dispatch-smoke.v1.json`](../evidence/W005_input_interaction_model_exploration/event-dispatch-smoke.v1.json).
+  The smoke preserves mouse `Button`/`Shift`/`X`/`Y` metadata and `KeyPress`
+  mutable-helper placeholder metadata in dispatch trace rows.
+- Native FM20-named event procedures such as a direct `Click`/`MouseDown`
+  source remain blocked in the current OxVba package-session shape; the exact
+  handover is
+  [`../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
+  The generic `Dispatched` carrier is test infrastructure only and must not
+  become the durable forms event runtime.
+
 ### 13. Windows Visible Input Smoke
 
 Headless replay is the primary deterministic test path, but W005 also needs one

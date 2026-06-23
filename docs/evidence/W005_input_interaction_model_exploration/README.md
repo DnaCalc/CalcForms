@@ -98,6 +98,20 @@ code-level trace/replay preparation only; they are not an Office/MSForms visual
 parity claim and do not replace the full replay-runner golden evidence scoped
 to `oxforms-xvx.12`.
 
+## Event Dispatch Smoke
+
+[`event-dispatch-smoke.v1.json`](event-dispatch-smoke.v1.json) records the
+`oxforms-xvx.10` implemented subset. The smoke consumes reducer
+`FireVbaEvent` effects for `MouseDown`, `MouseUp`, `Click`, `KeyPress`, and
+`Change`, translates them through `crates/oxforms-oxvba-adapter`, and verifies
+that VBA handler code observes the event order and serialized argument metadata
+through OxVba `RaiseEvent`/`WithEvents`.
+
+The smoke uses one generic `Dispatched` carrier event as test infrastructure.
+Direct FM20-named event raises are not claimed as implemented; the OxVba gap is
+tracked in
+[`../../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

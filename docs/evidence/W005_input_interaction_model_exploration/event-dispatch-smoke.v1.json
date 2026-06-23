@@ -1,0 +1,39 @@
+{
+  "schema": "oxforms.w005.event-dispatch-smoke.v1",
+  "bead": "oxforms-xvx.10",
+  "status": "implemented-subset",
+  "command": "cargo test -p oxforms-oxvba-adapter --test oxvba_w005_event_dispatch_smoke -- --nocapture",
+  "architecture": {
+    "reducer_effect_source": "oxforms-core EffectKind::FireVbaEvent",
+    "adapter": "oxforms-oxvba-adapter::event_dispatch",
+    "vba_fixture_source": "vba/smoke/fixtures/w005_probe_event_source.cls",
+    "vba_fixture_sink": "vba/smoke/fixtures/w005_probe_event_harness.cls",
+    "oxvba_path": "ProjectRuntimeSession.invoke_member_values -> VBA RaiseEvent -> WithEvents handler"
+  },
+  "subset": {
+    "implemented_events": [
+      "MouseDown",
+      "MouseUp",
+      "Click",
+      "KeyPress",
+      "Change"
+    ],
+    "argument_policy": "Mouse events preserve Button, Shift, X, and Y as serialized FM20-style scalar metadata. KeyPress preserves text, key_ascii_placeholder, modifiers, and mutable-helper metadata in dispatch trace; live MSForms.ReturnInteger helper mutation remains deferred.",
+    "handler_event": "Dispatched",
+    "handler_event_reason": "The smoke uses one generic VBA event as a carrier to prove OxVba RaiseEvent/WithEvents dispatch without introducing a forms runtime. Native FM20-named event procedures remain blocked by the OxVba gap recorded in docs/handovers/HANDOVER_OxVba_w005_fm20_event_raise.md."
+  },
+  "handler_log": [
+    "1|ok|MouseDown|Button=1;Shift=0;X=4;Y=4",
+    "2|ok|MouseUp|Button=1;Shift=0;X=4;Y=4",
+    "3|ok|Click|no arguments",
+    "4|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
+    "5|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=none",
+    "6|text-1|Change|no arguments"
+  ],
+  "dispatch_trace_requirements": [
+    "Every dispatch row cites docs/specs/FM20_EVENT_FACTS.md.",
+    "Dispatch order is reducer effect order.",
+    "Target form/control metadata is preserved outside the VBA carrier event.",
+    "KeyPress records key_ascii_placeholder=65 as byref_or_mutable plus deferred ReturnInteger mutation metadata."
+  ]
+}

@@ -8,4 +8,5 @@
 
 #![forbid(unsafe_code)]
 
+pub mod event_dispatch;
 pub mod smoke_canvas;

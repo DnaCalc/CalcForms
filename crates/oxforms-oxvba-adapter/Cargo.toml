@@ -9,11 +9,15 @@ description = "OxVba-specific adapter that projects OxForms PAL services into Ox
 unsafe_code = "forbid"
 
 [dependencies]
+oxforms-core = { path = "../oxforms-core" }
 oxforms-pal = { path = "../oxforms-pal" }
 oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 
 [dev-dependencies]
+oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
 oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }

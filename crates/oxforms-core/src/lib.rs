@@ -1252,11 +1252,11 @@ fn reduce_mouse_move(
     let target = route.effect_target.clone();
 
     if route.from_capture {
-        queue_vba_event(state, context, target, "MouseMove");
+        queue_mouse_move_event(state, context, target, payload, &route);
         return;
     }
 
-    let next_hover = route.control_id.into_iter().collect::<Vec<_>>();
+    let next_hover = route.control_id.clone().into_iter().collect::<Vec<_>>();
 
     if state.hover_path != next_hover {
         state.hover_path = next_hover;
@@ -1277,7 +1277,7 @@ fn reduce_mouse_move(
         return;
     }
 
-    queue_vba_event(state, context, target, "MouseMove");
+    queue_mouse_move_event(state, context, target, payload, &route);
 }
 
 fn reduce_mouse_down(
@@ -1339,7 +1339,14 @@ fn reduce_mouse_down(
         },
         CompletionPolicy::PlatformCompletionOrDiagnostic,
     );
-    queue_vba_event(state, context, effect_target.clone(), "MouseDown");
+    queue_mouse_event(
+        state,
+        context,
+        effect_target.clone(),
+        "MouseDown",
+        payload,
+        &route,
+    );
 
     if route.has_pressed_visual {
         state.pressed_state = Some(PressedState {
@@ -1394,7 +1401,14 @@ fn reduce_mouse_up(
     }
 
     state.pressed_state = None;
-    queue_vba_event(state, context, effect_target.clone(), "MouseUp");
+    queue_mouse_event(
+        state,
+        context,
+        effect_target.clone(),
+        "MouseUp",
+        payload,
+        &route,
+    );
 
     if captured_target.is_some() && route.is_inside_pressed_target {
         queue_vba_event(state, context, effect_target.clone(), "Click");
@@ -1575,6 +1589,8 @@ struct RoutedMouseTarget {
     control_id: Option<ControlId>,
     focus_target: FocusTarget,
     effect_target: UiEventTarget,
+    form_logical: Option<oxforms_pal::LogicalPoint>,
+    control_local: Option<oxforms_pal::LogicalPoint>,
     can_receive_focus: bool,
     has_pressed_visual: bool,
     from_capture: bool,
@@ -1595,10 +1611,15 @@ fn route_mouse_event(
         let is_inside_pressed_target = coordinates.form_logical.is_none_or(|point| {
             control.is_some_and(|control| control.contains_form_logical(point))
         });
+        let control_local = coordinates
+            .form_logical
+            .and_then(|point| control.map(|control| control.form_to_control_local(point)));
         return Some(RoutedMouseTarget {
             control_id: capture.target.as_control_id().cloned(),
             focus_target: capture.target.clone(),
             effect_target: target,
+            form_logical: coordinates.form_logical,
+            control_local,
             can_receive_focus: false,
             has_pressed_visual: false,
             from_capture: true,
@@ -1617,6 +1638,8 @@ fn route_mouse_event(
                     state.form_id.0.clone(),
                     hit.control_id.0.clone(),
                 ),
+                form_logical: Some(hit.form_logical),
+                control_local: Some(hit.control_local),
                 can_receive_focus: control.can_receive_focus(),
                 has_pressed_visual: control.kind == ProbeControlKind::CommandButton,
                 from_capture: false,
@@ -1627,6 +1650,8 @@ fn route_mouse_event(
             control_id: None,
             focus_target: FocusTarget::Form(state.form_id.clone()),
             effect_target: UiEventTarget::form(state.form_id.0.clone()),
+            form_logical: Some(point),
+            control_local: None,
             can_receive_focus: false,
             has_pressed_visual: false,
             from_capture: false,
@@ -1644,6 +1669,8 @@ fn route_mouse_event(
             control_id: event.target.control_id.clone(),
             focus_target: target,
             effect_target: event_target_or_form(state, event),
+            form_logical: coordinates.form_logical,
+            control_local: coordinates.control_local,
             can_receive_focus: true,
             has_pressed_visual: event.target.control_id.is_some(),
             from_capture: false,
@@ -2004,6 +2031,118 @@ fn queue_character_event(
         },
         CompletionPolicy::DispatchResultRequired,
     );
+}
+
+fn queue_mouse_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    event_name: &str,
+    payload: &MouseButtonEvent,
+    route: &RoutedMouseTarget,
+) {
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: event_name.to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: mouse_event_arguments(
+                payload.button,
+                payload.modifiers,
+                route.control_local.or(route.form_logical),
+            ),
+            cancel_metadata: None,
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
+fn queue_mouse_move_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    payload: &MouseMoveEvent,
+    route: &RoutedMouseTarget,
+) {
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "MouseMove".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: mouse_event_arguments(
+                primary_mouse_button(&payload.buttons_down),
+                payload.modifiers,
+                route.control_local.or(route.form_logical),
+            ),
+            cancel_metadata: None,
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
+fn mouse_event_arguments(
+    button: MouseButton,
+    modifiers: KeyboardModifiers,
+    point: Option<oxforms_pal::LogicalPoint>,
+) -> Vec<EffectArgument> {
+    let point = point.unwrap_or_else(|| oxforms_pal::LogicalPoint::new(0.0, 0.0));
+    vec![
+        EffectArgument {
+            name: "Button".to_string(),
+            value: fm_button_mask(button).to_string(),
+            by_ref: false,
+        },
+        EffectArgument {
+            name: "Shift".to_string(),
+            value: fm_shift_mask(modifiers).to_string(),
+            by_ref: false,
+        },
+        EffectArgument {
+            name: "X".to_string(),
+            value: point.x.to_string(),
+            by_ref: false,
+        },
+        EffectArgument {
+            name: "Y".to_string(),
+            value: point.y.to_string(),
+            by_ref: false,
+        },
+    ]
+}
+
+fn primary_mouse_button(buttons: &oxforms_pal::MouseButtons) -> MouseButton {
+    if buttons.left {
+        MouseButton::Left
+    } else if buttons.right {
+        MouseButton::Right
+    } else if buttons.middle {
+        MouseButton::Middle
+    } else if buttons.x1 {
+        MouseButton::X1
+    } else if buttons.x2 {
+        MouseButton::X2
+    } else {
+        MouseButton::Other(buttons.other.first().copied().unwrap_or_default())
+    }
+}
+
+fn fm_button_mask(button: MouseButton) -> i16 {
+    match button {
+        MouseButton::Left => 1,
+        MouseButton::Right => 2,
+        MouseButton::Middle => 4,
+        MouseButton::X1 => 8,
+        MouseButton::X2 => 16,
+        MouseButton::Other(value) => i16::try_from(value).unwrap_or(i16::MAX),
+    }
+}
+
+fn fm_shift_mask(modifiers: KeyboardModifiers) -> i16 {
+    i16::from(modifiers.shift)
+        | (i16::from(modifiers.control) << 1)
+        | (i16::from(modifiers.alt) << 2)
 }
 
 fn key_event_arguments(payload: &KeyEvent) -> Vec<EffectArgument> {
