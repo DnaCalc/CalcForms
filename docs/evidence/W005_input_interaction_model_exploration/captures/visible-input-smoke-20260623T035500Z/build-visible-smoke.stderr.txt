@@ -1,0 +1,2 @@
+   Compiling oxforms-core v0.0.0 (C:\Work\DnaCalc\OxForms\crates\oxforms-core)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.16s

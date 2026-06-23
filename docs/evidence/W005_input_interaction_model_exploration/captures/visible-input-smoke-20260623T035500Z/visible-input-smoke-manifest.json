@@ -20,12 +20,12 @@
                       "screenshot":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/window/window-capture.png",
                       "frame_ppm":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-frame.ppm",
                       "command_logs":  [
-                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.stdout.log",
-                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.stderr.log",
-                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.stdout.log",
-                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.stderr.log",
-                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.stdout.log",
-                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.stderr.log"
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.stdout.txt",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.stderr.txt",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.stdout.txt",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.stderr.txt",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.stdout.txt",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.stderr.txt"
                                        ]
                   },
     "observed_coverage":  {

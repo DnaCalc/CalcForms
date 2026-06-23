@@ -492,8 +492,8 @@ Set-Location $repoRoot
 $buildArgs = @('build', '-p', 'oxforms-core', '--example', 'w005_visible_input_smoke')
 Invoke-LoggedProcess -FilePath 'cargo' -Arguments $buildArgs `
     -CommandPath (Join-Path $resolvedOutDir 'build-visible-smoke.command.txt') `
-    -StdoutPath (Join-Path $resolvedOutDir 'build-visible-smoke.stdout.log') `
-    -StderrPath (Join-Path $resolvedOutDir 'build-visible-smoke.stderr.log')
+    -StdoutPath (Join-Path $resolvedOutDir 'build-visible-smoke.stdout.txt') `
+    -StderrPath (Join-Path $resolvedOutDir 'build-visible-smoke.stderr.txt')
 
 $exePath = Join-Path $repoRoot 'target\debug\examples\w005_visible_input_smoke.exe'
 if (-not (Test-Path -LiteralPath $exePath -PathType Leaf)) {
@@ -502,7 +502,7 @@ if (-not (Test-Path -LiteralPath $exePath -PathType Leaf)) {
 
 $runArgs = @('--hold-ms', [string]$HoldMilliseconds, '--evidence-dir', $resolvedOutDir)
 Set-Content -LiteralPath (Join-Path $resolvedOutDir 'run-visible-smoke.command.txt') -Encoding UTF8 -Value ($exePath + ' ' + (($runArgs | ForEach-Object { '"' + ($_ -replace '"', '\"') + '"' }) -join ' '))
-$process = Start-Process -FilePath $exePath -ArgumentList (($runArgs | ForEach-Object { '"' + ($_ -replace '"', '\"') + '"' }) -join ' ') -PassThru -RedirectStandardOutput (Join-Path $resolvedOutDir 'run-visible-smoke.stdout.log') -RedirectStandardError (Join-Path $resolvedOutDir 'run-visible-smoke.stderr.log')
+$process = Start-Process -FilePath $exePath -ArgumentList (($runArgs | ForEach-Object { '"' + ($_ -replace '"', '\"') + '"' }) -join ' ') -PassThru -RedirectStandardOutput (Join-Path $resolvedOutDir 'run-visible-smoke.stdout.txt') -RedirectStandardError (Join-Path $resolvedOutDir 'run-visible-smoke.stderr.txt')
 
 $actions = [System.Collections.Generic.List[object]]::new()
 $window = $null
@@ -526,8 +526,8 @@ try {
     )
     Invoke-LoggedProcess -FilePath 'powershell.exe' -Arguments $captureArgs `
         -CommandPath (Join-Path $resolvedOutDir 'capture-window.command.txt') `
-        -StdoutPath (Join-Path $resolvedOutDir 'capture-window.stdout.log') `
-        -StderrPath (Join-Path $resolvedOutDir 'capture-window.stderr.log')
+        -StdoutPath (Join-Path $resolvedOutDir 'capture-window.stdout.txt') `
+        -StderrPath (Join-Path $resolvedOutDir 'capture-window.stderr.txt')
 
     $coords = Invoke-SmokeClick -ClientGeometry $clientGeometry -FormX 54 -FormY 24
     Add-Action -Actions $actions -TargetIntent 'Label center mouse routing' -Action 'click' -Coordinates $coords -Keys '' -Notes 'Click probes non-focus mouse path.'
@@ -607,12 +607,12 @@ $manifest = [ordered]@{
         screenshot = ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'window\window-capture.png')
         frame_ppm = ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'visible-input-frame.ppm')
         command_logs = @(
-            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'build-visible-smoke.stdout.log')),
-            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'build-visible-smoke.stderr.log')),
-            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'run-visible-smoke.stdout.log')),
-            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'run-visible-smoke.stderr.log')),
-            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'capture-window.stdout.log')),
-            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'capture-window.stderr.log'))
+            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'build-visible-smoke.stdout.txt')),
+            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'build-visible-smoke.stderr.txt')),
+            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'run-visible-smoke.stdout.txt')),
+            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'run-visible-smoke.stderr.txt')),
+            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'capture-window.stdout.txt')),
+            (ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'capture-window.stderr.txt'))
         )
     }
     observed_coverage = $traceSummary
