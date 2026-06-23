@@ -53,6 +53,32 @@ function Assert-File {
     return $fullPath
 }
 
+function Assert-CaptureChecksumFile {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$CaptureDir
+    )
+
+    try {
+        return Assert-File $Path
+    } catch {
+        if ($Path -match '\\' -or $Path -match '^[A-Za-z]:|^/|^//') {
+            throw
+        }
+
+        $capturePath = [System.IO.Path]::GetFullPath((Join-Path $CaptureDir $Path))
+        $captureWithSeparator = $CaptureDir.TrimEnd([System.IO.Path]::DirectorySeparatorChar, [System.IO.Path]::AltDirectorySeparatorChar) + [System.IO.Path]::DirectorySeparatorChar
+        if (-not $capturePath.StartsWith($captureWithSeparator, [System.StringComparison]::OrdinalIgnoreCase)) {
+            throw
+        }
+        if (-not (Test-Path -LiteralPath $capturePath -PathType Leaf)) {
+            throw
+        }
+
+        return $capturePath
+    }
+}
+
 function Assert-EventCsv {
     param([string]$Path)
 
@@ -339,7 +365,7 @@ foreach ($line in $checksumLines) {
 
     $expectedHash = $Matches[1]
     $relativePath = $Matches[2]
-    $fullPath = Assert-File $relativePath
+    $fullPath = Assert-CaptureChecksumFile -Path $relativePath -CaptureDir $resolvedCaptureDir
     $actualHash = Get-Sha256Hex -Path $fullPath
     if ($actualHash -ne $expectedHash) {
         throw "Checksum mismatch for '$relativePath': expected $expectedHash, got $actualHash"

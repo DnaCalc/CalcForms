@@ -12,6 +12,7 @@ This directory contains black-box Excel/MSForms event evidence for the W005 inte
 - `modeless-coordinate-calibration.json` records screenshot-to-fixture coordinate derivations using the W005 coordinate vocabulary and scopes border-color detection to the probe-label fill neighborhood.
 - Actual label-center input used the repaired calibration: screenshot pixel `x=104`, `y=95` and screen pixel `x=904`, `y=515`.
 - `modeless-event-log.json` records target/event counts. The `OracleProbeLabel` rows are `MouseMove=201`, `MouseDown=5`, `MouseUp=5`, and `Click=4`.
+- Command stdout/stderr artifacts use tracked `.stdout.txt` and `.stderr.txt` filenames because repo-wide `*.log` files are ignored.
 
 ## Assumptions
 

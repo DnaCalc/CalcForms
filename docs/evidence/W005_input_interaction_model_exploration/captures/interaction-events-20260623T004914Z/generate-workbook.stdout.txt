@@ -1,0 +1,13 @@
+Fixture: excel-msforms-w005-interaction-events-v1
+Manifest: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\interaction-events\fixture.json
+Output workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-20260623T004914Z\w005-interaction-events-oracle.xlsm
+Form: OxFormsW005InteractionForm / 'OxForms W005 Interaction Oracle'
+Controls: 4
+Control: Forms.Label.1 OracleProbeLabel
+Control: Forms.TextBox.1 OracleTextBox
+Control: Forms.CommandButton.1 OracleDefaultButton
+Control: Forms.CommandButton.1 OracleCancelButton
+Form code-behind: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\interaction-events\form-code-behind.bas
+Additional module code: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\interaction-events\standard-module-extra.bas
+Generated workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\interaction-events-20260623T004914Z\w005-interaction-events-oracle.xlsm
+Generated workbook SHA256: 905F18C8E1D2D6A72E6F2FB41CBE409A98F3AE0FF1953D8A99363412B02856E8

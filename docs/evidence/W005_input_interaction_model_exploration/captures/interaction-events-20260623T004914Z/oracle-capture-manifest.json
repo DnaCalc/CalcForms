@@ -53,12 +53,12 @@
     },
     "modal": null,
     "command_logs": [
-      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-w005.stdout.log",
-      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-w005.stderr.log",
-      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/generate-workbook.stdout.log",
-      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/generate-workbook.stderr.log",
-      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-window-modeless.stdout.log",
-      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-window-modeless.stderr.log"
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-w005.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-w005.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/generate-workbook.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/generate-workbook.stderr.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-window-modeless.stdout.txt",
+      "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/capture-window-modeless.stderr.txt"
     ]
   },
   "observed_coverage": {
