@@ -1,0 +1,95 @@
+{
+  "schema": "oxforms.office_oracle.w006_nested_modal_lifecycle_capture.v1",
+  "bead": "oxforms-0a0.19",
+  "capture_id": "nested-modal-lifecycle-20260623T120737Z",
+  "status": "blocked",
+  "fixture": {
+    "id": "excel-msforms-w006-nested-modal-lifecycle-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/fixture.json",
+        "sha256": "07be75eb8af1621169b8202842ee29dfc6edcb785dedf807f911347712f66fbd"
+      },
+      "form_code_behind": [
+        {
+          "form_identity": "outer",
+          "path": "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/outer-form-code-behind.bas",
+          "sha256": "60e5ae54cb9168de25151b24f4373f04023383f9abc0431c94ca9955ade6f5b3"
+        },
+        {
+          "form_identity": "inner",
+          "path": "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/inner-form-code-behind.bas",
+          "sha256": "d1b7224c10896acb8b48498e0d01ef3fcbb6c2d03b47849051887f369d90a3f9"
+        }
+      ],
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/standard-module.bas",
+        "sha256": "7440d4fc09f4b978bd7a4e6a40549f62d798db8c045a1586bba286e0c4b5132b"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/Capture-W006NestedModalLifecycle.ps1",
+        "sha256": "c4365335fe2e3ae82f00fec8524b10e7a24b9b5e9bda709c864bd58b67375d7f"
+      }
+    }
+  },
+  "commands": {
+    "capture": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/capture.command.txt",
+    "progress": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/capture-progress.log",
+    "timeout_notes": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/capture-timeout-notes.txt",
+    "rerun_note": "Run tools/office-oracle/Capture-W006NestedModalLifecycle.ps1 from the repository root. The current capture attempt timed out before workbook_generated and therefore records a blocker rather than event observations."
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26100.0",
+    "is_windows": true,
+    "powershell": "5.1.26100.4202"
+  },
+  "artifacts": {
+    "generated_workbook": null,
+    "event_log_json": null,
+    "event_log_csv": null,
+    "run_summary": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/run-summary.json",
+    "input_actions": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/input-actions.json",
+    "blocker": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/blocker.json",
+    "checksums": "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/checksums.sha256",
+    "command_logs": [
+      "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/capture.command.txt",
+      "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/capture-progress.log",
+      "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/capture-timeout-notes.txt"
+    ]
+  },
+  "observed_coverage": {
+    "row_count": 0,
+    "event_names": [],
+    "form_identities": [],
+    "manual_inputs": [],
+    "input_method": "not reached; blocked before visible UserForm"
+  },
+  "blockers": [
+    {
+      "surface": "nested_modal_lifecycle_oracle_capture",
+      "reason": "The bounded live capture timed out before workbook_generated.",
+      "detail": "No generated workbook, UserForm window, input-actions from public Windows input, or worksheet event-log export was produced.",
+      "non_claim": "No MSForms nested modal lifecycle ordering is claimed from this run."
+    }
+  ],
+  "trace_replay_implications": [
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: future nested modal rows require parent_row_id and nesting_depth.",
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 9: future modal show, hide, unload, dispatch, and platform work must record effect_requested and effect_completed rows separately.",
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 11: future lifecycle_pump rows must carry modal depth, active form/window/control, close/query/hide/unload/terminate reasons, cancellation status, and causal row ids.",
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 14: future validators must check parent/nesting relationships and reducer/effect/dispatch causal ordering."
+  ],
+  "warnings": [
+    "This is blocker evidence only; no MSForms event rows were captured.",
+    "Missing event rows are unobserved rows in this run, not negative facts about all MSForms behavior.",
+    "No OxForms output was compared."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input, public Excel/VBIDE automation attempt, public Windows process metadata, and local command/progress logs.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison were used."
+  },
+  "non_claims": [
+    "No OxForms runtime modal, reentrant pump, hide/unload, QueryClose, or Terminate behavior is implemented or claimed.",
+    "No nested modal MSForms ordering is inferred from this blocker.",
+    "This capture is not an exhaustive MSForms parity matrix."
+  ]
+}

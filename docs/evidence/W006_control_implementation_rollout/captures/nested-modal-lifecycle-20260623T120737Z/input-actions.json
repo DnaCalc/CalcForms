@@ -1,0 +1,24 @@
+{
+  "schema": "oxforms.office_oracle.w006_nested_modal_input_actions.v1",
+  "bead": "oxforms-0a0.19",
+  "manual_inputs": [],
+  "automated_inputs": [],
+  "blockers": [
+    {
+      "surface": "nested_modal_lifecycle_oracle_capture",
+      "reason": "The live capture attempt timed out after 184.1 seconds before the capture script wrote workbook_generated.",
+      "blocked_before": [
+        "generated workbook",
+        "outer UserForm show",
+        "inner modal UserForm show",
+        "public hide/unload/system-close input",
+        "worksheet event-log export"
+      ],
+      "non_claim": "No nested modal event ordering or missing-row behavior is claimed from this run."
+    }
+  ],
+  "notes": [
+    "The repo-owned fixture and capture driver are present and dry-run validation passed.",
+    "No public Windows input was sent because the capture did not reach a visible UserForm."
+  ]
+}

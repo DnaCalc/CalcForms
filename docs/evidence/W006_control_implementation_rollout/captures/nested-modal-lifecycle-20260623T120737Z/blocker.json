@@ -1,0 +1,51 @@
+{
+  "schema": "oxforms.office_oracle.w006_nested_modal_blocker.v1",
+  "bead": "oxforms-0a0.19",
+  "capture_id": "nested-modal-lifecycle-20260623T120737Z",
+  "captured_at_utc": "2026-06-23T12:11:45.9586028Z",
+  "surface": "nested_modal_lifecycle_oracle_capture",
+  "status": "blocked",
+  "category": "public_excel_vbide_or_windows_input_capture_timeout",
+  "reason": "The bounded live Office capture command exceeded 184.1 seconds and the capture-progress log reached only capture_directory_prepared; it did not record workbook_generated.",
+  "facts": [
+    "The repo-owned fixture manifest and source files were added under fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/.",
+    "The capture driver dry-run validated the fixture manifest and source paths without starting Excel.",
+    "The live attempt created the capture directory, .gitattributes, capture.command.txt, and capture-progress.log.",
+    "The live attempt did not produce a generated workbook, UserForm window capture, input-actions beyond this blocker file, or worksheet event log.",
+    "The timed-out capture-owned PowerShell process was PID 33720 and the capture-owned Excel automation process was PID 37204; both were stopped after inspection."
+  ],
+  "assumptions": [
+    "The timeout occurred during or before public Excel/VBIDE workbook generation because capture-progress.log did not reach workbook_generated.",
+    "The older unrelated EXCEL.EXE process that existed before this capture was not part of this attempt and was not stopped."
+  ],
+  "unknowns": [
+    "Whether Excel was waiting on VBIDE, macro security, hidden modal UI, an add-in, or another COM automation condition is not known from this bounded run.",
+    "No nested modal MSForms event sequence, outer/inner form identity rows, show-mode rows, active form/window/control rows, close-origin rows, QueryClose Cancel values, CloseMode values, hide/unload rows, or Terminate rows were observed.",
+    "Rows absent from this run remain unknown and are not negative MSForms facts."
+  ],
+  "blocked_recording_fields": [
+    "event sequence",
+    "outer and inner form identity",
+    "show mode",
+    "active form/window/control",
+    "close origin",
+    "QueryClose Cancel before and after values",
+    "CloseMode",
+    "hide/unload/Terminate rows"
+  ],
+  "trace_replay_implications": [
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 5 still requires any future nested modal rows to carry parent_row_id and nesting_depth.",
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 9 still requires modal show, hide, unload, VBA dispatch, and platform work to preserve separate effect_requested and effect_completed rows.",
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 11 still requires lifecycle_pump rows to carry modal depth, active form/window/control, close/query/hide/unload/terminate reasons, cancellation status, and causal row ids.",
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 14 still requires validators to check parent/nesting relationships and reducer/effect/dispatch causal ordering."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input, public Excel/VBIDE automation attempt, public Windows process metadata, and local command/progress logs.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison were used."
+  },
+  "non_claims": [
+    "No OxForms runtime behavior is implemented or claimed.",
+    "No nested modal MSForms ordering is inferred from this blocker.",
+    "No missing event row is treated as a negative MSForms fact."
+  ]
+}

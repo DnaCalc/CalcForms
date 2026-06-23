@@ -1,0 +1,251 @@
+{
+  "id": "excel-msforms-w006-nested-modal-lifecycle-v1",
+  "title": "W006 Excel MSForms nested modal lifecycle oracle fixture",
+  "bead": "oxforms-0a0.19",
+  "cleanRoom": {
+    "source": "Repo-owned manifest and VBA source consumed through public Excel/VBIDE automation.",
+    "prohibited": "No Office internals, decompilation, disassembly, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA.",
+    "A stable desktop scaling/theme should be recorded by the capture bead; this fixture does not claim event-order, coordinate, or pixel parity."
+  ],
+  "workbook": {
+    "fileName": "w006-nested-modal-lifecycle-oracle.xlsm",
+    "vbaModuleName": "OxFormsW006NestedModalOracle",
+    "showMacroName": "ShowW006NestedOuterModeless",
+    "clearLogMacroName": "ClearW006NestedModalLog",
+    "standardModuleSourcePath": "standard-module.bas"
+  },
+  "evidence": {
+    "defaultCaptureRoot": "docs/evidence/W006_control_implementation_rollout/captures"
+  },
+  "eventFactSource": {
+    "curated": "docs/specs/FM20_EVENT_FACTS.md",
+    "lifecycleModel": "docs/specs/LIFECYCLE_PUMP_MODEL.md",
+    "traceSchema": "docs/specs/TRACE_REPLAY_SCHEMA.md"
+  },
+  "logging": {
+    "worksheetName": "W006NestedModalLog",
+    "sequenceField": "sequence",
+    "rowsAreEvidenceOnlyAfterLiveCapture": true
+  },
+  "forms": [
+    {
+      "identity": "outer",
+      "name": "OxFormsW006NestedOuter",
+      "caption": "OxForms W006 Nested Outer",
+      "widthPt": 318,
+      "heightPt": 226,
+      "startupPosition": 2,
+      "startupPositionName": "CenterScreen",
+      "codeBehindSourcePath": "outer-form-code-behind.bas",
+      "controls": [
+        {
+          "type": "Forms.Label.1",
+          "kind": "MSForms.Label",
+          "name": "OuterAnchorLabel",
+          "caption": "Outer",
+          "leftPt": 18,
+          "topPt": 18,
+          "widthPt": 72,
+          "heightPt": 24,
+          "backColorOle": 4210752,
+          "backColorRgb": {
+            "red": 64,
+            "green": 64,
+            "blue": 64
+          },
+          "foreColorOle": 16777215,
+          "borderStyle": 1,
+          "backStyle": 1,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "OuterShowInnerHideButton",
+          "caption": "Inner Hide",
+          "leftPt": 108,
+          "topPt": 18,
+          "widthPt": 144,
+          "heightPt": 26,
+          "tabIndex": 0,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "OuterShowInnerUnloadButton",
+          "caption": "Inner Unload",
+          "leftPt": 108,
+          "topPt": 56,
+          "widthPt": 144,
+          "heightPt": 26,
+          "tabIndex": 1,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "OuterShowInnerCloseButton",
+          "caption": "Inner Alt+F4",
+          "leftPt": 108,
+          "topPt": 94,
+          "widthPt": 144,
+          "heightPt": 26,
+          "tabIndex": 2,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "OuterHideButton",
+          "caption": "Hide Outer",
+          "leftPt": 108,
+          "topPt": 132,
+          "widthPt": 68,
+          "heightPt": 26,
+          "tabIndex": 3,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "OuterUnloadButton",
+          "caption": "Unload Outer",
+          "leftPt": 184,
+          "topPt": 132,
+          "widthPt": 68,
+          "heightPt": 26,
+          "tabIndex": 4,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        }
+      ]
+    },
+    {
+      "identity": "inner",
+      "name": "OxFormsW006NestedInner",
+      "caption": "OxForms W006 Nested Inner",
+      "widthPt": 260,
+      "heightPt": 154,
+      "startupPosition": 1,
+      "startupPositionName": "CenterOwner",
+      "codeBehindSourcePath": "inner-form-code-behind.bas",
+      "controls": [
+        {
+          "type": "Forms.Label.1",
+          "kind": "MSForms.Label",
+          "name": "InnerAnchorLabel",
+          "caption": "Inner",
+          "leftPt": 18,
+          "topPt": 18,
+          "widthPt": 72,
+          "heightPt": 24,
+          "backColorOle": 12611616,
+          "backColorRgb": {
+            "red": 32,
+            "green": 112,
+            "blue": 192
+          },
+          "foreColorOle": 16777215,
+          "borderStyle": 1,
+          "backStyle": 1,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "InnerHideButton",
+          "caption": "Hide Inner",
+          "leftPt": 108,
+          "topPt": 18,
+          "widthPt": 104,
+          "heightPt": 26,
+          "tabIndex": 0,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "InnerUnloadButton",
+          "caption": "Unload Inner",
+          "leftPt": 108,
+          "topPt": 56,
+          "widthPt": 104,
+          "heightPt": 26,
+          "tabIndex": 1,
+          "tabStop": true,
+          "takeFocusOnClick": true,
+          "font": {
+            "name": "Tahoma",
+            "sizePt": 8.25,
+            "bold": false
+          }
+        }
+      ]
+    }
+  ],
+  "automationScript": [
+    "Generate a workbook containing the outer and inner UserForms from this manifest.",
+    "Show the outer form modeless with ShowW006NestedOuterModeless.",
+    "Click the outer Inner Hide button so the outer button Click handler calls the inner form with Show vbModal; click the inner Hide button and record the modal return.",
+    "Click the outer Inner Unload button so the outer button Click handler calls the inner form with Show vbModal; click the inner Unload button and record QueryClose/Terminate rows if raised.",
+    "Click the outer Inner Alt+F4 button so the outer button Click handler calls the inner form with Show vbModal; drive Alt+F4 against the inner modal window and record QueryClose/Terminate rows if raised.",
+    "Click the outer Hide button, reshow the outer form modeless, then click the outer Unload button.",
+    "Preserve workbook, worksheet export, command logs, screenshots/window manifests, input actions, run summary, manifest, and hashes under W006 evidence."
+  ],
+  "notes": {
+    "scope": "This fixture builds repo-owned Excel/MSForms oracle inputs only. It does not implement OxForms behavior and does not settle final MSForms ordering by itself.",
+    "nestedModal": "The inner form is entered from an outer CommandButton Click handler using Show vbModal. The VBA row before that call is used as the parent_row_id for inner rows.",
+    "rows": "Rows emitted by fixture action logging such as BeforeHide or BeforeUnload are explicit fixture observations. They are not MSForms event names unless the event_name is a public MSForms event such as QueryClose or Terminate.",
+    "missingRows": "Missing rows are not negative MSForms facts. Live output from oxforms-0a0.19 remains the oracle evidence."
+  }
+}

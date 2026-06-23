@@ -35,6 +35,13 @@ Current tools:
   `MSForms.DataObject.StartDrag` session with public `user32 SendInput` mouse
   input, and exports `BeforeDragOver`/`BeforeDropOrPaste` oracle evidence or a
   precise blocker.
+- `Capture-W006NestedModalLifecycle.ps1` generates the W006 two-UserForm
+  nested modal lifecycle fixture, opens live Excel/MSForms, drives outer and
+  inner public hide/unload/system-close paths, and exports lifecycle evidence
+  or a precise public automation blocker.
+- `Test-W006NestedModalCaptureEvidence.ps1` validates the W006 nested modal
+  capture/blocker evidence, including command logs, manual-input notes,
+  trace/replay non-claims, and checksums.
 - `Test-OracleComparisonManifest.ps1` validates W003 comparison manifests by
   checking their schema, linked report, evidence paths, and SHA-256 values. It
   does not start Excel, capture screenshots, run OxForms, or perform pixel
@@ -119,6 +126,13 @@ W005 interaction fixture static validation:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-W005InteractionFixture.ps1
+```
+
+W006 nested modal lifecycle fixture dry run and evidence validation:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-W006NestedModalLifecycle.ps1 -DryRun
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-W006NestedModalCaptureEvidence.ps1 -CaptureDir docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260623T120737Z
 ```
 
 Comparison manifest validation:

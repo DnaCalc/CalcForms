@@ -69,6 +69,13 @@ Current facts:
   (`oxforms-0a0.22`), and live `DoEvents` yield oracle evidence
   (`oxforms-0a0.23`). No broad modal pump or `DoEvents` implementation is
   authorized by this classification alone.
+- `oxforms-0a0.19` adds a repo-owned two-UserForm Excel/MSForms nested modal
+  lifecycle fixture plan and capture driver, but the first bounded live Office
+  capture is precisely blocked at
+  [`nested-modal-lifecycle-20260623T120737Z`](../evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/):
+  it timed out before `workbook_generated`, so no nested-modal MSForms event
+  rows were recorded. The fixture/blocker does not change the remaining live
+  ordering unknowns and does not treat missing rows as negative facts.
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
@@ -465,6 +472,9 @@ the downstream bead it blocks.
 - Exact `Terminate` timing relative to unload and remaining object references.
 - How `DoEvents` interacts with modal frames, nested forms, pending effects, and
   host callbacks.
+- Whether the W006 nested-modal fixture can be captured after hardening the
+  public Office/VBIDE generation path that timed out before workbook generation
+  in `nested-modal-lifecycle-20260623T120737Z`.
 - Which lifecycle DISPIDs, if any, are used outside the captured FM20 source
   interfaces.
 
