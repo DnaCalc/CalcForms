@@ -358,6 +358,9 @@ sample; pass `-TracePath` for the `oxforms-xvx.12` golden. It checks:
 - required coordinate-space tags;
 - reducer/effect/VBA dispatch causal ordering;
 - display-list and render artifact references;
+- existing repo-relative artifact paths when a display/render artifact path is
+  present;
+- explicit clean-room source/prohibited-method notes;
 - absence of machine-local absolute paths in the canonical sample.
 
 The original sample is synthetic and intentionally small. Its purpose is to lock

@@ -9,6 +9,17 @@ $ErrorActionPreference = 'Stop'
 
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
 $allowedCaptureBeads = @('oxforms-xvx.3', 'oxforms-xvx.20')
+$allowedCoordinateSpaces = @(
+    'screen_pixels',
+    'window_rect',
+    'screenshot_pixels',
+    'client_pixels',
+    'form_logical',
+    'control_local',
+    'display_list_logical',
+    'msforms_event_args',
+    'raw_diagnostic'
+)
 
 function Assert-KnownCaptureBead {
     param(
@@ -38,6 +49,23 @@ function Resolve-RepoPath {
     return $fullPath
 }
 
+function Assert-RepoRelativeArtifactPath {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$Context
+    )
+
+    if ([System.IO.Path]::IsPathRooted($Path) -or $Path -match '^[\\/]{1,2}') {
+        throw "$Context must be repository-relative, got '$Path'."
+    }
+    if ($Path -match '\\') {
+        throw "$Context must use forward slashes, got '$Path'."
+    }
+    if ($Path -split '/' | Where-Object { $_ -eq '' -or $_ -eq '.' -or $_ -eq '..' }) {
+        throw "$Context contains an invalid path segment: '$Path'."
+    }
+}
+
 function Get-Sha256Hex {
     param([string]$Path)
 
@@ -57,12 +85,76 @@ function Get-Sha256Hex {
 function Assert-File {
     param([string]$Path)
 
+    Assert-RepoRelativeArtifactPath -Path $Path -Context 'artifact path'
     $fullPath = Resolve-RepoPath $Path
     if (-not (Test-Path -LiteralPath $fullPath -PathType Leaf)) {
         throw "Expected file does not exist: $Path"
     }
 
     return $fullPath
+}
+
+function Assert-HashReference {
+    param(
+        [Parameter(Mandatory = $true)][object]$Reference,
+        [Parameter(Mandatory = $true)][string]$Context
+    )
+
+    $path = $Reference.path
+    $expectedHash = $Reference.sha256
+    if ([string]::IsNullOrWhiteSpace($path)) {
+        throw "$Context requires path."
+    }
+    if ([string]::IsNullOrWhiteSpace($expectedHash)) {
+        throw "$Context requires sha256."
+    }
+    $fullPath = Assert-File $path
+    $actualHash = Get-Sha256Hex -Path $fullPath
+    if ($actualHash -ne $expectedHash.ToLowerInvariant()) {
+        throw "$Context SHA-256 mismatch for '$path': expected $expectedHash, got $actualHash."
+    }
+}
+
+function Assert-CleanRoomNotes {
+    param(
+        [Parameter(Mandatory = $true)][object]$Value,
+        [Parameter(Mandatory = $true)][string]$Context
+    )
+
+    if ($null -eq $Value) {
+        throw "$Context clean_room is required."
+    }
+    if ([string]::IsNullOrWhiteSpace([string]$Value.source)) {
+        throw "$Context clean_room.source is required."
+    }
+    if ([string]::IsNullOrWhiteSpace([string]$Value.prohibited)) {
+        throw "$Context clean_room.prohibited is required."
+    }
+    if ([string]$Value.prohibited -notmatch 'No Office internals') {
+        throw "$Context clean_room.prohibited must explicitly exclude Office internals."
+    }
+}
+
+function Assert-CoordinateVocabulary {
+    param(
+        [Parameter(Mandatory = $true)][object[]]$Spaces,
+        [Parameter(Mandatory = $true)][string]$Context,
+        [string[]]$RequiredSpaces = @()
+    )
+
+    if ($Spaces.Count -eq 0) {
+        throw "$Context must list coordinate spaces."
+    }
+    foreach ($space in $Spaces) {
+        if ($allowedCoordinateSpaces -notcontains [string]$space) {
+            throw "$Context contains unknown coordinate space '$space'."
+        }
+    }
+    foreach ($requiredSpace in $RequiredSpaces) {
+        if ($Spaces -notcontains $requiredSpace) {
+            throw "$Context is missing required coordinate space '$requiredSpace'."
+        }
+    }
 }
 
 function Assert-CaptureChecksumFile {
@@ -124,6 +216,11 @@ function Assert-EventLog {
     if ($null -eq $log.manual_inputs) {
         throw "Event log must include manual_inputs, even when empty: $Path"
     }
+    if ([string]::IsNullOrWhiteSpace([string]$log.source.workbook) -or [string]::IsNullOrWhiteSpace([string]$log.source.fixture)) {
+        throw "Event log '$Path' must preserve source workbook and fixture paths."
+    }
+    [void](Assert-File $log.source.workbook)
+    [void](Assert-File $log.source.fixture)
 
     $eventNames = @($log.observed_facts.event_names)
     foreach ($eventName in $RequiredEvents) {
@@ -175,6 +272,7 @@ function Assert-CoordinateCalibration {
         throw "Unexpected coordinate calibration schema in $Path"
     }
     Assert-KnownCaptureBead -Bead $calibration.bead -Context "coordinate calibration $Path"
+    Assert-CoordinateVocabulary -Spaces @($calibration.coordinate_spaces) -Context "Coordinate calibration '$Path'" -RequiredSpaces @('screen_pixels', 'screenshot_pixels', 'form_logical', 'control_local', 'msforms_event_args')
     if ($calibration.label_rect_source -eq 'exact_border_color_region' -or $calibration.label_rect_source -like 'fallback*') {
         throw "Coordinate calibration '$Path' uses unscoped or fallback label_rect_source '$($calibration.label_rect_source)'."
     }
@@ -222,6 +320,10 @@ function Assert-CoordinateCalibration {
         $null -eq $calibration.rejected_global_border_color_region_screenshot_pixels) {
         throw "Coordinate calibration '$Path' must record the rejected unscoped global border-color diagnostic."
     }
+    if ($null -eq $calibration.screenshot -or [string]::IsNullOrWhiteSpace([string]$calibration.screenshot.path) -or [string]::IsNullOrWhiteSpace([string]$calibration.screenshot.sha256)) {
+        throw "Coordinate calibration '$Path' must preserve screenshot path and sha256."
+    }
+    Assert-HashReference -Reference $calibration.screenshot -Context "Coordinate calibration screenshot for '$Path'"
 
     return $calibration
 }
@@ -245,6 +347,7 @@ function Assert-InputActions {
     if ($null -eq $actions.automated_inputs -or @($actions.automated_inputs).Count -eq 0) {
         throw "Input actions must include automated_inputs: $Path"
     }
+    Assert-CoordinateVocabulary -Spaces @($actions.coordinate_vocabulary) -Context "Input actions '$Path'" -RequiredSpaces @('screen_pixels', 'screenshot_pixels')
 
     $label = @($Fixture.controls | Where-Object { $_.name -eq 'OracleProbeLabel' })
     if ($label.Count -ne 1) {
@@ -269,6 +372,20 @@ function Assert-InputActions {
     if ([Math]::Abs([double]$center.x - $expectedCenterX) -gt 0.001 -or
         [Math]::Abs([double]$center.y - $expectedCenterY) -gt 0.001) {
         throw "Input actions '$Path' OracleProbeLabel center click used screenshot_pixels x=$($center.x) y=$($center.y), expected calibrated x=$expectedCenterX y=$expectedCenterY."
+    }
+
+    $lastSequence = 0
+    foreach ($action in @($actions.automated_inputs)) {
+        if ([int]$action.sequence -le $lastSequence) {
+            throw "Input actions '$Path' automated input sequences must increase monotonically."
+        }
+        $lastSequence = [int]$action.sequence
+        if ($action.manual -ne $false) {
+            throw "Input actions '$Path' automated input sequence $($action.sequence) must preserve manual=false."
+        }
+        if ([string]::IsNullOrWhiteSpace([string]$action.input_method)) {
+            throw "Input actions '$Path' automated input sequence $($action.sequence) must record input_method."
+        }
     }
 }
 
@@ -301,6 +418,11 @@ if (($manifest.warnings -join "`n") -notmatch 'not an exhaustive MSForms event p
 $captureRootRelative = "docs/evidence/W005_input_interaction_model_exploration/captures/$($manifest.capture_id)"
 $fixtureManifestPath = Assert-File $manifest.fixture.inputs.manifest.path
 $fixture = Get-Content -Raw -LiteralPath $fixtureManifestPath | ConvertFrom-Json
+Assert-HashReference -Reference $manifest.fixture.inputs.manifest -Context 'fixture manifest input'
+Assert-HashReference -Reference $manifest.fixture.inputs.form_code_behind -Context 'fixture form code-behind input'
+Assert-HashReference -Reference $manifest.fixture.inputs.standard_module_extra -Context 'fixture standard module input'
+Assert-HashReference -Reference $manifest.artifacts.generated_workbook -Context 'generated workbook artifact'
+Assert-CleanRoomNotes -Value $manifest.clean_room -Context 'manifest'
 
 $artifactPaths = @(
     $manifest.artifacts.generated_workbook.path,
@@ -316,6 +438,15 @@ $artifactPaths = @(
 )
 
 foreach ($path in $artifactPaths) {
+    [void](Assert-File $path)
+}
+
+$commandPaths = @(
+    $manifest.commands.generator,
+    $manifest.commands.modeless_capture_window,
+    $manifest.commands.modal_drive
+) | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
+foreach ($path in $commandPaths) {
     [void](Assert-File $path)
 }
 

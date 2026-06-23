@@ -144,4 +144,11 @@ implementation lane unless the whole workset closure condition is actually met.
 | Runtime/control lanes | targeted Rust/OxVba/fixture checks named by the touched bead |
 | Evidence/oracles | Office/MSForms capture, replay/golden validation, checksum validation, or exact blocker |
 | Trace/replay/comparison | schema validator, replay runner, comparison validator where touched |
+| Visible smoke evidence | committed-capture validator plus checksum validation when visible-smoke artifacts or driver assumptions are touched |
 | Clean-room posture | review public facts vs assumptions and check that no private implementation details or temporary W005 shortcuts became architecture |
+
+`oxforms-0a0.8` hardens the W005 evidence validators as support
+infrastructure for later W006 scenarios. The comparison validator remains
+observation-only and rejects pass/fail verdict fields; the visible-smoke
+validator checks committed evidence manifests, command logs, coordinate
+vocabulary, hashes, and clean-room non-claims without opening a live window.

@@ -32,6 +32,23 @@ function Resolve-RepoPath {
     return $fullPath
 }
 
+function Assert-RepoRelativeArtifactPath {
+    param(
+        [Parameter(Mandatory = $true)][string]$Path,
+        [Parameter(Mandatory = $true)][string]$Context
+    )
+
+    if ([System.IO.Path]::IsPathRooted($Path) -or $Path -match '^[\\/]{1,2}') {
+        throw "$Context must be repository-relative, got '$Path'."
+    }
+    if ($Path -match '\\') {
+        throw "$Context must use forward slashes, got '$Path'."
+    }
+    if ($Path -split '/' | Where-Object { $_ -eq '' -or $_ -eq '.' -or $_ -eq '..' }) {
+        throw "$Context contains an invalid path segment: '$Path'."
+    }
+}
+
 function Get-PropertyValue {
     param(
         [object]$Object,
@@ -137,6 +154,9 @@ Assert-NonEmptyString -Value $trace.bead -Name 'bead'
 Assert-True -Condition ($trace.environment.path_policy -eq 'canonical_artifact_paths_are_repo_relative') -Message 'Trace path policy is not the canonical repo-relative policy.'
 Assert-True -Condition ($trace.environment.pal.ui_event_schema_version -eq 1) -Message 'PAL UiEvent schema version must be 1 for W005 v1 sample.'
 Assert-True -Condition ($trace.environment.pal.input_contract -eq 'crates/oxforms-pal/src/input.rs') -Message 'PAL input contract path must cite crates/oxforms-pal/src/input.rs.'
+Assert-NonEmptyString -Value $trace.clean_room.source -Name 'clean_room.source'
+Assert-NonEmptyString -Value $trace.clean_room.prohibited -Name 'clean_room.prohibited'
+Assert-True -Condition ([string]$trace.clean_room.prohibited -match 'No Office internals') -Message 'clean_room.prohibited must explicitly exclude Office internals.'
 
 Assert-NoAbsolutePathStrings -Value $trace -JsonPath '$'
 
@@ -380,10 +400,22 @@ Assert-True -Condition ($dispatches.Count -gt 0) -Message 'Trace sample must inc
 
 foreach ($displayArtifact in @($trace.artifacts.display_lists)) {
     Assert-True -Condition ($displayLists.ContainsKey($displayArtifact.artifact_id)) -Message "Display artifact '$($displayArtifact.artifact_id)' has no display_list row."
+    $artifactPath = Get-PropertyValue -Object $displayArtifact -Name 'path'
+    if (-not [string]::IsNullOrWhiteSpace($artifactPath)) {
+        Assert-RepoRelativeArtifactPath -Path $artifactPath -Context "Display artifact '$($displayArtifact.artifact_id)' path"
+        $resolvedArtifactPath = Resolve-RepoPath -Path $artifactPath
+        Assert-True -Condition (Test-Path -LiteralPath $resolvedArtifactPath -PathType Leaf) -Message "Display artifact '$($displayArtifact.artifact_id)' path does not exist: $artifactPath"
+    }
 }
 
 foreach ($renderArtifact in @($trace.artifacts.renders)) {
     Assert-True -Condition ($renders.ContainsKey($renderArtifact.artifact_id)) -Message "Render artifact '$($renderArtifact.artifact_id)' has no render_artifact row."
+    $artifactPath = Get-PropertyValue -Object $renderArtifact -Name 'path'
+    if (-not [string]::IsNullOrWhiteSpace($artifactPath)) {
+        Assert-RepoRelativeArtifactPath -Path $artifactPath -Context "Render artifact '$($renderArtifact.artifact_id)' path"
+        $resolvedArtifactPath = Resolve-RepoPath -Path $artifactPath
+        Assert-True -Condition (Test-Path -LiteralPath $resolvedArtifactPath -PathType Leaf) -Message "Render artifact '$($renderArtifact.artifact_id)' path does not exist: $artifactPath"
+    }
 }
 
 Write-Host 'Trace replay schema check: ok'

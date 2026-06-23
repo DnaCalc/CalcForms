@@ -16,3 +16,9 @@ Validate the current comparison manifest from the repository root:
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\evidence\Test-W005InteractionComparison.ps1 -ManifestPath docs\evidence\W005_input_interaction_model_exploration\comparisons\interaction-events-modeless-vs-headless-probe.json
 ```
+
+The validator preserves the observation-only boundary. It checks source evidence
+paths and hashes, clean-room notes, classification vocabulary, and linked report
+location. It rejects pass/fail verdict fields; future parity oracle rules must
+be specified in a later spec before comparison artifacts can become pass/fail
+gates.

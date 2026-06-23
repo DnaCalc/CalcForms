@@ -68,8 +68,9 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\trace-replay\Test-
 
 The validator checks the committed schema and sample for required sections,
 logical ordering, coordinate-space tags, effect and VBA-dispatch causality,
-display/render references, and absence of machine-local absolute paths in the
-canonical sample.
+display/render references, existing repo-relative artifact paths when a path is
+present, explicit clean-room notes, and absence of machine-local absolute paths
+in the canonical sample.
 
 Validate the `oxforms-xvx.12` golden trace:
 

@@ -163,6 +163,17 @@ This capture is W005 evidence/test infrastructure only. It does not claim final
 and it does not replace headless reducer tests or the deterministic
 `oxforms-xvx.12` trace/replay runner.
 
+Validate the committed visible-smoke evidence without opening a live window:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\evidence\Test-W005VisibleInputSmokeEvidence.ps1 -CaptureDir docs\evidence\W005_input_interaction_model_exploration\captures\visible-input-smoke-20260623T035500Z
+```
+
+This validator is an evidence-preservation check. It verifies the manifest,
+tracked command logs, action coordinate vocabulary, trace coverage tokens,
+screenshot hash, clean-room notes, and non-claims; it does not define final
+runtime, lifecycle, rendering, or MSForms parity pass/fail rules.
+
 ## Windows Automation And Inspection
 
 [`windows-automation-inspection.md`](windows-automation-inspection.md) records
