@@ -121,7 +121,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.11` | Ground the first CheckBox boolean-value lane with public facts, fixture input, oracle evidence, or exact blockers. | `oxforms-0a0.9`, `oxforms-0a0.8` | CheckBox property/event/rendering/state surfaces are named before implementation starts; broad morph-control parity remains deferred. |
 | `oxforms-0a0.12` | Implement or precisely block the first MSForms.CheckBox boolean-value reducer/display/.frm slice. | `oxforms-0a0.9`, `oxforms-0a0.8`, `oxforms-0a0.4`, `oxforms-0a0.11` | Only the fact-backed boolean CheckBox subset is implemented; W005 probe scaffolds are replaced/renamed or explicitly quarantined. |
 | `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9`, `oxforms-0a0.8` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
-| `oxforms-0a0.13` | Capture public `TextBox.Paste`/`BeforeDropOrPaste` oracle facts and precisely block undriven text-service/transfer surfaces. | `oxforms-0a0.6` | Repo-owned fixture evidence separates observations from assumptions; true OLE drag/drop and keyboard/text-service driver gaps remain explicit follow-ups before runtime parity claims. |
+| `oxforms-0a0.13` | Capture public `TextBox.Paste`/`BeforeDropOrPaste` oracle facts and precisely block undriven text-service/transfer surfaces. | `oxforms-0a0.6` | Repo-owned fixture evidence separates observations from assumptions; true OLE drag/drop and keyboard/text-service driver gaps were split into explicit follow-ups before runtime parity claims. |
 | `oxforms-0a0.14` | Implement or precisely block the first text-only TextBox clipboard paste subset. | `oxforms-0a0.6`, `oxforms-0a0.13` | Platform clipboard objects stay outside core state; focused tests cover accepted text paste, selection replacement, Change/repaint behavior, and unsupported format diagnostics; DataObject/rich paste remains non-claim. |
 | `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6`, `oxforms-0a0.13`, `oxforms-0a0.16` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked; `.16` must capture or precisely block the live OLE drag-session oracle before runtime drag/drop parity/dispatch claims. |
 | `oxforms-0a0.16` | Build or precisely block the live OLE drag/drop `DataObject` oracle driver. | `oxforms-0a0.13` | A real drag-session `DataObject` fixture/driver captures `BeforeDragOver` and `BeforeDropOrPaste` facts, or records the exact public-capability blocker; `.13` paste observations remain adjacent evidence, not true drag/drop parity evidence. |
@@ -148,12 +148,13 @@ implementation/blocker follow-ups. `oxforms-0a0.13` captured a public
 [`../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md`](../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md):
 `oxforms-0a0.14` is unblocked only for a first text-only paste implementation or
 blocker that keeps `Ctrl+V`, IME/dead-key behavior, rich formats, and broad
-`DataObject` parity as non-claims; `oxforms-0a0.15` remains blocked for true
-OLE drag/drop parity until `oxforms-0a0.16` or equivalent evidence supplies a
-live drag-session `DataObject` oracle. The current v1 trace validator and
-`UI_EVENT_SCHEMA_VERSION = 1` do not accept the reserved `TextComposition*`,
-`PasteRequest`, or drag/drop event names; implementation must update those
-contracts in the same change that emits such rows.
+`DataObject` parity as non-claims. `oxforms-0a0.16` later supplied the separate
+live drag-session `DataObject` oracle, so `oxforms-0a0.15` is no longer blocked
+on absence of true OLE drag/drop evidence; it remains responsible for any
+runtime trace/dispatch implementation or precise blocker. The current v1 trace
+validator and `UI_EVENT_SCHEMA_VERSION = 1` do not accept the reserved
+`TextComposition*`, `PasteRequest`, or drag/drop event names; implementation
+must update those contracts in the same change that emits such rows.
 
 ## Closure Conditions
 
