@@ -21,7 +21,7 @@ If a future bead implements accessibility behavior, it must name:
 
 - target user or client need;
 - platform API target, such as Windows UI Automation, MSAA, or a host-specific
-  accessibility bridge;
+  accessibility API adapter or provider integration;
 - supported form/control subset;
 - source of compatibility evidence when MSForms parity is claimed;
 - provider ownership across core state, PAL/window adapters, and host
