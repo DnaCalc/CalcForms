@@ -92,4 +92,3 @@ bead's paste `DataObject` facts as adjacent evidence, but `BeforeDragOver`,
 drag-session `DataObject`, drop-effect negotiation, and full drag/drop ordering
 remain intentionally blocked pending `oxforms-0a0.16` or an equivalent exact
 blocker.
-
