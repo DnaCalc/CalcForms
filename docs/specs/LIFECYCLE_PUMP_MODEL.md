@@ -62,11 +62,13 @@ Current facts:
 - `oxforms-0a0.10` classifies the deferred nested modal, `DoEvents`-like yield,
   modal-frame reentrancy, modal completion, and `Terminate` timing surfaces in
   [`nested-modal-reentrant-pump-design.md`](../evidence/W006_control_implementation_rollout/nested-modal-reentrant-pump-design.md).
+  `oxforms-0a0.20` records the shared OxVba/OxForms/PAL ownership contract.
   That design files child beads for nested-modal oracle evidence
-  (`oxforms-0a0.19`), shared OxVba/OxForms/PAL ownership (`oxforms-0a0.20`),
-  object-lifetime `Terminate` evidence (`oxforms-0a0.21`), and a first
-  host-neutral modal-frame trace subset (`oxforms-0a0.22`). No broad modal pump
-  or `DoEvents` implementation is authorized by this classification alone.
+  (`oxforms-0a0.19`), object-lifetime `Terminate` evidence
+  (`oxforms-0a0.21`), a first host-neutral modal-frame trace subset
+  (`oxforms-0a0.22`), and live `DoEvents` yield oracle evidence
+  (`oxforms-0a0.23`). No broad modal pump or `DoEvents` implementation is
+  authorized by this classification alone.
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
@@ -309,6 +311,46 @@ completions are owned by
 [`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md), especially sections 5, 9,
 11, and 14.
 
+### 10.1 Shared Runtime Ownership Contract
+
+`oxforms-0a0.20` fixes the owner boundary for future runtime work:
+
+- OxVba owns VBA call-stack suspension/resume, native FM20-named event
+  dispatch, handler reentry, `QueryClose` scalar/helper mutation propagation,
+  default-instance identity, object reference/lifetime state, and whether
+  `Terminate` can be dispatched or reported.
+- OxForms reducer owns all `FormState` writes, including lifecycle state, pump
+  state, modal depth, active/focus/capture state, close/query/hide/unload state,
+  invalidations, and ordered effects.
+- OxForms effect runner/adapter owns effect ids, dispatch ids, completion
+  policy, trace causality, and conversion of OxVba/PAL/host observations into
+  normalized `UiEvent` rows or `effect_completed` rows.
+- PAL/window code owns native surfaces: window show/hide/destroy, owner and
+  activation/focus diagnostics, platform close notifications, input capture,
+  and delivery of platform input while a modeless pump, modal frame, or runtime
+  yield is active.
+
+The boundary has these hard consequences:
+
+1. `ShowFormModal` may block caller-side VBA execution, but the block/resume
+   semantics are OxVba runtime behavior. OxForms records `EnterModalFrame`,
+   `ExitModalFrame`, `PumpFrameExited`, `lifecycle_pump`, and
+   `effect_completed` rows and updates state only through reducer inputs.
+2. `DoEvents`-like yielding starts from OxVba runtime execution. Any queued PAL
+   input, service completion, host callback, or dispatch result produced during
+   the yield reenters the same normalized event path with `parent_row_id` and
+   `nesting_depth`.
+3. A `QueryClose` cancellation is not a side-channel state write. OxVba returns
+   dispatch success/error plus before/after `Cancel` and `CloseMode` values;
+   the reducer consumes that as `QueryCloseCompleted`.
+4. `Unloaded` and `Terminated` remain separate. OxForms may record logical
+   unload when its reducer/effect flow completes, but `Terminated` requires
+   OxVba object-lifetime/default-instance/reference evidence or an explicit
+   oracle/replay row.
+
+If any future bead cannot satisfy this owner boundary, it must file a precise
+blocker or handover before adding runtime behavior.
+
 ## 11. W005 Probe Subset
 
 The W005 probe subset is intentionally small:
@@ -319,7 +361,7 @@ The W005 probe subset is intentionally small:
   `close_requested`, `query_close_pending`, `close_cancelled`,
   `hide_pending`, `unloading`, and `terminated`;
 - pump terms: `host_modeless_pump`, `modal_frame`, `nested_modal_depth`,
-  `vba_dispatch_reentrancy`, `host_callback_reentrancy`, and
+  `doevents_yield`, `vba_dispatch_reentrancy`, `host_callback_reentrancy`, and
   `close_unload_cancellation`;
 - events/effects: form materialization, `Initialize`, show modal/modeless,
   activation/deactivation, optional resize logging, close request,

@@ -126,6 +126,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.20` | Define shared modal and DoEvents pump ownership contract. | `oxforms-0a0.10` | OxVba, OxForms core/effect-runner, and PAL/window ownership for modal frames, `DoEvents`, reentrancy, modal completion, and `Terminate` timing is explicit, with handovers or blockers where shared support is missing. |
 | `oxforms-0a0.21` | Capture or precisely block `UserForm.Terminate` object-lifetime oracle evidence. | `oxforms-0a0.10` | Hide, unload, modal return, modeless close, held-reference, and reference-release scenarios separate `Unloaded` from `Terminated` using live evidence or exact blockers. |
 | `oxforms-0a0.22` | Implement or precisely block the first host-neutral modal-frame trace subset. | `oxforms-0a0.10`, `oxforms-0a0.20` | Synthetic/replayable modal-frame rows use `TRACE_REPLAY_SCHEMA.md` parent/nesting, modal depth, `lifecycle_pump`, effect request, and effect completion requirements without claiming live modal parity. |
+| `oxforms-0a0.23` | Capture DoEvents-like yield oracle evidence. | `oxforms-0a0.10`, `oxforms-0a0.20` | Modeless and modal-frame `DoEvents` yield attempts record or precisely block active handler, call site, queued work, parent dispatch/effect context, nesting depth, resume point, and trace implications without runtime implementation. |
 | `oxforms-0a0.5` | Split the first intrinsic-control implementation lane beyond W005 probes. | `oxforms-0a0.9`, `oxforms-0a0.4`, `oxforms-0a0.8` | First control lane is fact-backed or precisely blocked; implementation work is split into control-specific beads; W005 probe scaffolds are promoted, replaced, deleted, or quarantined intentionally. |
 | `oxforms-0a0.11` | Ground the first CheckBox boolean-value lane with public facts, fixture input, oracle evidence, or exact blockers. | `oxforms-0a0.9`, `oxforms-0a0.8` | CheckBox property/event/rendering/state surfaces are named before implementation starts; broad morph-control parity remains deferred. |
 | `oxforms-0a0.12` | Implement or precisely block the first MSForms.CheckBox boolean-value reducer/display/.frm slice. | `oxforms-0a0.9`, `oxforms-0a0.8`, `oxforms-0a0.4`, `oxforms-0a0.11` | Only the fact-backed boolean CheckBox subset is implemented; W005 probe scaffolds are replaced/renamed or explicitly quarantined. |
@@ -197,8 +198,19 @@ to [`../specs/TRACE_REPLAY_SCHEMA.md`](../specs/TRACE_REPLAY_SCHEMA.md); files
 the OxVba handover
 [`../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md`](../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md);
 and splits follow-up work into `oxforms-0a0.19`, `oxforms-0a0.20`,
-`oxforms-0a0.21`, and `oxforms-0a0.22`. No broad modal/runtime implementation
-is claimed.
+`oxforms-0a0.21`, `oxforms-0a0.22`, and `oxforms-0a0.23`. No broad
+modal/runtime implementation is claimed.
+
+Current `oxforms-0a0.20` status: shared ownership contract recorded. The W006
+modal/reentrant pump design note now separates OxVba-owned VBA dispatch, yield,
+default-instance, and object-lifetime responsibilities from OxForms reducer and
+effect-runner responsibilities and PAL/window responsibilities. The OxVba
+handover
+[`../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md`](../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md)
+names the minimal modal show, nested modal, `DoEvents`, reentrant dispatch,
+`QueryClose`, and `Terminate` scenarios with inputs, expected completions, and
+evidence paths. Missing `DoEvents` oracle evidence is split into
+`oxforms-0a0.23`. No runtime implementation is claimed.
 
 Current `oxforms-0a0.4` status: implemented-subset in the host-neutral core
 loader/projection path. The selected fixture
