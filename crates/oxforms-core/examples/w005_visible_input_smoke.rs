@@ -34,7 +34,7 @@ fn main() -> Result<(), Box<dyn Error>> {
 
     #[cfg(windows)]
     {
-        return run_windows_smoke(config);
+        run_windows_smoke(config)
     }
 
     #[cfg(not(windows))]

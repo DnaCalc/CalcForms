@@ -1,0 +1,109 @@
+[CmdletBinding()]
+<#
+.SYNOPSIS
+    Run the headless OxForms evidence validators in one pass.
+
+.DESCRIPTION
+    Aggregates the environment-independent evidence checks (no live Excel/Office
+    required) so drift in committed evidence cannot sit unnoticed:
+
+      - office-oracle scaffold and the W003 oracle comparison manifest;
+      - the trace/replay schema validator over every committed trace sample;
+      - the W005 interaction comparison manifest;
+      - every committed checksums.sha256 manifest (git-tracked coverage).
+
+    Per-capture Office evidence validators (Test-W006*CaptureEvidence.ps1, etc.)
+    take a specific -CaptureDir and are run by their owning capture beads; they
+    are intentionally out of scope here.
+
+    Exits non-zero if any check fails.
+#>
+param(
+    [switch]$Quiet
+)
+
+Set-StrictMode -Version Latest
+$ErrorActionPreference = 'Stop'
+
+$repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..')).Path
+
+$results = [System.Collections.Generic.List[object]]::new()
+
+function Invoke-Check {
+    param(
+        [Parameter(Mandatory = $true)][string]$Name,
+        [Parameter(Mandatory = $true)][string]$Script,
+        [hashtable]$Params = @{}
+    )
+
+    $scriptPath = Join-Path $repoRoot $Script
+    $ok = $true
+    $detail = ''
+    if (-not (Test-Path -LiteralPath $scriptPath -PathType Leaf)) {
+        $ok = $false
+        $detail = "missing script: $Script"
+    } else {
+        # These validators signal failure by throwing under $ErrorActionPreference
+        # = 'Stop'; some also `exit N`. Treat no-throw + zero exit as success and
+        # capture every stream so the child's own output stays out of the summary.
+        $global:LASTEXITCODE = 0
+        try {
+            $output = & $scriptPath @Params *>&1
+            if ($LASTEXITCODE -ne 0) {
+                $ok = $false
+                $detail = (@($output) | Select-Object -Last 1 | ForEach-Object { "$_" }) -join ' '
+                if ([string]::IsNullOrWhiteSpace($detail)) { $detail = "exit code $LASTEXITCODE" }
+            }
+        } catch {
+            $ok = $false
+            $detail = $_.Exception.Message
+        }
+    }
+
+    $results.Add([pscustomobject]@{ Name = $Name; Ok = $ok; Detail = $detail })
+    if (-not $Quiet) {
+        $status = if ($ok) { 'ok  ' } else { 'FAIL' }
+        Write-Host "  [$status] $Name"
+        if (-not $ok -and $detail) {
+            Write-Host "         $detail"
+        }
+    }
+}
+
+# Structural / manifest checks.
+Invoke-Check -Name 'office-oracle scaffold' -Script 'tools/office-oracle/Test-OfficeOracleScaffold.ps1'
+Invoke-Check -Name 'W003 oracle comparison manifest' -Script 'tools/office-oracle/Test-OracleComparisonManifest.ps1'
+Invoke-Check -Name 'W005 interaction comparison manifest' -Script 'tools/evidence/Test-W005InteractionComparison.ps1'
+
+# Trace/replay schema over every committed trace sample.
+$traceSamples = @(
+    'docs/evidence/W005_input_interaction_model_exploration/trace-replay/synthetic-click-trace.v1.json',
+    'docs/evidence/W005_input_interaction_model_exploration/trace-replay/reducer-skeleton-transition-log.v1.json',
+    'docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json',
+    'docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json'
+)
+foreach ($trace in $traceSamples) {
+    Invoke-Check -Name "trace schema: $(Split-Path -Leaf $trace)" -Script 'tools/trace-replay/Test-TraceReplaySchema.ps1' -Params @{ TracePath = $trace }
+}
+
+# Every committed checksum manifest (git-tracked coverage so gitignored *.log
+# working duplicates do not trip the on-disk coverage check).
+$checksumDirs = @(
+    Get-ChildItem -LiteralPath (Join-Path $repoRoot 'docs/evidence') -Recurse -File -Filter 'checksums.sha256' |
+        ForEach-Object { $_.Directory.FullName } |
+        Sort-Object
+)
+foreach ($dir in $checksumDirs) {
+    $label = $dir.Substring($repoRoot.Length).TrimStart('\', '/').Replace('\', '/')
+    Invoke-Check -Name "checksums: $label" -Script 'tools/evidence/Test-ChecksumManifest.ps1' -Params @{ Directory = $dir; GitTrackedOnly = $true }
+}
+
+$failed = @($results | Where-Object { -not $_.Ok })
+$total = $results.Count
+Write-Host ''
+Write-Host "Evidence checks: $($total - $failed.Count)/$total passed."
+if ($failed.Count -gt 0) {
+    Write-Host "Failed: $(($failed | ForEach-Object { $_.Name }) -join '; ')"
+    exit 1
+}
+exit 0

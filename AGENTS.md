@@ -34,9 +34,17 @@ As code lands, keep this list current:
 | Check | Command |
 |---|---|
 | Rust format | `cargo fmt --check` |
-| Rust lint | `cargo clippy --workspace -- -D warnings` |
+| Rust lint | `cargo clippy --workspace --all-targets -- -D warnings` |
 | Rust tests | `cargo test --workspace` |
+| Evidence validators | `pwsh -File tools/Run-EvidenceChecks.ps1` |
 | Bead graph | `br dep cycles` and `br ready --json` |
+
+Enable the pre-commit hook once per clone so whitespace/EOF and the Rust lint
+floor are enforced before commit:
+
+```
+git config core.hooksPath .githooks
+```
 
 ## Safety
 - Do not run destructive git or filesystem operations unless explicitly asked.

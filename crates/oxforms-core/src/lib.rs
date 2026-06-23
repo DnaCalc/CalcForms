@@ -4547,7 +4547,7 @@ mod tests {
                 InvalidationReason::CheckBoxPressedChanged,
             ]
         );
-        assert_eq!(up.transition.after.check_box_values[0].checked, true);
+        assert!(up.transition.after.check_box_values[0].checked);
     }
 
     #[test]

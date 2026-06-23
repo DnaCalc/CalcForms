@@ -1,0 +1,26 @@
+#!/bin/sh
+# OxForms pre-commit hook.
+#
+# Enforces the cheap parts of the verification floor so cosmetic and lint
+# defects never reach a commit (they previously cost dedicated "Repair
+# whitespace/EOF" follow-up commits). Enable once per clone with:
+#
+#     git config core.hooksPath .githooks
+#
+# Skip in an emergency with `git commit --no-verify`, but fix the cause.
+
+set -eu
+
+# 1. Whitespace / blank-line-at-EOF errors in the staged content.
+if ! git diff --cached --check; then
+	echo "pre-commit: fix the whitespace/EOF errors listed above (or 'git commit --no-verify' to bypass)." >&2
+	exit 1
+fi
+
+# 2. Rust format + lint floor, only when Rust sources or manifests are staged.
+if git diff --cached --name-only --diff-filter=ACM | grep -Eq '\.rs$|(^|/)Cargo\.(toml|lock)$'; then
+	echo "pre-commit: cargo fmt --check"
+	cargo fmt --check
+	echo "pre-commit: cargo clippy --workspace --all-targets -- -D warnings"
+	cargo clippy --workspace --all-targets -- -D warnings
+fi

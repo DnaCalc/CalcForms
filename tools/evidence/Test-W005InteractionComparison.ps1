@@ -147,12 +147,20 @@ function Assert-NoReservedVerdictFields {
         return
     }
 
-    foreach ($property in $Value.PSObject.Properties) {
-        if ($reservedVerdictTerms -contains $property.Name.ToLowerInvariant()) {
-            throw "Comparison manifest contains reserved pass/fail verdict field at ${JsonPath}.$($property.Name)."
+    if ($Value -is [System.Management.Automation.PSCustomObject]) {
+        foreach ($property in $Value.PSObject.Properties) {
+            if ($reservedVerdictTerms -contains $property.Name.ToLowerInvariant()) {
+                throw "Comparison manifest contains reserved pass/fail verdict field at ${JsonPath}.$($property.Name)."
+            }
+            Assert-NoReservedVerdictFields -Value $property.Value -JsonPath "$JsonPath.$($property.Name)"
         }
-        Assert-NoReservedVerdictFields -Value $property.Value -JsonPath "$JsonPath.$($property.Name)"
+        return
     }
+
+    # Any other scalar (DateTime, numbers, booleans) has no nested fields and is a
+    # leaf. Without this guard, PowerShell 7's ConvertFrom-Json coerces ISO
+    # timestamps to [datetime], whose self-similar .Date/.DateTime properties make
+    # the property walk recurse forever.
 }
 
 function Assert-CleanRoomPosture {

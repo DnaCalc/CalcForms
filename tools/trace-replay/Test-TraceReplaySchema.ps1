@@ -126,9 +126,17 @@ function Assert-NoAbsolutePathStrings {
         return
     }
 
-    foreach ($property in $Value.PSObject.Properties) {
-        Assert-NoAbsolutePathStrings -Value $property.Value -JsonPath "$JsonPath.$($property.Name)"
+    if ($Value -is [System.Management.Automation.PSCustomObject]) {
+        foreach ($property in $Value.PSObject.Properties) {
+            Assert-NoAbsolutePathStrings -Value $property.Value -JsonPath "$JsonPath.$($property.Name)"
+        }
+        return
     }
+
+    # Any other scalar (DateTime, numbers, booleans) carries no path content and
+    # is a leaf. Without this guard, PowerShell 7's ConvertFrom-Json coerces ISO
+    # timestamps to [datetime], whose self-similar .Date/.DateTime properties make
+    # the property walk recurse forever.
 }
 
 $resolvedTrace = Resolve-RepoPath -Path $TracePath

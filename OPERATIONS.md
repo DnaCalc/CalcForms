@@ -132,10 +132,11 @@ Normal floors as they become available:
 
 | Surface | Check |
 |---|---|
-| Rust crates | `cargo fmt --check`, `cargo clippy --workspace -- -D warnings`, `cargo test --workspace` |
+| Rust crates | `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` |
 | VBA library fixtures | OxVba compile/run fixture or targeted harness |
 | Rendering | display-list golden, headless render hash/screenshot, or visual diff |
 | MSForms behavior | generated fact row plus Office/MSForms oracle where available |
+| Evidence artifacts | `pwsh -File tools/Run-EvidenceChecks.ps1` (headless: checksum manifests, trace/replay schema, comparison manifests); per-capture `Test-W0xx*CaptureEvidence.ps1` for live captures |
 | Excel RefEdit | non-Excel capability-diagnostic test, synthetic range-selection replay, optional live Excel differential |
 | Docs/doctrine | careful read-through, link/path scan, `br` sanity check |
 

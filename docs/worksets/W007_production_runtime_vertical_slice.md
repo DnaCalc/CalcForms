@@ -173,7 +173,7 @@ W007 closes only when:
 |---|---|
 | Docs/workset/register | read-through, path/link scan, `git diff --check` |
 | Bead graph | `br dep cycles`, `br ready --json`, `br list --json` |
-| Rust crates | `cargo fmt --check`, `cargo clippy --workspace -- -D warnings`, `cargo test --workspace` |
+| Rust crates | `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` |
 | OxVba event gate | targeted class event fixture through pinned or updated OxVba baseline |
 | VBA library | OxVba compile/run fixture or targeted harness |
 | Runtime/effect runner | headless test proving TextBox input, button click, native VBA handler, Label update, and repaint |
