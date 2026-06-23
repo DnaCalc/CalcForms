@@ -118,8 +118,8 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.12` | Implement or precisely block the first MSForms.CheckBox boolean-value reducer/display/.frm slice. | `oxforms-0a0.9`, `oxforms-0a0.8`, `oxforms-0a0.4`, `oxforms-0a0.11` | Only the fact-backed boolean CheckBox subset is implemented; W005 probe scaffolds are replaced/renamed or explicitly quarantined. |
 | `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9`, `oxforms-0a0.8` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
 | `oxforms-0a0.13` | Capture or precisely block MSForms text-service, clipboard, paste, and drag/drop oracle facts. | `oxforms-0a0.6` | Repo-owned fixture evidence or exact blockers separate observations from assumptions before runtime parity claims. |
-| `oxforms-0a0.14` | Implement or precisely block the first text-only TextBox clipboard paste subset. | `oxforms-0a0.6` | Platform clipboard objects stay outside core state; focused tests cover accepted text paste or exact blockers; DataObject/rich paste remains non-claim. |
-| `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked. |
+| `oxforms-0a0.14` | Implement or precisely block the first text-only TextBox clipboard paste subset. | `oxforms-0a0.6`, `oxforms-0a0.13` | Platform clipboard objects stay outside core state; `.13` must capture or precisely block the MSForms oracle facts before runtime paste parity/dispatch claims; focused tests cover accepted text paste or exact blockers; DataObject/rich paste remains non-claim. |
+| `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6`, `oxforms-0a0.13` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked; `.13` must capture or precisely block the MSForms oracle facts before runtime drag/drop parity/dispatch claims. |
 | `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
 
 ### `oxforms-0a0.6` Design Outcome
@@ -135,7 +135,12 @@ The design requires platform clipboard objects, drag sessions, IME contexts, and
 COM `MSForms.DataObject` instances to stay outside core `FormState`. Future
 runtime beads must use normalized value-shaped events, service/effect
 completions, serializable data-object snapshots, and focused trace/PAL/core
-tests before claiming any of these surfaces. The current v1 trace validator and
+tests before claiming any of these surfaces. `oxforms-0a0.13` is the
+MSForms oracle/evidence gate for the first clipboard/paste and drag/drop
+implementation/blocker follow-ups: `oxforms-0a0.14` and `oxforms-0a0.15` must
+wait for `.13` to capture or precisely block the relevant text-service,
+clipboard, paste, drag/drop, and `DataObject` facts before they make runtime
+parity or dispatch claims. The current v1 trace validator and
 `UI_EVENT_SCHEMA_VERSION = 1` do not accept the reserved `TextComposition*`,
 `PasteRequest`, or drag/drop event names; implementation must update those
 contracts in the same change that emits such rows.
