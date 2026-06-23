@@ -507,6 +507,15 @@ replay without live Excel or another host.
   single generic `Dispatched` carrier event as test infrastructure only; the
   OxVba gap is recorded in
   [`../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
+- `oxforms-0a0.2` rechecked the downstream W006 native-dispatch lane and found
+  that the OxVba package-session path still cannot invoke attached
+  FM20-named `WithEvents` handlers for the attempted scalar mouse/click subset
+  without faulting before handler entry. The exact blocker and attempted shapes
+  are recorded in
+  [`../evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md`](../evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md).
+  Until OxVba exposes a shared native event hook for this subset, downstream
+  implementation beads must not route production forms events through the W005
+  generic carrier.
 - `oxforms-xvx.11` adds a Windows visible input pump smoke in
   `crates/oxforms-core/examples/w005_visible_input_smoke.rs`, driven by
   `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1`. The smoke opens

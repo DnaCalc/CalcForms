@@ -110,6 +110,14 @@ or splitter beads before any all-surface implementation is attempted.
 
 ## Closure Conditions
 
+Current `oxforms-0a0.2` status: blocked in OxForms by the shared OxVba event
+path. The attempted native scalar subset (`MouseDown`, `MouseUp`, `MouseMove`,
+and `Click`) is documented in
+[`../evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md`](../evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md),
+and the OxVba handover remains
+[`../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
+The W005 `Dispatched` carrier remains smoke/test infrastructure only.
+
 W006 closes only when:
 
 1. the planning/review gate has closed and all executable W006 beads are either

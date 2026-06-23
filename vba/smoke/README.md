@@ -25,5 +25,7 @@ MSForms compatibility surface.
 They prove reducer event effects can reach VBA handler code through OxVba
 `RaiseEvent`/`WithEvents`. They use one generic `Dispatched` carrier event as
 test infrastructure because direct FM20-named event raises are tracked in
-`docs/handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`; this carrier must not
-be treated as the final forms event runtime.
+`docs/handovers/HANDOVER_OxVba_w005_fm20_event_raise.md` and the W006 blocker
+evidence at
+`docs/evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md`;
+this carrier must not be treated as the final forms event runtime.
