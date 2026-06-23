@@ -159,6 +159,17 @@ runtime implementation is split into `oxforms-0a0.11` and `oxforms-0a0.12`.
 Scaffold classification and required surfaces are recorded in
 [`../evidence/W006_control_implementation_rollout/first-intrinsic-control-lane.md`](../evidence/W006_control_implementation_rollout/first-intrinsic-control-lane.md).
 
+Current `oxforms-0a0.11` status: readiness grounded for the first
+`MSForms.CheckBox` boolean-value lane. The curated subset is recorded in
+[`../specs/FM20_EVENT_FACTS.md`](../specs/FM20_EVENT_FACTS.md), and the
+fixture input
+[`../../fixtures/frm/w006-checkbox-boolean/w006-checkbox-boolean.frm`](../../fixtures/frm/w006-checkbox-boolean/w006-checkbox-boolean.frm)
+contains checked and unchecked boolean cases with no `.frx` dependency.
+`oxforms-0a0.12` remains responsible for implementation and must keep
+tri-state/null, `ControlSource`, native FM20-named dispatch, broad morph-control
+parity, and pixel-perfect rendering as non-claims unless separate beads ground
+them.
+
 W006 closes only when:
 
 1. the planning/review gate has closed and all executable W006 beads are either

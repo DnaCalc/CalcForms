@@ -2,6 +2,9 @@
 
 Status: splitter decision for `oxforms-0a0.5`.
 
+Readiness update: `oxforms-0a0.11` grounds the first CheckBox boolean-value
+lane before runtime implementation.
+
 ## Decision
 
 The first intrinsic-control implementation lane beyond the W005 `Label`,
@@ -32,10 +35,9 @@ Grounding sources reviewed:
   `OptionButton`, `ToggleButton`) is the first P4 breadth group because those
   controls share MS-OFORMS `MorphData` persistence.
 - `docs/specs/FM20_EVENT_FACTS.md` records public FM20 type-library and public
-  documentation facts for the W005 event vocabulary. It already records that
-  `Change` applies beyond `TextBox` to check/option/toggle style controls and
-  that value-selection controls have a broader `Click` surface, but it does
-  not yet curate a CheckBox-specific event/property subset.
+  documentation facts for the W005 event vocabulary. `oxforms-0a0.11` extends
+  it with a CheckBox-specific boolean-value readiness subset while keeping
+  broader check/option/toggle behavior deferred.
 - `docs/specs/INPUT_INTERACTION_MODEL.md` defines the shared reducer/effect
   loop, focus/capture/tab routing, `FireVbaEvent`, invalidation, and
   trace/replay obligations that a CheckBox slice must use.
@@ -103,6 +105,136 @@ Minimum rendering/state surface:
 - value-change and pressed/focus invalidation;
 - serializable display-list intent for caption text, focus indication, box
   glyph, check mark, disabled state, and pressed/normal state.
+
+## CheckBox Boolean-Value Readiness
+
+Status: ready for the narrow implementation bead `oxforms-0a0.12`, with
+blockers and non-claims below.
+
+### Public Facts
+
+- `MSForms.CheckBox` is a distinct intrinsic control in the morph/data group,
+  but this lane does not implement the whole morph group.
+- Microsoft Learn `CheckBox control` describes selected and unselected states as
+  Yes/True/On and No/False/Off, says `Value` is the CheckBox default property,
+  and says `Click` is the CheckBox default event.
+- Microsoft Learn `TripleState property` says `TripleState=False` supports only
+  `True` and `False` through the UI, while `TripleState=True` allows `Null`.
+  This lane uses only the boolean subset and does not implement `Null`.
+- The committed public FM20 type-library metadata under
+  `docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json`
+  contains coclass `CheckBox` with source interface `MdcCheckBoxEvents`.
+- `docs/specs/FM20_EVENT_FACTS.md` now curates the CheckBox boolean-value event
+  subset for `MouseDown`, `MouseMove`, `MouseUp`, `Click`, `Change`, `KeyDown`,
+  `KeyUp`, and focus participation blockers for `Enter`/`Exit`.
+- `docs/specs/COORDINATE_MODEL.md` requires `.frm` twips to convert exactly to
+  point-based `form_logical` coordinates, and mouse event `X`/`Y` arguments to
+  stay target-local `msforms_event_args` points when dispatch rows are emitted.
+- `docs/specs/TRACE_REPLAY_SCHEMA.md` requires future CheckBox traces to record
+  normalized input, routing decisions, reducer transitions, ordered effects,
+  dispatch rows, invalidations, display-list references, and exact blockers as
+  rows or diagnostics rather than hidden behavior.
+
+### Fixture Input
+
+Repo-owned fixture input:
+`fixtures/frm/w006-checkbox-boolean/w006-checkbox-boolean.frm`.
+
+The fixture contains:
+
+- form `OxFormsW006CheckBoxBooleanForm`;
+- `OracleCheckBoxFalse` with `Caption = "Unchecked"` and `Value = 0`;
+- `OracleCheckBoxTrue` with `Caption = "Checked"` and `Value = -1`;
+- `Enabled = -1`, `Visible = -1`, `TabStop = -1`, explicit `TabIndex`, and
+  twip `Left`/`Top`/`Width`/`Height` for both controls;
+- no `.frx` references and no binary resource properties.
+
+The fixture is readiness input, not MSForms oracle output. `Value = 0` and
+`Value = -1` follow the existing repo fixture convention for serialized boolean
+properties and are constrained here to the public-doc boolean `False`/`True`
+subset. `oxforms-0a0.12` should parse only this boolean subset or record an
+exact blocker; it must not infer tri-state/null behavior from this fixture.
+
+### Implementation Surface For `oxforms-0a0.12`
+
+Property surface:
+
+- load `Begin MSForms.CheckBox` blocks from the selected `.frm` fixture path;
+- `Caption`;
+- `Value` limited to boolean false/true tokens only;
+- `Enabled`;
+- `Visible`;
+- `Left`, `Top`, `Width`, and `Height` converted from twips to
+  `form_logical` points;
+- `TabIndex`;
+- `TabStop`.
+
+State surface:
+
+- checkable/focusable control state separate from `TextBoxProbeState`;
+- boolean checked value;
+- pressed/armed state for pointer or keyboard activation;
+- focus/tab participation for visible, enabled, focusable CheckBox controls;
+- invalidation reasons at least for `checkbox_value_changed`,
+  `checkbox_pressed_changed`, and focus visual changes, or exact equivalent
+  names documented in the implementation bead.
+
+Event/effect surface:
+
+- mouse routing/effects: `MouseDown`, `MouseMove`, `MouseUp`;
+- activation: `Click`;
+- value mutation: `Change`;
+- keyboard diagnostics/activation: `KeyDown`, `KeyUp`;
+- `Enter`/`Exit`: focus participation may be modeled for routing, but native
+  CheckBox dispatch is blocked until CheckBox-specific exposure of generic
+  `ControlEvents` is observed or implemented through shared OxVba machinery.
+
+Rendering/display-list surface:
+
+- serializable display-list intent for the CheckBox box glyph, check mark,
+  caption text, focus indication, disabled state, pressed state, and normal
+  state;
+- no pixel-perfect MSForms theming, font metrics, accelerator-display parity, or
+  native control painting claim.
+
+Trace/replay surface:
+
+- future CheckBox goldens must use the row families in
+  `docs/specs/TRACE_REPLAY_SCHEMA.md`;
+- dispatch rows must cite `docs/specs/FM20_EVENT_FACTS.md`;
+- if native dispatch remains blocked, rows must record the blocker rather than
+  routing production behavior through the W005 generic `Dispatched` carrier.
+
+### Assumptions
+
+- A CheckBox can be made visible, enabled, focusable, and tab-participating in
+  the selected fixture using the same `.frm` boolean-token convention already
+  used by W006 `TabStop`, `Default`, and `Cancel` fixture properties.
+- The first implementation can treat `Value = 0` as false and `Value = -1` as
+  true for the selected boolean lane, while rejecting or blocking other tokens
+  until broader coercion facts are grounded.
+- The first display-list reference can be an intent model for a box/check/caption
+  control rather than an MSForms pixel oracle.
+
+### Unknowns And Blockers
+
+- Exact `Click` versus `Change` ordering for CheckBox user activation is not
+  live-oracle grounded in this repo.
+- Exact Space/Enter keyboard activation behavior and ordering are not
+  live-oracle grounded in this repo.
+- Exact CheckBox `Enter`/`Exit` native handler exposure is blocked by the generic
+  `ControlEvents` mapping unknown recorded in `docs/specs/FM20_EVENT_FACTS.md`.
+- Native FM20-named dispatch is blocked by `oxforms-0a0.2`; production CheckBox
+  work must not rely on the W005 generic `Dispatched` carrier.
+- Tri-state/null behavior, including programmatic `Null`, is outside this lane.
+- `ControlSource` and data binding behavior are outside this lane.
+- Full `MorphData` persistence, font/color/picture/border/special-effect parity,
+  accelerator-display parity, runtime accessibility semantics, and pixel-perfect
+  rendering are outside this lane.
+- No CheckBox-specific live MSForms oracle capture exists yet under
+  `docs/evidence/`; `oxforms-0a0.12` may implement the public-fact-backed
+  reducer/display subset but must keep final ordering and visual parity
+  non-claims explicit.
 
 ## W005 Scaffold Classification
 

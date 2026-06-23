@@ -32,6 +32,8 @@ Public metadata source:
 Public documentation anchors:
 
 - Microsoft Learn:
+  [CheckBox control](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/checkbox-control),
+  [TripleState property](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/triplestate-property),
   [Click event](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/click-event),
   [DblClick event](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/dblclick-event),
   [Change event](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/change-event),
@@ -125,6 +127,46 @@ Legend:
 | `DropButtonClick` | `deferred`; record for TextBox source surface but do not require first TextBox probe behavior | `MdcTextEvents` for `TextBox`; `MdcComboEvents` for `ComboBox`. | `2002`. | No args. | None. | Public docs say it occurs when the dropdown appears or disappears, including `DropDown`, button click, and F4 paths. W005 TextBox drop-button applicability needs fixture/property setup. |
 | `BeforeDragOver` | `deferred`; W005 records signature for future drag/drop traces | `LabelControlEvents`, `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other controls. | `3`. | For `Label`/`CommandButton`/`TextBox`: `Cancel As MSForms.ReturnBoolean`, `Data As MSForms.DataObject`, `X As Single`, `Y As Single`, `DragState As MSForms.fmDragState`, `Effect As MSForms.ReturnEffect`, `Shift As Integer`. `UserForm`/`Frame` add `Control As MSForms.Control` before `Data`; `MultiPage`/`TabStrip` add index variations outside W005 probe. | `Cancel` and `Effect` are mutable return-helper objects. `Data` is an object reference. | Public docs define `X`/`Y` as point coordinates from the control's left/top edge and describe `DragState`. Full drag/drop behavior is outside W005 first probe. |
 | `BeforeDropOrPaste` | `deferred`; W005 records signature for future drag/drop/paste traces | Same broad source applicability as `BeforeDragOver`. | `4`. | For `Label`/`CommandButton`/`TextBox`: `Cancel As MSForms.ReturnBoolean`, `Action As MSForms.fmAction`, `Data As MSForms.DataObject`, `X As Single`, `Y As Single`, `Effect As MSForms.ReturnEffect`, `Shift As Integer`. `UserForm`/`Frame` add `Control As MSForms.Control`; `MultiPage`/`TabStrip` add index variations outside W005 probe. | `Cancel` and `Effect` are mutable return-helper objects. `Data` is an object reference. Public docs describe updating `Action`, but metadata/docs syntax show `Action` as a by-value enum; W005 treats `Action` mutation as `unknown` until black-box observation. | Public docs define drop `X`/`Y` as point coordinates from the control's left/top edge. Full paste/data-object semantics are deferred. |
+
+## W006 CheckBox Boolean-Value Readiness Subset
+
+Status: curated for `oxforms-0a0.11`; runtime implementation belongs to
+`oxforms-0a0.12`.
+
+This subset covers only `MSForms.CheckBox` boolean value behavior. It does not
+claim `OptionButton`, `ToggleButton`, tri-state/null behavior,
+`ControlSource`, drag/drop/paste, double-click, error handling, native
+FM20-named OxVba dispatch, or final event-order parity.
+
+Public fact sources:
+
+- `metadata`: committed raw FM20 type-library rows in
+  `docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json`
+  for coclass `CheckBox`, source interface `MdcCheckBoxEvents`.
+- `public-doc`: Microsoft Learn `CheckBox control`, which describes selected
+  and unselected states as Yes/True/On and No/False/Off, says `Value` is the
+  default property, and says `Click` is the default event.
+- `public-doc`: Microsoft Learn `TripleState property`, which says
+  `TripleState=False` supports only `True` and `False` through the UI, while
+  `TripleState=True` allows `Null`; `Null` is outside this first lane.
+
+Curated event facts for the first boolean-value lane:
+
+| Event | W006 CheckBox status | Public metadata facts | Argument facts | Readiness classification |
+|---|---|---|---|---|
+| `MouseDown` | in first lane | `MdcCheckBoxEvents`, DISPID `-605` | `Button As Integer`, `Shift As Integer`, `X As Single`, `Y As Single` | Fact-backed for routing/effect shape; exact live ordering and coordinate rounding remain oracle-gated. |
+| `MouseMove` | in first lane | `MdcCheckBoxEvents`, DISPID `-606` | `Button As Integer`, `Shift As Integer`, `X As Single`, `Y As Single` | Fact-backed for routing/effect shape; capture/out-of-bounds behavior remains oracle-gated. |
+| `MouseUp` | in first lane | `MdcCheckBoxEvents`, DISPID `-607` | `Button As Integer`, `Shift As Integer`, `X As Single`, `Y As Single` | Fact-backed for routing/effect shape; click synthesis ordering remains oracle-gated. |
+| `Click` | in first lane | `MdcCheckBoxEvents`, DISPID `-610` | no args | Fact-backed as the default CheckBox event; exact placement relative to value mutation and `Change` remains oracle-gated. |
+| `Change` | in first lane | `MdcCheckBoxEvents`, DISPID `2` | no args | Fact-backed as a CheckBox source event; public docs tie `Change` to `Value` changes, but exact order relative to `Click` remains oracle-gated. |
+| `KeyDown` | in first lane for keyboard diagnostics/activation | `MdcCheckBoxEvents`, DISPID `-602` | `KeyCode As MSForms.ReturnInteger`, `Shift As Integer` | Fact-backed event shape; Space/Enter activation details and `ReturnInteger` mutation effects remain oracle-gated. |
+| `KeyUp` | in first lane for keyboard diagnostics/activation | `MdcCheckBoxEvents`, DISPID `-604` | `KeyCode As MSForms.ReturnInteger`, `Shift As Integer` | Fact-backed event shape; activation ordering remains oracle-gated. |
+| `Enter` | focus participation only | Generic `ControlEvents`, DISPID `-2147384830` | no args | Public-doc focus fact, but CheckBox-specific sink exposure is not present in the captured `MdcCheckBoxEvents` rows; treat as unknown/blocker for native CheckBox dispatch until observed. |
+| `Exit` | focus participation only | Generic `ControlEvents`, DISPID `-2147384829` | `Cancel As MSForms.ReturnBoolean` | Public-doc focus fact, but CheckBox-specific sink exposure is not present in the captured `MdcCheckBoxEvents` rows; validation/cancel behavior is outside this lane until observed. |
+
+Deferred CheckBox events present in `MdcCheckBoxEvents` but outside this first
+lane: `DblClick`, `KeyPress`, `BeforeDragOver`, `BeforeDropOrPaste`, and
+`Error`.
 
 ## Lifecycle And Form-adjacent Events
 
