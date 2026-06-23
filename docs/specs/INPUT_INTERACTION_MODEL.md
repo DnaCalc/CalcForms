@@ -531,6 +531,18 @@ replay without live Excel or another host.
   Until OxVba exposes a shared native event hook for this subset, downstream
   implementation beads must not route production forms events through the W005
   generic carrier.
+- `oxforms-0a0.3` implements the first host-neutral modeless lifecycle close
+  subset in `crates/oxforms-core`: the reducer records close-flow state for a
+  close-button/system-menu `CloseRequest`, requests
+  `FireVbaEvent(QueryClose)` with `Cancel` and `CloseMode=0`, consumes a
+  normalized `QueryCloseCompleted` completion, requests `HideForm`, consumes
+  `WindowHidden`, requests `UnloadForm`, and consumes `Unloaded` without
+  claiming object-lifetime `Terminate` parity. The updated headless replay
+  golden records these normalized rows and effects as OxForms regression
+  evidence. Actual `QueryClose` handler execution/cancellation remains blocked
+  by the `oxforms-0a0.2` native FM20-named dispatch gap, so the replay completion
+  carries an explicit blocker diagnostic rather than using a forms-only event
+  runtime.
 - `oxforms-xvx.11` adds a Windows visible input pump smoke in
   `crates/oxforms-core/examples/w005_visible_input_smoke.rs`, driven by
   `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1`. The smoke opens

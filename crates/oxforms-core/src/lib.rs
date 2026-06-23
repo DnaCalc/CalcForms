@@ -25,11 +25,12 @@ pub use trace_replay::{
 };
 
 use oxforms_pal::{
-    CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, Color, ControlId, DisplayList,
-    FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
-    LogicalRect, LogicalSize, MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId,
-    QueryCloseCompletedEvent, RawKeyDiagnostics, Rect as PalRect, ShowMode, ShowRequestedEvent,
-    SurfaceSize, UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
+    CharacterInputEvent, CloseQueryPolicy, CloseReason, CloseRequestEvent, CloseRequestOrigin,
+    Color, ControlId, DisplayList, FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat,
+    KeyboardModifiers, LifecycleReason, LogicalRect, LogicalSize, MouseButton, MouseButtonEvent,
+    MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics, Rect as PalRect,
+    ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId, UiEventKind, UiEventTarget,
+    WindowId, WindowShownEvent,
 };
 
 pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
@@ -61,6 +62,7 @@ pub struct FormState {
     pub active: ActiveState,
     pub lifecycle: LifecycleState,
     pub pump: PumpState,
+    pub close_flow: Option<CloseFlowState>,
     pub text_boxes: Vec<TextBoxProbeState>,
     pub validation: ValidationState,
     pub dirty: DirtyState,
@@ -90,6 +92,7 @@ impl FormState {
             keyboard: KeyboardState::default(),
             lifecycle: LifecycleState::Allocated,
             pump: PumpState::default(),
+            close_flow: None,
             text_boxes: Vec::new(),
             validation: ValidationState::default(),
             dirty: DirtyState::default(),
@@ -229,6 +232,15 @@ pub struct PumpState {
     pub term: PumpTerm,
     pub nested_modal_depth: u32,
     pub reentrancy_depth: u32,
+}
+
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct CloseFlowState {
+    pub origin: CloseRequestOrigin,
+    pub reason: CloseReason,
+    pub close_mode: Option<i32>,
+    pub cancelled: Option<bool>,
+    pub awaiting_window_hide_for_unload: bool,
 }
 
 impl Default for PumpState {
@@ -579,6 +591,7 @@ pub struct StateSummary {
     pub pressed_state: Option<PressedState>,
     pub active_form: Option<FormId>,
     pub active_window: Option<WindowId>,
+    pub close_flow: Option<CloseFlowState>,
     pub text_values: Vec<TextValueSummary>,
     pub validation_active: bool,
     pub pending_effect_count: usize,
@@ -608,6 +621,7 @@ impl StateSummary {
             pressed_state: state.pressed_state.clone(),
             active_form: state.active.active_form.clone(),
             active_window: state.active.active_window.clone(),
+            close_flow: state.close_flow.clone(),
             text_values: state
                 .text_boxes
                 .iter()
@@ -839,7 +853,24 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::WindowHidden(payload) => {
             if payload.form_id == state.form_id {
-                state.lifecycle = LifecycleState::Hidden;
+                if state
+                    .close_flow
+                    .as_ref()
+                    .is_some_and(|flow| flow.awaiting_window_hide_for_unload)
+                {
+                    state.lifecycle = LifecycleState::Unloading;
+                    let target = UiEventTarget::form(payload.form_id.0.clone());
+                    context.push_effect(
+                        &mut state,
+                        target,
+                        EffectKind::UnloadForm {
+                            reason: payload.reason,
+                        },
+                        CompletionPolicy::PlatformCompletionOrDiagnostic,
+                    );
+                } else {
+                    state.lifecycle = LifecycleState::Hidden;
+                }
             }
         }
         UiEventKind::CloseRequest(payload) => {
@@ -862,12 +893,17 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::Unloaded(payload) => {
             if payload.form_id == state.form_id {
-                state.lifecycle = LifecycleState::Terminated;
+                state.lifecycle = LifecycleState::Hidden;
+                if state.pump.nested_modal_depth == 0 {
+                    state.pump.term = PumpTerm::HostModelessPump;
+                }
+                state.close_flow = None;
             }
         }
         UiEventKind::Terminated(payload) => {
             if payload.form_id == state.form_id {
                 state.lifecycle = LifecycleState::Terminated;
+                state.close_flow = None;
             }
         }
         UiEventKind::PumpYieldRequested(_) => {
@@ -2116,7 +2152,16 @@ fn reduce_close_request(
 ) {
     let target = event_target_or_form(state, context.event);
     state.lifecycle = LifecycleState::CloseRequested;
+    state.pump.term = PumpTerm::CloseUnloadCancellation;
     let query_policy = payload.query_policy;
+    let close_mode = close_mode_for_origin(payload.origin);
+    state.close_flow = Some(CloseFlowState {
+        origin: payload.origin,
+        reason: payload.reason,
+        close_mode,
+        cancelled: None,
+        awaiting_window_hide_for_unload: false,
+    });
 
     match query_policy {
         CloseQueryPolicy::Query | CloseQueryPolicy::Unknown => {
@@ -2135,7 +2180,9 @@ fn reduce_close_request(
                         },
                         EffectArgument {
                             name: "CloseMode".to_string(),
-                            value: format!("{:?}", payload.origin),
+                            value: close_mode
+                                .map(|value| value.to_string())
+                                .unwrap_or_else(|| "unknown".to_string()),
                             by_ref: false,
                         },
                     ],
@@ -2161,8 +2208,19 @@ fn reduce_query_close_completed(
     payload: &QueryCloseCompletedEvent,
 ) {
     let target = UiEventTarget::form(payload.form_id.0.clone());
+    if let Some(flow) = &mut state.close_flow {
+        flow.cancelled = Some(payload.cancelled);
+        flow.reason = payload.reason;
+        if payload.close_mode.is_some() {
+            flow.close_mode = payload.close_mode;
+        }
+    }
     if payload.cancelled {
         state.lifecycle = LifecycleState::CloseCancelled;
+        state.pump.term = PumpTerm::HostModelessPump;
+        if let Some(flow) = &mut state.close_flow {
+            flow.awaiting_window_hide_for_unload = false;
+        }
         let invalidation_id =
             context.push_invalidation(state, target.clone(), InvalidationReason::CloseStateChanged);
         context.push_effect(
@@ -2177,15 +2235,29 @@ fn reduce_query_close_completed(
         return;
     }
 
-    state.lifecycle = LifecycleState::Unloading;
+    state.lifecycle = LifecycleState::HidePending;
+    if let Some(flow) = &mut state.close_flow {
+        flow.awaiting_window_hide_for_unload = true;
+    }
     context.push_effect(
         state,
         target,
-        EffectKind::UnloadForm {
+        EffectKind::HideForm {
             reason: LifecycleReason::User,
         },
         CompletionPolicy::PlatformCompletionOrDiagnostic,
     );
+}
+
+fn close_mode_for_origin(origin: CloseRequestOrigin) -> Option<i32> {
+    match origin {
+        CloseRequestOrigin::CloseButton | CloseRequestOrigin::SystemMenu => Some(0),
+        CloseRequestOrigin::CodeUnload => Some(1),
+        CloseRequestOrigin::OwnerShutdown => Some(2),
+        CloseRequestOrigin::HostRequest
+        | CloseRequestOrigin::Replay
+        | CloseRequestOrigin::Unknown => None,
+    }
 }
 
 fn queue_key_event(
@@ -2499,9 +2571,10 @@ fn target_for_focus(target: &FocusTarget, default_form: &FormId) -> Option<UiEve
 mod tests {
     use super::*;
     use oxforms_pal::{
-        ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, KeyCode, KeyRepeat,
-        KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons,
-        RawKeyDiagnostics, ShowRequestedEvent, UiEventSource,
+        ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, CloseRequestEvent,
+        CloseRequestOrigin, KeyCode, KeyRepeat, KeyboardModifiers, LogicalPoint, MouseButton,
+        MouseButtonEvent, MouseButtons, RawDiagnostic, RawKeyDiagnostics, ShowRequestedEvent,
+        UiEventSource, UnloadedEvent, WindowHiddenEvent,
     };
 
     #[test]
@@ -3389,6 +3462,124 @@ mod tests {
             output.state.active.active_window,
             Some(WindowId::new("window-main"))
         );
+    }
+
+    #[test]
+    fn modeless_close_query_completion_hides_before_unload() {
+        let state = FormState::new("form-main");
+        let close = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget {
+                    form_id: Some(FormId::new("form-main")),
+                    window_id: Some(WindowId::new("window-main")),
+                    control_id: None,
+                },
+                ..UiEvent::new(
+                    UiEventId(22),
+                    UiEventSource::Pal,
+                    UiEventKind::CloseRequest(CloseRequestEvent {
+                        origin: CloseRequestOrigin::CloseButton,
+                        reason: CloseReason::User,
+                        query_policy: CloseQueryPolicy::Query,
+                        coordinates: None,
+                    }),
+                )
+            },
+        );
+
+        assert_eq!(close.state.lifecycle, LifecycleState::QueryClosePending);
+        assert_eq!(close.state.pump.term, PumpTerm::CloseUnloadCancellation);
+        assert_eq!(
+            close
+                .state
+                .close_flow
+                .as_ref()
+                .and_then(|flow| flow.close_mode),
+            Some(0)
+        );
+        assert_eq!(
+            effect_names(&close.effects),
+            vec!["fire_vba_event:QueryClose"]
+        );
+        let EffectKind::FireVbaEvent { arguments, .. } = &close.effects[0].kind else {
+            panic!("close request should ask the shared event path to fire QueryClose");
+        };
+        assert_eq!(arguments[1].name, "CloseMode");
+        assert_eq!(arguments[1].value, "0");
+
+        let queried = reduce(
+            close.state,
+            UiEvent {
+                target: UiEventTarget::form("form-main"),
+                ..UiEvent::new(
+                    UiEventId(23),
+                    UiEventSource::Service,
+                    UiEventKind::QueryCloseCompleted(QueryCloseCompletedEvent {
+                        form_id: FormId::new("form-main"),
+                        reason: CloseReason::User,
+                        cancelled: false,
+                        close_mode: Some(0),
+                        dispatch_diagnostics: vec![RawDiagnostic::text(
+                            "oxforms-0a0.3",
+                            "native_dispatch_blocker",
+                            "QueryClose handler execution is blocked by oxforms-0a0.2.",
+                        )],
+                    }),
+                )
+            },
+        );
+
+        assert_eq!(queried.state.lifecycle, LifecycleState::HidePending);
+        assert_eq!(effect_names(&queried.effects), vec!["hide_form"]);
+        assert!(queried
+            .state
+            .close_flow
+            .as_ref()
+            .is_some_and(|flow| flow.awaiting_window_hide_for_unload));
+
+        let hidden = reduce(
+            queried.state,
+            UiEvent {
+                target: UiEventTarget {
+                    form_id: Some(FormId::new("form-main")),
+                    window_id: Some(WindowId::new("window-main")),
+                    control_id: None,
+                },
+                ..UiEvent::new(
+                    UiEventId(24),
+                    UiEventSource::Service,
+                    UiEventKind::WindowHidden(WindowHiddenEvent {
+                        form_id: FormId::new("form-main"),
+                        window_id: WindowId::new("window-main"),
+                        reason: LifecycleReason::User,
+                    }),
+                )
+            },
+        );
+
+        assert_eq!(hidden.state.lifecycle, LifecycleState::Unloading);
+        assert_eq!(effect_names(&hidden.effects), vec!["unload_form"]);
+
+        let unloaded = reduce(
+            hidden.state,
+            UiEvent {
+                target: UiEventTarget::form("form-main"),
+                ..UiEvent::new(
+                    UiEventId(25),
+                    UiEventSource::Service,
+                    UiEventKind::Unloaded(UnloadedEvent {
+                        form_id: FormId::new("form-main"),
+                        reason: LifecycleReason::User,
+                    }),
+                )
+            },
+        );
+
+        assert_eq!(unloaded.state.lifecycle, LifecycleState::Hidden);
+        assert_eq!(unloaded.state.pump.term, PumpTerm::HostModelessPump);
+        assert_eq!(unloaded.state.close_flow, None);
+        assert_ne!(unloaded.state.lifecycle, LifecycleState::Terminated);
     }
 
     #[test]

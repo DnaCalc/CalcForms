@@ -1,12 +1,14 @@
 use std::collections::BTreeMap;
 
 use oxforms_pal::{
-    render_headless, ActivationReason, CharacterInputEvent, ClickCount, ControlId,
-    CoordinatePayload, CoordinatePoint, CoordinateSpace, DpiScale, FormId, KeyCode, KeyEvent,
-    KeyRepeat, KeyboardModifiers, LogicalPoint, LogicalRect, LogicalSize, MouseButton,
-    MouseButtonEvent, MouseButtons, PointerId, RawCoordinateSample, RawDiagnostic,
-    RawKeyDiagnostics, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId, UiEventKind,
-    UiEventSource, UiEventTarget, WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
+    render_headless, ActivationReason, CharacterInputEvent, ClickCount, CloseQueryPolicy,
+    CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId, CoordinatePayload,
+    CoordinatePoint, CoordinateSpace, DpiScale, FormId, KeyCode, KeyEvent, KeyRepeat,
+    KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize, MouseButton,
+    MouseButtonEvent, MouseButtons, PointerId, QueryCloseCompletedEvent, RawCoordinateSample,
+    RawDiagnostic, RawKeyDiagnostics, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent,
+    UiEventId, UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent,
+    WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
 };
 use serde_json::{json, Value};
 
@@ -21,7 +23,7 @@ pub const W005_TRACE_REPLAY_GOLDEN_TRACE_PATH: &str =
 pub const W005_TRACE_REPLAY_DISPLAY_LIST_PATH: &str =
     "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json";
 
-const BEAD: &str = "oxforms-0a0.1";
+const BEAD: &str = "oxforms-0a0.3";
 const TRACE_ID: &str = "w005-headless-probe-replay-golden-v1";
 const FORM_ID: &str = "form-main";
 const WINDOW_ID: &str = "window-main";
@@ -98,7 +100,12 @@ impl W005TraceReplayRunner {
         self.apply_next_event(show_requested_event);
         self.complete_non_dispatch_effects();
         self.apply_next_event(window_shown_event);
-        self.record_lifecycle_pump("showing_modeless", "modeless_visible", "host_modeless_pump");
+        self.record_lifecycle_pump(
+            "showing_modeless",
+            "modeless_visible",
+            "host_modeless_pump",
+            "window_shown_event",
+        );
         self.complete_non_dispatch_effects();
         self.render_probe_surface("initial_window_shown");
 
@@ -170,6 +177,44 @@ impl W005TraceReplayRunner {
         self.apply_next_event(|event_id| mouse_button_event(event_id, 176.0, 64.0, false));
         self.complete_non_dispatch_effects();
         self.render_probe_surface("final_after_command_click");
+
+        self.push_script_step(
+            "script-0006",
+            "close_modeless_form",
+            json!({
+                "form_id": FORM_ID,
+                "origin": "close_button",
+                "oracle_evidence": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-event-log.json",
+                "dispatch_blocker": "docs/evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md"
+            }),
+            None,
+        );
+        self.apply_next_event(close_request_event);
+        self.record_lifecycle_pump(
+            "active",
+            "query_close_pending",
+            "close_unload_cancellation",
+            "close_request",
+        );
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(query_close_completed_event);
+        self.record_lifecycle_pump(
+            "query_close_pending",
+            "hide_pending",
+            "close_unload_cancellation",
+            "query_close_completed",
+        );
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(window_hidden_event);
+        self.record_lifecycle_pump(
+            "hide_pending",
+            "unloading",
+            "close_unload_cancellation",
+            "window_hidden",
+        );
+        self.complete_non_dispatch_effects();
+        self.apply_next_event(unloaded_event);
+        self.record_lifecycle_pump("unloading", "hidden", "host_modeless_pump", "unloaded");
     }
 
     fn finish(self) -> W005TraceReplayGoldenArtifacts {
@@ -517,7 +562,7 @@ impl W005TraceReplayRunner {
         self.state.pending_effects.clear();
     }
 
-    fn record_lifecycle_pump(&mut self, before: &str, after: &str, pump_term: &str) {
+    fn record_lifecycle_pump(&mut self, before: &str, after: &str, pump_term: &str, cause: &str) {
         self.push_row(
             "pump",
             "lifecycle_pump",
@@ -531,8 +576,17 @@ impl W005TraceReplayRunner {
                     "window_id": self.state.active.active_window.as_ref().map(|id| id.0.as_str()),
                     "focus_owner": self.state.focus_owner.as_ref().map(focus_target_label)
                 },
+                "close_flow": self.state.close_flow.as_ref().map(|flow| {
+                    json!({
+                        "origin": close_request_origin(flow.origin),
+                        "reason": close_reason(flow.reason),
+                        "close_mode": flow.close_mode,
+                        "cancelled": flow.cancelled,
+                        "awaiting_window_hide_for_unload": flow.awaiting_window_hide_for_unload
+                    })
+                }),
                 "cause": {
-                    "runner": "window_shown_event"
+                    "runner": cause
                 }
             }),
             None,
@@ -808,6 +862,72 @@ fn window_shown_event(event_id: UiEventId) -> UiEvent {
     }
 }
 
+fn close_request_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: target(),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Replay,
+            UiEventKind::CloseRequest(CloseRequestEvent {
+                origin: CloseRequestOrigin::CloseButton,
+                reason: CloseReason::User,
+                query_policy: CloseQueryPolicy::Query,
+                coordinates: None,
+            }),
+        )
+    }
+}
+
+fn query_close_completed_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: target(),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::QueryCloseCompleted(QueryCloseCompletedEvent {
+                form_id: FormId::new(FORM_ID),
+                reason: CloseReason::User,
+                cancelled: false,
+                close_mode: Some(0),
+                dispatch_diagnostics: vec![RawDiagnostic::text(
+                    "oxforms-0a0.3",
+                    "native_dispatch_blocker",
+                    "QueryClose handler execution is blocked by oxforms-0a0.2; headless replay supplies the uncancelled completion observed in the W005 modeless oracle.",
+                )],
+            }),
+        )
+    }
+}
+
+fn window_hidden_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: target(),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::WindowHidden(WindowHiddenEvent {
+                form_id: FormId::new(FORM_ID),
+                window_id: WindowId::new(WINDOW_ID),
+                reason: LifecycleReason::User,
+            }),
+        )
+    }
+}
+
+fn unloaded_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: UiEventTarget::form(FORM_ID),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::Unloaded(UnloadedEvent {
+                form_id: FormId::new(FORM_ID),
+                reason: LifecycleReason::User,
+            }),
+        )
+    }
+}
+
 fn mouse_button_event(event_id: UiEventId, x: f64, y: f64, down: bool) -> UiEvent {
     let payload = MouseButtonEvent {
         pointer_id: Some(PointerId(1)),
@@ -997,6 +1117,43 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
                 "dpi": payload.dpi.map(dpi_value_json)
             }
         }),
+        UiEventKind::CloseRequest(payload) => json!({
+            "kind": "close_request",
+            "payload": {
+                "origin": close_request_origin(payload.origin),
+                "reason": close_reason(payload.reason),
+                "query_policy": close_query_policy(payload.query_policy)
+            }
+        }),
+        UiEventKind::QueryCloseCompleted(payload) => json!({
+            "kind": "query_close_completed",
+            "payload": {
+                "form_id": payload.form_id.0,
+                "reason": close_reason(payload.reason),
+                "cancelled": payload.cancelled,
+                "close_mode": payload.close_mode,
+                "dispatch_diagnostics": payload
+                    .dispatch_diagnostics
+                    .iter()
+                    .map(diagnostic_json)
+                    .collect::<Vec<_>>()
+            }
+        }),
+        UiEventKind::WindowHidden(payload) => json!({
+            "kind": "window_hidden",
+            "payload": {
+                "form_id": payload.form_id.0,
+                "window_id": payload.window_id.0,
+                "reason": lifecycle_reason(payload.reason)
+            }
+        }),
+        UiEventKind::Unloaded(payload) => json!({
+            "kind": "unloaded",
+            "payload": {
+                "form_id": payload.form_id.0,
+                "reason": lifecycle_reason(payload.reason)
+            }
+        }),
         UiEventKind::MouseDown(payload) => mouse_input_json("mouse_down", payload),
         UiEventKind::MouseUp(payload) => mouse_input_json("mouse_up", payload),
         UiEventKind::KeyDown(payload) => key_input_json("key_down", payload),
@@ -1166,6 +1323,15 @@ fn state_summary_json(summary: &StateSummary) -> Value {
         }),
         "active_form": summary.active_form.as_ref().map(|id| id.0.clone()),
         "active_window": summary.active_window.as_ref().map(|id| id.0.clone()),
+        "close_flow": summary.close_flow.as_ref().map(|flow| {
+            json!({
+                "origin": close_request_origin(flow.origin),
+                "reason": close_reason(flow.reason),
+                "close_mode": flow.close_mode,
+                "cancelled": flow.cancelled,
+                "awaiting_window_hide_for_unload": flow.awaiting_window_hide_for_unload
+            })
+        }),
         "text_values": summary.text_values.iter().map(|text| {
             json!({
                 "control_id": text.control_id.0,
@@ -1383,6 +1549,50 @@ fn show_mode(show_mode: ShowMode) -> &'static str {
     match show_mode {
         ShowMode::Modal => "modal",
         ShowMode::Modeless => "modeless",
+    }
+}
+
+fn close_request_origin(origin: CloseRequestOrigin) -> &'static str {
+    match origin {
+        CloseRequestOrigin::CloseButton => "close_button",
+        CloseRequestOrigin::SystemMenu => "system_menu",
+        CloseRequestOrigin::HostRequest => "host_request",
+        CloseRequestOrigin::CodeUnload => "code_unload",
+        CloseRequestOrigin::OwnerShutdown => "owner_shutdown",
+        CloseRequestOrigin::Replay => "replay",
+        CloseRequestOrigin::Unknown => "unknown",
+    }
+}
+
+fn close_reason(reason: CloseReason) -> &'static str {
+    match reason {
+        CloseReason::User => "user",
+        CloseReason::Programmatic => "programmatic",
+        CloseReason::HostShutdown => "host_shutdown",
+        CloseReason::Error => "error",
+        CloseReason::Replay => "replay",
+        CloseReason::Unknown => "unknown",
+    }
+}
+
+fn close_query_policy(policy: CloseQueryPolicy) -> &'static str {
+    match policy {
+        CloseQueryPolicy::Query => "query",
+        CloseQueryPolicy::SkipQuery => "skip_query",
+        CloseQueryPolicy::Unknown => "unknown",
+    }
+}
+
+fn lifecycle_reason(reason: LifecycleReason) -> &'static str {
+    match reason {
+        LifecycleReason::DefaultInstance => "default_instance",
+        LifecycleReason::ShowRequested => "show_requested",
+        LifecycleReason::Programmatic => "programmatic",
+        LifecycleReason::User => "user",
+        LifecycleReason::Host => "host",
+        LifecycleReason::Replay => "replay",
+        LifecycleReason::Error => "error",
+        LifecycleReason::Unknown => "unknown",
     }
 }
 

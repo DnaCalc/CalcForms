@@ -51,6 +51,14 @@ Current facts:
   `oxforms-xvx.20` both observed `Initialize`, `Activate`, `QueryClose`, and
   `Terminate` rows. They do not settle nested modal, `DoEvents`, hide/unload,
   object-lifetime, or full `UserForm.Show` parity.
+- `oxforms-0a0.3` implements the first OxForms core modeless close subset up to
+  the shared runtime boundary. `CloseRequest` requests
+  `FireVbaEvent(QueryClose)`, an uncancelled `QueryCloseCompleted` completion
+  requests `HideForm`, `WindowHidden` requests `UnloadForm`, and `Unloaded`
+  records logical unload completion without claiming `Terminate` timing parity.
+  Actual `QueryClose` handler execution and cancellation remain blocked by the
+  native FM20-named OxVba dispatch gap documented in
+  [`native-fm20-event-dispatch-blocker.md`](../evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md).
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
@@ -249,6 +257,16 @@ The model deliberately separates:
 - terminal object lifetime.
 
 Downstream code must not collapse those into one "destroy window" branch.
+
+Current `oxforms-0a0.3` implementation status: the host-neutral core reducer
+models the modeless close-button subset as reducer-visible close flow state and
+ordered effects. It maps the close-button/system-menu origin to `CloseMode=0`
+for the `QueryClose` effect, matching the W005 modeless Office/MSForms
+observation. The headless replay supplies the uncancelled
+`QueryCloseCompleted` completion with an explicit blocker diagnostic because
+native FM20-named `QueryClose` dispatch through OxVba remains unavailable.
+`Unloaded` does not imply `Terminated`; object-lifetime parity remains a
+follow-up.
 
 ## 10. Reentrancy Rules
 

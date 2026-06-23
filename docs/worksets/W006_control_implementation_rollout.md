@@ -127,6 +127,15 @@ and the OxVba handover remains
 [`../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
 The W005 `Dispatched` carrier remains smoke/test infrastructure only.
 
+Current `oxforms-0a0.3` status: implemented-subset in the host-neutral core
+reducer with the same OxVba dispatch blocker for real `QueryClose`
+handler/cancellation semantics. The reducer models close-flow state and ordered
+effects for modeless close-button/system-menu
+`CloseRequest -> QueryClose -> HideForm -> WindowHidden -> UnloadForm ->
+Unloaded`, maps that close origin to `CloseMode=0`, and keeps `Unloaded`
+separate from object-lifetime `Terminate`. Evidence is recorded in
+[`../evidence/W006_control_implementation_rollout/modeless-lifecycle-close-slice.md`](../evidence/W006_control_implementation_rollout/modeless-lifecycle-close-slice.md).
+
 W006 closes only when:
 
 1. the planning/review gate has closed and all executable W006 beads are either

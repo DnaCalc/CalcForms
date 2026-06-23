@@ -252,7 +252,7 @@
     ],
     "screenshots": []
   },
-  "bead": "oxforms-0a0.1",
+  "bead": "oxforms-0a0.3",
   "clean_room": {
     "prohibited": "No Office internals, decompilation, disassembly, non-public source, live Excel/MSForms, or live desktop input were used.",
     "source": "Repo-authored deterministic OxForms replay over crates/oxforms-pal and crates/oxforms-core W005 probe code."
@@ -371,6 +371,7 @@
           "active_form": null,
           "active_window": null,
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": null,
           "hover_path": [],
           "lifecycle_state": "showing_modeless",
@@ -385,6 +386,7 @@
           "active_form": null,
           "active_window": null,
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": null,
           "hover_path": [],
           "lifecycle_state": "allocated",
@@ -577,6 +579,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": null,
           "hover_path": [],
           "lifecycle_state": "modeless_visible",
@@ -591,6 +594,7 @@
           "active_form": null,
           "active_window": null,
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": null,
           "hover_path": [],
           "lifecycle_state": "showing_modeless",
@@ -792,6 +796,7 @@
         "cause": {
           "runner": "window_shown_event"
         },
+        "close_flow": null,
         "lifecycle_state_after": "modeless_visible",
         "lifecycle_state_before": "showing_modeless",
         "modal_depth": 0,
@@ -1092,6 +1097,7 @@
             "kind": "control",
             "target": "text-1"
           },
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -1109,6 +1115,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": null,
           "hover_path": [],
           "lifecycle_state": "modeless_visible",
@@ -1620,6 +1627,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -1640,6 +1648,7 @@
             "kind": "control",
             "target": "text-1"
           },
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -1929,6 +1938,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -1946,6 +1956,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -2184,6 +2195,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -2212,6 +2224,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -2642,6 +2655,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -2670,6 +2684,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -2928,6 +2943,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -2956,6 +2972,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -3205,6 +3222,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -3233,6 +3251,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -3674,6 +3693,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -3702,6 +3722,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -3977,6 +3998,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -4005,6 +4027,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -4369,6 +4392,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -4397,6 +4421,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -4635,6 +4660,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -4663,6 +4689,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -5104,6 +5131,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -5132,6 +5160,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -5370,6 +5399,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -5398,6 +5428,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -5762,6 +5793,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -5790,6 +5822,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -6028,6 +6061,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -6056,6 +6090,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -6420,6 +6455,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -6448,6 +6484,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -6686,6 +6723,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -6714,6 +6752,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -7155,6 +7194,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -7183,6 +7223,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -7532,6 +7573,7 @@
             "kind": "control",
             "target": "ok"
           },
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "ok"
@@ -7567,6 +7609,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "text-1"
@@ -8161,6 +8204,7 @@
           "active_form": "form-main",
           "active_window": "window-main",
           "capture_owner": null,
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "ok"
@@ -8192,6 +8236,7 @@
             "kind": "control",
             "target": "ok"
           },
+          "close_flow": null,
           "focus_owner": {
             "kind": "control",
             "target": "ok"
@@ -8652,6 +8697,786 @@
       "phase": "render",
       "row_id": "row-0228",
       "sequence": 228
+    },
+    {
+      "kind": "input_script_step",
+      "logical_tick": 228,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "action": "close_modeless_form",
+        "script_step_id": "script-0006",
+        "target": {
+          "dispatch_blocker": "docs/evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md",
+          "form_id": "form-main",
+          "oracle_evidence": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z/modeless-event-log.json",
+          "origin": "close_button"
+        }
+      },
+      "phase": "script",
+      "row_id": "row-0229",
+      "sequence": 229
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 229,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [],
+        "normalized_input": {
+          "kind": "close_request",
+          "payload": {
+            "origin": "close_button",
+            "query_policy": "query",
+            "reason": "user"
+          }
+        },
+        "source": "replay",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0023",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0230",
+      "sequence": 230
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 230,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": {
+            "awaiting_window_hide_for_unload": false,
+            "cancelled": null,
+            "close_mode": 0,
+            "origin": "close_button",
+            "reason": "user"
+          },
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "query_close_pending",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "close_unload_cancellation",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "modeless_visible",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0023",
+        "emitted_effect_ids": [
+          "effect-0048"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0023"
+      },
+      "phase": "reducer",
+      "row_id": "row-0231",
+      "sequence": 231
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 231,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "Cancel",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
+            "name": "CloseMode",
+            "value": "0"
+          }
+        ],
+        "cancel_metadata": "query_close_cancelable",
+        "cause": {
+          "transition_id": "transition-0023",
+          "ui_event_id": "ui-0023"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0048",
+        "effect_kind": "fire_vba_event",
+        "event_name": "QueryClose",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0232",
+      "sequence": 232
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 232,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0232",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": true,
+            "name": "Cancel",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
+            "name": "CloseMode",
+            "value": "0"
+          }
+        ],
+        "dispatch_id": "dispatch-0027",
+        "effect_id": "effect-0048",
+        "event_name": "QueryClose",
+        "fact_source": {
+          "event": "QueryClose",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [
+          {
+            "after": "0",
+            "before": "0",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "Cancel"
+          }
+        ],
+        "result": {
+          "cancel_metadata": "query_close_cancelable",
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0233",
+      "sequence": 233
+    },
+    {
+      "kind": "lifecycle_pump",
+      "logical_tick": 233,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "active": {
+          "focus_owner": "ok",
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "cause": {
+          "runner": "close_request"
+        },
+        "close_flow": {
+          "awaiting_window_hide_for_unload": false,
+          "cancelled": null,
+          "close_mode": 0,
+          "origin": "close_button",
+          "reason": "user"
+        },
+        "lifecycle_state_after": "query_close_pending",
+        "lifecycle_state_before": "active",
+        "modal_depth": 0,
+        "pump_term": "close_unload_cancellation"
+      },
+      "phase": "pump",
+      "row_id": "row-0234",
+      "sequence": 234
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 234,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0048",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0235",
+      "sequence": 235
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 235,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [],
+        "normalized_input": {
+          "kind": "query_close_completed",
+          "payload": {
+            "cancelled": false,
+            "close_mode": 0,
+            "dispatch_diagnostics": [
+              {
+                "name": "native_dispatch_blocker",
+                "source": "oxforms-0a0.3",
+                "value": {
+                  "kind": "text",
+                  "value": "QueryClose handler execution is blocked by oxforms-0a0.2; headless replay supplies the uncancelled completion observed in the W005 modeless oracle."
+                }
+              }
+            ],
+            "form_id": "form-main",
+            "reason": "user"
+          }
+        },
+        "source": "service",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0024",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0236",
+      "sequence": 236
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 236,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": {
+            "awaiting_window_hide_for_unload": true,
+            "cancelled": false,
+            "close_mode": 0,
+            "origin": "close_button",
+            "reason": "user"
+          },
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "hide_pending",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "close_unload_cancellation",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": {
+            "awaiting_window_hide_for_unload": false,
+            "cancelled": null,
+            "close_mode": 0,
+            "origin": "close_button",
+            "reason": "user"
+          },
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "query_close_pending",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "close_unload_cancellation",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0024",
+        "emitted_effect_ids": [
+          "effect-0049"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0024"
+      },
+      "phase": "reducer",
+      "row_id": "row-0237",
+      "sequence": 237
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 237,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0024",
+          "ui_event_id": "ui-0024"
+        },
+        "completion_policy": "platform_completion_or_diagnostic",
+        "effect_id": "effect-0049",
+        "effect_kind": "hide_form",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0238",
+      "sequence": 238
+    },
+    {
+      "kind": "lifecycle_pump",
+      "logical_tick": 238,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "active": {
+          "focus_owner": "ok",
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "cause": {
+          "runner": "query_close_completed"
+        },
+        "close_flow": {
+          "awaiting_window_hide_for_unload": true,
+          "cancelled": false,
+          "close_mode": 0,
+          "origin": "close_button",
+          "reason": "user"
+        },
+        "lifecycle_state_after": "hide_pending",
+        "lifecycle_state_before": "query_close_pending",
+        "modal_depth": 0,
+        "pump_term": "close_unload_cancellation"
+      },
+      "phase": "pump",
+      "row_id": "row-0239",
+      "sequence": 239
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 239,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0049",
+        "result": {
+          "effect_kind": "hide_form",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "not_applicable_in_headless_subset"
+      },
+      "phase": "effect",
+      "row_id": "row-0240",
+      "sequence": 240
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 240,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [],
+        "normalized_input": {
+          "kind": "window_hidden",
+          "payload": {
+            "form_id": "form-main",
+            "reason": "user",
+            "window_id": "window-main"
+          }
+        },
+        "source": "service",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "ui_event_id": "ui-0025",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0241",
+      "sequence": 241
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 241,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": {
+            "awaiting_window_hide_for_unload": true,
+            "cancelled": false,
+            "close_mode": 0,
+            "origin": "close_button",
+            "reason": "user"
+          },
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "unloading",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 1,
+          "pressed_state": null,
+          "pump_term": "close_unload_cancellation",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": {
+            "awaiting_window_hide_for_unload": true,
+            "cancelled": false,
+            "close_mode": 0,
+            "origin": "close_button",
+            "reason": "user"
+          },
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "hide_pending",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "close_unload_cancellation",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0025",
+        "emitted_effect_ids": [
+          "effect-0050"
+        ],
+        "invalidation_ids": [],
+        "transition_id": "transition-0025"
+      },
+      "phase": "reducer",
+      "row_id": "row-0242",
+      "sequence": 242
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 242,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0025",
+          "ui_event_id": "ui-0025"
+        },
+        "completion_policy": "platform_completion_or_diagnostic",
+        "effect_id": "effect-0050",
+        "effect_kind": "unload_form",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0243",
+      "sequence": 243
+    },
+    {
+      "kind": "lifecycle_pump",
+      "logical_tick": 243,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "active": {
+          "focus_owner": "ok",
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "cause": {
+          "runner": "window_hidden"
+        },
+        "close_flow": {
+          "awaiting_window_hide_for_unload": true,
+          "cancelled": false,
+          "close_mode": 0,
+          "origin": "close_button",
+          "reason": "user"
+        },
+        "lifecycle_state_after": "unloading",
+        "lifecycle_state_before": "hide_pending",
+        "modal_depth": 0,
+        "pump_term": "close_unload_cancellation"
+      },
+      "phase": "pump",
+      "row_id": "row-0244",
+      "sequence": 244
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 244,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0050",
+        "result": {
+          "effect_kind": "unload_form",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "not_applicable_in_headless_subset"
+      },
+      "phase": "effect",
+      "row_id": "row-0245",
+      "sequence": 245
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 245,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "coordinates": [],
+        "diagnostics": [],
+        "normalized_input": {
+          "kind": "unloaded",
+          "payload": {
+            "form_id": "form-main",
+            "reason": "user"
+          }
+        },
+        "source": "service",
+        "target": {
+          "control_id": null,
+          "form_id": "form-main",
+          "window_id": null
+        },
+        "ui_event_id": "ui-0026",
+        "ui_event_schema_version": 1
+      },
+      "phase": "input",
+      "row_id": "row-0246",
+      "sequence": 246
+    },
+    {
+      "kind": "reducer_transition",
+      "logical_tick": 246,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "after": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": null,
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "hidden",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "host_modeless_pump",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "before": {
+          "active_form": "form-main",
+          "active_window": "window-main",
+          "capture_owner": null,
+          "close_flow": {
+            "awaiting_window_hide_for_unload": true,
+            "cancelled": false,
+            "close_mode": 0,
+            "origin": "close_button",
+            "reason": "user"
+          },
+          "focus_owner": {
+            "kind": "control",
+            "target": "ok"
+          },
+          "hover_path": [],
+          "lifecycle_state": "unloading",
+          "nested_modal_depth": 0,
+          "pending_effect_count": 0,
+          "pressed_state": null,
+          "pump_term": "close_unload_cancellation",
+          "text_values": [
+            {
+              "caret": {
+                "active": 0,
+                "anchor": 0,
+                "preferred_column": null
+              },
+              "control_id": "text-1",
+              "dirty": true,
+              "text_len": 0
+            }
+          ],
+          "validation_active": false
+        },
+        "causal_ui_event_id": "ui-0026",
+        "emitted_effect_ids": [],
+        "invalidation_ids": [],
+        "transition_id": "transition-0026"
+      },
+      "phase": "reducer",
+      "row_id": "row-0247",
+      "sequence": 247
+    },
+    {
+      "kind": "lifecycle_pump",
+      "logical_tick": 247,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "active": {
+          "focus_owner": "ok",
+          "form_id": "form-main",
+          "window_id": "window-main"
+        },
+        "cause": {
+          "runner": "unloaded"
+        },
+        "close_flow": null,
+        "lifecycle_state_after": "hidden",
+        "lifecycle_state_before": "unloading",
+        "modal_depth": 0,
+        "pump_term": "host_modeless_pump"
+      },
+      "phase": "pump",
+      "row_id": "row-0248",
+      "sequence": 248
     }
   ],
   "scenario": {

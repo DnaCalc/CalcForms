@@ -274,6 +274,16 @@ For the `oxforms-0a0.1` TextBox probe slice, movement-only edits record
 `key_down`/`key_up` input and dispatch rows; they do not produce `KeyPress`
 rows in this subset.
 
+For the `oxforms-0a0.3` modeless lifecycle close slice, the headless replay
+golden records first-class normalized lifecycle input rows for
+`close_request`, `query_close_completed`, `window_hidden`, and `unloaded`.
+Reducer summaries include close-flow state, including close origin, close
+reason, `CloseMode`, cancellation result, and whether a window-hide completion
+is expected to continue into unload. Because native FM20-named `QueryClose`
+dispatch remains blocked in OxVba, the `query_close_completed` row is a replayed
+uncancelled completion with an explicit blocker diagnostic, not executed VBA
+handler evidence.
+
 ## 10. VBA Dispatch Rows
 
 `vba_dispatch` rows must cite `FM20_EVENT_FACTS.md` when they name FM20 event
@@ -392,6 +402,8 @@ probe reducer path against committed output.
   `cargo run -p oxforms-core --example w005_trace_replay -- --check`, and its
   committed golden trace is
   [`w005-headless-probe-replay.golden.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json).
+  The golden was updated by `oxforms-0a0.1` for the first TextBox editing slice
+  and by `oxforms-0a0.3` for the first modeless lifecycle close slice.
   Runner-specific checks do not change the v1 artifact identity because the row
   contract is unchanged.
 - `oxforms-xvx.13` comparison artifacts should link rows by `row_id`,
