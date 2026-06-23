@@ -286,8 +286,18 @@ the schema-only sample at
 [`../evidence/W005_input_interaction_model_exploration/trace-replay/synthetic-click-trace.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/synthetic-click-trace.v1.json),
 and the validator at
 [`../../tools/trace-replay/Test-TraceReplaySchema.ps1`](../../tools/trace-replay/Test-TraceReplaySchema.ps1).
-This output defines artifact shape and validation only; the full replay runner
-and golden interaction evidence remain scoped to `oxforms-xvx.12`.
+The `oxforms-xvx.12` headless runner now lives in
+[`../../crates/oxforms-core/src/trace_replay.rs`](../../crates/oxforms-core/src/trace_replay.rs)
+with a check/generation command at
+[`../../crates/oxforms-core/examples/w005_trace_replay.rs`](../../crates/oxforms-core/examples/w005_trace_replay.rs).
+It replays a deterministic show/click/type/click script through the current
+W005 probe path without Excel/MSForms, OxVba execution, or live desktop input.
+The committed golden trace is
+[`../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json),
+with final display-list evidence at
+[`../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json`](../evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json)
+and directory checksums at
+[`../evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256`](../evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256).
 
 ### 8. Reducer And Effects
 
@@ -529,7 +539,7 @@ Current output from `oxforms-xvx.11`:
   This is coordinate-translation evidence for the W005 path, not an MSForms
   DPI/chrome parity claim.
 - The visible smoke remains auxiliary evidence/test infrastructure. Headless
-  reducer tests and the `oxforms-xvx.12` trace/replay runner remain the
+  reducer tests and the `oxforms-xvx.12` trace/replay runner are the
   deterministic verification path.
 
 ### 14. Programmatic Driving And Inspection

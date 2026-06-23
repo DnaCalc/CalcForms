@@ -60,22 +60,34 @@ alongside input events. Modal-show pump evidence remains tracked by
 
 ## Trace Replay
 
-[`trace-replay/`](trace-replay/) holds the W005 trace/replay schema sample for
-`oxforms-xvx.5`. The curated artifact contract is
+[`trace-replay/`](trace-replay/) holds the W005 trace/replay schema samples and
+the `oxforms-xvx.12` headless replay golden. The curated artifact contract is
 [`../../specs/TRACE_REPLAY_SCHEMA.md`](../../specs/TRACE_REPLAY_SCHEMA.md), the
 machine-readable schema is
 [`../../schemas/trace-replay-artifact.v1.schema.json`](../../schemas/trace-replay-artifact.v1.schema.json),
 and the validator is
 [`../../../tools/trace-replay/Test-TraceReplaySchema.ps1`](../../../tools/trace-replay/Test-TraceReplaySchema.ps1).
 
-Current status: a synthetic schema-only trace validates and records normalized
-input rows, coordinate-space tags, reducer transition summaries, ordered
-effects, VBA dispatch rows, lifecycle/pump rows, invalidation, display-list and
-render references, environment metadata, logical ordering, and reentrant
-nesting. The `oxforms-xvx.6` reducer sample cites the host-neutral
+Current status: the `oxforms-xvx.12` runner in
+`crates/oxforms-core/src/trace_replay.rs` and
+`crates/oxforms-core/examples/w005_trace_replay.rs` deterministically replays a
+show/click/type/click script through the host-neutral W005 probe path without
+Excel/MSForms, OxVba execution, or live desktop input. The golden trace
+[`trace-replay/w005-headless-probe-replay.golden.v1.json`](trace-replay/w005-headless-probe-replay.golden.v1.json)
+records normalized input events, routing decisions, reducer transition
+summaries, requested and completed effects, VBA dispatch metadata reconstructed
+from `FireVbaEvent` effects, invalidation, display-list references, PAL smoke
+render hashes, and clean-room/path-policy metadata. The final display-list
+snapshot is
+[`trace-replay/w005-headless-probe-display-list.golden.v1.json`](trace-replay/w005-headless-probe-display-list.golden.v1.json),
+and [`trace-replay/checksums.sha256`](trace-replay/checksums.sha256) records
+SHA-256 hashes for the committed trace-replay evidence files.
+
+The earlier synthetic schema-only trace validates and records the v1 artifact
+row families. The `oxforms-xvx.6` reducer sample cites the host-neutral
 `crates/oxforms-core/src/lib.rs` reducer/model skeleton while retaining
-`crates/oxforms-pal/src/input.rs` as the PAL input contract. This is not live
-MSForms oracle evidence and not a full replay runner.
+`crates/oxforms-pal/src/input.rs` as the PAL input contract. These synthetic
+samples remain schema integration evidence, not live MSForms oracle evidence.
 
 The `oxforms-xvx.8` reducer tests add keyboard trace/effect coverage in
 `crates/oxforms-core`: `KeyDown`/`KeyUp` dispatch effects with normalized
@@ -145,8 +157,8 @@ Observed coverage in the committed capture:
 
 This capture is W005 evidence/test infrastructure only. It does not claim final
 `UserForm.Show`, MSForms coordinate/DPI, lifecycle, rendering, or host parity,
-and it does not replace headless reducer tests or the upcoming trace/replay
-runner.
+and it does not replace headless reducer tests or the deterministic
+`oxforms-xvx.12` trace/replay runner.
 
 ## FM20 Type-library Event Capture
 

@@ -14,10 +14,15 @@
 #![forbid(unsafe_code)]
 
 mod probe;
+mod trace_replay;
 
 use serde::{Deserialize, Serialize};
 
 pub use probe::{hit_test_control_tree, ControlNode, HitTestResult, ProbeControlKind};
+pub use trace_replay::{
+    build_w005_trace_replay_golden_artifacts, W005_TRACE_REPLAY_DISPLAY_LIST_PATH,
+    W005_TRACE_REPLAY_GOLDEN_TRACE_PATH,
+};
 
 use oxforms_pal::{
     CharacterInputEvent, CloseQueryPolicy, CloseRequestEvent, Color, ControlId, DisplayList,

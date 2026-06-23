@@ -8,5 +8,6 @@ This capture opens the OxForms W005 probe smoke window, drives public Windows in
 ## Scope
 
 - Evidence/test infrastructure only; not a final host, runtime, or `UserForm.Show` parity claim.
-- The visible path supplements headless reducer tests and future trace/replay; it is not the only verification path.
+- The visible path supplements headless reducer tests and the deterministic
+  `oxforms-xvx.12` trace/replay runner; it is not the only verification path.
 - Coordinates record both driver-side screen/client injection points and smoke-side normalized `client_pixels` / `form_logical` payloads.
