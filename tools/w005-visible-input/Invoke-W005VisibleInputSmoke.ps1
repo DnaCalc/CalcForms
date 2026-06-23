@@ -13,6 +13,7 @@ $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
 $captureRoot = Join-Path $repoRoot 'docs\evidence\W005_input_interaction_model_exploration\captures'
 $title = 'OxForms W005 Visible Input Smoke'
 $processName = 'w005_visible_input_smoke'
+Import-Module (Join-Path $repoRoot 'tools\W005WindowsInputDiagnostics.psm1') -Force
 
 function Resolve-CaptureDir {
     param([string]$Directory)
@@ -182,18 +183,6 @@ namespace OxForms.W005VisibleInput
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool ClientToScreen(IntPtr hWnd, ref POINT point);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(int X, int Y);
-
-        [DllImport("user32.dll")]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, UIntPtr dwExtraInfo);
-
         [DllImport("user32.dll", CharSet = CharSet.Unicode)]
         public static extern bool PostMessageW(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
     }
@@ -315,9 +304,7 @@ function Get-ClientGeometry {
 function Focus-SmokeWindow {
     param([System.IntPtr]$Handle)
 
-    [void][OxForms.W005VisibleInput.NativeMethods]::ShowWindow($Handle, 5)
-    [void][OxForms.W005VisibleInput.NativeMethods]::SetForegroundWindow($Handle)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
+    return Set-W005ForegroundWindow -Handle $Handle -DelayMilliseconds $ActionDelayMilliseconds
 }
 
 function Invoke-SmokeClick {
@@ -329,12 +316,7 @@ function Invoke-SmokeClick {
 
     $screenX = [int][Math]::Round([double]$ClientGeometry.origin_screen_pixels.x + ($FormX * [double]$ClientGeometry.scale.x))
     $screenY = [int][Math]::Round([double]$ClientGeometry.origin_screen_pixels.y + ($FormY * [double]$ClientGeometry.scale.y))
-    [void][OxForms.W005VisibleInput.NativeMethods]::SetCursorPos($screenX, $screenY)
-    Start-Sleep -Milliseconds 80
-    [OxForms.W005VisibleInput.NativeMethods]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)
-    Start-Sleep -Milliseconds 60
-    [OxForms.W005VisibleInput.NativeMethods]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
+    $inputDiagnostics = Invoke-W005SendInputMouseClick -ScreenX $screenX -ScreenY $screenY -TargetHandle $ClientGeometry.handle -DownUpDelayMilliseconds 60 -AfterDelayMilliseconds $ActionDelayMilliseconds
 
     return [ordered]@{
         form_logical = [ordered]@{ x = $FormX; y = $FormY }
@@ -343,6 +325,7 @@ function Invoke-SmokeClick {
             y = $FormY * [double]$ClientGeometry.scale.y
         }
         screen_pixels = [ordered]@{ x = $screenX; y = $screenY }
+        diagnostics = $inputDiagnostics
     }
 }
 
@@ -353,9 +336,17 @@ function Invoke-SmokeKeys {
     )
 
     Add-Type -AssemblyName System.Windows.Forms
-    Focus-SmokeWindow -Handle $Handle
+    $focusDiagnostics = Focus-SmokeWindow -Handle $Handle
     [System.Windows.Forms.SendKeys]::SendWait($Keys)
     Start-Sleep -Milliseconds $ActionDelayMilliseconds
+    return [ordered]@{
+        schema = 'oxforms.w005.sendkeys_action.v1'
+        input_driver = 'system_windows_forms_sendkeys'
+        diagnostics = [ordered]@{
+            foreground = $focusDiagnostics
+            after = Get-W005InputDiagnosticsSnapshot -TargetHandle $Handle -Phase 'after_sendkeys'
+        }
+    }
 }
 
 function Invoke-SmokeCloseRequest {
@@ -372,25 +363,48 @@ function Add-Action {
         [string]$Action,
         [object]$Coordinates,
         [string]$Keys,
-        [string]$Notes
+        [string]$Notes,
+        [object]$Diagnostics = $null
     )
 
     $method = if ($Action -eq 'post_window_close') {
         'automated_user32_post_message'
     } elseif ([string]::IsNullOrEmpty($Keys)) {
-        'automated_user32_mouse_event'
+        'automated_sendinput_mouse'
     } else {
         'automated_sendkeys'
+    }
+
+    $inputDriver = if ($method -eq 'automated_sendinput_mouse') {
+        'public_user32_sendinput'
+    } elseif ($method -eq 'automated_sendkeys') {
+        'system_windows_forms_sendkeys'
+    } elseif ($method -eq 'automated_user32_post_message') {
+        'public_user32_postmessage'
+    } else {
+        $method
+    }
+
+    $coordinatePayload = if ($null -eq $Coordinates) {
+        $null
+    } else {
+        [ordered]@{
+            form_logical = $Coordinates.form_logical
+            client_pixels = $Coordinates.client_pixels
+            screen_pixels = $Coordinates.screen_pixels
+        }
     }
 
     $Actions.Add([ordered]@{
         sequence = $Actions.Count + 1
         input_method = $method
+        input_driver = $inputDriver
         manual = $false
         target_intent = $TargetIntent
         action = $Action
-        coordinates = $Coordinates
+        coordinates = $coordinatePayload
         keys = $Keys
+        diagnostics = if ($null -ne $Diagnostics) { $Diagnostics } elseif ($null -ne $Coordinates) { $Coordinates.diagnostics } else { $null }
         notes = $Notes
     }) | Out-Null
 }
@@ -512,7 +526,7 @@ $captureManifestPath = Join-Path $resolvedOutDir 'window\window-capture-manifest
 try {
     $window = Wait-ForSmokeWindow
     $clientGeometry = Get-ClientGeometry -Window $window
-    Focus-SmokeWindow -Handle $clientGeometry.handle
+    $initialFocusDiagnostics = Focus-SmokeWindow -Handle $clientGeometry.handle
 
     $captureArgs = @(
         '-NoProfile',
@@ -535,17 +549,17 @@ try {
     $coords = Invoke-SmokeClick -ClientGeometry $clientGeometry -FormX 74 -FormY 66
     Add-Action -Actions $actions -TargetIntent 'TextBox center focus' -Action 'click' -Coordinates $coords -Keys '' -Notes 'Click transfers focus to the TextBox probe.'
 
-    Invoke-SmokeKeys -Handle $clientGeometry.handle -Keys 'ab'
-    Add-Action -Actions $actions -TargetIntent 'TextBox character input' -Action 'key_sequence' -Coordinates $null -Keys 'ab' -Notes 'SendKeys drives real platform character input through minifb callback.'
+    $keyDiagnostics = Invoke-SmokeKeys -Handle $clientGeometry.handle -Keys 'ab'
+    Add-Action -Actions $actions -TargetIntent 'TextBox character input' -Action 'key_sequence' -Coordinates $null -Keys 'ab' -Diagnostics $keyDiagnostics -Notes 'SendKeys drives real platform character input through minifb callback.'
 
     $coords = Invoke-SmokeClick -ClientGeometry $clientGeometry -FormX 196 -FormY 66
     Add-Action -Actions $actions -TargetIntent 'CommandButton direct click' -Action 'click' -Coordinates $coords -Keys '' -Notes 'Click probes CommandButton pressed/click path.'
 
-    Invoke-SmokeKeys -Handle $clientGeometry.handle -Keys '%{F4}'
-    Add-Action -Actions $actions -TargetIntent 'Platform close request attempt' -Action 'key_sequence' -Coordinates $null -Keys '%{F4}' -Notes 'Alt+F4 is attempted first because it is a normal user close accelerator.'
+    $closeKeyDiagnostics = Invoke-SmokeKeys -Handle $clientGeometry.handle -Keys '%{F4}'
+    Add-Action -Actions $actions -TargetIntent 'Platform close request attempt' -Action 'key_sequence' -Coordinates $null -Keys '%{F4}' -Diagnostics $closeKeyDiagnostics -Notes 'Alt+F4 is attempted first because it is a normal user close accelerator.'
 
     Invoke-SmokeCloseRequest -Handle $clientGeometry.handle
-    Add-Action -Actions $actions -TargetIntent 'Platform close request' -Action 'post_window_close' -Coordinates $null -Keys '' -Notes 'Public user32 PostMessageW(WM_CLOSE) closes the smoke window when Alt+F4 is not sufficient under minifb.'
+    Add-Action -Actions $actions -TargetIntent 'Platform close request' -Action 'post_window_close' -Coordinates $null -Keys '' -Diagnostics (Get-W005InputDiagnosticsSnapshot -TargetHandle $clientGeometry.handle -Phase 'after_post_window_close') -Notes 'Public user32 PostMessageW(WM_CLOSE) closes the smoke window when Alt+F4 is not sufficient under minifb.'
 
     if (-not $process.WaitForExit(10000)) {
         Stop-Process -Id $process.Id -ErrorAction SilentlyContinue
@@ -569,6 +583,10 @@ Write-JsonFile -Value ([ordered]@{
     title = $title
     manual_inputs = @()
     automated_inputs = @($actions)
+    focus_diagnostics = [ordered]@{
+        initial_foreground = $initialFocusDiagnostics
+        final = Get-W005InputDiagnosticsSnapshot -TargetHandle $clientGeometry.handle -Phase 'after_visible_smoke_drive'
+    }
     client_geometry = [ordered]@{
         handle = $window.handle
         origin_screen_pixels = $clientGeometry.origin_screen_pixels
@@ -578,7 +596,8 @@ Write-JsonFile -Value ([ordered]@{
     coordinate_vocabulary = @('screen_pixels', 'client_pixels', 'form_logical')
     assumptions = @(
         'The smoke window uses minifb Scale::X2; driver coordinates derive client pixels from the actual client rectangle and the 260x128 logical surface.',
-        'The input driver is public Windows evidence infrastructure only and not runtime architecture.'
+        'The input driver is public Windows evidence infrastructure only and not runtime architecture.',
+        'Mouse actions use public user32 SendInput after SetCursorPos; SendKeys remains only for text/accelerator input in this W005 smoke.'
     )
 }) -Path $inputActionsPath
 
@@ -617,7 +636,7 @@ $manifest = [ordered]@{
     }
     observed_coverage = $traceSummary
     manual_inputs = @()
-    automated_input_method = 'public user32 SetCursorPos/mouse_event and System.Windows.Forms.SendKeys'
+    automated_input_method = 'public user32 SetCursorPos/SendInput and System.Windows.Forms.SendKeys'
     non_claims = @(
         'This is W005 evidence/test infrastructure, not final host/runtime architecture.',
         'The visible smoke supplements headless reducer tests and future trace/replay; it is not the only verification path.',

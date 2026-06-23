@@ -17,12 +17,15 @@ Current W005 evidence already uses public Windows desktop APIs:
 
 - `tools/office-oracle/Capture-W005InteractionEvents.ps1` drives the Excel /
   MSForms oracle through public Excel/VBIDE automation, `EnumWindows`,
-  `GetWindowRect`, `SetForegroundWindow`, `SetCursorPos`, `mouse_event`,
-  `System.Windows.Forms.SendKeys`, and screenshot capture through
-  `tools/office-oracle/Capture-Window.ps1`.
+  `GetWindowRect`, screenshot capture through
+  `tools/office-oracle/Capture-Window.ps1`, and the shared
+  `tools/W005WindowsInputDiagnostics.psm1` helper for foreground/focus/window
+  diagnostics plus public `SetCursorPos` / `SendInput` mouse injection.
 - `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1` locates the
   OxForms `minifb` smoke window, records client geometry, drives mouse and key
-  input, captures a screenshot, and records `visible-input-actions.json`.
+  input, captures a screenshot, and records `visible-input-actions.json`. Mouse
+  actions use the same shared `SendInput` helper as the MSForms oracle driver;
+  text and accelerator input still use `System.Windows.Forms.SendKeys`.
 - The authoritative modeless MSForms capture is
   [`captures/interaction-events-20260623T004914Z/`](captures/interaction-events-20260623T004914Z/).
   Its manifest records automated public Windows input and live MSForms event
@@ -34,21 +37,27 @@ Current W005 evidence already uses public Windows desktop APIs:
 
 Those tools are sufficient for W005's current evidence needs: find a visible
 window, capture screen/window metadata, drive a fixed scenario, and validate the
-emitted repo-owned trace artifacts. A new diagnostic script would mostly
-duplicate this capability unless it also standardizes foreground/focus/UIA
-metadata across both Office and OxForms windows; that is better filed as
-follow-up harness hardening.
+emitted repo-owned trace artifacts. The shared diagnostics helper added by
+`oxforms-xvx.23` standardizes the auxiliary action metadata that had previously
+been split between the Office oracle and OxForms visible smoke drivers:
+
+- foreground/window/focus snapshots before and after foreground transitions;
+- target-thread GUI focus/capture/caret metadata through public
+  `GetGUIThreadInfo`;
+- cursor position and target window summaries around mouse and key actions;
+- normalized additive action-log fields: `input_driver`, `coordinates`, and
+  `diagnostics`, while preserving the existing required schema fields.
 
 ## Option Assessment
 
 | Approach | Suitability now | Use in W005 evidence | Limitations |
 |---|---|---|---|
 | Top-level Win32 window enumeration and capture (`EnumWindows`, `GetWindowText`, `GetWindowRect`, process/class filters, DPI, screenshot) | Suitable and already in use. | Keep as the primary public inspection layer for both MSForms oracle windows and OxForms smoke windows. | It sees top-level windows, bounds, class/process/title/DPI, and pixels. It does not reveal MSForms control state or OxForms reducer state. |
-| Public input injection (`SendInput`, current `SetCursorPos` plus `mouse_event`, `SendKeys`) | Suitable as an evidence driver around deterministic traces. | Continue using it for live desktop smoke/oracle runs, but prefer a future `SendInput` wrapper over legacy `mouse_event` for durable mouse and keyboard injection. | It is focus-sensitive, desktop-session-sensitive, DPI/coordinate-sensitive, and should never be the only verification path. |
+| Public input injection (`SendInput`, `SetCursorPos`, `SendKeys`) | Suitable as an evidence driver around deterministic traces. | Use the shared helper for mouse actions in live desktop smoke/oracle runs; keep `SendKeys` only for text/accelerator sequences until a keyboard `SendInput` wrapper is separately justified. | It is focus-sensitive, desktop-session-sensitive, DPI/coordinate-sensitive, and should never be the only verification path. |
 | `PostMessageW(WM_CLOSE)` / public close request | Suitable only for close-request evidence when a normal user accelerator is insufficient. | Acceptable for smoke shutdown after recording the attempted user path, as done by the visible input smoke. | Do not use posted messages as a substitute for normal click/key input or event-order evidence. They can bypass ordinary input routing. |
 | Windows UI Automation | Limited for W005. Useful as optional metadata, not as the driver of truth. | May record top-level window/control-pattern availability in future diagnostics. Do not use it to define OxForms control semantics. | `minifb` exposes a native window but not an OxForms control tree, because W005 controls are drawn by the smoke surface. Excel/MSForms may expose some automation elements, but the live VBA event log remains the oracle for FM20 behavior. |
 | Microsoft Active Accessibility / `IAccessible` | Limited and not needed for current W005 acceptance. | Possible diagnostic supplement for Office/MSForms window/control discoverability. Not useful for OxForms `minifb` probe internals unless OxForms intentionally implements accessibility later. | Adding accessibility semantics to OxForms controls is explicitly out of scope for this bead and should be a future runtime/accessibility design effort, not test scaffolding. |
-| WinEvent hooks / foreground/focus inspection (`GetForegroundWindow`, thread focus, focus events) | Promising as harness diagnostics. | File follow-up if future flaky runs need active-window/focus evidence around every input action. | Cross-process focus details can be timing-sensitive. Foreground/focus metadata explains delivery failures but does not prove control behavior. |
+| Foreground/focus inspection (`GetForegroundWindow`, `GetFocus`, `GetGUIThreadInfo`) | Accepted as harness diagnostics. | Record around foreground transitions and input actions in both W005 drivers. | Cross-process focus details can be timing-sensitive. Foreground/focus metadata explains delivery failures but does not prove control behavior. |
 | Screenshot/pixel inspection | Suitable for capture metadata and visible-state evidence. | Keep for window geometry, rendered frame, and screenshot artifacts. Use coordinate-space tags from `COORDINATE_MODEL.md`. | Pixel evidence is theme/DPI/session-sensitive and cannot identify event ordering by itself. |
 
 ## MSForms Oracle Window Limitations
@@ -69,8 +78,8 @@ driving a black-box scenario and collecting event logs:
   Missing rows are unobserved rows, not negative facts about MSForms.
 
 Practical consequence: future MSForms oracle runs should keep the current
-window/capture/action/event-log split. Add foreground/focus diagnostics only to
-explain delivery failures, not to replace VBA event logging.
+window/capture/action/event-log split. Foreground/focus diagnostics are now
+recorded to explain delivery failures, not to replace VBA event logging.
 
 ## OxForms Visible Smoke Limitations
 
@@ -101,10 +110,11 @@ Accepted for W005 evidence infrastructure:
 
 - public top-level window enumeration and screenshot capture;
 - public input injection as a live smoke/oracle driver, with action logs and
-  coordinate-space tags;
+  coordinate-space tags; mouse actions use public `SendInput` through
+  `tools/W005WindowsInputDiagnostics.psm1`;
 - public close requests for cleanup when the normal user accelerator has been
   attempted and recorded;
-- optional foreground/focus diagnostics as harness troubleshooting metadata.
+- foreground/focus diagnostics as harness troubleshooting metadata.
 
 Rejected as current W005 verification authority:
 
@@ -114,16 +124,16 @@ Rejected as current W005 verification authority:
 - posted window messages as a general input substitute;
 - private Windows or Office internals.
 
-Recommended next path: keep the existing live drivers as auxiliary evidence,
-add a small shared diagnostics layer only if future flakiness requires it, and
-prefer `SendInput` for a durable replacement of the current `mouse_event`
-calls. Do not expand OxForms runtime semantics in this bead.
+The hardened path remains auxiliary evidence plumbing: keep the existing live
+drivers as supplementary evidence, keep headless trace/replay as the canonical
+verification spine, and do not expand OxForms runtime semantics from these
+helpers.
 
 ## Follow-up Candidates
 
-- Harden the public Windows input driver around `SendInput`, shared
-  focus/foreground diagnostics, and common action-log schema for MSForms and
-  OxForms W005 windows.
 - Add an optional UI Automation / accessibility metadata probe that records
   discoverability for top-level Office/MSForms and OxForms smoke windows without
   using those APIs as behavioral truth.
+- Consider a diagnostics-only `SendInput` keyboard wrapper if future evidence
+  shows `SendKeys` is too flaky for text/accelerator rows. Keep it separate from
+  runtime input semantics.

@@ -527,9 +527,9 @@ Current output from `oxforms-xvx.11`:
   `oxforms-pal` `UiEvent` rows consumed by `oxforms-core::reduce`.
 - `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1` is the evidence
   driver. It builds the example, captures window metadata/screenshot with the
-  existing public Windows capture helper, drives public `user32` mouse input,
-  `System.Windows.Forms.SendKeys` text input, and a public `WM_CLOSE`, then
-  validates the emitted trace.
+  existing public Windows capture helper, drives public `user32` `SendInput`
+  mouse input, `System.Windows.Forms.SendKeys` text input, and a public
+  `WM_CLOSE`, then validates the emitted trace.
 - Evidence lives at
   [`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/).
   The trace records 18 normalized input rows, 43 reducer effects, `Click`,
@@ -559,6 +559,20 @@ interaction scenarios:
 This lane must remain outside runtime architecture. It may become evidence
 infrastructure if it proves stable enough, but trace/replay remains the
 canonical deterministic path.
+
+Current output from `oxforms-xvx.15` and `oxforms-xvx.23`:
+
+- [`../evidence/W005_input_interaction_model_exploration/windows-automation-inspection.md`](../evidence/W005_input_interaction_model_exploration/windows-automation-inspection.md)
+  records the accepted/rejected public Windows automation boundaries and the
+  hardened diagnostics path.
+- `tools/W005WindowsInputDiagnostics.psm1` is shared evidence infrastructure
+  for W005 live drivers. It uses public `SendInput` for mouse click/drag
+  injection after `SetCursorPos`, records `GetForegroundWindow` / `GetFocus` /
+  `GetGUIThreadInfo` diagnostics, and does not affect OxForms runtime behavior.
+- The MSForms oracle driver and OxForms visible-smoke driver consume that helper
+  for mouse actions and additive action-log metadata. `SendKeys` remains the
+  text/accelerator input path for now; follow-up `oxforms-8nj` tracks whether a
+  diagnostics-only keyboard `SendInput` wrapper is worth adding.
 
 ### 15. Differential Comparison
 
@@ -597,6 +611,8 @@ It is an observation artifact, not a final pass/fail parity oracle.
 | `oxforms-xvx.12` | Implement trace/replay runner and golden interaction evidence | `oxforms-54n`, `oxforms-xvx.5`, `oxforms-xvx.9`, `oxforms-xvx.10`, `oxforms-xvx.18` | Deterministic W005 interaction script replays and emits coordinate-tagged evidence. |
 | `oxforms-xvx.13` | Compare OxForms interaction trace to MSForms oracle | `oxforms-54n`, `oxforms-xvx.3`, `oxforms-xvx.12`, `oxforms-xvx.18` | Observation report relates event oracle to OxForms trace and classifies coordinate differences using the shared vocabulary. |
 | `oxforms-xvx.15` | Explore Windows automation/inspection for input evidence | `oxforms-54n`, `oxforms-xvx.11` | Decision/prototype/blocker records public automation path. |
+| `oxforms-xvx.23` | Harden public Windows input driver diagnostics | `oxforms-xvx.15` | Shared SendInput/focus diagnostics helper exists, current drivers consume it where low-risk, and action-log fields are additively normalized. |
+| `oxforms-8nj` | Evaluate diagnostics-only keyboard SendInput wrapper | `oxforms-xvx.23` | Follow-up decides whether to replace or retain `SendKeys` for text/accelerator evidence driving. |
 | `oxforms-xvx.14` | Closure review and next rollout | `oxforms-54n`, `oxforms-xvx.11`, `oxforms-xvx.13`, `oxforms-xvx.15` | Workset closes only with evidence, residual beads, and review. |
 
 ## Dependency Shape

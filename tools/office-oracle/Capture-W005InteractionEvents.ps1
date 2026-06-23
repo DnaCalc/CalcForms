@@ -15,6 +15,7 @@ $ErrorActionPreference = 'Stop'
 
 $repoRoot = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '..\..')).Path
 $w005CaptureRoot = Join-Path $repoRoot 'docs\evidence\W005_input_interaction_model_exploration\captures'
+Import-Module (Join-Path $repoRoot 'tools\W005WindowsInputDiagnostics.psm1') -Force
 
 function Resolve-RepoPath {
     param(
@@ -158,17 +159,6 @@ namespace OxForms.W005Interaction
         [DllImport("user32.dll", SetLastError = true)]
         public static extern bool GetWindowRect(IntPtr hWnd, out RECT rect);
 
-        [DllImport("user32.dll")]
-        public static extern bool SetForegroundWindow(IntPtr hWnd);
-
-        [DllImport("user32.dll")]
-        public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-        [DllImport("user32.dll")]
-        public static extern bool SetCursorPos(int X, int Y);
-
-        [DllImport("user32.dll")]
-        public static extern void mouse_event(uint dwFlags, uint dx, uint dy, uint dwData, UIntPtr dwExtraInfo);
     }
 }
 '@
@@ -574,10 +564,8 @@ function Convert-ScreenshotToScreenPoint {
 function Focus-Window {
     param([object]$Window)
 
-    $handleValue = [System.IntPtr]::new([Convert]::ToInt64($Window.handle.Substring(2), 16))
-    [void][OxForms.W005Interaction.NativeMethods]::ShowWindow($handleValue, 5)
-    [void][OxForms.W005Interaction.NativeMethods]::SetForegroundWindow($handleValue)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
+    $handleValue = ConvertFrom-W005HandleText -Handle $Window.handle
+    return Set-W005ForegroundWindow -Handle $handleValue -DelayMilliseconds $ActionDelayMilliseconds
 }
 
 function Add-InputAction {
@@ -590,19 +578,28 @@ function Add-InputAction {
         [object]$ScreenshotPoint,
         [object]$ScreenPoint,
         [string]$Keys,
-        [string]$Notes
+        [string]$Notes,
+        [object]$Diagnostics = $null
     )
+
+    $coordinates = [ordered]@{
+        screenshot_pixels = $ScreenshotPoint
+        screen_pixels = $ScreenPoint
+    }
 
     $Actions.Add([ordered]@{
         sequence = $Actions.Count + 1
         run = $CurrentRunName
         input_method = $Method
+        input_driver = if ($Method -like '*sendinput*') { 'public_user32_sendinput' } elseif ($Method -eq 'automated_sendkeys') { 'system_windows_forms_sendkeys' } else { $Method }
         manual = $false
         target_intent = $TargetIntent
         action = $Action
+        coordinates = $coordinates
         screenshot_pixels = $ScreenshotPoint
         screen_pixels = $ScreenPoint
         keys = $Keys
+        diagnostics = $Diagnostics
         notes = $Notes
     }) | Out-Null
 }
@@ -617,16 +614,12 @@ function Invoke-Click {
         [string]$Action = 'click'
     )
 
-    Focus-Window -Window $Window
+    $focusDiagnostics = Focus-Window -Window $Window
     $screenPoint = Convert-ScreenshotToScreenPoint -Window $Window -Point $Point
-    [void][OxForms.W005Interaction.NativeMethods]::SetCursorPos($screenPoint.x, $screenPoint.y)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
-    [OxForms.W005Interaction.NativeMethods]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)
-    Start-Sleep -Milliseconds 60
-    [OxForms.W005Interaction.NativeMethods]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
+    $handleValue = ConvertFrom-W005HandleText -Handle $Window.handle
+    $sendInputDiagnostics = Invoke-W005SendInputMouseClick -ScreenX $screenPoint.x -ScreenY $screenPoint.y -TargetHandle $handleValue -DownUpDelayMilliseconds 60 -AfterDelayMilliseconds $ActionDelayMilliseconds
 
-    Add-InputAction -Actions $Actions -CurrentRunName $CurrentRunName -Method 'automated_sendinput_mouse' -TargetIntent $TargetIntent -Action $Action -ScreenshotPoint $Point -ScreenPoint $screenPoint -Keys $null -Notes 'Mouse event was injected with public user32 mouse_event after SetCursorPos.'
+    Add-InputAction -Actions $Actions -CurrentRunName $CurrentRunName -Method 'automated_sendinput_mouse' -TargetIntent $TargetIntent -Action $Action -ScreenshotPoint $Point -ScreenPoint $screenPoint -Keys $null -Diagnostics ([ordered]@{ foreground = $focusDiagnostics; input = $sendInputDiagnostics }) -Notes 'Mouse event was injected with public user32 SendInput after SetCursorPos.'
 }
 
 function Invoke-DoubleClick {
@@ -653,19 +646,13 @@ function Invoke-Drag {
         [string]$TargetIntent
     )
 
-    Focus-Window -Window $Window
+    $focusDiagnostics = Focus-Window -Window $Window
     $startScreen = Convert-ScreenshotToScreenPoint -Window $Window -Point $StartPoint
     $endScreen = Convert-ScreenshotToScreenPoint -Window $Window -Point $EndPoint
-    [void][OxForms.W005Interaction.NativeMethods]::SetCursorPos($startScreen.x, $startScreen.y)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
-    [OxForms.W005Interaction.NativeMethods]::mouse_event(0x0002, 0, 0, 0, [UIntPtr]::Zero)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
-    [void][OxForms.W005Interaction.NativeMethods]::SetCursorPos($endScreen.x, $endScreen.y)
-    Start-Sleep -Milliseconds ($ActionDelayMilliseconds * 2)
-    [OxForms.W005Interaction.NativeMethods]::mouse_event(0x0004, 0, 0, 0, [UIntPtr]::Zero)
-    Start-Sleep -Milliseconds $ActionDelayMilliseconds
+    $handleValue = ConvertFrom-W005HandleText -Handle $Window.handle
+    $sendInputDiagnostics = Invoke-W005SendInputMouseDrag -StartScreenX $startScreen.x -StartScreenY $startScreen.y -EndScreenX $endScreen.x -EndScreenY $endScreen.y -TargetHandle $handleValue -StepDelayMilliseconds $ActionDelayMilliseconds -AfterDelayMilliseconds $ActionDelayMilliseconds
 
-    Add-InputAction -Actions $Actions -CurrentRunName $CurrentRunName -Method 'automated_sendinput_mouse' -TargetIntent $TargetIntent -Action 'drag_outside_bounds' -ScreenshotPoint ([ordered]@{ start = $StartPoint; end = $EndPoint }) -ScreenPoint ([ordered]@{ start = $startScreen; end = $endScreen }) -Keys $null -Notes 'Drag starts inside the label and releases outside the label half-open bounds to probe capture/out-of-bounds coordinates.'
+    Add-InputAction -Actions $Actions -CurrentRunName $CurrentRunName -Method 'automated_sendinput_mouse' -TargetIntent $TargetIntent -Action 'drag_outside_bounds' -ScreenshotPoint ([ordered]@{ start = $StartPoint; end = $EndPoint }) -ScreenPoint ([ordered]@{ start = $startScreen; end = $endScreen }) -Keys $null -Diagnostics ([ordered]@{ foreground = $focusDiagnostics; input = $sendInputDiagnostics }) -Notes 'Drag starts inside the label and releases outside the label half-open bounds to probe capture/out-of-bounds coordinates.'
 }
 
 function Invoke-KeySequence {
@@ -679,11 +666,13 @@ function Invoke-KeySequence {
     )
 
     Add-Type -AssemblyName System.Windows.Forms
-    Focus-Window -Window $Window
+    $focusDiagnostics = Focus-Window -Window $Window
     [System.Windows.Forms.SendKeys]::SendWait($Keys)
     Start-Sleep -Milliseconds ($ActionDelayMilliseconds * 2)
+    $handleValue = ConvertFrom-W005HandleText -Handle $Window.handle
+    $afterDiagnostics = Get-W005InputDiagnosticsSnapshot -TargetHandle $handleValue -Phase 'after_sendkeys'
 
-    Add-InputAction -Actions $Actions -CurrentRunName $CurrentRunName -Method 'automated_sendkeys' -TargetIntent $TargetIntent -Action 'key_sequence' -ScreenshotPoint $null -ScreenPoint $null -Keys $Keys -Notes $Notes
+    Add-InputAction -Actions $Actions -CurrentRunName $CurrentRunName -Method 'automated_sendkeys' -TargetIntent $TargetIntent -Action 'key_sequence' -ScreenshotPoint $null -ScreenPoint $null -Keys $Keys -Diagnostics ([ordered]@{ foreground = $focusDiagnostics; input = [ordered]@{ schema = 'oxforms.w005.sendkeys_action.v1'; input_driver = 'system_windows_forms_sendkeys'; diagnostics = [ordered]@{ after = $afterDiagnostics } } }) -Notes $Notes
 }
 
 function Invoke-DriveExistingWindow {
@@ -748,7 +737,7 @@ function Invoke-DriveExistingWindow {
         coordinate_vocabulary = @('screen_pixels', 'window_rect', 'screenshot_pixels', 'form_logical', 'control_local', 'msforms_event_args')
         assumptions = @(
             'Automated input target points are derived from fixture point geometry and the scoped probe-label calibration rectangle; live event rows remain the observed MSForms facts.',
-            'The use of SendKeys and user32 mouse_event is evidence-driving infrastructure only and is not an OxForms runtime architecture decision.'
+            'The use of SendKeys and public user32 SendInput is evidence-driving infrastructure only and is not an OxForms runtime architecture decision.'
         )
     }
     $actionLogPath = Join-Path $ResolvedOutDir "$CurrentRunName-input-actions.json"
@@ -1203,7 +1192,7 @@ function Invoke-MainCapture {
             modeless_event_names = $modelessLog.event_names
             modal_event_names = $modalEventNames
             manual_inputs = @()
-            input_method = 'automated public Windows SendKeys/user32 mouse_event'
+            input_method = 'automated public Windows SendKeys/user32 SendInput'
         }
         warnings = @(
             'This is black-box Excel/MSForms event evidence only; no OxForms output was compared.',
