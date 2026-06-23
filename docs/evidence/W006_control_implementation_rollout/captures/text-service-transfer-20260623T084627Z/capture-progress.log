@@ -1,0 +1,14 @@
+﻿2026-06-23T08:46:27.5972672Z capture_directory_prepared
+2026-06-23T08:46:34.7077945Z workbook_generated
+2026-06-23T08:46:36.8092904Z workbook_opened
+2026-06-23T08:46:37.3374323Z form_shown_modeless
+2026-06-23T08:46:39.9343888Z window_captured
+2026-06-23T08:46:39.9500658Z textbox_focus_macro_completed
+2026-06-23T08:46:40.2368148Z clipboard_seed_set
+2026-06-23T08:46:40.5053116Z set_foreground_result=False
+2026-06-23T08:46:40.8293755Z ctrl_v_blocked=Exception calling "SendWait" with "1" argument(s): "Access is denied"
+2026-06-23T08:46:42.1535351Z public_textbox_paste_method_completed
+2026-06-23T08:46:42.1535351Z final_text_length=27
+2026-06-23T08:46:42.2328423Z hide_macro_completed
+2026-06-23T08:46:43.2344352Z event_log_exported_rows=6
+2026-06-23T08:46:43.4283812Z workbook_saved
