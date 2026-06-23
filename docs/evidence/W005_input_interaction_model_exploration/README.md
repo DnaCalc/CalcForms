@@ -160,6 +160,16 @@ This capture is W005 evidence/test infrastructure only. It does not claim final
 and it does not replace headless reducer tests or the deterministic
 `oxforms-xvx.12` trace/replay runner.
 
+## Windows Automation And Inspection
+
+[`windows-automation-inspection.md`](windows-automation-inspection.md) records
+the `oxforms-xvx.15` decision for public Windows automation and inspection.
+The accepted W005 evidence path is top-level window enumeration/capture plus
+logged public input injection around repo-owned oracle/smoke traces. UI
+Automation and accessibility APIs may be useful as optional diagnostics, but
+they are not verification authority for OxForms probe-control semantics and do
+not add runtime accessibility behavior in W005.
+
 ## Interaction Comparison
 
 [`comparisons/interaction-events-modeless-vs-headless-probe.json`](comparisons/interaction-events-modeless-vs-headless-probe.json)
