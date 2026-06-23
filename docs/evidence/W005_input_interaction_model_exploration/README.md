@@ -102,10 +102,18 @@ to `oxforms-xvx.12`.
 
 [`event-dispatch-smoke.v1.json`](event-dispatch-smoke.v1.json) records the
 `oxforms-xvx.10` implemented subset. The smoke consumes reducer
-`FireVbaEvent` effects for `MouseDown`, `MouseUp`, `Click`, `KeyPress`, and
-`Change`, translates them through `crates/oxforms-oxvba-adapter`, and verifies
-that VBA handler code observes the event order and serialized argument metadata
-through OxVba `RaiseEvent`/`WithEvents`.
+`FireVbaEvent` effects for `MouseDown`, `MouseUp`, `Click`, `KeyDown`,
+`KeyPress`, `Change`, and `KeyUp`, translates them through
+`crates/oxforms-oxvba-adapter`, and verifies that VBA handler code observes the
+event order and serialized argument metadata through OxVba
+`RaiseEvent`/`WithEvents`.
+
+The adapter intentionally exposes only the generic W005 carrier conversion used
+by this smoke. Mouse rows preserve the FM20-style `Button`/`Shift`/`X`/`Y`
+metadata that `oxforms-core` already emits. Keyboard `KeyDown`/`KeyUp` rows
+preserve normalized `key`/`modifiers`/repeat/raw diagnostics and do not
+fabricate a native FM20 `Shift` argument until native FM20-named event dispatch
+is implemented.
 
 The smoke uses one generic `Dispatched` carrier event as test infrastructure.
 Direct FM20-named event raises are not claimed as implemented; the OxVba gap is

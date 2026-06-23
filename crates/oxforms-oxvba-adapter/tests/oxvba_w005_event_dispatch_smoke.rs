@@ -7,8 +7,8 @@ use oxforms_oxvba_adapter::event_dispatch::{
 };
 use oxforms_pal::{
     CharacterInputEvent, ClickCount, ControlId, KeyboardModifiers, LogicalPoint, LogicalRect,
-    MouseButton, MouseButtonEvent, MouseButtons, PointerId, UiEvent, UiEventId, UiEventKind,
-    UiEventSource,
+    MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics, UiEvent, UiEventId,
+    UiEventKind, UiEventSource,
 };
 use oxvba_bundle::{BundlePackage, ProjectMemberKind};
 use oxvba_hal::model::HostPolicy;
@@ -127,8 +127,45 @@ fn character_event(text: &str) -> UiEvent {
         UiEventSource::Replay,
         UiEventKind::CharacterInput(CharacterInputEvent {
             text: text.to_string(),
-            modifiers: KeyboardModifiers::default(),
+            modifiers: KeyboardModifiers {
+                shift: true,
+                ..KeyboardModifiers::default()
+            },
             raw: Vec::new(),
+        }),
+    )
+}
+
+fn key_down_event() -> UiEvent {
+    UiEvent::new(
+        UiEventId(0),
+        UiEventSource::Replay,
+        UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+            key: oxforms_pal::KeyCode::Character("A".to_string()),
+            modifiers: KeyboardModifiers {
+                shift: true,
+                ..KeyboardModifiers::default()
+            },
+            repeat: oxforms_pal::KeyRepeat::default(),
+            raw: RawKeyDiagnostics {
+                virtual_key: Some(0x41),
+                scan_code: Some(0x1e),
+                native_code: None,
+                is_extended: Some(false),
+            },
+        }),
+    )
+}
+
+fn key_up_event() -> UiEvent {
+    UiEvent::new(
+        UiEventId(0),
+        UiEventSource::Replay,
+        UiEventKind::KeyUp(oxforms_pal::KeyEvent {
+            key: oxforms_pal::KeyCode::Character("A".to_string()),
+            modifiers: KeyboardModifiers::default(),
+            repeat: oxforms_pal::KeyRepeat::default(),
+            raw: RawKeyDiagnostics::default(),
         }),
     )
 }
@@ -232,11 +269,29 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
         &mut trace,
     );
 
-    let typed = reduce(text_down.state, with_event_id(character_event("A"), 4));
+    let key_down = reduce(text_down.state, with_event_id(key_down_event(), 4));
+    dispatch_effects(
+        &mut session,
+        source.clone(),
+        &key_down.effects,
+        &mut dispatch_id,
+        &mut trace,
+    );
+
+    let typed = reduce(key_down.state, with_event_id(character_event("A"), 5));
     dispatch_effects(
         &mut session,
         source.clone(),
         &typed.effects,
+        &mut dispatch_id,
+        &mut trace,
+    );
+
+    let key_up = reduce(typed.state, with_event_id(key_up_event(), 6));
+    dispatch_effects(
+        &mut session,
+        source.clone(),
+        &key_up.effects,
         &mut dispatch_id,
         &mut trace,
     );
@@ -261,8 +316,10 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
             "2|ok|MouseUp|Button=1;Shift=0;X=4;Y=4",
             "3|ok|Click|no arguments",
             "4|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
-            "5|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=none",
-            "6|text-1|Change|no arguments",
+            "5|text-1|KeyDown|key=character:A;modifiers=shift;repeat=false;raw_virtual_key=65;raw_scan_code=30",
+            "6|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=shift",
+            "7|text-1|Change|no arguments",
+            "8|text-1|KeyUp|key=character:A;modifiers=none;repeat=false",
         ],
         "VBA handler should observe reducer event order and serialized W005 smoke args"
     );
@@ -271,10 +328,30 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
         .iter()
         .filter(|row| row.completion == AdapterDispatchCompletion::Succeeded)
         .collect();
-    assert_eq!(succeeded.len(), 6);
+    assert_eq!(succeeded.len(), 8);
     assert!(succeeded
         .iter()
         .all(|row| row.fact_source.as_deref() == Some("docs/specs/FM20_EVENT_FACTS.md")));
+    assert!(succeeded.iter().any(|row| {
+        row.event_name == "KeyDown"
+            && row
+                .argument_summary
+                .contains(&"modifiers=shift:byval".to_string())
+            && !row
+                .argument_summary
+                .iter()
+                .any(|argument| argument.starts_with("Shift="))
+    }));
+    assert!(succeeded.iter().any(|row| {
+        row.event_name == "KeyUp"
+            && row
+                .argument_summary
+                .contains(&"modifiers=none:byval".to_string())
+            && !row
+                .argument_summary
+                .iter()
+                .any(|argument| argument.starts_with("Shift="))
+    }));
     assert!(succeeded.iter().any(|row| {
         row.event_name == "KeyPress"
             && row

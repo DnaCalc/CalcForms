@@ -52,16 +52,6 @@ pub enum VbaEventDispatchCompletion {
 pub enum VbaEventDispatchError {
     NotFireVbaEvent,
     UnsupportedEvent(String),
-    MissingArgument {
-        event_name: String,
-        argument_name: &'static str,
-    },
-    InvalidArgument {
-        event_name: String,
-        argument_name: String,
-        value: String,
-        expected: &'static str,
-    },
 }
 
 impl std::fmt::Display for VbaEventDispatchError {
@@ -71,19 +61,6 @@ impl std::fmt::Display for VbaEventDispatchError {
             Self::UnsupportedEvent(event_name) => {
                 write!(f, "W005 smoke does not map event `{event_name}`")
             }
-            Self::MissingArgument {
-                event_name,
-                argument_name,
-            } => write!(f, "event `{event_name}` is missing argument `{argument_name}`"),
-            Self::InvalidArgument {
-                event_name,
-                argument_name,
-                value,
-                expected,
-            } => write!(
-                f,
-                "event `{event_name}` argument `{argument_name}` has value `{value}`, expected {expected}"
-            ),
         }
     }
 }
@@ -171,79 +148,6 @@ impl VbaEventDispatchRequest {
             .map(|arg| format!("{}={}", arg.name, arg.value))
             .collect::<Vec<_>>()
             .join(";")
-    }
-
-    pub fn to_event_specific_oxvba_variants(&self) -> Result<Vec<Variant>, VbaEventDispatchError> {
-        match self.event_name.as_str() {
-            "Click" | "Change" | "Activate" => Ok(Vec::new()),
-            "MouseDown" | "MouseUp" | "MouseMove" => Ok(vec![
-                Variant::from_i16(self.required_i16("Button")?),
-                Variant::from_i16(self.required_i16("Shift")?),
-                Variant::from_f32(self.required_f32("X")?),
-                Variant::from_f32(self.required_f32("Y")?),
-            ]),
-            "KeyPress" => Ok(vec![Variant::from_i16(
-                self.required_i16("key_ascii_placeholder")?,
-            )]),
-            "KeyDown" | "KeyUp" => Ok(vec![
-                Variant::from_i16(self.key_code_i16()?),
-                Variant::from_i16(self.required_i16("Shift")?),
-            ]),
-            other => Err(VbaEventDispatchError::UnsupportedEvent(other.to_string())),
-        }
-    }
-
-    fn argument(&self, name: &'static str) -> Result<&VbaEventArgument, VbaEventDispatchError> {
-        self.arguments
-            .iter()
-            .find(|arg| arg.name.eq_ignore_ascii_case(name))
-            .ok_or_else(|| VbaEventDispatchError::MissingArgument {
-                event_name: self.event_name.clone(),
-                argument_name: name,
-            })
-    }
-
-    fn required_i16(&self, name: &'static str) -> Result<i16, VbaEventDispatchError> {
-        let arg = self.argument(name)?;
-        arg.value
-            .parse::<i16>()
-            .map_err(|_| VbaEventDispatchError::InvalidArgument {
-                event_name: self.event_name.clone(),
-                argument_name: arg.name.clone(),
-                value: arg.value.clone(),
-                expected: "a 16-bit integer",
-            })
-    }
-
-    fn required_f32(&self, name: &'static str) -> Result<f32, VbaEventDispatchError> {
-        let arg = self.argument(name)?;
-        arg.value
-            .parse::<f32>()
-            .map_err(|_| VbaEventDispatchError::InvalidArgument {
-                event_name: self.event_name.clone(),
-                argument_name: arg.name.clone(),
-                value: arg.value.clone(),
-                expected: "a single-precision number",
-            })
-    }
-
-    fn key_code_i16(&self) -> Result<i16, VbaEventDispatchError> {
-        let arg = self.argument("key")?;
-        match arg.value.as_str() {
-            "enter" => Ok(13),
-            "escape" => Ok(27),
-            "tab" => Ok(9),
-            value if value.len() == 1 => Ok(value.as_bytes()[0] as i16),
-            value if value.starts_with("character:") && value.len() == "character:".len() + 1 => {
-                Ok(value.as_bytes()["character:".len()] as i16)
-            }
-            _ => Err(VbaEventDispatchError::InvalidArgument {
-                event_name: self.event_name.clone(),
-                argument_name: arg.name.clone(),
-                value: arg.value.clone(),
-                expected: "a W005 key summary with a scalar smoke mapping",
-            }),
-        }
     }
 }
 

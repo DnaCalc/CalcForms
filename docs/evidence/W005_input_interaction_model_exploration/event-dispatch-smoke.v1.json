@@ -15,10 +15,12 @@
       "MouseDown",
       "MouseUp",
       "Click",
+      "KeyDown",
       "KeyPress",
-      "Change"
+      "Change",
+      "KeyUp"
     ],
-    "argument_policy": "Mouse events preserve Button, Shift, X, and Y as serialized FM20-style scalar metadata. KeyPress preserves text, key_ascii_placeholder, modifiers, and mutable-helper metadata in dispatch trace; live MSForms.ReturnInteger helper mutation remains deferred.",
+    "argument_policy": "Mouse events preserve Button, Shift, X, and Y as serialized FM20-style scalar metadata emitted by oxforms-core. KeyDown and KeyUp preserve the reducer's normalized key/modifiers/repeat/raw diagnostics; the smoke does not fabricate FM20 Shift for keyboard events. KeyPress preserves text, key_ascii_placeholder, modifiers, and mutable-helper metadata in dispatch trace; live MSForms.ReturnInteger helper mutation remains deferred.",
     "handler_event": "Dispatched",
     "handler_event_reason": "The smoke uses one generic VBA event as a carrier to prove OxVba RaiseEvent/WithEvents dispatch without introducing a forms runtime. Native FM20-named event procedures remain blocked by the OxVba gap recorded in docs/handovers/HANDOVER_OxVba_w005_fm20_event_raise.md."
   },
@@ -27,13 +29,16 @@
     "2|ok|MouseUp|Button=1;Shift=0;X=4;Y=4",
     "3|ok|Click|no arguments",
     "4|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
-    "5|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=none",
-    "6|text-1|Change|no arguments"
+    "5|text-1|KeyDown|key=character:A;modifiers=shift;repeat=false;raw_virtual_key=65;raw_scan_code=30",
+    "6|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=shift",
+    "7|text-1|Change|no arguments",
+    "8|text-1|KeyUp|key=character:A;modifiers=none;repeat=false"
   ],
   "dispatch_trace_requirements": [
     "Every dispatch row cites docs/specs/FM20_EVENT_FACTS.md.",
     "Dispatch order is reducer effect order.",
     "Target form/control metadata is preserved outside the VBA carrier event.",
+    "KeyDown and KeyUp dispatch rows preserve normalized modifiers and do not expose FM20 Shift until native FM20 event raising is implemented.",
     "KeyPress records key_ascii_placeholder=65 as byref_or_mutable plus deferred ReturnInteger mutation metadata."
   ]
 }

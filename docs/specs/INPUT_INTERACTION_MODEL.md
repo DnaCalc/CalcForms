@@ -495,13 +495,17 @@ replay without live Excel or another host.
   `crates/oxforms-oxvba-adapter/src/event_dispatch.rs` and
   `crates/oxforms-oxvba-adapter/tests/oxvba_w005_event_dispatch_smoke.rs`.
   The implemented subset consumes reducer `FireVbaEvent` effects for
-  `MouseDown`, `MouseUp`, `Click`, `KeyPress`, and `Change`, preserves target,
-  order, arguments, fact-source, and mutable-helper placeholder metadata in
-  adapter trace rows, and proves the event reaches VBA code through OxVba
-  `RaiseEvent`/`WithEvents`. Because native FM20-named event raises faulted in
-  the current OxVba package-session fixture, the smoke uses a single generic
-  `Dispatched` carrier event as test infrastructure only; the OxVba gap is
-  recorded in
+  `MouseDown`, `MouseUp`, `Click`, `KeyDown`, `KeyPress`, `Change`, and
+  `KeyUp`, preserves target, order, arguments, fact-source, and
+  mutable-helper placeholder metadata in adapter trace rows, and proves the
+  event reaches VBA code through OxVba `RaiseEvent`/`WithEvents`. Mouse rows
+  carry the FM20-style `Button`/`Shift`/`X`/`Y` metadata already emitted by
+  `oxforms-core`; keyboard `KeyDown`/`KeyUp` rows preserve the reducer's
+  normalized `key`/`modifiers`/repeat/raw diagnostics and do not expose a
+  native FM20 `Shift` argument in this smoke. Because native FM20-named event
+  raises faulted in the current OxVba package-session fixture, the smoke uses a
+  single generic `Dispatched` carrier event as test infrastructure only; the
+  OxVba gap is recorded in
   [`../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
 
 If a downstream bead discovers a contradiction in this document, it should

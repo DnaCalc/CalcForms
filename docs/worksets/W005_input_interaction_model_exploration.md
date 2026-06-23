@@ -478,14 +478,19 @@ Current output from `oxforms-xvx.10`:
   create a forms-only runtime.
 - `crates/oxforms-oxvba-adapter/tests/oxvba_w005_event_dispatch_smoke.rs`
   replays a small W005 reducer scenario through `MouseDown`, `MouseUp`,
-  `Click`, `KeyPress`, and `Change` effects. The smoke invokes a VBA class
-  method that raises a normal `Dispatched` event; an attached `WithEvents`
-  handler records the original W005 event names, targets, order, and serialized
-  arguments.
+  `Click`, `KeyDown`, `KeyPress`, `Change`, and `KeyUp` effects. The smoke
+  invokes a VBA class method that raises a normal `Dispatched` event; an
+  attached `WithEvents` handler records the original W005 event names, targets,
+  order, and serialized arguments.
 - Evidence is recorded at
   [`../evidence/W005_input_interaction_model_exploration/event-dispatch-smoke.v1.json`](../evidence/W005_input_interaction_model_exploration/event-dispatch-smoke.v1.json).
-  The smoke preserves mouse `Button`/`Shift`/`X`/`Y` metadata and `KeyPress`
-  mutable-helper placeholder metadata in dispatch trace rows.
+  The smoke preserves mouse `Button`/`Shift`/`X`/`Y` metadata from reducer
+  mouse effects, preserves keyboard `key`/normalized `modifiers`/repeat/raw
+  diagnostics for `KeyDown`/`KeyUp`, and preserves `KeyPress` mutable-helper
+  placeholder metadata in dispatch trace rows. The smoke intentionally has no
+  public event-specific OxVba variant converter; native FM20 keyboard
+  signatures such as `KeyDown(KeyCode, Shift)` remain blocked with native
+  FM20-named event dispatch.
 - Native FM20-named event procedures such as a direct `Click`/`MouseDown`
   source remain blocked in the current OxVba package-session shape; the exact
   handover is
