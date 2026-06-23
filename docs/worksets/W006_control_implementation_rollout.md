@@ -134,4 +134,3 @@ implementation lane unless the whole workset closure condition is actually met.
 | Evidence/oracles | Office/MSForms capture, replay/golden validation, checksum validation, or exact blocker |
 | Trace/replay/comparison | schema validator, replay runner, comparison validator where touched |
 | Clean-room posture | review public facts vs assumptions and check that no private implementation details or temporary W005 shortcuts became architecture |
-
