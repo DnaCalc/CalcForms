@@ -1,7 +1,7 @@
 # W006 Text-service And Transfer Oracle Fixture
 
-This fixture is a repo-owned Excel/MSForms oracle input for bead
-`oxforms-0a0.13`.
+This fixture is a repo-owned Excel/MSForms oracle input created for
+`oxforms-0a0.13` and reused by `oxforms-0a0.17`.
 
 It observes one focused, text-only clipboard paste attempt against a single-line
 `MSForms.TextBox`. The preferred driver is public keyboard input (`Ctrl+V`).
@@ -12,6 +12,10 @@ and `BeforeDropOrPaste` rows when MSForms raises them. `MSForms.Return*` helper
 arguments are logged with before/after `.Value` columns, and `MSForms.DataObject`
 observations are limited to public method summaries plus the known repo-owned
 clipboard seed text.
+
+The `.17` follow-up added foreground and keyboard-driver diagnostics but still
+blocked Ctrl+V delivery in the clean capture; future runs must preserve exact
+driver status and live rows instead of assuming typeable-character behavior.
 
 Non-goals:
 

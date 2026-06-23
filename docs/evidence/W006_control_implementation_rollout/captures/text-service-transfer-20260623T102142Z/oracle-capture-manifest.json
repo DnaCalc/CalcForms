@@ -1,0 +1,85 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_text_service_transfer_capture.v1",
+    "bead":  "oxforms-0a0.17",
+    "capture_id":  "text-service-transfer-20260623T102142Z",
+    "fixture":  {
+                    "id":  "excel-msforms-w006-text-service-transfer-v1",
+                    "inputs":  {
+                                   "manifest":  {
+                                                    "path":  "fixtures/office-oracle/excel-msforms/userforms/text-service-transfer/fixture.json",
+                                                    "sha256":  "30ef7fe2bfb630f92bb5e962d01850f511bc672f784d89c218b284a82498bb5a"
+                                                },
+                                   "form_code_behind":  {
+                                                            "path":  "fixtures/office-oracle/excel-msforms/userforms/text-service-transfer/form-code-behind.bas",
+                                                            "sha256":  "45f02ad0ce15659b23c8a82f0c35e808c9a07d63ea75d60affd55ba4686fa61a"
+                                                        },
+                                   "standard_module_extra":  {
+                                                                 "path":  "fixtures/office-oracle/excel-msforms/userforms/text-service-transfer/standard-module-extra.bas",
+                                                                 "sha256":  "5ea366f58c3a54be8cd9c4cccfb63e6017fb74f5cf7283d5aa6081651dbe5716"
+                                                             }
+                               }
+                },
+    "commands":  {
+                     "generator":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/generate-workbook.command.txt",
+                     "window_capture":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/capture-window.command.txt",
+                     "rerun_note":  "Run this script from the repository root. It generates the workbook, opens Excel, attempts Ctrl+V paste into the modeless UserForm with public user32 SendInput keyboard input and then SendKeys diagnostics, falls back to public MSForms TextBox.Paste when keyboard drivers are blocked or ineffective, exports W006TransferEventLog, writes manifests, and checksums artifacts."
+                 },
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "is_windows":  true,
+                     "powershell":  "5.1.26100.8655"
+                 },
+    "excel":  {
+                  "path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                  "file_version":  "16.0.20026.20182",
+                  "product_version":  "16.0.20026.20182",
+                  "product_name":  "Microsoft Office",
+                  "company_name":  "Microsoft Corporation"
+              },
+    "artifacts":  {
+                      "generated_workbook":  {
+                                                 "path":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/w006-text-service-transfer-oracle.xlsm",
+                                                 "sha256":  "ec339eb43c828d723fe8a5ffb37416e752c93d28d51acb327e9540b9242cfda7"
+                                             },
+                      "run_summary":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/run-summary.json",
+                      "event_log_json":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/w006-transfer-event-log.json",
+                      "event_log_csv":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/w006-transfer-event-log.csv",
+                      "input_actions":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/input-actions.json",
+                      "window_capture_manifest":  "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/window/window-capture-manifest.json",
+                      "screenshot":  null,
+                      "command_logs":  [
+                                           "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/generate-workbook.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/generate-workbook.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/generate-workbook.stderr.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/capture-window.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/capture-window.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/capture-window.stderr.txt"
+                                       ]
+                  },
+    "observed_coverage":  {
+                              "event_names":  [
+                                                  "Activate",
+                                                  "BeforeDropOrPaste",
+                                                  "Change",
+                                                  "Initialize",
+                                                  "QueryClose",
+                                                  "Terminate"
+                                              ],
+                              "row_count":  6,
+                              "manual_inputs":  [
+
+                                                ],
+                              "input_method":  "WinForms Clipboard plus attempted public user32 SendInput Ctrl+V and System.Windows.Forms.SendKeys Ctrl+V diagnostics and, when needed, public MSForms TextBox.Paste around live Excel/MSForms"
+                          },
+    "warnings":  [
+                     "This is black-box Excel/MSForms event evidence only; no OxForms output was compared.",
+                     "The capture is not an exhaustive MSForms event parity claim.",
+                     "Missing BeforeDragOver or BeforeDropOrPaste rows are unobserved rows, not negative facts about all MSForms behavior.",
+                     "Desktop focus, keyboard layout, clipboard policy, theme, DPI, and Excel/MSForms version can affect observed rows."
+                 ],
+    "clean_room":  {
+                       "source":  "Repo-owned fixture generated through public Excel/VBIDE automation and driven through WinForms Clipboard, public user32 SendInput keyboard input, SendKeys diagnostics, and public MSForms TextBox.Paste.",
+                       "data_object_policy":  "Public MSForms.DataObject method summaries only; no live object identity is stored.",
+                       "prohibited":  "No Office internals, decompilation, disassembly, private source, or non-public implementation details were used."
+                   }
+}

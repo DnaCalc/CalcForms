@@ -26,9 +26,10 @@ Current tools:
   fixture manifest, required controls, code-behind handler/logging surface, and
   capture README guidance without starting Excel.
 - `Capture-W006TextServiceTransfer.ps1` generates the W006 text-service
-  transfer fixture, opens live Excel/MSForms, attempts `Ctrl+V`, records the
-  exact keyboard-driver blocker when present, falls back to public
-  `TextBox.Paste`, and exports `BeforeDropOrPaste`/`Change` oracle evidence.
+  transfer fixture, opens live Excel/MSForms, prepares foreground/focus
+  diagnostics, attempts `Ctrl+V` with public keyboard drivers, records exact
+  blockers when present, falls back to public `TextBox.Paste` only when needed,
+  and exports keyboard/`BeforeDropOrPaste`/`Change` oracle evidence.
 - `Capture-W006OleDragDropTransfer.ps1` generates the W006 OLE drag/drop
   transfer fixture, opens live Excel/MSForms, drives a public
   `MSForms.DataObject.StartDrag` session with public `user32 SendInput` mouse

@@ -14,6 +14,9 @@ $captureRoot = Join-Path $repoRoot 'docs\evidence\W006_control_implementation_ro
 $windowTitle = 'OxForms W006 Text Service Transfer Oracle'
 $clipboardSeedText = 'OXFORMS_W006_CLIPBOARD_TEXT'
 $clipboardSeedId = 'repo_owned_text_seed_v1'
+$captureBead = 'oxforms-0a0.17'
+
+Import-Module (Join-Path $repoRoot 'tools\W005WindowsInputDiagnostics.psm1') -Force
 
 function Resolve-InRepoPath {
     param([Parameter(Mandatory = $true)][string]$Path)
@@ -185,6 +188,33 @@ namespace OxForms.W006Transfer
     {
         [DllImport("user32.dll")]
         public static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct INPUT
+        {
+            public uint type;
+            public INPUTUNION u;
+        }
+
+        [StructLayout(LayoutKind.Explicit)]
+        public struct INPUTUNION
+        {
+            [FieldOffset(0)]
+            public KEYBDINPUT ki;
+        }
+
+        [StructLayout(LayoutKind.Sequential)]
+        public struct KEYBDINPUT
+        {
+            public ushort wVk;
+            public ushort wScan;
+            public uint dwFlags;
+            public uint time;
+            public UIntPtr dwExtraInfo;
+        }
+
+        [DllImport("user32.dll", SetLastError = true)]
+        public static extern uint SendInput(uint nInputs, INPUT[] pInputs, int cbSize);
     }
 }
 '@
@@ -206,6 +236,74 @@ function Set-OracleWindowForeground {
     Ensure-NativeInputTypes
     $handle = ConvertFrom-HandleText -Handle ([string]$WindowManifest.selected_window.handle)
     return [OxForms.W006Transfer.NativeMethods]::SetForegroundWindow($handle)
+}
+
+function New-KeyboardInput {
+    param(
+        [Parameter(Mandatory = $true)][UInt16]$VirtualKey,
+        [Parameter(Mandatory = $true)][UInt32]$Flags
+    )
+
+    $keyboard = New-Object OxForms.W006Transfer.NativeMethods+KEYBDINPUT
+    $keyboard.wVk = $VirtualKey
+    $keyboard.wScan = 0
+    $keyboard.dwFlags = $Flags
+    $keyboard.time = 0
+    $keyboard.dwExtraInfo = [UIntPtr]::Zero
+
+    $union = New-Object OxForms.W006Transfer.NativeMethods+INPUTUNION
+    $union.ki = $keyboard
+
+    $input = New-Object OxForms.W006Transfer.NativeMethods+INPUT
+    $input.type = 1
+    $input.u = $union
+    return $input
+}
+
+function Invoke-SendInputCtrlV {
+    param(
+        [Parameter(Mandatory = $true)][System.IntPtr]$TargetHandle,
+        [int]$AfterDelayMilliseconds = 180
+    )
+
+    Ensure-NativeInputTypes
+    $before = Get-W005InputDiagnosticsSnapshot -TargetHandle $TargetHandle -Phase 'before_sendinput_ctrl_v'
+    $inputs = [OxForms.W006Transfer.NativeMethods+INPUT[]]@(
+        (New-KeyboardInput -VirtualKey 0x11 -Flags 0),
+        (New-KeyboardInput -VirtualKey 0x56 -Flags 0),
+        (New-KeyboardInput -VirtualKey 0x56 -Flags 0x0002),
+        (New-KeyboardInput -VirtualKey 0x11 -Flags 0x0002)
+    )
+
+    $sent = [OxForms.W006Transfer.NativeMethods]::SendInput(
+        [uint32]$inputs.Length,
+        $inputs,
+        [System.Runtime.InteropServices.Marshal]::SizeOf([type][OxForms.W006Transfer.NativeMethods+INPUT]))
+    $lastError = [System.Runtime.InteropServices.Marshal]::GetLastWin32Error()
+    if ($AfterDelayMilliseconds -gt 0) {
+        Start-Sleep -Milliseconds $AfterDelayMilliseconds
+    }
+    $after = Get-W005InputDiagnosticsSnapshot -TargetHandle $TargetHandle -Phase 'after_sendinput_ctrl_v'
+
+    return [ordered]@{
+        schema = 'oxforms.office_oracle.w006_sendinput_keyboard_action.v1'
+        input_driver = 'public_user32_sendinput_keyboard'
+        action = 'ctrl_v'
+        virtual_keys = [ordered]@{
+            control = '0x11'
+            v = '0x56'
+        }
+        send_input = [ordered]@{
+            requested = [int]$inputs.Length
+            sent = [int]$sent
+            last_win32_error = [int]$lastError
+        }
+        status = if ($sent -eq [uint32]$inputs.Length) { 'completed' } else { 'blocked' }
+        diagnostics = [ordered]@{
+            before = $before
+            after = $after
+        }
+    }
 }
 
 function ConvertTo-CsvFieldText {
@@ -258,7 +356,7 @@ function Export-WorksheetLog {
     $targetNames = @($rows | ForEach-Object { $_.target_name } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) } | Sort-Object -Unique)
     $eventLog = [ordered]@{
         schema = 'oxforms.office_oracle.w006_text_service_transfer_event_log.v1'
-        bead = 'oxforms-0a0.13'
+        bead = $captureBead
         fact_source = [ordered]@{
             event_facts = 'docs/specs/FM20_EVENT_FACTS.md#W006-Deferred-Input-Surface-Fact-Split'
             input_model = 'docs/specs/INPUT_INTERACTION_MODEL.md#54-W006-Text-service-Clipboard-Paste-And-Dragdrop-Design'
@@ -271,7 +369,7 @@ function Export-WorksheetLog {
             rows = @($rows)
         }
         clean_room = [ordered]@{
-            source = 'Repo-owned VBA event handlers in a generated Excel/MSForms workbook, public Windows clipboard, public SendKeys input, and public worksheet export.'
+            source = 'Repo-owned VBA event handlers in a generated Excel/MSForms workbook, public Windows clipboard, public keyboard input, and public worksheet export.'
             data_object_policy = 'Only public MSForms.DataObject method summaries are recorded. The known repo-owned clipboard seed text may be identified by seed id; unexpected text payloads are not recorded.'
             prohibited = 'No Office internals, decompilation, disassembly, private source, or binary inspection.'
         }
@@ -346,14 +444,14 @@ function Write-CaptureReadme {
         '# W006 Text-service Transfer Oracle Capture',
         '',
         "Capture id: $($Manifest.capture_id)",
-        'Bead: `oxforms-0a0.13`',
+        ('Bead: `' + [string]$Manifest.bead + '`'),
         '',
         'This directory contains black-box Excel/MSForms evidence for a focused text-only clipboard paste attempt. It is not an OxForms output comparison and it does not claim exhaustive MSForms parity.',
         '',
         '## Observed Facts',
         '',
         '- `w006-transfer-event-log.json` and `w006-transfer-event-log.csv` contain worksheet rows emitted by the fixture VBA event handlers.',
-        '- `input-actions.json` records the public Windows clipboard and SendKeys actions used to drive the form; `manual_inputs` is empty.',
+        '- `input-actions.json` records the public Windows clipboard and keyboard actions used to drive the form; `manual_inputs` is empty.',
         '- `window/` records the top-level Excel/MSForms window metadata before the paste attempt.',
         '',
         '## Blocked Or Non-observed Surfaces',
@@ -365,7 +463,7 @@ function Write-CaptureReadme {
         '',
         '## Clean-room Note',
         '',
-        'The capture used repo-owned fixture sources, public Excel/VBIDE automation, public VBA event handlers, the public Windows clipboard, SendKeys, and public top-level window capture. It did not use private Office internals, decompilation, disassembly, or OxForms output comparison.'
+        'The capture used repo-owned fixture sources, public Excel/VBIDE automation, public VBA event handlers, the public Windows clipboard, public Windows keyboard input APIs, and public top-level window capture. It did not use private Office internals, decompilation, disassembly, or OxForms output comparison.'
     )
 
     Set-Content -LiteralPath (Join-Path $ResolvedOutDir 'README.md') -Value $lines -Encoding UTF8
@@ -469,44 +567,85 @@ try {
     } catch {
         Write-Warning "AppActivate by UserForm title failed before Ctrl+V: $($_.Exception.Message)"
     }
-    $foregroundResult = Set-OracleWindowForeground -WindowManifest $windowManifest
+    $targetHandle = ConvertFrom-W005HandleText -Handle ([string]$windowManifest.selected_window.handle)
+    $foregroundTransition = Set-W005ForegroundWindow -Handle $targetHandle -DelayMilliseconds $ActionDelayMilliseconds
+    $foregroundResult = [bool]$foregroundTransition.set_foreground_result
     Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step ('set_foreground_result=' + $foregroundResult)
     Start-Sleep -Milliseconds $ActionDelayMilliseconds
-    $keyboardShortcutStatus = [ordered]@{
+    $inputActions.Add([ordered]@{
+        sequence = 3
+        method = 'public_user32_showwindow_setforegroundwindow'
+        action = 'focus_userform'
+        target_intent = 'Prepare the modeless UserForm for public Ctrl+V keyboard input'
+        manual = $false
+        result = $foregroundTransition
+    }) | Out-Null
+
+    $sendInputStatus = Invoke-SendInputCtrlV -TargetHandle $targetHandle -AfterDelayMilliseconds ($ActionDelayMilliseconds * 3)
+    Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step ('sendinput_ctrl_v_status=' + $sendInputStatus.status)
+    Start-Sleep -Milliseconds ($ActionDelayMilliseconds * 2)
+    $textAfterSendInput = [string]($excel.Run('W006TransferTextBoxText'))
+    $sendInputStatus['textbox_text_equals_clipboard_seed_after'] = ($textAfterSendInput -eq $clipboardSeedText)
+    $inputActions.Add([ordered]@{
+        sequence = 4
+        method = 'public_user32_sendinput_keyboard'
+        action = 'ctrl_v'
+        keys = 'Ctrl down, V down, V up, Ctrl up'
+        target_intent = 'Paste the repo-owned clipboard text into OracleTextBox'
+        manual = $false
+        result = $sendInputStatus
+        notes = 'This is evidence-driving infrastructure, not OxForms runtime architecture.'
+    }) | Out-Null
+
+    $sendKeysStatus = [ordered]@{
         attempted = $true
         driver = 'System.Windows.Forms.SendKeys.SendWait'
         keys = '^v'
         set_foreground_result = [bool]$foregroundResult
-        status = 'not_completed'
+        status = if ($textAfterSendInput -eq $clipboardSeedText) { 'not_needed' } else { 'not_completed' }
         error = $null
     }
-    try {
-        [System.Windows.Forms.SendKeys]::SendWait('^v')
-        $keyboardShortcutStatus.status = 'completed'
-        Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step 'ctrl_v_sent'
-    } catch {
-        $keyboardShortcutStatus.status = 'blocked'
-        $keyboardShortcutStatus.error = $_.Exception.Message
-        Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step ('ctrl_v_blocked=' + $_.Exception.Message)
+    if ($textAfterSendInput -ne $clipboardSeedText) {
+        try {
+            [System.Windows.Forms.SendKeys]::SendWait('^v')
+            $sendKeysStatus.status = 'completed'
+            Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step 'sendkeys_ctrl_v_sent'
+        } catch {
+            $sendKeysStatus.status = 'blocked'
+            $sendKeysStatus.error = $_.Exception.Message
+            Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step ('sendkeys_ctrl_v_blocked=' + $_.Exception.Message)
+        }
+        Start-Sleep -Milliseconds ($ActionDelayMilliseconds * 3)
     }
-    Start-Sleep -Milliseconds ($ActionDelayMilliseconds * 3)
+    $textAfterShortcut = [string]($excel.Run('W006TransferTextBoxText'))
+    $sendKeysStatus['textbox_text_equals_clipboard_seed_after'] = ($textAfterShortcut -eq $clipboardSeedText)
     $inputActions.Add([ordered]@{
-        sequence = 3
+        sequence = 5
         method = 'system_windows_forms_sendkeys'
         action = 'ctrl_v'
         keys = '^v'
         target_intent = 'Paste the repo-owned clipboard text into OracleTextBox'
         manual = $false
-        result = $keyboardShortcutStatus
-        notes = 'This is evidence-driving infrastructure, not OxForms runtime architecture.'
+        result = $sendKeysStatus
+        notes = 'Secondary public keyboard driver retained for diagnostics because oxforms-0a0.13 blocked on SendKeys access denied.'
     }) | Out-Null
+
+    $keyboardShortcutObserved = ($textAfterShortcut -eq $clipboardSeedText)
+    $keyboardShortcutStatus = [ordered]@{
+        attempted = $true
+        primary_driver = 'public_user32_sendinput_keyboard'
+        secondary_driver = 'System.Windows.Forms.SendKeys.SendWait'
+        status = if ($keyboardShortcutObserved) { 'completed' } elseif ($sendInputStatus.status -eq 'blocked' -and $sendKeysStatus.status -eq 'blocked') { 'blocked' } else { 'attempted_but_ineffective' }
+        sendinput_result = $sendInputStatus
+        sendkeys_result = $sendKeysStatus
+        textbox_text_equals_clipboard_seed_after = [bool]$keyboardShortcutObserved
+    }
 
     $publicPasteMethodStatus = [ordered]@{
         attempted = $false
         status = 'not_needed'
         error = $null
     }
-    $textAfterShortcut = [string]($excel.Run('W006TransferTextBoxText'))
     if ($textAfterShortcut -ne $clipboardSeedText) {
         $publicPasteMethodStatus.attempted = $true
         $publicPasteMethodStatus.status = 'not_completed'
@@ -521,7 +660,7 @@ try {
             Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step ('public_textbox_paste_method_blocked=' + $_.Exception.Message)
         }
         $inputActions.Add([ordered]@{
-            sequence = 4
+            sequence = 6
             method = 'public_msforms_textbox_paste_method'
             action = 'textbox_paste'
             target_intent = 'Paste the repo-owned clipboard text into OracleTextBox after keyboard shortcut driver failed or produced no text'
@@ -543,14 +682,14 @@ try {
     $inputActionsPath = Join-Path $resolvedOutDir 'input-actions.json'
     Write-JsonFile -Path $inputActionsPath -Value ([ordered]@{
         schema = 'oxforms.office_oracle.w006_text_service_transfer_input_actions.v1'
-        bead = 'oxforms-0a0.13'
+        bead = $captureBead
         manual_inputs = @()
         automated_inputs = @($inputActions)
         blockers = @(
-            if ($keyboardShortcutStatus.status -ne 'completed') {
+            if (-not $keyboardShortcutObserved) {
                 [ordered]@{
                     surface = 'clipboard_shortcut_ctrl_v'
-                    reason = 'The public keyboard driver did not complete Ctrl+V in this desktop session.'
+                    reason = 'The public keyboard drivers did not deliver Ctrl+V to the W006 TextBox fixture in this desktop session.'
                     detail = $keyboardShortcutStatus
                     non_claim = 'No MSForms Ctrl+V keyboard ordering or ReturnInteger interaction is claimed from this run.'
                 }
@@ -572,7 +711,7 @@ try {
             }
         )
         notes = @(
-            'WinForms Clipboard, SendKeys, and the public MSForms TextBox.Paste method are evidence-driving tools around live Excel/MSForms.',
+            'WinForms Clipboard, user32 SendInput keyboard input, SendKeys, and the public MSForms TextBox.Paste method are evidence-driving tools around live Excel/MSForms.',
             'The fixture does not store platform clipboard objects, COM DataObject identities, or private implementation details.'
         )
     })
@@ -581,18 +720,20 @@ try {
     $beforeDropOrPasteRows = @($eventLog.rows | Where-Object { $_.event_name -eq 'BeforeDropOrPaste' })
     $beforeDragOverRows = @($eventLog.rows | Where-Object { $_.event_name -eq 'BeforeDragOver' })
     $changeRows = @($eventLog.rows | Where-Object { $_.event_name -eq 'Change' })
+    $keyPressRows = @($eventLog.rows | Where-Object { $_.event_name -eq 'KeyPress' })
     Write-JsonFile -Path $runSummaryPath -Value ([ordered]@{
         schema = 'oxforms.office_oracle.w006_text_service_transfer_run_summary.v1'
-        bead = 'oxforms-0a0.13'
+        bead = $captureBead
         capture_id = $captureId
         final_text_equals_clipboard_seed = ([string]$finalText -eq $clipboardSeedText)
         final_text_policy = 'The compared text is the repo-owned clipboard seed from the fixture manifest.'
         row_count = $eventLog.row_count
         event_names = $eventLog.event_names
         selected_surface_status = [ordered]@{
-            clipboard_shortcut_paste = if ($keyboardShortcutStatus.status -eq 'completed' -and $textAfterShortcut -eq $clipboardSeedText) { 'observed_textbox_text_equals_repo_seed_after_ctrl_v' } elseif ($keyboardShortcutStatus.status -eq 'completed') { 'attempted_but_textbox_text_did_not_equal_repo_seed' } else { 'blocked_keyboard_driver_' + $keyboardShortcutStatus.status }
+            clipboard_shortcut_paste = if ($keyboardShortcutObserved) { 'observed_textbox_text_equals_repo_seed_after_ctrl_v' } else { 'blocked_keyboard_driver_' + $keyboardShortcutStatus.status }
             public_textbox_paste_method = if ($publicPasteMethodStatus.attempted -and [string]$finalText -eq $clipboardSeedText) { 'observed_textbox_text_equals_repo_seed_after_public_paste_method' } elseif ($publicPasteMethodStatus.attempted) { 'attempted_but_textbox_text_did_not_equal_repo_seed' } else { 'not_attempted' }
             change = if ($changeRows.Count -gt 0) { 'observed' } else { 'not_observed_in_this_run' }
+            key_press = if ($keyPressRows.Count -gt 0) { 'observed' } else { 'not_observed_in_this_run' }
             before_drop_or_paste = if ($beforeDropOrPasteRows.Count -gt 0) { 'observed' } else { 'not_observed_in_this_run' }
             before_drag_over = if ($beforeDragOverRows.Count -gt 0) { 'observed' } else { 'not_observed_in_this_run' }
             ime_composition = 'blocked_no_deterministic_driver'
@@ -655,7 +796,7 @@ $screenshotPath = Join-Path $resolvedOutDir 'window\window-capture.png'
 
 $manifest = [ordered]@{
     schema = 'oxforms.office_oracle.w006_text_service_transfer_capture.v1'
-    bead = 'oxforms-0a0.13'
+    bead = $captureBead
     capture_id = $captureId
     fixture = [ordered]@{
         id = $fixture.id
@@ -664,7 +805,7 @@ $manifest = [ordered]@{
     commands = [ordered]@{
         generator = ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'generate-workbook.command.txt')
         window_capture = ConvertTo-RepoRelative (Join-Path $resolvedOutDir 'capture-window.command.txt')
-        rerun_note = 'Run this script from the repository root. It generates the workbook, opens Excel, attempts Ctrl+V paste into the modeless UserForm, falls back to public MSForms TextBox.Paste when the keyboard driver is blocked or ineffective, exports W006TransferEventLog, writes manifests, and checksums artifacts.'
+        rerun_note = 'Run this script from the repository root. It generates the workbook, opens Excel, attempts Ctrl+V paste into the modeless UserForm with public user32 SendInput keyboard input and then SendKeys diagnostics, falls back to public MSForms TextBox.Paste when keyboard drivers are blocked or ineffective, exports W006TransferEventLog, writes manifests, and checksums artifacts.'
     }
     platform = [ordered]@{
         os = [System.Environment]::OSVersion.VersionString
@@ -689,7 +830,7 @@ $manifest = [ordered]@{
         event_names = $eventLog.event_names
         row_count = $eventLog.row_count
         manual_inputs = @()
-        input_method = 'WinForms Clipboard plus attempted System.Windows.Forms.SendKeys Ctrl+V and, when needed, public MSForms TextBox.Paste around live Excel/MSForms'
+        input_method = 'WinForms Clipboard plus attempted public user32 SendInput Ctrl+V and System.Windows.Forms.SendKeys Ctrl+V diagnostics and, when needed, public MSForms TextBox.Paste around live Excel/MSForms'
     }
     warnings = @(
         'This is black-box Excel/MSForms event evidence only; no OxForms output was compared.',
@@ -698,7 +839,7 @@ $manifest = [ordered]@{
         'Desktop focus, keyboard layout, clipboard policy, theme, DPI, and Excel/MSForms version can affect observed rows.'
     )
     clean_room = [ordered]@{
-        source = 'Repo-owned fixture generated through public Excel/VBIDE automation and driven through WinForms Clipboard, attempted public keyboard input, and public MSForms TextBox.Paste.'
+        source = 'Repo-owned fixture generated through public Excel/VBIDE automation and driven through WinForms Clipboard, public user32 SendInput keyboard input, SendKeys diagnostics, and public MSForms TextBox.Paste.'
         data_object_policy = 'Public MSForms.DataObject method summaries only; no live object identity is stored.'
         prohibited = 'No Office internals, decompilation, disassembly, private source, or non-public implementation details were used.'
     }

@@ -61,8 +61,12 @@ $actions = Read-Json (Join-Path $resolvedCaptureDir 'input-actions.json')
 if ($manifest.schema -ne 'oxforms.office_oracle.w006_text_service_transfer_capture.v1') {
     throw "Unexpected manifest schema: $($manifest.schema)"
 }
-if ($manifest.bead -ne 'oxforms-0a0.13' -or $summary.bead -ne 'oxforms-0a0.13' -or $eventLog.bead -ne 'oxforms-0a0.13') {
-    throw 'Capture files must all name bead oxforms-0a0.13.'
+$allowedBeads = @('oxforms-0a0.13', 'oxforms-0a0.17')
+if ($allowedBeads -notcontains $manifest.bead -or $allowedBeads -notcontains $summary.bead -or $allowedBeads -notcontains $eventLog.bead) {
+    throw 'Capture files must all name bead oxforms-0a0.13 or oxforms-0a0.17.'
+}
+if ($manifest.bead -ne $summary.bead -or $manifest.bead -ne $eventLog.bead) {
+    throw 'Manifest, run summary, and event log must agree on bead id.'
 }
 if (-not [bool]$summary.final_text_equals_clipboard_seed) {
     throw 'Expected final_text_equals_clipboard_seed=true.'
@@ -96,20 +100,58 @@ if ($beforeDrop.data_object_observation -match '0x[0-9a-fA-F]+') {
     throw 'DataObject observation must not store live object identity.'
 }
 
-$keyboardAction = @($actions.automated_inputs | Where-Object { $_.action -eq 'ctrl_v' })[0]
-if ($null -eq $keyboardAction -or $keyboardAction.result.status -ne 'blocked') {
-    throw 'Expected Ctrl+V action to record the current keyboard-driver blocker.'
+$keyboardActions = @($actions.automated_inputs | Where-Object { $_.action -eq 'ctrl_v' })
+if ($keyboardActions.Count -lt 1) {
+    throw 'Expected at least one Ctrl+V action.'
 }
-$pasteAction = @($actions.automated_inputs | Where-Object { $_.action -eq 'textbox_paste' })[0]
-if ($null -eq $pasteAction -or $pasteAction.result.status -ne 'completed') {
-    throw 'Expected public TextBox.Paste fallback to complete.'
+$shortcutStatus = [string]$summary.selected_surface_status.clipboard_shortcut_paste
+$shortcutObserved = $shortcutStatus -eq 'observed_textbox_text_equals_repo_seed_after_ctrl_v'
+if ($shortcutObserved) {
+    foreach ($requiredEvent in @('KeyDown', 'KeyUp', 'BeforeDropOrPaste', 'Change')) {
+        if ($eventNames -notcontains $requiredEvent) {
+            throw "Shortcut-observed capture must include '$requiredEvent' in the event log."
+        }
+    }
+    $orderedRows = @($eventLog.observed_facts.rows | Sort-Object { [int]$_.sequence })
+    $keyDownRows = @($orderedRows | Where-Object { $_.event_name -eq 'KeyDown' })
+    $keyUpRows = @($orderedRows | Where-Object { $_.event_name -eq 'KeyUp' })
+    if ($keyDownRows.Count -lt 1 -or $keyUpRows.Count -lt 1) {
+        throw 'Shortcut-observed capture must include KeyDown and KeyUp rows.'
+    }
+    foreach ($keyRow in @($keyDownRows + $keyUpRows)) {
+        if ([string]::IsNullOrWhiteSpace([string]$keyRow.key_code_before) -or [string]::IsNullOrWhiteSpace([string]$keyRow.key_code_after)) {
+            throw 'Shortcut key rows must include before/after ReturnInteger helper values.'
+        }
+    }
+    $firstKeyDown = $keyDownRows[0]
+    $lastKeyUp = $keyUpRows[$keyUpRows.Count - 1]
+    $firstDrop = @($orderedRows | Where-Object { $_.event_name -eq 'BeforeDropOrPaste' })[0]
+    $firstChange = @($orderedRows | Where-Object { $_.event_name -eq 'Change' })[0]
+    if (-not ([int]$firstKeyDown.sequence -lt [int]$firstDrop.sequence -and [int]$firstDrop.sequence -lt [int]$firstChange.sequence -and [int]$firstChange.sequence -lt [int]$lastKeyUp.sequence)) {
+        throw 'Shortcut-observed capture must order KeyDown before BeforeDropOrPaste before Change before final KeyUp.'
+    }
+    if ($eventNames -notcontains 'KeyPress' -and $summary.selected_surface_status.PSObject.Properties.Name -contains 'key_press' -and $summary.selected_surface_status.key_press -ne 'not_observed_in_this_run') {
+        throw 'Shortcut-observed capture without KeyPress rows must mark key_press as not_observed_in_this_run.'
+    }
+} else {
+    $blockedKeyboard = @($keyboardActions | Where-Object { $_.result.status -eq 'blocked' -or $_.result.status -eq 'attempted_but_ineffective' -or $_.result.textbox_text_equals_clipboard_seed_after -eq $false })
+    if ($blockedKeyboard.Count -lt 1) {
+        throw 'Expected Ctrl+V action to record a precise blocker or ineffective driver when shortcut paste is not observed.'
+    }
+    $pasteAction = @($actions.automated_inputs | Where-Object { $_.action -eq 'textbox_paste' })[0]
+    if ($null -eq $pasteAction -or $pasteAction.result.status -ne 'completed') {
+        throw 'Expected public TextBox.Paste fallback to complete when Ctrl+V is not observed.'
+    }
 }
 
 $blockerSurfaces = @($actions.blockers | ForEach-Object { $_.surface })
-foreach ($surface in @('clipboard_shortcut_ctrl_v', 'ime_composition', 'dead_keys', 'ole_drag_drop')) {
+foreach ($surface in @('ime_composition', 'dead_keys')) {
     if ($blockerSurfaces -notcontains $surface) {
         throw "Missing blocker surface '$surface'."
     }
+}
+if (-not $shortcutObserved -and $blockerSurfaces -notcontains 'clipboard_shortcut_ctrl_v') {
+    throw "Missing blocker surface 'clipboard_shortcut_ctrl_v'."
 }
 
 $checksumPath = Join-Path $resolvedCaptureDir 'checksums.sha256'

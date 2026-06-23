@@ -164,7 +164,16 @@ Repo-owned observations available now:
 - The same capture records exact blockers for `Ctrl+V` keyboard delivery,
   IME/composition, dead-key preedit, and true OLE drag/drop. No keyboard
   shortcut ordering, IME/dead-key behavior, `BeforeDragOver`, or drag-session
-  `DataObject` behavior is claimed from the paste run.
+  `DataObject` behavior is claimed from the `.13` paste run.
+- `oxforms-0a0.17` records a clean live Excel/MSForms `Ctrl+V` keyboard-driver
+  blocker under
+  `docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/`.
+  `SetForegroundWindow` returned `False`, public `user32 SendInput` requested 4
+  keyboard inputs but sent 0 with last Win32 error 87, and
+  `System.Windows.Forms.SendKeys.SendWait("^v")` failed with access denied.
+  The run then used public `TextBox.Paste` fallback and observed the same
+  `BeforeDropOrPaste` -> `Change` paste shape as `.13`. No keyboard shortcut
+  `KeyDown`/`KeyPress`/`KeyUp` ordering is claimed from `.17`.
 - `oxforms-0a0.16` captures separate live Excel/MSForms true drag/drop evidence
   under
   `docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/`.
@@ -210,10 +219,9 @@ OxForms implementation relying on those observations:
 Design assumptions that are not facts:
 
 - Clipboard shortcut routing through `KeyDown`/`KeyUp`, followed by a host/PAL
-  `ClipboardGet` effect, remains an OxForms architecture assumption until a
-  fixture observes MSForms shortcut ordering and cancellation behavior. The
-  `oxforms-0a0.13` paste observation used public `TextBox.Paste`, not a
-  completed `Ctrl+V` keyboard shortcut.
+  `ClipboardGet` effect, remains an OxForms architecture assumption. The
+  `oxforms-0a0.17` capture improves the blocker diagnostics but does not
+  observe a completed Ctrl+V keyboard shortcut.
 - Representing `MSForms.DataObject` as a serializable snapshot plus an
   adapter-owned live object during dispatch is an OxForms layering assumption.
   The raw public fact is only that the event argument is a `DataObject`

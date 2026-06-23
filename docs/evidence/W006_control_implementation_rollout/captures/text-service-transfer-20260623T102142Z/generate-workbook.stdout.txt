@@ -1,0 +1,11 @@
+Fixture: excel-msforms-w006-text-service-transfer-v1
+Manifest: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\text-service-transfer\fixture.json
+Output workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\text-service-transfer-20260623T102142Z\w006-text-service-transfer-oracle.xlsm
+Form: OxFormsW006TransferForm / 'OxForms W006 Text Service Transfer Oracle'
+Controls: 2
+Control: Forms.TextBox.1 OracleTextBox
+Control: Forms.CommandButton.1 OracleCloseButton
+Form code-behind: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\text-service-transfer\form-code-behind.bas
+Additional module code: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\text-service-transfer\standard-module-extra.bas
+Generated workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\text-service-transfer-20260623T102142Z\w006-text-service-transfer-oracle.xlsm
+Generated workbook SHA256: 5B16046F413109B01861B6CEA0B3A4EB8C5A4234270A0C9AFBA0BDE4D1A49999

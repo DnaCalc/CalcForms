@@ -131,6 +131,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6`, `oxforms-0a0.13`, `oxforms-0a0.16` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked; `.16` supplies the live OLE drag-session oracle for any true drag/drop facts used here. |
 | `oxforms-0a0.16` | Build or precisely block the live OLE drag/drop `DataObject` oracle driver. | `oxforms-0a0.13` | A real drag-session `DataObject` fixture/driver captures `BeforeDragOver` and `BeforeDropOrPaste` facts, or records the exact public-capability blocker; `.13` paste observations remain adjacent evidence, not true drag/drop parity evidence. |
 | `oxforms-0a0.17` | Build or precisely block deterministic clipboard shortcut and text-service oracle drivers. | `oxforms-0a0.13` | `Ctrl+V`, IME/composition, and dead-key scenarios are captured with deterministic setup metadata or remain explicit non-claims; clean-room clipboard policy matches `.13`. |
+| `oxforms-0a0.18` | Build deterministic IME and dead-key oracle setup. | `oxforms-0a0.17` | IME/composition and dead-key preedit scenarios get explicit input-method/keyboard-layout setup and live evidence, or exact blockers remain preserved without runtime parity claims. |
 | `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
 
 ### `oxforms-0a0.6` Design Outcome
@@ -238,9 +239,11 @@ and capture
 The observed public MSForms `TextBox.Paste` path raises `BeforeDropOrPaste`
 before `Change`, records `Cancel` and `Effect` helper before/after values, and
 records a public `DataObject` text-format summary for the repo-owned seed. The
-current desktop session blocks `Ctrl+V` keyboard driving, IME/composition,
-dead-key preedit, and true OLE drag/drop; follow-up beads `oxforms-0a0.16` and
-`oxforms-0a0.17` track those oracle-driver gaps.
+`.13` desktop session blocked `Ctrl+V` keyboard driving, IME/composition,
+dead-key preedit, and true OLE drag/drop. Follow-up bead `oxforms-0a0.16`
+resolved the true OLE drag/drop oracle, while `oxforms-0a0.17` sharpened the
+Ctrl+V keyboard-driver blocker and kept clipboard-shortcut ordering,
+IME/composition, and dead-key preedit as explicit non-claims.
 
 Current `oxforms-0a0.14` status: implemented-subset in the host-neutral
 `oxforms-core` reducer/PAL event contract. The PAL `ClipboardResult` event can
@@ -279,6 +282,21 @@ DragState/Action, public DataObject summaries, and before/after `Cancel` and
 private Office implementation detail, and `.13` paste observations remain
 separate adjacent evidence. Rich formats, cancellation/mutation breadth,
 cross-application drags, and full drag/drop parity remain non-claims.
+
+Current `oxforms-0a0.17` status: live Office/MSForms Ctrl+V keyboard-driver
+blocker captured in
+[`../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md`](../evidence/W006_control_implementation_rollout/text-service-transfer-oracle.md)
+and
+[`../evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/`](../evidence/W006_control_implementation_rollout/captures/text-service-transfer-20260623T102142Z/).
+The repo-owned fixture uses the public Windows clipboard, public foreground
+diagnostics, public `user32 SendInput`, and `System.Windows.Forms.SendKeys`.
+The clean capture records `SetForegroundWindow=False`, `SendInput` requested 4
+keyboard inputs and sent 0 with last Win32 error 87, and `SendKeys` failed with
+access denied. No `KeyDown`/`KeyPress`/`KeyUp` shortcut rows were captured; the
+run fell back to public `TextBox.Paste` and observed `BeforeDropOrPaste` before
+`Change` with helper before/after values. IME/composition and dead-key preedit
+remain non-claims until a deterministic input-method/keyboard-layout setup
+exists. That residual setup is tracked by `oxforms-0a0.18`.
 
 W006 closes only when:
 

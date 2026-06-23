@@ -198,7 +198,11 @@ Evidence classes for this design:
   `DataObject` reports public text format availability for the repo-owned seed,
   and `Cancel`/`Effect` helper values are logged before and after dispatch.
   That capture also records exact blockers for `Ctrl+V` keyboard delivery,
-  IME/composition, dead-key preedit, and true OLE drag/drop. `oxforms-0a0.16`
+  IME/composition, dead-key preedit, and true OLE drag/drop.
+  `oxforms-0a0.17` separately records a cleaner Ctrl+V blocker for the same
+  fixture: `SetForegroundWindow` returned `False`, public `user32 SendInput`
+  requested 4 keyboard inputs and sent 0 with last Win32 error 87, and
+  `SendKeys.SendWait("^v")` failed with access denied. `oxforms-0a0.16`
   separately captures a true OLE/MSForms drag session using public
   `MSForms.DataObject.StartDrag`: `BeforeDragOver` rows precede
   `BeforeDropOrPaste`, the target receives point coordinates and shift state,
@@ -208,11 +212,11 @@ Evidence classes for this design:
 - Assumptions: routing paste and drag/drop through serializable capabilities,
   and representing IME/dead-key preedit separately from committed text, are
   OxForms design assumptions until live Office/MSForms fixtures observe them.
-- Unknowns: exact `Ctrl+V` keyboard shortcut ordering, IME/dead-key ordering,
-  drag/drop cancellation and mutation breadth beyond the accepted repo-owned
-  text drop, broader `BeforeDropOrPaste.Action` mutation behavior, rich
-  `DataObject` format behavior, and platform text-service details remain
-  unknown.
+- Unknowns: exact `Ctrl+V` keyboard shortcut ordering and
+  cancellation/mutation behavior, IME/dead-key ordering, drag/drop cancellation
+  and mutation breadth beyond the accepted repo-owned text drop, broader
+  `BeforeDropOrPaste.Action` mutation behavior, rich `DataObject` format
+  behavior, and platform text-service details remain unknown.
 
 Future normalized event families:
 

@@ -1,0 +1,1 @@
+﻿powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-Window.ps1 -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\text-service-transfer-20260623T102142Z\window -TitleContains "OxForms W006 Text Service Transfer Oracle" -ProcessName EXCEL
