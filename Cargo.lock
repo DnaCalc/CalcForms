@@ -424,6 +424,7 @@ dependencies = [
 name = "oxforms-core"
 version = "0.0.0"
 dependencies = [
+ "minifb",
  "oxforms-pal",
  "serde",
  "serde_json",

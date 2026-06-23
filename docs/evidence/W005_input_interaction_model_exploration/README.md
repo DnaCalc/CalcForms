@@ -120,6 +120,34 @@ Direct FM20-named event raises are not claimed as implemented; the OxVba gap is
 tracked in
 [`../../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
 
+## Windows Visible Input Smoke
+
+[`captures/visible-input-smoke-20260623T035500Z/`](captures/visible-input-smoke-20260623T035500Z/)
+records the `oxforms-xvx.11` Windows visible input pump smoke. The smoke opens
+a small native `minifb` surface from
+`crates/oxforms-core/examples/w005_visible_input_smoke.rs`, drives public
+Windows input through `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1`,
+and writes `visible-input-trace.json`, `visible-input-actions.json`, a window
+screenshot, a rendered frame artifact, command logs, manifest, and checksums.
+
+Observed coverage in the committed capture:
+
+- 18 normalized `UiEvent` rows entered the W005 path.
+- 43 reducer effects were emitted.
+- public `user32` mouse input reached Label, TextBox, and CommandButton probe
+  hit/focus/click routing.
+- `System.Windows.Forms.SendKeys` character input reached the TextBox probe and
+  left final text `ab`.
+- public `PostMessageW(WM_CLOSE)` closed the smoke window after an attempted
+  Alt+F4 and produced a normalized `CloseRequest` with `QueryClose` effect.
+- coordinate evidence records driver-side `screen_pixels` and `client_pixels`
+  plus smoke-side normalized `client_pixels` and `form_logical` payloads.
+
+This capture is W005 evidence/test infrastructure only. It does not claim final
+`UserForm.Show`, MSForms coordinate/DPI, lifecycle, rendering, or host parity,
+and it does not replace headless reducer tests or the upcoming trace/replay
+runner.
+
 ## FM20 Type-library Event Capture
 
 `fm20_typelib_w005_events.json` is a generated subset of public FM20 type

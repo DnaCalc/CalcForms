@@ -1,0 +1,1 @@
+﻿C:\Work\DnaCalc\OxForms\target\debug\examples\w005_visible_input_smoke.exe "--hold-ms" "15000" "--evidence-dir" "C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\visible-input-smoke-20260623T035500Z"

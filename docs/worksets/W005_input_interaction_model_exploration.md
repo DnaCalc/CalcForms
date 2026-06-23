@@ -506,6 +506,32 @@ mouse/keyboard input through the same normalized path and emit trace/evidence.
 
 This is evidence/test infrastructure, not a final host shell.
 
+Current output from `oxforms-xvx.11`:
+
+- `crates/oxforms-core/examples/w005_visible_input_smoke.rs` opens the W005
+  probe surface with a Windows native `minifb` window and routes platform mouse,
+  key, character, activation/show/resize, and close signals into
+  `oxforms-pal` `UiEvent` rows consumed by `oxforms-core::reduce`.
+- `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1` is the evidence
+  driver. It builds the example, captures window metadata/screenshot with the
+  existing public Windows capture helper, drives public `user32` mouse input,
+  `System.Windows.Forms.SendKeys` text input, and a public `WM_CLOSE`, then
+  validates the emitted trace.
+- Evidence lives at
+  [`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/).
+  The trace records 18 normalized input rows, 43 reducer effects, `Click`,
+  `KeyPress`, `Change`, and `QueryClose` effects, final TextBox text `ab`,
+  window screenshot, rendered frame artifact, command logs, manifest, and
+  checksums.
+- The smoke uses a deliberate test projection where unscaled `minifb`
+  `client_pixels` map 1:1 to `form_logical`; the driver records real
+  `screen_pixels` and derived `client_pixels` in `visible-input-actions.json`.
+  This is coordinate-translation evidence for the W005 path, not an MSForms
+  DPI/chrome parity claim.
+- The visible smoke remains auxiliary evidence/test infrastructure. Headless
+  reducer tests and the `oxforms-xvx.12` trace/replay runner remain the
+  deterministic verification path.
+
 ### 14. Programmatic Driving And Inspection
 
 W005 should decide whether public Windows tooling can help drive or inspect

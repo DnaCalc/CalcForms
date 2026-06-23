@@ -367,7 +367,11 @@ OxForms or MSForms traces that follow the same contract.
   `FM20_EVENT_FACTS.md`.
 - `oxforms-xvx.11` visible smoke must populate PAL coordinate diagnostics and
   lifecycle/pump rows using `COORDINATE_MODEL.md` and
-  `LIFECYCLE_PUMP_MODEL.md`.
+  `LIFECYCLE_PUMP_MODEL.md`. Its current evidence is
+  [`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/):
+  an `oxforms_visible`-style smoke trace, action log, screenshot, rendered
+  frame artifact, command logs, manifest, and checksums. This artifact is not
+  the full replay-runner golden trace scoped to `oxforms-xvx.12`.
 - `oxforms-xvx.12` replay runner/golden evidence must cite this schema and may
   add runner-specific checks without changing the v1 artifact identity unless
   the row contract changes.

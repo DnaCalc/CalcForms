@@ -507,6 +507,17 @@ replay without live Excel or another host.
   single generic `Dispatched` carrier event as test infrastructure only; the
   OxVba gap is recorded in
   [`../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md`](../handovers/HANDOVER_OxVba_w005_fm20_event_raise.md).
+- `oxforms-xvx.11` adds a Windows visible input pump smoke in
+  `crates/oxforms-core/examples/w005_visible_input_smoke.rs`, driven by
+  `tools/w005-visible-input/Invoke-W005VisibleInputSmoke.ps1`. The smoke opens
+  a small native surface, normalizes public Windows mouse, key/character, and
+  close input into `oxforms-pal` `UiEvent` rows, runs them through
+  `oxforms-core::reduce`, and commits evidence under
+  [`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/).
+  It proves the W005 probe path can receive real platform input, including
+  TextBox character input and CommandButton click routing, but remains
+  evidence/test infrastructure rather than a final host or `UserForm.Show`
+  runtime.
 
 If a downstream bead discovers a contradiction in this document, it should
 update this spec in the same bead as the corrected behavior or file a focused

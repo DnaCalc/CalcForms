@@ -341,6 +341,15 @@ Deferred from the W005 first implementation:
   diagnostics;
 - stay evidence/test infrastructure, not a production host shell.
 
+Current `oxforms-xvx.11` status: implemented for the W005 visible smoke subset.
+The committed capture at
+[`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/)
+records modeless show/window/activate/resize rows, active
+`host_modeless_pump`, public Windows mouse/key/character input, and a public
+platform close request that enters the reducer as `CloseRequest` and emits
+`QueryClose`. The smoke does not claim modal pump, hide/unload/terminate, or
+final `UserForm.Show` parity.
+
 ## 13. Blockers And Follow-up Rules
 
 Do not implement a forms-only event loop, private callback path, direct

@@ -1,0 +1,66 @@
+﻿{
+    "schema":  "oxforms.office_oracle.window_capture.v1",
+    "tool":  "tools/office-oracle/Capture-Window.ps1",
+    "mode":  "capture",
+    "timestamp_utc":  "2026-06-23T03:12:01.0423663Z",
+    "command":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Work\\DnaCalc\\OxForms\\tools\\office-oracle\\Capture-Window.ps1 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W005_input_interaction_model_exploration\\captures\\visible-input-smoke-20260623T035500Z\\window -TitleContains \"OxForms W005 Visible Input Smoke\" -ProcessName w005_visible_input_smoke -CaptureScreenshot -AllowAmbiguous ",
+    "host":  {
+                 "os":  "Microsoft Windows NT 10.0.26200.0",
+                 "is_windows":  true,
+                 "powershell":  "5.1.26100.8655"
+             },
+    "query":  {
+                  "title_contains":  "OxForms W005 Visible Input Smoke",
+                  "process_contains":  "",
+                  "process_name":  "w005_visible_input_smoke",
+                  "class_name":  ""
+              },
+    "status":  "ok",
+    "diagnostics":  [
+
+                    ],
+    "visible_top_level_window_count":  23,
+    "match_count":  1,
+    "candidates":  [
+                       {
+                           "handle":  "0x3D20F02",
+                           "title":  "OxForms W005 Visible Input Smoke",
+                           "class_name":  "minifb_window",
+                           "process_id":  41276,
+                           "process_name":  "w005_visible_input_smoke",
+                           "bounds":  {
+                                          "left":  208,
+                                          "top":  208,
+                                          "right":  744,
+                                          "bottom":  503,
+                                          "width":  536,
+                                          "height":  295
+                                      }
+                       }
+                   ],
+    "selected_window":  {
+                            "handle":  "0x3D20F02",
+                            "title":  "OxForms W005 Visible Input Smoke",
+                            "class_name":  "minifb_window",
+                            "process_id":  41276,
+                            "process_name":  "w005_visible_input_smoke",
+                            "process_path":  "C:\\Work\\DnaCalc\\OxForms\\target\\debug\\examples\\w005_visible_input_smoke.exe",
+                            "bounds":  {
+                                           "left":  208,
+                                           "top":  208,
+                                           "right":  744,
+                                           "bottom":  503,
+                                           "width":  536,
+                                           "height":  295
+                                       },
+                            "dpi":  96
+                        },
+    "screenshot":  {
+                       "path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W005_input_interaction_model_exploration\\captures\\visible-input-smoke-20260623T035500Z\\window\\window-capture.png",
+                       "sha256":  "3f23fb44ce1b63882d458eeecb942649c6a1d53dc0d894b57175c4c36c4eef7c",
+                       "width":  536,
+                       "height":  295,
+                       "format":  "png"
+                   },
+    "manifest_path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W005_input_interaction_model_exploration\\captures\\visible-input-smoke-20260623T035500Z\\window\\window-capture-manifest.json"
+}

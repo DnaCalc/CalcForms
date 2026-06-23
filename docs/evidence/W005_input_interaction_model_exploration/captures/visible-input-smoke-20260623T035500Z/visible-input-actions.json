@@ -1,0 +1,133 @@
+﻿{
+    "schema":  "oxforms.w005.visible_input_actions.v1",
+    "bead":  "oxforms-xvx.11",
+    "title":  "OxForms W005 Visible Input Smoke",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "sequence":  1,
+                                 "input_method":  "automated_user32_mouse_event",
+                                 "manual":  false,
+                                 "target_intent":  "Label center mouse routing",
+                                 "action":  "click",
+                                 "coordinates":  {
+                                                     "form_logical":  {
+                                                                          "x":  54,
+                                                                          "y":  24
+                                                                      },
+                                                     "client_pixels":  {
+                                                                           "x":  108,
+                                                                           "y":  48
+                                                                       },
+                                                     "screen_pixels":  {
+                                                                           "x":  324,
+                                                                           "y":  287
+                                                                       }
+                                                 },
+                                 "keys":  "",
+                                 "notes":  "Click probes non-focus mouse path."
+                             },
+                             {
+                                 "sequence":  2,
+                                 "input_method":  "automated_user32_mouse_event",
+                                 "manual":  false,
+                                 "target_intent":  "TextBox center focus",
+                                 "action":  "click",
+                                 "coordinates":  {
+                                                     "form_logical":  {
+                                                                          "x":  74,
+                                                                          "y":  66
+                                                                      },
+                                                     "client_pixels":  {
+                                                                           "x":  148,
+                                                                           "y":  132
+                                                                       },
+                                                     "screen_pixels":  {
+                                                                           "x":  364,
+                                                                           "y":  371
+                                                                       }
+                                                 },
+                                 "keys":  "",
+                                 "notes":  "Click transfers focus to the TextBox probe."
+                             },
+                             {
+                                 "sequence":  3,
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "TextBox character input",
+                                 "action":  "key_sequence",
+                                 "coordinates":  null,
+                                 "keys":  "ab",
+                                 "notes":  "SendKeys drives real platform character input through minifb callback."
+                             },
+                             {
+                                 "sequence":  4,
+                                 "input_method":  "automated_user32_mouse_event",
+                                 "manual":  false,
+                                 "target_intent":  "CommandButton direct click",
+                                 "action":  "click",
+                                 "coordinates":  {
+                                                     "form_logical":  {
+                                                                          "x":  196,
+                                                                          "y":  66
+                                                                      },
+                                                     "client_pixels":  {
+                                                                           "x":  392,
+                                                                           "y":  132
+                                                                       },
+                                                     "screen_pixels":  {
+                                                                           "x":  608,
+                                                                           "y":  371
+                                                                       }
+                                                 },
+                                 "keys":  "",
+                                 "notes":  "Click probes CommandButton pressed/click path."
+                             },
+                             {
+                                 "sequence":  5,
+                                 "input_method":  "automated_sendkeys",
+                                 "manual":  false,
+                                 "target_intent":  "Platform close request attempt",
+                                 "action":  "key_sequence",
+                                 "coordinates":  null,
+                                 "keys":  "%{F4}",
+                                 "notes":  "Alt+F4 is attempted first because it is a normal user close accelerator."
+                             },
+                             {
+                                 "sequence":  6,
+                                 "input_method":  "automated_user32_post_message",
+                                 "manual":  false,
+                                 "target_intent":  "Platform close request",
+                                 "action":  "post_window_close",
+                                 "coordinates":  null,
+                                 "keys":  "",
+                                 "notes":  "Public user32 PostMessageW(WM_CLOSE) closes the smoke window when Alt+F4 is not sufficient under minifb."
+                             }
+                         ],
+    "client_geometry":  {
+                            "handle":  "0x3D20F02",
+                            "origin_screen_pixels":  {
+                                                         "x":  216,
+                                                         "y":  239
+                                                     },
+                            "client_size_pixels":  {
+                                                       "width":  520,
+                                                       "height":  256
+                                                   },
+                            "scale":  {
+                                          "x":  2,
+                                          "y":  2
+                                      }
+                        },
+    "coordinate_vocabulary":  [
+                                  "screen_pixels",
+                                  "client_pixels",
+                                  "form_logical"
+                              ],
+    "assumptions":  [
+                        "The smoke window uses minifb Scale::X2; driver coordinates derive client pixels from the actual client rectangle and the 260x128 logical surface.",
+                        "The input driver is public Windows evidence infrastructure only and not runtime architecture."
+                    ]
+}

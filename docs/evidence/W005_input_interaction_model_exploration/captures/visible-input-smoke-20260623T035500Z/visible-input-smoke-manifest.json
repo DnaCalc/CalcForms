@@ -1,0 +1,52 @@
+﻿{
+    "schema":  "oxforms.w005.visible_input_smoke_capture.v1",
+    "bead":  "oxforms-xvx.11",
+    "capture_id":  "visible-input-smoke-20260623T035500Z",
+    "captured_at_utc":  "2026-06-23T03:12:04.9543621Z",
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "is_windows":  true,
+                     "powershell":  "5.1.26100.8655"
+                 },
+    "commands":  {
+                     "build":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.command.txt",
+                     "run":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.command.txt",
+                     "capture_window":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.command.txt"
+                 },
+    "artifacts":  {
+                      "trace":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-trace.json",
+                      "input_actions":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-actions.json",
+                      "window_capture_manifest":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/window/window-capture-manifest.json",
+                      "screenshot":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/window/window-capture.png",
+                      "frame_ppm":  "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/visible-input-frame.ppm",
+                      "command_logs":  [
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.stdout.log",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/build-visible-smoke.stderr.log",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.stdout.log",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/run-visible-smoke.stderr.log",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.stdout.log",
+                                           "docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/capture-window.stderr.log"
+                                       ]
+                  },
+    "observed_coverage":  {
+                              "row_count":  108,
+                              "ui_event_count":  18,
+                              "effect_count":  43,
+                              "text_box_text":  "ab",
+                              "final_lifecycle":  "QueryClosePending",
+                              "framebuffer_hash":  "5186182932999671525"
+                          },
+    "manual_inputs":  [
+
+                      ],
+    "automated_input_method":  "public user32 SetCursorPos/mouse_event and System.Windows.Forms.SendKeys",
+    "non_claims":  [
+                       "This is W005 evidence/test infrastructure, not final host/runtime architecture.",
+                       "The visible smoke supplements headless reducer tests and future trace/replay; it is not the only verification path.",
+                       "The smoke does not claim full UserForm.Show or MSForms coordinate/lifecycle parity."
+                   ],
+    "clean_room":  {
+                       "source":  "Repo-owned Rust smoke, public Windows APIs, and committed OxForms reducer/PAL contracts.",
+                       "prohibited":  "No Office internals, decompilation, disassembly, or non-public source were used."
+                   }
+}

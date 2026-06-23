@@ -263,6 +263,11 @@ for downstream oracle, visible-smoke, trace/replay, and comparison work.
   `control_local` half-open bounds, not screen-pixel shortcuts.
 - Windows visible input smoke (`oxforms-xvx.11`) must emit coordinate
   translation evidence from raw platform input through normalized/reducer
-  spaces.
+  spaces. The current capture at
+  [`../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`](../evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/)
+  records driver-side `screen_pixels`/`client_pixels` action targets and
+  smoke-side normalized `client_pixels`/`form_logical` payloads. Its 1:1
+  client-to-logical projection is W005 smoke infrastructure, not an MSForms
+  point/DPI parity claim.
 - Comparison (`oxforms-xvx.13`) must classify coordinate differences by named
   spaces, DPI/scale, rounding, origin, bounds, target, and capture state.

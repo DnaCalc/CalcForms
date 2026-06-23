@@ -1,0 +1,1 @@
+﻿cargo build -p oxforms-core --example w005_visible_input_smoke

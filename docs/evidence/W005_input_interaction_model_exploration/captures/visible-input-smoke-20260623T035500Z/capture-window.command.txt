@@ -1,0 +1,1 @@
+﻿powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-Window.ps1 -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W005_input_interaction_model_exploration\captures\visible-input-smoke-20260623T035500Z\window -TitleContains "OxForms W005 Visible Input Smoke" -ProcessName w005_visible_input_smoke -CaptureScreenshot -AllowAmbiguous
