@@ -52,6 +52,7 @@ pub enum VbaEventDispatchCompletion {
 pub enum VbaEventDispatchError {
     NotFireVbaEvent,
     UnsupportedEvent(String),
+    DispatchIdOutOfRange(u64),
 }
 
 impl std::fmt::Display for VbaEventDispatchError {
@@ -61,6 +62,10 @@ impl std::fmt::Display for VbaEventDispatchError {
             Self::UnsupportedEvent(event_name) => {
                 write!(f, "W005 smoke does not map event `{event_name}`")
             }
+            Self::DispatchIdOutOfRange(dispatch_id) => write!(
+                f,
+                "dispatch id {dispatch_id} does not fit the W005 VBA Long smoke carrier"
+            ),
         }
     }
 }
@@ -121,8 +126,11 @@ impl VbaEventDispatchRequest {
     }
 
     pub fn to_oxvba_variants(&self) -> Result<Vec<Variant>, VbaEventDispatchError> {
+        let dispatch_id = i32::try_from(self.dispatch_id)
+            .map_err(|_| VbaEventDispatchError::DispatchIdOutOfRange(self.dispatch_id))?;
+
         Ok(vec![
-            Variant::from_i32(self.dispatch_id as i32),
+            Variant::from_i32(dispatch_id),
             Variant::from_string(self.target_label()),
             Variant::from_string(self.event_name.clone()),
             Variant::from_string(self.argument_log_text()),
@@ -166,5 +174,44 @@ fn raise_member_for_event(event_name: &str) -> Result<String, VbaEventDispatchEr
         "Click" | "Change" | "MouseDown" | "MouseUp" | "MouseMove" | "KeyPress" | "KeyDown"
         | "KeyUp" | "Activate" => Ok("RaiseDispatch".to_string()),
         other => Err(VbaEventDispatchError::UnsupportedEvent(other.to_string())),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn request_with_dispatch_id(dispatch_id: u64) -> VbaEventDispatchRequest {
+        VbaEventDispatchRequest {
+            dispatch_id,
+            effect_id: EffectId(1),
+            target: UiEventTarget::control("form-main", "ok"),
+            event_name: "Click".to_string(),
+            raise_member: "RaiseDispatch".to_string(),
+            arguments: Vec::new(),
+            fact_source: None,
+            cancel_metadata: None,
+        }
+    }
+
+    #[test]
+    fn to_oxvba_variants_accepts_largest_vba_long_dispatch_id() {
+        let request = request_with_dispatch_id(i32::MAX as u64);
+        let variants = request
+            .to_oxvba_variants()
+            .expect("i32::MAX fits the VBA Long smoke carrier");
+
+        assert_eq!(variants[0].as_i32(), Some(i32::MAX));
+    }
+
+    #[test]
+    fn to_oxvba_variants_rejects_dispatch_id_that_cannot_fit_vba_long() {
+        let overflowing_id = i32::MAX as u64 + 1;
+        let request = request_with_dispatch_id(overflowing_id);
+
+        assert_eq!(
+            request.to_oxvba_variants(),
+            Err(VbaEventDispatchError::DispatchIdOutOfRange(overflowing_id))
+        );
     }
 }
