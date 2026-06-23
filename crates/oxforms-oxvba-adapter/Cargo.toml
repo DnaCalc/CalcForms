@@ -11,13 +11,13 @@ unsafe_code = "forbid"
 [dependencies]
 oxforms-core = { path = "../oxforms-core" }
 oxforms-pal = { path = "../oxforms-pal" }
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
+oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
 
 [dev-dependencies]
-oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
+oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
+oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
+oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
+oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }
+oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "366896f7a081ddb459307d5be7d9e829ca391a0a" }

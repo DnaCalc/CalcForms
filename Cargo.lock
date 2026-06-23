@@ -458,7 +458,7 @@ dependencies = [
 [[package]]
 name = "oxvba-bind"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-bundle",
  "oxvba-com",
@@ -472,7 +472,7 @@ dependencies = [
 [[package]]
 name = "oxvba-bundle"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-runtime",
  "serde",
@@ -482,7 +482,7 @@ dependencies = [
 [[package]]
 name = "oxvba-com"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "libc",
  "libffi",
@@ -495,7 +495,7 @@ dependencies = [
 [[package]]
 name = "oxvba-diagnostics"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "serde",
  "serde_json",
@@ -504,7 +504,7 @@ dependencies = [
 [[package]]
 name = "oxvba-hal"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-com",
  "oxvba-diagnostics",
@@ -518,7 +518,7 @@ dependencies = [
 [[package]]
 name = "oxvba-host"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-bind",
  "oxvba-bundle",
@@ -534,7 +534,7 @@ dependencies = [
 [[package]]
 name = "oxvba-lib"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-bundle",
  "oxvba-com",
@@ -545,7 +545,7 @@ dependencies = [
 [[package]]
 name = "oxvba-project"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-diagnostics",
  "oxvba-symbol",
@@ -556,7 +556,7 @@ dependencies = [
 [[package]]
 name = "oxvba-runtime"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "rkyv",
  "serde",
@@ -567,7 +567,7 @@ dependencies = [
 [[package]]
 name = "oxvba-symbol"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-bundle",
  "oxvba-com",
@@ -580,7 +580,7 @@ dependencies = [
 [[package]]
 name = "oxvba-syntax"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-diagnostics",
  "thiserror",
@@ -589,7 +589,7 @@ dependencies = [
 [[package]]
 name = "oxvba-vm2"
 version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=501bf64d978afd14b820ebd03096f9fdcc247e38#501bf64d978afd14b820ebd03096f9fdcc247e38"
+source = "git+https://github.com/DnaCalc/OxVba.git?rev=366896f7a081ddb459307d5be7d9e829ca391a0a#366896f7a081ddb459307d5be7d9e829ca391a0a"
 dependencies = [
  "oxvba-bundle",
  "oxvba-com",
