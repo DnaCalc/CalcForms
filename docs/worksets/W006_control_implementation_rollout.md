@@ -132,7 +132,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.16` | Build or precisely block the live OLE drag/drop `DataObject` oracle driver. | `oxforms-0a0.13` | A real drag-session `DataObject` fixture/driver captures `BeforeDragOver` and `BeforeDropOrPaste` facts, or records the exact public-capability blocker; `.13` paste observations remain adjacent evidence, not true drag/drop parity evidence. |
 | `oxforms-0a0.17` | Build or precisely block deterministic clipboard shortcut and text-service oracle drivers. | `oxforms-0a0.13` | `Ctrl+V`, IME/composition, and dead-key scenarios are captured with deterministic setup metadata or remain explicit non-claims; clean-room clipboard policy matches `.13`. |
 | `oxforms-0a0.18` | Build deterministic IME and dead-key oracle setup. | `oxforms-0a0.17` | IME/composition and dead-key preedit scenarios get explicit input-method/keyboard-layout setup and live evidence, or exact blockers remain preserved without runtime parity claims. |
-| `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit; W005 UIA metadata is not treated as FM20 runtime behavior truth. |
+| `oxforms-0a0.7` | Design runtime accessibility semantics beyond W005 diagnostics. | `oxforms-0a0.9`, `oxforms-0a0.8` | Requirements and non-goals are explicit in [`../specs/RUNTIME_ACCESSIBILITY_MODEL.md`](../specs/RUNTIME_ACCESSIBILITY_MODEL.md); W005 UIA metadata is not treated as FM20 runtime behavior truth. |
 
 ### `oxforms-0a0.6` Design Outcome
 
@@ -297,6 +297,16 @@ run fell back to public `TextBox.Paste` and observed `BeforeDropOrPaste` before
 `Change` with helper before/after values. IME/composition and dead-key preedit
 remain non-claims until a deterministic input-method/keyboard-layout setup
 exists. That residual setup is tracked by `oxforms-0a0.18`.
+
+Current `oxforms-0a0.7` status: design-only. Runtime accessibility semantics
+remain a non-claim until a product requirement names a provider target,
+control subset, and tests/evidence. The design gate is
+[`../specs/RUNTIME_ACCESSIBILITY_MODEL.md`](../specs/RUNTIME_ACCESSIBILITY_MODEL.md),
+with evidence/status notes in
+[`../evidence/W006_control_implementation_rollout/runtime-accessibility-semantics.md`](../evidence/W006_control_implementation_rollout/runtime-accessibility-semantics.md).
+W005 UIA/MSAA work remains diagnostics-only top-level metadata probing; it is
+not FM20 behavior truth, not an OxForms control semantic tree, and not runtime
+accessibility implementation.
 
 W006 closes only when:
 

@@ -31,6 +31,10 @@ planning truth.
    transitions, effects, VBA dispatches, lifecycle/pump rows, invalidation,
    display-list/render references, environment metadata, ordering, nesting,
    sample artifacts, and validator checks.
+6. [`specs/RUNTIME_ACCESSIBILITY_MODEL.md`](specs/RUNTIME_ACCESSIBILITY_MODEL.md) -
+   W006 design-only gate for future runtime accessibility/UIA/MSAA semantics,
+   separating product-required provider behavior from W005 diagnostics-only
+   top-level metadata probes.
 
 ## Source References
 
