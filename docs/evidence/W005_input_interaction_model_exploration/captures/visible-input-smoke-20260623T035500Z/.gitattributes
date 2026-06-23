@@ -1,3 +1,7 @@
-* -text -diff
-**/* -text -diff
-.gitattributes text diff
+.gitattributes text eol=crlf diff
+*.json text eol=crlf diff
+*.md text eol=crlf diff
+*.txt text eol=crlf diff
+checksums.sha256 text eol=crlf diff
+visible-input-frame.ppm -text -diff
+window/*.png -text -diff
