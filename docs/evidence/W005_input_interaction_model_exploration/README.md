@@ -15,9 +15,13 @@ It defines one `UserForm` with a `Label`, `TextBox`, default
 `CommandButton`, and cancel `CommandButton`, plus code-behind that logs
 representative events to worksheet `W005EventLog`.
 
-Current status: fixture source and dry-run validation exist. Live workbook,
-event log, screenshot, window metadata, command logs, and checksums are still
-owned by `oxforms-xvx.3`; this fixture source is not live oracle evidence.
+Current status: modeless live Excel/MSForms capture exists at
+[`captures/interaction-events-20260623T001238Z/`](captures/interaction-events-20260623T001238Z/).
+It preserves the generated workbook, `W005EventLog` CSV/JSON export,
+screenshot/window metadata, coordinate calibration, automated input actions,
+command logs, manifest, and SHA-256 hashes. The capture used public Windows
+input automation, recorded no manual inputs, and does not compare OxForms
+output. Modal-show capture remains tracked by follow-up bead `oxforms-xvx.20`.
 
 ## Coordinate Calibration
 
@@ -27,9 +31,10 @@ calibration procedure for MSForms mouse event arguments. The curated coordinate
 contract is [`../../specs/COORDINATE_MODEL.md`](../../specs/COORDINATE_MODEL.md).
 
 Current status: screenshot geometry is grounded by W003/W004 manifests and W004
-pixel facts; live MSForms event argument calibration is blocked on the W005
-interaction oracle fixture and capture beads (`oxforms-xvx.2` and
-`oxforms-xvx.3`).
+pixel facts, and the modeless W005 capture records `screen_pixels`,
+`window_rect`, `screenshot_pixels`, `form_logical`, `control_local`, and
+`msforms_event_args` fields for the driven interaction path. Modal-show
+coordinate capture remains tracked by `oxforms-xvx.20`.
 
 ## Lifecycle And Pump Model
 
@@ -40,9 +45,10 @@ reentrancy. The curated lifecycle contract is
 [`../../specs/LIFECYCLE_PUMP_MODEL.md`](../../specs/LIFECYCLE_PUMP_MODEL.md).
 
 Current status: the architecture model is defined, W002 is explicitly
-smoke-only and not lifecycle evidence, and live MSForms lifecycle ordering is
-blocked on the W005 interaction oracle fixture and capture beads
-(`oxforms-xvx.2` and `oxforms-xvx.3`).
+smoke-only and not lifecycle evidence, and the modeless W005 capture records
+live `Initialize`, `Activate`, `QueryClose`, and `Terminate` lifecycle rows
+alongside input events. Modal-show pump evidence remains tracked by
+`oxforms-xvx.20`.
 
 ## Trace Replay
 

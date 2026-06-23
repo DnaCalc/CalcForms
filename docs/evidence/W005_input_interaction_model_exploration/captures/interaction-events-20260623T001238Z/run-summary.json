@@ -1,0 +1,77 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w005_interaction_run_summary.v1",
+    "bead":  "oxforms-xvx.3",
+    "capture_id":  "interaction-events-20260623T001238Z",
+    "runs":  [
+                 {
+                     "name":  "modeless",
+                     "show_mode":  "show_mode=modeless",
+                     "row_count":  588,
+                     "event_names":  [
+                                         "Activate",
+                                         "AfterUpdate",
+                                         "BeforeUpdate",
+                                         "Change",
+                                         "Click",
+                                         "Enter",
+                                         "Exit",
+                                         "Initialize",
+                                         "KeyDown",
+                                         "KeyPress",
+                                         "KeyUp",
+                                         "MouseDown",
+                                         "MouseMove",
+                                         "MouseUp",
+                                         "QueryClose",
+                                         "Terminate"
+                                     ],
+                     "targets":  [
+                                     "OracleCancelButton",
+                                     "OracleDefaultButton",
+                                     "OracleProbeLabel",
+                                     "OracleTextBox",
+                                     "UserForm"
+                                 ],
+                     "drive_artifacts":  {
+                                             "run":  "modeless",
+                                             "capture_manifest":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-window/window-capture-manifest.json",
+                                             "coordinate_calibration":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-coordinate-calibration.json",
+                                             "input_actions":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-input-actions.json"
+                                         },
+                     "event_log":  {
+                                       "csv":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-event-log.csv",
+                                       "json":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-event-log.json",
+                                       "row_count":  588,
+                                       "event_names":  [
+                                                           "Activate",
+                                                           "AfterUpdate",
+                                                           "BeforeUpdate",
+                                                           "Change",
+                                                           "Click",
+                                                           "Enter",
+                                                           "Exit",
+                                                           "Initialize",
+                                                           "KeyDown",
+                                                           "KeyPress",
+                                                           "KeyUp",
+                                                           "MouseDown",
+                                                           "MouseMove",
+                                                           "MouseUp",
+                                                           "QueryClose",
+                                                           "Terminate"
+                                                       ],
+                                       "targets":  [
+                                                       "OracleCancelButton",
+                                                       "OracleDefaultButton",
+                                                       "OracleProbeLabel",
+                                                       "OracleTextBox",
+                                                       "UserForm"
+                                                   ]
+                                   }
+                 }
+             ],
+    "notes":  [
+                  "Observed event rows are facts from the generated workbook W005EventLog sheet.",
+                  "The capture does not compare OxForms output and does not claim exhaustive MSForms event parity."
+              ]
+}

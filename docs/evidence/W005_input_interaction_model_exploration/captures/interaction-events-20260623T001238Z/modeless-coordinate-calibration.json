@@ -1,0 +1,49 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w005_coordinate_calibration.v1",
+    "bead":  "oxforms-xvx.3",
+    "run":  "modeless",
+    "coordinate_spaces":  [
+                              "window_rect",
+                              "screenshot_pixels",
+                              "form_logical",
+                              "control_local",
+                              "msforms_event_args",
+                              "screen_pixels"
+                          ],
+    "dpi":  96,
+    "points_to_pixels":  1.3333333333333333,
+    "screenshot":  {
+                       "path":  "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/modeless-window/window-capture.png",
+                       "width":  320,
+                       "height":  240,
+                       "sha256":  "a2d94084b1c17c30a201b8e9d49ae160917af102d943e8c50ce64e5872dd575f",
+                       "coordinate_origin":  "top_left_of_captured_top_level_window"
+                   },
+    "label_fill_rect_screenshot_pixels":  {
+                                              "x":  41,
+                                              "y":  64,
+                                              "width":  126,
+                                              "height":  62,
+                                              "pixel_count":  7513
+                                          },
+    "label_border_rect_screenshot_pixels":  {
+                                                "x":  18,
+                                                "y":  11,
+                                                "width":  262,
+                                                "height":  116,
+                                                "pixel_count":  737
+                                            },
+    "label_rect_source":  "exact_border_color_region",
+    "form_origin_screenshot_pixels":  {
+                                          "x":  -14,
+                                          "y":  -21,
+                                          "source":  "exact_border_color_region"
+                                      },
+    "assumptions":  [
+
+                    ],
+    "notes":  [
+                  "Rectangles use the W005 half-open convention: x \u003c= point_x \u003c x + width and y \u003c= point_y \u003c y + height.",
+                  "The derived form origin is an action-target calibration aid, not a final MSForms coordinate parity claim."
+              ]
+}

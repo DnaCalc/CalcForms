@@ -174,9 +174,31 @@ function Set-ControlPropertyIfPresent {
     }
 }
 
+function Set-ComponentPropertyValue {
+    param(
+        [Parameter(Mandatory = $true)]
+        $Component,
+        [Parameter(Mandatory = $true)]
+        [string]$PropertyName,
+        [Parameter(Mandatory = $true)]
+        $Value
+    )
+
+    $property = $Component.Properties.Item($PropertyName)
+    $property.GetType().InvokeMember(
+        'Value',
+        [System.Reflection.BindingFlags]::SetProperty,
+        $null,
+        $property,
+        @($Value),
+        [System.Globalization.CultureInfo]::InvariantCulture
+    )
+}
+
 function Add-FontSetupLines {
     param(
         [Parameter(Mandatory = $true)]
+        [AllowEmptyCollection()]
         [System.Collections.Generic.List[string]]$Lines,
         [Parameter(Mandatory = $true)]
         [string]$ControlName,
@@ -364,12 +386,12 @@ try {
     $formComponent.Name = $formName
 
     $designer = $formComponent.Designer
-    # Keep these direct and set the single-valued size properties first:
-    # PowerShell's COM binder can cache .Value setters too narrowly here.
-    $formComponent.Properties.Item('Width').Value = $formWidthPt
-    $formComponent.Properties.Item('Height').Value = $formHeightPt
-    $formComponent.Properties.Item('StartUpPosition').Value = [single]$formStartupPosition
-    & { param($Component, [string]$Caption) $Component.Properties.Item('Caption').Value = $Caption } $formComponent $formCaption
+    # Keep component property writes behind one helper: PowerShell's COM binder
+    # can otherwise cache the VBIDE .Value setter too narrowly across types.
+    Set-ComponentPropertyValue $formComponent 'Caption' $formCaption
+    Set-ComponentPropertyValue $formComponent 'Width' $formWidthPt
+    Set-ComponentPropertyValue $formComponent 'Height' $formHeightPt
+    Set-ComponentPropertyValue $formComponent 'StartUpPosition' ([single]$formStartupPosition)
 
     $fontSetupLines = [System.Collections.Generic.List[string]]::new()
     foreach ($control in $controls) {

@@ -27,7 +27,7 @@
   "codeBehind": {
     "sourcePath": "form-code-behind.bas",
     "language": "VBA",
-    "targetModule": "OxFormsW005InteractionOracleForm"
+    "targetModule": "OxFormsW005InteractionForm"
   },
   "eventFactSource": {
     "curated": "docs/specs/FM20_EVENT_FACTS.md",
@@ -37,7 +37,7 @@
     "traceSchema": "docs/specs/TRACE_REPLAY_SCHEMA.md"
   },
   "form": {
-    "name": "OxFormsW005InteractionOracleForm",
+    "name": "OxFormsW005InteractionForm",
     "caption": "OxForms W005 Interaction Oracle",
     "widthPt": 240,
     "heightPt": 180,

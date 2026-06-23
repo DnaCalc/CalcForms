@@ -151,8 +151,10 @@ corpus that informs the reducer/router design and later differential tests.
 
 Current fixture input:
 [`../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/`](../../fixtures/office-oracle/excel-msforms/userforms/interaction-events/)
-from `oxforms-xvx.2`. Live MSForms event logs, generated workbooks,
-screenshots, command logs, and hashes remain owned by `oxforms-xvx.3`.
+from `oxforms-xvx.2`. Modeless live MSForms event evidence from `oxforms-xvx.3`
+lives under
+[`../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/`](../evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T001238Z/).
+Modal-show capture remains tracked by `oxforms-xvx.20`.
 
 ### 3. FM20 Event Signature And Event-Argument Facts
 
@@ -200,7 +202,9 @@ The model defines `screen_pixels`, `window_rect`, `screenshot_pixels`,
 `client_pixels`, `form_logical`, `control_local`, `display_list_logical`, and
 `msforms_event_args`, plus DPI/scale, rounding, half-open bounds,
 control-local conversion, raw diagnostic preservation, screenshot relation, and
-the MSForms event-argument calibration procedure.
+the MSForms event-argument calibration procedure. Modeless event-argument rows
+exist in the `oxforms-xvx.3` capture; modal-show calibration remains tracked by
+`oxforms-xvx.20`.
 
 ### 5. Form Lifecycle, Modal Pump, And Close/Activation
 
@@ -225,8 +229,8 @@ evidence/status notes in
 The model defines lifecycle state, modal/modeless pump terms, lifecycle
 `UiEvent`/`Effect` families, close/query/hide/unload separation, reentrancy
 rules, W005 probe subset, and downstream fixture/reducer/dispatch/visible-smoke
-requirements. It records that live MSForms ordering remains blocked on
-`oxforms-xvx.2` and `oxforms-xvx.3`.
+requirements. It records the modeless lifecycle rows captured by
+`oxforms-xvx.3` and the modal-show residual tracked by `oxforms-xvx.20`.
 
 ### 6. PAL Normalized Input Contract
 
@@ -406,7 +410,8 @@ It is an observation artifact, not a final pass/fail parity oracle.
 | `oxforms-xvx.18` | Define coordinate model and calibration evidence | `oxforms-54n`, `oxforms-xvx.1` | Coordinate spaces, units, origins, DPI, and calibration path are explicit. |
 | `oxforms-xvx.19` | Define form lifecycle and modal pump model | `oxforms-54n`, `oxforms-xvx.1` | Lifecycle, show/pump, activation, close, and reentrancy model exists. |
 | `oxforms-xvx.2` | Build MSForms interaction oracle fixtures | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.17`, `oxforms-xvx.18`, `oxforms-xvx.19` | Repo-owned fixtures log representative Label/Button/TextBox events. |
-| `oxforms-xvx.3` | Capture MSForms interaction event oracle evidence | `oxforms-54n`, `oxforms-xvx.2` | Live event evidence or concrete blocker exists. |
+| `oxforms-xvx.3` | Capture MSForms interaction event oracle evidence | `oxforms-54n`, `oxforms-xvx.2` | Modeless live event evidence or concrete blocker exists. |
+| `oxforms-xvx.20` | Capture modal MSForms interaction oracle evidence | `oxforms-xvx`, `oxforms-xvx.3` | Modal event evidence or precise blocker exists without altering modeless capture evidence. |
 | `oxforms-xvx.4` | Define PAL normalized input contract | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.18` | PAL input contract is value-typed, serializable, host-neutral. |
 | `oxforms-xvx.5` | Define trace/replay artifact schema and validators | `oxforms-54n`, `oxforms-xvx.1`, `oxforms-xvx.17`, `oxforms-xvx.18` | Schema, validation path, and synthetic schema sample exist for W005 traces. |
 | `oxforms-xvx.6` | Implement reducer/effects skeleton | `oxforms-54n`, `oxforms-xvx.4`, `oxforms-xvx.5`, `oxforms-xvx.19` | Deterministic reducer/effects skeleton and tests exist. |

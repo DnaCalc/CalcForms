@@ -17,7 +17,7 @@ Input files:
 
 The generated workbook contains one Excel-hosted `UserForm`:
 
-- form name: `OxFormsW005InteractionOracleForm`
+- form name: `OxFormsW005InteractionForm`
 - caption: `OxForms W005 Interaction Oracle`
 - form size: `240 x 180` points
 - startup position: `2` / `CenterScreen`

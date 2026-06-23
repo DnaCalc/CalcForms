@@ -1,13 +1,15 @@
 # W005 Lifecycle And Pump Model Status
 
-Status: lifecycle/pump model defined; live MSForms lifecycle observations are
-blocked on downstream oracle fixture/capture beads.
+Status: lifecycle/pump model defined; modeless live MSForms lifecycle
+observations captured by `oxforms-xvx.3`; modal-show pump evidence remains
+tracked by `oxforms-xvx.20`.
 Owning bead: `oxforms-xvx.19`.
 Spec: [`../../specs/LIFECYCLE_PUMP_MODEL.md`](../../specs/LIFECYCLE_PUMP_MODEL.md).
 
 This note records the evidence status behind the W005 lifecycle/pump model. It
-separates currently available public/local facts from the observations that
-future W005 beads must capture before claiming MSForms lifecycle parity.
+separates currently available public/local facts, observed modeless MSForms
+facts, and the observations that future W005 beads must capture before making
+narrower lifecycle or pump claims.
 
 ## Current Evidence Inputs
 
@@ -25,6 +27,12 @@ future W005 beads must capture before claiming MSForms lifecycle parity.
   [`../../../crates/oxforms-pal/examples/visible_rectangle_smoke.rs`](../../../crates/oxforms-pal/examples/visible_rectangle_smoke.rs)
 - W002 OxVba adapter smoke code:
   [`../../../crates/oxforms-oxvba-adapter/src/smoke_canvas.rs`](../../../crates/oxforms-oxvba-adapter/src/smoke_canvas.rs)
+- W005 modeless interaction capture manifest:
+  [`captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json`](captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json)
+- W005 modeless event log:
+  [`captures/interaction-events-20260623T001238Z/modeless-event-log.json`](captures/interaction-events-20260623T001238Z/modeless-event-log.json)
+- W005 modeless run summary:
+  [`captures/interaction-events-20260623T001238Z/run-summary.json`](captures/interaction-events-20260623T001238Z/run-summary.json)
 
 ## Current Facts
 
@@ -39,16 +47,22 @@ future W005 beads must capture before claiming MSForms lifecycle parity.
 - The W005 FM20 type-library capture did not find those lifecycle names as
   members of source interfaces attached to `UserForm` or `UserForm2`; lifecycle
   DISPIDs remain unknown in repo evidence.
-- No live W005 MSForms lifecycle event log exists yet.
+- The W005 modeless capture observed `Initialize`, `Activate`, `QueryClose`,
+  and `Terminate` rows, with event sequence numbers, observed-fact text,
+  assumption text, active/focused control fields, close-request context, and
+  zero manual inputs.
+- The W005 modeless capture did not settle modal pump behavior and did not
+  observe every lifecycle name in the W005 fact matrix.
 
 ## Required Downstream Observations
 
-The MSForms oracle fixture and capture beads (`oxforms-xvx.2` and
-`oxforms-xvx.3`) must capture or precisely block:
+The modeless MSForms oracle fixture and capture beads (`oxforms-xvx.2` and
+`oxforms-xvx.3`) captured a first live event log. Downstream modal and
+implementation beads must still capture or precisely block:
 
 1. `Initialize`, `Activate`, `Deactivate`, `QueryClose`, `Resize` when
    applicable, and `Terminate` when object lifetime can be observed honestly.
-2. Modal and modeless show runs, clearly labeled per run.
+2. Modal show runs, clearly labeled per run.
 3. Event sequence numbers, nesting depth, and reentrant dispatch context.
 4. Active form/window and active/focused control state at every lifecycle event.
 5. Close request origin and `CloseMode`.
@@ -60,19 +74,20 @@ The MSForms oracle fixture and capture beads (`oxforms-xvx.2` and
 Reducer/effects, dispatch, visible-smoke, trace/replay, and comparison beads
 must cite the spec instead of inventing local lifecycle behavior.
 
-## Current Blocker
+## Residual Blocker
 
-Live MSForms lifecycle ordering and modal/modeless pump behavior cannot be
-settled in this bead because the W005 interaction oracle fixture and capture
-beads have not run. The exact downstream owners are:
+Live modeless MSForms lifecycle rows exist, but modal pump behavior cannot be
+settled by `oxforms-xvx.3` because the reliable capture run used modeless
+`UserForm.Show` and `-SkipModal`. The exact downstream owners are:
 
-- `oxforms-xvx.2`: build the MSForms interaction oracle fixture.
-- `oxforms-xvx.3`: capture live MSForms interaction event evidence.
+- `oxforms-xvx.20`: capture modal MSForms interaction oracle evidence or
+  preserve a precise blocker with workbook, logs, screenshot/window metadata,
+  platform notes, command output, and checksums.
 - `oxforms-xvx.6`: implement reducer/effects lifecycle and pump state.
 - `oxforms-xvx.10`: wire lifecycle event dispatch through the shared OxVba
   event path or file a precise OxVba blocker/handover.
 - `oxforms-xvx.11`: route visible Windows show/activate/focus/close signals
   through normalized W005 input and trace them.
 
-This blocker is expected and is already represented by the W005 bead graph, so
-`oxforms-xvx.19` does not create an additional follow-up bead.
+This residual blocker is expected and is represented by the follow-up bead
+created from the `oxforms-xvx.3` capture run.

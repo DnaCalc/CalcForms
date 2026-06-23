@@ -1,13 +1,15 @@
 # W005 Coordinate Calibration Evidence
 
-Status: calibration model and procedure defined; live W005 event calibration is
-blocked on downstream oracle fixture/capture beads.
+Status: calibration model and procedure defined; modeless live W005 event
+calibration captured by `oxforms-xvx.3`; modal-show calibration remains tracked
+by `oxforms-xvx.20`.
 Owning bead: `oxforms-xvx.18`.
 Spec: [`../../specs/COORDINATE_MODEL.md`](../../specs/COORDINATE_MODEL.md).
 
-This note records the current coordinate evidence available before W005
-interaction capture. It separates observed W003/W004 screenshot facts from the
-procedure that later beads must run for MSForms event argument calibration.
+This note records the current coordinate evidence available to W005. It
+separates observed W003/W004 screenshot facts, observed modeless W005
+interaction facts, and the residual procedure that later beads must run where
+the capture surface is still incomplete.
 
 ## Current Evidence Inputs
 
@@ -30,6 +32,19 @@ W004 text-label capture:
   [`../W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/window-capture.png`](../W004_text_label_oracle_pixels/captures/rectangle-label-text-20260622T191013Z/window-capture.png)
 - Fixture:
   [`../../../fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json`](../../../fixtures/office-oracle/excel-msforms/userforms/rectangle-label-text/fixture.json)
+
+W005 modeless interaction capture:
+
+- Manifest:
+  [`captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json`](captures/interaction-events-20260623T001238Z/oracle-capture-manifest.json)
+- Event log:
+  [`captures/interaction-events-20260623T001238Z/modeless-event-log.json`](captures/interaction-events-20260623T001238Z/modeless-event-log.json)
+- Coordinate calibration:
+  [`captures/interaction-events-20260623T001238Z/modeless-coordinate-calibration.json`](captures/interaction-events-20260623T001238Z/modeless-coordinate-calibration.json)
+- Input actions:
+  [`captures/interaction-events-20260623T001238Z/modeless-input-actions.json`](captures/interaction-events-20260623T001238Z/modeless-input-actions.json)
+- Screenshot:
+  [`captures/interaction-events-20260623T001238Z/modeless-window/window-capture.png`](captures/interaction-events-20260623T001238Z/modeless-window/window-capture.png)
 
 ## Observed Facts
 
@@ -65,14 +80,27 @@ These facts are evidence for the captured fixture, DPI, Windows theme, Excel
 version, and screenshot method. They are not a final rule for every MSForms
 window, nor do they settle mouse event `X`/`Y` rounding.
 
-## Required W005 Calibration Procedure
+The modeless W005 capture records the same top-level window class
+`ThunderDFrame`, top-level window bounds `800,420,1120,660`, screenshot size
+`320 x 240`, and DPI `96`. Its event log preserves raw
+`msforms_event_args` along with derived `screen_pixels`, `window_rect`,
+`screenshot_pixels`, `form_logical`, and `control_local` fields for automated
+click, drag, focus, keyboard, default-button, cancel-button, and close-request
+input actions. The event log marks `observed_facts`, `assumptions`, and
+`manual_input`; the captured modeless run recorded zero manual inputs.
 
-Downstream W005 oracle and visible-smoke beads must:
+These W005 rows are black-box Office/MSForms observations for one modeless run.
+They are not an OxForms comparison, not an exhaustive event-parity claim, and
+not a modal pump observation.
 
-1. Reuse or reproduce the W004 one-label geometry, or record any changed point
+## Residual W005 Calibration Procedure
+
+Downstream W005 oracle and visible-smoke beads must still:
+
+1. Reuse or reproduce the captured fixture geometry, or record any changed point
    geometry in the fixture manifest.
 2. Capture the top-level window manifest, screenshot, checksums, DPI, and
-   platform/Excel notes.
+   platform/Excel notes for any new run.
 3. Detect a high-contrast control border/fill rectangle in `screenshot_pixels`
    and convert any inclusive pixel ranges to half-open rectangles.
 4. Compute `pixels_per_point` and form origin from fixture point geometry.
@@ -84,9 +112,10 @@ Downstream W005 oracle and visible-smoke beads must:
 7. Preserve raw event arguments and derived values even when the derived
    relation does not match the expected equation in the coordinate model.
 
-## Current Blocker
+## Residual Blocker
 
-Live MSForms event argument calibration cannot be completed in this bead because
-the interaction oracle fixture and event capture are owned by `oxforms-xvx.2`
-and `oxforms-xvx.3`. This bead leaves no runtime behavior implemented; it
-defines the vocabulary and required evidence shape those beads must use.
+The `oxforms-xvx.3` run completed modeless event-argument capture but did not
+complete a modal-show run. Modal Excel/MSForms interaction capture is filed as
+`oxforms-xvx.20` so later work can preserve modal workbook, event log,
+screenshot, window metadata, command logs, checksums, and platform notes without
+mixing that residual into the modeless evidence above.

@@ -1,7 +1,7 @@
 Public Sub ShowW005InteractionOracleModal()
     ConfigureOracleControls
-    OxFormsW005InteractionOracleForm.Tag = "show_mode=modal"
-    OxFormsW005InteractionOracleForm.Show vbModal
+    OxFormsW005InteractionForm.Tag = "show_mode=modal"
+    OxFormsW005InteractionForm.Show vbModal
 End Sub
 
 Public Sub ClearW005InteractionLog()

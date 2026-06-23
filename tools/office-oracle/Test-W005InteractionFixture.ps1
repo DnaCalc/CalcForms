@@ -64,6 +64,16 @@ if ($manifest.id -ne 'excel-msforms-w005-interaction-events-v1') {
     throw "Unexpected W005 fixture id '$($manifest.id)'."
 }
 
+if ([string]::IsNullOrWhiteSpace([string]$manifest.form.name)) {
+    throw 'W005 fixture is missing form.name.'
+}
+if ([string]$manifest.form.name -ne [string]$manifest.codeBehind.targetModule) {
+    throw "W005 fixture form.name '$($manifest.form.name)' must match codeBehind.targetModule '$($manifest.codeBehind.targetModule)'."
+}
+if ([string]$manifest.form.name -notmatch '^[A-Za-z][A-Za-z0-9_]{0,30}$') {
+    throw "W005 fixture form.name '$($manifest.form.name)' is not a valid VBA component identifier of 31 characters or fewer."
+}
+
 $controls = @(Get-PropertyValue -Object $manifest -Name 'controls')
 if ($controls.Count -lt 4) {
     throw "W005 fixture should define at least four controls; found $($controls.Count)."

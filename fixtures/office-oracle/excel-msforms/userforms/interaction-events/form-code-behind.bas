@@ -9,7 +9,7 @@ Private Sub UserForm_Initialize()
     mSequence = 0
     ResetLogSheet
     On Error Resume Next
-    Me.KeyPreview = True
+    CallByName Me, "KeyPreview", VbLet, True
     On Error GoTo 0
     AppendLog "UserForm", "MSForms.UserForm", "Initialize", "no arguments", notes:="KeyPreview requested; live output decides actual key routing."
 End Sub
