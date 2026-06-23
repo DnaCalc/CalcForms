@@ -1,6 +1,6 @@
 # W006 Native FM20 Event Dispatch Blocker
 
-Status: `blocked`
+Status: `resolved` (see Resolution below; superseded by `oxforms-4pn.2`)
 Bead: `oxforms-0a0.2`
 Date: 2026-06-23
 
@@ -98,3 +98,27 @@ carrier event. The minimum unblocker is:
 
 Until that shared OxVba support exists, `crates/oxforms-oxvba-adapter` must keep
 the W005 `Dispatched` carrier quarantined as smoke/test infrastructure only.
+
+## Resolution (2026-06-23, `oxforms-4pn.2`)
+
+OxVba landed package-session native-event regressions at `366896f7a081ddb459307d5be7d9e829ca391a0a`
+and reported that the error 424 did not reproduce from the minimized shape (even
+on the prior `501bf64` baseline). OxForms bumped the pinned baseline to `366896f`
+(`oxforms-k1t`) and reconstructed the exact reverted subset above as a committed
+gate test:
+
+- fixtures `vba/smoke/fixtures/w006_native_fm20_event_source.cls` and
+  `w006_native_fm20_event_sink.cls`;
+- test `crates/oxforms-oxvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs`.
+
+`Click`, `MouseDown`, `MouseUp`, and `MouseMove` now dispatch to the attached
+`Private WithEvents` handlers in order, with correct `Integer`/`Single` scalar
+args, through `ProjectRuntimeSession.invoke_member_values` — no generic carrier.
+The original 424 was therefore either a baseline issue since resolved or an
+artifact of the original uncommitted attempt; it is not a current OxVba gap.
+
+This unblocks the W007 runtime path. The remaining native surface (`Change` for
+TextBox, keyboard events, and `MSForms.Return*` ByRef helper-mutation semantics)
+is ordinary W007 implementation work (`oxforms-4pn.3`+), not a dispatch blocker.
+The W005 generic `Dispatched` carrier stays test-only and should be retired from
+the runtime path as those native signatures are implemented.

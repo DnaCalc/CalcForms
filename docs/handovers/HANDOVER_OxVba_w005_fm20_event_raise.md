@@ -1,4 +1,4 @@
-Status: Open
+Status: Resolved
 Target: OxVba
 Ask: Investigate and fix or document the OxVba package-session gap that prevents a W005 class fixture from raising native FM20-named probe events directly.
 
@@ -45,3 +45,33 @@ unblock the attached handler path. The precise OxForms-side evidence is in
 OxForms still needs an OxVba-owned shared event hook that can invoke
 FM20-named handlers and later carry `MSForms.Return*` helper mutation semantics
 without a forms-only runtime or generic carrier.
+
+## Response (OxVba, 2026-06-23)
+
+Implemented and pushed `366896f7a081ddb459307d5be7d9e829ca391a0a`. Added
+`crates/oxvba-host/tests/package_session_events.rs` with native package-session
+`WithEvents` regressions for both `ProbeClick()` and native
+`Click`/`MouseDown`/`MouseUp`/`MouseMove`. No `ProjectRuntimeSession` or
+event-wiring public API change, and no runtime code change was needed for the
+supplied minimal cases. The reported error 424 did not reproduce from the
+minimized shape, on current HEAD or applied to the prior `501bf64` baseline; if
+OxForms still fails, the trigger is outside the minimized shape and should be
+captured from the exact reverted fixture.
+
+## Resolution (OxForms, 2026-06-23)
+
+Bumped the pinned OxVba baseline to `366896f` (`oxforms-k1t`) and added an
+OxForms-side gate test that reconstructs the exact reverted
+`oxforms-0a0.2` subset (native `Click`/`MouseDown`/`MouseUp`/`MouseMove` source
+plus an ordinary `Private WithEvents` sink, driven through
+`ProjectRuntimeSession.invoke_member_values`):
+`crates/oxforms-oxvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs`
+with fixtures `vba/smoke/fixtures/w006_native_fm20_event_source.cls` and
+`w006_native_fm20_event_sink.cls`. The handlers fire in dispatch order with
+correct scalar args against `366896f` — the original 424 does not reproduce, so
+it was either a baseline issue since resolved or an artifact of the original
+(uncommitted, reverted) attempt. The `oxforms-4pn.2` gate is satisfied for the
+mouse/click subset; native `Change` and keyboard `Return*` ByRef mutation
+semantics remain ordinary W007 implementation work (`oxforms-4pn.3`+), not a
+dispatch blocker. The W005 generic `Dispatched` carrier can now be retired from
+the runtime path as those native signatures are implemented.

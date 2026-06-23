@@ -112,6 +112,15 @@ class-defined `Click` or `Change` event shape through `RaiseEvent`/`WithEvents`,
 W007 blocks on an OxVba fix or a pinned baseline update rather than adding a
 second event model inside OxForms.
 
+**Gate status (2026-06-23, `oxforms-4pn.2`):** cleared on OxVba baseline
+`366896f`. Native `Click`/`MouseDown`/`MouseUp`/`MouseMove` dispatch through
+`Private WithEvents` handlers via `ProjectRuntimeSession.invoke_member_values`
+with no generic carrier — see
+`crates/oxforms-oxvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs`. The
+prior `oxforms-0a0.2` error-424 blocker did not reproduce. Native `Change`,
+keyboard, and `MSForms.Return*` ByRef helper-mutation signatures are now ordinary
+implementation work for `oxforms-4pn.3`+.
+
 ## Non-Goals
 
 W007 does not claim:
