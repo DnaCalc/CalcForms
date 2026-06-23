@@ -1,0 +1,12 @@
+Fixture: excel-msforms-w006-ole-drag-drop-transfer-v1
+Manifest: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\drag-drop-transfer\fixture.json
+Output workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\ole-drag-drop-transfer-20260623T093507Z\w006-ole-drag-drop-oracle.xlsm
+Form: OxFormsW006OleDragDropForm / 'OxForms W006 OLE Drag Drop Oracle'
+Controls: 3
+Control: Forms.Label.1 SourceDragLabel
+Control: Forms.TextBox.1 TargetDropTextBox
+Control: Forms.CommandButton.1 OracleCloseButton
+Form code-behind: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\drag-drop-transfer\form-code-behind.bas
+Additional module code: C:\Work\DnaCalc\OxForms\fixtures\office-oracle\excel-msforms\userforms\drag-drop-transfer\standard-module-extra.bas
+Generated workbook: C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\ole-drag-drop-transfer-20260623T093507Z\w006-ole-drag-drop-oracle.xlsm
+Generated workbook SHA256: A880415C31D808D71258E80407A9F7D4849A6587CD189B4EEEBD9DC0498BD02B

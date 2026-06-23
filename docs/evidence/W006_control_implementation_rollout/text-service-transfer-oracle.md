@@ -64,8 +64,9 @@ clipboard payload text.
   helper mutation, or TextBox value behavior is claimed.
 - Dead-key preedit is not observed. No dead-key ordering or committed-text
   behavior is claimed.
-- True OLE drag/drop is not observed. The existing public mouse helper can move
-  the pointer but does not create a live OLE/MSForms `DataObject` drag session.
+- True OLE drag/drop is not observed in this `.13` paste run. Later bead
+  `oxforms-0a0.16` captures a separate true drag/drop oracle in
+  [`ole-drag-drop-transfer-oracle.md`](ole-drag-drop-transfer-oracle.md).
 - `BeforeDragOver` was not observed in this run. That is a non-claim, not a
   negative fact about MSForms.
 - The public `TextBox.Paste` observation is not evidence that keyboard shortcut
@@ -73,8 +74,9 @@ clipboard payload text.
 
 ## Follow-up Beads
 
-- `oxforms-0a0.16`: build or precisely block a live OLE drag/drop
-  `DataObject` oracle driver.
+- `oxforms-0a0.16`: closed by the separate live OLE drag/drop
+  `DataObject` oracle in
+  [`ole-drag-drop-transfer-oracle.md`](ole-drag-drop-transfer-oracle.md).
 - `oxforms-0a0.17`: build or precisely block a deterministic clipboard
   shortcut and text-service oracle driver for `Ctrl+V`, IME/composition, and
   dead keys.
@@ -96,8 +98,8 @@ paste, rich formats, true drag/drop, broad `DataObject` parity,
 FM20-named OxVba dispatch as non-claims unless `oxforms-0a0.17` or another bead
 adds evidence and implementation.
 
-`oxforms-0a0.15` is not unblocked for true drag/drop parity. It may use this
-bead's paste `DataObject` facts as adjacent evidence, but `BeforeDragOver`,
-drag-session `DataObject`, drop-effect negotiation, and full drag/drop ordering
-remain intentionally blocked pending `oxforms-0a0.16` or an equivalent exact
-blocker.
+`oxforms-0a0.15` is no longer blocked on the absence of a live drag/drop oracle:
+`oxforms-0a0.16` supplies separate true drag/drop evidence. `.15` may still use
+this bead's paste `DataObject` facts only as adjacent evidence; it must use the
+`.16` capture for `BeforeDragOver`, drag-session `DataObject`, drop-effect, and
+drop-ordering facts.

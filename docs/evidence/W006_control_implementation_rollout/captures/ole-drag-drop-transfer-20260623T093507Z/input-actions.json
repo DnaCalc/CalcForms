@@ -1,0 +1,457 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_ole_drag_drop_input_actions.v1",
+    "bead":  "oxforms-0a0.16",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "sequence":  1,
+                                 "method":  "public_user32_ShowWindow_SetForegroundWindow",
+                                 "action":  "focus_userform",
+                                 "target_intent":  "Prepare the modeless UserForm for public mouse drag input",
+                                 "manual":  false,
+                                 "result":  {
+                                                "schema":  "oxforms.w005.foreground_transition.v1",
+                                                "api":  "public_user32_ShowWindow_SetForegroundWindow",
+                                                "set_foreground_result":  true,
+                                                "before":  {
+                                                               "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                               "phase":  "before_set_foreground",
+                                                               "captured_at_utc":  "2026-06-23T09:35:21.8751053Z",
+                                                               "foreground_window":  {
+                                                                                         "handle":  "0xAE03BE",
+                                                                                         "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                         "class_name":  "ThunderDFrame",
+                                                                                         "process_id":  14232,
+                                                                                         "process_name":  "EXCEL",
+                                                                                         "thread_id":  18852,
+                                                                                         "bounds":  {
+                                                                                                        "left":  720,
+                                                                                                        "top":  420,
+                                                                                                        "right":  1200,
+                                                                                                        "bottom":  660,
+                                                                                                        "width":  480,
+                                                                                                        "height":  240
+                                                                                                    }
+                                                                                     },
+                                                               "process_thread_focus_window":  null,
+                                                               "target_window":  {
+                                                                                     "handle":  "0xAE03BE",
+                                                                                     "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                     "class_name":  "ThunderDFrame",
+                                                                                     "process_id":  14232,
+                                                                                     "process_name":  "EXCEL",
+                                                                                     "thread_id":  18852,
+                                                                                     "bounds":  {
+                                                                                                    "left":  720,
+                                                                                                    "top":  420,
+                                                                                                    "right":  1200,
+                                                                                                    "bottom":  660,
+                                                                                                    "width":  480,
+                                                                                                    "height":  240
+                                                                                                }
+                                                                                 },
+                                                               "target_thread_gui":  {
+                                                                                         "thread_id":  18852,
+                                                                                         "active_window":  {
+                                                                                                               "handle":  "0xAE03BE",
+                                                                                                               "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                               "class_name":  "ThunderDFrame",
+                                                                                                               "process_id":  14232,
+                                                                                                               "process_name":  "EXCEL",
+                                                                                                               "thread_id":  18852,
+                                                                                                               "bounds":  {
+                                                                                                                              "left":  720,
+                                                                                                                              "top":  420,
+                                                                                                                              "right":  1200,
+                                                                                                                              "bottom":  660,
+                                                                                                                              "width":  480,
+                                                                                                                              "height":  240
+                                                                                                                          }
+                                                                                                           },
+                                                                                         "focus_window":  {
+                                                                                                              "handle":  "0x1BF07B0",
+                                                                                                              "title":  "",
+                                                                                                              "class_name":  "F3 Server e4280000",
+                                                                                                              "process_id":  14232,
+                                                                                                              "process_name":  "EXCEL",
+                                                                                                              "thread_id":  18852,
+                                                                                                              "bounds":  {
+                                                                                                                             "left":  728,
+                                                                                                                             "top":  451,
+                                                                                                                             "right":  1192,
+                                                                                                                             "bottom":  652,
+                                                                                                                             "width":  464,
+                                                                                                                             "height":  201
+                                                                                                                         }
+                                                                                                          },
+                                                                                         "capture_window":  null,
+                                                                                         "caret_window":  {
+                                                                                                              "handle":  "0x1BF07B0",
+                                                                                                              "title":  "",
+                                                                                                              "class_name":  "F3 Server e4280000",
+                                                                                                              "process_id":  14232,
+                                                                                                              "process_name":  "EXCEL",
+                                                                                                              "thread_id":  18852,
+                                                                                                              "bounds":  {
+                                                                                                                             "left":  728,
+                                                                                                                             "top":  451,
+                                                                                                                             "right":  1192,
+                                                                                                                             "bottom":  652,
+                                                                                                                             "width":  464,
+                                                                                                                             "height":  201
+                                                                                                                         }
+                                                                                                          }
+                                                                                     },
+                                                               "cursor_screen_pixels":  {
+                                                                                            "x":  1076,
+                                                                                            "y":  503
+                                                                                        },
+                                                               "notes":  [
+                                                                             "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                             "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                         ]
+                                                           },
+                                                "after":  {
+                                                              "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                              "phase":  "after_set_foreground",
+                                                              "captured_at_utc":  "2026-06-23T09:35:22.1791800Z",
+                                                              "foreground_window":  {
+                                                                                        "handle":  "0xAE03BE",
+                                                                                        "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                        "class_name":  "ThunderDFrame",
+                                                                                        "process_id":  14232,
+                                                                                        "process_name":  "EXCEL",
+                                                                                        "thread_id":  18852,
+                                                                                        "bounds":  {
+                                                                                                       "left":  720,
+                                                                                                       "top":  420,
+                                                                                                       "right":  1200,
+                                                                                                       "bottom":  660,
+                                                                                                       "width":  480,
+                                                                                                       "height":  240
+                                                                                                   }
+                                                                                    },
+                                                              "process_thread_focus_window":  null,
+                                                              "target_window":  {
+                                                                                    "handle":  "0xAE03BE",
+                                                                                    "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                    "class_name":  "ThunderDFrame",
+                                                                                    "process_id":  14232,
+                                                                                    "process_name":  "EXCEL",
+                                                                                    "thread_id":  18852,
+                                                                                    "bounds":  {
+                                                                                                   "left":  720,
+                                                                                                   "top":  420,
+                                                                                                   "right":  1200,
+                                                                                                   "bottom":  660,
+                                                                                                   "width":  480,
+                                                                                                   "height":  240
+                                                                                               }
+                                                                                },
+                                                              "target_thread_gui":  {
+                                                                                        "thread_id":  18852,
+                                                                                        "active_window":  {
+                                                                                                              "handle":  "0xAE03BE",
+                                                                                                              "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                              "class_name":  "ThunderDFrame",
+                                                                                                              "process_id":  14232,
+                                                                                                              "process_name":  "EXCEL",
+                                                                                                              "thread_id":  18852,
+                                                                                                              "bounds":  {
+                                                                                                                             "left":  720,
+                                                                                                                             "top":  420,
+                                                                                                                             "right":  1200,
+                                                                                                                             "bottom":  660,
+                                                                                                                             "width":  480,
+                                                                                                                             "height":  240
+                                                                                                                         }
+                                                                                                          },
+                                                                                        "focus_window":  {
+                                                                                                             "handle":  "0x1BF07B0",
+                                                                                                             "title":  "",
+                                                                                                             "class_name":  "F3 Server e4280000",
+                                                                                                             "process_id":  14232,
+                                                                                                             "process_name":  "EXCEL",
+                                                                                                             "thread_id":  18852,
+                                                                                                             "bounds":  {
+                                                                                                                            "left":  728,
+                                                                                                                            "top":  451,
+                                                                                                                            "right":  1192,
+                                                                                                                            "bottom":  652,
+                                                                                                                            "width":  464,
+                                                                                                                            "height":  201
+                                                                                                                        }
+                                                                                                         },
+                                                                                        "capture_window":  null,
+                                                                                        "caret_window":  {
+                                                                                                             "handle":  "0x1BF07B0",
+                                                                                                             "title":  "",
+                                                                                                             "class_name":  "F3 Server e4280000",
+                                                                                                             "process_id":  14232,
+                                                                                                             "process_name":  "EXCEL",
+                                                                                                             "thread_id":  18852,
+                                                                                                             "bounds":  {
+                                                                                                                            "left":  728,
+                                                                                                                            "top":  451,
+                                                                                                                            "right":  1192,
+                                                                                                                            "bottom":  652,
+                                                                                                                            "width":  464,
+                                                                                                                            "height":  201
+                                                                                                                        }
+                                                                                                         }
+                                                                                    },
+                                                              "cursor_screen_pixels":  {
+                                                                                           "x":  1076,
+                                                                                           "y":  503
+                                                                                       },
+                                                              "notes":  [
+                                                                            "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                        ]
+                                                          }
+                                            }
+                             },
+                             {
+                                 "sequence":  2,
+                                 "method":  "public_user32_sendinput_mouse_drag",
+                                 "action":  "drag_source_label_to_target_textbox",
+                                 "target_intent":  "Trigger SourceDragLabel DataObject.StartDrag and release over TargetDropTextBox",
+                                 "manual":  false,
+                                 "result":  {
+                                                "schema":  "oxforms.w005.sendinput_mouse_action.v1",
+                                                "input_driver":  "public_user32_sendinput",
+                                                "action":  "mouse_drag",
+                                                "start_screen_pixels":  {
+                                                                            "x":  844,
+                                                                            "y":  503
+                                                                        },
+                                                "end_screen_pixels":  {
+                                                                          "x":  1076,
+                                                                          "y":  503
+                                                                      },
+                                                "set_cursor_result":  {
+                                                                          "start":  true,
+                                                                          "end":  true
+                                                                      },
+                                                "send_input":  {
+                                                                   "requested_down":  1,
+                                                                   "sent_down":  1,
+                                                                   "requested_up":  1,
+                                                                   "sent_up":  1
+                                                               },
+                                                "diagnostics":  {
+                                                                    "before":  {
+                                                                                   "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                   "phase":  "before_sendinput_mouse_drag",
+                                                                                   "captured_at_utc":  "2026-06-23T09:35:22.2658643Z",
+                                                                                   "foreground_window":  {
+                                                                                                             "handle":  "0xAE03BE",
+                                                                                                             "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                             "class_name":  "ThunderDFrame",
+                                                                                                             "process_id":  14232,
+                                                                                                             "process_name":  "EXCEL",
+                                                                                                             "thread_id":  18852,
+                                                                                                             "bounds":  {
+                                                                                                                            "left":  720,
+                                                                                                                            "top":  420,
+                                                                                                                            "right":  1200,
+                                                                                                                            "bottom":  660,
+                                                                                                                            "width":  480,
+                                                                                                                            "height":  240
+                                                                                                                        }
+                                                                                                         },
+                                                                                   "process_thread_focus_window":  null,
+                                                                                   "target_window":  {
+                                                                                                         "handle":  "0xAE03BE",
+                                                                                                         "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                         "class_name":  "ThunderDFrame",
+                                                                                                         "process_id":  14232,
+                                                                                                         "process_name":  "EXCEL",
+                                                                                                         "thread_id":  18852,
+                                                                                                         "bounds":  {
+                                                                                                                        "left":  720,
+                                                                                                                        "top":  420,
+                                                                                                                        "right":  1200,
+                                                                                                                        "bottom":  660,
+                                                                                                                        "width":  480,
+                                                                                                                        "height":  240
+                                                                                                                    }
+                                                                                                     },
+                                                                                   "target_thread_gui":  {
+                                                                                                             "thread_id":  18852,
+                                                                                                             "active_window":  {
+                                                                                                                                   "handle":  "0xAE03BE",
+                                                                                                                                   "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                                                   "class_name":  "ThunderDFrame",
+                                                                                                                                   "process_id":  14232,
+                                                                                                                                   "process_name":  "EXCEL",
+                                                                                                                                   "thread_id":  18852,
+                                                                                                                                   "bounds":  {
+                                                                                                                                                  "left":  720,
+                                                                                                                                                  "top":  420,
+                                                                                                                                                  "right":  1200,
+                                                                                                                                                  "bottom":  660,
+                                                                                                                                                  "width":  480,
+                                                                                                                                                  "height":  240
+                                                                                                                                              }
+                                                                                                                               },
+                                                                                                             "focus_window":  {
+                                                                                                                                  "handle":  "0x1BF07B0",
+                                                                                                                                  "title":  "",
+                                                                                                                                  "class_name":  "F3 Server e4280000",
+                                                                                                                                  "process_id":  14232,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  18852,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  728,
+                                                                                                                                                 "top":  451,
+                                                                                                                                                 "right":  1192,
+                                                                                                                                                 "bottom":  652,
+                                                                                                                                                 "width":  464,
+                                                                                                                                                 "height":  201
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                             "capture_window":  null,
+                                                                                                             "caret_window":  {
+                                                                                                                                  "handle":  "0x1BF07B0",
+                                                                                                                                  "title":  "",
+                                                                                                                                  "class_name":  "F3 Server e4280000",
+                                                                                                                                  "process_id":  14232,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  18852,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  728,
+                                                                                                                                                 "top":  451,
+                                                                                                                                                 "right":  1192,
+                                                                                                                                                 "bottom":  652,
+                                                                                                                                                 "width":  464,
+                                                                                                                                                 "height":  201
+                                                                                                                                             }
+                                                                                                                              }
+                                                                                                         },
+                                                                                   "cursor_screen_pixels":  {
+                                                                                                                "x":  1076,
+                                                                                                                "y":  503
+                                                                                                            },
+                                                                                   "notes":  [
+                                                                                                 "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                 "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                             ]
+                                                                               },
+                                                                    "after":  {
+                                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                  "phase":  "after_sendinput_mouse_drag",
+                                                                                  "captured_at_utc":  "2026-06-23T09:35:25.0831825Z",
+                                                                                  "foreground_window":  {
+                                                                                                            "handle":  "0xAE03BE",
+                                                                                                            "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                            "class_name":  "ThunderDFrame",
+                                                                                                            "process_id":  14232,
+                                                                                                            "process_name":  "EXCEL",
+                                                                                                            "thread_id":  18852,
+                                                                                                            "bounds":  {
+                                                                                                                           "left":  720,
+                                                                                                                           "top":  420,
+                                                                                                                           "right":  1200,
+                                                                                                                           "bottom":  660,
+                                                                                                                           "width":  480,
+                                                                                                                           "height":  240
+                                                                                                                       }
+                                                                                                        },
+                                                                                  "process_thread_focus_window":  null,
+                                                                                  "target_window":  {
+                                                                                                        "handle":  "0xAE03BE",
+                                                                                                        "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                        "class_name":  "ThunderDFrame",
+                                                                                                        "process_id":  14232,
+                                                                                                        "process_name":  "EXCEL",
+                                                                                                        "thread_id":  18852,
+                                                                                                        "bounds":  {
+                                                                                                                       "left":  720,
+                                                                                                                       "top":  420,
+                                                                                                                       "right":  1200,
+                                                                                                                       "bottom":  660,
+                                                                                                                       "width":  480,
+                                                                                                                       "height":  240
+                                                                                                                   }
+                                                                                                    },
+                                                                                  "target_thread_gui":  {
+                                                                                                            "thread_id":  18852,
+                                                                                                            "active_window":  {
+                                                                                                                                  "handle":  "0xAE03BE",
+                                                                                                                                  "title":  "OxForms W006 OLE Drag Drop Oracle",
+                                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                                  "process_id":  14232,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  18852,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  720,
+                                                                                                                                                 "top":  420,
+                                                                                                                                                 "right":  1200,
+                                                                                                                                                 "bottom":  660,
+                                                                                                                                                 "width":  480,
+                                                                                                                                                 "height":  240
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                            "focus_window":  {
+                                                                                                                                 "handle":  "0x1BF07B0",
+                                                                                                                                 "title":  "",
+                                                                                                                                 "class_name":  "F3 Server e4280000",
+                                                                                                                                 "process_id":  14232,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  18852,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  728,
+                                                                                                                                                "top":  451,
+                                                                                                                                                "right":  1192,
+                                                                                                                                                "bottom":  652,
+                                                                                                                                                "width":  464,
+                                                                                                                                                "height":  201
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                            "capture_window":  null,
+                                                                                                            "caret_window":  {
+                                                                                                                                 "handle":  "0x1BF07B0",
+                                                                                                                                 "title":  "",
+                                                                                                                                 "class_name":  "F3 Server e4280000",
+                                                                                                                                 "process_id":  14232,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  18852,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  728,
+                                                                                                                                                "top":  451,
+                                                                                                                                                "right":  1192,
+                                                                                                                                                "bottom":  652,
+                                                                                                                                                "width":  464,
+                                                                                                                                                "height":  201
+                                                                                                                                            }
+                                                                                                                             }
+                                                                                                        },
+                                                                                  "cursor_screen_pixels":  {
+                                                                                                               "x":  1076,
+                                                                                                               "y":  503
+                                                                                                           },
+                                                                                  "notes":  [
+                                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                            ]
+                                                                              }
+                                                                }
+                                            },
+                                 "notes":  "The live OLE drag source is public MSForms.DataObject.StartDrag in repo-owned VBA; SendInput only supplies mouse down/move/up."
+                             }
+                         ],
+    "public_capability_probe":  {
+                                    "fm20_data_object_start_drag":  "available_in_public_FM20_type_library_and_attempted_by_fixture_vba",
+                                    "source":  "MSForms.DataObject.StartDrag invoked by repo-owned SourceDragLabel_MouseDown handler"
+                                },
+    "blockers":  [
+
+                 ],
+    "notes":  [
+                  "The fixture keeps oxforms-0a0.13 TextBox.Paste observations separate from this true drag/drop run.",
+                  "The fixture does not store platform drag objects, COM DataObject identities, or private implementation details."
+              ]
+}

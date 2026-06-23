@@ -1,0 +1,92 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_ole_drag_drop_capture.v1",
+    "bead":  "oxforms-0a0.16",
+    "capture_id":  "ole-drag-drop-transfer-20260623T093507Z",
+    "captured_true_drag_drop":  true,
+    "fixture":  {
+                    "id":  "excel-msforms-w006-ole-drag-drop-transfer-v1",
+                    "inputs":  {
+                                   "manifest":  {
+                                                    "path":  "fixtures/office-oracle/excel-msforms/userforms/drag-drop-transfer/fixture.json",
+                                                    "sha256":  "6d4465a1145cf1c801d385b8e8decdc91571afd1f685eddc0f464f7d87799a30"
+                                                },
+                                   "form_code_behind":  {
+                                                            "path":  "fixtures/office-oracle/excel-msforms/userforms/drag-drop-transfer/form-code-behind.bas",
+                                                            "sha256":  "d0f901b039d00c6def32eded8b367a5910d17f2bf933c00224d8bb5cc9c1665c"
+                                                        },
+                                   "standard_module_extra":  {
+                                                                 "path":  "fixtures/office-oracle/excel-msforms/userforms/drag-drop-transfer/standard-module-extra.bas",
+                                                                 "sha256":  "0e368652125bb27c83cbf625b67a339f552cf1da024a8018e55fd3d58d77b348"
+                                                             }
+                               }
+                },
+    "commands":  {
+                     "generator":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/generate-workbook.command.txt",
+                     "window_capture":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/capture-window.command.txt",
+                     "rerun_note":  "Run this script from the repository root. It generates the workbook, opens Excel, shows the modeless UserForm, captures the window, derives source/target points, injects public mouse drag input, exports W006OleDragDropEventLog, writes manifests, and checksums artifacts."
+                 },
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "is_windows":  true,
+                     "powershell":  "5.1.26100.8655"
+                 },
+    "excel":  {
+                  "path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                  "file_version":  "16.0.20026.20182",
+                  "product_version":  "16.0.20026.20182",
+                  "product_name":  "Microsoft Office",
+                  "company_name":  "Microsoft Corporation"
+              },
+    "artifacts":  {
+                      "generated_workbook":  {
+                                                 "path":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/w006-ole-drag-drop-oracle.xlsm",
+                                                 "sha256":  "76d83908dd0e22c358e835756464d9582ce756d5568c803a64933634ea8a73c1"
+                                             },
+                      "run_summary":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/run-summary.json",
+                      "event_log_json":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/w006-ole-drag-drop-event-log.json",
+                      "event_log_csv":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/w006-ole-drag-drop-event-log.csv",
+                      "input_actions":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/input-actions.json",
+                      "coordinate_derivation":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/coordinate-derivation.json",
+                      "window_capture_manifest":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/window/window-capture-manifest.json",
+                      "screenshot":  "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/window/window-capture.png",
+                      "command_logs":  [
+                                           "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/generate-workbook.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/generate-workbook.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/generate-workbook.stderr.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/capture-window.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/capture-window.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/capture-window.stderr.txt"
+                                       ]
+                  },
+    "observed_coverage":  {
+                              "event_names":  [
+                                                  "Activate",
+                                                  "BeforeDragOver",
+                                                  "BeforeDropOrPaste",
+                                                  "Change",
+                                                  "Initialize",
+                                                  "MouseDown",
+                                                  "MouseMove",
+                                                  "QueryClose",
+                                                  "StartDragAttempt",
+                                                  "StartDragReturn",
+                                                  "Terminate"
+                                              ],
+                              "row_count":  39,
+                              "manual_inputs":  [
+
+                                                ],
+                              "input_method":  "public MSForms.DataObject.StartDrag fixture plus public Windows SendInput mouse drag"
+                          },
+    "warnings":  [
+                     "This is black-box Excel/MSForms event evidence only; no OxForms output was compared.",
+                     "The capture is not an exhaustive MSForms event parity claim.",
+                     "Missing BeforeDragOver or BeforeDropOrPaste rows are unobserved rows, not negative facts about all MSForms behavior.",
+                     "Desktop focus, mouse capture, theme, DPI, and Excel/MSForms version can affect observed rows."
+                 ],
+    "clean_room":  {
+                       "source":  "Repo-owned fixture generated through public Excel/VBIDE automation and driven through public MSForms.DataObject methods plus public Windows SendInput.",
+                       "data_object_policy":  "Public MSForms.DataObject method summaries only; no live object identity is stored.",
+                       "prohibited":  "No Office internals, decompilation, disassembly, private source, or non-public implementation details were used."
+                   }
+}

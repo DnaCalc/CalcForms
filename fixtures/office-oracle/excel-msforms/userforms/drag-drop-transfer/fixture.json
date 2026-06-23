@@ -1,0 +1,147 @@
+{
+  "id": "excel-msforms-w006-ole-drag-drop-transfer-v1",
+  "title": "W006 Excel MSForms OLE drag/drop DataObject oracle fixture",
+  "bead": "oxforms-0a0.16",
+  "cleanRoom": {
+    "source": "Repo-owned manifest and VBA source consumed through public Excel/VBIDE automation, public MSForms event handlers, public MSForms.DataObject methods, and public Windows SendInput mouse input.",
+    "prohibited": "No Office internals, decompilation, disassembly, private implementation details, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA.",
+    "A desktop session where public user32 SendInput mouse down/move/up can be delivered to the UserForm."
+  ],
+  "workbook": {
+    "fileName": "w006-ole-drag-drop-oracle.xlsm",
+    "vbaModuleName": "OxFormsW006OleDragDropOracle",
+    "showMacroName": "ShowW006OleDragDropOracleModeless",
+    "hideMacroName": "HideW006OleDragDropOracle",
+    "additionalModuleSourcePath": "standard-module-extra.bas"
+  },
+  "evidence": {
+    "defaultGeneratedWorkbookDir": "docs/evidence/W006_control_implementation_rollout/captures/generated-workbooks",
+    "futureCaptureRoot": "docs/evidence/W006_control_implementation_rollout/captures"
+  },
+  "codeBehind": {
+    "sourcePath": "form-code-behind.bas",
+    "language": "VBA",
+    "targetModule": "OxFormsW006OleDragDropForm"
+  },
+  "eventFactSource": {
+    "curated": "docs/specs/FM20_EVENT_FACTS.md",
+    "inputInteractionModel": "docs/specs/INPUT_INTERACTION_MODEL.md",
+    "traceSchema": "docs/specs/TRACE_REPLAY_SCHEMA.md"
+  },
+  "form": {
+    "name": "OxFormsW006OleDragDropForm",
+    "caption": "OxForms W006 OLE Drag Drop Oracle",
+    "widthPt": 360,
+    "heightPt": 180,
+    "startupPosition": 2,
+    "startupPositionName": "CenterScreen"
+  },
+  "controls": [
+    {
+      "type": "Forms.Label.1",
+      "kind": "MSForms.Label",
+      "name": "SourceDragLabel",
+      "caption": "Drag repo-owned text",
+      "leftPt": 24,
+      "topPt": 24,
+      "widthPt": 126,
+      "heightPt": 30,
+      "backColorOle": 12611584,
+      "foreColorOle": 16777215,
+      "borderStyle": 1,
+      "borderStyleName": "fmBorderStyleSingle",
+      "textAlign": 2,
+      "textAlignName": "fmTextAlignCenter",
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    },
+    {
+      "type": "Forms.TextBox.1",
+      "kind": "MSForms.TextBox",
+      "name": "TargetDropTextBox",
+      "text": "",
+      "leftPt": 198,
+      "topPt": 24,
+      "widthPt": 126,
+      "heightPt": 30,
+      "backColorOle": 16777215,
+      "foreColorOle": 0,
+      "borderStyle": 1,
+      "borderStyleName": "fmBorderStyleSingle",
+      "textAlign": 1,
+      "textAlignName": "fmTextAlignLeft",
+      "tabIndex": 1,
+      "tabStop": true,
+      "multiLine": false,
+      "enterKeyBehavior": false,
+      "hideSelection": false,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    },
+    {
+      "type": "Forms.CommandButton.1",
+      "kind": "MSForms.CommandButton",
+      "name": "OracleCloseButton",
+      "caption": "&Close",
+      "leftPt": 24,
+      "topPt": 78,
+      "widthPt": 72,
+      "heightPt": 24,
+      "tabIndex": 2,
+      "tabStop": true,
+      "default": false,
+      "cancel": true,
+      "accelerator": "C",
+      "takeFocusOnClick": true,
+      "font": {
+        "name": "Tahoma",
+        "sizePt": 8.25,
+        "bold": false,
+        "italic": false,
+        "underline": false,
+        "strikethrough": false
+      }
+    }
+  ],
+  "logging": {
+    "worksheetName": "W006OleDragDropEventLog",
+    "sequenceField": "sequence",
+    "coordinateSpaceForTransferArgs": "msforms_event_args",
+    "rowsAreEvidenceOnlyAfterLiveCapture": true
+  },
+  "dragSeed": {
+    "id": "repo_owned_drag_text_seed_v1",
+    "text": "OXFORMS_W006_DRAG_TEXT",
+    "provenance": "Literal repo-owned value set by fixture VBA into a public MSForms.DataObject before DataObject.StartDrag."
+  },
+  "manualInteractionScript": [
+    "Show the fixture modeless.",
+    "Press on SourceDragLabel, move to TargetDropTextBox, and release.",
+    "Export W006OleDragDropEventLog as CSV and JSON.",
+    "Classify true OLE drag/drop as captured only if live BeforeDragOver and BeforeDropOrPaste rows are present."
+  ],
+  "notes": {
+    "scope": "This fixture builds repo-owned Excel/MSForms oracle inputs only. It does not implement OxForms behavior.",
+    "events": "Event handler names and argument names follow docs/specs/FM20_EVENT_FACTS.md.",
+    "dataObjectPolicy": "DataObject logging uses public MSForms.DataObject methods only. The known repo-owned drag seed text may be identified by seed id; unexpected payload text is not recorded.",
+    "generatedArtifacts": "Generated .xlsm files, screenshots, logs, exported worksheets, and hashes belong under docs/evidence/W006_control_implementation_rollout/captures/ when captured."
+  }
+}

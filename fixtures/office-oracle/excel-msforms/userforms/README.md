@@ -20,3 +20,10 @@ Current fixtures:
   `UserForm` with a Label, TextBox, default CommandButton, and cancel
   CommandButton, plus repo-owned code-behind that logs representative MSForms
   events for later live oracle capture.
+- `text-service-transfer/` is the W006 paste/text-service transfer fixture. It
+  logs `BeforeDropOrPaste` and `Change` rows for a public `TextBox.Paste`
+  fallback when the desktop blocks deterministic `Ctrl+V` driving.
+- `drag-drop-transfer/` is the W006 true OLE drag/drop transfer fixture. It
+  creates a repo-owned public `MSForms.DataObject`, starts a drag with
+  `DataObject.StartDrag`, and logs `BeforeDragOver`/`BeforeDropOrPaste` rows on
+  a target TextBox.

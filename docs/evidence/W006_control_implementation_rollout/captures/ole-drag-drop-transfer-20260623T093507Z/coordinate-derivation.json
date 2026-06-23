@@ -1,0 +1,39 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_ole_drag_drop_coordinate_derivation.v1",
+    "coordinate_spaces":  [
+                              "screen_pixels",
+                              "screenshot_pixels",
+                              "form_logical",
+                              "msforms_event_args"
+                          ],
+    "dpi":  96,
+    "points_to_pixels":  1.3333333333333333,
+    "source_fill_rect_screenshot_pixels":  {
+                                               "x":  41,
+                                               "y":  64,
+                                               "width":  166,
+                                               "height":  38,
+                                               "pixel_count":  5766
+                                           },
+    "source_center_screenshot_pixels":  {
+                                            "x":  124,
+                                            "y":  83
+                                        },
+    "target_center_screenshot_pixels":  {
+                                            "x":  356,
+                                            "y":  83
+                                        },
+    "source_center_screen_pixels":  {
+                                        "x":  844,
+                                        "y":  503
+                                    },
+    "target_center_screen_pixels":  {
+                                        "x":  1076,
+                                        "y":  503
+                                    },
+    "assumptions":  [
+                        "SourceDragLabel center is derived from its exact repo-owned fill color in the screenshot.",
+                        "TargetDropTextBox center is derived from manifest point geometry relative to the detected source center.",
+                        "Live MSForms X/Y event arguments remain only the values logged by event handlers with coordinate_space=msforms_event_args."
+                    ]
+}

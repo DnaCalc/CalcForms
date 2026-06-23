@@ -1,0 +1,35 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_ole_drag_drop_run_summary.v1",
+    "bead":  "oxforms-0a0.16",
+    "capture_id":  "ole-drag-drop-transfer-20260623T093507Z",
+    "captured_true_drag_drop":  true,
+    "final_text_equals_drag_seed":  true,
+    "final_text_policy":  "The compared text is the repo-owned drag seed from the fixture manifest.",
+    "row_count":  39,
+    "event_names":  [
+                        "Activate",
+                        "BeforeDragOver",
+                        "BeforeDropOrPaste",
+                        "Change",
+                        "Initialize",
+                        "MouseDown",
+                        "MouseMove",
+                        "QueryClose",
+                        "StartDragAttempt",
+                        "StartDragReturn",
+                        "Terminate"
+                    ],
+    "selected_surface_status":  {
+                                    "source_start_drag_attempt":  "observed",
+                                    "source_start_drag_error":  "not_observed_in_this_run",
+                                    "before_drag_over":  "observed",
+                                    "before_drop_or_paste":  "observed",
+                                    "true_ole_drag_drop":  "observed_before_drag_over_and_before_drop_or_paste"
+                                },
+    "blocker":  null,
+    "non_claims":  [
+                       "A missing event row is not a negative claim about all MSForms inputs.",
+                       "This run does not implement or validate OxForms runtime drag/drop behavior.",
+                       "This run keeps oxforms-0a0.13 paste DataObject observations separate from true drag/drop observations."
+                   ]
+}

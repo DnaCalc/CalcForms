@@ -245,6 +245,19 @@ diagnostic no-ops. This is not a live clipboard adapter, not a COM
 `DataObject`, not a `Ctrl+V` shortcut-ordering claim, and not rich-format/menu
 paste or true drag/drop parity.
 
+Current `oxforms-0a0.16` status: live Office/MSForms true OLE drag/drop oracle
+captured in
+[`../evidence/W006_control_implementation_rollout/ole-drag-drop-transfer-oracle.md`](../evidence/W006_control_implementation_rollout/ole-drag-drop-transfer-oracle.md).
+The repo-owned fixture uses public `MSForms.DataObject.SetText` and
+`StartDrag`, public `user32 SendInput` mouse input, and target TextBox handlers
+that log `BeforeDragOver` and `BeforeDropOrPaste` with X/Y, Shift,
+DragState/Action, public DataObject summaries, and before/after `Cancel` and
+`Effect` helper values. The capture stores no live COM object identity or
+private Office implementation detail, and `.13` paste observations remain
+separate adjacent evidence. `oxforms-0a0.15` is now unblocked for its first
+drag/drop trace/dispatch subset, while rich formats, cancellation/mutation
+breadth, cross-application drags, and full drag/drop parity remain non-claims.
+
 W006 closes only when:
 
 1. the planning/review gate has closed and all executable W006 beads are either

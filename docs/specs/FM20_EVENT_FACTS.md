@@ -164,7 +164,16 @@ Repo-owned observations available now:
 - The same capture records exact blockers for `Ctrl+V` keyboard delivery,
   IME/composition, dead-key preedit, and true OLE drag/drop. No keyboard
   shortcut ordering, IME/dead-key behavior, `BeforeDragOver`, or drag-session
-  `DataObject` behavior is claimed.
+  `DataObject` behavior is claimed from the paste run.
+- `oxforms-0a0.16` captures separate live Excel/MSForms true drag/drop evidence
+  under
+  `docs/evidence/W006_control_implementation_rollout/captures/ole-drag-drop-transfer-20260623T093507Z/`.
+  The repo-owned source calls public `MSForms.DataObject.StartDrag`; target
+  `BeforeDragOver` rows precede one `BeforeDropOrPaste` row; the drop row
+  records `X = 63`, `Y = 15`, `Shift = 0`, `Action = 3`, `Cancel`
+  `False` -> `False`, `Effect` `1` -> `1`, and a public `DataObject` summary
+  with `GetFormat(1) = True` for the repo-owned drag seed id. This is true
+  drag/drop evidence, separate from `.13` paste evidence.
 
 OxForms implementation relying on those observations:
 

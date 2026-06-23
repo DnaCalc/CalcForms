@@ -29,6 +29,11 @@ Current tools:
   transfer fixture, opens live Excel/MSForms, attempts `Ctrl+V`, records the
   exact keyboard-driver blocker when present, falls back to public
   `TextBox.Paste`, and exports `BeforeDropOrPaste`/`Change` oracle evidence.
+- `Capture-W006OleDragDropTransfer.ps1` generates the W006 OLE drag/drop
+  transfer fixture, opens live Excel/MSForms, drives a public
+  `MSForms.DataObject.StartDrag` session with public `user32 SendInput` mouse
+  input, and exports `BeforeDragOver`/`BeforeDropOrPaste` oracle evidence or a
+  precise blocker.
 - `Test-OracleComparisonManifest.ps1` validates W003 comparison manifests by
   checking their schema, linked report, evidence paths, and SHA-256 values. It
   does not start Excel, capture screenshots, run OxForms, or perform pixel
