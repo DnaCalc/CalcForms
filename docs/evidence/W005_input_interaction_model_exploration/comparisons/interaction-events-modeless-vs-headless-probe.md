@@ -1,7 +1,8 @@
 # W005 Modeless Interaction Oracle vs Headless Probe
 
 Comparison ID: `interaction-events-modeless-vs-headless-probe`
-Bead: `oxforms-xvx.13`; updated by `oxforms-9pr`
+Bead: `oxforms-xvx.13`; updated by `oxforms-9pr`; checksum pin refreshed by
+`oxforms-0a0.8`
 Status: observation only
 
 This report relates the authoritative W005 modeless Excel/MSForms interaction
@@ -25,6 +26,9 @@ OxForms evidence:
   `docs/evidence/W005_input_interaction_model_exploration/captures/visible-input-smoke-20260623T035500Z/`
 
 The JSON manifest records exact source hashes.
+Its trace-replay checksum-manifest pin was refreshed after the W006 harness
+hardening README documentation changed the committed
+`trace-replay/checksums.sha256` file.
 
 ## Scenario Mapping
 

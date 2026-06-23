@@ -9,7 +9,7 @@
   "recorded": {
     "basis": "working_tree_artifact_before_commit",
     "recorded_utc": "2026-06-23T04:42:00Z",
-    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
+    "note": "Updated by oxforms-9pr after regenerating the OxForms headless replay golden without an unsupported native TextBox Click dispatch. Refreshed by oxforms-0a0.8 after the trace-replay checksum manifest changed to account for harness-hardening README documentation. The exact comparison is preserved by this manifest's source paths, hashes, row links, and report."
   },
   "classification_vocabulary": [
     "implemented_match",
@@ -91,7 +91,7 @@
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "946871898ebbbface9f73573a172d4aafc779366ff8da709df77da631b79c65d"
+      "sha256": "dac5af8dcd64f66e9fa220ccc9dec160c03eb6c4f5922d4033434a2683a3f356"
     },
     {
       "role": "oxforms_visible_smoke_manifest",
