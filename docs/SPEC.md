@@ -35,6 +35,11 @@ planning truth.
    W006 design-only gate for future runtime accessibility/UIA/MSAA semantics,
    separating product-required provider behavior from W005 diagnostics-only
    top-level metadata probes.
+7. [`specs/RENDERING_ARCHITECTURE.md`](specs/RENDERING_ARCHITECTURE.md) - the
+   rendering + VBA control-rendering architecture: immediate-mode VBA authoring
+   over a control-agnostic keyed retained primitive tree (the Scene) in
+   `oxforms-pal`, the cross-boundary patch protocol, invalidation/damage, text
+   metrics, determinism invariants, and the D7 amendment.
 
 ## Source References
 
