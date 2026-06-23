@@ -1,14 +1,14 @@
 use std::collections::BTreeMap;
 
 use oxforms_pal::{
-    render_headless, ActivationReason, CharacterInputEvent, ClickCount, CloseQueryPolicy,
-    CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId, CoordinatePayload,
-    CoordinatePoint, CoordinateSpace, DpiScale, FormId, KeyCode, KeyEvent, KeyRepeat,
-    KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize, MouseButton,
-    MouseButtonEvent, MouseButtons, PointerId, QueryCloseCompletedEvent, RawCoordinateSample,
-    RawDiagnostic, RawKeyDiagnostics, ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent,
-    UiEventId, UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent,
-    WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
+    render_headless, ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation,
+    CloseQueryPolicy, CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId,
+    CoordinatePayload, CoordinatePoint, CoordinateSpace, DpiScale, FormId, KeyCode, KeyEvent,
+    KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize,
+    MouseButton, MouseButtonEvent, MouseButtons, PointerId, QueryCloseCompletedEvent,
+    RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics, ServiceOutcome, ShowMode,
+    ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId, UiEventKind, UiEventSource, UiEventTarget,
+    UnloadedEvent, WindowHiddenEvent, WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
 };
 use serde_json::{json, Value};
 
@@ -1166,6 +1166,23 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
                 "raw": payload.raw.iter().map(diagnostic_json).collect::<Vec<_>>()
             }
         }),
+        UiEventKind::ClipboardResult(payload) => json!({
+            "kind": "clipboard_result",
+            "payload": {
+                "request_id": payload.request_id.0.clone(),
+                "operation": clipboard_operation(payload.operation),
+                "outcome": service_outcome_json(&payload.outcome),
+                "formats": payload.formats.clone(),
+                "payload": payload.payload.as_ref().map(|payload| {
+                    json!({
+                        "content_type": payload.content_type.clone(),
+                        "text": payload.text.clone(),
+                        "bytes_sha256": payload.bytes_sha256.clone(),
+                        "metadata": payload.metadata.iter().map(diagnostic_json).collect::<Vec<_>>()
+                    })
+                })
+            }
+        }),
         UiEventKind::Activate(payload) => json!({
             "kind": "activate",
             "payload": {
@@ -1182,6 +1199,22 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
                 "unsupported_in_runner": format!("{kind:?}")
             }
         }),
+    }
+}
+
+fn clipboard_operation(operation: ClipboardOperation) -> &'static str {
+    match operation {
+        ClipboardOperation::Get => "get",
+        ClipboardOperation::Set => "set",
+    }
+}
+
+fn service_outcome_json(outcome: &ServiceOutcome) -> Value {
+    match outcome {
+        ServiceOutcome::Success => json!({ "status": "success" }),
+        ServiceOutcome::Error { kind, message } => {
+            json!({ "status": "error", "kind": kind, "message": message })
+        }
     }
 }
 

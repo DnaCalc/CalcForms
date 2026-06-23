@@ -30,12 +30,12 @@ pub use trace_replay::{
 };
 
 use oxforms_pal::{
-    CharacterInputEvent, CloseQueryPolicy, CloseReason, CloseRequestEvent, CloseRequestOrigin,
-    Color, ControlId, DisplayList, FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat,
-    KeyboardModifiers, LifecycleReason, LogicalRect, LogicalSize, MouseButton, MouseButtonEvent,
-    MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics, Rect as PalRect,
-    ShowMode, ShowRequestedEvent, SurfaceSize, UiEvent, UiEventId, UiEventKind, UiEventTarget,
-    WindowId, WindowShownEvent,
+    CharacterInputEvent, ClipboardOperation, ClipboardResultEvent, CloseQueryPolicy, CloseReason,
+    CloseRequestEvent, CloseRequestOrigin, Color, ControlId, DisplayList, FormId, HostScopeId,
+    KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalRect, LogicalSize,
+    MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent,
+    RawKeyDiagnostics, Rect as PalRect, ServiceOutcome, ShowMode, ShowRequestedEvent, SurfaceSize,
+    UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
 };
 
 pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
@@ -854,6 +854,9 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::KeyUp(payload) => {
             reduce_key_up(&mut state, &mut context, payload);
+        }
+        UiEventKind::ClipboardResult(payload) => {
+            reduce_clipboard_result(&mut state, &mut context, payload);
         }
         UiEventKind::Activate(payload) => {
             state.active.active_form = event.target.form_id.clone().or_else(|| {
@@ -2105,15 +2108,7 @@ fn reduce_character_input(
         return;
     };
 
-    let text_box = state.ensure_text_box(control_id.clone());
-    delete_selected_text(text_box);
-    let insert_at = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
-    text_box.text.insert_str(insert_at, &payload.text);
-    let next_caret = insert_at + payload.text.len();
-    text_box.caret.anchor = next_caret;
-    text_box.caret.active = next_caret;
-    text_box.dirty = true;
-    text_box.edit_sequence += 1;
+    insert_text_box_text(state, &control_id, &payload.text);
 
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
     queue_character_event(state, context, target.clone(), payload);
@@ -2128,6 +2123,109 @@ fn reduce_character_input(
             reason: InvalidationReason::TextChanged,
         },
         CompletionPolicy::RenderDiagnosticOptional,
+    );
+}
+
+fn reduce_clipboard_result(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &ClipboardResultEvent,
+) {
+    if payload.operation != ClipboardOperation::Get {
+        queue_clipboard_diagnostic(state, context, payload, "unsupported_clipboard_operation");
+        return;
+    }
+
+    if !matches!(&payload.outcome, ServiceOutcome::Success) {
+        queue_clipboard_diagnostic(state, context, payload, "clipboard_get_failed");
+        return;
+    }
+
+    if !clipboard_formats_include_plain_text(&payload.formats) {
+        queue_clipboard_diagnostic(state, context, payload, "unsupported_clipboard_format");
+        return;
+    }
+
+    let Some(text) = payload
+        .payload
+        .as_ref()
+        .and_then(|payload| payload.text.as_deref())
+    else {
+        queue_clipboard_diagnostic(state, context, payload, "missing_text_payload");
+        return;
+    };
+
+    if text.is_empty() || text.chars().any(char::is_control) {
+        queue_clipboard_diagnostic(state, context, payload, "unsupported_text_payload");
+        return;
+    }
+
+    let Some(control_id) = focused_text_box_control_id(state) else {
+        queue_clipboard_diagnostic(state, context, payload, "no_focused_textbox");
+        return;
+    };
+
+    insert_text_box_text(state, &control_id, text);
+
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    queue_before_drop_or_paste_event(state, context, target.clone(), payload);
+    queue_vba_event(state, context, target.clone(), "Change");
+    let invalidation_id =
+        context.push_invalidation(state, target.clone(), InvalidationReason::TextChanged);
+    context.push_effect(
+        state,
+        target,
+        EffectKind::RequestRepaint {
+            invalidation_ids: vec![invalidation_id],
+            reason: InvalidationReason::TextChanged,
+        },
+        CompletionPolicy::RenderDiagnosticOptional,
+    );
+}
+
+fn insert_text_box_text(state: &mut FormState, control_id: &ControlId, text: &str) {
+    let text_box = state.ensure_text_box(control_id.clone());
+    delete_selected_text(text_box);
+    let insert_at = clamp_to_char_boundary(&text_box.text, text_box.caret.active);
+    text_box.text.insert_str(insert_at, text);
+    let next_caret = insert_at + text.len();
+    text_box.caret.anchor = next_caret;
+    text_box.caret.active = next_caret;
+    text_box.dirty = true;
+    text_box.edit_sequence += 1;
+}
+
+fn clipboard_formats_include_plain_text(formats: &[String]) -> bool {
+    formats.iter().any(|format| {
+        matches!(
+            format.to_ascii_lowercase().as_str(),
+            "text" | "text/plain" | "unicode_text" | "cf_unicode_text" | "cf_text"
+        )
+    })
+}
+
+fn queue_clipboard_diagnostic(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &ClipboardResultEvent,
+    reason: &str,
+) {
+    let target = context.event.target.clone();
+    context.push_effect(
+        state,
+        target,
+        EffectKind::HostCapabilityRequest {
+            host_namespace: "oxforms-core".to_string(),
+            capability: "clipboard_text_paste_diagnostic".to_string(),
+            host_scope_id: None,
+            payload_summary: Some(format!(
+                "request_id={}; reason={reason}; operation={:?}; formats={}",
+                payload.request_id.0,
+                payload.operation,
+                payload.formats.join(",")
+            )),
+        },
+        CompletionPolicy::ImmediateDiagnostic,
     );
 }
 
@@ -2535,6 +2633,68 @@ fn queue_character_event(
     );
 }
 
+fn queue_before_drop_or_paste_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: UiEventTarget,
+    payload: &ClipboardResultEvent,
+) {
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "BeforeDropOrPaste".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: vec![
+                EffectArgument {
+                    name: "Cancel".to_string(),
+                    value: "False".to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "Action".to_string(),
+                    value: "2".to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Data".to_string(),
+                    value: format!(
+                        "clipboard_text_payload:{}; formats={}",
+                        payload.request_id.0,
+                        payload.formats.join(",")
+                    ),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "X".to_string(),
+                    value: "0".to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Y".to_string(),
+                    value: "0".to_string(),
+                    by_ref: false,
+                },
+                EffectArgument {
+                    name: "Effect".to_string(),
+                    value: "0".to_string(),
+                    by_ref: true,
+                },
+                EffectArgument {
+                    name: "Shift".to_string(),
+                    value: "0".to_string(),
+                    by_ref: false,
+                },
+            ],
+            cancel_metadata: Some(
+                "Text-only clipboard paste subset: Data is a serializable payload summary; live MSForms.DataObject, Ctrl+V ordering, rich formats, and Action mutation remain non-claims."
+                    .to_string(),
+            ),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
 fn queue_mouse_event(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -2785,10 +2945,11 @@ fn target_for_focus(target: &FocusTarget, default_form: &FormId) -> Option<UiEve
 mod tests {
     use super::*;
     use oxforms_pal::{
-        ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, CloseRequestEvent,
-        CloseRequestOrigin, KeyCode, KeyRepeat, KeyboardModifiers, LogicalPoint, MouseButton,
-        MouseButtonEvent, MouseButtons, RawDiagnostic, RawKeyDiagnostics, ShowRequestedEvent,
-        UiEventSource, UnloadedEvent, WindowHiddenEvent,
+        ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation,
+        ClipboardResultEvent, CloseRequestEvent, CloseRequestOrigin, KeyCode, KeyRepeat,
+        KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons,
+        RawDiagnostic, RawKeyDiagnostics, ServiceOutcome, ServicePayload, ServiceRequestId,
+        ShowRequestedEvent, UiEventSource, UnloadedEvent, WindowHiddenEvent,
     };
 
     #[test]
@@ -3334,6 +3495,147 @@ mod tests {
                 "request_repaint"
             ]
         );
+    }
+
+    #[test]
+    fn clipboard_text_result_pastes_into_focused_textbox_and_emits_change_repaint() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+
+        let output = reduce(
+            state,
+            clipboard_get_text_event(UiEventId(91), "clip-1", "PASTE", &["text/plain"]),
+        );
+
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "PASTE");
+        assert_eq!(text_box.caret.anchor, 5);
+        assert_eq!(text_box.caret.active, 5);
+        assert!(text_box.dirty);
+        assert_eq!(text_box.edit_sequence, 1);
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "fire_vba_event:BeforeDropOrPaste",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+        assert_eq!(
+            output.invalidations[0].reason,
+            InvalidationReason::TextChanged
+        );
+    }
+
+    #[test]
+    fn clipboard_text_result_replaces_textbox_selection() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "ABCDE".to_string();
+        text_box.caret.anchor = 1;
+        text_box.caret.active = 4;
+
+        let output = reduce(
+            state,
+            clipboard_get_text_event(UiEventId(92), "clip-2", "xy", &["cf_unicode_text"]),
+        );
+
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "AxyE");
+        assert_eq!(text_box.caret.anchor, 3);
+        assert_eq!(text_box.caret.active, 3);
+        assert_eq!(
+            effect_names(&output.effects),
+            vec![
+                "fire_vba_event:BeforeDropOrPaste",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+    }
+
+    #[test]
+    fn clipboard_result_with_unsupported_format_records_diagnostic_without_mutation() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let text_box = state.ensure_text_box(ControlId::new("text-1"));
+        text_box.text = "ABC".to_string();
+        text_box.caret.anchor = 3;
+        text_box.caret.active = 3;
+
+        let output = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget::control("form-main", "text-1"),
+                ..UiEvent::new(
+                    UiEventId(93),
+                    UiEventSource::Service,
+                    UiEventKind::ClipboardResult(ClipboardResultEvent {
+                        request_id: ServiceRequestId::new("clip-image"),
+                        operation: ClipboardOperation::Get,
+                        outcome: ServiceOutcome::Success,
+                        formats: vec!["image/png".to_string()],
+                        payload: None,
+                    }),
+                )
+            },
+        );
+
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "ABC");
+        assert_eq!(text_box.edit_sequence, 0);
+        assert!(output.invalidations.is_empty());
+        assert_eq!(
+            effect_names(&output.effects),
+            vec!["host_capability_request"]
+        );
+        let EffectKind::HostCapabilityRequest {
+            capability,
+            payload_summary,
+            ..
+        } = &output.effects[0].kind
+        else {
+            panic!("expected clipboard diagnostic effect");
+        };
+        assert_eq!(capability, "clipboard_text_paste_diagnostic");
+        assert!(payload_summary
+            .as_ref()
+            .is_some_and(|summary| summary.contains("unsupported_clipboard_format")));
     }
 
     #[test]
@@ -4346,6 +4648,37 @@ mod tests {
                 raw: RawKeyDiagnostics::default(),
             }),
         )
+    }
+
+    fn clipboard_get_text_event(
+        event_id: UiEventId,
+        request_id: &str,
+        text: &str,
+        formats: &[&str],
+    ) -> UiEvent {
+        UiEvent {
+            target: UiEventTarget::control("form-main", "text-1"),
+            ..UiEvent::new(
+                event_id,
+                UiEventSource::Service,
+                UiEventKind::ClipboardResult(ClipboardResultEvent {
+                    request_id: ServiceRequestId::new(request_id),
+                    operation: ClipboardOperation::Get,
+                    outcome: ServiceOutcome::Success,
+                    formats: formats.iter().map(|format| (*format).to_string()).collect(),
+                    payload: Some(ServicePayload {
+                        content_type: Some("text/plain".to_string()),
+                        text: Some(text.to_string()),
+                        bytes_sha256: None,
+                        metadata: vec![RawDiagnostic::text(
+                            "test",
+                            "clipboard_seed",
+                            "repo_owned_text_seed_v1",
+                        )],
+                    }),
+                }),
+            )
+        }
     }
 
     fn query_close_completed_event(event_id: UiEventId, form_id: &str, cancelled: bool) -> UiEvent {

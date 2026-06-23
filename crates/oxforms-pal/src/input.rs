@@ -628,12 +628,14 @@ pub enum ClipboardOperation {
     Set,
 }
 
-#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ClipboardResultEvent {
     pub request_id: ServiceRequestId,
     pub operation: ClipboardOperation,
     pub outcome: ServiceOutcome,
     pub formats: Vec<String>,
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub payload: Option<ServicePayload>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]

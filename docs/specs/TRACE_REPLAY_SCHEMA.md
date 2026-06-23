@@ -299,6 +299,16 @@ accepted runtime behavior. Any serializable data transfer payload must separate:
 - clean-room source classification: public metadata, public documentation,
   repo-owned observation, assumption, or unknown.
 
+`oxforms-0a0.14` implements the first text-only paste subset using the existing
+`clipboard_result` UI event kind plus an optional serializable payload with
+plain text selected by a `ClipboardGet` completion. It does not introduce a new
+row kind, UI event name, or effect name; the runner projection records the
+`clipboard_result` operation, outcome, formats, optional text payload, and
+payload metadata. Unsupported data-transfer attempts remain diagnostic no-ops.
+The reserved `paste_request`, drag/drop, composition, and data-object snapshot
+names above still require validator/schema changes in the same bead that first
+emits them.
+
 For the `oxforms-0a0.3` modeless lifecycle close slice, the headless replay
 golden records first-class normalized lifecycle input rows for
 `close_request`, `query_close_completed`, `window_hidden`, and `unloaded`.
@@ -456,6 +466,11 @@ probe reducer path against committed output.
   Downstream implementation must add focused PAL/core/trace tests and preserve
   the `INPUT_INTERACTION_MODEL.md` rule that platform objects stay behind
   service/effect boundaries.
+- `oxforms-0a0.14` adds focused core/runtime coverage for existing
+  `clipboard_result` rows carrying optional text payloads. It keeps platform
+  clipboard objects and live COM `DataObject` references out of `FormState` and
+  trace artifacts, and leaves `paste_request`, rich formats, shortcut ordering,
+  IME/dead keys, true drag/drop, and broad `DataObject` parity as non-claims.
 - `oxforms-xvx.13` comparison artifacts should link rows by `row_id`,
   `ui_event_id`, `effect_id`, `dispatch_id`, `display_list_id`, and
   `render_id`, then classify differences as observations rather than final

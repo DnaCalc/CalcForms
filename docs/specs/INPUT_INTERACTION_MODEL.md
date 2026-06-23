@@ -579,6 +579,20 @@ replay without live Excel or another host.
   It is still not multiline editing, password mode, scrolling, IME/composition,
   dead keys, clipboard, paste/DataObject, drag/drop, full validation ordering,
   full MSForms selection UI, or native FM20-named OxVba dispatch.
+- `oxforms-0a0.14` extends that host-neutral TextBox probe with the first
+  text-only clipboard paste subset. A successful service-origin
+  `ClipboardResult(Get)` whose formats include plain text and whose optional
+  serializable payload carries non-empty control-free text replaces the current
+  TextBox selection, advances the caret, emits `FireVbaEvent(BeforeDropOrPaste)`
+  metadata using the public `FM20_EVENT_FACTS.md` argument order, then emits
+  `Change` and a `text_changed` repaint. Unsupported formats, missing text,
+  failed clipboard gets, non-get operations, no focused TextBox, and control
+  characters are diagnostic no-ops. This subset stores no platform clipboard
+  object or live COM `MSForms.DataObject` in `FormState`; the `Data` argument is
+  only a serializable payload summary. It does not claim `Ctrl+V` shortcut
+  ordering, menu paste, rich formats, true drag/drop, IME/dead-key behavior,
+  full `DataObject` parity, `BeforeDropOrPaste.Action` mutation, handler
+  cancellation semantics, or native FM20-named OxVba dispatch.
 - `oxforms-xvx.9` completes the first W005 probe-control reducer/render
   reference slice in `crates/oxforms-core`: Label remains non-focus but
   mouse-routable and text-bearing, CommandButton is focusable/clickable with
@@ -679,12 +693,13 @@ or precisely block them:
   resize/deactivate, close/query/hide/unload/terminate, modal/modeless show,
   nested modal forms, and DoEvents-like yielding as detailed in
   [`LIFECYCLE_PUMP_MODEL.md`](LIFECYCLE_PUMP_MODEL.md).
-- TextBox behavior beyond the `oxforms-0a0.1` single-line committed-text slice:
-  multiline, password mode, scrolling, IME/composition, dead keys, clipboard,
+- TextBox behavior beyond the `oxforms-0a0.1` single-line committed-text slice
+  and the `oxforms-0a0.14` text-only paste subset: multiline, password mode,
+  scrolling, IME/composition, dead keys, clipboard shortcuts, menu paste, rich
   paste/DataObject, drag/drop, full validation ordering, platform text-service
   integration, exact MSForms selection UI, and live native FM20-named dispatch.
-- How clipboard shortcuts and `DataObject` behavior should be represented before
-  full drag/drop and paste work.
+- How clipboard shortcuts and `DataObject` behavior should be represented beyond
+  the first text-only paste subset and before full drag/drop work.
 - How IME, dead keys, composed text, and platform text services enter the
   portable model.
 - How platform key identity, accelerator ambiguity/display state, and

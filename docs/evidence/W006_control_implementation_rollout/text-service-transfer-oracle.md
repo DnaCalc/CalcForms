@@ -81,11 +81,20 @@ clipboard payload text.
 
 ## Downstream Impact
 
-`oxforms-0a0.14` is unblocked for a first text-only paste implementation or
-blocker using the observed public `TextBox.Paste`/`BeforeDropOrPaste` facts, but
-it must keep `Ctrl+V` shortcut ordering, IME/dead-key behavior, rich formats,
-and broad `DataObject` parity as non-claims unless `oxforms-0a0.17` or another
-bead adds evidence.
+`oxforms-0a0.14` implements a first host-neutral text-only paste subset using
+the observed public `TextBox.Paste`/`BeforeDropOrPaste -> Change` fact shape.
+The implementation accepts only normalized service `ClipboardResult(Get)` rows
+with serializable plain text for the focused single-line TextBox, emits
+`BeforeDropOrPaste` metadata before `Change`, replaces the selection, and
+requests repaint. It does not use the live platform clipboard or a COM
+`MSForms.DataObject` inside `oxforms-core`; unsupported formats are diagnostic
+no-ops.
+
+The `.14` subset keeps `Ctrl+V` shortcut ordering, IME/dead-key behavior, menu
+paste, rich formats, true drag/drop, broad `DataObject` parity,
+`BeforeDropOrPaste.Action` mutation, handler cancellation behavior, and native
+FM20-named OxVba dispatch as non-claims unless `oxforms-0a0.17` or another bead
+adds evidence and implementation.
 
 `oxforms-0a0.15` is not unblocked for true drag/drop parity. It may use this
 bead's paste `DataObject` facts as adjacent evidence, but `BeforeDragOver`,

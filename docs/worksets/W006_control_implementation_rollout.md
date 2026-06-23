@@ -72,9 +72,13 @@ host-neutral W005 TextBox probe only. The subset covers committed single-line
 text, caret anchor/active selection state, Backspace/Delete, Left/Right/Home/End
 navigation, `KeyDown`/`KeyUp` rows, `Change` rows for actual text mutation, and
 headless replay evidence. It still does not claim multiline, password mode,
-scrolling, IME/composition, dead keys, clipboard, paste/DataObject, drag/drop,
-full validation ordering, full selection UI parity, or native FM20-named
-dispatch.
+scrolling, IME/composition, dead keys, clipboard shortcuts, menu paste,
+rich-format paste/DataObject, drag/drop, full validation ordering, full
+selection UI parity, or native FM20-named dispatch. `oxforms-0a0.14` adds only
+the first host-neutral text-only paste subset for successful service-origin
+`ClipboardResult(Get)` rows with serializable plain text; unsupported formats
+remain diagnostic no-ops and live platform clipboard/COM objects stay outside
+core `FormState`.
 
 Each later bead may claim only the subset it implements and proves with the
 checks/evidence named in that bead.
@@ -118,7 +122,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.12` | Implement or precisely block the first MSForms.CheckBox boolean-value reducer/display/.frm slice. | `oxforms-0a0.9`, `oxforms-0a0.8`, `oxforms-0a0.4`, `oxforms-0a0.11` | Only the fact-backed boolean CheckBox subset is implemented; W005 probe scaffolds are replaced/renamed or explicitly quarantined. |
 | `oxforms-0a0.6` | Design IME, clipboard, paste, and drag/drop input surfaces. | `oxforms-0a0.9`, `oxforms-0a0.8` | Public facts and assumptions are separated; normalized event/effect/trace extensions are specified or blocked without leaking platform objects into core state. |
 | `oxforms-0a0.13` | Capture public `TextBox.Paste`/`BeforeDropOrPaste` oracle facts and precisely block undriven text-service/transfer surfaces. | `oxforms-0a0.6` | Repo-owned fixture evidence separates observations from assumptions; true OLE drag/drop and keyboard/text-service driver gaps remain explicit follow-ups before runtime parity claims. |
-| `oxforms-0a0.14` | Implement or precisely block the first text-only TextBox clipboard paste subset. | `oxforms-0a0.6`, `oxforms-0a0.13` | Platform clipboard objects stay outside core state; `.13` must capture or precisely block the MSForms oracle facts before runtime paste parity/dispatch claims; focused tests cover accepted text paste or exact blockers; DataObject/rich paste remains non-claim. |
+| `oxforms-0a0.14` | Implement or precisely block the first text-only TextBox clipboard paste subset. | `oxforms-0a0.6`, `oxforms-0a0.13` | Platform clipboard objects stay outside core state; focused tests cover accepted text paste, selection replacement, Change/repaint behavior, and unsupported format diagnostics; DataObject/rich paste remains non-claim. |
 | `oxforms-0a0.15` | Implement or precisely block the first drag/drop DataObject trace and dispatch subset. | `oxforms-0a0.6`, `oxforms-0a0.13`, `oxforms-0a0.16` | Normalized drag/drop events, data snapshots, dispatch metadata, trace/schema updates, and non-claims are handled together or precisely blocked; `.16` must capture or precisely block the live OLE drag-session oracle before runtime drag/drop parity/dispatch claims. |
 | `oxforms-0a0.16` | Build or precisely block the live OLE drag/drop `DataObject` oracle driver. | `oxforms-0a0.13` | A real drag-session `DataObject` fixture/driver captures `BeforeDragOver` and `BeforeDropOrPaste` facts, or records the exact public-capability blocker; `.13` paste observations remain adjacent evidence, not true drag/drop parity evidence. |
 | `oxforms-0a0.17` | Build or precisely block deterministic clipboard shortcut and text-service oracle drivers. | `oxforms-0a0.13` | `Ctrl+V`, IME/composition, and dead-key scenarios are captured with deterministic setup metadata or remain explicit non-claims; clean-room clipboard policy matches `.13`. |
@@ -229,6 +233,17 @@ records a public `DataObject` text-format summary for the repo-owned seed. The
 current desktop session blocks `Ctrl+V` keyboard driving, IME/composition,
 dead-key preedit, and true OLE drag/drop; follow-up beads `oxforms-0a0.16` and
 `oxforms-0a0.17` track those oracle-driver gaps.
+
+Current `oxforms-0a0.14` status: implemented-subset in the host-neutral
+`oxforms-core` reducer/PAL event contract. The PAL `ClipboardResult` event can
+carry an optional serializable text payload. The reducer accepts only successful
+get results with plain-text formats for the currently focused visible/enabled
+TextBox, replaces the selection, emits `BeforeDropOrPaste` metadata before
+`Change`, and requests repaint. Unsupported formats, missing or failed payloads,
+non-get operations, unfocused targets, and control-character payloads are
+diagnostic no-ops. This is not a live clipboard adapter, not a COM
+`DataObject`, not a `Ctrl+V` shortcut-ordering claim, and not rich-format/menu
+paste or true drag/drop parity.
 
 W006 closes only when:
 

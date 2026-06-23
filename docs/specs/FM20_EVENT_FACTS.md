@@ -166,6 +166,20 @@ Repo-owned observations available now:
   shortcut ordering, IME/dead-key behavior, `BeforeDragOver`, or drag-session
   `DataObject` behavior is claimed.
 
+OxForms implementation relying on those observations:
+
+- `oxforms-0a0.14` implements only a host-neutral text-only paste subset for
+  focused single-line TextBox state. A successful normalized
+  `ClipboardResult(Get)` with accepted plain-text format and serializable text
+  payload emits `BeforeDropOrPaste` metadata before `Change`, then repaint, and
+  replaces the current TextBox selection. Its `BeforeDropOrPaste` `Data`
+  argument is a serializable payload summary, not a live `MSForms.DataObject`.
+- Unsupported clipboard formats and missing/failed text payloads are recorded
+  as diagnostics and do not mutate TextBox state. The subset does not claim
+  `Ctrl+V` shortcut ordering, menu paste, rich formats, true drag/drop,
+  IME/dead-key behavior, broad `DataObject` parity, `Action` mutation, handler
+  cancellation behavior, or native FM20-named OxVba dispatch.
+
 Design assumptions that are not facts:
 
 - Clipboard shortcut routing through `KeyDown`/`KeyUp`, followed by a host/PAL
