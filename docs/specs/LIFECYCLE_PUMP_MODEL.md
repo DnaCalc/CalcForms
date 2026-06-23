@@ -59,6 +59,14 @@ Current facts:
   Actual `QueryClose` handler execution and cancellation remain blocked by the
   native FM20-named OxVba dispatch gap documented in
   [`native-fm20-event-dispatch-blocker.md`](../evidence/W006_control_implementation_rollout/native-fm20-event-dispatch-blocker.md).
+- `oxforms-0a0.10` classifies the deferred nested modal, `DoEvents`-like yield,
+  modal-frame reentrancy, modal completion, and `Terminate` timing surfaces in
+  [`nested-modal-reentrant-pump-design.md`](../evidence/W006_control_implementation_rollout/nested-modal-reentrant-pump-design.md).
+  That design files child beads for nested-modal oracle evidence
+  (`oxforms-0a0.19`), shared OxVba/OxForms/PAL ownership (`oxforms-0a0.20`),
+  object-lifetime `Terminate` evidence (`oxforms-0a0.21`), and a first
+  host-neutral modal-frame trace subset (`oxforms-0a0.22`). No broad modal pump
+  or `DoEvents` implementation is authorized by this classification alone.
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
@@ -291,6 +299,16 @@ W005 does not implement final `DoEvents` semantics. It reserves
 `PumpYieldRequested` and `doevents_yield` so later runtime work has a named
 place to integrate without inventing a forms-only loop.
 
+W006 preserves that boundary. `oxforms-0a0.10` requires later work to treat
+nested modal frames, `DoEvents`-like yields, dispatch reentrancy, modal
+completion, and `Terminate` timing as separate surfaces with facts,
+assumptions, unknowns, blockers, and evidence. Runtime work may start only in
+smaller child beads with named fixtures, trace/replay expectations, and owner
+blockers. Trace obligations for modal depth, parent rows, nesting, and effect
+completions are owned by
+[`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md), especially sections 5, 9,
+11, and 14.
+
 ## 11. W005 Probe Subset
 
 The W005 probe subset is intentionally small:
@@ -407,3 +425,7 @@ the downstream bead it blocks.
   host callbacks.
 - Which lifecycle DISPIDs, if any, are used outside the captured FM20 source
   interfaces.
+
+`oxforms-0a0.10` keeps the grouped unknowns above live, but splits their next
+evidence/implementation work into `oxforms-0a0.19` through `oxforms-0a0.22`
+instead of allowing a broad modal/runtime bead to infer behavior.

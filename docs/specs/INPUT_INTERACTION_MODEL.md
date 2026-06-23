@@ -671,6 +671,17 @@ replay without live Excel or another host.
   by the `oxforms-0a0.2` native FM20-named dispatch gap, so the replay completion
   carries an explicit blocker diagnostic rather than using a forms-only event
   runtime.
+- `oxforms-0a0.10` is a design/blocker split for the lifecycle surfaces
+  deliberately left out of the first modeless close slice: nested modal forms,
+  `DoEvents`-like yielding, reentrant dispatch during modal frames, modal
+  return/completion, and object-lifetime `Terminate` timing. Its outcome is
+  recorded in
+  [`nested-modal-reentrant-pump-design.md`](../evidence/W006_control_implementation_rollout/nested-modal-reentrant-pump-design.md).
+  It keeps those surfaces on the shared `UiEvent`/effect/completion loop,
+  points trace/replay obligations back to
+  [`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md), and splits follow-up work
+  into `oxforms-0a0.19`, `oxforms-0a0.20`, `oxforms-0a0.21`, and
+  `oxforms-0a0.22`.
 - `oxforms-0a0.12` implements only the fact-backed
   `MSForms.CheckBox` boolean-value slice in `crates/oxforms-core`: selected
   `.frm` loading accepts `Begin MSForms.CheckBox` controls with `Caption`,

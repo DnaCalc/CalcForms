@@ -495,6 +495,15 @@ probe reducer path against committed output.
   boundaries, and leaves `drag_enter`, `drag_leave`, rich formats,
   cross-application drags, cancellation/mutation breadth, final MSForms
   ordering, and broad `DataObject` parity as non-claims.
+- `oxforms-0a0.10` classifies later nested modal, `DoEvents`-like yield,
+  reentrant dispatch, modal completion, and `Terminate` timing work as blocked
+  until smaller child beads provide evidence or scoped implementation. Those
+  follow-ups must use this schema's `parent_row_id`, `nesting_depth`,
+  `effect_requested`, `effect_completed`, and `lifecycle_pump` rows for modal
+  depth, causal parent rows, and effect completions. `oxforms-0a0.22` is the
+  first implementation-or-blocker bead for a host-neutral modal-frame trace
+  subset; it must update this schema only if the current v1 contract cannot
+  express the subset.
 - `oxforms-xvx.13` comparison artifacts should link rows by `row_id`,
   `ui_event_id`, `effect_id`, `dispatch_id`, `display_list_id`, and
   `render_id`, then classify differences as observations rather than final

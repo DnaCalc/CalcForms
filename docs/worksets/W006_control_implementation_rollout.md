@@ -122,6 +122,10 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.1` | Implement the first single-line TextBox editing slice: caret movement, selection state representation, Backspace/Delete, and named navigation keys. | `oxforms-0a0.9`, `oxforms-0a0.2`, `oxforms-0a0.8` | The selected single-line editing subset is specified/evidenced; multiline, password, scrolling, IME, clipboard, paste/DataObject, drag/drop, and broad validation remain non-claims or follow-up beads. |
 | `oxforms-0a0.3` | Implement or precisely block the first modeless lifecycle close slice. | `oxforms-0a0.9`, `oxforms-0a0.2`, `oxforms-0a0.8` | Modeless show/materialize/window-shown/activate plus close request -> QueryClose -> hide-or-unload flows through normalized events/effects with evidence or blockers; nested modal, DoEvents, broad reentrancy, and object-lifetime Terminate are deferred. |
 | `oxforms-0a0.10` | Design nested modal, DoEvents-like yield, reentrant pump, modal completion, and Terminate timing follow-up. | `oxforms-0a0.9`, `oxforms-0a0.3` | Facts, assumptions, unknowns, blockers, and any implementation-ready child beads are separated before broad modal/runtime work begins. |
+| `oxforms-0a0.19` | Capture or precisely block nested modal lifecycle oracle evidence. | `oxforms-0a0.10` | Outer/inner modal form ordering, active context, close/query values, depth/parent implications, and clean-room capture metadata are recorded or exactly blocked without runtime implementation. |
+| `oxforms-0a0.20` | Define shared modal and DoEvents pump ownership contract. | `oxforms-0a0.10` | OxVba, OxForms core/effect-runner, and PAL/window ownership for modal frames, `DoEvents`, reentrancy, modal completion, and `Terminate` timing is explicit, with handovers or blockers where shared support is missing. |
+| `oxforms-0a0.21` | Capture or precisely block `UserForm.Terminate` object-lifetime oracle evidence. | `oxforms-0a0.10` | Hide, unload, modal return, modeless close, held-reference, and reference-release scenarios separate `Unloaded` from `Terminated` using live evidence or exact blockers. |
+| `oxforms-0a0.22` | Implement or precisely block the first host-neutral modal-frame trace subset. | `oxforms-0a0.10`, `oxforms-0a0.20` | Synthetic/replayable modal-frame rows use `TRACE_REPLAY_SCHEMA.md` parent/nesting, modal depth, `lifecycle_pump`, effect request, and effect completion requirements without claiming live modal parity. |
 | `oxforms-0a0.5` | Split the first intrinsic-control implementation lane beyond W005 probes. | `oxforms-0a0.9`, `oxforms-0a0.4`, `oxforms-0a0.8` | First control lane is fact-backed or precisely blocked; implementation work is split into control-specific beads; W005 probe scaffolds are promoted, replaced, deleted, or quarantined intentionally. |
 | `oxforms-0a0.11` | Ground the first CheckBox boolean-value lane with public facts, fixture input, oracle evidence, or exact blockers. | `oxforms-0a0.9`, `oxforms-0a0.8` | CheckBox property/event/rendering/state surfaces are named before implementation starts; broad morph-control parity remains deferred. |
 | `oxforms-0a0.12` | Implement or precisely block the first MSForms.CheckBox boolean-value reducer/display/.frm slice. | `oxforms-0a0.9`, `oxforms-0a0.8`, `oxforms-0a0.4`, `oxforms-0a0.11` | Only the fact-backed boolean CheckBox subset is implemented; W005 probe scaffolds are replaced/renamed or explicitly quarantined. |
@@ -182,6 +186,19 @@ effects for modeless close-button/system-menu
 Unloaded`, maps that close origin to `CloseMode=0`, and keeps `Unloaded`
 separate from object-lifetime `Terminate`. Evidence is recorded in
 [`../evidence/W006_control_implementation_rollout/modeless-lifecycle-close-slice.md`](../evidence/W006_control_implementation_rollout/modeless-lifecycle-close-slice.md).
+
+Current `oxforms-0a0.10` status: design/blocker split complete. The deferred
+nested modal, `DoEvents`-like yield, reentrant dispatch, modal completion, and
+object-lifetime `Terminate` surfaces are classified in
+[`../evidence/W006_control_implementation_rollout/nested-modal-reentrant-pump-design.md`](../evidence/W006_control_implementation_rollout/nested-modal-reentrant-pump-design.md).
+That note separates facts, assumptions, unknowns, and blockers; points modal
+depth, parent-row, nesting, `lifecycle_pump`, and effect-completion obligations
+to [`../specs/TRACE_REPLAY_SCHEMA.md`](../specs/TRACE_REPLAY_SCHEMA.md); files
+the OxVba handover
+[`../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md`](../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md);
+and splits follow-up work into `oxforms-0a0.19`, `oxforms-0a0.20`,
+`oxforms-0a0.21`, and `oxforms-0a0.22`. No broad modal/runtime implementation
+is claimed.
 
 Current `oxforms-0a0.4` status: implemented-subset in the host-neutral core
 loader/projection path. The selected fixture
