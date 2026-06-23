@@ -58,6 +58,61 @@ Until those criteria are met, `SendKeys` remains the safer evidence driver for
 W005 text/accelerator rows, and public `SendInput` remains limited to the
 mouse-click and mouse-drag helper paths.
 
+## Optional UIA/MSAA Metadata Probe
+
+Follow-up bead `oxforms-xvx.22` added a diagnostics-only UI Automation metadata
+probe at [`../../../tools/W005AccessibilityMetadataProbe.ps1`](../../../tools/W005AccessibilityMetadataProbe.ps1).
+The probe is intentionally opt-in: it does not launch Excel, does not run the
+OxForms visible smoke, does not drive live input, and does not change OxForms
+runtime behavior. It selects a top-level window by explicit handle or by
+title/process filters, records public Win32 top-level window metadata, and asks
+the public .NET `UIAutomationClient` API for the selected window's root element
+plus a bounded child-depth snapshot.
+
+Typical optional invocations, to be run only against an already isolated live
+oracle or smoke window, are:
+
+```powershell
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\W005AccessibilityMetadataProbe.ps1 `
+  -TitleContains "OxForms W005 Interaction Oracle" -ProcessName EXCEL -ChildrenDepth 1 `
+  -OutFile docs\evidence\W005_input_interaction_model_exploration\captures\<capture>\uia-msforms-top-level.json
+
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\W005AccessibilityMetadataProbe.ps1 `
+  -TitleContains "OxForms W005 Visible Input Smoke" -ProcessName w005_visible_input_smoke -ChildrenDepth 1 `
+  -OutFile docs\evidence\W005_input_interaction_model_exploration\captures\<capture>\uia-oxforms-smoke-top-level.json
+```
+
+The output schema is `oxforms.w005.accessibility_metadata_probe.v1`. Its
+`non_claims` field is part of the artifact contract: UIA metadata is public
+discoverability evidence only, not a source of FM20 event ordering, not an
+OxForms probe-control oracle, and not a runtime accessibility feature.
+
+MSAA / `IAccessible` traversal is deferred for W005. The current W005 question is
+whether public automation metadata can help diagnose top-level window
+discoverability. Bounded UIA metadata is enough for that narrow diagnostic; an
+MSAA traversal would add another COM surface without changing the W005 behavior
+evidence, and could easily make the evidence look more authoritative than it is.
+If accessibility becomes a product requirement, it should be designed as a
+separate runtime/accessibility capability with its own semantics and tests.
+
+### MSForms Oracle Window Probe Limits
+
+For Excel/MSForms oracle windows, the optional probe may record whether the
+top-level `ThunderDFrame` window and any public UIA children are discoverable on
+the capture machine. That metadata is environment- and Office-version-specific.
+The preserved behavioral truth remains the repo-owned fixture event log and the
+existing window/screenshot/action manifests. UIA names, control types, supported
+patterns, or child counts must not be promoted into FM20 control semantics.
+
+### OxForms Visible Smoke Probe Limits
+
+For OxForms visible smoke windows, the optional probe may record top-level
+`minifb_window` discoverability. The W005 probe controls are raster-drawn inside
+that window, so UIA should not be expected to expose a Label, CommandButton, or
+TextBox tree. The authoritative OxForms evidence remains the repo-owned
+`visible-input-trace.json`, screenshot/frame artifacts, and headless replay
+goldens.
+
 ## Evidence Read
 
 Current W005 evidence already uses public Windows desktop APIs:
@@ -178,9 +233,6 @@ helpers.
 
 ## Follow-up Candidates
 
-- Add an optional UI Automation / accessibility metadata probe that records
-  discoverability for top-level Office/MSForms and OxForms smoke windows without
-  using those APIs as behavioral truth.
 - Consider a diagnostics-only `SendInput` keyboard wrapper if future evidence
   shows `SendKeys` is too flaky for text/accelerator rows. Keep it separate from
   runtime input semantics.

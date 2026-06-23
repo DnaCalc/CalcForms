@@ -560,7 +560,8 @@ This lane must remain outside runtime architecture. It may become evidence
 infrastructure if it proves stable enough, but trace/replay remains the
 canonical deterministic path.
 
-Current output from `oxforms-xvx.15` and `oxforms-xvx.23`:
+Current output from `oxforms-xvx.15`, `oxforms-xvx.23`, and
+`oxforms-xvx.22`:
 
 - [`../evidence/W005_input_interaction_model_exploration/windows-automation-inspection.md`](../evidence/W005_input_interaction_model_exploration/windows-automation-inspection.md)
   records the accepted/rejected public Windows automation boundaries and the
@@ -573,6 +574,13 @@ Current output from `oxforms-xvx.15` and `oxforms-xvx.23`:
   for mouse actions and additive action-log metadata. `SendKeys` remains the
   text/accelerator input path for now; follow-up `oxforms-8nj` tracks whether a
   diagnostics-only keyboard `SendInput` wrapper is worth adding.
+- `tools/W005AccessibilityMetadataProbe.ps1` is an optional, non-live-by-default
+  UI Automation metadata probe for already-open top-level MSForms oracle windows
+  and OxForms `minifb` smoke windows. Its output records public window/UIA
+  discoverability metadata only. It does not define FM20 behavior, does not
+  inspect raster-drawn OxForms probe controls as semantic controls, and does not
+  add runtime accessibility behavior. MSAA traversal is deferred as not useful
+  for W005's current input evidence.
 
 ### 15. Differential Comparison
 
@@ -612,6 +620,7 @@ It is an observation artifact, not a final pass/fail parity oracle.
 | `oxforms-xvx.13` | Compare OxForms interaction trace to MSForms oracle | `oxforms-54n`, `oxforms-xvx.3`, `oxforms-xvx.12`, `oxforms-xvx.18` | Observation report relates event oracle to OxForms trace and classifies coordinate differences using the shared vocabulary. |
 | `oxforms-xvx.15` | Explore Windows automation/inspection for input evidence | `oxforms-54n`, `oxforms-xvx.11` | Decision/prototype/blocker records public automation path. |
 | `oxforms-xvx.23` | Harden public Windows input driver diagnostics | `oxforms-xvx.15` | Shared SendInput/focus diagnostics helper exists, current drivers consume it where low-risk, and action-log fields are additively normalized. |
+| `oxforms-xvx.22` | Add optional UIA accessibility metadata probe | `oxforms-xvx.15` | Diagnostics-only top-level UIA metadata probe or precise deferral is documented without runtime accessibility or behavior claims. |
 | `oxforms-8nj` | Evaluate diagnostics-only keyboard SendInput wrapper | `oxforms-xvx.23` | Follow-up decides whether to replace or retain `SendKeys` for text/accelerator evidence driving. |
 | `oxforms-xvx.14` | Closure review and next rollout | `oxforms-54n`, `oxforms-xvx.11`, `oxforms-xvx.13`, `oxforms-xvx.15` | Workset closes only with evidence, residual beads, and review. |
 
