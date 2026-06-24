@@ -14,6 +14,28 @@ Public Enum OxControlKind
     oxControlCheckBox = 3
 End Enum
 
+' MSForms 3D appearance, values from [MS-OFORMS] fmSpecialEffect (see spec s5.6).
+' VBA owns the SpecialEffect -> generic EdgeEffect mapping; the Rust kernel only
+' knows the generic edge (it never learns "TextBox").
+Public Enum OxSpecialEffect
+    oxEffectFlat = 0
+    oxEffectRaised = 1
+    oxEffectSunken = 2
+    oxEffectEtched = 3
+    oxEffectBump = 6
+End Enum
+
+' [MS-OFORMS] fmBorderStyle.
+Public Enum OxBorderStyle
+    oxBorderNone = 0
+    oxBorderSingle = 1
+End Enum
+
+' Sentinel for the BackColor/ForeColor/BorderColor band meaning "no explicit
+' override; resolve from the theme at paint time". Distinct from any 0xRRGGBB
+' value and from the 0x80000000 OLE_COLOR system-index flag.
+Public Const oxColorAuto As Long = -1
+
 ' Create an unparented control of the requested kind with its Name assigned.
 ' The caller (normally OxUserForm.Add) binds it to a host afterwards. Returns
 ' Nothing for a kind that has no class module yet.

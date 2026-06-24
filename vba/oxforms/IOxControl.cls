@@ -10,3 +10,11 @@ Option Explicit
 
 Public Property Get Core() As OxControlCore
 End Property
+
+' Paint the control in immediate mode into the scene builder: open the control's
+' node, ask OxTheme for the role's resolved colors/edge, emit the primitive
+' vocabulary, close the node. The kernel never learns the control type; only
+' geometry/color/edge primitives cross the boundary. See
+' docs/specs/RENDERING_ARCHITECTURE.md s5.
+Public Sub Render(ByVal Surface As OxSceneBuilder)
+End Sub

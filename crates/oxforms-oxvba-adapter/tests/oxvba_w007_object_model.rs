@@ -91,6 +91,17 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
                 ModuleKind::Class,
                 "vba/oxforms/OxUserForm.cls",
             ),
+            module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
+            module_unit(
+                "OxControlPaint",
+                ModuleKind::Procedural,
+                "vba/oxforms/OxControlPaint.bas",
+            ),
+            module_unit(
+                "OxSceneBuilder",
+                ModuleKind::Class,
+                "vba/oxforms/OxSceneBuilder.cls",
+            ),
             module_unit(
                 "W007ObjectModelProbeForm",
                 ModuleKind::Class,

@@ -15,10 +15,15 @@ Private mWidth As Single
 Private mHeight As Single
 Private mControls As Collection
 Private mInvalidated As Collection
+Private mNextNodeId As Long
 
 Private Sub Class_Initialize()
     Set mControls = New Collection
     Set mInvalidated = New Collection
+    ' Node 0 is reserved for the form/root; controls intern from 1 upward. The id
+    ' is a stable per-control serial (assigned once at Add, never reused), so a
+    ' repaint diffs by identity rather than array position.
+    mNextNodeId = 1
 End Sub
 
 ' Create a control of the given kind, register it under Name, and bind it to this
@@ -28,6 +33,8 @@ Public Function Add(ByVal Kind As OxControlKind, ByVal Name As String) As IOxCon
     Dim Control As IOxControl
     Set Control = OxCreateControl(Kind, Name)
     Control.Core.Bind Me, Control
+    Control.Core.NodeId = mNextNodeId
+    mNextNodeId = mNextNodeId + 1
     mControls.Add Control, Name
     Set Add = Control
 End Function
@@ -53,6 +60,39 @@ End Property
 Public Sub ClearInvalidations()
     Set mInvalidated = New Collection
 End Sub
+
+' Build one full-rebuild ScenePatch for the whole form: the root/form node (its
+' background fill plus the controls' paint-order child list) followed by each
+' control painting itself into its own node. This is the single batched payload
+' OxForms.Surface.SubmitPatch consumes -- it crosses the boundary exactly once.
+' BaseToken is the resident frame token the prior BeginScene/SubmitPatch returned.
+Public Function BuildScenePatch( _
+        ByVal BaseToken As String, _
+        ByVal Builder As OxSceneBuilder, _
+        ByVal DpiX As Long, _
+        ByVal DpiY As Long) As String
+    Builder.BeginPatch BaseToken, CLng(mWidth), CLng(mHeight), DpiX, DpiY
+
+    Dim I As Long
+    Dim Control As IOxControl
+
+    ' Root/form node: client background plus the controls' paint-order children.
+    Builder.OpenNode 0, False, 0, 0, 0, 0, mWidth, mHeight, True
+    For I = 1 To mControls.Count
+        Set Control = mControls.Item(I)
+        Builder.AddChild Control.Core.NodeId
+    Next I
+    Builder.FillRect 0, 0, mWidth, mHeight, OxThemeFormBackColor(), 255
+    Builder.CloseNode
+
+    ' Each control paints itself into its own node.
+    For I = 1 To mControls.Count
+        Set Control = mControls.Item(I)
+        Control.Render Builder
+    Next I
+
+    BuildScenePatch = Builder.ToPatchJson()
+End Function
 
 Public Property Get Name() As String
     Name = mName

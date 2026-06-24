@@ -33,6 +33,11 @@ Public Property Get Core() As OxControlCore
     Set Core = mCore
 End Property
 
+' Sunken white field + left-aligned text (caret is a later sub-part node).
+Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
+    OxPaintStandardControl mCore, Surface, "left"
+End Sub
+
 ' --- User-facing properties ---
 ' Programmatic assignment: updates the value and requests repaint, but does not
 ' raise Change (MSForms semantics).

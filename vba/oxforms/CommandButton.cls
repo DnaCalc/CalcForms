@@ -33,6 +33,11 @@ Public Property Get Core() As OxControlCore
     Set Core = mCore
 End Property
 
+' Raised button face + centered caption.
+Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
+    OxPaintStandardControl mCore, Surface, "center"
+End Sub
+
 ' --- User-facing properties ---
 Public Property Get Caption() As String
     Caption = mCore.DisplayText

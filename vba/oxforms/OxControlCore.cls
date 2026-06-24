@@ -27,8 +27,18 @@ Private mDisplayText As String
 Private mDirty As Boolean
 Private mHost As IOxControlHost
 Private mOwner As IOxControl
+Private mNodeId As Long
+Private mBackColor As Long
+Private mForeColor As Long
+Private mBorderColor As Long
+Private mSpecialEffect As OxSpecialEffect
+Private mBorderStyle As OxBorderStyle
 
-' Called by the concrete control's Class_Initialize with its intrinsic kind.
+' Called by the concrete control's Class_Initialize with its intrinsic kind. Sets
+' the per-kind appearance defaults from [MS-OFORMS] s5.6: morph controls (TextBox)
+' default Sunken; Form/Label/Image default Flat. CommandButton is not a morph
+' control and has no MS-OFORMS SpecialEffect; OxForms gives its button face a
+' Raised default. The color band starts at oxColorAuto (theme-resolved).
 Public Sub Init(ByVal Kind As OxControlKind)
     mKind = Kind
     mVisible = True
@@ -36,14 +46,29 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mZOrder = 0
     mTabIndex = 0
     mDisplayText = ""
+    mNodeId = 0
+    mBackColor = oxColorAuto
+    mForeColor = oxColorAuto
+    mBorderColor = oxColorAuto
+    mBorderStyle = oxBorderNone
 
     Select Case Kind
         Case oxControlLabel
             mFocusable = False
             mTabStop = False
+            mSpecialEffect = oxEffectFlat
+        Case oxControlCommandButton
+            mFocusable = True
+            mTabStop = True
+            mSpecialEffect = oxEffectRaised
+        Case oxControlTextBox
+            mFocusable = True
+            mTabStop = True
+            mSpecialEffect = oxEffectSunken
         Case Else
             mFocusable = True
             mTabStop = True
+            mSpecialEffect = oxEffectSunken
     End Select
 End Sub
 
@@ -146,6 +171,60 @@ Public Property Get DisplayText() As String
 End Property
 Public Property Let DisplayText(ByVal Value As String)
     mDisplayText = Value
+    MarkDirty
+End Property
+
+' Stable, control-derived scene identity (the kernel's NodeId). Assigned once by
+' the container at Add time and never reused, so a repaint diffs by identity rather
+' than array position. The form/root is always node 0; controls intern nonzero ids.
+Public Property Get NodeId() As Long
+    NodeId = mNodeId
+End Property
+Public Property Let NodeId(ByVal Value As Long)
+    mNodeId = Value
+End Property
+
+' --- Appearance band (owned in VBA; the kernel never sees control appearance) ---
+' Colors are OxForms 0xRRGGBB Longs, or oxColorAuto to defer to the theme. (The
+' OLE_COLOR 0x80000000 system-index form and Surface.ResolveSysColor land with the
+' system-color crossing; until then the classic theme supplies concrete colors.)
+Public Property Get BackColor() As Long
+    BackColor = mBackColor
+End Property
+Public Property Let BackColor(ByVal Value As Long)
+    mBackColor = Value
+    MarkDirty
+End Property
+
+Public Property Get ForeColor() As Long
+    ForeColor = mForeColor
+End Property
+Public Property Let ForeColor(ByVal Value As Long)
+    mForeColor = Value
+    MarkDirty
+End Property
+
+Public Property Get BorderColor() As Long
+    BorderColor = mBorderColor
+End Property
+Public Property Let BorderColor(ByVal Value As Long)
+    mBorderColor = Value
+    MarkDirty
+End Property
+
+Public Property Get SpecialEffect() As OxSpecialEffect
+    SpecialEffect = mSpecialEffect
+End Property
+Public Property Let SpecialEffect(ByVal Value As OxSpecialEffect)
+    mSpecialEffect = Value
+    MarkDirty
+End Property
+
+Public Property Get BorderStyle() As OxBorderStyle
+    BorderStyle = mBorderStyle
+End Property
+Public Property Let BorderStyle(ByVal Value As OxBorderStyle)
+    mBorderStyle = Value
     MarkDirty
 End Property
 

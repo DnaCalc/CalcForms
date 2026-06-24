@@ -15,6 +15,11 @@
     <ClassModule Include="CommandButton.cls" />
     <ClassModule Include="OxUserForm.cls" />
   </ItemGroup>
+  <ItemGroup Label="Rendering (Scene self-render)">
+    <Module Include="OxTheme.bas" />
+    <Module Include="OxControlPaint.bas" />
+    <ClassModule Include="OxSceneBuilder.cls" />
+  </ItemGroup>
   <ItemGroup Label="W002 smoke (render path; retired when the runtime backend lands)">
     <Module Include="OxForms.bas" />
     <ClassModule Include="OxFormsSmokeForm.cls" />
