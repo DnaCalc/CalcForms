@@ -12,7 +12,7 @@
   "status": "calibration_only",
   "linked_report": "docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.md",
   "purpose": "Relate the first live Excel/MSForms rectangle-label oracle capture to the current W002 OxForms rectangle smoke output. This is an observation artifact, not a runtime adapter, compatibility bridge, fallback path, or final pass/fail pixel oracle.",
-  "source_provenance_policy": "Rust crate source files (crates/oxforms-pal/...) are referenced by path only, because they evolve during active development; their content at capture time is recorded by git at 'recorded.commit' above rather than content-pinned here, which would otherwise drift on every PAL edit. Frozen W002 VBA smoke inputs and immutable capture artifacts remain SHA-256 pinned.",
+  "source_provenance_policy": "Source files that evolve during active development are referenced by path only; their content at capture time is recorded by git at 'recorded.commit' above rather than content-pinned here, which would otherwise drift on every edit. This covers the Rust crate sources (crates/oxforms-pal/...) and, since the W007 rendering work, vba/oxforms/OxForms.basproj — the OxForms project file is now shared by the W002 smoke and the growing control object model, so it changes whenever a control/module is added. Frozen W002 VBA smoke source files (the .bas/.cls smoke modules) and immutable capture artifacts remain SHA-256 pinned.",
   "evidence_files": [
     {
       "role": "excel_fixture_input",
@@ -57,7 +57,7 @@
     {
       "role": "w002_oxforms_vba_project",
       "path": "vba/oxforms/OxForms.basproj",
-      "sha256": "a1aef98e5ccbcc2ac1f7e00d7ca9129e45860ebefefe3e33c5e9b3660c4d7af7"
+      "note": "Path-only: shared, evolving project file (see source_provenance_policy); W002-era content is recorded at recorded.commit."
     },
     {
       "role": "w002_oxforms_vba_library",
@@ -248,8 +248,7 @@
         "sha256": "bd5775c79de115fc2da739ddbda143bfbfb59efbb4415ccef7c3466ec4e926cd"
       },
       {
-        "path": "vba/oxforms/OxForms.basproj",
-        "sha256": "a1aef98e5ccbcc2ac1f7e00d7ca9129e45860ebefefe3e33c5e9b3660c4d7af7"
+        "path": "vba/oxforms/OxForms.basproj"
       },
       {
         "path": "vba/oxforms/OxForms.bas",

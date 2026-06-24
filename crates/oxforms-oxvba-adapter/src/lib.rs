@@ -10,3 +10,4 @@
 
 pub mod event_dispatch;
 pub mod smoke_canvas;
+pub mod surface;

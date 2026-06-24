@@ -528,8 +528,12 @@ pub struct ScenePatch {
     pub edits: Vec<NodeEdit>,
 }
 
+/// Externally tagged (not internally tagged) on purpose: `Retain`/`Remove` carry a
+/// bare [`NodeId`] (a numeric newtype), which serde cannot internally tag. The
+/// external `{"upsert": {…}}` / `{"retain": 7}` shape round-trips every variant
+/// through JSON and is what the VBA `OxSceneBuilder` emits across the boundary.
 #[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(tag = "edit", rename_all = "snake_case")]
+#[serde(rename_all = "snake_case")]
 pub enum NodeEdit {
     Upsert(SceneNode),
     Retain(NodeId),
@@ -734,6 +738,7 @@ pub struct HeadlessSink {
     xf_stack: Vec<Affine>,
     clip: RectF,
     clip_stack: Vec<RectF>,
+    draw_count: usize,
 }
 
 impl HeadlessSink {
@@ -748,6 +753,7 @@ impl HeadlessSink {
             xf_stack: Vec::new(),
             clip,
             clip_stack: Vec::new(),
+            draw_count: 0,
         }
     }
 
@@ -759,6 +765,13 @@ impl HeadlessSink {
     #[must_use]
     pub fn framebuffer_hash(&self) -> u64 {
         fnv1a64(&self.pixels)
+    }
+
+    /// Number of primitives walked (drawn or recorded) since construction — the
+    /// scene analog of `RenderDiagnostics::command_count`.
+    #[must_use]
+    pub fn command_count(&self) -> usize {
+        self.draw_count
     }
 
     fn fill_solid(&mut self, rect: RectF, color: Color) {
@@ -827,6 +840,7 @@ impl PrimSink for HeadlessSink {
     }
 
     fn draw(&mut self, prim: &Prim) {
+        self.draw_count += 1;
         match prim {
             Prim::FillRect { rect, paint } => {
                 if let Some(color) = Self::solid_of(paint) {
@@ -862,13 +876,35 @@ impl PrimSink for HeadlessSink {
     }
 }
 
-/// Convenience: render a scene through the headless reference and return the
+/// Stable diagnostics from rendering a [`Scene`] through the headless reference.
+/// Mirrors [`crate::RenderDiagnostics`] so the Scene seam reports the same shape
+/// the W002 `SmokeCanvas` did.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub struct SceneRenderReport {
+    pub width: u32,
+    pub height: u32,
+    pub command_count: usize,
+    pub framebuffer_hash: u64,
+}
+
+/// Render a scene through the headless reference and return stable diagnostics.
+#[must_use]
+pub fn render_headless_report(scene: &Scene) -> SceneRenderReport {
+    let mut sink = HeadlessSink::new(scene.surface);
+    render_full(scene, &mut sink);
+    SceneRenderReport {
+        width: scene.surface.width,
+        height: scene.surface.height,
+        command_count: sink.command_count(),
+        framebuffer_hash: sink.framebuffer_hash(),
+    }
+}
+
+/// Convenience: render a scene through the headless reference and return only the
 /// framebuffer hash (matches `RenderDiagnostics::framebuffer_hash`).
 #[must_use]
 pub fn render_headless_hash(scene: &Scene) -> u64 {
-    let mut sink = HeadlessSink::new(scene.surface);
-    render_full(scene, &mut sink);
-    sink.framebuffer_hash()
+    render_headless_report(scene).framebuffer_hash
 }
 
 /// Manual, dependency-free canonical byte feed for content hashing (serde_json is
@@ -1221,5 +1257,87 @@ mod tests {
         assert_eq!(pick(&hits, PointF::new(3.0, 3.0)), Some(NodeId(2)));
         assert_eq!(pick(&hits, PointF::new(8.0, 8.0)), Some(NodeId(1)));
         assert_eq!(pick(&hits, PointF::new(20.0, 20.0)), None);
+    }
+
+    #[test]
+    fn render_headless_report_counts_commands() {
+        let report = render_headless_report(&w002_scene());
+        assert_eq!(
+            report.command_count, 1,
+            "the W002 scene has one FillRect prim"
+        );
+        assert_eq!(report.width, 4);
+        assert_eq!(report.height, 3);
+        assert_eq!(
+            report.framebuffer_hash,
+            w002_rectangle_fixture_diagnostics().framebuffer_hash
+        );
+    }
+
+    #[test]
+    fn node_edit_json_round_trips_every_variant() {
+        // The wire path the VBA OxSceneBuilder drives: each NodeEdit shape must
+        // survive a JSON round-trip, including the scalar-carrying Retain/Remove
+        // that an internally tagged enum could not represent.
+        let mut node = SceneNode::new(NodeId(7));
+        node.parent = Some(NodeId(0));
+        node.bounds = RectF::new(1.0, 2.0, 3.0, 4.0);
+        node.prims = vec![
+            Prim::FillRect {
+                rect: RectF::new(0.0, 0.0, 3.0, 4.0),
+                paint: Paint::Solid(Color::rgba(0xaa, 0xbb, 0xcc, 0xff)),
+            },
+            Prim::DrawEdge {
+                rect: RectF::new(0.0, 0.0, 3.0, 4.0),
+                effect: EdgeEffect::Sunken,
+                border: EdgeBorder::ALL,
+                light: Color::rgba(0xff, 0xff, 0xff, 0xff),
+                shadow: Color::rgba(0x40, 0x40, 0x40, 0xff),
+            },
+        ];
+
+        let edits = vec![
+            NodeEdit::Upsert(node),
+            NodeEdit::Retain(NodeId(7)),
+            NodeEdit::Remove(NodeId(9)),
+            NodeEdit::Reorder {
+                id: NodeId(7),
+                z: 3,
+                parent: Some(NodeId(0)),
+            },
+        ];
+
+        for edit in &edits {
+            let json = serde_json::to_string(edit).expect("serialize NodeEdit");
+            let back: NodeEdit = serde_json::from_str(&json).expect("deserialize NodeEdit");
+            let reserialized = serde_json::to_string(&back).expect("reserialize NodeEdit");
+            assert_eq!(json, reserialized, "NodeEdit JSON must round-trip stably");
+        }
+
+        // Spot-check the external tag shape the VBA encoder targets.
+        assert_eq!(serde_json::to_string(&edits[1]).unwrap(), r#"{"retain":7}"#);
+        assert_eq!(serde_json::to_string(&edits[2]).unwrap(), r#"{"remove":9}"#);
+    }
+
+    #[test]
+    fn scene_patch_json_round_trips() {
+        let scene = w002_scene();
+        let node = scene.get(NodeId(0)).expect("root").clone();
+        let patch = ScenePatch {
+            version: SCENE_PATCH_VERSION,
+            base_hash: 0,
+            surface: scene.surface,
+            dpi: scene.dpi,
+            edits: vec![NodeEdit::Upsert(node), NodeEdit::Retain(NodeId(0))],
+        };
+        let json = serde_json::to_string(&patch).expect("serialize ScenePatch");
+        let back: ScenePatch = serde_json::from_str(&json).expect("deserialize ScenePatch");
+        assert_eq!(back.version, patch.version);
+        assert_eq!(back.edits.len(), patch.edits.len());
+        assert_eq!(
+            serde_json::to_string(&back).unwrap(),
+            json,
+            "ScenePatch JSON must round-trip stably"
+        );
     }
 }

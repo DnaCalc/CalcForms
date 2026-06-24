@@ -444,6 +444,7 @@ dependencies = [
  "oxvba-project",
  "oxvba-runtime",
  "oxvba-symbol",
+ "serde_json",
 ]
 
 [[package]]
