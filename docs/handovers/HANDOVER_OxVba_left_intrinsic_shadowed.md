@@ -1,4 +1,5 @@
-Status: Open
+Status: Fixed upstream (OxVba 95be9ff2), verified locally in OxForms; pending push
+to origin before the OxForms baseline pin can be bumped. See the Resolution section.
 Target: OxVba
 Ask: Resolve an unqualified call to an intrinsic VBA function (confirmed: the
 string functions `Left` / `Left$`) to the VBA library intrinsic, not to a
@@ -84,3 +85,32 @@ forms library defines `.Left` on every control, so the intrinsic `Left`/`Left$`
 is effectively unusable project-wide until this is fixed. No OxForms version bump
 is required to adopt the fix; once landed, `Left$` becomes usable again and the
 `Mid$` choice in `JsonNum` can stay or revert freely.
+
+## Resolution (OxVba + OxForms, 2026-06-24)
+
+OxVba fixed it at commit `95be9ff2190caa3c74257c2b59f290a7dfd798ba` ("Keep class
+members out of bare intrinsic lookup"): `ProjectProvider` no longer exposes public
+class/document/form members as bare unqualified project names, so an unrelated
+class's `Left` property no longer shadows the intrinsic; standard-module public
+members still participate in bare lookup (and can still shadow intrinsics, matching
+VBA). `Left`/`Left$` now resolve to `VBA.Strings.Left`. No public API change.
+
+Verified for OxForms: with a local path override onto the sibling `../OxVba`
+checkout at `95be9ff2`, `OxSceneBuilder.JsonNum` reverted to the idiomatic `Left$`,
+the full workspace suite is green — including `oxvba_surface_render_smoke`, which
+exercises `Left$` inside a project whose controls all expose a `.Left` property.
+
+Pending to fully adopt: `95be9ff2` is **not yet on `origin/master`** (OxVba flagged
+"master is ahead of origin/master by 1 commit"), and the committed OxForms manifests
+must pin a fetchable git rev. Once OxVba pushes `95be9ff2` (or a descendant), the
+adoption is mechanical and lands in one commit:
+
+1. bump the pin `366a40e…` → `95be9ff2…` in `Cargo.toml`
+   (`[workspace.metadata.oxforms.oxvba_baseline]`), all eight `oxvba-*` git deps in
+   `crates/oxforms-oxvba-adapter/Cargo.toml`, and `Cargo.lock`;
+2. switch `OxSceneBuilder.JsonNum` leading-char checks from `Mid$(S, 1, n)` back to
+   `Left$(S, n)` and drop the workaround comment;
+3. run the floor and mark this handover Resolved.
+
+Until then OxForms stays on `366a40e` with the `Mid$` form (which works on both revs),
+so the committed tree builds and the floor stays green.
