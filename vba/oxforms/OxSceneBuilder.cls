@@ -182,16 +182,13 @@ End Sub
 
 ' Locale-independent number formatting. Str$ always uses "." as the decimal
 ' separator and a leading space for non-negatives (trimmed here); we repair the
-' VBA ".5"/"-.5" forms into JSON-legal "0.5"/"-0.5". Leading characters are taken
-' with Mid$ (not Left$): in a forms library every control exposes a .Left
-' property, and OxVba currently mis-resolves the unqualified intrinsic Left$/Left
-' call to that member (see docs/handovers/HANDOVER_OxVba_left_intrinsic_shadowed.md).
+' VBA ".5"/"-.5" forms into JSON-legal "0.5"/"-0.5".
 Private Function JsonNum(ByVal V As Double) As String
     Dim S As String
     S = Trim$(Str$(V))
-    If Mid$(S, 1, 1) = "." Then
+    If Left$(S, 1) = "." Then
         S = "0" & S
-    ElseIf Mid$(S, 1, 2) = "-." Then
+    ElseIf Left$(S, 2) = "-." Then
         S = "-0" & Mid$(S, 2)
     End If
     JsonNum = S

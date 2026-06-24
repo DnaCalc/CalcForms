@@ -1,5 +1,4 @@
-Status: Fixed upstream (OxVba 95be9ff2), verified locally in OxForms; pending push
-to origin before the OxForms baseline pin can be bumped. See the Resolution section.
+Status: Resolved
 Target: OxVba
 Ask: Resolve an unqualified call to an intrinsic VBA function (confirmed: the
 string functions `Left` / `Left$`) to the VBA library intrinsic, not to a
@@ -100,17 +99,11 @@ checkout at `95be9ff2`, `OxSceneBuilder.JsonNum` reverted to the idiomatic `Left
 the full workspace suite is green — including `oxvba_surface_render_smoke`, which
 exercises `Left$` inside a project whose controls all expose a `.Left` property.
 
-Pending to fully adopt: `95be9ff2` is **not yet on `origin/master`** (OxVba flagged
-"master is ahead of origin/master by 1 commit"), and the committed OxForms manifests
-must pin a fetchable git rev. Once OxVba pushes `95be9ff2` (or a descendant), the
-adoption is mechanical and lands in one commit:
-
-1. bump the pin `366a40e…` → `95be9ff2…` in `Cargo.toml`
-   (`[workspace.metadata.oxforms.oxvba_baseline]`), all eight `oxvba-*` git deps in
-   `crates/oxforms-oxvba-adapter/Cargo.toml`, and `Cargo.lock`;
-2. switch `OxSceneBuilder.JsonNum` leading-char checks from `Mid$(S, 1, n)` back to
-   `Left$(S, n)` and drop the workaround comment;
-3. run the floor and mark this handover Resolved.
-
-Until then OxForms stays on `366a40e` with the `Mid$` form (which works on both revs),
-so the committed tree builds and the floor stays green.
+Adopted: OxVba pushed `95be9ff2` to `origin/master`, and OxForms bumped the pinned
+baseline `366a40e…` → `95be9ff2…` (`Cargo.toml`
+`[workspace.metadata.oxforms.oxvba_baseline]`, the eight `oxvba-*` git deps in
+`crates/oxforms-oxvba-adapter/Cargo.toml`, and `Cargo.lock`) and switched
+`OxSceneBuilder.JsonNum` back to the idiomatic `Left$`. The full floor is green on
+the bumped baseline (`oxvba_surface_render_smoke` now exercises `Left$` against a
+project whose controls all expose a `.Left` property). No OxForms-side workaround
+remains. Closed.
