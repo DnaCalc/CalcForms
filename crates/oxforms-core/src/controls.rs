@@ -1,3 +1,17 @@
+//! Reducer control-policy model: the logical control tree the reducer routes
+//! input over ([`ControlNode`]/[`ControlKind`]) and pure-geometry hit testing
+//! ([`hit_test_control_tree`]). This is reducer *policy*, not rendering (see
+//! `docs/specs/RENDERING_ARCHITECTURE.md` §9) — the kernel never sees these types.
+//!
+//! The `ControlNode::label`/`text_box`/`command_button`/`check_box` constructors are
+//! low-level builders. The legitimate callers are the `.frm` loader ([`crate::frm`]),
+//! tests, and the W005/W006 trace-replay evidence builders + examples (the latter are
+//! explicitly-quarantined evidence/demo scaffolds, not the runtime path). Runtime
+//! (W007) code must obtain a control tree only by materializing a form through
+//! [`crate::runtime::materialize_form_from_frm`] (e.g.
+//! [`crate::runtime::materialize_w007_demo_form`]) — never by hand-constructing
+//! `ControlNode`s. Hand-built trees must not become the runtime pattern (oxforms-4pn.4).
+
 use serde::{Deserialize, Serialize};
 
 use oxforms_pal::{ControlId, LogicalPoint, LogicalRect};

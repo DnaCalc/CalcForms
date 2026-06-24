@@ -13,17 +13,22 @@
 
 #![forbid(unsafe_code)]
 
+mod controls;
 mod frm;
-mod probe;
+mod runtime;
 mod trace_replay;
 
 use serde::{Deserialize, Serialize};
 
+pub use controls::{hit_test_control_tree, ControlKind, ControlNode, HitTestResult};
 pub use frm::{
     load_selected_frm_interaction_state, FrmControlEventHooks, FrmControlRecord, FrmFrxReference,
     FrmInteractionModel, FrmLoadError, FrmUnsupportedRecord, COORDINATE_MODEL_SPEC_PATH,
 };
-pub use probe::{hit_test_control_tree, ControlKind, ControlNode, HitTestResult};
+pub use runtime::{
+    materialize_form_from_frm, materialize_w007_demo_form, RuntimeControlBinding, RuntimeForm,
+    W007_DEMO_FORM_FRM,
+};
 pub use trace_replay::{
     build_w005_trace_replay_golden_artifacts, build_w006_modal_frame_trace_subset_artifact,
     W005_TRACE_REPLAY_DISPLAY_LIST_PATH, W005_TRACE_REPLAY_GOLDEN_TRACE_PATH,
@@ -71,7 +76,7 @@ pub struct FormState {
     pub lifecycle: LifecycleState,
     pub pump: PumpState,
     pub close_flow: Option<CloseFlowState>,
-    pub text_boxes: Vec<TextBoxProbeState>,
+    pub text_boxes: Vec<TextBoxState>,
     pub check_boxes: Vec<CheckBoxState>,
     pub validation: ValidationState,
     pub dirty: DirtyState,
@@ -111,7 +116,7 @@ impl FormState {
         }
     }
 
-    pub fn ensure_text_box(&mut self, control_id: ControlId) -> &mut TextBoxProbeState {
+    pub fn ensure_text_box(&mut self, control_id: ControlId) -> &mut TextBoxState {
         if let Some(index) = self
             .text_boxes
             .iter()
@@ -120,7 +125,7 @@ impl FormState {
             return &mut self.text_boxes[index];
         }
 
-        self.text_boxes.push(TextBoxProbeState::new(control_id));
+        self.text_boxes.push(TextBoxState::new(control_id));
         self.text_boxes
             .last_mut()
             .expect("text box entry was just pushed")
@@ -290,7 +295,7 @@ pub enum PumpTerm {
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct TextBoxProbeState {
+pub struct TextBoxState {
     pub control_id: ControlId,
     pub text: String,
     pub caret: TextCaretState,
@@ -298,7 +303,7 @@ pub struct TextBoxProbeState {
     pub edit_sequence: u64,
 }
 
-impl TextBoxProbeState {
+impl TextBoxState {
     #[must_use]
     pub fn new(control_id: ControlId) -> Self {
         Self {
@@ -1285,10 +1290,7 @@ fn display_text_for_control(state: &FormState, control: &ControlNode) -> String 
     }
 }
 
-fn text_box_state<'a>(
-    state: &'a FormState,
-    control_id: &ControlId,
-) -> Option<&'a TextBoxProbeState> {
+fn text_box_state<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'a TextBoxState> {
     state
         .text_boxes
         .iter()
@@ -2348,7 +2350,7 @@ fn queue_data_transfer_diagnostic(
     );
 }
 
-fn delete_text_box_backwards(text_box: &mut TextBoxProbeState) {
+fn delete_text_box_backwards(text_box: &mut TextBoxState) {
     if delete_selected_text(text_box) {
         return;
     }
@@ -2362,7 +2364,7 @@ fn delete_text_box_backwards(text_box: &mut TextBoxProbeState) {
     collapse_text_box_caret(text_box, previous);
 }
 
-fn delete_text_box_forwards(text_box: &mut TextBoxProbeState) {
+fn delete_text_box_forwards(text_box: &mut TextBoxState) {
     if delete_selected_text(text_box) {
         return;
     }
@@ -2376,7 +2378,7 @@ fn delete_text_box_forwards(text_box: &mut TextBoxProbeState) {
     collapse_text_box_caret(text_box, active);
 }
 
-fn delete_selected_text(text_box: &mut TextBoxProbeState) -> bool {
+fn delete_selected_text(text_box: &mut TextBoxState) -> bool {
     let (start, end) = selected_range(&text_box.text, &text_box.caret);
     if start == end {
         collapse_text_box_caret(text_box, start);
@@ -2387,7 +2389,7 @@ fn delete_selected_text(text_box: &mut TextBoxProbeState) -> bool {
     true
 }
 
-fn move_text_box_caret_left(text_box: &mut TextBoxProbeState, extend_selection: bool) {
+fn move_text_box_caret_left(text_box: &mut TextBoxState, extend_selection: bool) {
     if !extend_selection && text_box.caret.anchor != text_box.caret.active {
         let (start, _) = selected_range(&text_box.text, &text_box.caret);
         collapse_text_box_caret(text_box, start);
@@ -2398,7 +2400,7 @@ fn move_text_box_caret_left(text_box: &mut TextBoxProbeState, extend_selection: 
     move_text_box_caret_to(text_box, next, extend_selection);
 }
 
-fn move_text_box_caret_right(text_box: &mut TextBoxProbeState, extend_selection: bool) {
+fn move_text_box_caret_right(text_box: &mut TextBoxState, extend_selection: bool) {
     if !extend_selection && text_box.caret.anchor != text_box.caret.active {
         let (_, end) = selected_range(&text_box.text, &text_box.caret);
         collapse_text_box_caret(text_box, end);
@@ -2409,11 +2411,7 @@ fn move_text_box_caret_right(text_box: &mut TextBoxProbeState, extend_selection:
     move_text_box_caret_to(text_box, next, extend_selection);
 }
 
-fn move_text_box_caret_to(
-    text_box: &mut TextBoxProbeState,
-    position: usize,
-    extend_selection: bool,
-) {
+fn move_text_box_caret_to(text_box: &mut TextBoxState, position: usize, extend_selection: bool) {
     let next = clamp_to_char_boundary(&text_box.text, position);
     if extend_selection {
         text_box.caret.anchor = clamp_to_char_boundary(&text_box.text, text_box.caret.anchor);
@@ -2424,7 +2422,7 @@ fn move_text_box_caret_to(
     text_box.caret.preferred_column = None;
 }
 
-fn collapse_text_box_caret(text_box: &mut TextBoxProbeState, position: usize) {
+fn collapse_text_box_caret(text_box: &mut TextBoxState, position: usize) {
     let position = clamp_to_char_boundary(&text_box.text, position);
     text_box.caret.anchor = position;
     text_box.caret.active = position;

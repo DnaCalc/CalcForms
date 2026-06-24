@@ -557,7 +557,8 @@ replay without live Excel or another host.
 - `oxforms-xvx.7` through `oxforms-xvx.13` use the reducer/effects, routing,
   probe, dispatch, smoke, replay, coordinate, and comparison vocabulary here.
   `oxforms-xvx.7` implements the first core routing subset in
-  `crates/oxforms-core/src/lib.rs` and `crates/oxforms-core/src/probe.rs`:
+  `crates/oxforms-core/src/lib.rs` and `crates/oxforms-core/src/controls.rs`
+  (renamed from `probe.rs` in oxforms-4pn.4):
   half-open `form_logical` hit-testing for Label/CommandButton/TextBox probe
   nodes, z-order and hidden/disabled filtering, focus transfer only to
   visible/enabled/focusable controls, capture-owner mouse move/up routing,

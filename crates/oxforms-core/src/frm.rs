@@ -1,11 +1,11 @@
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, HashSet};
 use std::fmt;
 
 use oxforms_pal::{ControlId, LogicalRect, LogicalSize};
 use serde::{Deserialize, Serialize};
 
 use crate::{
-    CheckBoxState, ControlKind, ControlNode, FormState, LifecycleState, TextBoxProbeState,
+    CheckBoxState, ControlKind, ControlNode, FormState, LifecycleState, TextBoxState,
     TextCaretState,
 };
 
@@ -216,16 +216,8 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
     let form_name = root.name.clone();
     let caption = string_property(&root.properties, "Caption").unwrap_or_else(|| form_name.clone());
     let surface = LogicalSize::new(
-        twips_to_points(
-            int_property(&root.properties, "ClientWidth")
-                .or_else(|| int_property(&root.properties, "Width"))
-                .unwrap_or(0),
-        ),
-        twips_to_points(
-            int_property(&root.properties, "ClientHeight")
-                .or_else(|| int_property(&root.properties, "Height"))
-                .unwrap_or(0),
-        ),
+        twips_to_points(surface_extent(&root, "ClientWidth", "Width")?),
+        twips_to_points(surface_extent(&root, "ClientHeight", "Height")?),
     );
 
     let mut state = FormState::new(form_name.clone());
@@ -235,6 +227,10 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
     let mut event_hooks = Vec::new();
     let mut frx_references = collect_frx_references(&root);
     let mut unsupported = Vec::new();
+    // Control Name is the binding key (ControlId == name == VBA control.Name), and
+    // every resolver is first-match — so a duplicate would silently shadow a control.
+    // Make it a hard diagnostic instead.
+    let mut seen_names: HashSet<&str> = HashSet::new();
 
     for (index, child) in root.controls.iter().enumerate() {
         frx_references.extend(collect_frx_references(child));
@@ -248,10 +244,22 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
             continue;
         };
 
-        let left = int_property(&child.properties, "Left").unwrap_or(0);
-        let top = int_property(&child.properties, "Top").unwrap_or(0);
-        let width = int_property(&child.properties, "Width").unwrap_or(0);
-        let height = int_property(&child.properties, "Height").unwrap_or(0);
+        if !seen_names.insert(child.name.as_str()) {
+            return Err(FrmLoadError::at_line(
+                child.line,
+                format!(
+                    "duplicate control name '{}' — control Name must be unique (it is the binding key, == VBA control.Name)",
+                    child.name
+                ),
+            ));
+        }
+
+        // Geometry: an absent property is a real default (0); a present-but-malformed
+        // one is a precise error, never a silent 0.
+        let left = int_property(&child.properties, "Left", child.line)?.unwrap_or(0);
+        let top = int_property(&child.properties, "Top", child.line)?.unwrap_or(0);
+        let width = int_property(&child.properties, "Width", child.line)?.unwrap_or(0);
+        let height = int_property(&child.properties, "Height", child.line)?.unwrap_or(0);
         let bounds_twips = TwipRect {
             left,
             top,
@@ -264,18 +272,30 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
             twips_to_points(width),
             twips_to_points(height),
         );
-        let tab_index = int_property(&child.properties, "TabIndex")
-            .and_then(|value| u32::try_from(value).ok())
-            .unwrap_or(index as u32);
-        let tab_stop = bool_property(&child.properties, "TabStop").unwrap_or(match kind {
-            ControlKind::Label => false,
-            ControlKind::CheckBox | ControlKind::CommandButton | ControlKind::TextBox => true,
-        });
-        let visible = bool_property(&child.properties, "Visible").unwrap_or(true);
-        let enabled = bool_property(&child.properties, "Enabled").unwrap_or(true);
+        let tab_index = match int_property(&child.properties, "TabIndex", child.line)? {
+            Some(value) => u32::try_from(value).map_err(|_| {
+                FrmLoadError::at_line(
+                    child.line,
+                    format!("TabIndex must be non-negative, got {value}"),
+                )
+            })?,
+            None => index as u32,
+        };
+        let tab_stop =
+            bool_property(&child.properties, "TabStop", child.line)?.unwrap_or(match kind {
+                ControlKind::Label => false,
+                ControlKind::CheckBox | ControlKind::CommandButton | ControlKind::TextBox => true,
+            });
+        let visible = bool_property(&child.properties, "Visible", child.line)?.unwrap_or(true);
+        let enabled = bool_property(&child.properties, "Enabled", child.line)?.unwrap_or(true);
         let caption = string_property(&child.properties, "Caption").unwrap_or_default();
-        let default = bool_property(&child.properties, "Default").unwrap_or(false);
-        let cancel = bool_property(&child.properties, "Cancel").unwrap_or(false);
+        // Default/Cancel are CommandButton-only in MSForms; gate them to that kind so a
+        // binding's default/cancel can never disagree with state.default_button/cancel.
+        let is_button = kind == ControlKind::CommandButton;
+        let default =
+            bool_property(&child.properties, "Default", child.line)?.unwrap_or(false) && is_button;
+        let cancel =
+            bool_property(&child.properties, "Cancel", child.line)?.unwrap_or(false) && is_button;
         let initial_text = if kind == ControlKind::TextBox {
             string_property(&child.properties, "Text")
                 .or_else(|| string_property(&child.properties, "Value"))
@@ -283,7 +303,7 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
             None
         };
         let initial_checked = if kind == ControlKind::CheckBox {
-            Some(boolean_value_property(&child.properties, "Value", child.line)?.unwrap_or(false))
+            Some(bool_property(&child.properties, "Value", child.line)?.unwrap_or(false))
         } else {
             None
         };
@@ -310,10 +330,11 @@ fn project_selected_interaction_model(root: FrmBlock) -> Result<FrmInteractionMo
         node.enabled = enabled;
 
         let control_id = node.control_id.clone();
-        if default && kind == ControlKind::CommandButton {
+        // `default`/`cancel` already imply CommandButton (gated above).
+        if default {
             state.default_button = Some(control_id.clone());
         }
-        if cancel && kind == ControlKind::CommandButton {
+        if cancel {
             state.cancel_button = Some(control_id.clone());
         }
         if kind == ControlKind::TextBox {
@@ -425,10 +446,10 @@ fn check_box_state(control_id: ControlId, checked: bool) -> CheckBoxState {
     }
 }
 
-fn text_box_state(control_id: ControlId, initial_text: Option<&str>) -> TextBoxProbeState {
+fn text_box_state(control_id: ControlId, initial_text: Option<&str>) -> TextBoxState {
     let text = initial_text.unwrap_or_default().to_string();
     let caret = text.len();
-    TextBoxProbeState {
+    TextBoxState {
         control_id,
         text,
         caret: TextCaretState {
@@ -460,23 +481,40 @@ fn collect_frx_references(block: &FrmBlock) -> Vec<FrmFrxReference> {
         .collect()
 }
 
-fn int_property(properties: &BTreeMap<String, String>, key: &str) -> Option<i32> {
-    let raw = properties.get(key)?;
-    unquote(raw).parse::<i32>().ok()
-}
-
-fn bool_property(properties: &BTreeMap<String, String>, key: &str) -> Option<bool> {
-    let raw = unquote(properties.get(key)?);
-    if raw.eq_ignore_ascii_case("true") {
-        Some(true)
-    } else if raw.eq_ignore_ascii_case("false") {
-        Some(false)
-    } else {
-        raw.parse::<i32>().ok().map(|value| value != 0)
+/// A form surface extent in twips: `primary` (e.g. `ClientWidth`) if present, else
+/// the `fallback` (e.g. `Width`), else `0`. A present-but-malformed value is a
+/// precise error rather than a silent `0`.
+fn surface_extent(root: &FrmBlock, primary: &str, fallback: &str) -> Result<i32, FrmLoadError> {
+    if let Some(value) = int_property(&root.properties, primary, root.line)? {
+        return Ok(value);
     }
+    Ok(int_property(&root.properties, fallback, root.line)?.unwrap_or(0))
 }
 
-fn boolean_value_property(
+/// `Ok(None)` when the key is absent; `Ok(Some(_))` for a valid integer; `Err` when
+/// the key is present but not a valid integer — so a malformed geometry/extent value
+/// is a precise diagnostic, never a silent default.
+fn int_property(
+    properties: &BTreeMap<String, String>,
+    key: &str,
+    line: usize,
+) -> Result<Option<i32>, FrmLoadError> {
+    let Some(raw) = properties.get(key) else {
+        return Ok(None);
+    };
+    let value = unquote(raw);
+    value.parse::<i32>().map(Some).map_err(|_| {
+        FrmLoadError::at_line(
+            line,
+            format!("property '{key}' is not a valid integer: '{value}'"),
+        )
+    })
+}
+
+/// `Ok(None)` when absent; `Ok(Some(_))` for a VB6 boolean (`True`/`False`/`-1`/`0`);
+/// `Err` for any other present token — so a malformed flag is a precise diagnostic,
+/// never a silent default.
+fn bool_property(
     properties: &BTreeMap<String, String>,
     key: &str,
     line: usize,
@@ -492,7 +530,7 @@ fn boolean_value_property(
     } else {
         Err(FrmLoadError::at_line(
             line,
-            format!("unsupported CheckBox Value token '{value}' for boolean-only W006 slice"),
+            format!("property '{key}' is not a VB6 boolean (True/False/-1/0): '{value}'"),
         ))
     }
 }
@@ -721,7 +759,7 @@ End
 
         assert!(error
             .message
-            .contains("unsupported CheckBox Value token '1'"));
+            .contains("property 'Value' is not a VB6 boolean (True/False/-1/0): '1'"));
     }
 
     #[test]

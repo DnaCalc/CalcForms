@@ -344,7 +344,7 @@ but the model should leave room for them.
 
 Current implementation from `oxforms-xvx.7`:
 
-- `crates/oxforms-core/src/probe.rs` owns a small serializable probe control
+- `crates/oxforms-core/src/controls.rs` owns a small serializable probe control
   tree for `Label`, `CommandButton`, and `TextBox` shaped nodes, re-exported
   through `crates/oxforms-core/src/lib.rs`. This remains in the core
   reducer/reference layer; `oxforms-pal` stays only the normalized input/render
@@ -442,7 +442,7 @@ declaring these controls implemented as full MSForms replacements.
 
 Current implementation from `oxforms-xvx.9`:
 
-- `crates/oxforms-core/src/lib.rs` and `crates/oxforms-core/src/probe.rs`
+- `crates/oxforms-core/src/lib.rs` and `crates/oxforms-core/src/controls.rs`
   keep the W005 probe behavior in the core reducer/reference layer. The PAL
   remains the normalized input and primitive render contract surface only.
 - `Label` probes are visible/enabled hit-test participants, do not take focus,

@@ -101,7 +101,7 @@ Minimum event/effect surface to ground before implementation:
 
 Minimum rendering/state surface:
 
-- a focusable/checkable control state separate from `TextBoxProbeState`;
+- a focusable/checkable control state separate from `TextBoxState`;
 - boolean checked state;
 - pressed/armed state;
 - value-change and pressed/focus invalidation;
@@ -177,7 +177,7 @@ Property surface:
 
 State surface:
 
-- checkable/focusable control state separate from `TextBoxProbeState`;
+- checkable/focusable control state separate from `TextBoxState`;
 - boolean checked value;
 - pressed/armed state for pointer activation; keyboard pressed/toggle behavior
   remains blocked below;
