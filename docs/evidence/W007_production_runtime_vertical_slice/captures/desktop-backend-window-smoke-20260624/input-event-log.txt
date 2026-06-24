@@ -1,0 +1,7 @@
+W007 window smoke: showing the greeter scene. Close or press Escape to exit.
+  event #1: Resize Some(PixelSize { width: 600.0, height: 360.0 })
+  event #2: Resize Some(PixelSize { width: 600.0, height: 360.0 })
+  event #3: Resize Some(PixelSize { width: 600.0, height: 360.0 })
+  event #5: MouseDown Left @ Some(PixelPoint { x: 492.0, y: 66.0 })
+  event #6: MouseUp Left @ Some(PixelPoint { x: 492.0, y: 66.0 })
+  event #7: CloseRequest

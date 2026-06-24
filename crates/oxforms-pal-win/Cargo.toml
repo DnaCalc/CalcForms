@@ -9,8 +9,11 @@ description = "OxForms desktop PAL backend (Windows-first): winit window + softb
 unsafe_code = "forbid"
 
 [dependencies]
+# Control-blind by construction: this backend depends only on the host-neutral
+# PAL (Scene primitives + normalized input). It deliberately does NOT depend on
+# oxforms-core/runtime — control and routing policy live there, and the bootstrap
+# exe (oxforms-4pn.7) is what wires the two together.
 oxforms-pal = { path = "../oxforms-pal" }
-oxforms-core = { path = "../oxforms-core" }
 tiny-skia = "0.11"
 ab_glyph = "0.2"
 winit = "0.30"

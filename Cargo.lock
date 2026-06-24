@@ -1275,7 +1275,6 @@ name = "oxforms-pal-win"
 version = "0.0.0"
 dependencies = [
  "ab_glyph",
- "oxforms-core",
  "oxforms-pal",
  "softbuffer",
  "tiny-skia",
