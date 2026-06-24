@@ -2278,6 +2278,7 @@ fn invalidation_reason(reason: InvalidationReason) -> &'static str {
         InvalidationReason::CheckBoxValueChanged => "checkbox_value_changed",
         InvalidationReason::CheckBoxPressedChanged => "checkbox_pressed_changed",
         InvalidationReason::TextChanged => "text_changed",
+        InvalidationReason::CaptionChanged => "caption_changed",
         InvalidationReason::TextSelectionChanged => "text_selection_changed",
         InvalidationReason::LifecycleChanged => "lifecycle_changed",
         InvalidationReason::CloseStateChanged => "close_state_changed",

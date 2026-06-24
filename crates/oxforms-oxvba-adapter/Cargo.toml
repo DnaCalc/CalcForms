@@ -14,11 +14,13 @@ oxforms-pal = { path = "../oxforms-pal" }
 serde_json = "1.0"
 oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
+# The runtime effect runner drives an OxVba session (creates instances, invokes
+# native control members), so the host + bundle crates are runtime dependencies.
+oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
+oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 
 [dev-dependencies]
 oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
-oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }

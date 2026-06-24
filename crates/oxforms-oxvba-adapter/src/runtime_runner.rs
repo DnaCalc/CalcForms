@@ -1,0 +1,565 @@
+//! W007 runtime / effect runner.
+//!
+//! The durable OxForms runtime layer that sits between PAL/window events and an
+//! OxVba session. Per frame it: reduces a normalized [`UiEvent`] through
+//! `oxforms-core` (`reduce`), drains the resulting effects, dispatches each
+//! `FireVbaEvent` by calling the control's **native** OxVba member
+//! (`PerformClick`, `ApplyUserText`, …), reads back any VBA-set properties and
+//! folds them into reducer state through the reducer-owned
+//! [`oxforms_core::sync_control_display_text`], requests repaints, and records
+//! trace rows.
+//!
+//! It deliberately does **not** use the W005 generic [`crate::event_dispatch`]
+//! `RaiseDispatch` carrier (that is a smoke shape), and it never mutates
+//! `FormState` fields directly — all state writes go through the reducer or the
+//! reducer-owned sync. A missing control object, a missing control target, or a
+//! malformed return value surfaces as a precise [`RuntimeError`], never a silent
+//! no-op.
+//!
+//! Scope (W007 slice): the demo's handler-backed events — `Click` and `Change` —
+//! are natively dispatched to `PerformClick` and `ApplyUserText`. Other
+//! reducer-routed FM20 events (e.g. `MouseDown`/`MouseUp`) are *acknowledged* in
+//! the trace ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched
+//! yet; native mouse/key dispatch is a later slice. This is an explicit, traced
+//! non-claim — never a silent default.
+
+use std::collections::HashMap;
+
+use oxforms_core::{
+    reduce, sync_control_display_text, EffectKind, EffectRequest, RenderInvalidation, RuntimeForm,
+};
+use oxforms_pal::{ControlId, UiEvent};
+use oxvba_bundle::ProjectMemberKind;
+use oxvba_host::ProjectRuntimeSession;
+use oxvba_runtime::{ObjectRef, Variant};
+
+/// A precise runtime failure; never a silent state mutation side channel.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum RuntimeError {
+    /// An OxVba member invocation failed.
+    Invoke { member: String, message: String },
+    /// `create_class_instance` failed for the form class.
+    CreateForm { class_name: String, message: String },
+    /// A member returned a value of an unexpected shape.
+    UnexpectedReturn { member: String, detail: String },
+    /// A `FireVbaEvent` targeted a control with no materialized binding / VBA object.
+    UnknownControl(String),
+    /// A `FireVbaEvent` had no control target.
+    MissingControlTarget { event_name: String },
+    /// A `Change` targeted a control with no text-box state to source the value from.
+    MissingTextForChange(String),
+}
+
+impl std::fmt::Display for RuntimeError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Self::Invoke { member, message } => {
+                write!(f, "OxVba invoke `{member}` failed: {message}")
+            }
+            Self::CreateForm {
+                class_name,
+                message,
+            } => write!(f, "create form class `{class_name}` failed: {message}"),
+            Self::UnexpectedReturn { member, detail } => {
+                write!(
+                    f,
+                    "OxVba member `{member}` returned an unexpected value: {detail}"
+                )
+            }
+            Self::UnknownControl(id) => write!(f, "no VBA object bound for control `{id}`"),
+            Self::MissingControlTarget { event_name } => {
+                write!(f, "FireVbaEvent `{event_name}` has no control target")
+            }
+            Self::MissingTextForChange(id) => {
+                write!(
+                    f,
+                    "Change for control `{id}` has no text-box state to dispatch"
+                )
+            }
+        }
+    }
+}
+
+impl std::error::Error for RuntimeError {}
+
+/// Completion status of a native dispatch. Only `Succeeded` is emitted today: a
+/// failed native invoke aborts the step with a precise [`RuntimeError`] rather than
+/// recording a completion. `Failed`/`Cancelled` (e.g. a cancelable
+/// `BeforeUpdate`/`Exit` veto) are a later slice — an explicit non-claim, mirroring
+/// the deferred-capability style used elsewhere in this runner.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum DispatchCompletion {
+    Succeeded,
+}
+
+/// A native OxVba member call made to execute one reducer `FireVbaEvent`.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct NativeDispatchRecord {
+    pub control_id: ControlId,
+    pub event_name: String,
+    pub native_member: String,
+    pub completion: DispatchCompletion,
+    /// Post-handler return value, if the native member returns one.
+    pub returned: Option<String>,
+}
+
+/// One VBA-originated property folded back into reducer state.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct PropertySyncRecord {
+    pub control_id: ControlId,
+    pub property: String,
+    pub value: String,
+}
+
+/// A trace row for the W007 runtime path (enough to diagnose the demo).
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum RuntimeTraceRow {
+    EffectDrained {
+        effect_id: u64,
+        kind: String,
+        target: Option<String>,
+    },
+    NativeDispatch {
+        dispatch_id: u64,
+        control_id: String,
+        event_name: String,
+        native_member: String,
+        completion: DispatchCompletion,
+        returned: Option<String>,
+    },
+    PropertySync {
+        control_id: String,
+        property: String,
+        value: String,
+    },
+    RepaintRequested {
+        reason: String,
+        invalidation_ids: Vec<u64>,
+    },
+    /// A reducer-routed FM20 event that the W007 slice does not natively dispatch
+    /// (e.g. `MouseDown`/`MouseUp`). Recorded, never silently dropped; native
+    /// mouse/key event dispatch is a later slice.
+    EventAcknowledged {
+        event_name: String,
+        target: Option<String>,
+    },
+    /// A control's VBA `Core.Dirty` was set but its `DisplayText` was unchanged — a
+    /// non-text property change (geometry/visible/enabled/colors) the W007 slice does
+    /// not reconcile yet. Recorded (never silently dropped) before the dirty flag is
+    /// consumed; non-text property sync is a later slice.
+    PropertyDirtyDeferred { control_id: String },
+}
+
+/// The result of dispatching one [`UiEvent`] through the runner.
+#[derive(Clone, Debug, Default)]
+pub struct RuntimeStep {
+    pub repaint_requested: bool,
+    pub native_dispatches: Vec<NativeDispatchRecord>,
+    pub property_syncs: Vec<PropertySyncRecord>,
+    pub invalidations: Vec<RenderInvalidation>,
+    pub trace: Vec<RuntimeTraceRow>,
+}
+
+/// The runtime/effect runner: owns the OxVba session + the reducer state and bridges
+/// the two.
+pub struct RuntimeRunner {
+    session: ProjectRuntimeSession,
+    form: RuntimeForm,
+    /// VBA object per control (for native member calls), keyed by reducer identity.
+    control_objects: HashMap<ControlId, ObjectRef>,
+    /// The control's `OxControlCore` object (for Dirty/DisplayText/ClearDirty).
+    core_objects: HashMap<ControlId, ObjectRef>,
+    dispatch_seq: u64,
+    trace: Vec<RuntimeTraceRow>,
+}
+
+impl RuntimeRunner {
+    /// Attach to a prepared OxVba session: create the form instance, build it, and
+    /// resolve each materialized control's VBA object + `OxControlCore`. The form
+    /// class must build controls whose `Name`s match the materialized `RuntimeForm`
+    /// (the binding identity established in oxforms-4pn.4).
+    pub fn attach(
+        mut session: ProjectRuntimeSession,
+        form: RuntimeForm,
+        form_class_name: &str,
+        build_member: &str,
+        form_accessor: &str,
+    ) -> Result<Self, RuntimeError> {
+        let form_object = session
+            .create_class_instance(form_class_name)
+            .map_err(|err| RuntimeError::CreateForm {
+                class_name: form_class_name.to_string(),
+                message: err.message().to_string(),
+            })?;
+
+        invoke(
+            &mut session,
+            form_object.clone(),
+            build_member,
+            ProjectMemberKind::Method,
+            Vec::new(),
+        )?;
+
+        let user_form = invoke_object(
+            &mut session,
+            form_object.clone(),
+            form_accessor,
+            ProjectMemberKind::PropertyGet,
+            Vec::new(),
+        )?;
+
+        let mut control_objects = HashMap::new();
+        let mut core_objects = HashMap::new();
+        for binding in &form.controls {
+            let control = invoke_object(
+                &mut session,
+                user_form.clone(),
+                "ControlByName",
+                ProjectMemberKind::Method,
+                vec![Variant::from_string(binding.name.clone())],
+            )?;
+            let core = invoke_object(
+                &mut session,
+                control.clone(),
+                "Core",
+                ProjectMemberKind::PropertyGet,
+                Vec::new(),
+            )?;
+            control_objects.insert(binding.control_id.clone(), control);
+            core_objects.insert(binding.control_id.clone(), core);
+        }
+
+        Ok(Self {
+            session,
+            form,
+            control_objects,
+            core_objects,
+            dispatch_seq: 0,
+            trace: Vec::new(),
+        })
+    }
+
+    /// The current reducer state (read-only).
+    #[must_use]
+    pub fn form(&self) -> &RuntimeForm {
+        &self.form
+    }
+
+    /// The accumulated trace across all dispatched events.
+    #[must_use]
+    pub fn trace(&self) -> &[RuntimeTraceRow] {
+        &self.trace
+    }
+
+    /// Reduce one normalized event, dispatch its native VBA effects, sync VBA-set
+    /// properties back into reducer state, and request repaints. The per-step trace
+    /// is folded into the durable trace **even on error**, so a failing dispatch
+    /// stays diagnosable.
+    pub fn dispatch(&mut self, event: UiEvent) -> Result<RuntimeStep, RuntimeError> {
+        let output = reduce(self.form.state.clone(), event);
+        self.form.state = output.state;
+
+        let mut step = RuntimeStep::default();
+        let result = self.process(&output.effects, &mut step);
+        self.trace.extend(step.trace.iter().cloned());
+        result?;
+        Ok(step)
+    }
+
+    /// Drain the reducer effects into `step`, dispatching effects and syncing
+    /// properties. Separated from [`Self::dispatch`] so the trace is flushed whether
+    /// this returns `Ok` or `Err`.
+    fn process(
+        &mut self,
+        effects: &[EffectRequest],
+        step: &mut RuntimeStep,
+    ) -> Result<(), RuntimeError> {
+        for effect in effects {
+            let target_label = effect
+                .target
+                .control_id
+                .as_ref()
+                .map(|id| id.0.clone())
+                .or_else(|| effect.target.form_id.as_ref().map(|id| id.0.clone()));
+            match &effect.kind {
+                EffectKind::FireVbaEvent { event_name, .. } => {
+                    step.trace.push(RuntimeTraceRow::EffectDrained {
+                        effect_id: effect.effect_id.0,
+                        kind: format!("fire_vba_event:{event_name}"),
+                        target: target_label.clone(),
+                    });
+                    match self.dispatch_fire_vba_event(effect, event_name)? {
+                        Some(record) => {
+                            step.trace.push(RuntimeTraceRow::NativeDispatch {
+                                dispatch_id: self.dispatch_seq,
+                                control_id: record.control_id.0.clone(),
+                                event_name: record.event_name.clone(),
+                                native_member: record.native_member.clone(),
+                                completion: record.completion,
+                                returned: record.returned.clone(),
+                            });
+                            step.native_dispatches.push(record);
+                        }
+                        None => {
+                            // Reducer-routed FM20 event with no native dispatch in the
+                            // W007 slice (e.g. MouseDown/MouseUp): recorded, not dropped.
+                            step.trace.push(RuntimeTraceRow::EventAcknowledged {
+                                event_name: event_name.clone(),
+                                target: target_label,
+                            });
+                        }
+                    }
+                }
+                EffectKind::RequestRepaint {
+                    invalidation_ids,
+                    reason,
+                } => {
+                    step.repaint_requested = true;
+                    step.trace.push(RuntimeTraceRow::RepaintRequested {
+                        reason: format!("{reason:?}"),
+                        invalidation_ids: invalidation_ids.iter().map(|id| id.0).collect(),
+                    });
+                }
+                other => {
+                    // Reducer-internal / not-yet-runtime effects (focus, capture, …):
+                    // the reducer already applied them to state; record, do not skip.
+                    step.trace.push(RuntimeTraceRow::EffectDrained {
+                        effect_id: effect.effect_id.0,
+                        kind: effect_kind_label(other).to_string(),
+                        target: target_label,
+                    });
+                }
+            }
+        }
+
+        self.sync_properties(step)
+    }
+
+    /// Execute one reducer `FireVbaEvent`. Returns `Some(record)` when the event maps
+    /// to a native control member (`Click` → `PerformClick`, `Change` →
+    /// `ApplyUserText`), or `None` when it is a reducer-routed FM20 event the W007
+    /// slice acknowledges but does not natively dispatch yet (`MouseDown`/`MouseUp`,
+    /// …). `dispatch_seq` advances only after a native member call succeeds.
+    fn dispatch_fire_vba_event(
+        &mut self,
+        effect: &EffectRequest,
+        event_name: &str,
+    ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
+        if !matches!(event_name, "Click" | "Change") {
+            return Ok(None);
+        }
+
+        let control_id =
+            effect
+                .target
+                .control_id
+                .clone()
+                .ok_or_else(|| RuntimeError::MissingControlTarget {
+                    event_name: event_name.to_string(),
+                })?;
+        let control = self
+            .control_objects
+            .get(&control_id)
+            .cloned()
+            .ok_or_else(|| RuntimeError::UnknownControl(control_id.0.clone()))?;
+
+        let (native_member, args): (&str, Vec<Variant>) = match event_name {
+            "Click" => ("PerformClick", Vec::new()),
+            "Change" => {
+                // The reducer already updated the text-box value; push it to the VBA
+                // control via the user-edit path (sets .Text and raises Change).
+                let text = self
+                    .form
+                    .state
+                    .text_boxes
+                    .iter()
+                    .find(|entry| entry.control_id == control_id)
+                    .map(|entry| entry.text.clone())
+                    .ok_or_else(|| RuntimeError::MissingTextForChange(control_id.0.clone()))?;
+                ("ApplyUserText", vec![Variant::from_string(text)])
+            }
+            // Unreachable: guarded by the `matches!` above. Kept total without a
+            // panic path.
+            _ => return Ok(None),
+        };
+
+        invoke(
+            &mut self.session,
+            control,
+            native_member,
+            ProjectMemberKind::Method,
+            args,
+        )?;
+        self.dispatch_seq += 1;
+
+        Ok(Some(NativeDispatchRecord {
+            control_id,
+            event_name: event_name.to_string(),
+            native_member: native_member.to_string(),
+            completion: DispatchCompletion::Succeeded,
+            returned: None,
+        }))
+    }
+
+    /// After dispatch, fold any VBA-set control text back into reducer state. For each
+    /// control whose VBA `Core.Dirty` is set (a handler changed a property): pull its
+    /// `DisplayText` and sync it (reducer-owned), requesting a repaint when the text
+    /// actually changed; or, when only a non-text property changed (DisplayText
+    /// unchanged), record a `PropertyDirtyDeferred` non-claim. Either way the VBA
+    /// dirty flag is then consumed (`ClearDirty`).
+    fn sync_properties(&mut self, step: &mut RuntimeStep) -> Result<(), RuntimeError> {
+        let control_ids: Vec<ControlId> = self
+            .form
+            .controls
+            .iter()
+            .map(|binding| binding.control_id.clone())
+            .collect();
+
+        for control_id in control_ids {
+            let core = self
+                .core_objects
+                .get(&control_id)
+                .cloned()
+                .ok_or_else(|| RuntimeError::UnknownControl(control_id.0.clone()))?;
+
+            let dirty = invoke_bool(
+                &mut self.session,
+                core.clone(),
+                "Dirty",
+                ProjectMemberKind::PropertyGet,
+                Vec::new(),
+            )?;
+            if !dirty {
+                continue;
+            }
+
+            let text = invoke_string(
+                &mut self.session,
+                core.clone(),
+                "DisplayText",
+                ProjectMemberKind::PropertyGet,
+                Vec::new(),
+            )?;
+
+            if let Some(invalidation) =
+                sync_control_display_text(&mut self.form.state, &control_id, &text)
+            {
+                step.property_syncs.push(PropertySyncRecord {
+                    control_id: control_id.clone(),
+                    property: "DisplayText".to_string(),
+                    value: text.clone(),
+                });
+                step.trace.push(RuntimeTraceRow::PropertySync {
+                    control_id: control_id.0.clone(),
+                    property: "DisplayText".to_string(),
+                    value: text,
+                });
+                step.repaint_requested = true;
+                step.trace.push(RuntimeTraceRow::RepaintRequested {
+                    reason: format!("{:?}", invalidation.reason),
+                    invalidation_ids: vec![invalidation.invalidation_id.0],
+                });
+                step.invalidations.push(invalidation);
+            } else {
+                // Dirty but DisplayText unchanged: a non-text property changed
+                // (geometry/visible/enabled/colors), which the W007 slice does not
+                // reconcile yet. Record the deferral before consuming the flag —
+                // never a silent drop. Non-text property sync is a later slice.
+                step.trace.push(RuntimeTraceRow::PropertyDirtyDeferred {
+                    control_id: control_id.0.clone(),
+                });
+            }
+
+            // Consume the VBA-side dirty flag now that the change is reconciled
+            // (DisplayText synced) or recorded (non-text deferral).
+            invoke(
+                &mut self.session,
+                core,
+                "ClearDirty",
+                ProjectMemberKind::Method,
+                Vec::new(),
+            )?;
+        }
+
+        Ok(())
+    }
+}
+
+/// A short, stable label for an effect recorded in the trace (the reducer already
+/// applied the effect to state; the runner only records it for diagnostics).
+fn effect_kind_label(kind: &EffectKind) -> &'static str {
+    match kind {
+        EffectKind::FireVbaEvent { .. } => "fire_vba_event",
+        EffectKind::RequestRepaint { .. } => "request_repaint",
+        EffectKind::TransferFocus { .. } => "transfer_focus",
+        EffectKind::CaptureMouse { .. } => "capture_mouse",
+        EffectKind::ReleaseMouse { .. } => "release_mouse",
+        EffectKind::StartTimer { .. } | EffectKind::StopTimer { .. } => "timer",
+        EffectKind::ClipboardGet { .. } | EffectKind::ClipboardSet { .. } => "clipboard",
+        EffectKind::SetCursor { .. } => "set_cursor",
+        EffectKind::HostCapabilityRequest { .. } => "host_capability_request",
+        _ => "other_effect",
+    }
+}
+
+fn invoke(
+    session: &mut ProjectRuntimeSession,
+    object: ObjectRef,
+    member: &str,
+    kind: ProjectMemberKind,
+    args: Vec<Variant>,
+) -> Result<Variant, RuntimeError> {
+    session
+        .invoke_member_values(object, member, Some(kind), args)
+        .map_err(|err| RuntimeError::Invoke {
+            member: member.to_string(),
+            message: err.message().to_string(),
+        })
+}
+
+fn invoke_object(
+    session: &mut ProjectRuntimeSession,
+    object: ObjectRef,
+    member: &str,
+    kind: ProjectMemberKind,
+    args: Vec<Variant>,
+) -> Result<ObjectRef, RuntimeError> {
+    invoke(session, object, member, kind, args)?
+        .as_object_ref()
+        .ok_or_else(|| RuntimeError::UnexpectedReturn {
+            member: member.to_string(),
+            detail: "expected an object reference".to_string(),
+        })
+}
+
+fn invoke_bool(
+    session: &mut ProjectRuntimeSession,
+    object: ObjectRef,
+    member: &str,
+    kind: ProjectMemberKind,
+    args: Vec<Variant>,
+) -> Result<bool, RuntimeError> {
+    invoke(session, object, member, kind, args)?
+        .as_bool()
+        .ok_or_else(|| RuntimeError::UnexpectedReturn {
+            member: member.to_string(),
+            detail: "expected a boolean".to_string(),
+        })
+}
+
+fn invoke_string(
+    session: &mut ProjectRuntimeSession,
+    object: ObjectRef,
+    member: &str,
+    kind: ProjectMemberKind,
+    args: Vec<Variant>,
+) -> Result<String, RuntimeError> {
+    let value = invoke(session, object, member, kind, args)?;
+    value
+        .as_bstr()
+        .map(|text| text.to_string())
+        .ok_or_else(|| RuntimeError::UnexpectedReturn {
+            member: member.to_string(),
+            detail: "expected a string".to_string(),
+        })
+}

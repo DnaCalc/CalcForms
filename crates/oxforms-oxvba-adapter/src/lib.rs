@@ -9,5 +9,6 @@
 #![forbid(unsafe_code)]
 
 pub mod event_dispatch;
+pub mod runtime_runner;
 pub mod smoke_canvas;
 pub mod surface;

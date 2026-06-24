@@ -162,6 +162,85 @@ impl FormState {
     }
 }
 
+/// Reducer-owned sync of a VBA-originated display-text change into [`FormState`].
+///
+/// The W007 runtime effect runner reads a control's text from its VBA object (after
+/// a handler may have changed it) and calls this to fold the change back into the
+/// reducer state — it never mutates `FormState` fields directly. The text lands in
+/// the control's caption (Label/CommandButton/CheckBox) or text-box value (TextBox).
+/// Returns a [`RenderInvalidation`] (also recorded in `state.dirty`) when the text
+/// actually changed, so the runner can request a repaint; returns `None` (no-op) for
+/// an unchanged value or an unknown control id.
+#[must_use]
+pub fn sync_control_display_text(
+    state: &mut FormState,
+    control_id: &ControlId,
+    text: &str,
+) -> Option<RenderInvalidation> {
+    let kind = state
+        .controls
+        .iter()
+        .find(|control| &control.control_id == control_id)?
+        .kind;
+
+    let changed = match kind {
+        ControlKind::TextBox => {
+            let entry = state.ensure_text_box(control_id.clone());
+            if entry.text == text {
+                false
+            } else {
+                entry.text = text.to_string();
+                // Caret to end. Sufficient for VBA-originated caption/value writeback
+                // (the W007 path); a future full text-box writeback slice that must
+                // preserve a user selection will need to carry caret/selection too.
+                let caret = text.len();
+                entry.caret = TextCaretState {
+                    anchor: caret,
+                    active: caret,
+                    preferred_column: None,
+                };
+                entry.dirty = true;
+                entry.edit_sequence += 1;
+                true
+            }
+        }
+        ControlKind::Label | ControlKind::CommandButton | ControlKind::CheckBox => {
+            let node = state
+                .controls
+                .iter_mut()
+                .find(|control| &control.control_id == control_id)?;
+            if node.caption == text {
+                false
+            } else {
+                node.caption = text.to_string();
+                true
+            }
+        }
+    };
+
+    if !changed {
+        return None;
+    }
+
+    let invalidation_id = state.next_invalidation_id();
+    let reason = match kind {
+        ControlKind::TextBox => InvalidationReason::TextChanged,
+        ControlKind::Label | ControlKind::CommandButton | ControlKind::CheckBox => {
+            InvalidationReason::CaptionChanged
+        }
+    };
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    let invalidation = RenderInvalidation {
+        invalidation_id,
+        target: target.clone(),
+        reason,
+        regions: Vec::new(),
+        dirty_subtrees: vec![target],
+    };
+    state.dirty.invalidations.push(invalidation.clone());
+    Some(invalidation)
+}
+
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
 #[serde(tag = "kind", content = "target", rename_all = "snake_case")]
 pub enum FocusTarget {
@@ -446,6 +525,7 @@ pub enum InvalidationReason {
     CheckBoxValueChanged,
     CheckBoxPressedChanged,
     TextChanged,
+    CaptionChanged,
     TextSelectionChanged,
     LifecycleChanged,
     CloseStateChanged,
