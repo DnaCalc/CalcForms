@@ -327,22 +327,32 @@ prims + geometry + child hashes; root rolls up to `frame_hash` (used as
 geometry is pinned to `COORDINATE_MODEL.md` half-open + floor-left/ceil-right
 rounding so goldens don't churn on formatting.
 
-**Three keystone invariants — permanently CI'd:**
+**Keystone invariants (CI'd):**
 
-- **(a)** `flatten(scene) == legacy DisplayList`, byte-for-byte (full re-emit
-  degenerates to the immediate path).
-- **(b)** `render_damage(region) == render_full restricted to region`,
+- **(a) — transitional, retires in §12 step 8.** `flatten(scene) == legacy
+  DisplayList`, byte-for-byte (full re-emit degenerates to the immediate path).
+  This is a *migration* check that the Scene reproduces the pre-Scene W002
+  immediate display list; it exists only while that list does. It is deleted
+  together with the W002 path in step 8 (`flatten`, `DisplayList`,
+  `DisplayCommand::FillRect`, `render_headless`, the `w002_rectangle_fixture_*`
+  helpers, and `SceneError::FlattenUnsupportedPrim` all go). It is **not** a
+  permanent property — the permanent determinism guarantee is (c), which is
+  Scene-native and needs no DisplayList.
+- **(b) — permanent.** `render_damage(region) == render_full restricted to region`,
   pixel-for-pixel (incremental never diverges from canonical).
-- **(c)** immediate-scene golden == applied-patch-scene golden == framebuffer
-  hash (a retained bug surfaces as a node-level structural diff before a pixel
-  diff).
+- **(c) — permanent.** immediate-scene golden == applied-patch-scene golden ==
+  framebuffer hash (a retained bug surfaces as a node-level structural diff before
+  a pixel diff).
 
 `BeginScene`/`SubmitPatch`/`HitTest` become trace rows alongside the existing
 reducer rows; replay reconstructs the scene from patches (applied from
 `base_hash`); the per-frame `DamageSet` is an asserted artifact. Differential vs
-MSForms: `flatten(scene) -> DisplayList` feeds any pixel/SSIM harness, and because
-nodes are keyed by control identity, each node's bounds can be SSIM-compared
-per-node, localizing parity failures to a control.
+MSForms: the Scene's own headless reference rasterizer (`render_full` over a
+`HeadlessSink`) feeds any pixel/SSIM harness, and because nodes are keyed by
+control identity, each node's bounds can be SSIM-compared per-node, localizing
+parity failures to a control. (A serializable *flattened* view, if one is ever
+needed for trace artifacts, is new work over the full `Prim` vocabulary — not the
+retired FillRect-only W002 `DisplayList`.)
 
 ## 11. Portability
 
@@ -377,15 +387,23 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    reducer policy and `hit_test_control_tree` as routing policy.
 7. Wire invalidation (dedup fix + Suspend/Resume + per-frame SubmitPatch); add
    invariant (c) + the shuffle/show-hide determinism golden.
-8. Relocate W002 as a one-node ScenePatch; retire `SmokeCanvas` and the standalone
-   `DisplayCommand::FillRect` once nothing references them (`flatten` keeps the
-   legacy-list invariant alive).
+8. Retire the entire pre-Scene W002 immediate path now that nothing consumes it
+   (the probe smoke went in step 6; the visible/`SmokeCanvas` smokes go here).
+   Relocate the W002 rectangle proof as a one-node `ScenePatch` through
+   `OxForms.Surface`, then **delete** `SmokeCanvas`, `DisplayList`,
+   `DisplayCommand::FillRect`, `render_headless`/`HeadlessRender`/`RenderDiagnostics`,
+   the `w002_rectangle_fixture_*` helpers, `flatten`/`SceneError::FlattenUnsupportedPrim`,
+   and any error type left unused (`RenderError`). Invariant (a) retires with them.
+   Keep `Color`/`SurfaceSize`/`Rect`/`fnv1a64`/`BYTES_PER_PIXEL`/
+   `FRAMEBUFFER_HASH_ALGORITHM` — the Scene rasterizer uses them.
 9. Record crossing-budget benchmark traces as P6 gates; enable incremental-by-default
    behind the invariants + budget.
 
-Kept: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs` UiEvent.
-Relocated: appearance → VBA theme. Deleted after parity: probe render code,
-`SmokeCanvas`.
+Kept: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs` UiEvent, and
+the shared value types above. Relocated: appearance → VBA theme. Deleted (no
+fallback/compat path survives initial development): the probe render code (step 6),
+and the whole W002 immediate display-list path incl. `SmokeCanvas` and `flatten`
+(step 8).
 
 ## 13. D7 amendment
 

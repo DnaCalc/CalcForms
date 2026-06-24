@@ -7,10 +7,13 @@
 //! `docs/specs/RENDERING_ARCHITECTURE.md`.
 //!
 //! Invariants this module upholds (and tests assert):
-//! - `flatten(scene)` reproduces the legacy [`DisplayList`] for the FillRect
-//!   vocabulary, so a full re-emit degenerates to the immediate path;
-//! - `render_damage(full surface)` is pixel-identical to `render_full`;
-//! - a one-node FillRect scene reproduces the historical W002 framebuffer hash.
+//! - `render_damage(full surface)` is pixel-identical to `render_full` (permanent);
+//! - a one-node FillRect scene reproduces the historical W002 framebuffer hash;
+//! - `flatten(scene)` reproduces the pre-Scene W002 [`DisplayList`] for the FillRect
+//!   vocabulary (a full re-emit degenerates to the immediate path). This last one is
+//!   a TRANSITIONAL migration check, not a permanent property: `flatten`, the W002
+//!   `DisplayList` path, and this invariant are all deleted once the Scene is the
+//!   sole render path (RENDERING_ARCHITECTURE.md §12 step 8 / bead `oxforms-rq5.3`).
 
 use std::collections::HashSet;
 
@@ -567,7 +570,8 @@ pub enum SceneError {
         expected: u64,
         actual: u64,
     },
-    /// `flatten` met a primitive outside the legacy FillRect vocabulary.
+    /// `flatten` met a primitive outside the transitional W002 FillRect vocabulary
+    /// (retires with `flatten`; see `oxforms-rq5.3`).
     FlattenUnsupportedPrim,
 }
 
@@ -582,7 +586,7 @@ impl std::fmt::Display for SceneError {
                 "scene patch base_hash {actual} does not match resident frame_hash {expected}; resubmit a full rebuild"
             ),
             Self::FlattenUnsupportedPrim => {
-                write!(f, "flatten currently supports only the FillRect legacy vocabulary")
+                write!(f, "flatten supports only the transitional W002 FillRect vocabulary")
             }
         }
     }
@@ -644,9 +648,14 @@ fn render_node(scene: &Scene, id: NodeId, sink: &mut dyn PrimSink, damage: Optio
     sink.pop_transform();
 }
 
-/// Produce the legacy [`DisplayList`] for the FillRect vocabulary, so existing
-/// W002/golden infrastructure and the immediate fallback keep working. Errors on
-/// any primitive outside that legacy subset.
+/// Produce the pre-Scene W002 [`DisplayList`] for the FillRect vocabulary, so the
+/// W002 golden infrastructure keeps working during the migration. Errors on any
+/// primitive outside that subset.
+///
+/// TRANSITIONAL: this exists only to prove the Scene reproduces the W002 immediate
+/// path byte-for-byte. It is deleted with the rest of the W002 display-list path
+/// once the Scene is the sole renderer (RENDERING_ARCHITECTURE.md §12 step 8 / bead
+/// `oxforms-rq5.3`); it is not a long-term serialization format.
 pub fn flatten(scene: &Scene) -> Result<DisplayList, SceneError> {
     let mut list = DisplayList::new(scene.surface);
     flatten_node(scene, scene.root, Affine::IDENTITY, &mut list)?;
@@ -1139,7 +1148,7 @@ mod tests {
         assert_eq!(
             flatten(&scene).expect("FillRect-only scene flattens"),
             w002_rectangle_fixture_display_list(),
-            "flatten must byte-match the legacy immediate display list (invariant a)"
+            "flatten must byte-match the W002 immediate display list (transitional invariant a)"
         );
     }
 
