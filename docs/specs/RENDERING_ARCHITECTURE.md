@@ -453,3 +453,34 @@ removed from D7. D1, D3, D10, D11 are unchanged.)
   identity; review the kernel for any control vocabulary on every change.
 - **Memory growth**: large lists need virtualization (visible-row nodes +
   scroll-as-transform), text-run LRU, bounded arenas — deferred, not forgotten.
+
+## 15. Desktop backend stack (oxforms-4pn.6 decision — revisitable)
+
+The first visible backend (`oxforms-pal-win`, the Windows/desktop target of
+oxforms-4pn.6) uses **winit** (window + OS event loop + input) + **softbuffer**
+(present a CPU framebuffer into the window) + **tiny-skia** (the `PrimSink`
+rasterizer) + **ab_glyph** (glyph rasterization), with OxForms' own simple text
+layout (align + basic wrap). Rationale: it is the leanest *capable*, cross-platform
+(D8) path; tiny-skia maps 1:1 to the §6.2 `Prim` vocabulary and is the named
+reference rasterizer; ab_glyph covers the Latin captions a lightweight
+Excel-VBA-forms runtime needs without adopting a full shaping/layout engine. The
+headless reference (`HeadlessSink`) stays text-free and owns the golden
+`framebuffer_hash`; only the visible backend rasterizes text (the §8 tolerance
+layer).
+
+**This is a revisitable decision point, intentionally insulated by existing
+contracts so switching cost stays low:**
+- Text crosses by `FontId`/`TextRunId` (§8), so **ab_glyph → cosmic-text** (complex
+  scripts, font fallback, richer layout) is a contained swap behind the text-metrics
+  service — adopt when i18n/shaping fidelity demands it.
+- Raster sits behind the `PrimSink` trait (§3), so a **Direct2D/DirectWrite** (best
+  Windows text fidelity) or a **pure-Win32 GDI** (closest to true MSForms parity,
+  since MSForms *is* GDI) backend can be added per platform without touching controls,
+  the runtime, or the reducer.
+- The window/present layer (winit + softbuffer) is likewise swappable (e.g. wgpu/
+  pixels, or a native Win32 surface) behind the backend's own seam.
+
+Considered and deferred: cosmic-text (heavier than current Latin-caption scope);
+Direct2D (Windows-only, diverges from reference-renderer-first); GPU canvases
+(non-deterministic across GPUs — bad for goldens, unneeded for forms). Revisit if
+text fidelity, i18n, or performance evidence calls for it.
