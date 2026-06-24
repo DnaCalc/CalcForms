@@ -1,4 +1,4 @@
-Status: Open
+Status: Resolved
 Target: OxVba
 Ask: Accept a bracketed identifier as the event name in a `RaiseEvent` statement (and, ideally, resolve a bare reserved-word event name), so MSForms-faithful control events whose names are VBA reserved words — notably the FM20 `Exit` event — can be declared and raised.
 
@@ -14,3 +14,14 @@ Evidence (probed against pinned baseline `366896f` via a package-session bind):
 Net: declaring and handling `[Exit]` works; only `RaiseEvent [Exit]` is blocked. Fixing the RaiseEvent parser to accept a bracketed event name (mirroring the bracketed-identifier support already present in declarations/handlers) unblocks the real FM20 `Exit` event and any other reserved-word event names.
 
 Until fixed, OxForms uses `BeforeUpdate` (a real FM20 cancelable `ReturnBoolean` event, not a reserved word) as a stand-in to establish the mutable-helper event pattern; see `vba/oxforms/CommandButton.cls` / `TextBox.cls`. Tracked as `oxforms-0rj`.
+
+## Resolution (OxVba + OxForms, 2026-06-24)
+
+OxVba fixed it at commit `366a40e38f805d3adcb558df01c280398afa2a2f` ("Accept
+bracketed RaiseEvent names"): `RaiseEvent [Exit]` now parses, `Public Event [Exit]()`
+is accepted, and bind normalizes `[Exit]` to `Exit`. OxForms bumped the pinned
+baseline `366896f` → `366a40e` and switched `CommandButton`/`TextBox` from the
+`BeforeUpdate` stand-in to the native `[Exit]` event. `oxvba_w007_object_model.rs`
+now exercises `Public Event [Exit](ByVal Cancel As OxReturnBoolean)` +
+`RaiseEvent [Exit](cancel)` + a `Private WithEvents` `InputField_Exit` handler with
+a `ReturnBoolean` cancel round-trip, green on `366a40e`. Closed `oxforms-0rj`.

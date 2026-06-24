@@ -12,5 +12,5 @@ edition = "2021"
 
 [workspace.metadata.oxforms.oxvba_baseline]
 repo = "https://github.com/DnaCalc/OxVba.git"
-rev = "366896f7a081ddb459307d5be7d9e829ca391a0a"
+rev = "366a40e38f805d3adcb558df01c280398afa2a2f"
 policy = "Committed manifests must use pinned git dependencies when OxVba crates are needed; mutable ../OxVba path overrides are local-only."

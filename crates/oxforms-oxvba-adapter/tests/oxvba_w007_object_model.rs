@@ -218,6 +218,22 @@ fn object_model_supports_the_w007_demo_shape() {
         Vec::new(),
     );
 
+    // Native FM20 [Exit] event (a reserved word) round-trips a mutable Cancel: the
+    // handler sets Cancel.Value = True and the control returns it.
+    let cancelled = call(
+        &mut session,
+        form.clone(),
+        "SendInputExit",
+        ProjectMemberKind::Method,
+        Vec::new(),
+    )
+    .as_bool()
+    .expect("SendInputExit should return a boolean");
+    assert!(
+        cancelled,
+        "the native [Exit] handler should cancel via OxReturnBoolean"
+    );
+
     assert_eq!(
         get_string(&mut session, form.clone(), "OutputCaption"),
         "Hello, World",
@@ -232,6 +248,7 @@ fn object_model_supports_the_w007_demo_shape() {
             "InputField_KeyDown=27;Shift=0",
             "InputField_KeyDown=65;Shift=0",
             "OkButton_Click",
+            "InputField_Exit",
         ],
         "native control events should reach the VBA handlers in order"
     );

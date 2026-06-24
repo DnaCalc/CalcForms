@@ -64,6 +64,10 @@ Public Function SendInputKeyDown(ByVal KeyCode As Integer, ByVal Shift As Intege
     SendInputKeyDown = InputField.PerformKeyDown(KeyCode, Shift)
 End Function
 
+Public Function SendInputExit() As Boolean
+    SendInputExit = InputField.PerformExit()
+End Function
+
 ' --- Ordinary VBA event handlers (the user-facing surface) ---
 Private Sub InputField_Change()
     Append "InputField_Change=" & InputField.Text
@@ -74,6 +78,13 @@ Private Sub InputField_KeyDown(ByVal KeyCode As OxReturnInteger, ByVal Shift As 
     If KeyCode.Value = 27 Then
         KeyCode.Value = 0
     End If
+End Sub
+
+' Native FM20 focus-exit event (reserved word, handled as InputField_Exit). Sets
+' the mutable Cancel to keep focus, proving the ReturnBoolean round-trip.
+Private Sub InputField_Exit(ByVal Cancel As OxReturnBoolean)
+    Append "InputField_Exit"
+    Cancel.Value = True
 End Sub
 
 Private Sub OkButton_Click()

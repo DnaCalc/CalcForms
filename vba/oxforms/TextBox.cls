@@ -9,11 +9,11 @@ Implements IOxControl
 Public Event Change()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event KeyDown(ByVal KeyCode As OxReturnInteger, ByVal Shift As Integer)
-' Note: the FM20 focus-exit event is literally named "Exit", which OxVba cannot
-' yet bind (collides with the Exit statement keyword); tracked as an OxVba
-' follow-up. BeforeUpdate is a real FM20 cancelable event and establishes the
-' same mutable-ReturnBoolean pattern in the meantime.
-Public Event BeforeUpdate(ByVal Cancel As OxReturnBoolean)
+' The FM20 focus-exit event is the reserved word "Exit", declared via the VBA
+' bracketed-name form [Exit] (OxVba accepts bracketed RaiseEvent names as of
+' baseline 366a40e). Carries a mutable Cancel (OxReturnBoolean); a handler sets
+' Cancel.Value = True to keep focus.
+Public Event [Exit](ByVal Cancel As OxReturnBoolean)
 
 Private mCore As OxControlCore
 
@@ -108,9 +108,9 @@ Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     PerformKeyDown = helper.Value
 End Function
 
-Public Function PerformBeforeUpdate() As Boolean
+Public Function PerformExit() As Boolean
     Dim cancel As OxReturnBoolean
     Set cancel = New OxReturnBoolean
-    RaiseEvent BeforeUpdate(cancel)
-    PerformBeforeUpdate = cancel.Value
+    RaiseEvent [Exit](cancel)
+    PerformExit = cancel.Value
 End Function
