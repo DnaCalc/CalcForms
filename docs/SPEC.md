@@ -21,7 +21,7 @@ planning truth.
    status, mutation semantics, coordinate argument notes, and explicit unknowns.
 3. [`specs/COORDINATE_MODEL.md`](specs/COORDINATE_MODEL.md) - W005
    coordinate-space model and calibration procedure for PAL input, reducer
-   routing, display-list rendering, MSForms event arguments, screenshots,
+   routing, Scene rendering, MSForms event arguments, screenshots,
    trace/replay, and comparison artifacts.
 4. [`specs/LIFECYCLE_PUMP_MODEL.md`](specs/LIFECYCLE_PUMP_MODEL.md) - W005
    form lifecycle, modal/modeless pump, activation, close/query/hide/unload,
@@ -39,7 +39,10 @@ planning truth.
    rendering + VBA control-rendering architecture: immediate-mode VBA authoring
    over a control-agnostic keyed retained primitive tree (the Scene) in
    `oxforms-pal`, the cross-boundary patch protocol, invalidation/damage, text
-   metrics, determinism invariants, and the D7 amendment.
+   metrics, determinism invariants, the D7 amendment, the desktop backend stack
+   (§15), and the render-invocation/frame model (§16) — the Repaint-vs-Re-render
+   split, runtime/backend/bootstrap ownership, the pull/lazy frame loop, and the
+   resident-Scene seam.
 
 ## Source References
 
@@ -54,7 +57,7 @@ into additional focused specs and keep them reachable from this index:
 - object model and generated fact pack;
 - `.frm` / `.frx` persistence;
 - reducer state model and event/effect semantics;
-- display-list rendering and PAL contract;
+- retained-Scene rendering and PAL contract;
 - trace/replay and evidence artifacts;
 - Excel-host extension controls, starting with `RefEdit`;
 - designer.

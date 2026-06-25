@@ -22,6 +22,9 @@ MSForms ordering without live oracle evidence.
   event names and signatures.
 - [`COORDINATE_MODEL.md`](COORDINATE_MODEL.md), coordinate spaces used by
   activation, resize, visible-smoke, and oracle artifacts.
+- [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md), §16 — the render
+  invocation / frame model, whose re-render reentrancy rules are the render-side
+  companion to §10 here (re-render is a VM entry; Repaint is not).
 - [`FORMS_LIBRARY_SPEC_AND_PLAN.md`](../FORMS_LIBRARY_SPEC_AND_PLAN.md),
   sections 4.3, 8, 9, 10.2, 11/P2, and 12.
 - W002 smoke docs and code, which prove only a smoke display-list path and do
@@ -326,6 +329,12 @@ Rules:
    reducer input/effect completion, not a side-channel mutation.
 7. Errors or unsupported runtime behavior must become explicit trace rows and,
    when blocking implementation, precise beads or handovers.
+8. Re-render (the runtime's VBA self-render, `render_frame`) is itself a VM entry
+   and obeys this same discipline: it runs between handler returns at a frame
+   boundary, never synchronously mid-handler. Repaint (resident `Scene` → pixels,
+   owned by the backend/window) is not a VM entry and may proceed during a handler
+   or a nested/modal pump, painting the last good Scene revision. See
+   [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §16.5.
 
 W005 does not implement final `DoEvents` semantics. It reserves
 `PumpYieldRequested` and `doevents_yield` so later runtime work has a named
@@ -358,7 +367,10 @@ completions are owned by
 - PAL/window code owns native surfaces: window show/hide/destroy, owner and
   activation/focus diagnostics, platform close notifications, input capture,
   and delivery of platform input while a modeless pump, modal frame, or runtime
-  yield is active.
+  yield is active. The PAL/window backend also owns Repaint (walking the resident
+  `Scene` snapshot to pixels on any platform paint signal) and never enters VBA;
+  the runtime owns all VBA entry, including re-render. See
+  [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §16.3.
 
 The boundary has these hard consequences:
 

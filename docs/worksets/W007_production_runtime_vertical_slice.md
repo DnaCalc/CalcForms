@@ -22,15 +22,16 @@ durable runtime shape is visible end to end:
 VBA startup and form/control objects
   -> OxVba class construction and native RaiseEvent/WithEvents dispatch
   -> OxForms runtime/effect runner
-  -> oxforms-core reducer, effects, invalidation, and display intent
-  -> PAL/window backend input, window, and render services
+  -> oxforms-core reducer, effects, and render invalidation (consumed by Re-render)
+  -> PAL/window backend: input, window, and Repaint (Scene -> pixels)
   -> trace/evidence
 ```
 
 The selected entry shape is **Tiny Bootstrap**. A minimal native executable may
 load the OxVba project, configure runtime services, invoke the VBA entrypoint,
-enter the runtime pump, and exit when the runtime reports no open forms or a
-fatal diagnostic. It must not contain form or control behavior.
+run the platform loop (the backend-owned OS pump; see
+`docs/specs/RENDERING_ARCHITECTURE.md` §16.3), and exit when the runtime reports
+no open forms or a fatal diagnostic. It must not contain form or control behavior.
 
 ## Start Reading
 
@@ -47,6 +48,11 @@ Before changing W007 behavior, read:
 - `docs/specs/FM20_EVENT_FACTS.md`.
 - `docs/specs/COORDINATE_MODEL.md`.
 - `docs/specs/LIFECYCLE_PUMP_MODEL.md`.
+- `docs/specs/RENDERING_ARCHITECTURE.md`, especially §15 (desktop backend stack —
+  the `oxforms-4pn.6` decision) and §16 (render invocation and the frame model).
+  §16 is the foundational render/frame model for W007's render-touching beads
+  `oxforms-4pn.5`/`.6`/`.7` (Repaint vs Re-render ownership; the resident-Scene
+  seam) and is itself owned by `oxforms-4pn.7`.
 - `docs/specs/TRACE_REPLAY_SCHEMA.md`.
 - `docs/handovers/HANDOVER_OxVba_w005_fm20_event_raise.md` before event-gate
   work.
@@ -63,7 +69,7 @@ Allowed Tiny Bootstrap responsibilities:
 - load the OxVba project closure;
 - configure OxVba and OxForms runtime services;
 - invoke the configured VBA startup entrypoint;
-- enter the OxForms runtime pump;
+- run the platform loop (the backend-owned OS message pump, `docs/specs/RENDERING_ARCHITECTURE.md` §16.3);
 - exit when no forms remain open or a fatal diagnostic occurs;
 - surface diagnostics and trace/evidence paths.
 
@@ -84,13 +90,20 @@ Owner boundaries:
 - OxVba owns class construction, default/predeclared instance semantics where
   needed, `RaiseEvent`/`WithEvents`, handler dispatch, call-stack reentry, and
   future modal `Show`/`DoEvents` suspension and resume behavior.
-- `oxforms-core` owns reducer state, ordered effects, invalidation, and
-  display-list intent.
+- `oxforms-core` owns reducer state, ordered effects, and render invalidation
+  (`RequestRepaint`/`RenderInvalidation`) consumed by Re-render
+  (`docs/specs/RENDERING_ARCHITECTURE.md` §7/§16); the legacy probe display list is
+  scheduled for supersession (`RENDERING_ARCHITECTURE.md` §12 step 6), not the
+  runtime render path.
 - The OxForms runtime/effect runner owns queues, OxVba dispatch calls, property
-  synchronization, effect completions, trace causality, and repaint requests.
+  synchronization, effect completions, trace causality, Re-render (`render_frame`:
+  the coalesced VBA self-render → `ScenePatch` → resident `Scene` revision, a VM
+  entry; `RENDERING_ARCHITECTURE.md` §16), and backend repaint requests; it never
+  rasterizes.
 - PAL/window backend code owns native window creation, show/hide/destroy,
-  physical OS message delivery, input normalization, rendering, and
-  serializable completions.
+  physical OS message delivery, input normalization, Repaint (walking the resident
+  `Scene` snapshot to pixels on any platform paint signal, never entering VBA;
+  `RENDERING_ARCHITECTURE.md` §16), and serializable completions.
 
 If implementation cannot satisfy these boundaries, file a precise blocker or
 handover before adding runtime behavior.
@@ -143,9 +156,9 @@ W007 does not claim:
 | `oxforms-4pn.2` | Prove native OxVba class event gate. | `oxforms-4pn.1` | `Click` and `Change` class events work through native `RaiseEvent`/`WithEvents`, or an exact OxVba blocker/baseline update exists. |
 | `oxforms-4pn.3` | Implement minimal VBA object model slice. | `oxforms-4pn.2` | Demo-supported `UserForm`, `Label`, `TextBox`, and `CommandButton` classes/properties/events exist without custom callback APIs. |
 | `oxforms-4pn.4` | Materialize the demo form into runtime state. | `oxforms-4pn.3`, `oxforms-0a0.4` | Form/control tree has stable ids, geometry, properties, and binding metadata without relying on test-only probe construction. |
-| `oxforms-4pn.5` | Implement runtime effect runner. | `oxforms-4pn.2`, `oxforms-4pn.3`, `oxforms-4pn.4`, `oxforms-0a0.1`, `oxforms-0a0.3` | Runtime drains effects, invokes OxVba, syncs properties, requests repaint, and emits trace/completion rows. |
-| `oxforms-4pn.6` | Implement Windows backend behind PAL contracts. | `oxforms-4pn.5`, `oxforms-xvx.11` | Backend creates a real window, normalizes input, renders W007 display lists including text, and returns serializable completions. |
-| `oxforms-4pn.7` | Add tiny bootstrap executable. | `oxforms-4pn.5`, `oxforms-4pn.6` | Bootstrap loads project, invokes VBA startup, enters runtime pump, exits cleanly, and remains free of control logic. |
+| `oxforms-4pn.5` | Implement runtime effect runner. | `oxforms-4pn.2`, `oxforms-4pn.3`, `oxforms-4pn.4`, `oxforms-0a0.1`, `oxforms-0a0.3` | Runtime drains effects, invokes OxVba, syncs properties, marks invalidations and requests repaint, and emits trace/completion rows; the runtime owns Re-render (`render_frame`: coalesced VBA self-render → `ScenePatch` → resident `Scene` revision, `RENDERING_ARCHITECTURE.md` §16), whose body lands via `4pn.7`/`rq5.2`. |
+| `oxforms-4pn.6` | Implement Windows backend behind PAL contracts. | `oxforms-4pn.5`, `oxforms-xvx.11` | Backend creates a real window, normalizes input, Repaints the resident `Scene` (walks it to pixels, including text) on platform paint signals without entering VBA, and returns serializable completions. |
+| `oxforms-4pn.7` | Add tiny bootstrap executable. | `oxforms-4pn.5`, `oxforms-4pn.6` | Bootstrap loads project, invokes VBA startup, runs the platform loop, exits cleanly, and remains free of control logic. |
 | `oxforms-4pn.8` | Add runnable OxVba forms demo. | `oxforms-4pn.3`, `oxforms-4pn.4`, `oxforms-4pn.7` | Demo accepts typed text, handles button click in VBA, updates label, and documents run command/subset. |
 | `oxforms-4pn.9` | Verify runnable slice and capture evidence. | `oxforms-4pn.6`, `oxforms-4pn.7`, `oxforms-4pn.8` | Headless/runtime and visible Windows evidence prove or precisely block the W007 slice and record architecture review. |
 
@@ -164,7 +177,8 @@ W007 closes only when:
    `UserForm`, `Label`, `TextBox`, and `CommandButton` surface;
 3. the W007 form/control tree is materialized into first-class runtime state;
 4. the runtime/effect runner drains reducer effects, invokes OxVba event code,
-   syncs changed VBA properties, requests repaint, and emits trace rows;
+   syncs changed VBA properties, produces a resident `Scene` revision and requests
+   a backend repaint, and emits trace rows;
 5. the Windows backend shows a real window, normalizes input, renders text and
    control state, and returns completions;
 6. the tiny bootstrap can load and run the demo without hard-coded controls or
@@ -185,7 +199,7 @@ W007 closes only when:
 | Rust crates | `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` |
 | OxVba event gate | targeted class event fixture through pinned or updated OxVba baseline |
 | VBA library | OxVba compile/run fixture or targeted harness |
-| Runtime/effect runner | headless test proving TextBox input, button click, native VBA handler, Label update, and repaint |
+| Runtime/effect runner | headless test proving TextBox input, button click, native VBA handler, Label update, and a resident-`Scene` revision/repaint request |
 | Windows backend | visible run with logs, trace, screenshot/frame artifact, or exact blocker |
 | Evidence | checksums, command logs, trace validation, and clean-room non-claim review |
 

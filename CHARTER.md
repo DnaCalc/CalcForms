@@ -36,7 +36,7 @@ OxForms owns:
 - the forms object model and controls;
 - `.frm` / `.frx` canonical form persistence;
 - the VBA-first forms runtime library;
-- the Rust primitive PAL and display-list renderer contracts;
+- the Rust primitive PAL and the control-agnostic retained primitive-tree (Scene) renderer contracts;
 - forms-specific trace/replay, facts, conformance matrices, and evidence;
 - host-extension control seams, with Excel `RefEdit` as the first expected
   extension target.
@@ -99,7 +99,7 @@ Initial scope:
 - MSForms runtime compatibility for `UserForm` and intrinsic FM20 controls.
 - VBA-first control implementations with a small Rust primitive kernel.
 - `.frm` / `.frx` load/save as OxForms' canonical project representation.
-- Reducer-driven form state, display-list rendering, trace/replay, and golden
+- Reducer-driven form state, retained-Scene primitive rendering, trace/replay, and golden
   artifacts.
 - Windows backend first, with Linux, Web/WASM, and macOS behind the same PAL
   contract.

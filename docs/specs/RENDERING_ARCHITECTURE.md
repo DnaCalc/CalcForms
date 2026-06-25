@@ -277,11 +277,15 @@ Two levels, connected by the retained tree:
   `content_hash` to the resident node: equal → no damage; different →
   old ∪ new bounds into `DamageSet`.
 
-`present()` coalesces damage rects, then `render_damage` walks only nodes
+Repaint (§16.2) coalesces damage rects, then `render_damage` walks only nodes
 intersecting them in z order (overlapping/transparent controls recomposite
 correctly). Node tracking gives O(changed) work; rect tracking gives
 pixel-accurate recomposition; both are kept. Correctness is guaranteed by
 construction and verified by invariant §10b.
+
+*Who* runs the diff above (re-render) versus *who* walks the resident tree to
+pixels (repaint), and *when* each fires, is the frame model defined in **§16** —
+the two are deliberately different operations with different owners and clocks.
 
 ## 8. Text and metrics
 
@@ -484,3 +488,170 @@ Considered and deferred: cosmic-text (heavier than current Latin-caption scope);
 Direct2D (Windows-only, diverges from reference-renderer-first); GPU canvases
 (non-deterministic across GPUs — bad for goldens, unneeded for forms). Revisit if
 text fidelity, i18n, or performance evidence calls for it.
+
+## 16. Render invocation and the frame model (foundational; owning bead `oxforms-4pn.7`, converges with `oxforms-rq5.2`)
+
+Status: design accepted (owner-directed foundation pass). This is the render-side
+analogue of the hosting/message-pump care in `LIFECYCLE_PUMP_MODEL.md`: render
+invocation is as subtle as pumping, for the same reason — it crosses into a
+single-threaded VM — and it is given the same first-class, revisitable treatment as
+the §15 backend-stack decision.
+
+### 16.1 Three clocks, kept separate
+
+A correct UI conflates nothing among these; naïve designs fuse them:
+
+1. **Input arrival** — the OS pump delivers an event.
+2. **Content change** — VBA mutates a control, so the resident Scene is now stale.
+3. **Paint timing** — the platform is ready to put pixels on screen
+   (`RedrawRequested`, resize, expose, occlusion).
+
+The retained Scene + `DamageSet` + `RequestRepaint{invalidations}` machinery already
+commits OxForms to the **pull/lazy** model (mutations mark dirty; a frame step
+re-renders; the platform decides when to paint), not push/eager (re-render+paint at
+the point of each mutation). This section makes that explicit so no layer silently
+reintroduces push.
+
+### 16.2 The load-bearing distinction: **Repaint ≠ Re-render**
+
+These are two genuinely different operations. Separating them is what lets backends,
+platforms, and (later) threads change without touching the VBA control code or the
+Rust Scene model.
+
+| | **Repaint** | **Re-render** |
+|---|---|---|
+| What | resident `Scene` → pixels | VBA paint code → `ScenePatch` → resident `Scene` |
+| Enters the VM (VBA)? | **No** — pure Rust | **Yes** — it is a VM entry |
+| Owner | the **backend / window** | the **runtime** (the session owner) |
+| Trigger | any platform paint signal (`RedrawRequested`, resize, expose, occlusion) | **invalidation** only (content actually changed) |
+| Cost / cadence | frequent, cheap | rare, gated, coalesced to ≤1 per frame |
+| Crossing | none | the `SubmitPatch` crossing of §6 |
+
+Repaint is `render_full`/`render_damage` over a resident `Scene` snapshot (§3, §7).
+Re-render is the `SubmitPatch`/Render crossing of §6/§8. The W002→Scene migration
+(§12) and rq5.2 implement the re-render/invalidation half; this section names the
+contract they fill in.
+
+### 16.3 Ownership topology
+
+```
+   OS pump / paint signals             normalized UiEvents
+        (platform)                            │
+            │                                 ▼
+            ▼                          ┌────────────────────┐
+   ┌──────────────────┐  Scene        │      Runtime        │
+   │ Backend / Window │  snapshot     │  sole owner of the  │
+   │ • owns OS pump   │ ◄──────────── │  session = ALL VBA  │
+   │ • owns Repaint   │  (versioned   │  entry: dispatch +  │
+   │   (Scene→pixels) │   resident    │  render_frame       │
+   │ • platform/      │   Scene)      │ • platform-AGNOSTIC │
+   │   backend        │ ────────────► └────────────────────┘
+   │   SPECIFIC       │  UiEvents in           │ VM entry
+   └──────────────────┘                        ▼
+                                      VBA controls (self-render)
+```
+
+- **Runtime** = the sole owner of the `ProjectRuntimeSession` and therefore of *all*
+  VBA entry: both `dispatch(event)` and `render_frame()`. Platform-agnostic. It is
+  the only place that may call into the VM, which is what keeps the single-threaded
+  VM re-entrancy-safe (§16.5). It also owns invalidation union (§16.4).
+- **Backend / window** = owns the OS message pump, the window lifecycle, and Repaint.
+  It reads the resident `Scene` snapshot and walks it to pixels on any paint signal,
+  **never touching VBA**. Platform/backend specific (§11, §15).
+- **Bootstrap** = a *thin assembler* (the workset's "tiny bootstrap", `oxforms-4pn.7`):
+  it constructs a runtime and a backend, wires their two narrow channels (UiEvents in,
+  Scene snapshot out), asks the runtime to invoke the VBA startup entrypoint, and runs
+  the platform loop. It **neither calls VBA directly (that is the runtime) nor
+  rasterizes (that is the backend)**, and holds no control/demo state.
+
+This is a strictly cleaner split than either "the runner gains a render method as a
+convenience" or "the bootstrap owns the session": render invocation belongs to the
+runtime because re-render *is* a VM entry, and the bootstrap is thinner than both
+because it owns neither VBA entry nor paint.
+
+### 16.4 The resident Scene is the one stable seam
+
+The resident `Scene` (held in the adapter's `OxForms.Surface` factory, §6) is the
+single architectural hand-off between the two stable halves. The runtime **produces**
+monotonically-versioned `Scene` revisions (each successful `SubmitPatch` advances a
+revision); the backend **consumes** a read-only snapshot of the latest revision to
+paint. Everything meant to stay stable for the long term lives on one side (VBA
+controls + the Rust Scene model + the reducer); everything expected to churn lives on
+the other (the rasterizer, the windowing/pump, the platform). This seam is what makes
+the §11 backends and §15 stack swappable, and it is **forward-compatible with a
+render/VM thread split**: producing revisions and consuming snapshots is already the
+producer/consumer boundary, so moving paint off the VM thread later needs no change to
+VBA or the Scene model. (v1 is single-threaded; the seam is designed not to require it.)
+
+### 16.5 Pull, coalesced, invalidation-driven — and re-entrancy-safe
+
+- **Coarse invalidation is enough.** Because the kernel is retained and diffs by
+  `content_hash` (§3, §7), VBA may re-emit liberally — even a whole form — and the
+  kernel computes minimal damage. Invalidation therefore only needs to say "this form
+  / these controls are dirty"; per-region dirty bookkeeping is not pushed into control
+  code. For form-scale scenes this is robust and keeps the VBA control code (the part
+  most worth keeping stable) simple.
+- **One `render_frame` per frame, max.** Many mutations inside one handler (or one
+  `DoEvents` slice) collapse into a single VBA self-render and a single patch. This is
+  exactly MSForms `Repaint` / `Suspend`/`Resume` semantics: `SuspendLayout`/
+  `ResumeLayout` (§7) gates `render_frame`, it is not a special case.
+- **Invalidation has two sources the runtime unions.** Reducer `RequestRepaint`
+  effects (structural: focus moved, reducer-owned text) and VBA-side
+  `OxControlCore.Dirty`/`MarkDirty` (handler-changed content). The runtime sees both
+  and unions them per frame — another reason re-render belongs to the runtime.
+- **Re-entrancy safety (the pump analogue).** Re-render is a VM entry, so it obeys the
+  same discipline as input dispatch and message pumping (`LIFECYCLE_PUMP_MODEL.md`):
+  the VM is never re-entered. `render_frame` runs **between** handler returns at a
+  frame boundary, **never synchronously mid-handler** (you let the VM unwind first).
+  Conversely, because **Repaint never enters the VM**, the window stays paintable
+  during a nested/modal pump or a slow VBA handler — a modal `DoEvents` loop can
+  repaint the last good Scene revision even though it must not re-render until the
+  current VBA call returns. This is precisely why the split exists, and it is the
+  render-side companion to the modal-pump rules in `LIFECYCLE_PUMP_MODEL.md`.
+- **The frame clock is event-driven, not a vsync loop.** Forms are not games: after an
+  input batch or a timer tick, *if* dirty → `render_frame` → request a repaint
+  (`winit ControlFlow::Wait`). Animations/timers schedule a wake via a timer effect;
+  there is no busy render loop.
+
+### 16.6 The per-frame loop (normative)
+
+1. Platform pump → backend normalizes OS events → hands `UiEvent`s to the runtime.
+2. `runtime.dispatch(event)`: reduce → fire native VBA events → state changes →
+   reducer/`Core.Dirty` record invalidations. **Dispatch does not paint and does not
+   itself re-render** — it accrues "dirty".
+3. If dirty, `runtime.render_frame()`: run VBA self-render for the invalidated nodes
+   (coalesced), emit one incremental `ScenePatch` against the resident revision
+   (`StaleBase` → full rebuild fallback, §6), advancing the resident `Scene` revision.
+4. The backend is handed the new snapshot/revision and schedules a repaint
+   (`request_redraw`).
+5. On the platform paint signal, the backend Repaints the resident snapshot
+   (damage-aware, §7) → pixels → present.
+6. Paint signals unrelated to content (resize/expose/occlusion) → the backend Repaints
+   the *current* snapshot directly, with **no runtime/VBA involvement**.
+
+### 16.7 Mapping to the current code (and what `4pn.7` lands)
+
+- Repaint already exists: `oxforms-pal-win::run_scene_window` walks the `Scene` it
+  holds on each `RedrawRequested` (§15). Under this model the `Scene` it holds is a
+  *consumed snapshot*; the smoke binary's direct scene mutation is a stand-in for
+  "the runtime produced a new revision" (no VBA in that smoke).
+- Re-render is the new seam: the runtime (`RuntimeRunner`, owner of the session) gains
+  `render_frame()` — the coalesced VBA self-render → `SubmitPatch` → resident-revision
+  advance. This is the home of rq5.2's per-frame `SubmitPatch` + `MarkDirty` dedup +
+  `Suspend`/`Resume` band; `4pn.7` lands the seam (against a minimal entrypoint), and
+  rq5.2 fills in the incremental-invalidation body. `4pn.7` introduces **nothing
+  eager/push**; even where the first cut coalesces trivially, Repaint and Re-render
+  stay distinct.
+- `OxForms.Surface` (the adapter resident-Scene holder, §6) gains a monotonic
+  **revision** + a cheap read-only **snapshot** accessor so the backend consumes a
+  stable revision rather than a live-mutating scene.
+
+### 16.8 Revisitability
+
+Like §15, this is an intentionally insulated decision. The contracts that hold it
+together — `UiEvent` in, the resident `Scene` snapshot out, `SubmitPatch`/`render_full`
+as the only Re-render/Repaint primitives — mean the frame model can later become
+multi-threaded (render thread reads snapshots), remote/headless (snapshots serialized
+to a viewer), or differently-clocked (vsync/compositor-driven) **without** changing
+VBA control code or the Scene model. Revisit if threading, remoting, or animation
+cadence evidence calls for it.

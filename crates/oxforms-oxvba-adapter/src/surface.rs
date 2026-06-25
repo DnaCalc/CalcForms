@@ -70,6 +70,7 @@ impl SurfaceFactory {
         Ok(SurfaceSnapshot {
             calls: state.calls.clone(),
             frame_token: state.scene.as_ref().map(|s| s.frame_hash),
+            revision: state.revision,
             last_report: state.last_report,
             last_stale_base: state.last_stale_base,
             node_count: state.scene.as_ref().map_or(0, |s| s.nodes.len()),
@@ -104,6 +105,11 @@ pub struct SurfaceSnapshot {
     pub calls: Vec<String>,
     /// Current resident frame token (the `base_hash` the next patch must carry).
     pub frame_token: Option<u64>,
+    /// Monotonic resident-Scene revision (the §16.4 producer/consumer seam): bumped
+    /// on `BeginScene` and on any `SubmitPatch` that changes the resident content.
+    /// The backend consumes this to decide "is there a newer frame to Repaint?" —
+    /// it never goes backward, even though `frame_token` is a content hash.
+    pub revision: u64,
     pub last_report: Option<SceneRenderReport>,
     pub last_stale_base: bool,
     pub node_count: usize,
@@ -114,6 +120,8 @@ pub struct SurfaceSnapshot {
 #[derive(Debug, Default)]
 struct SurfaceState {
     scene: Option<Scene>,
+    /// Monotonic resident-Scene revision; see [`SurfaceSnapshot::revision`].
+    revision: u64,
     last_report: Option<SceneRenderReport>,
     last_stale_base: bool,
     last_patch_json: Option<String>,
@@ -174,6 +182,8 @@ impl SurfaceDispatch {
         state.last_report = None;
         state.last_stale_base = false;
         state.last_patch_json = None;
+        // A fresh scene is a new resident revision (the §16.4 consumer seam).
+        state.revision += 1;
 
         Ok(Variant::from_string(token.to_string()))
     }
@@ -191,6 +201,7 @@ impl SurfaceDispatch {
             .scene
             .as_mut()
             .ok_or_else(|| "SubmitPatch called before BeginScene".to_string())?;
+        let prev_token = scene.frame_hash;
 
         match scene.apply_patch(&patch) {
             Ok(_) => {
@@ -198,6 +209,12 @@ impl SurfaceDispatch {
                 let token = scene.frame_hash;
                 state.last_report = Some(report);
                 state.last_stale_base = false;
+                // Advance the resident revision only when the content actually
+                // changed (a content-equal resubmit leaves the token, and the
+                // revision, untouched — §16.4/§16.5 coalescing).
+                if token != prev_token {
+                    state.revision += 1;
+                }
                 Ok(Variant::from_string(token.to_string()))
             }
             Err(SceneError::StaleBase { .. }) => {
@@ -377,6 +394,42 @@ mod tests {
         let snap = factory.snapshot().expect("snapshot");
         assert!(!snap.last_stale_base);
         assert_eq!(snap.node_count, 1);
+    }
+
+    #[test]
+    fn revision_advances_on_change_not_on_content_equal_resubmit() {
+        // The §16.4 resident-Scene consumer seam: a monotonic revision the backend
+        // reads to decide "is there a newer frame to Repaint?".
+        let (factory, disp) = dispatch();
+        let base = begin(&*disp, 4, 3);
+        assert_eq!(
+            factory.snapshot().unwrap().revision,
+            1,
+            "BeginScene is revision 1"
+        );
+
+        let token: u64 = submit(&*disp, &w002_patch(base)).parse().unwrap();
+        assert_eq!(
+            factory.snapshot().unwrap().revision,
+            2,
+            "a content-changing patch advances the revision"
+        );
+
+        // Content-equal resubmit against the current token: no damage, no new revision.
+        submit(&*disp, &w002_patch(token));
+        assert_eq!(
+            factory.snapshot().unwrap().revision,
+            2,
+            "a content-equal resubmit does not advance the revision"
+        );
+
+        // A stale patch is rejected and must not advance the revision.
+        submit(&*disp, &w002_patch(token.wrapping_add(1)));
+        assert_eq!(
+            factory.snapshot().unwrap().revision,
+            2,
+            "a stale patch does not advance the revision"
+        );
     }
 
     #[test]

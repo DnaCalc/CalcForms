@@ -8,7 +8,7 @@ Evidence note:
 [`coordinate-calibration.md`](../evidence/W005_input_interaction_model_exploration/coordinate-calibration.md).
 
 This document names the coordinate spaces that W005 input, hit-testing,
-display-list rendering, event dispatch, screenshots, and comparison artifacts
+Scene rendering, event dispatch, screenshots, and comparison artifacts
 must use. It is a model and calibration procedure, not runtime layout or input
 implementation. Unknowns stay explicit until the W005 oracle fixture and capture
 beads produce live MSForms event logs.
@@ -30,7 +30,7 @@ beads produce live MSForms event logs.
 
 ## 2. Coordinate Spaces
 
-Every coordinate-bearing event, rectangle, display command, screenshot crop, or
+Every coordinate-bearing event, rectangle, render primitive, screenshot crop, or
 comparison row must name one of these spaces. New trace schemas must not expose
 bare `x`, `y`, `left`, `top`, `width`, or `height` fields without a space tag.
 
@@ -42,7 +42,7 @@ bare `x`, `y`, `left`, `top`, `width`, or `height` fields without a space tag.
 | `client_pixels` | integer or fractional pixels in the window client area | client-area top-left | platform adapter/PAL boundary | Excludes non-client chrome. The exact W003/W004 top-level-to-client offset is observed indirectly, not yet a general rule. |
 | `form_logical` | MSForms logical points for W005 fixtures and layout facts | top-left of the UserForm logical design/client surface | reducer/layout model | Fixture `widthPt`, `heightPt`, `leftPt`, and `topPt` values are in this space. Twip data converts exactly to points before use. |
 | `control_local` | logical points unless explicitly tagged otherwise | top-left edge of the receiving control's logical bounds | router/reducer and event dispatch | Coordinates may be negative or outside bounds during capture; do not clamp before tracing or event dispatch. |
-| `display_list_logical` | logical points for W005 display commands | render target/form logical origin selected by the display-list batch | layout/display-list producer | Renderer converts this space to surface pixels. Display lists must not smuggle screen coordinates for control geometry. |
+| `display_list_logical` | logical points at the render target (the W005 display-list term; the live carrier of this geometry is the resident `Scene`'s `Prim` nodes — [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §3/§16) | render target/form logical origin | the producer of render geometry (a control's `Render` emitting `Prim`s; the legacy display-list producer is transitional) | The backend **Repaint** ([`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §16) walks the resident `Scene` and converts this space to surface pixels — VM-free and distinct from the VBA-side producer. Render geometry must not smuggle screen coordinates for control geometry. |
 | `msforms_event_args` | `Single` point values in live MSForms event arguments | expected target left/top edge per public docs, pending W005 event capture | oracle fixture and VBA event dispatch effect | `MouseDown`, `MouseMove`, `MouseUp`, drag/drop `X`/`Y` use this space. Exact pixel relation remains evidence-gated. |
 
 ### Twips And Points
@@ -63,7 +63,7 @@ top  <= point_y < top  + height
 ```
 
 `right` and `bottom` are exclusive whenever they are materialized. This applies
-to hit-testing, dirty rectangles, display-list clip bounds, and comparison
+to hit-testing, dirty rectangles, Scene clip bounds, and comparison
 regions.
 
 Evidence files may report inclusive pixel ranges for readability, such as
@@ -136,8 +136,8 @@ must keep the source values and owner visible.
 | PAL input to reducer/router | PAL contract plus reducer entry | Deliver a named coordinate payload. The reducer/router owns final target selection and the conversion from client/form coordinates to hit-testable logical coordinates. |
 | Form logical to control local | router/reducer | After target selection, compute `control_local` by subtracting the target control's logical bounds. Keep outside/negative values for capture and diagnostics. |
 | Control local to MSForms event args | `FireVbaEvent` effect preparation | Convert W005 `control_local` points to `msforms_event_args` `Single` values for `X`/`Y`; preserve source logical and raw diagnostic coordinates in the trace. |
-| Form state to display list | layout/display-list producer | Emit `display_list_logical` commands from logical state. The display list remains platform-neutral and replayable. |
-| Display list to rendered pixels | renderer/PAL backend | Apply target DPI/scale and the rounding policy to produce surface pixels and optional render diagnostics. |
+| Form state to a `ScenePatch` (Re-render) | runtime / VBA control `Render` (a VM entry) | VBA controls self-render their `display_list_logical` geometry into a batched, platform-neutral, replayable `ScenePatch` against the resident `Scene` (one re-render per frame, max). See [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §6/§16. |
+| Resident Scene to surface pixels (Repaint) | backend / window (never enters the VM) | Walk a read-only resident `Scene` snapshot to pixels on any platform paint signal, applying the ambient device-fit transform (physical pixels ÷ logical surface — translate + uniform scale in v1; the `Scene` carries DPI as a single root `Affine` and never bakes pixels) and the rounding policy (floor-left/ceil-right) to produce surface pixels and optional render diagnostics. See [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §11/§16. |
 | Evidence screenshot to model facts | evidence tooling/comparison artifact | Use manifest `window_rect`, screenshot size/hash, DPI, fixture geometry, and pixel facts to derive calibration rows. Do not change the runtime model based on a screenshot without recording the derivation. |
 
 ## 7. Raw Diagnostic Preservation

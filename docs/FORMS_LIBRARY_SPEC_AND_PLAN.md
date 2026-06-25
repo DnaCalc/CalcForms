@@ -113,7 +113,7 @@ Everything below follows from D1–D12.
 │                     keyboard routing → reducer effects + VBA events     │
 ├───────────────────────────────────────────────────────────────────────┤
 │  PAL CONTRACT  (canonical, flat, value-typed; adapter-bound)           │
-│   window · display-list renderer · text metrics · input · timers ·     │
+│   window · Scene renderer · text metrics · input · timers ·            │
 │   clipboard · system colors/metrics · image decode                     │
 ├───────────────────────────────────────────────────────────────────────┤
 │  PAL BACKENDS  (Rust)             crate: oxforms-pal (+ per-platform)   │
@@ -129,6 +129,16 @@ L1-L5 are the OxForms VBA library, written once and intended to run everywhere.
 The PAL contract is small, primitive, and canonical (§6). Runtime-specific
 adapters expose that one contract to their host environment; they are not
 retained alternate routes.
+
+Process ownership (see [`specs/RENDERING_ARCHITECTURE.md`](specs/RENDERING_ARCHITECTURE.md)
+§16.3–16.4): the **runtime** is the sole owner of the OxVba session and of all VBA
+entry — event dispatch and per-frame re-render — and is platform-agnostic; the
+**backend/window** owns the OS pump, the window, and Repaint (resident Scene →
+pixels) and never enters VBA; a thin **bootstrap** assembler wires a runtime to a
+backend, invokes the VBA startup entrypoint via the runtime, and runs the platform
+loop without itself calling VBA or rasterizing. The resident Scene (held in
+`OxForms.Surface`) is the single stable seam: the runtime produces versioned
+revisions and the backend consumes read-only snapshots.
 
 ### 4.1 Proposed workspace layout (provisional names)
 - **`OxForms` VBA bundle** — the runtime library (L1–L5) as VBA source (`.cls`/`.bas`),
@@ -147,7 +157,7 @@ retained alternate routes.
   control behavior. Any future Rust hot-path migration must still satisfy the
   VBA-first migration rule in section 4.6.
 - **`oxforms-pal`** (Rust) — the host/runtime-independent PAL core: contract types,
-  display-list renderer, reference/headless renderer, shared backend traits, and any
+  the retained-Scene renderer, reference/headless renderer, shared backend traits, and any
   future first-class native surface derived from the same canonical contract. It must
   not depend on OxVba or any host runtime, and it does not own reducer/control
   behavior.
@@ -619,10 +629,11 @@ rather than only a visual smoke test.
   oracle harness shape for properties, event order, and screenshots. *Artifact: generated
   OxForms fact pack + oracle harness skeleton.*
 - **P1 — PAL primitive kernel + Windows backend.** Define `oxforms-pal`; blank
-  `UserForm` window (`winit` + `tiny-skia`/chosen rasterizer), normalized input events,
-  timers, clipboard, text metrics, image decode handles, display-list renderer, headless
-  reference renderer, modal loop, close. *Artifact: PAL primitive kernel + "hello form"
-  smoke + headless render smoke.*
+  `UserForm` window (the §15 stack: `winit` + `softbuffer` + `tiny-skia` + `ab_glyph`;
+  see [`specs/RENDERING_ARCHITECTURE.md`](specs/RENDERING_ARCHITECTURE.md) §15),
+  normalized input events, timers, clipboard, text metrics, image decode handles,
+  retained-Scene renderer, headless reference renderer, modal loop, close. *Artifact:
+  PAL primitive kernel + "hello form" smoke + headless render smoke.*
 - **P1.5 — Form-module integration.** Accept `.frm` as `ModuleKind::Form`; parse the minimal
   designer block; preserve code-behind identity; materialize the form default instance;
   generate designer-declared typed control members; wire handler names such as

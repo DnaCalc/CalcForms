@@ -32,6 +32,10 @@ This spec refines the top-level architecture rather than replacing it:
   section 11, P2 reducer vertical slice.
 - [`FORMS_LIBRARY_SPEC_AND_PLAN.md`](../FORMS_LIBRARY_SPEC_AND_PLAN.md),
   section 12, open questions and deferred work.
+- [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md), §16, render
+  invocation and the frame model: how the reducer's `RenderInvalidation` /
+  `RequestRepaint` signals defined here are consumed (pull/lazy, not push;
+  coalesced to ≤1 re-render per frame; Repaint distinct from Re-render).
 
 Charter constraints apply: compatibility with MSForms and observed VBA behavior
 wins, claims require clean-room evidence, and initial OxForms scaffolds are not
@@ -319,7 +323,7 @@ pure state transition. Every effect must have an `EffectId`, a causal
 | Effect | Required payload | Completion behavior |
 |---|---|---|
 | `FireVbaEvent` | target object/control, event name, argument list, ByRef or mutable-helper metadata, cancel metadata, fact-source reference when known | Executed through OxVba shared event machinery. Completion records success/error and scalar ByRef or helper-object mutations. |
-| `RequestRepaint` | dirty region/subtree, reason, target window/form | May complete immediately as scheduled or later when renderer reports diagnostics. |
+| `RequestRepaint` | dirty region/subtree, reason, target window/form | Records a render invalidation only; it marks content dirty and never itself paints or re-renders. The runtime unions these reducer invalidations with VBA-side `OxControlCore.Dirty`/`MarkDirty` and re-renders/paints on its own coalesced frame clock; completion records the invalidation as accrued for trace/replay (see [`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md) §16). |
 | `CaptureMouse` | target control/form, pointer/button/reason | Completion records success/failure; platform capture loss returns as input/service event. |
 | `ReleaseMouse` | target control/form, reason | Completion records success/failure and final capture owner. |
 | `TransferFocus` | from target, to target, reason, validation policy | May emit `FireVbaEvent` effects for focus/validation ordering and later completion/cancel handling. |
