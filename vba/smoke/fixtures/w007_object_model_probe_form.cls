@@ -17,6 +17,8 @@ Public Sub Build()
     Set mForm = New OxUserForm
     mForm.Name = "greeter"
     mForm.Caption = "Greeter"
+    mForm.Width = 200
+    mForm.Height = 120
 
     Set InputField = mForm.Add(oxControlTextBox, "InputField")
     InputField.Left = 12

@@ -165,6 +165,8 @@ pub struct RuntimeStep {
 pub struct RuntimeRunner {
     session: ProjectRuntimeSession,
     form: RuntimeForm,
+    /// The `OxUserForm` object — the runtime's Re-render target (`render_frame`).
+    user_form: ObjectRef,
     /// VBA object per control (for native member calls), keyed by reducer identity.
     control_objects: HashMap<ControlId, ObjectRef>,
     /// The control's `OxControlCore` object (for Dirty/DisplayText/ClearDirty).
@@ -232,11 +234,31 @@ impl RuntimeRunner {
         Ok(Self {
             session,
             form,
+            user_form,
             control_objects,
             core_objects,
             dispatch_seq: 0,
             trace: Vec::new(),
         })
+    }
+
+    /// Re-render the attached form across the `OxForms.Surface` boundary — the §16
+    /// Re-render the runtime owns. Invokes the form's VBA `OxUserForm.Render`, which
+    /// self-renders into one batched `ScenePatch` and submits it, advancing the
+    /// resident `Scene` the backend repaints. The runtime owns this VM entry
+    /// (serialized with [`Self::dispatch`]); the resident `Scene` and its revision live
+    /// in the `OxForms.Surface` the session was configured with — the bootstrap reads
+    /// that snapshot to drive Repaint. v1 renders at 96 DPI (full rebuild each frame;
+    /// incremental patching is `oxforms-rq5.2`).
+    pub fn render_frame(&mut self) -> Result<(), RuntimeError> {
+        invoke(
+            &mut self.session,
+            self.user_form.clone(),
+            "Render",
+            ProjectMemberKind::Method,
+            vec![Variant::from_i32(96), Variant::from_i32(96)],
+        )?;
+        Ok(())
     }
 
     /// The current reducer state (read-only).

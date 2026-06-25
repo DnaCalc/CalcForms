@@ -16,6 +16,7 @@ Private mHeight As Single
 Private mControls As Collection
 Private mInvalidated As Collection
 Private mNextNodeId As Long
+Private mLastSceneToken As String
 
 Private Sub Class_Initialize()
     Set mControls = New Collection
@@ -93,6 +94,33 @@ Public Function BuildScenePatch( _
 
     BuildScenePatch = Builder.ToPatchJson()
 End Function
+
+' Re-render the whole form across the OxForms.Surface boundary -- the Re-render the
+' runtime invokes each frame (RENDERING_ARCHITECTURE.md SS16). The form self-renders:
+' it knows its own size, so it drives BeginScene + one batched SubmitPatch itself. This
+' is the full-rebuild v1 (BeginScene every frame, so the patch always applies against a
+' fresh base); incremental patching against a threaded token is oxforms-rq5.2. After
+' submitting, the reconciled invalidation set is cleared. LastSceneToken exposes the
+' resident frame token SubmitPatch reported (or "STALE" if the base no longer matched).
+Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
+    Dim Surface As Object
+    Set Surface = CreateObject("OxForms.Surface")
+
+    Dim BaseToken As String
+    BaseToken = Surface.BeginScene(CLng(mWidth), CLng(mHeight), DpiX, DpiY)
+
+    Dim Builder As OxSceneBuilder
+    Set Builder = New OxSceneBuilder
+    Dim PatchJson As String
+    PatchJson = BuildScenePatch(BaseToken, Builder, DpiX, DpiY)
+
+    mLastSceneToken = Surface.SubmitPatch(PatchJson)
+    ClearInvalidations
+End Sub
+
+Public Property Get LastSceneToken() As String
+    LastSceneToken = mLastSceneToken
+End Property
 
 Public Property Get Name() As String
     Name = mName
