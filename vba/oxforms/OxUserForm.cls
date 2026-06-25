@@ -101,7 +101,10 @@ End Function
 ' is the full-rebuild v1 (BeginScene every frame, so the patch always applies against a
 ' fresh base); incremental patching against a threaded token is oxforms-rq5.2. After
 ' submitting, the reconciled invalidation set is cleared. LastSceneToken exposes the
-' resident frame token SubmitPatch reported (or "STALE" if the base no longer matched).
+' resident frame token SubmitPatch reported. In this full-rebuild v1, BeginScene runs
+' every frame so the patch's base always matches and SubmitPatch never returns "STALE";
+' the STALE self-heal (re-BeginScene + resubmit) arrives with incremental patching
+' (oxforms-rq5.2), which is the only path that threads a base token across frames.
 Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
     Dim Surface As Object
     Set Surface = CreateObject("OxForms.Surface")

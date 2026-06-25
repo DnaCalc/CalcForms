@@ -4,6 +4,7 @@ members = [
     "crates/oxforms-pal",
     "crates/oxforms-oxvba-adapter",
     "crates/oxforms-pal-win",
+    "crates/oxforms-bootstrap",
 ]
 resolver = "2"
 

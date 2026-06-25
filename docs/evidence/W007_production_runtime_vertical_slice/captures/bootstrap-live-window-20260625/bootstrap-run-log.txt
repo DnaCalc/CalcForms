@@ -1,0 +1,2 @@
+oxforms-bootstrap: showing the live VBA-rendered W007 form. Close or press Escape to exit. (Captions are deferred to the text-run crossing.)
+oxforms-bootstrap: window closed; clean exit.

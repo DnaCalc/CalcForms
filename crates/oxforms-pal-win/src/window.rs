@@ -8,11 +8,14 @@
 //! callback, which returns a [`WindowSignal`]. The window itself is control-blind: it
 //! knows pixels, scenes, and normalized input — never controls or routing.
 //!
-//! Per §16 the `Scene` this loop holds is a **consumed snapshot**: in the full runtime
-//! (the bootstrap, oxforms-4pn.7) the callback refreshes it from the latest resident
-//! `Scene` revision the runtime produced by Re-render, then returns
-//! [`WindowSignal::Redraw`]; the W007 smoke binary mutates the held `Scene` directly as
-//! a stand-in for "the runtime produced a new revision" (it has no VBA in the loop).
+//! Per §16 the `Scene` this loop holds is a **consumed snapshot**. The revision-driven
+//! consumer loop — the callback refreshes the held `Scene` from the latest resident
+//! revision the runtime produced by Re-render and returns [`WindowSignal::Redraw`] — is
+//! how the full runtime drives live updates; the W007 smoke binary already exercises
+//! that mutate→`Redraw` shape directly (no VBA in its loop). The oxforms-4pn.7 bootstrap
+//! is a one-shot: it produces the first resident revision and presents that snapshot
+//! statically, its callback governing only window close; wiring the revision-refresh
+//! consumer loop into the bootstrap is the next increment.
 //!
 //! The callback emits *client-pixel* coordinates; mapping those to a form's logical
 //! points is the bootstrap's job (it knows the render scale) via

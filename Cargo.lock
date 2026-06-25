@@ -1235,6 +1235,22 @@ dependencies = [
 ]
 
 [[package]]
+name = "oxforms-bootstrap"
+version = "0.0.0"
+dependencies = [
+ "oxforms-core",
+ "oxforms-oxvba-adapter",
+ "oxforms-pal",
+ "oxforms-pal-win",
+ "oxvba-bind",
+ "oxvba-bundle",
+ "oxvba-com",
+ "oxvba-hal",
+ "oxvba-host",
+ "oxvba-symbol",
+]
+
+[[package]]
 name = "oxforms-core"
 version = "0.0.0"
 dependencies = [
