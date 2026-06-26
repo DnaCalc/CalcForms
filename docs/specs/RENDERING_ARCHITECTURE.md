@@ -265,13 +265,15 @@ migrates to Rust under §4.6 — the contract is unchanged.
 
 Two levels, connected by the retained tree:
 
-- **Level 1 — dirty NODES (VBA, source of truth, exists today).**
+- **Level 1 — dirty NODES (VBA, source of truth).**
   `OxControlCore.MarkDirty` → `OnControlInvalidated` → `OxUserForm` collects
-  `InvalidatedControls`. **Confirmed defect fix:** the runtime drains this set
-  with per-frame **deduplication**; `OxUserForm` dedups at `Add` time; a
-  `SuspendLayout`/`ResumeLayout` band coalesces multi-setter updates into one
-  re-emit. (Today `MarkDirty` fires per setter and `mInvalidated.Add` never
-  dedups, so a multi-setter update lists a control repeatedly.)
+  `InvalidatedControls`, **deduplicated by `NodeId`** (a control invalidated by several
+  setters in one frame appears once), and a reentrant `SuspendLayout`/`ResumeLayout` band
+  coalesces a bulk multi-setter update into one re-emit (while suspended, setters still
+  mark dirty but the host is not notified; resume re-derives the set from the dirty
+  controls). `OxUserForm.Render` drains the set into one **incremental** patch per frame —
+  Upsert only the invalidated controls; the root + unchanged controls are retained
+  (oxforms-rq5.2).
 - **Level 2 — dirty RECTS (Rust, derived).** `apply_patch` compares each Upsert's
   `content_hash` to the resident node: equal → no damage; different →
   old ∪ new bounds into `DamageSet`.
@@ -411,8 +413,14 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    `ProbeDisplayCommand`/`ProbeDisplayRole`/`ProbeColor`/`probe_face_color`. **Kept**
    `ControlNode`/`ControlKind` as reducer policy and `hit_test_control_tree` as routing
    policy; the W005/W006 trace-replay goldens were regenerated without the render rows.
-7. **(oxforms-rq5.2, open.)** Wire invalidation (dedup fix + Suspend/Resume + per-frame
-   SubmitPatch); add invariant (c) + the shuffle/show-hide determinism golden.
+7. **DONE (oxforms-rq5.2).** Wired incremental invalidation. `OxUserForm` dedups the
+   invalidation set by NodeId and adds a reentrant `SuspendLayout`/`ResumeLayout` band that
+   coalesces a bulk multi-setter update into one node per changed control. `Render` now
+   emits an INCREMENTAL patch after the first frame — Upsert only the invalidated controls
+   against the resident token (root + unchanged controls are omitted → retained by the
+   kernel), an unchanged frame does no crossing (no new revision), and a stale base
+   self-heals to a full rebuild. Added the invariant-(c) show-hide/shuffle determinism
+   golden (incremental omit-and-retain reaches the full-rebuild scene byte-for-byte).
 8. **DONE (oxforms-rq5.1, landed together with step 6 per the delete-first direction).**
    Retired the entire pre-Scene W002 immediate path. Relocated the W002 rectangle proof
    as a Scene-native one-node FillRect fixture (and through `OxForms.Surface`), then
@@ -429,8 +437,9 @@ Kept: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs` UiEvent, 
 the shared value types above. Relocated: appearance → VBA theme. Deleted (no
 fallback/compat path survives initial development): the probe render code and the whole
 W002 immediate display-list path incl. `SmokeCanvas` and `flatten` (both removed in
-oxforms-rq5.1). Remaining: incremental invalidation (rq5.2) and crossing-budget
-benchmarks + incremental-by-default (rq5.3).
+oxforms-rq5.1). Incremental invalidation landed in rq5.2. Remaining: crossing-budget
+benchmarks + wiring `render_damage` into the present loop for incremental-by-default
+(rq5.3).
 
 ## 13. D7 amendment
 

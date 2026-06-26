@@ -17,10 +17,16 @@
 //! Scope: the live window shows the VBA-rendered form with **captions** (the text seam,
 //! oxforms-4pn.10–.13) and an **interaction loop** (oxforms-4pn.8e): the callback maps
 //! input to form-logical points, asks the runtime to `dispatch` it, and on a requested
-//! repaint `render_frame`s + refreshes the held snapshot — so typing + clicking OK drives
-//! the VBA handlers and the greeting updates live.
+//! repaint `render_frame`s + refreshes the held snapshot — so clicks drive the VBA handlers
+//! and the form updates live.
 //!
-//! Run: `cargo run -p oxforms-bootstrap`
+//! Two demos (see [`Demo`]):
+//! - default — the W007 greeting: type a name, click OK → "Hello, &lt;name&gt;".
+//! - `autosize` — click "Grow font" → the bordered AutoSize label re-fits live (rq5.2
+//!   incremental re-render of just the changed label).
+//!
+//! Run: `cargo run -p oxforms-bootstrap` (greeting) or
+//! `cargo run -p oxforms-bootstrap -- autosize` (AutoSize demo).
 
 #![forbid(unsafe_code)]
 
@@ -28,7 +34,9 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::Arc;
 
-use oxforms_core::materialize_w007_demo_form;
+use oxforms_core::{
+    materialize_form_from_frm, materialize_w007_demo_form, FrmLoadError, RuntimeForm,
+};
 use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::{FontId, Scene};
@@ -49,16 +57,95 @@ use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
 
-/// The W007 demo form class the bootstrap instantiates (its controls/handlers are
-/// VBA; the bootstrap only names the entrypoint, never the layout).
-///
-/// Interim: this reuses the `vba/smoke/fixtures` object-model form (shared with the
-/// runtime tests) so the slice is runnable now. The next increment (oxforms-4pn.8)
-/// promotes it to a proper demo module with a real `Sub Main` startup; the bootstrap
-/// then loads that demo project rather than embedding a smoke fixture.
-const DEMO_FORM_CLASS: &str = "W007ObjectModelProbeForm";
+/// Every bundled demo form exposes the same entrypoint shape (Build + a `Form` accessor),
+/// so the runtime attaches to it uniformly; only the class name + reducer `.frm` differ.
 const DEMO_BUILD_MEMBER: &str = "Build";
 const DEMO_FORM_ACCESSOR: &str = "Form";
+
+/// The bundled demo to show, selected by the first CLI arg (`autosize`); default is the
+/// W007 greeting. Both demos share the same OxForms library + interaction loop and differ
+/// only in the VBA form class and its reducer-side control tree (the `.frm` used for input
+/// hit-testing). The form controls/handlers are VBA; the bootstrap only names the
+/// entrypoint, never the layout.
+///
+/// Interim: these reuse the `vba/smoke/fixtures` forms (shared with the runtime tests) so
+/// the slice is runnable now; a proper demo project with a real `Sub Main` is later work.
+enum Demo {
+    /// Type a name + click OK → "Hello, &lt;name&gt;" (the W007 text seam + interaction loop).
+    Greeting,
+    /// Click "Grow font" → the bordered AutoSize label re-fits live (rq5.2 incremental
+    /// re-render of just the changed label; the measure → layout → paint pipeline).
+    AutoSize,
+}
+
+impl Demo {
+    fn from_args() -> Self {
+        if std::env::args()
+            .skip(1)
+            .any(|a| a.eq_ignore_ascii_case("autosize"))
+        {
+            Self::AutoSize
+        } else {
+            Self::Greeting
+        }
+    }
+
+    fn form_class(&self) -> &'static str {
+        match self {
+            Self::Greeting => "W007ObjectModelProbeForm",
+            Self::AutoSize => "AutoSizeInteractiveForm",
+        }
+    }
+
+    /// The reducer-side control tree (for input hit-testing), materialized from the demo's
+    /// `.frm`. Its control geometry must match the VBA form so clicks route correctly.
+    fn materialize(&self) -> Result<RuntimeForm, FrmLoadError> {
+        match self {
+            Self::Greeting => materialize_w007_demo_form(),
+            Self::AutoSize => materialize_form_from_frm(include_str!(
+                "../../../fixtures/frm/w007-autosize/autosize-interactive.frm"
+            )),
+        }
+    }
+
+    fn window_title(&self) -> &'static str {
+        match self {
+            Self::Greeting => "OxForms - W007 greeting (bootstrap)",
+            Self::AutoSize => "OxForms - AutoSize demo (bootstrap)",
+        }
+    }
+
+    fn hint(&self) -> &'static str {
+        match self {
+            Self::Greeting => {
+                "oxforms-bootstrap: showing the live VBA-rendered W007 greeting. Type a name, \
+                 click OK to greet; close or press Escape to exit."
+            }
+            Self::AutoSize => {
+                "oxforms-bootstrap: showing the live AutoSize demo. Click \"Grow font\" to \
+                 enlarge the label — the bordered box re-fits to the text (rq5.2 incremental \
+                 re-render). Close or press Escape to exit."
+            }
+        }
+    }
+
+    /// The demo's VBA form fixture module — bundled alone (one form per bundle; see
+    /// `oxforms_modules`).
+    fn form_module(&self) -> ModuleUnit {
+        match self {
+            Self::Greeting => unit(
+                "W007ObjectModelProbeForm",
+                ModuleKind::Class,
+                include_str!("../../../vba/smoke/fixtures/w007_object_model_probe_form.cls"),
+            ),
+            Self::AutoSize => unit(
+                "AutoSizeInteractiveForm",
+                ModuleKind::Class,
+                include_str!("../../../vba/smoke/fixtures/autosize_interactive_form.cls"),
+            ),
+        }
+    }
+}
 
 /// A precise, stage-tagged bootstrap failure (acceptance: OxVba load/compile vs
 /// OxForms runtime vs PAL/backend vs normal exit are distinguishable).
@@ -105,18 +192,22 @@ fn main() {
 }
 
 fn run() -> Result<(), BootstrapError> {
-    // 1. Load + configure the project: the OxForms VBA library + the demo form, with
-    //    the OxForms.Surface boundary registered so the form can self-render.
-    let (session, surface, fonts) = build_session()?;
+    let demo = Demo::from_args();
 
-    // 2. Invoke the VBA startup (minimal entrypoint): materialize the demo form into
-    //    runtime state and attach the runtime, which constructs + builds the VBA form.
-    let runtime_form = materialize_w007_demo_form()
+    // 1. Load + configure the project: the OxForms VBA library + the SELECTED demo form
+    //    (one form per bundle), with the OxForms.Surface boundary registered so the form
+    //    can self-render.
+    let (session, surface, fonts) = build_session(&demo)?;
+
+    // 2. Invoke the VBA startup (minimal entrypoint): materialize the selected demo form
+    //    into runtime state and attach the runtime, which constructs + builds the VBA form.
+    let runtime_form = demo
+        .materialize()
         .map_err(|err| BootstrapError::Runtime(format!("materialize demo form: {err}")))?;
     let mut runner = RuntimeRunner::attach(
         session,
         runtime_form,
-        DEMO_FORM_CLASS,
+        demo.form_class(),
         DEMO_BUILD_MEMBER,
         DEMO_FORM_ACCESSOR,
     )
@@ -128,10 +219,7 @@ fn run() -> Result<(), BootstrapError> {
         .map_err(|err| BootstrapError::Runtime(format!("initial render_frame: {err}")))?;
     let scene = current_scene(&surface)?;
 
-    println!(
-        "oxforms-bootstrap: showing the live VBA-rendered W007 form. Type a name, click \
-         OK to greet; close or press Escape to exit."
-    );
+    println!("{}", demo.hint());
 
     // 4. Run the platform loop with the interaction consumer loop (oxforms-4pn.8e). The
     //    window owns Repaint (resident Scene snapshot -> pixels). The callback is the
@@ -140,7 +228,7 @@ fn run() -> Result<(), BootstrapError> {
     //    (a VM entry the runtime owns), and — when the runtime requests a repaint —
     //    `render_frame`s, refreshes the held Scene from the resident snapshot, and asks
     //    for a `Redraw`. The bootstrap never calls VBA or rasterizes directly.
-    let options = WindowOptions::new("OxForms - W007 (bootstrap)", 600.0, 360.0);
+    let options = WindowOptions::new(demo.window_title(), 600.0, 360.0);
     let (form_w, form_h) = (
         f64::from(scene.surface.width.max(1)),
         f64::from(scene.surface.height.max(1)),
@@ -265,12 +353,13 @@ fn is_close(event: &UiEvent) -> bool {
 
 /// Build the OxVba session for the OxForms library + demo form, with `OxForms.Surface`
 /// registered. The VBA sources are embedded so the bootstrap runs from anywhere.
-fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError>
-{
+fn build_session(
+    demo: &Demo,
+) -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError> {
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsW007Bootstrap".to_string(),
         project_kind: ProjectKind::Library,
-        modules: oxforms_modules(),
+        modules: oxforms_modules(demo),
         references: Vec::new(),
         reference_projects: Vec::new(),
         conditional_constants: Default::default(),
@@ -317,8 +406,8 @@ fn unit(name: &str, kind: ModuleKind, source: &str) -> ModuleUnit {
     }
 }
 
-/// The OxForms VBA library modules + the W007 demo form, embedded at build time.
-fn oxforms_modules() -> Vec<ModuleUnit> {
+/// The OxForms VBA library modules + the selected demo form, embedded at build time.
+fn oxforms_modules(demo: &Demo) -> Vec<ModuleUnit> {
     use ModuleKind::{Class, Procedural};
     vec![
         unit(
@@ -386,10 +475,10 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             Class,
             include_str!("../../../vba/oxforms/OxSceneBuilder.cls"),
         ),
-        unit(
-            DEMO_FORM_CLASS,
-            Class,
-            include_str!("../../../vba/smoke/fixtures/w007_object_model_probe_form.cls"),
-        ),
+        // Only the SELECTED demo's form is bundled. One form per bundle: OxVba builds event
+        // routes per project, and two WithEvents `CommandButton_Click` handlers in one bundle
+        // collide ("build_event_routes dedup invariant violated"); a real app likewise bundles
+        // the forms it uses. See docs/handovers for the OxVba multi-form-events note.
+        demo.form_module(),
     ]
 }

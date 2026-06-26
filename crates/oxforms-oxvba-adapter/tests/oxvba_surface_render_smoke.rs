@@ -126,6 +126,11 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 ModuleKind::Class,
                 "vba/smoke/fixtures/autosize_demo_form.cls",
             ),
+            module_unit(
+                "InvalidationDemoForm",
+                ModuleKind::Class,
+                "vba/smoke/fixtures/invalidation_demo_form.cls",
+            ),
         ],
         references: Vec::new(),
         reference_projects: Vec::new(),
@@ -461,6 +466,109 @@ fn autolabel_node(surface: &Arc<SurfaceFactory>) -> SceneNode {
         .get(NodeId(1))
         .expect("the AutoLabel control node")
         .clone()
+}
+
+/// oxforms-rq5.2: the SuspendLayout/ResumeLayout band + NodeId dedup coalesce a bulk
+/// multi-setter update into one node per CHANGED control, and the incremental render emits
+/// only those controls (the root + unchanged controls are retained by the kernel). This is
+/// the §6 crossing-budget mechanism — a change does not re-emit the whole form.
+#[test]
+fn suspend_resume_dedup_emits_one_incremental_node_per_changed_control() {
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
+    register_surface(&projection, surface.clone());
+
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("InvalidationDemoForm")
+        .expect("create invalidation demo form");
+    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+        session
+            .invoke_member_values(
+                form.clone(),
+                name,
+                Some(ProjectMemberKind::Method),
+                Vec::new(),
+            )
+            .unwrap_or_else(|err| panic!("invoke {name}: {}", err.message()));
+    };
+
+    let upserts = |surface: &Arc<SurfaceFactory>| -> usize {
+        surface
+            .snapshot()
+            .expect("snapshot")
+            .last_patch_json
+            .expect("a submitted patch")
+            .matches("\"upsert\"")
+            .count()
+    };
+
+    // First frame: full rebuild — root + the two labels = three upserts.
+    call(&mut session, "Build");
+    call(&mut session, "RenderOnce");
+    assert_eq!(
+        upserts(&surface),
+        3,
+        "the first frame is a full rebuild: root + two labels"
+    );
+
+    // Bulk suspended update: three setters on Label1 + one on Label2. The next render is
+    // incremental and must carry exactly TWO upserts — Label1's three setters are coalesced
+    // by suspend-suppression (ResumeLayout records it once), Label2 once, and NO root. (This
+    // first band is the non-discriminating baseline: both labels are changed here, so it
+    // emits 2 with or without the ClearDirty fix; the SUBSET band below is what catches the
+    // over-invalidation bug.)
+    call(&mut session, "BulkUpdateSuspended");
+    call(&mut session, "RenderOnce");
+    assert_eq!(
+        upserts(&surface),
+        2,
+        "incremental: one node per changed control (Label1's setters coalesced, root retained)"
+    );
+    let label1_x = |surface: &Arc<SurfaceFactory>| -> f32 {
+        surface
+            .snapshot()
+            .expect("snapshot")
+            .scene
+            .expect("scene")
+            .get(NodeId(1))
+            .expect("Label1")
+            .bounds
+            .x
+    };
+    assert_eq!(
+        label1_x(&surface),
+        20.0,
+        "the bulk update is reflected in the resident scene"
+    );
+
+    // A SECOND suspended band touching ONLY Label1 must emit exactly ONE node. This is the
+    // discriminating case: it passes only because each emit cleared Core.Dirty, so Label2 is
+    // no longer stale-dirty from the first band. (Without the rq5.2 ClearDirty-on-emit fix,
+    // ResumeLayout's dirty re-derive would re-invalidate Label2 too and this would be 2.)
+    call(&mut session, "BulkUpdateSuspendedLabel1Only");
+    call(&mut session, "RenderOnce");
+    assert_eq!(
+        upserts(&surface),
+        1,
+        "a subset band invalidates exactly the touched control (no stale-dirty over-invalidation)"
+    );
+    assert_eq!(label1_x(&surface), 55.0, "the subset band moved Label1");
+
+    // Two NON-suspended setters on Label1 exercise the RecordInvalidated NodeId dedup scan
+    // directly (each setter notifies the host); the control still lands once → one node.
+    call(&mut session, "BulkUpdateUnsuspendedLabel1");
+    call(&mut session, "RenderOnce");
+    assert_eq!(
+        upserts(&surface),
+        1,
+        "two setters on one control dedup to a single incremental node"
+    );
+    assert_eq!(
+        label1_x(&surface),
+        70.0,
+        "the unsuspended update moved Label1"
+    );
 }
 
 /// Evidence generator (on-demand): render the AutoSize demo through the REAL ab_glyph

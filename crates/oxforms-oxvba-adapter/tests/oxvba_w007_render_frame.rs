@@ -20,7 +20,7 @@ use std::sync::Arc;
 use oxforms_core::materialize_w007_demo_form;
 use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::StubShaper;
+use oxforms_pal::scene::{NodeId, StubShaper};
 use oxforms_pal::{
     CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, KeyboardModifiers, LogicalPoint,
     MouseButton, MouseButtonEvent, MouseButtons, PointerId, UiEvent, UiEventId, UiEventKind,
@@ -56,9 +56,13 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-/// Build a session with the OxForms VBA library + the object-model fixture, and the
-/// `OxForms.Surface` boundary registered so the form's `Render` can self-render.
-fn prepare_session_with_surface() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
+/// Build a session with the OxForms VBA library + ONE demo form `(module_name, path)`, and
+/// the `OxForms.Surface` boundary registered so the form's `Render` can self-render. One
+/// form per bundle: two `WithEvents CommandButton_Click` handlers in one bundle collide in
+/// OxVba's per-project event routing (see the handover note).
+fn prepare_session_with_surface(
+    demo_form: (&str, &str),
+) -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
     let manifest = SymbolProjectManifest {
         project_name: "W007RenderFrame".to_string(),
         project_kind: ProjectKind::Library,
@@ -116,11 +120,7 @@ fn prepare_session_with_surface() -> (ProjectRuntimeSession, Arc<SurfaceFactory>
                 ModuleKind::Class,
                 "vba/oxforms/OxSceneBuilder.cls",
             ),
-            module_unit(
-                "W007ObjectModelProbeForm",
-                ModuleKind::Class,
-                "vba/smoke/fixtures/w007_object_model_probe_form.cls",
-            ),
+            module_unit(demo_form.0, ModuleKind::Class, demo_form.1),
         ],
         references: Vec::new(),
         reference_projects: Vec::new(),
@@ -182,7 +182,10 @@ fn label_caption(runner: &RuntimeRunner, name: &str) -> String {
 
 #[test]
 fn render_frame_drives_vba_self_render_into_the_resident_scene() {
-    let (session, surface) = prepare_session_with_surface();
+    let (session, surface) = prepare_session_with_surface((
+        "W007ObjectModelProbeForm",
+        "vba/smoke/fixtures/w007_object_model_probe_form.cls",
+    ));
     let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
     let mut runner = RuntimeRunner::attach(
         session,
@@ -223,18 +226,21 @@ fn render_frame_drives_vba_self_render_into_the_resident_scene() {
         "the first render advanced the revision"
     );
 
-    // Re-render again with no state change: deterministic full rebuild → identical
-    // resident content (same token), but a fresh frame (revision advances).
+    // Re-render again with no state change: nothing was invalidated, so the incremental
+    // path (oxforms-rq5.2) does NO crossing — the resident frame is untouched, keeping both
+    // the token AND the revision (there is no new frame to repaint). This is the efficiency
+    // win over the old full-rebuild-every-frame path, which bumped the revision uncondition-
+    // ally even when the content was identical.
     runner.render_frame().expect("render_frame #2");
     let snap2 = surface.snapshot().expect("snapshot");
     assert_eq!(
         snap2.frame_token,
         Some(token1),
-        "unchanged content re-renders to an identical resident token (determinism)"
+        "unchanged content keeps the identical resident token (determinism)"
     );
-    assert!(
-        snap2.revision > snap1.revision,
-        "each render_frame produces a new resident revision"
+    assert_eq!(
+        snap2.revision, snap1.revision,
+        "an unchanged re-render produces no new resident revision (no wasted repaint)"
     );
 
     // The runtime drives both dispatch and render: focus the field, type, click OK
@@ -302,4 +308,61 @@ fn render_frame_drives_vba_self_render_into_the_resident_scene() {
         sources.iter().any(|s| s == "Hello, World"),
         "the new label caption crossed via MeasureText as a resident shaped run; got {sources:?}"
     );
+}
+
+/// The interactive AutoSize demo (the runnable `cargo run -p oxforms-bootstrap -- autosize`
+/// window) end to end: clicking "Grow font" fires the native `GrowButton_Click`, which bumps
+/// the label font, so the runtime re-renders incrementally and the bordered AutoSize box
+/// re-fits LARGER. Proves the live demo's click → grow → re-fit chain (rq5.2) headlessly.
+#[test]
+fn autosize_demo_grow_click_refits_the_label_larger() {
+    let (session, surface) = prepare_session_with_surface((
+        "AutoSizeInteractiveForm",
+        "vba/smoke/fixtures/autosize_interactive_form.cls",
+    ));
+    let runtime_form = oxforms_core::materialize_form_from_frm(&read_source(
+        "fixtures/frm/w007-autosize/autosize-interactive.frm",
+    ))
+    .expect("materialize autosize demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "AutoSizeInteractiveForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach autosize demo");
+
+    // First frame: the AutoLabel (NodeId 2; GrowButton is NodeId 1, added first) hugs
+    // "Size me" at the default 8pt.
+    runner.render_frame().expect("initial render");
+    let before = label_size(&surface);
+
+    // Click "Grow font" (form-logical center of the button at Left 12, Top 12, 100x24).
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 62.0, 24.0)),
+        ))
+        .expect("press grow");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 62.0, 24.0)),
+        ))
+        .expect("release grow");
+    runner.render_frame().expect("render after grow");
+    let after = label_size(&surface);
+
+    assert!(
+        after.0 > before.0 && after.1 > before.1,
+        "the Grow click re-measured + re-fit the AutoSize box larger: {before:?} -> {after:?}"
+    );
+}
+
+/// (w, h) of the AutoSize label node (NodeId 2) in the resident scene.
+fn label_size(surface: &Arc<SurfaceFactory>) -> (f32, f32) {
+    let scene = surface.snapshot().expect("snapshot").scene.expect("scene");
+    let node = scene.get(NodeId(2)).expect("the AutoLabel node");
+    (node.bounds.w, node.bounds.h)
 }

@@ -248,8 +248,10 @@ impl RuntimeRunner {
     /// resident `Scene` the backend repaints. The runtime owns this VM entry
     /// (serialized with [`Self::dispatch`]); the resident `Scene` and its revision live
     /// in the `OxForms.Surface` the session was configured with — the bootstrap reads
-    /// that snapshot to drive Repaint. v1 renders at 96 DPI (full rebuild each frame;
-    /// incremental patching is `oxforms-rq5.2`).
+    /// that snapshot to drive Repaint. Renders at 96 DPI. The form's `Render` emits an
+    /// INCREMENTAL patch after the first frame (oxforms-rq5.2): only the invalidated
+    /// controls cross, an unchanged frame does no crossing (no new revision), and a stale
+    /// base self-heals to a full rebuild.
     pub fn render_frame(&mut self) -> Result<(), RuntimeError> {
         invoke(
             &mut self.session,

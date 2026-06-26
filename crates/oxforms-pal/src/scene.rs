@@ -1579,6 +1579,100 @@ mod tests {
         );
     }
 
+    /// Determinism invariant (c) for the incremental strategy (oxforms-rq5.2): a sequence of
+    /// incremental patches that omits unchanged nodes (the kernel RETAINS them) reaches a
+    /// resident scene byte-identical to a full rebuild of the same final state — both the
+    /// frame hash and the framebuffer. Exercises show-hide and a paint-order shuffle, with
+    /// NodeId stable throughout. This is what makes the VBA "Upsert only the invalidated
+    /// controls" emission safe.
+    #[test]
+    fn incremental_show_hide_and_shuffle_reach_the_full_rebuild_scene() {
+        let surf = SurfaceSize::new(20, 20);
+        let red = Color::rgba(0xff, 0x00, 0x00, 0xff);
+        let blue = Color::rgba(0x00, 0x00, 0xff, 0xff);
+        let face = Color::rgba(0xf0, 0xf0, 0xf0, 0xff);
+        let fill = |x: f32, y: f32, c: Color| Prim::FillRect {
+            rect: RectF::new(x, y, 10.0, 10.0),
+            paint: Paint::Solid(c),
+        };
+        let child = |id: u64, x: f32, y: f32, c: Color, visible: bool| {
+            let mut n = SceneNode::new(NodeId(id));
+            n.parent = Some(NodeId(0));
+            n.bounds = RectF::new(x, y, 10.0, 10.0);
+            n.visible = visible;
+            n.prims = vec![fill(x, y, c)];
+            n
+        };
+        let root = |children: Vec<NodeId>| {
+            let mut r = SceneNode::new(NodeId(0));
+            r.bounds = RectF::new(0.0, 0.0, 20.0, 20.0);
+            r.children = children;
+            r.prims = vec![fill(0.0, 0.0, face)];
+            r
+        };
+        let patch = |base: u64, edits: Vec<NodeEdit>| ScenePatch {
+            version: SCENE_PATCH_VERSION,
+            base_hash: base,
+            surface: surf,
+            dpi: dpi(),
+            edits,
+        };
+        // n1 and n2 overlap, so paint order (the root children list) changes the pixels.
+
+        // Full rebuild of the FINAL state: children [2,1] (n1 on top), n2 hidden.
+        let mut full = Scene::new(surf, dpi(), NodeId(0));
+        full.apply_patch(&patch(
+            full.frame_hash,
+            vec![
+                NodeEdit::Upsert(root(vec![NodeId(2), NodeId(1)])),
+                NodeEdit::Upsert(child(1, 2.0, 2.0, red, true)),
+                NodeEdit::Upsert(child(2, 5.0, 5.0, blue, false)),
+            ],
+        ))
+        .expect("full rebuild");
+
+        // Incremental path to the SAME final state, in three steps that each omit the
+        // unchanged nodes (retained by the kernel):
+        let mut incr = Scene::new(surf, dpi(), NodeId(0));
+        // 1) initial: children [1,2], both visible.
+        incr.apply_patch(&patch(
+            incr.frame_hash,
+            vec![
+                NodeEdit::Upsert(root(vec![NodeId(1), NodeId(2)])),
+                NodeEdit::Upsert(child(1, 2.0, 2.0, red, true)),
+                NodeEdit::Upsert(child(2, 5.0, 5.0, blue, true)),
+            ],
+        ))
+        .expect("initial");
+        // 2) show-hide: re-emit ONLY n2 as hidden (root + n1 omitted → retained).
+        incr.apply_patch(&patch(
+            incr.frame_hash,
+            vec![NodeEdit::Upsert(child(2, 5.0, 5.0, blue, false))],
+        ))
+        .expect("hide n2");
+        // 3) shuffle: re-emit ONLY the root with reordered children (n1 + n2 omitted).
+        incr.apply_patch(&patch(
+            incr.frame_hash,
+            vec![NodeEdit::Upsert(root(vec![NodeId(2), NodeId(1)]))],
+        ))
+        .expect("shuffle paint order");
+
+        assert_eq!(
+            incr.frame_hash, full.frame_hash,
+            "incremental omit-and-retain reaches the full-rebuild resident frame hash"
+        );
+        assert_eq!(
+            render_headless_hash(&incr),
+            render_headless_hash(&full),
+            "...and a byte-identical framebuffer"
+        );
+        assert_eq!(
+            incr.nodes.len(),
+            full.nodes.len(),
+            "NodeId set is stable across show-hide + shuffle (no nodes added/lost)"
+        );
+    }
+
     #[test]
     fn pick_returns_topmost_by_z() {
         let hits = vec![
