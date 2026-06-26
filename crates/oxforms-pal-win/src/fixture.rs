@@ -13,12 +13,12 @@
 
 use ab_glyph::FontArc;
 use oxforms_pal::scene::{
-    Affine, EdgeBorder, EdgeEffect, FontId, NodeId, Paint, Prim, RectF, Scene, SceneNode, Stroke,
-    TextAlign, TextFlags, TextRunId,
+    text_run_id, Affine, EdgeBorder, EdgeEffect, FontId, NodeId, Paint, Prim, RectF, Scene,
+    SceneNode, Stroke, TextAlign, TextFlags, TextKey, TextRunId, TextShaper,
 };
 use oxforms_pal::{Color, DpiScale, SurfaceSize};
 
-use crate::text::{ResolvedTextRun, TextRegistry};
+use crate::text::{AbGlyphShaper, FontTable};
 
 /// Classic MSForms-ish palette (opaque RGBA).
 const FORM_FACE: Color = Color::rgba(0xF0, 0xF0, 0xF0, 0xFF);
@@ -30,16 +30,34 @@ const DEFAULT_BORDER: Color = Color::rgba(0x20, 0x20, 0x20, 0xFF);
 
 const FORM_W: f32 = 200.0;
 const FORM_H: f32 = 120.0;
-const FONT_PX: f32 = 8.0;
+const FONT_SIZE_MILLI_PT: u32 = 8_000;
 
 /// The font id every fixture run references; register the loaded face under it.
 pub const FIXTURE_FONT: FontId = FontId(1);
 
-const RUN_FIELD: TextRunId = TextRunId(1);
-const RUN_BUTTON: TextRunId = TextRunId(2);
-const RUN_LABEL: TextRunId = TextRunId(3);
+/// The captions the greeter draws (post-interaction state).
+const FIELD_TEXT: &str = "World";
+const BUTTON_TEXT: &str = "OK";
+const LABEL_TEXT: &str = "Hello, World";
 
-/// The greeter scene as a control-agnostic primitive tree (logical points).
+/// The style key all fixture runs share (one font, one size, no wrap).
+fn run_key() -> TextKey {
+    TextKey {
+        font: FIXTURE_FONT,
+        size_milli_pt: FONT_SIZE_MILLI_PT,
+        wrap_width_milli_pt: None,
+    }
+}
+
+/// The (font-free) content-hash run id a caption resolves to — both the `DrawText`
+/// reference and the shaped run stored in `Scene.text` use this, so they match.
+fn run_id(caption: &str) -> TextRunId {
+    text_run_id(&run_key(), caption)
+}
+
+/// The greeter scene as a control-agnostic primitive tree (logical points). `DrawText`
+/// prims reference content-hash run ids; the shaped runs are added by [`greeter`] when
+/// a font is available (the headless geometry needs no font).
 #[must_use]
 pub fn greeter_scene() -> Scene {
     let mut scene = Scene::new(
@@ -76,7 +94,7 @@ pub fn greeter_scene() -> Scene {
             shadow: EDGE_SHADOW,
         },
         Prim::DrawText {
-            run: RUN_FIELD,
+            run: run_id(FIELD_TEXT),
             rect: RectF::new(4.0, 0.0, 112.0, 18.0),
             align: TextAlign::Left,
             wrap: false,
@@ -111,7 +129,7 @@ pub fn greeter_scene() -> Scene {
             shadow: EDGE_SHADOW,
         },
         Prim::DrawText {
-            run: RUN_BUTTON,
+            run: run_id(BUTTON_TEXT),
             rect: RectF::new(0.0, 0.0, 48.0, 20.0),
             align: TextAlign::Center,
             wrap: false,
@@ -127,7 +145,7 @@ pub fn greeter_scene() -> Scene {
     label.transform = Affine::translate(12.0, 44.0);
     label.bounds = RectF::new(0.0, 0.0, 176.0, 18.0);
     label.prims = vec![Prim::DrawText {
-        run: RUN_LABEL,
+        run: run_id(LABEL_TEXT),
         rect: RectF::new(0.0, 0.0, 176.0, 18.0),
         align: TextAlign::Left,
         wrap: false,
@@ -141,25 +159,19 @@ pub fn greeter_scene() -> Scene {
     scene
 }
 
-/// The text registry the greeter scene's run ids resolve against. Register the loaded
-/// platform font face under [`FIXTURE_FONT`].
+/// Build the greeter scene with its captions shaped into `Scene.text`, plus the
+/// [`FontTable`] the runs resolve against. The shaped runs' ids match the `DrawText`
+/// references (both via [`run_id`]/`text_run_id`), so the renderer resolves every run.
 #[must_use]
-pub fn greeter_text(font: FontArc) -> TextRegistry {
-    let mut reg = TextRegistry::new();
-    reg.add_font(FIXTURE_FONT, font);
-    reg.add_run(
-        RUN_FIELD,
-        ResolvedTextRun::new("World", FIXTURE_FONT, FONT_PX),
-    );
-    reg.add_run(
-        RUN_BUTTON,
-        ResolvedTextRun::new("OK", FIXTURE_FONT, FONT_PX),
-    );
-    reg.add_run(
-        RUN_LABEL,
-        ResolvedTextRun::new("Hello, World", FIXTURE_FONT, FONT_PX),
-    );
-    reg
+pub fn greeter(font: FontArc) -> (Scene, FontTable) {
+    let shaper = AbGlyphShaper::new(FIXTURE_FONT, font.clone());
+    let mut scene = greeter_scene();
+    for caption in [FIELD_TEXT, BUTTON_TEXT, LABEL_TEXT] {
+        scene.upsert_text_run(shaper.shape(&run_key(), caption));
+    }
+    let mut fonts = FontTable::new();
+    fonts.add(FIXTURE_FONT, font);
+    (scene, fonts)
 }
 
 #[cfg(test)]
@@ -185,19 +197,18 @@ mod tests {
     }
 
     #[test]
-    fn every_text_run_in_the_scene_resolves_in_the_registry() {
-        // Guard the fixture's own consistency: no DrawText run id is left dangling.
+    fn every_text_run_in_the_scene_resolves_in_scene_text() {
+        // Guard the fixture's own consistency: every DrawText run id is shaped into
+        // Scene.text by greeter(), so no reference is left dangling for the renderer.
         let Some(font) = crate::text::host_font_or_skip() else {
             return;
         };
-        let reg = greeter_text(font);
-        let scene = greeter_scene();
-        use crate::text::TextResolver;
+        let (scene, _fonts) = greeter(font);
         for node in &scene.nodes {
             for prim in &node.prims {
                 if let Prim::DrawText { run, .. } = prim {
                     assert!(
-                        reg.resolve(*run).is_some(),
+                        scene.text_run(*run).is_some(),
                         "scene references unresolved run {run:?}"
                     );
                 }

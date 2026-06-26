@@ -13,7 +13,7 @@
 
 use oxforms_pal::scene::{Affine, NodeId, Scene};
 use oxforms_pal::{KeyCode, UiEvent, UiEventKind};
-use oxforms_pal_win::fixture::{greeter_scene, greeter_text};
+use oxforms_pal_win::fixture::greeter;
 use oxforms_pal_win::{load_ui_font, run_scene_window, WindowOptions, WindowSignal};
 
 /// The OK button node id in the greeter fixture, and its resting offset.
@@ -29,8 +29,7 @@ fn main() {
         }
     };
 
-    let scene = greeter_scene();
-    let registry = greeter_text(font);
+    let (scene, fonts) = greeter(font);
     let options = WindowOptions::new("OxForms — W007 greeter (smoke)", 600.0, 360.0);
 
     println!("W007 window smoke: showing the greeter scene. Close or press Escape to exit.");
@@ -38,7 +37,7 @@ fn main() {
     let result = run_scene_window(
         options,
         scene,
-        &registry,
+        fonts,
         |event: &UiEvent, scene: &mut Scene| {
             log_event(event);
             match &event.kind {

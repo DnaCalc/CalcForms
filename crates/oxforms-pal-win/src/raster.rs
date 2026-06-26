@@ -14,7 +14,7 @@
 //! *device transform* (physical-pixels ÷ logical-surface) is the sink's initial `cur`,
 //! so a 200×120-pt form fills a 600×360-px window crisply.
 
-use ab_glyph::{point as ab_point, Font, PxScale, ScaleFont};
+use ab_glyph::{point as ab_point, Font, GlyphId, PxScale};
 use oxforms_pal::scene::{
     render_full, Affine, EdgeBorder, EdgeEffect, Paint, Prim, PrimSink, RectF, Scene, Stroke,
     TextAlign, TextFlags, TextRunId,
@@ -22,7 +22,7 @@ use oxforms_pal::scene::{
 use oxforms_pal::Color;
 use tiny_skia as ts;
 
-use crate::text::TextResolver;
+use crate::text::{FontTable, SceneTextResolver, TextResolver};
 
 /// 4-cubic circle/ellipse approximation constant.
 const KAPPA: f32 = 0.552_284_8;
@@ -38,7 +38,7 @@ const KAPPA: f32 = 0.552_284_8;
 /// (round-rect radii and edge/stroke thickness are scalar-scaled). Uniform fit keeps
 /// the form's aspect ratio on any window size; if the pixmap aspect differs from the
 /// surface, the unused margin shows the white clear.
-pub fn render_scene_to_pixmap(scene: &Scene, pixmap: &mut ts::Pixmap, resolver: &dyn TextResolver) {
+pub fn render_scene_to_pixmap(scene: &Scene, pixmap: &mut ts::Pixmap, fonts: &FontTable) {
     pixmap.fill(ts::Color::WHITE);
     let fit_x = pixmap.width() as f32 / (scene.surface.width.max(1) as f32);
     let fit_y = pixmap.height() as f32 / (scene.surface.height.max(1) as f32);
@@ -49,7 +49,11 @@ pub fn render_scene_to_pixmap(scene: &Scene, pixmap: &mut ts::Pixmap, resolver: 
         tx: 0.0,
         ty: 0.0,
     };
-    let mut sink = SkiaSink::new(pixmap, device, resolver);
+    // Text is resolved from the scene's own resident run store (shaped on change), so
+    // repaint blits glyphs without re-shaping. The resolver and `render_full` both
+    // borrow `scene` immutably.
+    let resolver = SceneTextResolver::new(scene, fonts);
+    let mut sink = SkiaSink::new(pixmap, device, &resolver);
     render_full(scene, &mut sink);
 }
 
@@ -286,10 +290,10 @@ impl<'a> SkiaSink<'a> {
         paint: &Paint,
         flags: TextFlags,
     ) {
-        let Some(resolved) = self.resolver.resolve(run) else {
+        let Some(text_run) = self.resolver.run(run) else {
             return;
         };
-        let Some(font) = self.resolver.font(resolved.font) else {
+        let Some(font) = self.resolver.font(text_run.key.font) else {
             return;
         };
         let color = match paint {
@@ -300,32 +304,27 @@ impl<'a> SkiaSink<'a> {
             },
         };
 
+        // The run is already shaped in logical points; the renderer only places it and
+        // scales to device — NO re-measuring/re-shaping at paint (RENDERING_ARCHITECTURE
+        // §8/§16). `sx`/`sy` are the ambient uniform device scale.
         let dev_rect = self.cur.apply_rect(local_rect);
+        let sx = self.cur.sx.abs();
+        let sy = self.cur.sy.abs();
+        let em = text_run.key.size_milli_pt as f32 / 1000.0;
         let scale = PxScale {
-            x: (resolved.px * self.cur.sx.abs()).max(1.0),
-            y: (resolved.px * self.cur.sy.abs()).max(1.0),
+            x: (em * sx).max(1.0),
+            y: (em * sy).max(1.0),
         };
-        let scaled = font.as_scaled(scale);
 
-        // Measure (advance + kerning) for horizontal alignment.
-        let mut text_w = 0.0_f32;
-        let mut prev: Option<ab_glyph::GlyphId> = None;
-        for ch in resolved.text.chars() {
-            let gid = font.glyph_id(ch);
-            if let Some(p) = prev {
-                text_w += scaled.kern(p, gid);
-            }
-            text_w += scaled.h_advance(gid);
-            prev = Some(gid);
-        }
-
+        // Alignment + baseline from the run's metrics (read, not measured).
+        let text_w = text_run.metrics.advance * sx;
         let pen_start = match align {
             TextAlign::Left => dev_rect.x,
             TextAlign::Center => dev_rect.x + (dev_rect.w - text_w) * 0.5,
             TextAlign::Right => dev_rect.x + dev_rect.w - text_w,
         };
-        let line_h = scaled.ascent() - scaled.descent();
-        let baseline = dev_rect.y + (dev_rect.h - line_h) * 0.5 + scaled.ascent();
+        let line_h = (text_run.metrics.ascent + text_run.metrics.descent) * sy;
+        let baseline = dev_rect.y + (dev_rect.h - line_h) * 0.5 + text_run.metrics.ascent * sy;
 
         // Device clip rect for compositing: the active clip, optionally ∩ this rect.
         // Round all four edges to the nearest pixel so the text clip boundary matches
@@ -349,35 +348,46 @@ impl<'a> SkiaSink<'a> {
         let surf_h = self.pixmap.height() as i32;
         let data = self.pixmap.data_mut();
 
-        let mut pen_x = pen_start;
-        let mut prev: Option<ab_glyph::GlyphId> = None;
-        let mut accel_underline: Option<(f32, f32)> = None;
-        for (byte_idx, ch) in resolved.text.char_indices() {
-            let gid = font.glyph_id(ch);
-            if let Some(p) = prev {
-                pen_x += scaled.kern(p, gid);
-            }
-            let advance = scaled.h_advance(gid);
-            if flags.underline_accelerator && resolved.accelerator == Some(byte_idx) {
-                accel_underline = Some((pen_x, pen_x + advance));
-            }
-            let glyph = gid.with_scale_and_position(scale, ab_point(pen_x, baseline));
+        // Blit each pre-positioned glyph; positions are logical, scaled to device here.
+        for g in &text_run.glyphs {
+            let gx = pen_start + g.x * sx;
+            let gy = baseline + g.y * sy;
+            let glyph = GlyphId(g.glyph_id).with_scale_and_position(scale, ab_point(gx, gy));
             if let Some(outline) = font.outline_glyph(glyph) {
                 let bb = outline.px_bounds();
                 let ox = bb.min.x;
                 let oy = bb.min.y;
-                outline.draw(|gx, gy, cov| {
-                    let px = ox as i32 + gx as i32;
-                    let py = oy as i32 + gy as i32;
+                outline.draw(|px_off, py_off, cov| {
+                    let px = ox as i32 + px_off as i32;
+                    let py = oy as i32 + py_off as i32;
                     blend_pixel(
                         data, stride, surf_w, surf_h, px, py, color, cov, cl, ct, cr, cb,
                     );
                 });
             }
-            pen_x += advance;
-            prev = Some(gid);
         }
 
+        // Accelerator underline: span the accelerator glyph's cell. Right edge from
+        // `caret.stops[ai+1]` (the pen position *after* the glyph's advance but before
+        // the kern to the next glyph) so the cell is exactly one advance wide — matching
+        // the cell, not including trailing kerning. `stops` has one more entry than
+        // `glyphs`, so `ai+1` always exists for a valid accelerator index.
+        let accel_underline = if flags.underline_accelerator {
+            text_run.accelerator.and_then(|ai| {
+                text_run.glyphs.get(ai).map(|g| {
+                    let x0 = pen_start + g.x * sx;
+                    let cell_end = text_run
+                        .caret
+                        .stops
+                        .get(ai + 1)
+                        .copied()
+                        .unwrap_or(text_run.metrics.advance);
+                    (x0, pen_start + cell_end * sx)
+                })
+            })
+        } else {
+            None
+        };
         if let Some((x0, x1)) = accel_underline {
             let uy = (baseline + 1.0).round() as i32;
             for px in (x0.round() as i32)..(x1.round() as i32) {
@@ -656,16 +666,31 @@ fn lerp_u8(dst: u8, src: u8, a: f32) -> u8 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use ab_glyph::FontArc;
     use oxforms_pal::scene::{
-        render_full, FontId, HeadlessSink, NodeId, Paint, PointF, RectF, Scene, SceneNode,
-        TextRunId,
+        render_full, FontId, HeadlessSink, NodeId, Paint, PointF, RectF, Scene, SceneNode, TextKey,
+        TextRun, TextShaper,
     };
     use oxforms_pal::{DpiScale, SurfaceSize};
 
-    use crate::text::{ResolvedTextRun, TextRegistry};
+    use crate::text::{AbGlyphShaper, FontTable};
 
     fn dpi() -> DpiScale {
         DpiScale::new(96.0, 96.0)
+    }
+
+    /// Shape `caption` at 24pt into a [`TextRun`] + the [`FontTable`] it resolves
+    /// against — the test analog of the boundary's MeasureText + font registration.
+    fn shaped(font: &FontArc, caption: &str) -> (TextRun, FontTable) {
+        let shaper = AbGlyphShaper::new(FontId(1), font.clone());
+        let key = TextKey {
+            font: FontId(1),
+            size_milli_pt: 24_000,
+            wrap_width_milli_pt: None,
+        };
+        let mut fonts = FontTable::new();
+        fonts.add(FontId(1), font.clone());
+        (shaper.shape(&key, caption), fonts)
     }
 
     /// Dependency-free FNV-1a (oxforms-pal's is pub(crate)); for golden hashing.
@@ -706,7 +731,7 @@ mod tests {
     fn fills_paint_in_device_space_at_unit_scale() {
         let scene = two_rect_scene();
         let mut pixmap = ts::Pixmap::new(20, 20).expect("pixmap");
-        let reg = TextRegistry::new();
+        let reg = FontTable::new();
         render_scene_to_pixmap(&scene, &mut pixmap, &reg);
 
         // Corner is the blue background; center is the red rect.
@@ -722,7 +747,7 @@ mod tests {
         // [10,30), so device pixel (20,20) is red and (8,8) is background.
         let scene = two_rect_scene();
         let mut pixmap = ts::Pixmap::new(40, 40).expect("pixmap");
-        let reg = TextRegistry::new();
+        let reg = FontTable::new();
         render_scene_to_pixmap(&scene, &mut pixmap, &reg);
         assert_eq!(pixel(&pixmap, 20, 20), [0xFF, 0, 0, 0xFF]);
         assert_eq!(pixel(&pixmap, 8, 8), [0, 0, 0xFF, 0xFF]);
@@ -750,7 +775,7 @@ mod tests {
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(10, 10).expect("pixmap");
-        let reg = TextRegistry::new();
+        let reg = FontTable::new();
         render_scene_to_pixmap(&scene, &mut pixmap, &reg);
 
         assert_eq!(
@@ -780,7 +805,7 @@ mod tests {
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(20, 20).expect("pixmap");
-        let reg = TextRegistry::new();
+        let reg = FontTable::new();
         render_scene_to_pixmap(&scene, &mut pixmap, &reg);
 
         assert_eq!(
@@ -801,9 +826,8 @@ mod tests {
         let Some(font) = crate::text::host_font_or_skip() else {
             return;
         };
-        let mut reg = TextRegistry::new();
-        reg.add_font(FontId(1), font);
-        reg.add_run(TextRunId(1), ResolvedTextRun::new("OK", FontId(1), 24.0));
+        let (run, fonts) = shaped(&font, "OK");
+        let run_id = run.id;
 
         let mut scene = Scene::new(SurfaceSize::new(80, 40), dpi(), NodeId(0));
         let mut root = SceneNode::new(NodeId(0));
@@ -814,7 +838,7 @@ mod tests {
                 paint: Paint::Solid(Color::rgba(0xFF, 0xFF, 0xFF, 0xFF)),
             },
             Prim::DrawText {
-                run: TextRunId(1),
+                run: run_id,
                 rect: RectF::new(0.0, 0.0, 80.0, 40.0),
                 align: TextAlign::Center,
                 wrap: false,
@@ -824,14 +848,68 @@ mod tests {
             },
         ];
         scene.nodes.push(root);
+        scene.upsert_text_run(run);
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(80, 40).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &reg);
+        render_scene_to_pixmap(&scene, &mut pixmap, &fonts);
 
         // At least some near-black pixels exist (glyphs actually rasterized).
         let dark = dark_pixels(&pixmap);
         assert!(dark > 0, "expected rasterized glyph coverage, found none");
+    }
+
+    #[test]
+    fn repaint_reuses_the_resident_run_without_re_shaping() {
+        // The §16 invariant: a Repaint reads the resident shaped run and never re-shapes.
+        // Rendering the SAME scene twice is byte-identical, and the run's glyphs are
+        // consumed as-is — proven here by mutating a glyph position and seeing the output
+        // move (i.e. the renderer trusts the stored positions, it does not recompute them).
+        let Some(font) = crate::text::host_font_or_skip() else {
+            return;
+        };
+        let (mut run, fonts) = shaped(&font, "OK");
+        let run_id = run.id;
+        let scene_with = |run: TextRun| {
+            let mut scene = Scene::new(SurfaceSize::new(80, 40), dpi(), NodeId(0));
+            let mut root = SceneNode::new(NodeId(0));
+            root.bounds = RectF::new(0.0, 0.0, 80.0, 40.0);
+            root.prims = vec![Prim::DrawText {
+                run: run_id,
+                rect: RectF::new(0.0, 0.0, 80.0, 40.0),
+                align: TextAlign::Left,
+                wrap: false,
+                clip: false,
+                paint: Paint::Solid(Color::rgba(0, 0, 0, 0xFF)),
+                flags: TextFlags::default(),
+            }];
+            scene.nodes.push(root);
+            scene.upsert_text_run(run);
+            scene.recompute_frame_hash();
+            scene
+        };
+        let render = |scene: &Scene| {
+            let mut pixmap = ts::Pixmap::new(80, 40).expect("pixmap");
+            render_scene_to_pixmap(scene, &mut pixmap, &fonts);
+            pixmap.data().to_vec()
+        };
+        let base = render(&scene_with(run.clone()));
+        // Same run → identical pixels (deterministic, no per-paint shaping state).
+        assert_eq!(
+            base,
+            render(&scene_with(run.clone())),
+            "repaint is deterministic"
+        );
+        // Shift every stored glyph right by 10pt; the output must change, proving the
+        // renderer blits the stored positions rather than re-deriving them from the text.
+        for g in &mut run.glyphs {
+            g.x += 10.0;
+        }
+        assert_ne!(
+            base,
+            render(&scene_with(run)),
+            "the renderer consumes the run's stored glyph positions"
+        );
     }
 
     fn dark_pixels(pixmap: &ts::Pixmap) -> usize {
@@ -925,7 +1003,7 @@ mod tests {
         // if the handful of spot-checked pixels in other tests stay put.
         let scene = geometry_showcase_scene();
         let mut pixmap = ts::Pixmap::new(64, 48).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
 
         // Each colored primitive actually painted its color (so the hash is not merely
         // pinning an all-background frame): RoundRect blue, Ellipse green, Polygon
@@ -971,7 +1049,7 @@ mod tests {
         let head = headless.into_pixels();
 
         let mut pixmap = ts::Pixmap::new(20, 20).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
 
         assert_eq!(
             pixmap.data(),
@@ -1002,7 +1080,7 @@ mod tests {
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(20, 20).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
 
         let red = pixmap
             .data()
@@ -1032,7 +1110,7 @@ mod tests {
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(10, 10).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
 
         assert_eq!(
             pixel(&pixmap, 0, 0),
@@ -1064,7 +1142,7 @@ mod tests {
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(40, 10).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
         let left = pixel(&pixmap, 2, 5)[0];
         let right = pixel(&pixmap, 37, 5)[0];
         assert!(
@@ -1090,7 +1168,7 @@ mod tests {
         scene.recompute_frame_hash();
 
         let mut pixmap = ts::Pixmap::new(10, 10).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
         assert_eq!(pixel(&pixmap, 5, 5), [0x12, 0x34, 0x56, 0xFF]);
     }
 
@@ -1100,7 +1178,7 @@ mod tests {
         // [7.5,22.5). Interior/exterior pixels checked with margin (not edge-exact).
         let scene = two_rect_scene();
         let mut pixmap = ts::Pixmap::new(30, 30).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut pixmap, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
         assert_eq!(
             pixel(&pixmap, 15, 15),
             [0xFF, 0, 0, 0xFF],
@@ -1114,7 +1192,7 @@ mod tests {
 
         // A 1×1 surface must not panic (degenerate but valid).
         let mut tiny = ts::Pixmap::new(1, 1).expect("pixmap");
-        render_scene_to_pixmap(&scene, &mut tiny, &TextRegistry::new());
+        render_scene_to_pixmap(&scene, &mut tiny, &FontTable::new());
     }
 
     #[test]
@@ -1122,12 +1200,10 @@ mod tests {
         let Some(font) = crate::text::host_font_or_skip() else {
             return;
         };
-        let mut reg = TextRegistry::new();
-        reg.add_font(FontId(1), font);
-        reg.add_run(
-            TextRunId(1),
-            ResolvedTextRun::new("File", FontId(1), 24.0).with_accelerator(0),
-        );
+        // "&File" → accelerator on F (the shaper parses the marker).
+        let (run, fonts) = shaped(&font, "&File");
+        let run_id = run.id;
+        assert_eq!(run.accelerator, Some(0), "F is the accelerator");
 
         let render = |underline: bool| {
             let mut scene = Scene::new(SurfaceSize::new(80, 40), dpi(), NodeId(0));
@@ -1139,7 +1215,7 @@ mod tests {
                     paint: Paint::Solid(Color::rgba(0xFF, 0xFF, 0xFF, 0xFF)),
                 },
                 Prim::DrawText {
-                    run: TextRunId(1),
+                    run: run_id,
                     rect: RectF::new(4.0, 0.0, 72.0, 40.0),
                     align: TextAlign::Left,
                     wrap: false,
@@ -1152,9 +1228,10 @@ mod tests {
                 },
             ];
             scene.nodes.push(root);
+            scene.upsert_text_run(run.clone());
             scene.recompute_frame_hash();
             let mut pixmap = ts::Pixmap::new(80, 40).expect("pixmap");
-            render_scene_to_pixmap(&scene, &mut pixmap, &reg);
+            render_scene_to_pixmap(&scene, &mut pixmap, &fonts);
             dark_pixels(&pixmap)
         };
 

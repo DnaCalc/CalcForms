@@ -33,7 +33,7 @@ use winit::event_loop::{ActiveEventLoop, ControlFlow, EventLoop};
 use winit::window::{Window, WindowId};
 
 use crate::input;
-use crate::text::TextResolver;
+use crate::text::FontTable;
 
 /// What a caller's event callback asks the window to do next.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -93,7 +93,7 @@ impl std::error::Error for WindowError {}
 pub fn run_scene_window<F>(
     options: WindowOptions,
     scene: Scene,
-    resolver: &dyn TextResolver,
+    fonts: FontTable,
     on_event: F,
 ) -> Result<(), WindowError>
 where
@@ -101,17 +101,17 @@ where
 {
     let event_loop = EventLoop::new().map_err(|e| WindowError::EventLoop(e.to_string()))?;
     event_loop.set_control_flow(ControlFlow::Wait);
-    let mut app = App::new(options, scene, resolver, on_event);
+    let mut app = App::new(options, scene, fonts, on_event);
     event_loop
         .run_app(&mut app)
         .map_err(|e| WindowError::EventLoop(e.to_string()))?;
     app.into_result()
 }
 
-struct App<'r, F> {
+struct App<F> {
     options: WindowOptions,
     scene: Scene,
-    resolver: &'r dyn TextResolver,
+    fonts: FontTable,
     on_event: F,
     next_event_id: u64,
     buttons: MouseButtons,
@@ -122,20 +122,15 @@ struct App<'r, F> {
     error: Option<WindowError>,
 }
 
-impl<'r, F> App<'r, F>
+impl<F> App<F>
 where
     F: FnMut(&UiEvent, &mut Scene) -> WindowSignal,
 {
-    fn new(
-        options: WindowOptions,
-        scene: Scene,
-        resolver: &'r dyn TextResolver,
-        on_event: F,
-    ) -> Self {
+    fn new(options: WindowOptions, scene: Scene, fonts: FontTable, on_event: F) -> Self {
         Self {
             options,
             scene,
-            resolver,
+            fonts,
             on_event,
             next_event_id: 0,
             buttons: MouseButtons::default(),
@@ -217,7 +212,7 @@ where
                 return;
             }
         };
-        crate::raster::render_scene_to_pixmap(&self.scene, &mut pixmap, self.resolver);
+        crate::raster::render_scene_to_pixmap(&self.scene, &mut pixmap, &self.fonts);
 
         let surface = self.surface.as_mut().unwrap();
         let mut buffer = match surface.buffer_mut() {
@@ -239,7 +234,7 @@ where
     }
 }
 
-impl<F> ApplicationHandler for App<'_, F>
+impl<F> ApplicationHandler for App<F>
 where
     F: FnMut(&UiEvent, &mut Scene) -> WindowSignal,
 {

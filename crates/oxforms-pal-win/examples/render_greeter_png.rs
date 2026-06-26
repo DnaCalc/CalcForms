@@ -3,7 +3,7 @@
 //!
 //! Run: `cargo run -p oxforms-pal-win --example render_greeter_png -- <out.png> [scale]`
 
-use oxforms_pal_win::fixture::{greeter_scene, greeter_text};
+use oxforms_pal_win::fixture::greeter;
 use oxforms_pal_win::{load_ui_font, render_scene_to_pixmap};
 
 fn main() {
@@ -22,13 +22,12 @@ fn main() {
         }
     };
 
-    let scene = greeter_scene();
-    let registry = greeter_text(font);
+    let (scene, fonts) = greeter(font);
     let width = scene.surface.width * scale;
     let height = scene.surface.height * scale;
 
     let mut pixmap = tiny_skia::Pixmap::new(width, height).expect("non-zero pixmap");
-    render_scene_to_pixmap(&scene, &mut pixmap, &registry);
+    render_scene_to_pixmap(&scene, &mut pixmap, &fonts);
     pixmap.save_png(&out).expect("save png");
     println!("wrote {out} ({width}x{height})");
 }

@@ -30,7 +30,7 @@ use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::Scene;
 use oxforms_pal::{UiEvent, UiEventKind};
-use oxforms_pal_win::{run_scene_window, TextRegistry, WindowOptions, WindowSignal};
+use oxforms_pal_win::{run_scene_window, FontTable, WindowOptions, WindowSignal};
 
 use oxvba_bundle::BundlePackage;
 use oxvba_com::PortableComProjection;
@@ -125,15 +125,16 @@ fn run() -> Result<(), BootstrapError> {
     );
 
     // 4. Run the platform loop. The window owns Repaint (Scene snapshot -> pixels); the
-    //    callback owns nothing but routing the close signal. Text is empty for now
-    //    (run id 0), so the resolver renders no captions — chrome only.
-    let registry = TextRegistry::new();
+    //    callback owns nothing but routing the close signal. The font table is empty for
+    //    now (VBA still emits run id 0), so no captions render — chrome only. Wiring the
+    //    text shaper into the Surface + the interaction loop is oxforms-4pn.8e/.13.
+    let fonts = FontTable::new();
     let options = WindowOptions::new("OxForms - W007 (bootstrap)", 600.0, 360.0);
 
     run_scene_window(
         options,
         scene,
-        &registry,
+        fonts,
         |event: &UiEvent, _scene: &mut Scene| {
             if is_close(event) {
                 WindowSignal::Close

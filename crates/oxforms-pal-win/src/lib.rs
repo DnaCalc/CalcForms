@@ -10,8 +10,9 @@
 //! Layers:
 //! - [`raster`] — a `tiny_skia` [`oxforms_pal::scene::PrimSink`] (the visible twin of
 //!   the text-free `HeadlessSink` golden oracle), plus [`raster::render_scene_to_pixmap`].
-//! - [`text`] — the [`text::TextResolver`] contract (run id → string/font/size) and a
-//!   simple registry + platform-font loader, keeping the rasterizer text-source-agnostic.
+//! - [`text`] — the [`text::AbGlyphShaper`] (caption → shaped [`oxforms_pal::scene::TextRun`]),
+//!   the [`text::TextResolver`] contract + [`text::SceneTextResolver`] (run id → resident
+//!   run, font id → face), a [`text::FontTable`], and the platform-font loader.
 //! - [`input`] — pure winit → [`oxforms_pal::UiEvent`] normalization (headless-testable).
 //! - [`window`] — the winit + softbuffer present loop ([`window::run_scene_window`]).
 //! - [`fixture`] — a raw-primitive greeter scene standing in for VBA self-render output
@@ -26,5 +27,5 @@ pub mod text;
 pub mod window;
 
 pub use raster::{render_scene_to_pixmap, SkiaSink};
-pub use text::{load_ui_font, ResolvedTextRun, TextRegistry, TextResolver};
+pub use text::{load_ui_font, AbGlyphShaper, FontTable, SceneTextResolver, TextResolver};
 pub use window::{run_scene_window, WindowError, WindowOptions, WindowSignal};

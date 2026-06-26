@@ -25,13 +25,17 @@ oracle, so this slice is proven by rendering to screen).
   fill the window crisply. `DrawImage` is the one recorded-but-unused prim (the demo
   form has none); single-line text only for now (`wrap` is carried but not yet laid out).
 
-- **A text resolver seam** (`text.rs`). The Scene `DrawText` prim references a
-  `TextRunId` only — never an inline string — so a recolor/reposition re-measures
-  nothing and the kernel stays text-source-agnostic. `TextResolver` maps run-id →
-  `{string, font, px, accelerator}`; `TextRegistry` is the in-memory table; the
-  platform UI font is loaded from `%WINDIR%\Fonts` (Microsoft Sans Serif / Tahoma /
-  Segoe UI fallback). The golden `HeadlessSink` renders no text and needs none of this,
-  so the framebuffer hash stays font-independent.
+- **A shaped-run text seam** (`text.rs`, RENDERING_ARCHITECTURE.md §8). The Scene
+  `DrawText` prim references a `TextRunId` only — never an inline string — and text is
+  retained as a *shaped run* (`oxforms_pal::scene::TextRun`: positioned glyphs +
+  metrics + caret) in `Scene.text`. `AbGlyphShaper` shapes a caption into that run once
+  per change; the rasterizer **blits the positioned glyphs and never re-shapes** at
+  paint. `TextResolver`/`SceneTextResolver` resolves a run id → the resident `TextRun`
+  and a font id → a face held in a `FontTable`; the platform UI font loads from
+  `%WINDIR%\Fonts` (Microsoft Sans Serif / Tahoma / Segoe UI fallback). The golden
+  `HeadlessSink` renders no text and needs none of this, so the framebuffer hash stays
+  font-independent. *(This replaced the earlier per-paint `TextRegistry`/`ResolvedTextRun`
+  resolver in oxforms-4pn.12.)*
 
 - **Pure winit → `UiEvent` normalization** (`input.rs`): headless-testable functions
   mapping winit leaf events (cursor, mouse button, keyboard, character, focus, resize)
