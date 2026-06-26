@@ -14,22 +14,25 @@
 //! (resident `Scene` snapshot → pixels). This bootstrap produces the first resident
 //! revision, hands the snapshot to the window, and runs the loop.
 //!
-//! Scope (this increment): the live window shows the VBA-rendered form **chrome**
-//! (fills + 3D edges). Caption *text* is not yet rendered — controls emit `DrawText`
-//! with run id 0 because the `MeasureText`/`RegisterFont` text-run crossing is deferred
-//! (§6/§8); captions across the live boundary land with that crossing (oxforms-4pn.8).
+//! Scope: the live window shows the VBA-rendered form with **captions** (the text seam,
+//! oxforms-4pn.10–.13) and an **interaction loop** (oxforms-4pn.8e): the callback maps
+//! input to form-logical points, asks the runtime to `dispatch` it, and on a requested
+//! repaint `render_frame`s + refreshes the held snapshot — so typing + clicking OK drives
+//! the VBA handlers and the greeting updates live.
 //!
 //! Run: `cargo run -p oxforms-bootstrap`
 
 #![forbid(unsafe_code)]
 
+use std::cell::RefCell;
+use std::rc::Rc;
 use std::sync::Arc;
 
 use oxforms_core::materialize_w007_demo_form;
 use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::{FontId, Scene};
-use oxforms_pal::{UiEvent, UiEventKind};
+use oxforms_pal::{CoordinatePayload, LogicalPoint, UiEvent, UiEventKind};
 use oxforms_pal_win::{
     load_ui_font, run_scene_window, AbGlyphShaper, FontTable, WindowOptions, WindowSignal,
 };
@@ -126,28 +129,121 @@ fn run() -> Result<(), BootstrapError> {
     let scene = current_scene(&surface)?;
 
     println!(
-        "oxforms-bootstrap: showing the live VBA-rendered W007 form with captions. \
-         Close or press Escape to exit."
+        "oxforms-bootstrap: showing the live VBA-rendered W007 form. Type a name, click \
+         OK to greet; close or press Escape to exit."
     );
 
-    // 4. Run the platform loop. The window owns Repaint (Scene snapshot -> pixels), using
-    //    the shared FontTable to rasterize the runs VBA measured; the callback owns
-    //    nothing but routing the close signal. The interaction loop is oxforms-4pn.8e.
+    // 4. Run the platform loop with the interaction consumer loop (oxforms-4pn.8e). The
+    //    window owns Repaint (resident Scene snapshot -> pixels). The callback is the
+    //    consumer: it maps client pixels -> form-logical points (the uniform device-fit
+    //    scale, mirrored from the rasterizer), asks the runtime to `dispatch` the event
+    //    (a VM entry the runtime owns), and — when the runtime requests a repaint —
+    //    `render_frame`s, refreshes the held Scene from the resident snapshot, and asks
+    //    for a `Redraw`. The bootstrap never calls VBA or rasterizes directly.
     let options = WindowOptions::new("OxForms - W007 (bootstrap)", 600.0, 360.0);
+    let (form_w, form_h) = (
+        f64::from(scene.surface.width.max(1)),
+        f64::from(scene.surface.height.max(1)),
+    );
+    // Tracks the PHYSICAL window size for the client->logical scale. Seeded with the
+    // logical option size as a placeholder — winit fires a Resize on window creation
+    // (before any input), which overwrites it with the true physical inner size, so the
+    // logical-vs-physical unit mismatch in this seed is never used to map a real event.
+    let mut window_px = (options.logical_width, options.logical_height);
+    let surface_cb = surface.clone();
+    // Interaction errors (a VBA dispatch / render failure) propagate to the exit code
+    // rather than silently closing the window as a clean exit.
+    let cb_error: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
+    let cb_error_inner = cb_error.clone();
 
-    run_scene_window(
+    let window_result = run_scene_window(
         options,
         scene,
         fonts,
-        |event: &UiEvent, _scene: &mut Scene| {
+        move |event: &UiEvent, scene: &mut Scene| {
             if is_close(event) {
-                WindowSignal::Close
-            } else {
-                WindowSignal::Ignore
+                return WindowSignal::Close;
+            }
+            // Track the physical window size so client->logical uses the live device scale.
+            if let UiEventKind::Resize(e) = &event.kind {
+                if let Some(size) = e.client_size {
+                    window_px = (size.width, size.height);
+                }
+                return WindowSignal::Ignore;
+            }
+            // Only route events the runtime acts on (skip moves/focus/etc. for the demo).
+            let dispatchable = matches!(
+                &event.kind,
+                UiEventKind::MouseDown(_)
+                    | UiEventKind::MouseUp(_)
+                    | UiEventKind::CharacterInput(_)
+                    | UiEventKind::KeyDown(_)
+                    | UiEventKind::KeyUp(_)
+            );
+            if !dispatchable {
+                return WindowSignal::Ignore;
+            }
+
+            let scale = (window_px.0 / form_w).min(window_px.1 / form_h);
+            let scale = if scale > 0.0 { scale } else { 1.0 };
+            let routed = fill_form_logical(event, scale);
+
+            match runner.dispatch(routed) {
+                Ok(step) => {
+                    if !step.repaint_requested {
+                        return WindowSignal::Ignore;
+                    }
+                    if let Err(err) = runner.render_frame() {
+                        *cb_error_inner.borrow_mut() = Some(format!("render_frame: {err}"));
+                        return WindowSignal::Close;
+                    }
+                    match surface_cb.snapshot() {
+                        Ok(snap) => {
+                            if let Some(next) = snap.scene {
+                                *scene = next;
+                            }
+                            WindowSignal::Redraw
+                        }
+                        Err(err) => {
+                            *cb_error_inner.borrow_mut() = Some(format!("surface snapshot: {err}"));
+                            WindowSignal::Close
+                        }
+                    }
+                }
+                Err(err) => {
+                    *cb_error_inner.borrow_mut() = Some(format!("dispatch: {err}"));
+                    WindowSignal::Close
+                }
             }
         },
-    )
-    .map_err(|err| BootstrapError::Window(err.to_string()))
+    );
+
+    // A stored interaction (VBA dispatch/render) error is the more actionable root cause:
+    // surface it BEFORE a window/surface error so a teardown-time window failure cannot
+    // mask the real cause, and the exit stage is correct (Runtime=3, not Window=4).
+    if let Some(err) = cb_error.borrow_mut().take() {
+        return Err(BootstrapError::Runtime(err));
+    }
+    window_result.map_err(|err| BootstrapError::Window(err.to_string()))
+}
+
+/// Clone `event`, filling each mouse coordinate payload's `form_logical` from its
+/// `client_pixels` divided by the uniform device-fit `scale` (the same scale the
+/// rasterizer applies), so the reducer routes the event by form-logical points. Non-mouse
+/// events are returned unchanged.
+fn fill_form_logical(event: &UiEvent, scale: f64) -> UiEvent {
+    let mut ev = event.clone();
+    let remap = |coords: &mut CoordinatePayload| {
+        if let Some(px) = coords.client_pixels {
+            coords.form_logical = Some(LogicalPoint::new(px.x / scale, px.y / scale));
+        }
+    };
+    match &mut ev.kind {
+        UiEventKind::MouseDown(e) | UiEventKind::MouseUp(e) => remap(&mut e.coordinates),
+        UiEventKind::MouseMove(e) => remap(&mut e.coordinates),
+        _ => {}
+    }
+    ev
 }
 
 /// Read the current resident `Scene` snapshot the runtime produced via `OxForms.Surface`.

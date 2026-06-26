@@ -51,8 +51,18 @@ and the headless `render_frame` integration test, all green.
   `OxForms.Surface.MeasureText`, which shapes it into a resident `TextRun`; the backend
   blits those runs. The live bootstrap window shows "OK" on the button and "(idle)" on
   the label — see `captures/text-seam-live-captions-20260626/bootstrap-live-captions.png`.
-  The live type → click → "Hello, &lt;name&gt;" greeting still needs the interaction
-  consumer loop (`oxforms-4pn.8e`); this capture is the static post-load state.
+  *(static post-load state.)*
+- **The live type → click → greeting works (oxforms-4pn.8e).** The bootstrap's
+  `run_scene_window` callback is the interaction consumer loop: it maps client pixels →
+  form-logical points (the uniform device-fit scale, mirrored from the rasterizer), asks
+  the runtime to `dispatch` the event, and on a requested repaint `render_frame`s +
+  refreshes the held `Scene` from the resident snapshot + returns `Redraw`. Driving the
+  live window (type "World" into the field, click OK) runs the VBA `OkButton_Click`
+  handler and the label updates to "Hello, World" on screen — see
+  `captures/interaction-loop-live-greeting-20260626/live-type-click-greeting.png`. Drive
+  recipe note: winit derives a click's coordinates from the last cursor position, so the
+  PrintWindow/PostMessage recipe sends `WM_MOUSEMOVE` to the target before each
+  `WM_LBUTTONDOWN/UP` (a `WM_LBUTTON` with no prior move lands at the stale cursor).
 - **The startup entrypoint is minimal.** The bootstrap invokes the VBA startup by
   constructing + building the demo form via the runtime; a real top-level `Sub Main`
   in a loaded demo project is the generalization.
