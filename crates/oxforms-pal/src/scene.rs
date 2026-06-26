@@ -15,7 +15,7 @@
 //!   `DisplayList` path, and this invariant are all deleted once the Scene is the
 //!   sole render path (RENDERING_ARCHITECTURE.md §12 step 8 / bead `oxforms-rq5.3`).
 
-use std::collections::HashSet;
+use std::collections::{BTreeMap, HashSet};
 
 use serde::{Deserialize, Serialize};
 
@@ -221,6 +221,194 @@ impl EdgeBorder {
     };
 }
 
+// ── Text-metrics seam: the retained shaped run (RENDERING_ARCHITECTURE.md §8) ──
+//
+// Following every retained-mode stack (SkTextBlob / IDWriteTextLayout / cosmic
+// `Buffer` / cc `DrawTextBlobOp`), text is retained as a *shaped run* — positioned
+// glyphs + a metrics block — never the raw string as a draw payload. A
+// [`TextShaper`] produces a [`TextRun`] once per content change; the visible
+// backend blits the glyphs (scaled to device) on every VM-free repaint without
+// re-shaping. All geometry here is in logical points; the renderer applies the
+// device scale. The string is retained only as side-metadata (caret/a11y/re-shape).
+
+/// One positioned glyph within a shaped run, in logical (point) units. The renderer
+/// scales position + em to device pixels at paint time; shaping is never repeated.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct PositionedGlyph {
+    /// Font-specific glyph index (valid against the run's [`FontId`]).
+    pub glyph_id: u16,
+    pub x: f32,
+    pub y: f32,
+}
+
+/// Metrics of a shaped run, in logical points. This is the deterministic seam
+/// (§8): VBA layout (AutoSize/wrap) consumes these exactly; only the raster layer
+/// carries tolerance. `ascent`/`descent` are positive distances from the baseline.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct RunMetrics {
+    /// Total pen advance (the run's logical width).
+    pub advance: f32,
+    /// Distance above the baseline (positive).
+    pub ascent: f32,
+    /// Distance below the baseline (positive).
+    pub descent: f32,
+    /// Extra leading between lines (positive).
+    pub line_gap: f32,
+}
+
+impl RunMetrics {
+    /// `ascent + descent + line_gap`.
+    #[must_use]
+    pub fn line_height(&self) -> f32 {
+        self.ascent + self.descent + self.line_gap
+    }
+}
+
+/// Caret x-stops in logical points: `stops[i]` is the caret x before caret stop `i`,
+/// `stops.len() == stops_produced + 1` (last entry = run end). The granularity of a
+/// "stop" is the shaper's contract: [`StubShaper`] (and the v1 ab_glyph shaper) emit
+/// one stop per `char` (Unicode scalar); grapheme-cluster carets are a real-shaper
+/// concern for later (cosmic-text). Supersedes the fixed 6px cell in `oxforms-core`
+/// `controls.rs`; wired to TextBox caret work later.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct CaretTable {
+    pub stops: Vec<f32>,
+}
+
+/// The style identity of a text run (everything but the text itself). The
+/// [`TextRunId`] is the content hash of `(this, text)`, so identical runs collapse
+/// to one id automatically. Sizes are in 1/1000 pt to be locale/float-stable.
+///
+/// DPI/device scale is deliberately **not** part of the key: glyph positions are
+/// logical and the renderer applies the device scale affinely at paint, so one run
+/// serves every DPI. (A future hinted/subpixel shaper that bakes DPI into shaping
+/// would add it here.)
+#[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct TextKey {
+    pub font: FontId,
+    pub size_milli_pt: u32,
+    /// Wrap width in 1/1000 pt; `None` = single line / no wrap.
+    pub wrap_width_milli_pt: Option<u32>,
+}
+
+/// A shaped, retained text run — the SkTextBlob / cosmic-`Buffer` analog (glyph-run
+/// tier). Produced once on change by a [`TextShaper`]; the renderer blits its glyphs
+/// every repaint without re-shaping. Logical (point) units throughout.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct TextRun {
+    /// Content-hash id ([`text_run_id`]); the kernel store keys on `id.0`.
+    pub id: TextRunId,
+    pub key: TextKey,
+    pub glyphs: Vec<PositionedGlyph>,
+    pub metrics: RunMetrics,
+    pub caret: CaretTable,
+    /// Source string, retained for re-shape (DPI/size change) and caret/a11y only —
+    /// never the draw payload (the glyphs are). Owned: the shaper copies on register.
+    pub source: Box<str>,
+}
+
+impl TextRun {
+    /// Logical x of the caret before caret stop `index` (`None` past the end). Stop
+    /// granularity is the shaper's contract (one per `char` in v1; see [`CaretTable`]).
+    #[must_use]
+    pub fn caret_x(&self, index: usize) -> Option<f32> {
+        self.caret.stops.get(index).copied()
+    }
+
+    /// Caret stop nearest the logical x `x` (for hit-testing a click to a caret
+    /// position). Returns `0` for an empty run.
+    #[must_use]
+    pub fn index_at_x(&self, x: f32) -> usize {
+        let mut best = 0usize;
+        let mut best_d = f32::INFINITY;
+        for (i, &stop) in self.caret.stops.iter().enumerate() {
+            let d = (stop - x).abs();
+            if d < best_d {
+                best_d = d;
+                best = i;
+            }
+        }
+        best
+    }
+}
+
+/// Content-hash id for a text run, assigned **Rust-side** (the same `fnv1a64` family
+/// as the framebuffer/content hashes) over `(font, size, wrap, text)`.
+///
+/// The id is computed by whoever registers a run (the Surface `MeasureText` handler,
+/// or canonical test scenes), never by VBA: VBA learns the id from the `MeasureText`
+/// round-trip and memoizes it by text, so it needs no FNV implementation and the id
+/// is an opaque token it just echoes in the patch (held as a decimal/string, not a
+/// signed `Long`). Being content-derived, it gives automatic de-dup and a
+/// deterministic frame token across runs. 64-bit makes a collision between two live
+/// runs astronomically unlikely; the residual is documented on [`Scene::text`] and
+/// guarded by [`Scene::upsert_text_run`].
+///
+/// Encoding (little-endian): full `font` id `u64`, `size_milli_pt` `u32`, a wrap
+/// discriminant byte (`0` = none, `1` = some) then the wrap width `u32` when present,
+/// then the UTF-8 bytes of `text`.
+#[must_use]
+pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
+    let mut buf: Vec<u8> = Vec::new();
+    buf.extend_from_slice(&key.font.0.to_le_bytes());
+    buf.extend_from_slice(&key.size_milli_pt.to_le_bytes());
+    match key.wrap_width_milli_pt {
+        None => buf.push(0),
+        Some(w) => {
+            buf.push(1);
+            buf.extend_from_slice(&w.to_le_bytes());
+        }
+    }
+    buf.extend_from_slice(text.as_bytes());
+    TextRunId(fnv1a64(&buf))
+}
+
+/// Shapes a string into a retained [`TextRun`]. The backend owns the font engine
+/// (ab_glyph now, cosmic-text later) and implements this; the kernel/adapter only
+/// hold the resulting runs. Pure + deterministic for a given font set, called once
+/// per content change — never at paint time.
+pub trait TextShaper {
+    fn shape(&self, key: &TextKey, text: &str) -> TextRun;
+}
+
+/// A deterministic, font-free shaper for tests and headless determinism: each char
+/// advances half the em, `glyph_id` = the char's low 16 bits, ascent/descent are
+/// fixed fractions. Exact metrics let adapter tests assert without a font file.
+#[derive(Clone, Copy, Debug, Default)]
+pub struct StubShaper;
+
+impl TextShaper for StubShaper {
+    fn shape(&self, key: &TextKey, text: &str) -> TextRun {
+        let em = key.size_milli_pt as f32 / 1000.0;
+        let advance_per = em * 0.5;
+        let mut glyphs = Vec::new();
+        let mut stops = vec![0.0_f32];
+        let mut pen = 0.0_f32;
+        for ch in text.chars() {
+            glyphs.push(PositionedGlyph {
+                glyph_id: ch as u32 as u16,
+                x: pen,
+                y: 0.0,
+            });
+            pen += advance_per;
+            stops.push(pen);
+        }
+        TextRun {
+            id: text_run_id(key, text),
+            key: key.clone(),
+            glyphs,
+            metrics: RunMetrics {
+                advance: pen,
+                ascent: em * 0.8,
+                descent: em * 0.2,
+                line_gap: 0.0,
+            },
+            caret: CaretTable { stops },
+            source: text.into(),
+        }
+    }
+}
+
 /// Exactly the spec §6.2 vocabulary. No control words. Transform/clip live on the
 /// node, so the prim stream is purely geometric paint.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -355,6 +543,22 @@ pub struct Scene {
     pub root: NodeId,
     /// Sorted by `NodeId` (canonical). Use [`Scene::get`] for lookup.
     pub nodes: Vec<SceneNode>,
+    /// Resident shaped-run store, keyed by [`TextRunId`]`.0`. A `DrawText` prim
+    /// references a run here; the backend resolves + blits it on repaint with no
+    /// re-shaping. Populated Rust-side (the adapter projects measured runs in), not
+    /// carried in a [`ScenePatch`].
+    ///
+    /// Deliberately excluded from `frame_hash` (see [`Scene::recompute_frame_hash`]):
+    /// a content-derived [`text_run_id`] moves whenever the text changes, so the
+    /// `DrawText` prim's `run.0` (which *is* hashed) already reflects the change. This
+    /// is sound while ids are unique across the live working set. The residual: a
+    /// 64-bit hash collision between two distinct live runs would map both to one
+    /// store entry and (because only `run.0` is hashed) suppress the token bump for
+    /// the second — a missed repaint, not benign de-dup. At 64 bits this is
+    /// astronomically unlikely; [`Scene::upsert_text_run`] debug-asserts against the
+    /// silent-overwrite case so any collision surfaces in tests rather than on screen.
+    #[serde(default)]
+    pub text: BTreeMap<u64, TextRun>,
     #[serde(skip)]
     pub damage: DamageSet,
     #[serde(skip)]
@@ -370,11 +574,37 @@ impl Scene {
             dpi,
             root,
             nodes: Vec::new(),
+            text: BTreeMap::new(),
             damage: DamageSet::default(),
             frame_hash: 0,
         };
         scene.recompute_frame_hash();
         scene
+    }
+
+    /// Insert or replace a shaped run by its content-hash id. Idempotent: re-inserting
+    /// the same content is a no-op-equivalent (identical id → identical run, since the
+    /// shaper is deterministic). In debug builds, asserts that an existing entry under
+    /// the same id is content-equal — so a [`text_run_id`] collision between two
+    /// distinct live runs (which would otherwise silently overwrite and miss a
+    /// repaint, see [`Scene::text`]) fails loudly in tests rather than on screen.
+    pub fn upsert_text_run(&mut self, run: TextRun) {
+        debug_assert!(
+            self.text
+                .get(&run.id.0)
+                .is_none_or(|existing| *existing == run),
+            "text_run_id collision: id {:#x} maps to two distinct runs ({:?} vs {:?})",
+            run.id.0,
+            self.text.get(&run.id.0).map(|r| &r.source),
+            run.source,
+        );
+        self.text.insert(run.id.0, run);
+    }
+
+    /// Resolve a `DrawText` prim's run handle to its retained shaped run.
+    #[must_use]
+    pub fn text_run(&self, id: TextRunId) -> Option<&TextRun> {
+        self.text.get(&id.0)
     }
 
     #[must_use]
@@ -1149,6 +1379,112 @@ mod tests {
             flatten(&scene).expect("FillRect-only scene flattens"),
             w002_rectangle_fixture_display_list(),
             "flatten must byte-match the W002 immediate display list (transitional invariant a)"
+        );
+    }
+
+    // ── Text-metrics seam (4pn.10) ──
+
+    fn text_key(size_pt: u32) -> TextKey {
+        TextKey {
+            font: FontId(1),
+            size_milli_pt: size_pt * 1000,
+            wrap_width_milli_pt: None,
+        }
+    }
+
+    #[test]
+    fn text_run_id_is_stable_and_content_derived() {
+        let key = text_key(12);
+        // Stable: same inputs → same id.
+        assert_eq!(text_run_id(&key, "OK"), text_run_id(&key, "OK"));
+        // Text-sensitive: a caption change yields a different id (so the DrawText
+        // prim's run changes → frame_hash changes, with no text-store hashing).
+        assert_ne!(text_run_id(&key, "OK"), text_run_id(&key, "Cancel"));
+        // Style-sensitive: size and font participate.
+        assert_ne!(text_run_id(&key, "OK"), text_run_id(&text_key(14), "OK"));
+        let other_font = TextKey {
+            font: FontId(2),
+            ..key.clone()
+        };
+        assert_ne!(text_run_id(&key, "OK"), text_run_id(&other_font, "OK"));
+    }
+
+    #[test]
+    fn text_run_id_golden_vector_is_frozen() {
+        // A frozen reference so the canonical encoding cannot drift unnoticed: any
+        // change to the byte layout / hash is a deliberate, reviewed break. (The id is
+        // Rust-assigned; VBA learns it via MeasureText and never recomputes it.)
+        let key = TextKey {
+            font: FontId(1),
+            size_milli_pt: 12_000,
+            wrap_width_milli_pt: None,
+        };
+        assert_eq!(text_run_id(&key, "OK").0, 150_257_306_305_228_244);
+    }
+
+    #[test]
+    fn stub_shaper_produces_exact_metrics_and_caret() {
+        let key = text_key(12); // em = 12.0, half-em advance = 6.0
+        let run = StubShaper.shape(&key, "OK");
+        assert_eq!(run.id, text_run_id(&key, "OK"));
+        assert_eq!(run.glyphs.len(), 2);
+        assert_eq!(run.glyphs[0].x, 0.0);
+        assert_eq!(run.glyphs[1].x, 6.0);
+        assert_eq!(run.metrics.advance, 12.0);
+        assert_eq!(run.metrics.ascent, 9.6);
+        assert_eq!(run.metrics.descent, 2.4);
+        assert_eq!(run.metrics.line_height(), 12.0);
+        assert_eq!(run.caret.stops, vec![0.0, 6.0, 12.0]);
+        assert_eq!(&*run.source, "OK");
+    }
+
+    #[test]
+    fn caret_maps_index_and_x_both_ways() {
+        let run = StubShaper.shape(&text_key(12), "OK");
+        assert_eq!(run.caret_x(0), Some(0.0));
+        assert_eq!(run.caret_x(2), Some(12.0)); // end caret
+        assert_eq!(run.caret_x(3), None);
+        assert_eq!(run.index_at_x(-1.0), 0); // clamps to nearest stop
+        assert_eq!(run.index_at_x(5.0), 1); // closer to 6.0 than 0.0
+        assert_eq!(run.index_at_x(100.0), 2); // past the end → run end
+    }
+
+    #[test]
+    fn text_run_serde_round_trips() {
+        let run = StubShaper.shape(&text_key(11), "Hello");
+        let json = serde_json::to_string(&run).expect("serialize run");
+        let back: TextRun = serde_json::from_str(&json).expect("deserialize run");
+        assert_eq!(run, back);
+    }
+
+    #[test]
+    fn scene_text_store_resolves_and_serde_round_trips() {
+        let mut scene = w002_scene();
+        let run = StubShaper.shape(&text_key(12), "OK");
+        let id = run.id;
+        scene.upsert_text_run(run.clone());
+        assert_eq!(scene.text_run(id), Some(&run));
+        // Idempotent: re-inserting identical content does not grow the store.
+        scene.upsert_text_run(StubShaper.shape(&text_key(12), "OK"));
+        assert_eq!(scene.text.len(), 1);
+        // A Scene carrying a text store round-trips (serde(default) keeps the field).
+        let json = serde_json::to_string(&scene).expect("serialize scene");
+        let back: Scene = serde_json::from_str(&json).expect("deserialize scene");
+        assert_eq!(back.text_run(id), Some(&run));
+    }
+
+    #[test]
+    fn frame_hash_ignores_the_text_store() {
+        // Content-hash ids make a caption change move the DrawText prim's run id, so
+        // the text store itself is deliberately excluded from frame_hash.
+        let mut scene = w002_scene();
+        scene.recompute_frame_hash();
+        let before = scene.frame_hash;
+        scene.upsert_text_run(StubShaper.shape(&text_key(12), "OK"));
+        scene.recompute_frame_hash();
+        assert_eq!(
+            before, scene.frame_hash,
+            "the text store must not affect frame_hash"
         );
     }
 

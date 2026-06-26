@@ -114,8 +114,11 @@ pub struct Scene {
     pub dpi: DpiScale,
     pub root: NodeId,
     pub nodes: HashMap<NodeId, SceneNode>,
+    #[serde(default)] pub text: BTreeMap<u64, TextRun>, // resident shaped runs by TextRunId;
+                                          // serialized so a snapshot is self-contained. The
+                                          // persistent interning/LRU cache is Surface-held;
+                                          // this is its per-frame projection (referenced runs).
     #[serde(skip)] pub damage: DamageSet,
-    #[serde(skip)] pub text: TextRunCache,
     #[serde(skip)] pub frame_hash: u64,   // rolled-up content hash, used as base_hash
 }
 
@@ -292,11 +295,19 @@ the two are deliberately different operations with different owners and clocks.
 Text crosses **by reference, not by per-frame string** (per-frame measurement
 over the projection boundary would be the worst crossing-storm).
 
-- Registration: `FontSpec -> FontId`; a measured string `-> TextRunId` via batched
-  `MeasureText` returning advance widths, ascent/descent/line-height, wrap break
-  offsets, and a caret offset↔x table. Cache key `(FontId, text, wrap-width, dpi)`
-  per `COORDINATE_MODEL.md` rounding; cached both VBA-side (typing TextBox
-  re-measures only the edited line) and kernel-side (LRU).
+- Registration: `FontSpec -> FontId`; a string `-> TextRunId` via `MeasureText`,
+  which copies the caption (a BSTR borrow valid only for the call — in-process gives
+  no marshaling copy, so retaining the pointer would be a use-after-free), shapes it
+  **once** into a retained **shaped run** (positioned glyph ids + metrics + a caret
+  offset↔x table — the SkTextBlob / cosmic-`Buffer` analog), and returns the id +
+  metrics. The `TextRunId` is a **Rust-assigned content hash** (`fnv1a64` over
+  `(FontId, size, wrap, text)`); VBA never computes it — it learns the id from
+  `MeasureText` and memoizes it by text, so it needs no FNV and re-emits the id (an
+  opaque token) with zero crossing on unchanged frames. The cache key
+  `(FontId, size, wrap)` deliberately **excludes DPI**: glyph positions are logical
+  and scaled affinely at paint, so one run serves every DPI (a future hinted/subpixel
+  shaper would add DPI). Cached both VBA-side (the text→id memo) and kernel-side (the
+  persistent interning/LRU store, Surface-held; projected per-frame into `Scene.text`).
 - Paint: `Prim::DrawText` references `TextRunId` — a color/position change
   re-emits the same run id → zero re-measure, zero re-marshal.
 - Caret/selection: replace `probe.rs`'s approximate `6.0`px cell with PAL
