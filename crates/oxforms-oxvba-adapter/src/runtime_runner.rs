@@ -165,7 +165,7 @@ pub struct RuntimeStep {
 pub struct RuntimeRunner {
     session: ProjectRuntimeSession,
     form: RuntimeForm,
-    /// The `OxUserForm` object — the runtime's Re-render target (`render_frame`).
+    /// The `UserForm` object — the runtime's Re-render target (`render_frame`).
     user_form: ObjectRef,
     /// VBA object per control (for native member calls), keyed by reducer identity.
     control_objects: HashMap<ControlId, ObjectRef>,
@@ -243,7 +243,7 @@ impl RuntimeRunner {
     }
 
     /// Re-render the attached form across the `OxForms.Surface` boundary — the §16
-    /// Re-render the runtime owns. Invokes the form's VBA `OxUserForm.Render`, which
+    /// Re-render the runtime owns. Invokes the form's VBA `UserForm.Render`, which
     /// self-renders into one batched `ScenePatch` and submits it, advancing the
     /// resident `Scene` the backend repaints. The runtime owns this VM entry
     /// (serialized with [`Self::dispatch`]); the resident `Scene` and its revision live

@@ -9,22 +9,22 @@ Option Explicit
 ' Build constructs the form; RenderOnce re-renders it across OxForms.Surface (so the
 ' resident scene reflects the current size); GrowFont bumps the label's font size.
 
-Private mForm As OxUserForm
+Private mForm As UserForm
 Private mLabel As Label
 
 Public Sub Build()
-    Set mForm = New OxUserForm
+    Set mForm = New UserForm
     mForm.Name = "autosize"
     mForm.Width = 200
     mForm.Height = 120
 
-    Set mLabel = mForm.Add(oxControlLabel, "AutoLabel")
+    Set mLabel = mForm.Controls.Add("Forms.Label.1", "AutoLabel")
     mLabel.Left = 12
     mLabel.Top = 12
     mLabel.Caption = "Size me"
     ' Shrink-wrap the caption with a single-line border (the box hugs the text).
     mLabel.Core.AutoSize = True
-    mLabel.Core.BorderStyle = oxBorderSingle
+    mLabel.Core.BorderStyle = fmBorderStyleSingle
 End Sub
 
 Public Sub RenderOnce()

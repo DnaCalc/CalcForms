@@ -1,7 +1,7 @@
 //! W007 Re-render seam end to end on OxVba (oxforms-4pn.7).
 //!
 //! Proves the §16 Re-render the runtime owns: `RuntimeRunner::render_frame` invokes
-//! the form's VBA `OxUserForm.Render`, which self-renders the whole form into one
+//! the form's VBA `UserForm.Render`, which self-renders the whole form into one
 //! batched `ScenePatch` and submits it across the injected `OxForms.Surface`,
 //! advancing the resident control-blind `Scene` the backend repaints. This is the
 //! runtime half of the frame model (`RENDERING_ARCHITECTURE.md` §16): the runtime is
@@ -87,15 +87,16 @@ fn prepare_session_with_surface(
                 ModuleKind::Class,
                 "vba/oxforms/OxControlCore.cls",
             ),
+            module_unit("Controls", ModuleKind::Class, "vba/oxforms/Controls.cls"),
             module_unit(
-                "OxReturnInteger",
+                "ReturnInteger",
                 ModuleKind::Class,
-                "vba/oxforms/OxReturnInteger.cls",
+                "vba/oxforms/ReturnInteger.cls",
             ),
             module_unit(
-                "OxReturnBoolean",
+                "ReturnBoolean",
                 ModuleKind::Class,
-                "vba/oxforms/OxReturnBoolean.cls",
+                "vba/oxforms/ReturnBoolean.cls",
             ),
             module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
             module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
@@ -104,11 +105,7 @@ fn prepare_session_with_surface(
                 ModuleKind::Class,
                 "vba/oxforms/CommandButton.cls",
             ),
-            module_unit(
-                "OxUserForm",
-                ModuleKind::Class,
-                "vba/oxforms/OxUserForm.cls",
-            ),
+            module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
             module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
             module_unit(
                 "OxControlPaint",

@@ -8,7 +8,7 @@ Option Explicit
 ' "add a control" recipe in docs/specs/RENDERING_ARCHITECTURE.md s5.
 '
 ' Geometry is surface-absolute (v1 identity transforms). Text references the content-
-' hash run id the measure pre-pass stamped on Core.RunId (OxUserForm, via
+' hash run id the measure pre-pass stamped on Core.RunId (UserForm, via
 ' OxForms.Surface.MeasureText); color/edge selection is the only appearance the kernel
 ' ever receives, already resolved to bytes.
 
@@ -27,7 +27,7 @@ Public Sub OxPaintStandardControl( _
     If Len(EdgeName) > 0 Then
         Surface.DrawEdge Core.Left, Core.Top, Core.Width, Core.Height, _
             EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
-    ElseIf Core.BorderStyle = oxBorderSingle Then
+    ElseIf Core.BorderStyle = fmBorderStyleSingle Then
         Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
             ResolveBorder(Core), 255, 1
     End If

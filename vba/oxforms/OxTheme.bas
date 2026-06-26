@@ -80,15 +80,15 @@ End Function
 
 ' Map a SpecialEffect to the generic edge name the kernel understands. Returning
 ' an empty string means "no edge" (Flat) -- the control then omits DrawEdge.
-Public Function OxThemeEdgeName(ByVal Effect As OxSpecialEffect) As String
+Public Function OxThemeEdgeName(ByVal Effect As fmSpecialEffect) As String
     Select Case Effect
-        Case oxEffectRaised
+        Case fmSpecialEffectRaised
             OxThemeEdgeName = "raised"
-        Case oxEffectSunken
+        Case fmSpecialEffectSunken
             OxThemeEdgeName = "sunken"
-        Case oxEffectEtched
+        Case fmSpecialEffectEtched
             OxThemeEdgeName = "etched"
-        Case oxEffectBump
+        Case fmSpecialEffectBump
             OxThemeEdgeName = "bump"
         Case Else
             OxThemeEdgeName = ""

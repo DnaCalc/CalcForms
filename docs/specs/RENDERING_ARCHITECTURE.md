@@ -40,7 +40,7 @@ Two models that are usually conflated are kept orthogonal:
 
 Retention is justified **now, not deferred**, because the per-control
 invalidation signal we *already* compute (`OxControlCore.MarkDirty` →
-`IOxControlHost.OnControlInvalidated` → `OxUserForm.InvalidatedControls`, and the
+`IOxControlHost.OnControlInvalidated` → `UserForm.InvalidatedControls`, and the
 reducer's `RenderInvalidation`) is currently discarded at the PAL boundary. The
 Scene is where that signal is cashed out into incremental repaint, scrolling,
 animation, designer reuse, and subtree caching — without putting any control
@@ -215,18 +215,22 @@ color; the platform resolves the *value*.
 
 ### The "add a control" recipe
 
-1. New `OxFoo.cls` `Implements IOxControl`, holding an `OxControlCore` for
-   geometry/flags/appearance/NodeId.
-2. Set its default `SpecialEffect`/`BorderStyle` in `Class_Initialize`.
+1. New `Foo.cls` (the Forms 2.0 control name, no `Ox` prefix) `Implements IOxControl`,
+   holding an `OxControlCore` for geometry/flags/appearance/NodeId.
+2. Set its default `fmSpecialEffect`/`fmBorderStyle` in `Class_Initialize`.
 3. Implement `Render`: open node → ask `OxTheme` for the role's resolved
    primitives → emit them → close node. Give any high-frequency / independently
    damaged element (caret, focus rect, checkbox glyph) its **own sub-part NodeId**
    so a caret blink re-emits one tiny node.
 4. Implement the native event surface (`PerformClick`/`ApplyUserText`/… →
-   `RaiseEvent`; ByRef cancel via `OxReturnInteger`/`OxReturnBoolean`).
+   `RaiseEvent`; ByRef cancel via `ReturnInteger`/`ReturnBoolean`).
 5. Register a theme row for its role.
+6. Add a Case mapping its Forms 2.0 ProgID (`"Forms.Foo.1"`) in `OxFormsModel`'s
+   `OxKindFromProgId` + `OxCreateControl`, so `Controls.Add "Forms.Foo.1", name` creates it.
 
-No Rust change. No new primitive. The kernel never learns the word "Foo".
+No Rust change. No new primitive. The kernel never learns the word "Foo". The public
+creation surface is Forms 2.0 (`Controls.Add` by ProgID); `OxControlKind`/`OxCreateControl`
+are OxForms-internal machinery behind it.
 
 ## 6. Cross-boundary protocol
 
@@ -266,12 +270,12 @@ migrates to Rust under §4.6 — the contract is unchanged.
 Two levels, connected by the retained tree:
 
 - **Level 1 — dirty NODES (VBA, source of truth).**
-  `OxControlCore.MarkDirty` → `OnControlInvalidated` → `OxUserForm` collects
+  `OxControlCore.MarkDirty` → `OnControlInvalidated` → `UserForm` collects
   `InvalidatedControls`, **deduplicated by `NodeId`** (a control invalidated by several
   setters in one frame appears once), and a reentrant `SuspendLayout`/`ResumeLayout` band
   coalesces a bulk multi-setter update into one re-emit (while suspended, setters still
   mark dirty but the host is not notified; resume re-derives the set from the dirty
-  controls). `OxUserForm.Render` drains the set into one **incremental** patch per frame —
+  controls). `UserForm.Render` drains the set into one **incremental** patch per frame —
   Upsert only the invalidated controls; the root + unchanged controls are retained
   (oxforms-rq5.2).
 - **Level 2 — dirty RECTS (Rust, derived).** `apply_patch` compares each Upsert's
@@ -413,7 +417,7 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    `ProbeDisplayCommand`/`ProbeDisplayRole`/`ProbeColor`/`probe_face_color`. **Kept**
    `ControlNode`/`ControlKind` as reducer policy and `hit_test_control_tree` as routing
    policy; the W005/W006 trace-replay goldens were regenerated without the render rows.
-7. **DONE (oxforms-rq5.2).** Wired incremental invalidation. `OxUserForm` dedups the
+7. **DONE (oxforms-rq5.2).** Wired incremental invalidation. `UserForm` dedups the
    invalidation set by NodeId and adds a reentrant `SuspendLayout`/`ResumeLayout` band that
    coalesces a bulk multi-setter update into one node per changed control. `Render` now
    emits an INCREMENTAL patch after the first frame — Upsert only the invalidated controls

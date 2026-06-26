@@ -10,14 +10,14 @@ Option Explicit
 Private mResultToken As String
 
 Public Sub Run()
-    Dim DemoForm As OxUserForm
-    Set DemoForm = New OxUserForm
+    Dim DemoForm As UserForm
+    Set DemoForm = New UserForm
     DemoForm.Name = "demo"
     DemoForm.Width = 200
     DemoForm.Height = 120
 
     Dim InputField As TextBox
-    Set InputField = DemoForm.Add(oxControlTextBox, "InputField")
+    Set InputField = DemoForm.Controls.Add("Forms.TextBox.1", "InputField")
     InputField.Left = 12
     InputField.Top = 12
     InputField.Width = 120
@@ -25,7 +25,7 @@ Public Sub Run()
     InputField.Text = "Hi"
 
     Dim OkButton As CommandButton
-    Set OkButton = DemoForm.Add(oxControlCommandButton, "OkButton")
+    Set OkButton = DemoForm.Controls.Add("Forms.CommandButton.1", "OkButton")
     OkButton.Left = 140
     OkButton.Top = 12
     OkButton.Width = 48
@@ -33,7 +33,7 @@ Public Sub Run()
     OkButton.Caption = "OK"
 
     Dim OutputLabel As Label
-    Set OutputLabel = DemoForm.Add(oxControlLabel, "OutputLabel")
+    Set OutputLabel = DemoForm.Controls.Add("Forms.Label.1", "OutputLabel")
     OutputLabel.Left = 12
     OutputLabel.Top = 44
     OutputLabel.Width = 176

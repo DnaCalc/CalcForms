@@ -8,22 +8,22 @@ Option Explicit
 ' Build constructs a two-label form; RenderOnce re-renders it (first frame full, then
 ' incremental against the resident token); BulkUpdateSuspended runs a suspended update.
 
-Private mForm As OxUserForm
+Private mForm As UserForm
 Private mLabel1 As Label
 Private mLabel2 As Label
 
 Public Sub Build()
-    Set mForm = New OxUserForm
+    Set mForm = New UserForm
     mForm.Name = "invalidation"
     mForm.Width = 200
     mForm.Height = 120
 
-    Set mLabel1 = mForm.Add(oxControlLabel, "Label1")
+    Set mLabel1 = mForm.Controls.Add("Forms.Label.1", "Label1")
     mLabel1.Left = 10
     mLabel1.Top = 10
     mLabel1.Caption = "One"
 
-    Set mLabel2 = mForm.Add(oxControlLabel, "Label2")
+    Set mLabel2 = mForm.Controls.Add("Forms.Label.1", "Label2")
     mLabel2.Left = 10
     mLabel2.Top = 40
     mLabel2.Caption = "Two"
@@ -62,4 +62,15 @@ End Sub
 Public Sub BulkUpdateUnsuspendedLabel1()
     mLabel1.Core.Left = 70
     mLabel1.Core.Top = 70
+End Sub
+
+' Forms 2.0 robustness probe: Controls.Add of an UNKNOWN ProgID, and of a recognized-but-
+' unimplemented one ("Forms.CheckBox.1" has no class yet), must return Nothing WITHOUT
+' crashing and must NOT register a phantom control. (Guards the rq5-fek Nothing-handling in
+' Controls.Add.) The returned controls are intentionally ignored.
+Public Sub TryAddUnsupportedControls()
+    Dim Bogus As IOxControl
+    Set Bogus = mForm.Controls.Add("Forms.Bogus.1", "bogus")
+    Dim Chk As IOxControl
+    Set Chk = mForm.Controls.Add("Forms.CheckBox.1", "chk")
 End Sub

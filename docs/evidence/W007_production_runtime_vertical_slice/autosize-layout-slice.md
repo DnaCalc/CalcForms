@@ -9,7 +9,7 @@ wrong measurement would be a visibly wrong box.
 
 ## Pipeline
 
-1. **Measure** (`OxUserForm.BuildScenePatch`, measure pass): each text control crosses
+1. **Measure** (`UserForm.BuildScenePatch`, measure pass): each text control crosses
    its caption once via `Surface.MeasureText` → stamps `Core.RunId` + `Core.MeasuredWidth`
    / `Core.MeasuredHeight` (parsed from the `id:advance:ascent:descent:linegap` result).
 2. **Layout** (layout pass): an `AutoSize` control sets `Width`/`Height` from the measured

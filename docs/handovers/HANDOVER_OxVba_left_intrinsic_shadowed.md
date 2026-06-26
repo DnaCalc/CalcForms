@@ -116,7 +116,7 @@ intrinsic (project-name lookup). A **second, distinct** path survives: when the
 its own methods, OxVba resolves `Left$` to that class's own `Left` property (implicit
 `Me`), not to `VBA.Strings.Left`.
 
-Found in `oxforms-4pn.13`: `OxUserForm` has a `Public Property Get Left()` (MSForms
+Found in `oxforms-4pn.13`: `UserForm` has a `Public Property Get Left()` (MSForms
 surface) and a helper `FirstField` that called `Left$(s, n)` to take the leading
 characters of a `MeasureText` result. At `95be9ff2`, `FirstField` returned the value
 of `Me.Left` (the form's left, `0`) coerced to a string ("0") instead of the leading
@@ -125,7 +125,7 @@ get succeeds and is type-coerced). Probed via the real OxVba session:
 
 - In a class with **no** `Left` member (the test `RenderProbeForm`): `Left$(R, n)`
   returns the correct leading substring. ✓
-- In `OxUserForm` (which **has** a `Left` property): the *identical* `Left$(R, n)`
+- In `UserForm` (which **has** a `Left` property): the *identical* `Left$(R, n)`
   expression yields `Me.Left` → `"0"`. ✗
 
 Expected (VBA 7.1): `Left$` (with the `$` type-declaration char) is the string
@@ -139,7 +139,7 @@ name `Left$` as matching the bare member `Left`. Fix should keep `Left$` (and th
 plain `Left` at an argument-bearing call site) routed to the intrinsic unless a
 genuine same-named, same-arity local/member is the intended target.
 
-Impact / current handling: `OxUserForm.FirstField` uses `Mid$(s, 1, n)` (the
+Impact / current handling: `UserForm.FirstField` uses `Mid$(s, 1, n)` (the
 unaffected equivalent of `Left$(s, n)`) so `oxforms-4pn.13` is unblocked today; this
 is a local equivalent, not an architectural change. Once OxVba routes `Left$` to the
 intrinsic for same-class scopes too, the `Mid$` choice can stay or revert freely; no

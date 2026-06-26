@@ -4,8 +4,13 @@ Option Explicit
 '
 ' This module is the single extension point for intrinsic controls: adding a new
 ' control means writing one class module that Implements IOxControl and adding one
-' Case to OxCreateControl. Nothing else in the framework changes. See
+' Case to OxKindFromProgId/OxCreateControl. Nothing else in the framework changes. See
 ' docs/specs/RENDERING_ARCHITECTURE.md (§5) for the authoring recipe.
+'
+' The public creation surface is Forms 2.0: callers use Controls.Add with a ProgID
+' ("Forms.Label.1"). OxControlKind below is OxForms-INTERNAL machinery (it drives
+' OxControlCore's per-kind appearance defaults and the ProgID->class factory); VBA authors
+' never name it.
 
 Public Enum OxControlKind
     oxControlLabel = 0
@@ -17,18 +22,18 @@ End Enum
 ' MSForms 3D appearance, values from [MS-OFORMS] fmSpecialEffect (see spec s5.6).
 ' VBA owns the SpecialEffect -> generic EdgeEffect mapping; the Rust kernel only
 ' knows the generic edge (it never learns "TextBox").
-Public Enum OxSpecialEffect
-    oxEffectFlat = 0
-    oxEffectRaised = 1
-    oxEffectSunken = 2
-    oxEffectEtched = 3
-    oxEffectBump = 6
+Public Enum fmSpecialEffect
+    fmSpecialEffectFlat = 0
+    fmSpecialEffectRaised = 1
+    fmSpecialEffectSunken = 2
+    fmSpecialEffectEtched = 3
+    fmSpecialEffectBump = 6
 End Enum
 
 ' [MS-OFORMS] fmBorderStyle.
-Public Enum OxBorderStyle
-    oxBorderNone = 0
-    oxBorderSingle = 1
+Public Enum fmBorderStyle
+    fmBorderStyleNone = 0
+    fmBorderStyleSingle = 1
 End Enum
 
 ' Sentinel for the BackColor/ForeColor/BorderColor band meaning "no explicit
@@ -36,13 +41,32 @@ End Enum
 ' value and from the 0x80000000 OLE_COLOR system-index flag.
 Public Const oxColorAuto As Long = -1
 
-' Create an unparented control of the requested kind with its Name assigned.
-' The caller (normally OxUserForm.Add) binds it to a host afterwards. Returns
-' Nothing for a kind that has no class module yet.
-Public Function OxCreateControl(ByVal Kind As OxControlKind, ByVal Name As String) As IOxControl
+' Map a Forms 2.0 control ProgID ("Forms.Label.1") to the internal kind. Unknown -> -1.
+' Case-insensitive, like real MSForms Controls.Add. "Forms.CheckBox.1" is a recognized kind
+' but has no class module yet, so OxCreateControl returns Nothing for it and Controls.Add
+' degrades cleanly (see Controls.Add) until CheckBox.cls lands.
+Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
+    Select Case LCase$(ProgId)
+        Case "forms.label.1"
+            OxKindFromProgId = oxControlLabel
+        Case "forms.textbox.1"
+            OxKindFromProgId = oxControlTextBox
+        Case "forms.commandbutton.1"
+            OxKindFromProgId = oxControlCommandButton
+        Case "forms.checkbox.1"
+            OxKindFromProgId = oxControlCheckBox
+        Case Else
+            OxKindFromProgId = -1
+    End Select
+End Function
+
+' Create an unparented control for a Forms 2.0 ProgID with its Name assigned. The caller
+' (Controls.Add) registers it on the form afterwards. Returns Nothing for an unknown ProgID
+' or a kind that has no class module yet.
+Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As IOxControl
     Dim Control As IOxControl
 
-    Select Case Kind
+    Select Case OxKindFromProgId(ProgId)
         Case oxControlLabel
             Set Control = New Label
         Case oxControlTextBox

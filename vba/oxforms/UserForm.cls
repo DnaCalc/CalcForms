@@ -3,9 +3,9 @@ Implements IOxControlHost
 
 ' MSForms-shaped UserForm container. Owns the control set and is the host the
 ' controls notify on change. A user form (or, later, the .frm loader) builds its
-' controls through Add, which both registers the control and wires its
-' invalidation seam back to this form. The runtime enumerates Controls to
-' materialize the tree and drains InvalidatedControls to schedule repaints.
+' controls the Forms 2.0 way -- Controls.Add by ProgID -- which creates the control and
+' calls RegisterControl here to wire its invalidation seam + assign its NodeId. The runtime
+' enumerates Controls to materialize the tree and drains InvalidatedControls for repaints.
 
 Private mName As String
 Private mCaption As String
@@ -13,7 +13,7 @@ Private mLeft As Single
 Private mTop As Single
 Private mWidth As Single
 Private mHeight As Single
-Private mControls As Collection
+Private mControls As Controls
 Private mInvalidated As Collection
 Private mNextNodeId As Long
 Private mLastSceneToken As String
@@ -38,7 +38,8 @@ Private Const OX_DEFAULT_FONT_ID As Long = 1
 Private Const OX_STALE_SENTINEL As String = "STALE"
 
 Private Sub Class_Initialize()
-    Set mControls = New Collection
+    Set mControls = New Controls
+    mControls.Bind Me
     Set mInvalidated = New Collection
     ' Node 0 is reserved for the form/root; controls intern from 1 upward. The id
     ' is a stable per-control serial (assigned once at Add, never reused), so a
@@ -46,20 +47,18 @@ Private Sub Class_Initialize()
     mNextNodeId = 1
 End Sub
 
-' Create a control of the given kind, register it under Name, and bind it to this
-' form as its invalidation host. This is the one call sites use to add controls;
-' the factory in OxFormsModel keeps it control-agnostic.
-Public Function Add(ByVal Kind As OxControlKind, ByVal Name As String) As IOxControl
-    Dim Control As IOxControl
-    Set Control = OxCreateControl(Kind, Name)
+' Bind a control to this form as its invalidation host and assign its stable NodeId.
+' Called by Controls.Add (the Forms 2.0 creation path); the Controls collection owns
+' tracking, the form owns identity + the host seam.
+Public Sub RegisterControl(ByVal Control As IOxControl)
     Control.Core.Bind Me, Control
     Control.Core.NodeId = mNextNodeId
     mNextNodeId = mNextNodeId + 1
-    mControls.Add Control, Name
-    Set Add = Control
-End Function
+End Sub
 
-Public Property Get Controls() As Collection
+' The Forms 2.0 Controls collection: callers create controls with
+' Controls.Add "Forms.Label.1", "Name".
+Public Property Get Controls() As Controls
     Set Controls = mControls
 End Property
 
@@ -263,7 +262,7 @@ End Function
 ' Parse a MeasureText result "id:advance:ascent:descent:linegap" (metrics in 1/1000 pt)
 ' into the run id (a String) and the caption's measured size in points (advance width;
 ' ascent+descent height). Avoids a Split dependency (InStr + Mid$ + Val). Uses Mid$ rather
-' than Left$ ON PURPOSE: OxUserForm has a Left property and OxVba resolves the bare Left$
+' than Left$ ON PURPOSE: UserForm has a Left property and OxVba resolves the bare Left$
 ' intrinsic to that member (returning 0) — the Left/Left$ shadowing divergence in
 ' docs/handovers/HANDOVER_OxVba_left_intrinsic_shadowed.md. Val is locale-independent for
 ' the integer milli-pt fields. The 5-field shape is OxForms.Surface.MeasureText's contract.

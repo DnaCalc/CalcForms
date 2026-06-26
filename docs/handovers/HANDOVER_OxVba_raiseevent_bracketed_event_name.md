@@ -22,6 +22,6 @@ bracketed RaiseEvent names"): `RaiseEvent [Exit]` now parses, `Public Event [Exi
 is accepted, and bind normalizes `[Exit]` to `Exit`. OxForms bumped the pinned
 baseline `366896f` → `366a40e` and switched `CommandButton`/`TextBox` from the
 `BeforeUpdate` stand-in to the native `[Exit]` event. `oxvba_w007_object_model.rs`
-now exercises `Public Event [Exit](ByVal Cancel As OxReturnBoolean)` +
+now exercises `Public Event [Exit](ByVal Cancel As ReturnBoolean)` +
 `RaiseEvent [Exit](cancel)` + a `Private WithEvents` `InputField_Exit` handler with
 a `ReturnBoolean` cancel round-trip, green on `366a40e`. Closed `oxforms-0rj`.

@@ -3,11 +3,11 @@
 //! Proves the OxForms VBA control object model compiles and runs on OxVba and
 //! supports the W007 demo shape end to end, with no custom callback API:
 //!
-//! - controls are created through the factory + OxUserForm.Add;
+//! - controls are created the Forms 2.0 way, through `Controls.Add` by ProgID;
 //! - typed properties (Caption/Text/geometry) round-trip through OxControlCore;
 //! - native control events (Change, Click) reach ordinary VBA handlers via
 //!   WithEvents, and the handler reads TextBox.Text and sets Label.Caption;
-//! - the mutable-helper pattern (OxReturnInteger) round-trips through KeyDown;
+//! - the mutable-helper pattern (ReturnInteger) round-trips through KeyDown;
 //! - the runtime can reach every control uniformly through IOxControl.Core and
 //!   observe dirty/invalidation state for repaint scheduling.
 
@@ -69,15 +69,16 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
                 ModuleKind::Class,
                 "vba/oxforms/OxControlCore.cls",
             ),
+            module_unit("Controls", ModuleKind::Class, "vba/oxforms/Controls.cls"),
             module_unit(
-                "OxReturnInteger",
+                "ReturnInteger",
                 ModuleKind::Class,
-                "vba/oxforms/OxReturnInteger.cls",
+                "vba/oxforms/ReturnInteger.cls",
             ),
             module_unit(
-                "OxReturnBoolean",
+                "ReturnBoolean",
                 ModuleKind::Class,
-                "vba/oxforms/OxReturnBoolean.cls",
+                "vba/oxforms/ReturnBoolean.cls",
             ),
             module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
             module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
@@ -86,11 +87,7 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
                 ModuleKind::Class,
                 "vba/oxforms/CommandButton.cls",
             ),
-            module_unit(
-                "OxUserForm",
-                ModuleKind::Class,
-                "vba/oxforms/OxUserForm.cls",
-            ),
+            module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
             module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
             module_unit(
                 "OxControlPaint",
@@ -189,7 +186,7 @@ fn object_model_supports_the_w007_demo_shape() {
         vec![Variant::from_string("World")],
     );
 
-    // KeyDown carries a mutable OxReturnInteger: the handler swallows Escape (27 -> 0)
+    // KeyDown carries a mutable ReturnInteger: the handler swallows Escape (27 -> 0)
     // and leaves an ordinary key untouched. The post-handler value round-trips back.
     let escape = call(
         &mut session,
@@ -202,7 +199,7 @@ fn object_model_supports_the_w007_demo_shape() {
     .expect("SendInputKeyDown should return an integer");
     assert_eq!(
         escape, 0,
-        "handler should swallow Escape via OxReturnInteger.Value"
+        "handler should swallow Escape via ReturnInteger.Value"
     );
 
     let letter = call(
@@ -242,7 +239,7 @@ fn object_model_supports_the_w007_demo_shape() {
     .expect("SendInputExit should return a boolean");
     assert!(
         cancelled,
-        "the native [Exit] handler should cancel via OxReturnBoolean"
+        "the native [Exit] handler should cancel via ReturnBoolean"
     );
 
     assert_eq!(

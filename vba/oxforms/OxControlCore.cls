@@ -31,8 +31,8 @@ Private mNodeId As Long
 Private mBackColor As Long
 Private mForeColor As Long
 Private mBorderColor As Long
-Private mSpecialEffect As OxSpecialEffect
-Private mBorderStyle As OxBorderStyle
+Private mSpecialEffect As fmSpecialEffect
+Private mBorderStyle As fmBorderStyle
 Private mFontSize As Single
 Private mAutoSize As Boolean
 ' Transient per-render scratch: the content-hash text-run id the measure pre-pass
@@ -61,7 +61,7 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mBackColor = oxColorAuto
     mForeColor = oxColorAuto
     mBorderColor = oxColorAuto
-    mBorderStyle = oxBorderNone
+    mBorderStyle = fmBorderStyleNone
     ' MSForms default font is 8pt (Microsoft Sans Serif / Tahoma).
     mFontSize = 8
     mAutoSize = False
@@ -73,19 +73,19 @@ Public Sub Init(ByVal Kind As OxControlKind)
         Case oxControlLabel
             mFocusable = False
             mTabStop = False
-            mSpecialEffect = oxEffectFlat
+            mSpecialEffect = fmSpecialEffectFlat
         Case oxControlCommandButton
             mFocusable = True
             mTabStop = True
-            mSpecialEffect = oxEffectRaised
+            mSpecialEffect = fmSpecialEffectRaised
         Case oxControlTextBox
             mFocusable = True
             mTabStop = True
-            mSpecialEffect = oxEffectSunken
+            mSpecialEffect = fmSpecialEffectSunken
         Case Else
             mFocusable = True
             mTabStop = True
-            mSpecialEffect = oxEffectSunken
+            mSpecialEffect = fmSpecialEffectSunken
     End Select
 End Sub
 
@@ -284,18 +284,18 @@ Public Property Let BorderColor(ByVal Value As Long)
     MarkDirty
 End Property
 
-Public Property Get SpecialEffect() As OxSpecialEffect
+Public Property Get SpecialEffect() As fmSpecialEffect
     SpecialEffect = mSpecialEffect
 End Property
-Public Property Let SpecialEffect(ByVal Value As OxSpecialEffect)
+Public Property Let SpecialEffect(ByVal Value As fmSpecialEffect)
     mSpecialEffect = Value
     MarkDirty
 End Property
 
-Public Property Get BorderStyle() As OxBorderStyle
+Public Property Get BorderStyle() As fmBorderStyle
     BorderStyle = mBorderStyle
 End Property
-Public Property Let BorderStyle(ByVal Value As OxBorderStyle)
+Public Property Let BorderStyle(ByVal Value As fmBorderStyle)
     mBorderStyle = Value
     MarkDirty
 End Property

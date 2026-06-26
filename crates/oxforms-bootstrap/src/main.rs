@@ -431,14 +431,19 @@ fn oxforms_modules(demo: &Demo) -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/OxControlCore.cls"),
         ),
         unit(
-            "OxReturnInteger",
+            "Controls",
             Class,
-            include_str!("../../../vba/oxforms/OxReturnInteger.cls"),
+            include_str!("../../../vba/oxforms/Controls.cls"),
         ),
         unit(
-            "OxReturnBoolean",
+            "ReturnInteger",
             Class,
-            include_str!("../../../vba/oxforms/OxReturnBoolean.cls"),
+            include_str!("../../../vba/oxforms/ReturnInteger.cls"),
+        ),
+        unit(
+            "ReturnBoolean",
+            Class,
+            include_str!("../../../vba/oxforms/ReturnBoolean.cls"),
         ),
         unit(
             "Label",
@@ -456,9 +461,9 @@ fn oxforms_modules(demo: &Demo) -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/CommandButton.cls"),
         ),
         unit(
-            "OxUserForm",
+            "UserForm",
             Class,
-            include_str!("../../../vba/oxforms/OxUserForm.cls"),
+            include_str!("../../../vba/oxforms/UserForm.cls"),
         ),
         unit(
             "OxTheme",

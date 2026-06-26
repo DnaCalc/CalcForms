@@ -2,38 +2,38 @@ Option Explicit
 
 ' W007 object-model proving fixture (oxforms-4pn.3). Test infrastructure, not the
 ' OxForms library. It exercises the object model the way a real user form (and,
-' later, the .frm loader + runtime) will: build controls through OxUserForm.Add,
-' hold them as WithEvents fields, and handle native control events with ordinary
+' later, the .frm loader + runtime) will: build controls through Controls.Add by
+' Forms 2.0 ProgID, hold them as WithEvents fields, handle native control events with ordinary
 ' VBA handler code. The Perform*/ApplyUserText calls below stand in for the
 ' runtime's input dispatch so a host test can drive the form without a window.
 
-Private mForm As OxUserForm
+Private mForm As UserForm
 Private WithEvents OkButton As CommandButton
 Private WithEvents InputField As TextBox
 Private OutputLabel As Label
 Private mLog As String
 
 Public Sub Build()
-    Set mForm = New OxUserForm
+    Set mForm = New UserForm
     mForm.Name = "greeter"
     mForm.Caption = "Greeter"
     mForm.Width = 200
     mForm.Height = 120
 
-    Set InputField = mForm.Add(oxControlTextBox, "InputField")
+    Set InputField = mForm.Controls.Add("Forms.TextBox.1", "InputField")
     InputField.Left = 12
     InputField.Top = 12
     InputField.Width = 120
     InputField.Height = 18
 
-    Set OkButton = mForm.Add(oxControlCommandButton, "OkButton")
+    Set OkButton = mForm.Controls.Add("Forms.CommandButton.1", "OkButton")
     OkButton.Caption = "OK"
     OkButton.Left = 140
     OkButton.Top = 12
     OkButton.Width = 60
     OkButton.Height = 20
 
-    Set OutputLabel = mForm.Add(oxControlLabel, "OutputLabel")
+    Set OutputLabel = mForm.Controls.Add("Forms.Label.1", "OutputLabel")
     OutputLabel.Caption = "(idle)"
     OutputLabel.Left = 12
     OutputLabel.Top = 40
@@ -41,7 +41,7 @@ Public Sub Build()
     OutputLabel.Height = 18
 End Sub
 
-Public Property Get Form() As OxUserForm
+Public Property Get Form() As UserForm
     Set Form = mForm
 End Property
 
@@ -75,7 +75,7 @@ Private Sub InputField_Change()
     Append "InputField_Change=" & InputField.Text
 End Sub
 
-Private Sub InputField_KeyDown(ByVal KeyCode As OxReturnInteger, ByVal Shift As Integer)
+Private Sub InputField_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
     Append "InputField_KeyDown=" & KeyCode.Value & ";Shift=" & Shift
     If KeyCode.Value = 27 Then
         KeyCode.Value = 0
@@ -84,7 +84,7 @@ End Sub
 
 ' Native FM20 focus-exit event (reserved word, handled as InputField_Exit). Sets
 ' the mutable Cancel to keep focus, proving the ReturnBoolean round-trip.
-Private Sub InputField_Exit(ByVal Cancel As OxReturnBoolean)
+Private Sub InputField_Exit(ByVal Cancel As ReturnBoolean)
     Append "InputField_Exit"
     Cancel.Value = True
 End Sub

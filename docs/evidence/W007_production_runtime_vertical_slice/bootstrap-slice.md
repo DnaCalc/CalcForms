@@ -8,7 +8,7 @@ OxVba, self-renders across the `OxForms.Surface` boundary into a Rust-side retai
 ## What this slice delivers
 
 - **The render_frame Re-render seam** (the runtime half of `RENDERING_ARCHITECTURE.md`
-  §16). `OxUserForm.Render(DpiX, DpiY)` is the form's self-render: it `CreateObject`s
+  §16). `UserForm.Render(DpiX, DpiY)` is the form's self-render: it `CreateObject`s
   `OxForms.Surface`, `BeginScene`s at its own size, builds one batched `ScenePatch`, and
   `SubmitPatch`es it — then clears the reconciled invalidation set. `RuntimeRunner::render_frame()`
   invokes it; the runtime is the **sole owner of all VBA entry** (both `dispatch` and

@@ -83,15 +83,16 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 ModuleKind::Class,
                 "vba/oxforms/OxControlCore.cls",
             ),
+            module_unit("Controls", ModuleKind::Class, "vba/oxforms/Controls.cls"),
             module_unit(
-                "OxReturnInteger",
+                "ReturnInteger",
                 ModuleKind::Class,
-                "vba/oxforms/OxReturnInteger.cls",
+                "vba/oxforms/ReturnInteger.cls",
             ),
             module_unit(
-                "OxReturnBoolean",
+                "ReturnBoolean",
                 ModuleKind::Class,
-                "vba/oxforms/OxReturnBoolean.cls",
+                "vba/oxforms/ReturnBoolean.cls",
             ),
             module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
             module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
@@ -100,11 +101,7 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 ModuleKind::Class,
                 "vba/oxforms/CommandButton.cls",
             ),
-            module_unit(
-                "OxUserForm",
-                ModuleKind::Class,
-                "vba/oxforms/OxUserForm.cls",
-            ),
+            module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
             module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
             module_unit(
                 "OxControlPaint",
@@ -568,6 +565,53 @@ fn suspend_resume_dedup_emits_one_incremental_node_per_changed_control() {
         label1_x(&surface),
         70.0,
         "the unsuspended update moved Label1"
+    );
+}
+
+/// oxforms-fek: Forms 2.0 `Controls.Add` of an unknown ProgID, and of a recognized-but-
+/// unimplemented one ("Forms.CheckBox.1" has no class module yet), must return Nothing
+/// WITHOUT crashing and must register no phantom control. The VBA probe call succeeding
+/// (no invoke error) proves no crash; the unchanged node count proves nothing was added.
+#[test]
+fn controls_add_unsupported_progid_returns_nothing_without_crashing() {
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
+    register_surface(&projection, surface.clone());
+
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("InvalidationDemoForm")
+        .expect("create invalidation demo form");
+    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+        session
+            .invoke_member_values(
+                form.clone(),
+                name,
+                Some(ProjectMemberKind::Method),
+                Vec::new(),
+            )
+            .unwrap_or_else(|err| panic!("invoke {name}: {}", err.message()));
+    };
+    let node_count = |surface: &Arc<SurfaceFactory>| -> usize {
+        surface.snapshot().expect("snapshot").node_count
+    };
+
+    call(&mut session, "Build");
+    call(&mut session, "RenderOnce");
+    let before = node_count(&surface);
+    assert_eq!(
+        before, 3,
+        "InvalidationDemoForm renders a root + two labels"
+    );
+
+    // An unknown ProgID + the unimplemented "Forms.CheckBox.1": this call must NOT error
+    // (a Nothing dereference in RegisterControl would surface as an invoke failure here).
+    call(&mut session, "TryAddUnsupportedControls");
+    call(&mut session, "RenderOnce");
+    assert_eq!(
+        node_count(&surface),
+        before,
+        "an unsupported Controls.Add returns Nothing and registers no phantom control"
     );
 }
 
