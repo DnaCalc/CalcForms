@@ -366,8 +366,9 @@ pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
 /// Shapes a string into a retained [`TextRun`]. The backend owns the font engine
 /// (ab_glyph now, cosmic-text later) and implements this; the kernel/adapter only
 /// hold the resulting runs. Pure + deterministic for a given font set, called once
-/// per content change — never at paint time.
-pub trait TextShaper {
+/// per content change — never at paint time. `Debug` is required so holders (e.g. the
+/// adapter's `SurfaceFactory`) can derive it.
+pub trait TextShaper: std::fmt::Debug {
     fn shape(&self, key: &TextKey, text: &str) -> TextRun;
 }
 
