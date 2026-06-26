@@ -1266,6 +1266,7 @@ version = "0.0.0"
 dependencies = [
  "oxforms-core",
  "oxforms-pal",
+ "oxforms-pal-win",
  "oxvba-bind",
  "oxvba-bundle",
  "oxvba-com",

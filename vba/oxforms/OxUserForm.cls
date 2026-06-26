@@ -18,6 +18,14 @@ Private mInvalidated As Collection
 Private mNextNodeId As Long
 Private mLastSceneToken As String
 
+' The single UI font id v1 registers (Microsoft Sans Serif / Tahoma). RegisterFont and
+' multiple faces land later; until then every run measures against this one face id.
+' MUST equal the Rust-side FONT_ID the backend registers the face under (oxforms-bootstrap
+' `FONT_ID`, and the FontTable the rasterizer resolves against) — otherwise the run's
+' font id would miss the FontTable and captions would be silently dropped. The end-to-end
+' glyph-coverage test `vba_self_render_rasterizes_captions_through_the_real_shaper` pins it.
+Private Const OX_DEFAULT_FONT_ID As Long = 1
+
 Private Sub Class_Initialize()
     Set mControls = New Collection
     Set mInvalidated = New Collection
@@ -70,12 +78,31 @@ End Sub
 Public Function BuildScenePatch( _
         ByVal BaseToken As String, _
         ByVal Builder As OxSceneBuilder, _
+        ByVal Surface As Object, _
         ByVal DpiX As Long, _
         ByVal DpiY As Long) As String
     Builder.BeginPatch BaseToken, CLng(mWidth), CLng(mHeight), DpiX, DpiY
 
     Dim I As Long
     Dim Control As IOxControl
+
+    ' Measure pre-pass: stamp each text control's content-hash run id from
+    ' OxForms.Surface.MeasureText (the §8 cache-miss path; the string crosses here, once).
+    ' OxControlPaint then emits Core.RunId by reference. v1 re-measures every render and
+    ' lets the Rust store de-dup by id; a VBA-side memo is a later optimization.
+    ' The id is written straight onto the live core (as Add does for NodeId), not via a
+    ' ByVal-object helper, so the mutation persists into the paint pass.
+    Dim Cap As String
+    For I = 1 To mControls.Count
+        Set Control = mControls.Item(I)
+        Cap = Control.Core.DisplayText
+        If Len(Cap) > 0 Then
+            Control.Core.RunId = FirstField( _
+                Surface.MeasureText(OX_DEFAULT_FONT_ID, CLng(Control.Core.FontSize * 1000), Cap))
+        Else
+            Control.Core.RunId = ""
+        End If
+    Next I
 
     ' Root/form node: client background plus the controls' paint-order children.
     Builder.OpenNode 0, False, 0, 0, 0, 0, mWidth, mHeight, True
@@ -115,11 +142,27 @@ Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
     Dim Builder As OxSceneBuilder
     Set Builder = New OxSceneBuilder
     Dim PatchJson As String
-    PatchJson = BuildScenePatch(BaseToken, Builder, DpiX, DpiY)
+    PatchJson = BuildScenePatch(BaseToken, Builder, Surface, DpiX, DpiY)
 
     mLastSceneToken = Surface.SubmitPatch(PatchJson)
     ClearInvalidations
 End Sub
+
+' The first ':'-delimited field of a MeasureText result (the run id). Avoids a Split
+' dependency. Uses Mid$ rather than Left$ ON PURPOSE: OxUserForm has a Left property, and
+' OxVba resolves the bare Left$ intrinsic to that member (returning 0) — the Left/Left$
+' shadowing divergence from docs/handovers/HANDOVER_OxVba_left_intrinsic_shadowed.md,
+' recurring here for a class that has a Left member. Mid$(S, 1, n) is the unaffected
+' equivalent of Left$(S, n).
+Private Function FirstField(ByVal S As String) As String
+    Dim P As Long
+    P = InStr(S, ":")
+    If P > 0 Then
+        FirstField = Mid$(S, 1, P - 1)
+    Else
+        FirstField = S
+    End If
+End Function
 
 Public Property Get LastSceneToken() As String
     LastSceneToken = mLastSceneToken

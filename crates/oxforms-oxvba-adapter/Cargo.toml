@@ -20,6 +20,10 @@ oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff219
 oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 
 [dev-dependencies]
+# Desktop backend (shaper + rasterizer) used ONLY by the end-to-end glyph-coverage
+# test, which drives a real VBA self-render through the real AbGlyphShaper and asserts
+# captions rasterize. The production adapter stays backend-independent.
+oxforms-pal-win = { path = "../oxforms-pal-win" }
 oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }
 oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "95be9ff2190caa3c74257c2b59f290a7dfd798ba" }

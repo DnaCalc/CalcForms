@@ -22,10 +22,11 @@ use std::sync::Arc;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::input::DpiScale;
 use oxforms_pal::scene::{
-    render_headless_hash, EdgeBorder, EdgeEffect, NodeEdit, NodeId, Paint, Prim, RectF, Scene,
-    SceneNode, ScenePatch,
+    render_headless_hash, EdgeBorder, EdgeEffect, FontId, NodeEdit, NodeId, Paint, Prim, RectF,
+    Scene, SceneNode, ScenePatch, StubShaper,
 };
 use oxforms_pal::{Color, SurfaceSize};
+use oxforms_pal_win::{load_ui_font, render_scene_to_rgba, AbGlyphShaper, FontTable};
 
 use oxvba_bundle::{BundlePackage, ProjectMemberKind};
 use oxvba_com::PortableComProjection;
@@ -227,7 +228,10 @@ fn get_string(
 #[test]
 fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     let projection = Arc::new(PortableComProjection::new());
-    let surface = Arc::new(SurfaceFactory::new());
+    // The VBA render measures text via Surface.MeasureText, so a shaper must be present;
+    // StubShaper is deterministic + font-free (the headless framebuffer is text-free, so
+    // the golden hash is unaffected).
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
     register_surface(&projection, surface.clone());
 
     let mut session = prepare_session(projection);
@@ -253,8 +257,15 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
         snap.calls,
-        ["BeginScene:4", "SubmitPatch:1"],
-        "VBA drives exactly one BeginScene and one batched SubmitPatch"
+        [
+            "BeginScene:4",
+            "MeasureText:3",
+            "MeasureText:3",
+            "MeasureText:3",
+            "SubmitPatch:1"
+        ],
+        "VBA drives one BeginScene, a MeasureText per text control (the §8 measure \
+         pre-pass), then one batched SubmitPatch"
     );
     assert!(
         !snap.last_stale_base,
@@ -284,6 +295,20 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         "the cross-boundary self-render must match the canonical Rust-built scene (invariant c)"
     );
 
+    // 4pn.13: the captions crossed once via MeasureText and landed as resident shaped
+    // runs (projected into Scene.text by SubmitPatch), so the VBA self-render now carries
+    // real text — not run id 0. The headless framebuffer above is text-free, so this is
+    // an independent assertion on the text seam.
+    let scene = snap.scene.expect("resident scene");
+    assert_eq!(scene.text.len(), 3, "three captions shaped into Scene.text");
+    let mut sources: Vec<String> = scene.text.values().map(|r| r.source.to_string()).collect();
+    sources.sort();
+    assert_eq!(
+        sources,
+        vec!["Hi".to_string(), "OK".to_string(), "Ready".to_string()],
+        "Scene.text holds the control captions (InputField/OkButton/OutputLabel)"
+    );
+
     // The patch the VBA encoder produced is well-formed: four full-node upserts with
     // the expected ids (form root 0 plus controls 1..=3).
     let patch_json = snap.last_patch_json.expect("captured patch JSON");
@@ -300,4 +325,52 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         .collect();
     ids.sort_unstable();
     assert_eq!(ids, vec![0, 1, 2, 3], "form root plus three control nodes");
+}
+
+/// End-to-end glyph coverage (oxforms-4pn.13 acceptance): a real VBA self-render,
+/// measured + shaped by the REAL `AbGlyphShaper` (the desktop backend, not the stub),
+/// rasterizes caption glyphs to pixels. This also pins the `FONT_ID` coupling — VBA's
+/// `OX_DEFAULT_FONT_ID` (1) must equal the `FontId` the shaper + `FontTable` register
+/// under, or `resolver.font` would miss and the text would be silently dropped.
+#[test]
+fn vba_self_render_rasterizes_captions_through_the_real_shaper() {
+    let Ok(font) = load_ui_font() else {
+        // Off-Windows (no platform UI font): skip honestly rather than assert nothing.
+        eprintln!("SKIP: no platform UI font on this host");
+        return;
+    };
+    let font_id = FontId(1); // must match the VBA OX_DEFAULT_FONT_ID
+
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(AbGlyphShaper::new(
+        font_id,
+        font.clone(),
+    ))));
+    register_surface(&projection, surface.clone());
+
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("RenderProbeForm")
+        .expect("create render probe form");
+    session
+        .invoke_member_values(form, "Run", Some(ProjectMemberKind::Method), Vec::new())
+        .unwrap_or_else(|err| panic!("invoke Run: {}", err.message()));
+
+    let snap = surface.snapshot().expect("surface snapshot");
+    let scene = snap.scene.expect("resident scene");
+    assert_eq!(scene.text.len(), 3, "captions shaped into Scene.text");
+
+    // Rasterize the resident scene with the same face registered under the same id, then
+    // assert real glyph coverage (near-black pixels). A FONT_ID divergence drops text.
+    let mut fonts = FontTable::new();
+    fonts.add(font_id, font);
+    let rgba = render_scene_to_rgba(&scene, 200, 120, &fonts);
+    let dark = rgba
+        .chunks_exact(4)
+        .filter(|p| p[0] < 0x40 && p[1] < 0x40 && p[2] < 0x40 && p[3] == 0xFF)
+        .count();
+    assert!(
+        dark > 0,
+        "the real VBA self-render must rasterize caption glyphs; found no dark pixels"
+    );
 }

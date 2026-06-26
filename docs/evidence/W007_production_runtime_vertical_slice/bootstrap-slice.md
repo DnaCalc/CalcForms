@@ -46,12 +46,13 @@ and the headless `render_frame` integration test, all green.
 
 ## Non-claims (the next increment, oxforms-4pn.8)
 
-- **Captions are not yet on screen.** Controls emit `DrawText` with run id 0 because
-  the `MeasureText`/`RegisterFont` text-run crossing is deferred
-  (`RENDERING_ARCHITECTURE.md` §6/§8), so the resident scene carries control **chrome**
-  (fills + 3D edges) but not caption text. Rendering captions across the live boundary
-  (and so the live "Hello, &lt;name&gt;" greeting on type → click) lands with the
-  text-run crossing.
+- **Captions now render (resolved in oxforms-4pn.10–.13).** Controls emit real
+  content-hash run ids: the per-frame measure pre-pass crosses each caption once via
+  `OxForms.Surface.MeasureText`, which shapes it into a resident `TextRun`; the backend
+  blits those runs. The live bootstrap window shows "OK" on the button and "(idle)" on
+  the label — see `captures/text-seam-live-captions-20260626/bootstrap-live-captions.png`.
+  The live type → click → "Hello, &lt;name&gt;" greeting still needs the interaction
+  consumer loop (`oxforms-4pn.8e`); this capture is the static post-load state.
 - **The startup entrypoint is minimal.** The bootstrap invokes the VBA startup by
   constructing + building the demo form via the runtime; a real top-level `Sub Main`
   in a loaded demo project is the generalization.

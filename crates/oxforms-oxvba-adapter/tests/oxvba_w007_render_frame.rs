@@ -8,11 +8,11 @@
 //! the sole owner of all VBA entry — both `dispatch` and `render_frame` — and the
 //! resident `Scene` (in `OxForms.Surface`) is the producer/consumer seam.
 //!
-//! Non-claim: caption *text* is not yet in the resident scene. `DrawText` carries run
-//! id 0 because the `MeasureText`/`RegisterFont` text-run crossing is deferred
-//! (`RENDERING_ARCHITECTURE.md` §6/§8), so a text-only change leaves the chrome token
-//! unchanged. The resident scene carries the form chrome (fills + 3D edges); caption
-//! rendering across the live boundary lands with the text-run crossing.
+//! Caption text now crosses via `MeasureText` (oxforms-4pn.13): each `DrawText` carries
+//! a content-hash run id derived from the caption (`RENDERING_ARCHITECTURE.md` §8), so a
+//! VBA-side text change re-measures to a new run id and moves the resident frame token.
+//! The resident scene carries the form chrome (fills + 3D edges) *and* the shaped caption
+//! runs (`Scene.text`). This test injects the deterministic `StubShaper`.
 
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -20,6 +20,7 @@ use std::sync::Arc;
 use oxforms_core::materialize_w007_demo_form;
 use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
+use oxforms_pal::scene::StubShaper;
 use oxforms_pal::{
     CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, KeyboardModifiers, LogicalPoint,
     MouseButton, MouseButtonEvent, MouseButtons, PointerId, UiEvent, UiEventId, UiEventKind,
@@ -131,7 +132,10 @@ fn prepare_session_with_surface() -> (ProjectRuntimeSession, Arc<SurfaceFactory>
     let bundle = oxvba_bundle::linearize(&program).expect("linearize W007 render-frame project");
 
     let projection = Arc::new(PortableComProjection::new());
-    let surface = Arc::new(SurfaceFactory::new());
+    // The VBA render now measures text via Surface.MeasureText, so a shaper must be
+    // present; StubShaper is deterministic and font-free (the headless framebuffer is
+    // text-free, so this does not affect the golden hash).
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
     register_surface(&projection, surface.clone());
 
     let profile = HostProfileProvider::new()
@@ -276,16 +280,26 @@ fn render_frame_drives_vba_self_render_into_the_resident_scene() {
         label_caption(&runner, "OutputLabel")
     );
 
-    // Re-render after the runtime-driven state change still produces the valid 4-node
-    // chrome scene. The chrome token is unchanged because caption *text* is not yet in
-    // the resident scene (DrawText run id 0; the text-run crossing is deferred — see
-    // the module note). Caption rendering across the live boundary lands with that
-    // crossing (4pn.8+).
+    // Re-render after the runtime-driven caption change. OkButton_Click set
+    // OutputLabel.Caption to "Hello, World", which re-measures to a NEW content-hash run
+    // id — so the resident frame token must MOVE (the live text seam, 4pn.13), and the
+    // new caption must be a resident shaped run.
     runner.render_frame().expect("render_frame #3");
     let snap3 = surface.snapshot().expect("snapshot");
     assert_eq!(snap3.node_count, 4, "the form still renders four nodes");
     assert!(
         snap3.revision > snap2.revision,
         "the post-change render produced a new revision"
+    );
+    assert_ne!(
+        snap3.frame_token,
+        Some(token1),
+        "a VBA-side caption change re-measures to a new run id and moves the frame token"
+    );
+    let scene3 = snap3.scene.expect("a resident scene");
+    let sources: Vec<String> = scene3.text.values().map(|r| r.source.to_string()).collect();
+    assert!(
+        sources.iter().any(|s| s == "Hello, World"),
+        "the new label caption crossed via MeasureText as a resident shaped run; got {sources:?}"
     );
 }

@@ -114,15 +114,16 @@ Public Sub DrawEdge( _
         ",""shadow"":" & JsonColor(ShadowRgb, 255) & "}"
 End Sub
 
-' Text references a measured run by id (0 = unmeasured placeholder for v1; the
-' headless reference does not yet rasterize glyphs). Align is "left"/"center"/"right".
+' Text references a measured run by id. RunId is a decimal String (a content-hash u64
+' from OxForms.Surface.MeasureText — it does not fit a VBA Long), emitted raw as the
+' JSON number; "0" means an unmeasured/empty run. Align is "left"/"center"/"right".
 Public Sub DrawText( _
         ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
-        ByVal RunId As Long, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, _
+        ByVal RunId As String, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, _
         ByVal Rgb As Long, ByVal Alpha As Long, _
         ByVal UnderlineAccelerator As Boolean, ByVal Disabled As Boolean)
     AppendCsv mCurPrims, _
-        "{""op"":""draw_text"",""run"":" & JsonNum(RunId) & _
+        "{""op"":""draw_text"",""run"":" & RunId & _
         ",""rect"":" & JsonRect(X, Y, W, H) & _
         ",""align"":""" & Align & """" & _
         ",""wrap"":" & JsonBool(Wrap) & ",""clip"":" & JsonBool(Clip) & _

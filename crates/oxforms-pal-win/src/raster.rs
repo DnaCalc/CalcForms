@@ -57,6 +57,18 @@ pub fn render_scene_to_pixmap(scene: &Scene, pixmap: &mut ts::Pixmap, fonts: &Fo
     render_full(scene, &mut sink);
 }
 
+/// Render a scene to a `width`×`height` RGBA8 buffer (row-major, 4 bytes/pixel) without
+/// the caller touching `tiny_skia`. A headless convenience for tests/tools that want to
+/// inspect pixels (e.g. assert glyph coverage) from a resident scene + a [`FontTable`].
+#[must_use]
+pub fn render_scene_to_rgba(scene: &Scene, width: u32, height: u32, fonts: &FontTable) -> Vec<u8> {
+    let Some(mut pixmap) = ts::Pixmap::new(width, height) else {
+        return Vec::new();
+    };
+    render_scene_to_pixmap(scene, &mut pixmap, fonts);
+    pixmap.data().to_vec()
+}
+
 /// A `PrimSink` that paints into a borrowed `tiny_skia::Pixmap`.
 pub struct SkiaSink<'a> {
     pixmap: &'a mut ts::Pixmap,

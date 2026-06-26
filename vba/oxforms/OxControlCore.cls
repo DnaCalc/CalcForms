@@ -33,6 +33,11 @@ Private mForeColor As Long
 Private mBorderColor As Long
 Private mSpecialEffect As OxSpecialEffect
 Private mBorderStyle As OxBorderStyle
+Private mFontSize As Single
+' Transient per-render scratch: the content-hash text-run id the measure pre-pass
+' obtained from OxForms.Surface.MeasureText (a decimal u64 as a String, since it does
+' not fit a Long). Set each render, read by OxControlPaint; never persisted state.
+Private mRunId As String
 
 ' Called by the concrete control's Class_Initialize with its intrinsic kind. Sets
 ' the per-kind appearance defaults from [MS-OFORMS] s5.6: morph controls (TextBox)
@@ -51,6 +56,9 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mForeColor = oxColorAuto
     mBorderColor = oxColorAuto
     mBorderStyle = oxBorderNone
+    ' MSForms default font is 8pt (Microsoft Sans Serif / Tahoma).
+    mFontSize = 8
+    mRunId = ""
 
     Select Case Kind
         Case oxControlLabel
@@ -172,6 +180,25 @@ End Property
 Public Property Let DisplayText(ByVal Value As String)
     mDisplayText = Value
     MarkDirty
+End Property
+
+' Font size in points (MSForms units; default 8). Part of the text-run identity, so a
+' change re-measures and re-renders.
+Public Property Get FontSize() As Single
+    FontSize = mFontSize
+End Property
+Public Property Let FontSize(ByVal Value As Single)
+    mFontSize = Value
+    MarkDirty
+End Property
+
+' Transient render scratch (see the field comment): the text-run id string the measure
+' pre-pass stamped this frame. Not dirty-tracked — it is derived render output.
+Public Property Get RunId() As String
+    RunId = mRunId
+End Property
+Public Property Let RunId(ByVal Value As String)
+    mRunId = Value
 End Property
 
 ' Stable, control-derived scene identity (the kernel's NodeId). Assigned once by

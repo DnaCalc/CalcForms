@@ -7,9 +7,10 @@ Option Explicit
 ' their own sub-part nodes in its own Render instead of calling this. See the
 ' "add a control" recipe in docs/specs/RENDERING_ARCHITECTURE.md s5.
 '
-' Geometry is surface-absolute (v1 identity transforms). Text references run id 0
-' (the headless reference does not rasterize glyphs yet); color/edge selection is
-' the only appearance the kernel ever receives, already resolved to bytes.
+' Geometry is surface-absolute (v1 identity transforms). Text references the content-
+' hash run id the measure pre-pass stamped on Core.RunId (OxUserForm, via
+' OxForms.Surface.MeasureText); color/edge selection is the only appearance the kernel
+' ever receives, already resolved to bytes.
 
 Public Sub OxPaintStandardControl( _
         ByVal Core As OxControlCore, _
@@ -39,7 +40,10 @@ Public Sub OxPaintStandardControl( _
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
         If Th < 1 Then Th = 1
-        Surface.DrawText Tx, Ty, Tw, Th, 0, Align, False, True, _
+        Dim RunId As String
+        RunId = Core.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        Surface.DrawText Tx, Ty, Tw, Th, RunId, Align, False, True, _
             ResolveText(Core), 255, False, Not Core.Enabled
     End If
 

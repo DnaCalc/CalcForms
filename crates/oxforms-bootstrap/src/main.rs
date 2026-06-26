@@ -28,9 +28,15 @@ use std::sync::Arc;
 use oxforms_core::materialize_w007_demo_form;
 use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::Scene;
+use oxforms_pal::scene::{FontId, Scene};
 use oxforms_pal::{UiEvent, UiEventKind};
-use oxforms_pal_win::{run_scene_window, FontTable, WindowOptions, WindowSignal};
+use oxforms_pal_win::{
+    load_ui_font, run_scene_window, AbGlyphShaper, FontTable, WindowOptions, WindowSignal,
+};
+
+/// The single UI font id the bootstrap registers; matches the VBA `OX_DEFAULT_FONT_ID`
+/// so the run ids VBA emits resolve against the face the window rasterizes with.
+const FONT_ID: FontId = FontId(1);
 
 use oxvba_bundle::BundlePackage;
 use oxvba_com::PortableComProjection;
@@ -98,7 +104,7 @@ fn main() {
 fn run() -> Result<(), BootstrapError> {
     // 1. Load + configure the project: the OxForms VBA library + the demo form, with
     //    the OxForms.Surface boundary registered so the form can self-render.
-    let (session, surface) = build_session()?;
+    let (session, surface, fonts) = build_session()?;
 
     // 2. Invoke the VBA startup (minimal entrypoint): materialize the demo form into
     //    runtime state and attach the runtime, which constructs + builds the VBA form.
@@ -120,15 +126,13 @@ fn run() -> Result<(), BootstrapError> {
     let scene = current_scene(&surface)?;
 
     println!(
-        "oxforms-bootstrap: showing the live VBA-rendered W007 form. \
-         Close or press Escape to exit. (Captions are deferred to the text-run crossing.)"
+        "oxforms-bootstrap: showing the live VBA-rendered W007 form with captions. \
+         Close or press Escape to exit."
     );
 
-    // 4. Run the platform loop. The window owns Repaint (Scene snapshot -> pixels); the
-    //    callback owns nothing but routing the close signal. The font table is empty for
-    //    now (VBA still emits run id 0), so no captions render — chrome only. Wiring the
-    //    text shaper into the Surface + the interaction loop is oxforms-4pn.8e/.13.
-    let fonts = FontTable::new();
+    // 4. Run the platform loop. The window owns Repaint (Scene snapshot -> pixels), using
+    //    the shared FontTable to rasterize the runs VBA measured; the callback owns
+    //    nothing but routing the close signal. The interaction loop is oxforms-4pn.8e.
     let options = WindowOptions::new("OxForms - W007 (bootstrap)", 600.0, 360.0);
 
     run_scene_window(
@@ -165,7 +169,8 @@ fn is_close(event: &UiEvent) -> bool {
 
 /// Build the OxVba session for the OxForms library + demo form, with `OxForms.Surface`
 /// registered. The VBA sources are embedded so the bootstrap runs from anywhere.
-fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>), BootstrapError> {
+fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError>
+{
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsW007Bootstrap".to_string(),
         project_kind: ProjectKind::Library,
@@ -180,8 +185,18 @@ fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>), Boots
     let bundle = oxvba_bundle::linearize(&program)
         .map_err(|err| BootstrapError::Project(format!("linearize: {err:?}")))?;
 
+    // Load the UI font once: the shaper (Surface-side, shapes captions into the resident
+    // scene on MeasureText) and the rasterizer's FontTable (window-side) share the same
+    // face under FONT_ID, so VBA-emitted run ids resolve at paint time. VBA now always
+    // measures text, so a shaper is required (no longer chrome-only).
+    let font =
+        load_ui_font().map_err(|err| BootstrapError::Window(format!("load UI font: {err}")))?;
+    let shaper = AbGlyphShaper::new(FONT_ID, font.clone());
+    let mut fonts = FontTable::new();
+    fonts.add(FONT_ID, font);
+
     let projection = Arc::new(PortableComProjection::new());
-    let surface = Arc::new(SurfaceFactory::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(shaper)));
     register_surface(&projection, surface.clone());
 
     let profile = HostProfileProvider::new()
@@ -191,7 +206,7 @@ fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>), Boots
     let session = engine
         .prepare_bundle_package_session(BundlePackage::single(bundle))
         .map_err(|err| BootstrapError::Project(format!("prepare session: {err:?}")))?;
-    Ok((session, surface))
+    Ok((session, surface, fonts))
 }
 
 fn unit(name: &str, kind: ModuleKind, source: &str) -> ModuleUnit {

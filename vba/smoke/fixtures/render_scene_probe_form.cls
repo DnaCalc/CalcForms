@@ -49,7 +49,7 @@ Public Sub Run()
     Dim Builder As OxSceneBuilder
     Set Builder = New OxSceneBuilder
     Dim PatchJson As String
-    PatchJson = DemoForm.BuildScenePatch(BaseToken, Builder, 96, 96)
+    PatchJson = DemoForm.BuildScenePatch(BaseToken, Builder, Surface, 96, 96)
 
     mResultToken = Surface.SubmitPatch(PatchJson)
 End Sub

@@ -1,4 +1,4 @@
-Status: Resolved
+Status: Resolved (cross-class case); REOPENED for a same-class sub-case — see Addendum 2026-06-26
 Target: OxVba
 Ask: Resolve an unqualified call to an intrinsic VBA function (confirmed: the
 string functions `Left` / `Left$`) to the VBA library intrinsic, not to a
@@ -107,3 +107,41 @@ baseline `366a40e…` → `95be9ff2…` (`Cargo.toml`
 the bumped baseline (`oxvba_surface_render_smoke` now exercises `Left$` against a
 project whose controls all expose a `.Left` property). No OxForms-side workaround
 remains. Closed.
+
+## Addendum 2026-06-26 — same-class recurrence (still open at `95be9ff2`)
+
+The `95be9ff2` fix covered an **unrelated** class's `Left` member shadowing the
+intrinsic (project-name lookup). A **second, distinct** path survives: when the
+**same class** that owns a `Left` property calls the bare `Left$` intrinsic in one of
+its own methods, OxVba resolves `Left$` to that class's own `Left` property (implicit
+`Me`), not to `VBA.Strings.Left`.
+
+Found in `oxforms-4pn.13`: `OxUserForm` has a `Public Property Get Left()` (MSForms
+surface) and a helper `FirstField` that called `Left$(s, n)` to take the leading
+characters of a `MeasureText` result. At `95be9ff2`, `FirstField` returned the value
+of `Me.Left` (the form's left, `0`) coerced to a string ("0") instead of the leading
+substring — no runtime 424 this time, just a **silently wrong value** (the property
+get succeeds and is type-coerced). Probed via the real OxVba session:
+
+- In a class with **no** `Left` member (the test `RenderProbeForm`): `Left$(R, n)`
+  returns the correct leading substring. ✓
+- In `OxUserForm` (which **has** a `Left` property): the *identical* `Left$(R, n)`
+  expression yields `Me.Left` → `"0"`. ✗
+
+Expected (VBA 7.1): `Left$` (with the `$` type-declaration char) is the string
+intrinsic and is a **distinct identifier** from a `Left` property (which has no `$`),
+so it must resolve to `VBA.Strings.Left` even inside a class that defines `Left`. A
+member named `Left` is reachable only through qualification (`Me.Left`).
+
+Likely root cause: the same-class/implicit-`Me` member-resolution path (separate from
+the project-name lookup `95be9ff2` corrected) still treats the `$`-suffixed intrinsic
+name `Left$` as matching the bare member `Left`. Fix should keep `Left$` (and the
+plain `Left` at an argument-bearing call site) routed to the intrinsic unless a
+genuine same-named, same-arity local/member is the intended target.
+
+Impact / current handling: `OxUserForm.FirstField` uses `Mid$(s, 1, n)` (the
+unaffected equivalent of `Left$(s, n)`) so `oxforms-4pn.13` is unblocked today; this
+is a local equivalent, not an architectural change. Once OxVba routes `Left$` to the
+intrinsic for same-class scopes too, the `Mid$` choice can stay or revert freely; no
+OxForms version bump is required to adopt. The broader guidance stands: any forms
+class that both owns a `Left` property and needs the string intrinsic is affected.
