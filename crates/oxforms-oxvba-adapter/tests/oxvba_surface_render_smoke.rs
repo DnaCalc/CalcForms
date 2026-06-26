@@ -32,7 +32,7 @@ use oxvba_bundle::{BundlePackage, ProjectMemberKind};
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig, HostProfileProvider};
-use oxvba_runtime::ObjectRef;
+use oxvba_runtime::{ObjectRef, Variant};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -127,6 +127,11 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 "InvalidationDemoForm",
                 ModuleKind::Class,
                 "vba/smoke/fixtures/invalidation_demo_form.cls",
+            ),
+            module_unit(
+                "CrossingBudgetForm",
+                ModuleKind::Class,
+                "vba/smoke/fixtures/crossing_budget_form.cls",
             ),
         ],
         references: Vec::new(),
@@ -613,6 +618,107 @@ fn controls_add_unsupported_progid_returns_nothing_without_crashing() {
         before,
         "an unsupported Controls.Add returns Nothing and registers no phantom control"
     );
+}
+
+/// Build a CrossingBudgetForm with `count` labels and return its session + surface (the
+/// surface accumulates one `calls` entry per VBA→Rust crossing).
+fn crossing_budget_session(
+    count: i32,
+) -> (
+    oxvba_host::ProjectRuntimeSession,
+    Arc<SurfaceFactory>,
+    ObjectRef,
+) {
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
+    register_surface(&projection, surface.clone());
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("CrossingBudgetForm")
+        .expect("create CrossingBudgetForm");
+    session
+        .invoke_member_values(
+            form.clone(),
+            "Build",
+            Some(ProjectMemberKind::Method),
+            vec![Variant::from_i32(count)],
+        )
+        .expect("Build(count)");
+    (session, surface, form)
+}
+
+fn invoke_no_args(session: &mut oxvba_host::ProjectRuntimeSession, form: &ObjectRef, name: &str) {
+    session
+        .invoke_member_values(
+            form.clone(),
+            name,
+            Some(ProjectMemberKind::Method),
+            Vec::new(),
+        )
+        .unwrap_or_else(|err| panic!("invoke {name}: {}", err.message()));
+}
+
+/// oxforms-rq5.3 P6 crossing-budget gate: a steady-state one-control change crosses the SAME
+/// number of times regardless of how many other controls exist — the §6 "one keystroke ≈ 1–2
+/// crossings, independent of the other 49 controls." This is the rq5.2 incremental payoff,
+/// measured: changing one control emits one incremental SubmitPatch + at most one MeasureText.
+#[test]
+fn keystroke_crossing_count_is_independent_of_control_count() {
+    // The EXACT crossings a one-control change adds (the calls after the first paint).
+    let keystroke_calls = |count: i32| -> Vec<String> {
+        let (mut session, surface, form) = crossing_budget_session(count);
+        invoke_no_args(&mut session, &form, "RenderOnce"); // first paint
+        let after_first = surface.snapshot().expect("snapshot").calls.len();
+        invoke_no_args(&mut session, &form, "ChangeOne");
+        invoke_no_args(&mut session, &form, "RenderOnce"); // incremental
+        surface.snapshot().expect("snapshot").calls[after_first..].to_vec()
+    };
+
+    let small = keystroke_calls(3);
+    let large = keystroke_calls(30);
+    // Assert the call KINDS, not just the count: a keystroke re-measures the one changed
+    // caption and submits one incremental patch. Pinning the exact calls guards against a
+    // STALE-base FULL rebuild (which would also be a constant count, but a BeginScene + N
+    // MeasureText + SubmitPatch sequence) masquerading as a passing budget.
+    assert_eq!(
+        small,
+        ["MeasureText:3", "SubmitPatch:1"],
+        "a keystroke crosses exactly one MeasureText + one incremental SubmitPatch"
+    );
+    assert_eq!(
+        small, large,
+        "the keystroke crossings are independent of control count (small={small:?}, large={large:?})"
+    );
+}
+
+/// First paint currently crosses `BeginScene` + one `MeasureText` PER text control +
+/// `SubmitPatch` (= N+2), so it scales with the text-control count. Hitting the §6 ≤5
+/// first-paint target *independent of N* needs a BATCHED `MeasureText` (one crossing for all
+/// runs needing measurement, per RENDERING_ARCHITECTURE.md §6) — deferred to oxforms-98v.
+/// This test locks the current behavior (the exact call sequence) and documents the gap.
+#[test]
+fn first_paint_crossings_scale_with_text_controls_pending_batched_measuretext() {
+    let first_paint_calls = |count: i32| -> Vec<String> {
+        let (mut session, surface, form) = crossing_budget_session(count);
+        invoke_no_args(&mut session, &form, "RenderOnce");
+        surface.snapshot().expect("snapshot").calls
+    };
+    // BeginScene once, MeasureText once per text control (no batching), SubmitPatch once.
+    let expected = |n: usize| -> Vec<String> {
+        let mut calls = Vec::with_capacity(n + 2);
+        calls.push("BeginScene:4".to_string());
+        for _ in 0..n {
+            calls.push("MeasureText:3".to_string());
+        }
+        calls.push("SubmitPatch:1".to_string());
+        calls
+    };
+    assert_eq!(
+        first_paint_calls(3),
+        expected(3),
+        "first paint = BeginScene + N MeasureText + SubmitPatch (batched MeasureText would drop the per-control MeasureText)"
+    );
+    assert_eq!(first_paint_calls(10), expected(10));
 }
 
 /// Evidence generator (on-demand): render the AutoSize demo through the REAL ab_glyph

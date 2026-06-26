@@ -433,17 +433,27 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    helpers, `flatten`/`SceneError::FlattenUnsupportedPrim`, and `RenderError`. Invariant
    (a) retired with them. Kept `Color`/`SurfaceSize`/`Rect`/`fnv1a64`/`BYTES_PER_PIXEL`/
    `FRAMEBUFFER_HASH_ALGORITHM` — the Scene rasterizer uses them.
-9. **(oxforms-rq5.3, open.)** Record crossing-budget benchmark traces as P6 gates; wire
-   `render_damage` into the present loop and enable incremental-by-default behind the
-   invariants + budget.
+9. **DONE (oxforms-rq5.3).** (a) Crossing-budget P6 gate as a deterministic crossing-count
+   test (asserting the exact Surface `calls`): a steady-state one-control change crosses a
+   constant set of crossings — one `MeasureText` + one `SubmitPatch` — **independent of
+   control count** (the §6 keystroke budget — the rq5.2 payoff). (Hit-testing is reducer-side,
+   so there is no `HitTest` crossing to make under drag-capture — that crossing is simply
+   unimplemented, not a separately gated property.)
+   First paint is currently `BeginScene + N MeasureText + SubmitPatch` (per-control); hitting
+   the §6 ≤5-first-paint target independent of N needs the **batched** `MeasureText` of §6
+   (one crossing for all runs) — deferred to **oxforms-98v** (locked + documented by a test).
+   (b) `render_damage` wired into the present loop: the backend retains the framebuffer and
+   repaints only the scene's damage (per damage rect: clear + `render_damage` clipped to that
+   rect), full-rendering only on first frame / resize. Pixel-identical to a full repaint
+   (invariant (b)), proven headlessly.
 
 Kept: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs` UiEvent, and
 the shared value types above. Relocated: appearance → VBA theme. Deleted (no
 fallback/compat path survives initial development): the probe render code and the whole
 W002 immediate display-list path incl. `SmokeCanvas` and `flatten` (both removed in
-oxforms-rq5.1). Incremental invalidation landed in rq5.2. Remaining: crossing-budget
-benchmarks + wiring `render_damage` into the present loop for incremental-by-default
-(rq5.3).
+oxforms-rq5.1). Incremental invalidation landed in rq5.2; incremental-by-default repaint +
+the crossing-budget gates in rq5.3. **The rq5 migration is complete.** Remaining follow-up:
+batched `MeasureText` for the first-paint crossing budget (oxforms-98v).
 
 ## 13. D7 amendment
 

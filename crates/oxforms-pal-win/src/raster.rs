@@ -16,8 +16,8 @@
 
 use ab_glyph::{point as ab_point, Font, GlyphId, PxScale};
 use oxforms_pal::scene::{
-    render_full, Affine, EdgeBorder, EdgeEffect, Paint, Prim, PrimSink, RectF, Scene, Stroke,
-    TextAlign, TextFlags, TextRunId,
+    render_damage, render_full, Affine, EdgeBorder, EdgeEffect, Paint, Prim, PrimSink, RectF,
+    Scene, Stroke, TextAlign, TextFlags, TextRunId,
 };
 use oxforms_pal::Color;
 use tiny_skia as ts;
@@ -40,9 +40,7 @@ const KAPPA: f32 = 0.552_284_8;
 /// surface, the unused margin shows the white clear.
 pub fn render_scene_to_pixmap(scene: &Scene, pixmap: &mut ts::Pixmap, fonts: &FontTable) {
     pixmap.fill(ts::Color::WHITE);
-    let fit_x = pixmap.width() as f32 / (scene.surface.width.max(1) as f32);
-    let fit_y = pixmap.height() as f32 / (scene.surface.height.max(1) as f32);
-    let scale = fit_x.min(fit_y);
+    let scale = device_fit_scale(scene, pixmap);
     let device = Affine {
         sx: scale,
         sy: scale,
@@ -55,6 +53,101 @@ pub fn render_scene_to_pixmap(scene: &Scene, pixmap: &mut ts::Pixmap, fonts: &Fo
     let resolver = SceneTextResolver::new(scene, fonts);
     let mut sink = SkiaSink::new(pixmap, device, &resolver);
     render_full(scene, &mut sink);
+}
+
+/// The uniform device-fit scale (logical surface → device pixels), shared by full and
+/// incremental repaint so both map geometry identically.
+fn device_fit_scale(scene: &Scene, pixmap: &ts::Pixmap) -> f32 {
+    let fit_x = pixmap.width() as f32 / (scene.surface.width.max(1) as f32);
+    let fit_y = pixmap.height() as f32 / (scene.surface.height.max(1) as f32);
+    fit_x.min(fit_y)
+}
+
+/// INCREMENTAL repaint (oxforms-rq5.3): repaint only the scene's damage onto a *retained*
+/// `pixmap` (the previous frame's pixels), leaving everything outside the damage untouched.
+/// This realizes determinism invariant (b) at the backend — the result is pixel-identical to
+/// [`render_scene_to_pixmap`] of the same scene (proven by tests) — while recomputing only
+/// the changed regions.
+///
+/// Per damage rect: clear it to the background, then `render_damage` **clipped to that rect**.
+/// The per-rect clip is load-bearing: `render_damage` repaints every node intersecting the
+/// damage (including the root, whose background fill spans the whole surface), so without a
+/// per-rect clip the root would erase undamaged controls that lie between two disjoint damage
+/// rects. The clip + clear use the same integer-outward device rect, so the repainted region
+/// exactly covers the cleared region (no sub-pixel seam at a fractional scale).
+///
+/// Caller contract: `pixmap` already holds the prior frame and matches the window size; on a
+/// resize or first frame the caller must `render_scene_to_pixmap` (full) instead, since there
+/// is no valid prior framebuffer to retain.
+pub fn repaint_scene_damage(scene: &Scene, pixmap: &mut ts::Pixmap, fonts: &FontTable) {
+    if scene.damage.rects.is_empty() {
+        return; // nothing changed since the prior frame: the retained pixmap is current.
+    }
+    let scale = device_fit_scale(scene, pixmap);
+    let (pw, ph) = (pixmap.width(), pixmap.height());
+
+    // Clear every damage rect first (all rects, before any repaint), so an overlapping pair
+    // is cleared once and each rect's repaint pass paints over a clean background.
+    let dev_rects: Vec<(u32, u32, u32, u32)> = scene
+        .damage
+        .rects
+        .iter()
+        .map(|r| device_pixel_rect(*r, scale, pw, ph))
+        .collect();
+    for &dr in &dev_rects {
+        clear_device_rect(pixmap, pw, dr);
+    }
+
+    let resolver = SceneTextResolver::new(scene, fonts);
+    let device = Affine {
+        sx: scale,
+        sy: scale,
+        tx: 0.0,
+        ty: 0.0,
+    };
+    let mut sink = SkiaSink::new(pixmap, device, &resolver);
+    for &(x, y, w, h) in &dev_rects {
+        if w == 0 || h == 0 {
+            continue;
+        }
+        // Clip to the integer-aligned device rect (matches the cleared region exactly), then
+        // repaint every node intersecting the damage. Passing the full DamageSet each pass
+        // keeps an overlapping region's z-stack consistent across passes (idempotent).
+        sink.push_device_clip(RectF::new(x as f32, y as f32, w as f32, h as f32));
+        render_damage(scene, &mut sink, &scene.damage);
+        sink.pop_clip();
+    }
+}
+
+/// A logical rect scaled to device pixels, rounded OUTWARD and clamped to the pixmap, so the
+/// cleared/clipped region fully covers the node's device footprint (no fractional-scale seam).
+fn device_pixel_rect(r: RectF, scale: f32, pw: u32, ph: u32) -> (u32, u32, u32, u32) {
+    let left = (r.x * scale).floor().max(0.0) as u32;
+    let top = (r.y * scale).floor().max(0.0) as u32;
+    let right = (((r.x + r.w) * scale).ceil().max(0.0) as u32).min(pw);
+    let bottom = (((r.y + r.h) * scale).ceil().max(0.0) as u32).min(ph);
+    (
+        left.min(pw),
+        top.min(ph),
+        right.saturating_sub(left.min(pw)),
+        bottom.saturating_sub(top.min(ph)),
+    )
+}
+
+/// Fill a device-pixel rect with opaque white (the same background `render_scene_to_pixmap`
+/// clears to; the root node then repaints the form background over it).
+fn clear_device_rect(pixmap: &mut ts::Pixmap, pw: u32, (x, y, w, h): (u32, u32, u32, u32)) {
+    let data = pixmap.data_mut();
+    for row in y..y + h {
+        let base = (row * pw + x) as usize * 4;
+        for px in 0..w as usize {
+            let i = base + px * 4;
+            data[i] = 255;
+            data[i + 1] = 255;
+            data[i + 2] = 255;
+            data[i + 3] = 255;
+        }
+    }
 }
 
 /// Render a scene to a `width`×`height` RGBA8 buffer (row-major, 4 bytes/pixel) without
@@ -129,6 +222,16 @@ impl<'a> SkiaSink<'a> {
     /// and this average is exact; the mean is a safe fallback if that ever changes.
     fn scale(&self) -> f32 {
         (self.cur.sx.abs() + self.cur.sy.abs()) * 0.5
+    }
+
+    /// Push a clip already expressed in DEVICE space (unlike the `PrimSink::push_clip`
+    /// trait method, which maps a logical rect through the current transform). Used by
+    /// [`repaint_scene_damage`] to confine a damage pass to an integer-aligned device rect.
+    /// Pair with `PrimSink::pop_clip`.
+    fn push_device_clip(&mut self, device_rect: RectF) {
+        self.clip_stack.push(self.clip);
+        self.clip = self.clip.intersect(device_rect);
+        self.mask_dirty = true;
     }
 
     /// True when the active clip is the whole surface (no masking needed).
@@ -699,8 +802,8 @@ mod tests {
     use super::*;
     use ab_glyph::FontArc;
     use oxforms_pal::scene::{
-        render_full, FontId, HeadlessSink, NodeId, Paint, PointF, RectF, Scene, SceneNode, TextKey,
-        TextRun, TextShaper,
+        render_full, FontId, HeadlessSink, NodeEdit, NodeId, Paint, PointF, RectF, Scene,
+        SceneNode, ScenePatch, TextKey, TextRun, TextShaper, SCENE_PATCH_VERSION,
     };
     use oxforms_pal::{DpiScale, SurfaceSize};
 
@@ -756,6 +859,171 @@ mod tests {
         scene.nodes.push(root);
         scene.recompute_frame_hash();
         scene
+    }
+
+    /// oxforms-rq5.3 invariant (b) at the backend: an INCREMENTAL repaint (retained pixmap +
+    /// repaint only the damage) is pixel-identical to a FULL repaint of the same scene — for a
+    /// single change AND for two disjoint changes (the per-rect clip must not let the root's
+    /// full-surface background fill erase an undamaged control between/around the damage).
+    #[test]
+    fn incremental_damage_repaint_is_pixel_identical_to_full_repaint() {
+        let fonts = FontTable::new(); // no text in this scene
+        let surf = SurfaceSize::new(40, 40);
+        let bg = Color::rgba(0xF0, 0xF0, 0xF0, 0xFF);
+        let red = Color::rgba(0xFF, 0, 0, 0xFF);
+        let blue = Color::rgba(0, 0, 0xFF, 0xFF);
+        let green = Color::rgba(0, 0x80, 0, 0xFF);
+
+        let root = || {
+            let mut r = SceneNode::new(NodeId(0));
+            r.bounds = RectF::new(0.0, 0.0, 40.0, 40.0);
+            r.children = vec![NodeId(1), NodeId(2)];
+            r.prims = vec![Prim::FillRect {
+                rect: RectF::new(0.0, 0.0, 40.0, 40.0),
+                paint: Paint::Solid(bg),
+            }];
+            r
+        };
+        // Two disjoint controls with a background gap between them.
+        let ctl = |id: u64, y: f32, color: Color| {
+            let mut n = SceneNode::new(NodeId(id));
+            n.parent = Some(NodeId(0));
+            n.bounds = RectF::new(6.0, y, 12.0, 8.0);
+            n.prims = vec![Prim::FillRect {
+                rect: RectF::new(6.0, y, 12.0, 8.0),
+                paint: Paint::Solid(color),
+            }];
+            n
+        };
+        let patch = |base: u64, edits: Vec<NodeEdit>| ScenePatch {
+            version: SCENE_PATCH_VERSION,
+            base_hash: base,
+            surface: surf,
+            dpi: dpi(),
+            edits,
+        };
+
+        let mut scene = Scene::new(surf, dpi(), NodeId(0));
+        scene
+            .apply_patch(&patch(
+                scene.frame_hash,
+                vec![
+                    NodeEdit::Upsert(root()),
+                    NodeEdit::Upsert(ctl(1, 6.0, red)),
+                    NodeEdit::Upsert(ctl(2, 26.0, blue)),
+                ],
+            ))
+            .expect("initial full patch");
+        let mut retained = ts::Pixmap::new(40, 40).expect("pixmap");
+        render_scene_to_pixmap(&scene, &mut retained, &fonts);
+
+        let assert_incremental_matches_full = |scene: &Scene, retained: &ts::Pixmap| {
+            assert!(
+                !scene.damage.rects.is_empty(),
+                "the change must have produced damage"
+            );
+            let mut incremental = retained.clone();
+            repaint_scene_damage(scene, &mut incremental, &fonts);
+            let mut full = ts::Pixmap::new(40, 40).expect("pixmap");
+            render_scene_to_pixmap(scene, &mut full, &fonts);
+            assert_eq!(
+                incremental.data(),
+                full.data(),
+                "incremental damage repaint must equal a full repaint (invariant b)"
+            );
+        };
+
+        // (1) Single change: control A red -> green (one damage rect; B + gap must survive).
+        scene
+            .apply_patch(&patch(
+                scene.frame_hash,
+                vec![NodeEdit::Upsert(ctl(1, 6.0, green))],
+            ))
+            .expect("single-change patch");
+        assert_incremental_matches_full(&scene, &retained);
+
+        // (2) Two disjoint changes in one frame: A green->red and B blue->green (two damage
+        // rects with a background gap between — the per-rect clip must preserve the gap).
+        render_scene_to_pixmap(&scene, &mut retained, &fonts); // refresh the "prior frame"
+        scene
+            .apply_patch(&patch(
+                scene.frame_hash,
+                vec![
+                    NodeEdit::Upsert(ctl(1, 6.0, red)),
+                    NodeEdit::Upsert(ctl(2, 26.0, green)),
+                ],
+            ))
+            .expect("two-change patch");
+        assert_incremental_matches_full(&scene, &retained);
+    }
+
+    /// oxforms-rq5.3: the same invariant (b) at a FRACTIONAL device scale (pixmap dims a
+    /// non-integer multiple of the surface) with a TRANSLUCENT control — exercises the
+    /// integer-outward clear/clip rounding (no sub-pixel seam) and alpha compositing over the
+    /// retained background, neither of which the 1:1 opaque test above reaches.
+    #[test]
+    fn incremental_repaint_matches_full_at_fractional_scale_with_alpha() {
+        let fonts = FontTable::new();
+        let surf = SurfaceSize::new(40, 40);
+        let bg = Color::rgba(0xF0, 0xF0, 0xF0, 0xFF);
+
+        let root = || {
+            let mut r = SceneNode::new(NodeId(0));
+            r.bounds = RectF::new(0.0, 0.0, 40.0, 40.0);
+            r.children = vec![NodeId(1)];
+            r.prims = vec![Prim::FillRect {
+                rect: RectF::new(0.0, 0.0, 40.0, 40.0),
+                paint: Paint::Solid(bg),
+            }];
+            r
+        };
+        // Odd coordinates so x*scale / y*scale land off integer pixel boundaries.
+        let ctl = |alpha: u8| {
+            let mut n = SceneNode::new(NodeId(1));
+            n.parent = Some(NodeId(0));
+            n.bounds = RectF::new(7.0, 9.0, 15.0, 11.0);
+            n.prims = vec![Prim::FillRect {
+                rect: RectF::new(7.0, 9.0, 15.0, 11.0),
+                paint: Paint::Solid(Color::rgba(0x20, 0x60, 0xC0, alpha)),
+            }];
+            n
+        };
+        let patch = |base: u64, edits: Vec<NodeEdit>| ScenePatch {
+            version: SCENE_PATCH_VERSION,
+            base_hash: base,
+            surface: surf,
+            dpi: dpi(),
+            edits,
+        };
+
+        let mut scene = Scene::new(surf, dpi(), NodeId(0));
+        scene
+            .apply_patch(&patch(
+                scene.frame_hash,
+                vec![NodeEdit::Upsert(root()), NodeEdit::Upsert(ctl(0x80))],
+            ))
+            .expect("initial full patch");
+
+        // 57/40 = 1.425: a non-integer device scale.
+        let (pw, ph) = (57u32, 57u32);
+        let mut retained = ts::Pixmap::new(pw, ph).expect("pixmap");
+        render_scene_to_pixmap(&scene, &mut retained, &fonts);
+
+        // Change the translucent control's alpha -> damage = its bounds.
+        scene
+            .apply_patch(&patch(scene.frame_hash, vec![NodeEdit::Upsert(ctl(0xC0))]))
+            .expect("alpha-change patch");
+        assert!(!scene.damage.rects.is_empty(), "the change produced damage");
+
+        let mut incremental = retained.clone();
+        repaint_scene_damage(&scene, &mut incremental, &fonts);
+        let mut full = ts::Pixmap::new(pw, ph).expect("pixmap");
+        render_scene_to_pixmap(&scene, &mut full, &fonts);
+        assert_eq!(
+            incremental.data(),
+            full.data(),
+            "incremental == full at a fractional scale with a translucent control (invariant b)"
+        );
     }
 
     #[test]

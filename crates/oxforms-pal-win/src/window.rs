@@ -116,6 +116,10 @@ struct App<F> {
     cursor: (f64, f64),
     window: Option<Rc<Window>>,
     surface: Option<softbuffer::Surface<Rc<Window>, Rc<Window>>>,
+    /// Retained framebuffer (oxforms-rq5.3): kept across frames so an unchanged-region
+    /// repaint reuses prior pixels and only the scene's damage is re-rasterized. Dropped /
+    /// reallocated (and full-rendered) on a size change; `None` until the first frame.
+    pixmap: Option<tiny_skia::Pixmap>,
     error: Option<WindowError>,
 }
 
@@ -135,6 +139,7 @@ where
             cursor: (0.0, 0.0),
             window: None,
             surface: None,
+            pixmap: None,
             error: None,
         }
     }
@@ -199,17 +204,33 @@ where
             return;
         }
 
-        let mut pixmap = match tiny_skia::Pixmap::new(width.get(), height.get()) {
-            Some(p) => p,
-            None => {
-                self.fail(
-                    event_loop,
-                    format!("pixmap allocation failed for {width}x{height}"),
-                );
-                return;
+        // Reuse the retained framebuffer when it matches the window size; otherwise (first
+        // frame / resize) allocate fresh. A reused pixmap gets an INCREMENTAL repaint (only
+        // the scene's damage re-rasterized, prior pixels retained); a fresh one a full render
+        // (no valid prior pixels). Both yield identical pixels (raster invariant b).
+        let reuse = matches!(
+            &self.pixmap,
+            Some(p) if p.width() == width.get() && p.height() == height.get()
+        );
+        let mut pixmap = if reuse {
+            self.pixmap.take().expect("reuse implies Some")
+        } else {
+            match tiny_skia::Pixmap::new(width.get(), height.get()) {
+                Some(p) => p,
+                None => {
+                    self.fail(
+                        event_loop,
+                        format!("pixmap allocation failed for {width}x{height}"),
+                    );
+                    return;
+                }
             }
         };
-        crate::raster::render_scene_to_pixmap(&self.scene, &mut pixmap, &self.fonts);
+        if reuse {
+            crate::raster::repaint_scene_damage(&self.scene, &mut pixmap, &self.fonts);
+        } else {
+            crate::raster::render_scene_to_pixmap(&self.scene, &mut pixmap, &self.fonts);
+        }
 
         let surface = self.surface.as_mut().unwrap();
         let mut buffer = match surface.buffer_mut() {
@@ -220,6 +241,12 @@ where
                 return;
             }
         };
+        // The ENTIRE retained pixmap is presented every frame. This is what makes incremental
+        // repaint sound even though `scene.damage` is not cleared between frames: a redraw with
+        // no new patch (an OS expose, or a non-mutating event) re-repaints the last patch's
+        // damage region (idempotent — `apply_patch` overwrites damage per patch, so it never
+        // grows) onto the already-correct retained pixmap, then blits the whole thing. If this
+        // blit ever becomes partial/dirty-rect-only, stale damage would have to be cleared.
         for (dst, src) in buffer.iter_mut().zip(pixmap.data().chunks_exact(4)) {
             // softbuffer wants 0RGB; pixmap is opaque RGBA (premultiplied == straight).
             *dst = (u32::from(src[0]) << 16) | (u32::from(src[1]) << 8) | u32::from(src[2]);
@@ -227,7 +254,10 @@ where
         if let Err(e) = buffer.present() {
             self.error = Some(WindowError::Surface(e.to_string()));
             event_loop.exit();
+            return;
         }
+        // Retain the framebuffer for the next frame's incremental repaint.
+        self.pixmap = Some(pixmap);
     }
 }
 
