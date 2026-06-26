@@ -79,11 +79,11 @@ Excel/MSForms, OxVba execution, or live desktop input. The golden trace
 [`trace-replay/w005-headless-probe-replay.golden.v1.json`](trace-replay/w005-headless-probe-replay.golden.v1.json)
 records normalized input events, routing decisions, reducer transition
 summaries, requested and completed effects, VBA dispatch metadata reconstructed
-from `FireVbaEvent` effects, invalidation, display-list references, PAL smoke
-render hashes, and clean-room/path-policy metadata. The final display-list
-snapshot is
-[`trace-replay/w005-headless-probe-display-list.golden.v1.json`](trace-replay/w005-headless-probe-display-list.golden.v1.json),
-and [`trace-replay/checksums.sha256`](trace-replay/checksums.sha256) records
+from `FireVbaEvent` effects, invalidation, and clean-room/path-policy metadata.
+(The probe display-list/render rows it once carried, and the separate display-list
+golden, were retired in oxforms-rq5.1 when the probe renderer was deleted and
+rendering moved to VBA self-render.)
+[`trace-replay/checksums.sha256`](trace-replay/checksums.sha256) records
 SHA-256 hashes for the committed trace-replay evidence files.
 
 The earlier synthetic schema-only trace validates and records the v1 artifact

@@ -4,11 +4,11 @@
 //! `PortableDispatch` and `Variant` calls into typed `oxforms-pal` contracts.
 //! The core `oxforms-pal` crate must not depend on this crate or on OxVba.
 //!
-//! Current implementation surface is limited to the W002 smoke canvas proof.
+//! It projects `OxForms.Surface` (the retained-Scene seam VBA forms self-render
+//! through) and drives the runtime effect/render loop.
 
 #![forbid(unsafe_code)]
 
 pub mod event_dispatch;
 pub mod runtime_runner;
-pub mod smoke_canvas;
 pub mod surface;

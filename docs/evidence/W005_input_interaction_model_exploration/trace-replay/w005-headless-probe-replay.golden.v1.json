@@ -1,125 +1,6 @@
 {
   "artifact_status": "oxforms_golden",
   "artifacts": {
-    "display_lists": [
-      {
-        "artifact_id": "display-list-0001",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0002",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "initial_window_shown probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0003",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0004",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0005",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0006",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0007",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0008",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0009",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0010",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0011",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0012",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": null,
-        "role": "post_invalidation probe display-list reference",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "display-list-0013",
-        "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256.",
-        "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
-        "role": "final_after_command_click probe display-list reference",
-        "sha256": null,
-        "storage": "repo_file",
-        "uri_fragment": null
-      }
-    ],
     "external_files": [
       {
         "artifact_id": "golden-trace-json",
@@ -128,125 +9,6 @@
         "role": "committed canonical golden trace generated by the W005 headless replay runner",
         "sha256": null,
         "storage": "repo_file",
-        "uri_fragment": null
-      }
-    ],
-    "renders": [
-      {
-        "artifact_id": "render-0001",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0002",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "initial_window_shown PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0003",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0004",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0005",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0006",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0007",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0008",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0009",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0010",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0011",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0012",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "post_invalidation PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
-        "uri_fragment": null
-      },
-      {
-        "artifact_id": "render-0013",
-        "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering.",
-        "path": null,
-        "role": "final_after_command_click PAL smoke headless render hash",
-        "sha256": null,
-        "storage": "inline_trace_row",
         "uri_fragment": null
       }
     ],
@@ -285,7 +47,6 @@
     "path_policy": "canonical_artifact_paths_are_repo_relative",
     "recorded_at_utc": null,
     "runner": {
-      "golden_display_list_path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
       "golden_trace_path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
       "implementation": "crates/oxforms-core/src/trace_replay.rs"
     },
@@ -727,64 +488,8 @@
       "sequence": 15
     },
     {
-      "kind": "display_list",
-      "logical_tick": 15,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0001",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:859502cc0fa2e041",
-        "command_count": 8,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0001",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0016",
-      "sequence": 16
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 16,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0001",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0001",
-        "source_display_list_id": "display-list-0001",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0017",
-      "sequence": 17
-    },
-    {
       "kind": "lifecycle_pump",
-      "logical_tick": 17,
+      "logical_tick": 15,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -803,12 +508,12 @@
         "pump_term": "host_modeless_pump"
       },
       "phase": "pump",
-      "row_id": "row-0018",
-      "sequence": 18
+      "row_id": "row-0016",
+      "sequence": 16
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 18,
+      "logical_tick": 16,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -821,12 +526,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0019",
-      "sequence": 19
+      "row_id": "row-0017",
+      "sequence": 17
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 19,
+      "logical_tick": 17,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -839,68 +544,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0020",
-      "sequence": 20
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 20,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0002",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:859502cc0fa2e041",
-        "command_count": 8,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0002",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "initial_window_shown",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0021",
-      "sequence": 21
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 21,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0002",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0002",
-        "source_display_list_id": "display-list-0002",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0022",
-      "sequence": 22
+      "row_id": "row-0018",
+      "sequence": 18
     },
     {
       "kind": "input_script_step",
-      "logical_tick": 22,
+      "logical_tick": 18,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -929,12 +578,12 @@
         }
       },
       "phase": "script",
-      "row_id": "row-0023",
-      "sequence": 23
+      "row_id": "row-0019",
+      "sequence": 19
     },
     {
       "kind": "ui_event",
-      "logical_tick": 23,
+      "logical_tick": 19,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1037,12 +686,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0024",
-      "sequence": 24
+      "row_id": "row-0020",
+      "sequence": 20
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 24,
+      "logical_tick": 20,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1081,12 +730,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0025",
-      "sequence": 25
+      "row_id": "row-0021",
+      "sequence": 21
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 25,
+      "logical_tick": 21,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1139,12 +788,12 @@
         "transition_id": "transition-0003"
       },
       "phase": "reducer",
-      "row_id": "row-0026",
-      "sequence": 26
+      "row_id": "row-0022",
+      "sequence": 22
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 26,
+      "logical_tick": 22,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1162,12 +811,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0027",
-      "sequence": 27
+      "row_id": "row-0023",
+      "sequence": 23
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 27,
+      "logical_tick": 23,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1185,12 +834,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0028",
-      "sequence": 28
+      "row_id": "row-0024",
+      "sequence": 24
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 28,
+      "logical_tick": 24,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1208,12 +857,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0029",
-      "sequence": 29
+      "row_id": "row-0025",
+      "sequence": 25
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 29,
+      "logical_tick": 25,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1255,14 +904,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0030",
-      "sequence": 30
+      "row_id": "row-0026",
+      "sequence": 26
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 30,
+      "logical_tick": 26,
       "nesting_depth": 1,
-      "parent_row_id": "row-0030",
+      "parent_row_id": "row-0026",
       "payload": {
         "arguments": [
           {
@@ -1308,12 +957,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0031",
-      "sequence": 31
+      "row_id": "row-0027",
+      "sequence": 27
     },
     {
       "kind": "invalidation",
-      "logical_tick": 31,
+      "logical_tick": 27,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1334,68 +983,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0032",
-      "sequence": 32
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 32,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0003",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:859502cc0fa2e041",
-        "command_count": 8,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0003",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0033",
-      "sequence": 33
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 33,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0003",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0003",
-        "source_display_list_id": "display-list-0003",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0034",
-      "sequence": 34
+      "row_id": "row-0028",
+      "sequence": 28
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 34,
+      "logical_tick": 28,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1408,12 +1001,12 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0035",
-      "sequence": 35
+      "row_id": "row-0029",
+      "sequence": 29
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 35,
+      "logical_tick": 29,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1426,12 +1019,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0036",
-      "sequence": 36
+      "row_id": "row-0030",
+      "sequence": 30
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 36,
+      "logical_tick": 30,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1444,12 +1037,12 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0037",
-      "sequence": 37
+      "row_id": "row-0031",
+      "sequence": 31
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 37,
+      "logical_tick": 31,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1462,12 +1055,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0038",
-      "sequence": 38
+      "row_id": "row-0032",
+      "sequence": 32
     },
     {
       "kind": "ui_event",
-      "logical_tick": 38,
+      "logical_tick": 32,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1570,12 +1163,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0039",
-      "sequence": 39
+      "row_id": "row-0033",
+      "sequence": 33
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 39,
+      "logical_tick": 33,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1614,12 +1207,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0040",
-      "sequence": 40
+      "row_id": "row-0034",
+      "sequence": 34
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 40,
+      "logical_tick": 34,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1671,12 +1264,12 @@
         "transition_id": "transition-0004"
       },
       "phase": "reducer",
-      "row_id": "row-0041",
-      "sequence": 41
+      "row_id": "row-0035",
+      "sequence": 35
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 41,
+      "logical_tick": 35,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1694,12 +1287,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0042",
-      "sequence": 42
+      "row_id": "row-0036",
+      "sequence": 36
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 42,
+      "logical_tick": 36,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1741,14 +1334,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0043",
-      "sequence": 43
+      "row_id": "row-0037",
+      "sequence": 37
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 43,
+      "logical_tick": 37,
       "nesting_depth": 1,
-      "parent_row_id": "row-0043",
+      "parent_row_id": "row-0037",
       "payload": {
         "arguments": [
           {
@@ -1794,12 +1387,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0044",
-      "sequence": 44
+      "row_id": "row-0038",
+      "sequence": 38
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 44,
+      "logical_tick": 38,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1812,12 +1405,12 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0045",
-      "sequence": 45
+      "row_id": "row-0039",
+      "sequence": 39
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 45,
+      "logical_tick": 39,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1830,12 +1423,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0046",
-      "sequence": 46
+      "row_id": "row-0040",
+      "sequence": 40
     },
     {
       "kind": "input_script_step",
-      "logical_tick": 46,
+      "logical_tick": 40,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1847,12 +1440,12 @@
         }
       },
       "phase": "script",
-      "row_id": "row-0047",
-      "sequence": 47
+      "row_id": "row-0041",
+      "sequence": 41
     },
     {
       "kind": "ui_event",
-      "logical_tick": 47,
+      "logical_tick": 41,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1903,12 +1496,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0048",
-      "sequence": 48
+      "row_id": "row-0042",
+      "sequence": 42
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 48,
+      "logical_tick": 42,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1925,12 +1518,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0049",
-      "sequence": 49
+      "row_id": "row-0043",
+      "sequence": 43
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 49,
+      "logical_tick": 43,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -1978,12 +1571,12 @@
         "transition_id": "transition-0005"
       },
       "phase": "reducer",
-      "row_id": "row-0050",
-      "sequence": 50
+      "row_id": "row-0044",
+      "sequence": 44
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 50,
+      "logical_tick": 44,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2030,14 +1623,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0051",
-      "sequence": 51
+      "row_id": "row-0045",
+      "sequence": 45
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 51,
+      "logical_tick": 45,
       "nesting_depth": 1,
-      "parent_row_id": "row-0051",
+      "parent_row_id": "row-0045",
       "payload": {
         "arguments": [
           {
@@ -2095,12 +1688,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0052",
-      "sequence": 52
+      "row_id": "row-0046",
+      "sequence": 46
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 52,
+      "logical_tick": 46,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2113,12 +1706,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0053",
-      "sequence": 53
+      "row_id": "row-0047",
+      "sequence": 47
     },
     {
       "kind": "ui_event",
-      "logical_tick": 53,
+      "logical_tick": 47,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2160,12 +1753,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0054",
-      "sequence": 54
+      "row_id": "row-0048",
+      "sequence": 48
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 54,
+      "logical_tick": 48,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2182,12 +1775,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0055",
-      "sequence": 55
+      "row_id": "row-0049",
+      "sequence": 49
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 55,
+      "logical_tick": 49,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2250,12 +1843,12 @@
         "transition_id": "transition-0006"
       },
       "phase": "reducer",
-      "row_id": "row-0056",
-      "sequence": 56
+      "row_id": "row-0050",
+      "sequence": 50
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 56,
+      "logical_tick": 50,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2292,14 +1885,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0057",
-      "sequence": 57
+      "row_id": "row-0051",
+      "sequence": 51
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 57,
+      "logical_tick": 51,
       "nesting_depth": 1,
-      "parent_row_id": "row-0057",
+      "parent_row_id": "row-0051",
       "payload": {
         "arguments": [
           {
@@ -2347,12 +1940,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0058",
-      "sequence": 58
+      "row_id": "row-0052",
+      "sequence": 52
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 58,
+      "logical_tick": 52,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2373,14 +1966,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0059",
-      "sequence": 59
+      "row_id": "row-0053",
+      "sequence": 53
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 59,
+      "logical_tick": 53,
       "nesting_depth": 1,
-      "parent_row_id": "row-0059",
+      "parent_row_id": "row-0053",
       "payload": {
         "arguments": [],
         "dispatch_id": "dispatch-0006",
@@ -2405,12 +1998,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0060",
-      "sequence": 60
+      "row_id": "row-0054",
+      "sequence": 54
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 60,
+      "logical_tick": 54,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2428,12 +2021,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0061",
-      "sequence": 61
+      "row_id": "row-0055",
+      "sequence": 55
     },
     {
       "kind": "invalidation",
-      "logical_tick": 61,
+      "logical_tick": 55,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2454,68 +2047,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0062",
-      "sequence": 62
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 62,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0004",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:38d35331eaf19902",
-        "command_count": 9,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0004",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0063",
-      "sequence": 63
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 63,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0004",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0004",
-        "source_display_list_id": "display-list-0004",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0064",
-      "sequence": 64
+      "row_id": "row-0056",
+      "sequence": 56
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 64,
+      "logical_tick": 56,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2528,12 +2065,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0065",
-      "sequence": 65
+      "row_id": "row-0057",
+      "sequence": 57
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 65,
+      "logical_tick": 57,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2546,12 +2083,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0066",
-      "sequence": 66
+      "row_id": "row-0058",
+      "sequence": 58
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 66,
+      "logical_tick": 58,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2564,12 +2101,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0067",
-      "sequence": 67
+      "row_id": "row-0059",
+      "sequence": 59
     },
     {
       "kind": "ui_event",
-      "logical_tick": 67,
+      "logical_tick": 59,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2620,12 +2157,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0068",
-      "sequence": 68
+      "row_id": "row-0060",
+      "sequence": 60
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 68,
+      "logical_tick": 60,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2642,12 +2179,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0069",
-      "sequence": 69
+      "row_id": "row-0061",
+      "sequence": 61
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 69,
+      "logical_tick": 61,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2717,12 +2254,12 @@
         "transition_id": "transition-0007"
       },
       "phase": "reducer",
-      "row_id": "row-0070",
-      "sequence": 70
+      "row_id": "row-0062",
+      "sequence": 62
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 70,
+      "logical_tick": 62,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2769,14 +2306,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0071",
-      "sequence": 71
+      "row_id": "row-0063",
+      "sequence": 63
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 71,
+      "logical_tick": 63,
       "nesting_depth": 1,
-      "parent_row_id": "row-0071",
+      "parent_row_id": "row-0063",
       "payload": {
         "arguments": [
           {
@@ -2834,12 +2371,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0072",
-      "sequence": 72
+      "row_id": "row-0064",
+      "sequence": 64
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 72,
+      "logical_tick": 64,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2852,12 +2389,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0073",
-      "sequence": 73
+      "row_id": "row-0065",
+      "sequence": 65
     },
     {
       "kind": "ui_event",
-      "logical_tick": 73,
+      "logical_tick": 65,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2908,12 +2445,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0074",
-      "sequence": 74
+      "row_id": "row-0066",
+      "sequence": 66
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 74,
+      "logical_tick": 66,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -2930,12 +2467,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0075",
-      "sequence": 75
+      "row_id": "row-0067",
+      "sequence": 67
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 75,
+      "logical_tick": 67,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3005,12 +2542,12 @@
         "transition_id": "transition-0008"
       },
       "phase": "reducer",
-      "row_id": "row-0076",
-      "sequence": 76
+      "row_id": "row-0068",
+      "sequence": 68
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 76,
+      "logical_tick": 68,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3057,14 +2594,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0077",
-      "sequence": 77
+      "row_id": "row-0069",
+      "sequence": 69
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 77,
+      "logical_tick": 69,
       "nesting_depth": 1,
-      "parent_row_id": "row-0077",
+      "parent_row_id": "row-0069",
       "payload": {
         "arguments": [
           {
@@ -3122,12 +2659,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0078",
-      "sequence": 78
+      "row_id": "row-0070",
+      "sequence": 70
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 78,
+      "logical_tick": 70,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3140,12 +2677,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0079",
-      "sequence": 79
+      "row_id": "row-0071",
+      "sequence": 71
     },
     {
       "kind": "ui_event",
-      "logical_tick": 79,
+      "logical_tick": 71,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3187,12 +2724,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0080",
-      "sequence": 80
+      "row_id": "row-0072",
+      "sequence": 72
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 80,
+      "logical_tick": 72,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3209,12 +2746,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0081",
-      "sequence": 81
+      "row_id": "row-0073",
+      "sequence": 73
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 81,
+      "logical_tick": 73,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3288,12 +2825,12 @@
         "transition_id": "transition-0009"
       },
       "phase": "reducer",
-      "row_id": "row-0082",
-      "sequence": 82
+      "row_id": "row-0074",
+      "sequence": 74
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 82,
+      "logical_tick": 74,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3330,14 +2867,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0083",
-      "sequence": 83
+      "row_id": "row-0075",
+      "sequence": 75
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 83,
+      "logical_tick": 75,
       "nesting_depth": 1,
-      "parent_row_id": "row-0083",
+      "parent_row_id": "row-0075",
       "payload": {
         "arguments": [
           {
@@ -3385,12 +2922,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0084",
-      "sequence": 84
+      "row_id": "row-0076",
+      "sequence": 76
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 84,
+      "logical_tick": 76,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3411,14 +2948,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0085",
-      "sequence": 85
+      "row_id": "row-0077",
+      "sequence": 77
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 85,
+      "logical_tick": 77,
       "nesting_depth": 1,
-      "parent_row_id": "row-0085",
+      "parent_row_id": "row-0077",
       "payload": {
         "arguments": [],
         "dispatch_id": "dispatch-0010",
@@ -3443,12 +2980,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0086",
-      "sequence": 86
+      "row_id": "row-0078",
+      "sequence": 78
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 86,
+      "logical_tick": 78,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3466,12 +3003,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0087",
-      "sequence": 87
+      "row_id": "row-0079",
+      "sequence": 79
     },
     {
       "kind": "invalidation",
-      "logical_tick": 87,
+      "logical_tick": 79,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3492,68 +3029,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0088",
-      "sequence": 88
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 88,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0005",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
-        "command_count": 11,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0005",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0089",
-      "sequence": 89
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 89,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0005",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0005",
-        "source_display_list_id": "display-list-0005",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0090",
-      "sequence": 90
+      "row_id": "row-0080",
+      "sequence": 80
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 90,
+      "logical_tick": 80,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3566,12 +3047,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0091",
-      "sequence": 91
+      "row_id": "row-0081",
+      "sequence": 81
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 91,
+      "logical_tick": 81,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3584,12 +3065,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0092",
-      "sequence": 92
+      "row_id": "row-0082",
+      "sequence": 82
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 92,
+      "logical_tick": 82,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3602,12 +3083,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0093",
-      "sequence": 93
+      "row_id": "row-0083",
+      "sequence": 83
     },
     {
       "kind": "ui_event",
-      "logical_tick": 93,
+      "logical_tick": 83,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3658,12 +3139,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0094",
-      "sequence": 94
+      "row_id": "row-0084",
+      "sequence": 84
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 94,
+      "logical_tick": 84,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3680,12 +3161,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0095",
-      "sequence": 95
+      "row_id": "row-0085",
+      "sequence": 85
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 95,
+      "logical_tick": 85,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3755,12 +3236,12 @@
         "transition_id": "transition-0010"
       },
       "phase": "reducer",
-      "row_id": "row-0096",
-      "sequence": 96
+      "row_id": "row-0086",
+      "sequence": 86
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 96,
+      "logical_tick": 86,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3807,14 +3288,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0097",
-      "sequence": 97
+      "row_id": "row-0087",
+      "sequence": 87
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 97,
+      "logical_tick": 87,
       "nesting_depth": 1,
-      "parent_row_id": "row-0097",
+      "parent_row_id": "row-0087",
       "payload": {
         "arguments": [
           {
@@ -3872,12 +3353,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0098",
-      "sequence": 98
+      "row_id": "row-0088",
+      "sequence": 88
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 98,
+      "logical_tick": 88,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3890,12 +3371,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0099",
-      "sequence": 99
+      "row_id": "row-0089",
+      "sequence": 89
     },
     {
       "kind": "input_script_step",
-      "logical_tick": 99,
+      "logical_tick": 89,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3907,12 +3388,12 @@
         }
       },
       "phase": "script",
-      "row_id": "row-0100",
-      "sequence": 100
+      "row_id": "row-0090",
+      "sequence": 90
     },
     {
       "kind": "ui_event",
-      "logical_tick": 100,
+      "logical_tick": 90,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3963,12 +3444,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0101",
-      "sequence": 101
+      "row_id": "row-0091",
+      "sequence": 91
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 101,
+      "logical_tick": 91,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -3985,12 +3466,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0102",
-      "sequence": 102
+      "row_id": "row-0092",
+      "sequence": 92
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 102,
+      "logical_tick": 92,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4063,12 +3544,12 @@
         "transition_id": "transition-0011"
       },
       "phase": "reducer",
-      "row_id": "row-0103",
-      "sequence": 103
+      "row_id": "row-0093",
+      "sequence": 93
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 103,
+      "logical_tick": 93,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4105,14 +3586,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0104",
-      "sequence": 104
+      "row_id": "row-0094",
+      "sequence": 94
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 104,
+      "logical_tick": 94,
       "nesting_depth": 1,
-      "parent_row_id": "row-0104",
+      "parent_row_id": "row-0094",
       "payload": {
         "arguments": [
           {
@@ -4160,12 +3641,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0105",
-      "sequence": 105
+      "row_id": "row-0095",
+      "sequence": 95
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 105,
+      "logical_tick": 95,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4183,12 +3664,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0106",
-      "sequence": 106
+      "row_id": "row-0096",
+      "sequence": 96
     },
     {
       "kind": "invalidation",
-      "logical_tick": 106,
+      "logical_tick": 96,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4209,68 +3690,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0107",
-      "sequence": 107
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 107,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0006",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:430020ddccdd4597",
-        "command_count": 11,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0006",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0108",
-      "sequence": 108
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 108,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0006",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0006",
-        "source_display_list_id": "display-list-0006",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0109",
-      "sequence": 109
+      "row_id": "row-0097",
+      "sequence": 97
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 109,
+      "logical_tick": 97,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4283,12 +3708,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0110",
-      "sequence": 110
+      "row_id": "row-0098",
+      "sequence": 98
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 110,
+      "logical_tick": 98,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4301,12 +3726,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0111",
-      "sequence": 111
+      "row_id": "row-0099",
+      "sequence": 99
     },
     {
       "kind": "ui_event",
-      "logical_tick": 111,
+      "logical_tick": 99,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4357,12 +3782,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0112",
-      "sequence": 112
+      "row_id": "row-0100",
+      "sequence": 100
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 112,
+      "logical_tick": 100,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4379,12 +3804,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0113",
-      "sequence": 113
+      "row_id": "row-0101",
+      "sequence": 101
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 113,
+      "logical_tick": 101,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4454,12 +3879,12 @@
         "transition_id": "transition-0012"
       },
       "phase": "reducer",
-      "row_id": "row-0114",
-      "sequence": 114
+      "row_id": "row-0102",
+      "sequence": 102
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 114,
+      "logical_tick": 102,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4496,14 +3921,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0115",
-      "sequence": 115
+      "row_id": "row-0103",
+      "sequence": 103
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 115,
+      "logical_tick": 103,
       "nesting_depth": 1,
-      "parent_row_id": "row-0115",
+      "parent_row_id": "row-0103",
       "payload": {
         "arguments": [
           {
@@ -4551,12 +3976,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0116",
-      "sequence": 116
+      "row_id": "row-0104",
+      "sequence": 104
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 116,
+      "logical_tick": 104,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4569,12 +3994,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0117",
-      "sequence": 117
+      "row_id": "row-0105",
+      "sequence": 105
     },
     {
       "kind": "ui_event",
-      "logical_tick": 117,
+      "logical_tick": 105,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4625,12 +4050,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0118",
-      "sequence": 118
+      "row_id": "row-0106",
+      "sequence": 106
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 118,
+      "logical_tick": 106,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4647,12 +4072,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0119",
-      "sequence": 119
+      "row_id": "row-0107",
+      "sequence": 107
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 119,
+      "logical_tick": 107,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4726,12 +4151,12 @@
         "transition_id": "transition-0013"
       },
       "phase": "reducer",
-      "row_id": "row-0120",
-      "sequence": 120
+      "row_id": "row-0108",
+      "sequence": 108
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 120,
+      "logical_tick": 108,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4768,14 +4193,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0121",
-      "sequence": 121
+      "row_id": "row-0109",
+      "sequence": 109
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 121,
+      "logical_tick": 109,
       "nesting_depth": 1,
-      "parent_row_id": "row-0121",
+      "parent_row_id": "row-0109",
       "payload": {
         "arguments": [
           {
@@ -4823,12 +4248,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0122",
-      "sequence": 122
+      "row_id": "row-0110",
+      "sequence": 110
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 122,
+      "logical_tick": 110,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4849,14 +4274,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0123",
-      "sequence": 123
+      "row_id": "row-0111",
+      "sequence": 111
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 123,
+      "logical_tick": 111,
       "nesting_depth": 1,
-      "parent_row_id": "row-0123",
+      "parent_row_id": "row-0111",
       "payload": {
         "arguments": [],
         "dispatch_id": "dispatch-0015",
@@ -4881,12 +4306,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0124",
-      "sequence": 124
+      "row_id": "row-0112",
+      "sequence": 112
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 124,
+      "logical_tick": 112,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4904,12 +4329,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0125",
-      "sequence": 125
+      "row_id": "row-0113",
+      "sequence": 113
     },
     {
       "kind": "invalidation",
-      "logical_tick": 125,
+      "logical_tick": 113,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -4930,68 +4355,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0126",
-      "sequence": 126
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 126,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0007",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:55238b1f5fe44fd2",
-        "command_count": 11,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0007",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0127",
-      "sequence": 127
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 127,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0007",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0007",
-        "source_display_list_id": "display-list-0007",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0128",
-      "sequence": 128
+      "row_id": "row-0114",
+      "sequence": 114
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 128,
+      "logical_tick": 114,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5004,12 +4373,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0129",
-      "sequence": 129
+      "row_id": "row-0115",
+      "sequence": 115
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 129,
+      "logical_tick": 115,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5022,12 +4391,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0130",
-      "sequence": 130
+      "row_id": "row-0116",
+      "sequence": 116
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 130,
+      "logical_tick": 116,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5040,12 +4409,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0131",
-      "sequence": 131
+      "row_id": "row-0117",
+      "sequence": 117
     },
     {
       "kind": "ui_event",
-      "logical_tick": 131,
+      "logical_tick": 117,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5096,12 +4465,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0132",
-      "sequence": 132
+      "row_id": "row-0118",
+      "sequence": 118
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 132,
+      "logical_tick": 118,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5118,12 +4487,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0133",
-      "sequence": 133
+      "row_id": "row-0119",
+      "sequence": 119
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 133,
+      "logical_tick": 119,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5193,12 +4562,12 @@
         "transition_id": "transition-0014"
       },
       "phase": "reducer",
-      "row_id": "row-0134",
-      "sequence": 134
+      "row_id": "row-0120",
+      "sequence": 120
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 134,
+      "logical_tick": 120,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5235,14 +4604,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0135",
-      "sequence": 135
+      "row_id": "row-0121",
+      "sequence": 121
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 135,
+      "logical_tick": 121,
       "nesting_depth": 1,
-      "parent_row_id": "row-0135",
+      "parent_row_id": "row-0121",
       "payload": {
         "arguments": [
           {
@@ -5290,12 +4659,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0136",
-      "sequence": 136
+      "row_id": "row-0122",
+      "sequence": 122
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 136,
+      "logical_tick": 122,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5308,12 +4677,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0137",
-      "sequence": 137
+      "row_id": "row-0123",
+      "sequence": 123
     },
     {
       "kind": "ui_event",
-      "logical_tick": 137,
+      "logical_tick": 123,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5364,12 +4733,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0138",
-      "sequence": 138
+      "row_id": "row-0124",
+      "sequence": 124
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 138,
+      "logical_tick": 124,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5386,12 +4755,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0139",
-      "sequence": 139
+      "row_id": "row-0125",
+      "sequence": 125
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 139,
+      "logical_tick": 125,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5464,12 +4833,12 @@
         "transition_id": "transition-0015"
       },
       "phase": "reducer",
-      "row_id": "row-0140",
-      "sequence": 140
+      "row_id": "row-0126",
+      "sequence": 126
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 140,
+      "logical_tick": 126,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5506,14 +4875,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0141",
-      "sequence": 141
+      "row_id": "row-0127",
+      "sequence": 127
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 141,
+      "logical_tick": 127,
       "nesting_depth": 1,
-      "parent_row_id": "row-0141",
+      "parent_row_id": "row-0127",
       "payload": {
         "arguments": [
           {
@@ -5561,12 +4930,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0142",
-      "sequence": 142
+      "row_id": "row-0128",
+      "sequence": 128
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 142,
+      "logical_tick": 128,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5584,12 +4953,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0143",
-      "sequence": 143
+      "row_id": "row-0129",
+      "sequence": 129
     },
     {
       "kind": "invalidation",
-      "logical_tick": 143,
+      "logical_tick": 129,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5610,68 +4979,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0144",
-      "sequence": 144
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 144,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0008",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
-        "command_count": 11,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0008",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0145",
-      "sequence": 145
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 145,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0008",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0008",
-        "source_display_list_id": "display-list-0008",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0146",
-      "sequence": 146
+      "row_id": "row-0130",
+      "sequence": 130
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 146,
+      "logical_tick": 130,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5684,12 +4997,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0147",
-      "sequence": 147
+      "row_id": "row-0131",
+      "sequence": 131
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 147,
+      "logical_tick": 131,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5702,12 +5015,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0148",
-      "sequence": 148
+      "row_id": "row-0132",
+      "sequence": 132
     },
     {
       "kind": "ui_event",
-      "logical_tick": 148,
+      "logical_tick": 132,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5758,12 +5071,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0149",
-      "sequence": 149
+      "row_id": "row-0133",
+      "sequence": 133
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 149,
+      "logical_tick": 133,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5780,12 +5093,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0150",
-      "sequence": 150
+      "row_id": "row-0134",
+      "sequence": 134
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 150,
+      "logical_tick": 134,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5855,12 +5168,12 @@
         "transition_id": "transition-0016"
       },
       "phase": "reducer",
-      "row_id": "row-0151",
-      "sequence": 151
+      "row_id": "row-0135",
+      "sequence": 135
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 151,
+      "logical_tick": 135,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5897,14 +5210,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0152",
-      "sequence": 152
+      "row_id": "row-0136",
+      "sequence": 136
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 152,
+      "logical_tick": 136,
       "nesting_depth": 1,
-      "parent_row_id": "row-0152",
+      "parent_row_id": "row-0136",
       "payload": {
         "arguments": [
           {
@@ -5952,12 +5265,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0153",
-      "sequence": 153
+      "row_id": "row-0137",
+      "sequence": 137
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 153,
+      "logical_tick": 137,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -5970,12 +5283,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0154",
-      "sequence": 154
+      "row_id": "row-0138",
+      "sequence": 138
     },
     {
       "kind": "ui_event",
-      "logical_tick": 154,
+      "logical_tick": 138,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6026,12 +5339,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0155",
-      "sequence": 155
+      "row_id": "row-0139",
+      "sequence": 139
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 155,
+      "logical_tick": 139,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6048,12 +5361,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0156",
-      "sequence": 156
+      "row_id": "row-0140",
+      "sequence": 140
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 156,
+      "logical_tick": 140,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6126,12 +5439,12 @@
         "transition_id": "transition-0017"
       },
       "phase": "reducer",
-      "row_id": "row-0157",
-      "sequence": 157
+      "row_id": "row-0141",
+      "sequence": 141
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 157,
+      "logical_tick": 141,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6168,14 +5481,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0158",
-      "sequence": 158
+      "row_id": "row-0142",
+      "sequence": 142
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 158,
+      "logical_tick": 142,
       "nesting_depth": 1,
-      "parent_row_id": "row-0158",
+      "parent_row_id": "row-0142",
       "payload": {
         "arguments": [
           {
@@ -6223,12 +5536,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0159",
-      "sequence": 159
+      "row_id": "row-0143",
+      "sequence": 143
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 159,
+      "logical_tick": 143,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6246,12 +5559,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0160",
-      "sequence": 160
+      "row_id": "row-0144",
+      "sequence": 144
     },
     {
       "kind": "invalidation",
-      "logical_tick": 160,
+      "logical_tick": 144,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6272,68 +5585,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0161",
-      "sequence": 161
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 161,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0009",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:3c76b6ba94c21c8c",
-        "command_count": 11,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0009",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0162",
-      "sequence": 162
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 162,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0009",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0009",
-        "source_display_list_id": "display-list-0009",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0163",
-      "sequence": 163
+      "row_id": "row-0145",
+      "sequence": 145
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 163,
+      "logical_tick": 145,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6346,12 +5603,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0164",
-      "sequence": 164
+      "row_id": "row-0146",
+      "sequence": 146
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 164,
+      "logical_tick": 146,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6364,12 +5621,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0165",
-      "sequence": 165
+      "row_id": "row-0147",
+      "sequence": 147
     },
     {
       "kind": "ui_event",
-      "logical_tick": 165,
+      "logical_tick": 147,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6420,12 +5677,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0166",
-      "sequence": 166
+      "row_id": "row-0148",
+      "sequence": 148
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 166,
+      "logical_tick": 148,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6442,12 +5699,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0167",
-      "sequence": 167
+      "row_id": "row-0149",
+      "sequence": 149
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 167,
+      "logical_tick": 149,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6517,12 +5774,12 @@
         "transition_id": "transition-0018"
       },
       "phase": "reducer",
-      "row_id": "row-0168",
-      "sequence": 168
+      "row_id": "row-0150",
+      "sequence": 150
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 168,
+      "logical_tick": 150,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6559,14 +5816,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0169",
-      "sequence": 169
+      "row_id": "row-0151",
+      "sequence": 151
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 169,
+      "logical_tick": 151,
       "nesting_depth": 1,
-      "parent_row_id": "row-0169",
+      "parent_row_id": "row-0151",
       "payload": {
         "arguments": [
           {
@@ -6614,12 +5871,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0170",
-      "sequence": 170
+      "row_id": "row-0152",
+      "sequence": 152
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 170,
+      "logical_tick": 152,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6632,12 +5889,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0171",
-      "sequence": 171
+      "row_id": "row-0153",
+      "sequence": 153
     },
     {
       "kind": "ui_event",
-      "logical_tick": 171,
+      "logical_tick": 153,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6688,12 +5945,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0172",
-      "sequence": 172
+      "row_id": "row-0154",
+      "sequence": 154
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 172,
+      "logical_tick": 154,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6710,12 +5967,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0173",
-      "sequence": 173
+      "row_id": "row-0155",
+      "sequence": 155
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 173,
+      "logical_tick": 155,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6789,12 +6046,12 @@
         "transition_id": "transition-0019"
       },
       "phase": "reducer",
-      "row_id": "row-0174",
-      "sequence": 174
+      "row_id": "row-0156",
+      "sequence": 156
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 174,
+      "logical_tick": 156,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6831,14 +6088,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0175",
-      "sequence": 175
+      "row_id": "row-0157",
+      "sequence": 157
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 175,
+      "logical_tick": 157,
       "nesting_depth": 1,
-      "parent_row_id": "row-0175",
+      "parent_row_id": "row-0157",
       "payload": {
         "arguments": [
           {
@@ -6886,12 +6143,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0176",
-      "sequence": 176
+      "row_id": "row-0158",
+      "sequence": 158
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 176,
+      "logical_tick": 158,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6912,14 +6169,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0177",
-      "sequence": 177
+      "row_id": "row-0159",
+      "sequence": 159
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 177,
+      "logical_tick": 159,
       "nesting_depth": 1,
-      "parent_row_id": "row-0177",
+      "parent_row_id": "row-0159",
       "payload": {
         "arguments": [],
         "dispatch_id": "dispatch-0022",
@@ -6944,12 +6201,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0178",
-      "sequence": 178
+      "row_id": "row-0160",
+      "sequence": 160
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 178,
+      "logical_tick": 160,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6967,12 +6224,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0179",
-      "sequence": 179
+      "row_id": "row-0161",
+      "sequence": 161
     },
     {
       "kind": "invalidation",
-      "logical_tick": 179,
+      "logical_tick": 161,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -6993,68 +6250,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0180",
-      "sequence": 180
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 180,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0010",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:8df6bc63b569aaa8",
-        "command_count": 11,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0010",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0181",
-      "sequence": 181
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 181,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0010",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0010",
-        "source_display_list_id": "display-list-0010",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0182",
-      "sequence": 182
+      "row_id": "row-0162",
+      "sequence": 162
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 182,
+      "logical_tick": 162,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7067,12 +6268,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0183",
-      "sequence": 183
+      "row_id": "row-0163",
+      "sequence": 163
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 183,
+      "logical_tick": 163,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7085,12 +6286,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0184",
-      "sequence": 184
+      "row_id": "row-0164",
+      "sequence": 164
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 184,
+      "logical_tick": 164,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7103,12 +6304,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0185",
-      "sequence": 185
+      "row_id": "row-0165",
+      "sequence": 165
     },
     {
       "kind": "ui_event",
-      "logical_tick": 185,
+      "logical_tick": 165,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7159,12 +6360,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0186",
-      "sequence": 186
+      "row_id": "row-0166",
+      "sequence": 166
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 186,
+      "logical_tick": 166,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7181,12 +6382,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0187",
-      "sequence": 187
+      "row_id": "row-0167",
+      "sequence": 167
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 187,
+      "logical_tick": 167,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7256,12 +6457,12 @@
         "transition_id": "transition-0020"
       },
       "phase": "reducer",
-      "row_id": "row-0188",
-      "sequence": 188
+      "row_id": "row-0168",
+      "sequence": 168
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 188,
+      "logical_tick": 168,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7298,14 +6499,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0189",
-      "sequence": 189
+      "row_id": "row-0169",
+      "sequence": 169
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 189,
+      "logical_tick": 169,
       "nesting_depth": 1,
-      "parent_row_id": "row-0189",
+      "parent_row_id": "row-0169",
       "payload": {
         "arguments": [
           {
@@ -7353,12 +6554,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0190",
-      "sequence": 190
+      "row_id": "row-0170",
+      "sequence": 170
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 190,
+      "logical_tick": 170,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7371,12 +6572,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0191",
-      "sequence": 191
+      "row_id": "row-0171",
+      "sequence": 171
     },
     {
       "kind": "input_script_step",
-      "logical_tick": 191,
+      "logical_tick": 171,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7405,12 +6606,12 @@
         }
       },
       "phase": "script",
-      "row_id": "row-0192",
-      "sequence": 192
+      "row_id": "row-0172",
+      "sequence": 172
     },
     {
       "kind": "ui_event",
-      "logical_tick": 192,
+      "logical_tick": 172,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7513,12 +6714,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0193",
-      "sequence": 193
+      "row_id": "row-0173",
+      "sequence": 173
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 193,
+      "logical_tick": 173,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7557,12 +6758,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0194",
-      "sequence": 194
+      "row_id": "row-0174",
+      "sequence": 174
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 194,
+      "logical_tick": 174,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7649,12 +6850,12 @@
         "transition_id": "transition-0021"
       },
       "phase": "reducer",
-      "row_id": "row-0195",
-      "sequence": 195
+      "row_id": "row-0175",
+      "sequence": 175
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 195,
+      "logical_tick": 175,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7672,12 +6873,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0196",
-      "sequence": 196
+      "row_id": "row-0176",
+      "sequence": 176
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 196,
+      "logical_tick": 176,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7695,12 +6896,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0197",
-      "sequence": 197
+      "row_id": "row-0177",
+      "sequence": 177
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 197,
+      "logical_tick": 177,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7718,12 +6919,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0198",
-      "sequence": 198
+      "row_id": "row-0178",
+      "sequence": 178
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 198,
+      "logical_tick": 178,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7765,14 +6966,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0199",
-      "sequence": 199
+      "row_id": "row-0179",
+      "sequence": 179
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 199,
+      "logical_tick": 179,
       "nesting_depth": 1,
-      "parent_row_id": "row-0199",
+      "parent_row_id": "row-0179",
       "payload": {
         "arguments": [
           {
@@ -7818,12 +7019,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0200",
-      "sequence": 200
+      "row_id": "row-0180",
+      "sequence": 180
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 200,
+      "logical_tick": 180,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7841,12 +7042,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0201",
-      "sequence": 201
+      "row_id": "row-0181",
+      "sequence": 181
     },
     {
       "kind": "invalidation",
-      "logical_tick": 201,
+      "logical_tick": 181,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7867,12 +7068,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0202",
-      "sequence": 202
+      "row_id": "row-0182",
+      "sequence": 182
     },
     {
       "kind": "invalidation",
-      "logical_tick": 202,
+      "logical_tick": 182,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7893,68 +7094,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0203",
-      "sequence": 203
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 203,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0011",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:19f7c7539024cebb",
-        "command_count": 10,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0011",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0204",
-      "sequence": 204
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 204,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0011",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0011",
-        "source_display_list_id": "display-list-0011",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0205",
-      "sequence": 205
+      "row_id": "row-0183",
+      "sequence": 183
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 205,
+      "logical_tick": 183,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7967,12 +7112,12 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0206",
-      "sequence": 206
+      "row_id": "row-0184",
+      "sequence": 184
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 206,
+      "logical_tick": 184,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7985,12 +7130,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0207",
-      "sequence": 207
+      "row_id": "row-0185",
+      "sequence": 185
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 207,
+      "logical_tick": 185,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8003,12 +7148,12 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0208",
-      "sequence": 208
+      "row_id": "row-0186",
+      "sequence": 186
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 208,
+      "logical_tick": 186,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8021,12 +7166,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0209",
-      "sequence": 209
+      "row_id": "row-0187",
+      "sequence": 187
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 209,
+      "logical_tick": 187,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8039,12 +7184,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0210",
-      "sequence": 210
+      "row_id": "row-0188",
+      "sequence": 188
     },
     {
       "kind": "ui_event",
-      "logical_tick": 210,
+      "logical_tick": 188,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8147,12 +7292,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0211",
-      "sequence": 211
+      "row_id": "row-0189",
+      "sequence": 189
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 211,
+      "logical_tick": 189,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8191,12 +7336,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0212",
-      "sequence": 212
+      "row_id": "row-0190",
+      "sequence": 190
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 212,
+      "logical_tick": 190,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8281,12 +7426,12 @@
         "transition_id": "transition-0022"
       },
       "phase": "reducer",
-      "row_id": "row-0213",
-      "sequence": 213
+      "row_id": "row-0191",
+      "sequence": 191
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 213,
+      "logical_tick": 191,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8304,12 +7449,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0214",
-      "sequence": 214
+      "row_id": "row-0192",
+      "sequence": 192
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 214,
+      "logical_tick": 192,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8351,14 +7496,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0215",
-      "sequence": 215
+      "row_id": "row-0193",
+      "sequence": 193
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 215,
+      "logical_tick": 193,
       "nesting_depth": 1,
-      "parent_row_id": "row-0215",
+      "parent_row_id": "row-0193",
       "payload": {
         "arguments": [
           {
@@ -8404,12 +7549,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0216",
-      "sequence": 216
+      "row_id": "row-0194",
+      "sequence": 194
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 216,
+      "logical_tick": 194,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8430,14 +7575,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0217",
-      "sequence": 217
+      "row_id": "row-0195",
+      "sequence": 195
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 217,
+      "logical_tick": 195,
       "nesting_depth": 1,
-      "parent_row_id": "row-0217",
+      "parent_row_id": "row-0195",
       "payload": {
         "arguments": [],
         "dispatch_id": "dispatch-0026",
@@ -8462,12 +7607,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0218",
-      "sequence": 218
+      "row_id": "row-0196",
+      "sequence": 196
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 218,
+      "logical_tick": 196,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8485,12 +7630,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0219",
-      "sequence": 219
+      "row_id": "row-0197",
+      "sequence": 197
     },
     {
       "kind": "invalidation",
-      "logical_tick": 219,
+      "logical_tick": 197,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8511,68 +7656,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0220",
-      "sequence": 220
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 220,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0012",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:8ccfd1c465201578",
-        "command_count": 9,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0012",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "post_invalidation",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0221",
-      "sequence": 221
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 221,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0012",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "4535695276758222053",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0012",
-        "source_display_list_id": "display-list-0012",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0222",
-      "sequence": 222
+      "row_id": "row-0198",
+      "sequence": 198
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 222,
+      "logical_tick": 198,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8585,12 +7674,12 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0223",
-      "sequence": 223
+      "row_id": "row-0199",
+      "sequence": 199
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 223,
+      "logical_tick": 199,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8603,12 +7692,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0224",
-      "sequence": 224
+      "row_id": "row-0200",
+      "sequence": 200
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 224,
+      "logical_tick": 200,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8621,12 +7710,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0225",
-      "sequence": 225
+      "row_id": "row-0201",
+      "sequence": 201
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 225,
+      "logical_tick": 201,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8639,68 +7728,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0226",
-      "sequence": 226
-    },
-    {
-      "kind": "display_list",
-      "logical_tick": 226,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "display-list-0013",
-          "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
-          "storage": "repo_file",
-          "uri_fragment": null
-        },
-        "checksum": "fnv1a64-json-bytes-v1:b7d0e2171af1b3fe",
-        "command_count": 9,
-        "coordinate_space": "display_list_logical",
-        "display_list_id": "display-list-0013",
-        "producer": "oxforms-core::build_probe_display_list",
-        "reason": "final_after_command_click",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0227",
-      "sequence": 227
-    },
-    {
-      "kind": "render_artifact",
-      "logical_tick": 227,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "artifact_ref": {
-          "artifact_id": "render-0013",
-          "path": null,
-          "storage": "inline_trace_row",
-          "uri_fragment": null
-        },
-        "command_count": 3,
-        "hash": "13378383770080117221",
-        "hash_algorithm": "fnv1a64-rgba8-framebuffer-v1",
-        "height": 128,
-        "output_kind": "headless_framebuffer_hash",
-        "render_id": "render-0013",
-        "source_display_list_id": "display-list-0013",
-        "target": {
-          "form_id": "form-main",
-          "window_id": "window-main"
-        },
-        "width": 260
-      },
-      "phase": "render",
-      "row_id": "row-0228",
-      "sequence": 228
+      "row_id": "row-0202",
+      "sequence": 202
     },
     {
       "kind": "input_script_step",
-      "logical_tick": 228,
+      "logical_tick": 202,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8714,12 +7747,12 @@
         }
       },
       "phase": "script",
-      "row_id": "row-0229",
-      "sequence": 229
+      "row_id": "row-0203",
+      "sequence": 203
     },
     {
       "kind": "ui_event",
-      "logical_tick": 229,
+      "logical_tick": 203,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8743,12 +7776,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0230",
-      "sequence": 230
+      "row_id": "row-0204",
+      "sequence": 204
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 230,
+      "logical_tick": 204,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8824,12 +7857,12 @@
         "transition_id": "transition-0023"
       },
       "phase": "reducer",
-      "row_id": "row-0231",
-      "sequence": 231
+      "row_id": "row-0205",
+      "sequence": 205
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 231,
+      "logical_tick": 205,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8861,14 +7894,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0232",
-      "sequence": 232
+      "row_id": "row-0206",
+      "sequence": 206
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 232,
+      "logical_tick": 206,
       "nesting_depth": 1,
-      "parent_row_id": "row-0232",
+      "parent_row_id": "row-0206",
       "payload": {
         "arguments": [
           {
@@ -8911,12 +7944,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0233",
-      "sequence": 233
+      "row_id": "row-0207",
+      "sequence": 207
     },
     {
       "kind": "lifecycle_pump",
-      "logical_tick": 233,
+      "logical_tick": 207,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8941,12 +7974,12 @@
         "pump_term": "close_unload_cancellation"
       },
       "phase": "pump",
-      "row_id": "row-0234",
-      "sequence": 234
+      "row_id": "row-0208",
+      "sequence": 208
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 234,
+      "logical_tick": 208,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8959,12 +7992,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0235",
-      "sequence": 235
+      "row_id": "row-0209",
+      "sequence": 209
     },
     {
       "kind": "ui_event",
-      "logical_tick": 235,
+      "logical_tick": 209,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -8999,12 +8032,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0236",
-      "sequence": 236
+      "row_id": "row-0210",
+      "sequence": 210
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 236,
+      "logical_tick": 210,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9086,12 +8119,12 @@
         "transition_id": "transition-0024"
       },
       "phase": "reducer",
-      "row_id": "row-0237",
-      "sequence": 237
+      "row_id": "row-0211",
+      "sequence": 211
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 237,
+      "logical_tick": 211,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9109,12 +8142,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0238",
-      "sequence": 238
+      "row_id": "row-0212",
+      "sequence": 212
     },
     {
       "kind": "lifecycle_pump",
-      "logical_tick": 238,
+      "logical_tick": 212,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9139,12 +8172,12 @@
         "pump_term": "close_unload_cancellation"
       },
       "phase": "pump",
-      "row_id": "row-0239",
-      "sequence": 239
+      "row_id": "row-0213",
+      "sequence": 213
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 239,
+      "logical_tick": 213,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9157,12 +8190,12 @@
         "status": "not_applicable_in_headless_subset"
       },
       "phase": "effect",
-      "row_id": "row-0240",
-      "sequence": 240
+      "row_id": "row-0214",
+      "sequence": 214
     },
     {
       "kind": "ui_event",
-      "logical_tick": 240,
+      "logical_tick": 214,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9186,12 +8219,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0241",
-      "sequence": 241
+      "row_id": "row-0215",
+      "sequence": 215
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 241,
+      "logical_tick": 215,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9273,12 +8306,12 @@
         "transition_id": "transition-0025"
       },
       "phase": "reducer",
-      "row_id": "row-0242",
-      "sequence": 242
+      "row_id": "row-0216",
+      "sequence": 216
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 242,
+      "logical_tick": 216,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9296,12 +8329,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0243",
-      "sequence": 243
+      "row_id": "row-0217",
+      "sequence": 217
     },
     {
       "kind": "lifecycle_pump",
-      "logical_tick": 243,
+      "logical_tick": 217,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9326,12 +8359,12 @@
         "pump_term": "close_unload_cancellation"
       },
       "phase": "pump",
-      "row_id": "row-0244",
-      "sequence": 244
+      "row_id": "row-0218",
+      "sequence": 218
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 244,
+      "logical_tick": 218,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9344,12 +8377,12 @@
         "status": "not_applicable_in_headless_subset"
       },
       "phase": "effect",
-      "row_id": "row-0245",
-      "sequence": 245
+      "row_id": "row-0219",
+      "sequence": 219
     },
     {
       "kind": "ui_event",
-      "logical_tick": 245,
+      "logical_tick": 219,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9372,12 +8405,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0246",
-      "sequence": 246
+      "row_id": "row-0220",
+      "sequence": 220
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 246,
+      "logical_tick": 220,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9451,12 +8484,12 @@
         "transition_id": "transition-0026"
       },
       "phase": "reducer",
-      "row_id": "row-0247",
-      "sequence": 247
+      "row_id": "row-0221",
+      "sequence": 221
     },
     {
       "kind": "lifecycle_pump",
-      "logical_tick": 247,
+      "logical_tick": 221,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -9475,8 +8508,8 @@
         "pump_term": "host_modeless_pump"
       },
       "phase": "pump",
-      "row_id": "row-0248",
-      "sequence": 248
+      "row_id": "row-0222",
+      "sequence": 222
     }
   ],
   "scenario": {

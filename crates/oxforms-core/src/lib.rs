@@ -31,22 +31,18 @@ pub use runtime::{
 };
 pub use trace_replay::{
     build_w005_trace_replay_golden_artifacts, build_w006_modal_frame_trace_subset_artifact,
-    W005_TRACE_REPLAY_DISPLAY_LIST_PATH, W005_TRACE_REPLAY_GOLDEN_TRACE_PATH,
-    W006_MODAL_FRAME_TRACE_PATH,
+    W005_TRACE_REPLAY_GOLDEN_TRACE_PATH, W006_MODAL_FRAME_TRACE_PATH,
 };
 
 use oxforms_pal::{
     CharacterInputEvent, ClipboardOperation, ClipboardResultEvent, CloseQueryPolicy, CloseReason,
-    CloseRequestEvent, CloseRequestOrigin, Color, ControlId, DataObjectSnapshot, DisplayList,
-    DragOverEvent, DropOrPasteEvent, DropOrPasteOrigin, FormId, HostScopeId, KeyCode, KeyEvent,
-    KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, LogicalSize,
-    MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent,
-    RawKeyDiagnostics, Rect as PalRect, ServiceOutcome, ShowMode, ShowRequestedEvent, SurfaceSize,
-    UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
+    CloseRequestEvent, CloseRequestOrigin, ControlId, DataObjectSnapshot, DragOverEvent,
+    DropOrPasteEvent, DropOrPasteOrigin, FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat,
+    KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent,
+    MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics, ServiceOutcome,
+    ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId,
+    WindowShownEvent,
 };
-
-pub const PROBE_DISPLAY_LIST_SCHEMA_VERSION: u16 = 1;
-pub const CHECKBOX_DISPLAY_LIST_SCHEMA_VERSION: u16 = 2;
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
 #[serde(transparent)]
@@ -823,101 +819,6 @@ pub enum ReducerTracePayload {
     Invalidation(Box<RenderInvalidation>),
 }
 
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-pub struct ProbeDisplayList {
-    pub schema_version: u16,
-    pub form_id: FormId,
-    pub surface: LogicalSize,
-    pub commands: Vec<ProbeDisplayCommand>,
-}
-
-#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
-#[serde(tag = "kind", content = "payload", rename_all = "snake_case")]
-pub enum ProbeDisplayCommand {
-    FillRect {
-        target: UiEventTarget,
-        rect: LogicalRect,
-        color: ProbeColor,
-        role: ProbeDisplayRole,
-    },
-    StrokeRect {
-        target: UiEventTarget,
-        rect: LogicalRect,
-        color: ProbeColor,
-        role: ProbeDisplayRole,
-    },
-    DrawText {
-        target: UiEventTarget,
-        rect: LogicalRect,
-        text: String,
-        color: ProbeColor,
-        role: ProbeDisplayRole,
-    },
-    CheckMark {
-        target: UiEventTarget,
-        rect: LogicalRect,
-        color: ProbeColor,
-        role: ProbeDisplayRole,
-    },
-    Caret {
-        target: UiEventTarget,
-        x: f64,
-        y: f64,
-        height: f64,
-        caret_index: usize,
-        color: ProbeColor,
-    },
-    FocusRect {
-        target: UiEventTarget,
-        rect: LogicalRect,
-        color: ProbeColor,
-    },
-}
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
-pub struct ProbeColor {
-    pub red: u8,
-    pub green: u8,
-    pub blue: u8,
-    pub alpha: u8,
-}
-
-impl ProbeColor {
-    #[must_use]
-    pub const fn rgba(red: u8, green: u8, blue: u8, alpha: u8) -> Self {
-        Self {
-            red,
-            green,
-            blue,
-            alpha,
-        }
-    }
-
-    #[must_use]
-    pub const fn to_pal_color(self) -> Color {
-        Color::rgba(self.red, self.green, self.blue, self.alpha)
-    }
-}
-
-#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
-#[serde(rename_all = "snake_case")]
-pub enum ProbeDisplayRole {
-    LabelFace,
-    LabelText,
-    CommandButtonFace,
-    CommandButtonPressedFace,
-    CommandButtonText,
-    TextBoxFace,
-    TextBoxText,
-    CheckBoxFace,
-    CheckBoxPressedFace,
-    CheckBoxText,
-    CheckBoxGlyph,
-    CheckBoxCheckMark,
-    Border,
-    DisabledOverlay,
-}
-
 #[must_use]
 pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
     let before = StateSummary::from_state(&state);
@@ -1188,188 +1089,10 @@ pub fn transition_trace_rows(
     rows
 }
 
-#[must_use]
-pub fn build_probe_display_list(state: &FormState, surface: LogicalSize) -> ProbeDisplayList {
-    let mut commands = Vec::new();
-    for control in visible_controls_in_paint_order(&state.controls) {
-        let target = UiEventTarget::control(state.form_id.0.clone(), control.control_id.0.clone());
-        let is_focused = state
-            .focus_owner
-            .as_ref()
-            .and_then(FocusTarget::as_control_id)
-            == Some(&control.control_id);
-        let is_pressed = state
-            .pressed_state
-            .as_ref()
-            .and_then(|pressed| pressed.target.as_control_id())
-            == Some(&control.control_id);
-
-        let face_role = match (control.kind, is_pressed) {
-            (ControlKind::CheckBox, true) => ProbeDisplayRole::CheckBoxPressedFace,
-            (ControlKind::CheckBox, false) => ProbeDisplayRole::CheckBoxFace,
-            (ControlKind::CommandButton, true) => ProbeDisplayRole::CommandButtonPressedFace,
-            (ControlKind::CommandButton, false) => ProbeDisplayRole::CommandButtonFace,
-            (ControlKind::Label, _) => ProbeDisplayRole::LabelFace,
-            (ControlKind::TextBox, _) => ProbeDisplayRole::TextBoxFace,
-        };
-        commands.push(ProbeDisplayCommand::FillRect {
-            target: target.clone(),
-            rect: control.bounds,
-            color: probe_face_color(control.kind, is_pressed, control.enabled),
-            role: face_role,
-        });
-        commands.push(ProbeDisplayCommand::StrokeRect {
-            target: target.clone(),
-            rect: control.bounds,
-            color: ProbeColor::rgba(0x64, 0x64, 0x64, 0xff),
-            role: ProbeDisplayRole::Border,
-        });
-
-        if control.kind == ControlKind::CheckBox {
-            let glyph_rect = check_box_glyph_rect(control.bounds);
-            commands.push(ProbeDisplayCommand::FillRect {
-                target: target.clone(),
-                rect: glyph_rect,
-                color: ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
-                role: ProbeDisplayRole::CheckBoxGlyph,
-            });
-            commands.push(ProbeDisplayCommand::StrokeRect {
-                target: target.clone(),
-                rect: glyph_rect,
-                color: ProbeColor::rgba(0x32, 0x32, 0x32, 0xff),
-                role: ProbeDisplayRole::CheckBoxGlyph,
-            });
-            if check_box_state(state, &control.control_id).is_some_and(|entry| entry.checked) {
-                commands.push(ProbeDisplayCommand::CheckMark {
-                    target: target.clone(),
-                    rect: inset_rect(glyph_rect, 2.0, 2.0),
-                    color: probe_text_color(control.kind, control.enabled),
-                    role: ProbeDisplayRole::CheckBoxCheckMark,
-                });
-            }
-        }
-
-        let text = display_text_for_control(state, control);
-        if !text.is_empty() {
-            let role = match control.kind {
-                ControlKind::CheckBox => ProbeDisplayRole::CheckBoxText,
-                ControlKind::Label => ProbeDisplayRole::LabelText,
-                ControlKind::CommandButton => ProbeDisplayRole::CommandButtonText,
-                ControlKind::TextBox => ProbeDisplayRole::TextBoxText,
-            };
-            commands.push(ProbeDisplayCommand::DrawText {
-                target: target.clone(),
-                rect: text_rect_for_control(control),
-                text,
-                color: probe_text_color(control.kind, control.enabled),
-                role,
-            });
-        }
-
-        if !control.enabled {
-            commands.push(ProbeDisplayCommand::FillRect {
-                target: target.clone(),
-                rect: control.bounds,
-                color: ProbeColor::rgba(0xf0, 0xf0, 0xf0, 0x80),
-                role: ProbeDisplayRole::DisabledOverlay,
-            });
-        }
-
-        if is_focused && control.kind != ControlKind::Label {
-            commands.push(ProbeDisplayCommand::FocusRect {
-                target: target.clone(),
-                rect: inset_rect(control.bounds, 2.0, 2.0),
-                color: ProbeColor::rgba(0x00, 0x00, 0x00, 0xff),
-            });
-        }
-
-        if is_focused && control.kind == ControlKind::TextBox {
-            if let Some(text_box) = text_box_state(state, &control.control_id) {
-                let x = caret_x(control.bounds, text_box.caret.active);
-                commands.push(ProbeDisplayCommand::Caret {
-                    target,
-                    x,
-                    y: control.bounds.y + 3.0,
-                    height: (control.bounds.height - 6.0).max(1.0),
-                    caret_index: text_box.caret.active,
-                    color: ProbeColor::rgba(0x00, 0x00, 0x00, 0xff),
-                });
-            }
-        }
-    }
-
-    ProbeDisplayList {
-        schema_version: display_list_schema_version(state),
-        form_id: state.form_id.clone(),
-        surface,
-        commands,
-    }
-}
-
-fn display_list_schema_version(state: &FormState) -> u16 {
-    if state
-        .controls
-        .iter()
-        .any(|control| control.kind == ControlKind::CheckBox)
-    {
-        CHECKBOX_DISPLAY_LIST_SCHEMA_VERSION
-    } else {
-        PROBE_DISPLAY_LIST_SCHEMA_VERSION
-    }
-}
-
-#[must_use]
-pub fn build_probe_pal_smoke_display_list(state: &FormState, surface: SurfaceSize) -> DisplayList {
-    let mut display_list = DisplayList::new(surface);
-    for command in build_probe_display_list(
-        state,
-        LogicalSize::new(f64::from(surface.width), f64::from(surface.height)),
-    )
-    .commands
-    {
-        let ProbeDisplayCommand::FillRect {
-            rect, color, role, ..
-        } = command
-        else {
-            continue;
-        };
-
-        if matches!(role, ProbeDisplayRole::DisabledOverlay) {
-            continue;
-        }
-
-        if let Some(rect) = pal_rect_from_logical(rect) {
-            display_list = display_list.with_fill_rect(rect, color.to_pal_color());
-        }
-    }
-
-    display_list
-}
-
-fn visible_controls_in_paint_order(controls: &[ControlNode]) -> Vec<&ControlNode> {
-    let mut controls = controls
-        .iter()
-        .enumerate()
-        .filter(|(_, control)| control.visible)
-        .collect::<Vec<_>>();
-    controls.sort_by_key(|(index, control)| (control.z_order, *index));
-    controls
-        .into_iter()
-        .map(|(_, control)| control)
-        .collect::<Vec<_>>()
-}
-
-fn display_text_for_control(state: &FormState, control: &ControlNode) -> String {
-    match control.kind {
-        ControlKind::CheckBox | ControlKind::Label | ControlKind::CommandButton => {
-            control.caption.clone()
-        }
-        ControlKind::TextBox => text_box_state(state, &control.control_id)
-            .map(|text_box| text_box.text.clone())
-            .unwrap_or_default(),
-    }
-}
-
+/// Read accessors for control value state. Used by the reducer unit tests to assert
+/// textbox/checkbox values after a transition (the probe display path that also read
+/// them retired in oxforms-rq5.1).
+#[cfg(test)]
 fn text_box_state<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'a TextBoxState> {
     state
         .text_boxes
@@ -1377,105 +1100,12 @@ fn text_box_state<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'
         .find(|entry| entry.control_id == *control_id)
 }
 
+#[cfg(test)]
 fn check_box_state<'a>(state: &'a FormState, control_id: &ControlId) -> Option<&'a CheckBoxState> {
     state
         .check_boxes
         .iter()
         .find(|entry| entry.control_id == *control_id)
-}
-
-fn probe_face_color(kind: ControlKind, is_pressed: bool, is_enabled: bool) -> ProbeColor {
-    if !is_enabled {
-        return ProbeColor::rgba(0xd9, 0xd9, 0xd9, 0xff);
-    }
-
-    match kind {
-        ControlKind::CheckBox if is_pressed => ProbeColor::rgba(0xe8, 0xe8, 0xe8, 0xff),
-        ControlKind::CheckBox => ProbeColor::rgba(0xf8, 0xf8, 0xf8, 0xff),
-        ControlKind::Label => ProbeColor::rgba(0x20, 0x70, 0xc0, 0xff),
-        ControlKind::CommandButton if is_pressed => ProbeColor::rgba(0xb8, 0xc7, 0xdd, 0xff),
-        ControlKind::CommandButton => ProbeColor::rgba(0xdc, 0xdc, 0xdc, 0xff),
-        ControlKind::TextBox => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
-    }
-}
-
-fn probe_text_color(kind: ControlKind, is_enabled: bool) -> ProbeColor {
-    if !is_enabled {
-        return ProbeColor::rgba(0x80, 0x80, 0x80, 0xff);
-    }
-
-    match kind {
-        ControlKind::Label => ProbeColor::rgba(0xff, 0xff, 0xff, 0xff),
-        ControlKind::CheckBox | ControlKind::CommandButton | ControlKind::TextBox => {
-            ProbeColor::rgba(0x00, 0x00, 0x00, 0xff)
-        }
-    }
-}
-
-fn text_rect_for_control(control: &ControlNode) -> LogicalRect {
-    if control.kind == ControlKind::CheckBox {
-        let left = control.bounds.x + 22.0;
-        LogicalRect::new(
-            left,
-            control.bounds.y + 1.0,
-            (control.bounds.x + control.bounds.width - left - 2.0).max(1.0),
-            (control.bounds.height - 2.0).max(1.0),
-        )
-    } else {
-        inset_rect(control.bounds, 4.0, 3.0)
-    }
-}
-
-fn check_box_glyph_rect(bounds: LogicalRect) -> LogicalRect {
-    let size = bounds.height.clamp(6.0, 13.0);
-    LogicalRect::new(
-        bounds.x + 3.0,
-        bounds.y + ((bounds.height - size) / 2.0),
-        size,
-        size,
-    )
-}
-
-fn inset_rect(rect: LogicalRect, dx: f64, dy: f64) -> LogicalRect {
-    LogicalRect::new(
-        rect.x + dx,
-        rect.y + dy,
-        (rect.width - (dx * 2.0)).max(1.0),
-        (rect.height - (dy * 2.0)).max(1.0),
-    )
-}
-
-fn caret_x(bounds: LogicalRect, caret_index: usize) -> f64 {
-    let approximate_cell_width = 6.0;
-    let left_padding = 4.0;
-    let right_padding = 3.0;
-    let max_x = (bounds.x + bounds.width - right_padding).max(bounds.x + left_padding);
-    (bounds.x + left_padding + (caret_index as f64 * approximate_cell_width)).min(max_x)
-}
-
-fn pal_rect_from_logical(rect: LogicalRect) -> Option<PalRect> {
-    let x = round_to_i32(rect.x)?;
-    let y = round_to_i32(rect.y)?;
-    let width = round_to_i32(rect.width.max(1.0))?;
-    let height = round_to_i32(rect.height.max(1.0))?;
-    if width <= 0 || height <= 0 {
-        return None;
-    }
-
-    Some(PalRect::new(x, y, width, height))
-}
-
-fn round_to_i32(value: f64) -> Option<i32> {
-    if !value.is_finite() {
-        return None;
-    }
-
-    let rounded = value.round();
-    if rounded < f64::from(i32::MIN) || rounded > f64::from(i32::MAX) {
-        return None;
-    }
-
-    Some(rounded as i32)
 }
 
 struct ReducerContext<'event> {
@@ -4362,7 +3992,7 @@ mod tests {
     }
 
     #[test]
-    fn w005_probe_controls_route_input_and_emit_probe_display_list() {
+    fn w005_probe_controls_route_input() {
         let mut state = w005_probe_form_state();
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
         state.ensure_text_box(ControlId::new("text-1"));
@@ -4451,15 +4081,6 @@ mod tests {
             ]
         );
 
-        let display_list = build_probe_display_list(&typed.state, LogicalSize::new(120.0, 80.0));
-        let encoded =
-            serde_json::to_string_pretty(&display_list).expect("display list should serialize");
-        assert!(encoded.contains("draw_text"));
-        assert!(encoded.contains("OxForms"));
-        assert!(encoded.contains("\"A\""));
-        assert!(encoded.contains("caret"));
-        assert!(encoded.contains("focus_rect"));
-
         let button_down = reduce(
             typed.state,
             UiEvent::new(
@@ -4485,57 +4106,6 @@ mod tests {
                 "request_repaint"
             ]
         );
-    }
-
-    #[test]
-    fn probe_display_list_records_pressed_focus_text_and_pal_smoke_fills() {
-        let mut state = w005_probe_form_state();
-        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
-        let text_box = state.ensure_text_box(ControlId::new("text-1"));
-        text_box.text = "Hi".to_string();
-        text_box.caret.anchor = 2;
-        text_box.caret.active = 2;
-        state.pressed_state = Some(PressedState {
-            target: FocusTarget::Control(ControlId::new("ok")),
-            origin: PressedOrigin::Mouse,
-            armed: true,
-        });
-
-        let display_list = build_probe_display_list(&state, LogicalSize::new(120.0, 80.0));
-        assert_eq!(
-            display_list.schema_version,
-            PROBE_DISPLAY_LIST_SCHEMA_VERSION
-        );
-        assert_eq!(
-            display_list
-                .commands
-                .iter()
-                .filter(|command| matches!(command, ProbeDisplayCommand::DrawText { .. }))
-                .count(),
-            3
-        );
-        assert!(display_list.commands.iter().any(|command| matches!(
-            command,
-            ProbeDisplayCommand::FillRect {
-                role: ProbeDisplayRole::CommandButtonPressedFace,
-                ..
-            }
-        )));
-        assert!(display_list.commands.iter().any(|command| matches!(
-            command,
-            ProbeDisplayCommand::Caret {
-                target,
-                caret_index: 2,
-                ..
-            } if target.control_id == Some(ControlId::new("text-1"))
-        )));
-
-        let pal_display_list =
-            build_probe_pal_smoke_display_list(&state, SurfaceSize::new(120, 80));
-        assert_eq!(pal_display_list.commands.len(), 3);
-        pal_display_list
-            .validate()
-            .expect("PAL smoke display list should validate");
     }
 
     #[test]
@@ -4653,43 +4223,6 @@ mod tests {
             check_box_state(&up.state, &ControlId::new("agree")).map(|entry| entry.checked),
             Some(false)
         );
-    }
-
-    #[test]
-    fn checkbox_display_list_serializes_glyph_check_caption_focus_disabled_and_pressed_intent() {
-        let mut state = FormState::new("form-main");
-        state.controls = vec![
-            ControlNode::check_box("agree", LogicalRect::new(0.0, 0.0, 96.0, 18.0), 0, 0)
-                .with_caption("Agree"),
-            ControlNode::check_box("disabled", LogicalRect::new(0.0, 24.0, 96.0, 18.0), 1, 1)
-                .with_caption("Disabled")
-                .disabled(),
-        ];
-        state.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
-        state.pressed_state = Some(PressedState {
-            target: FocusTarget::Control(ControlId::new("agree")),
-            origin: PressedOrigin::Mouse,
-            armed: true,
-        });
-        state.ensure_check_box(ControlId::new("agree")).checked = true;
-        state.ensure_check_box(ControlId::new("disabled")).checked = true;
-
-        let display_list = build_probe_display_list(&state, LogicalSize::new(120.0, 60.0));
-        let encoded =
-            serde_json::to_string_pretty(&display_list).expect("display list should serialize");
-
-        assert_eq!(
-            display_list.schema_version,
-            CHECKBOX_DISPLAY_LIST_SCHEMA_VERSION
-        );
-        assert!(encoded.contains("check_box_pressed_face"));
-        assert!(encoded.contains("check_box_glyph"));
-        assert!(encoded.contains("check_box_check_mark"));
-        assert!(encoded.contains("check_box_text"));
-        assert!(encoded.contains("Agree"));
-        assert!(encoded.contains("Disabled"));
-        assert!(encoded.contains("focus_rect"));
-        assert!(encoded.contains("disabled_overlay"));
     }
 
     #[test]

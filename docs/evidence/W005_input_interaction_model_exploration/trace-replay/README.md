@@ -30,15 +30,11 @@ contract is [`../../../specs/TRACE_REPLAY_SCHEMA.md`](../../../specs/TRACE_REPLA
   transition summaries including TextBox text length plus caret anchor/active
   offsets, close-flow state, effect request/completion rows, VBA dispatch
   metadata reconstructed from `FireVbaEvent` effects, text mutation and
-  `text_selection_changed` invalidations, probe display-list references, PAL
-  smoke render hashes, and clean-room/path policy metadata. It does not require
-  Excel/MSForms, OxVba execution, or a live desktop.
-- [`w005-headless-probe-display-list.golden.v1.json`](w005-headless-probe-display-list.golden.v1.json)
-  is the final core-owned probe display-list snapshot emitted by the same
-  runner. It records fill, border, text, focus, and caret placeholder commands
-  for the implemented W005 probe subset. Text rendering remains a display-list
-  reference only; the PAL smoke render hash covers the current `FillRect`
-  projection.
+  `text_selection_changed` invalidations, and clean-room/path policy metadata.
+  It does not require Excel/MSForms, OxVba execution, or a live desktop. (The
+  probe display-list/render rows this golden once carried were dropped in
+  oxforms-rq5.1, when the probe display-list renderer was deleted and rendering
+  moved to VBA self-render; the separate display-list golden was removed.)
 - [`checksums.sha256`](checksums.sha256) records SHA-256 hashes for committed
   trace-replay evidence files in this directory.
 
@@ -94,9 +90,8 @@ powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\trace-replay\Test-
 
 The validator checks the committed schema and sample for required sections,
 logical ordering, coordinate-space tags, effect and VBA-dispatch causality,
-display/render references, existing repo-relative artifact paths when a path is
-present, explicit clean-room notes, and absence of machine-local absolute paths
-in the canonical sample.
+existing repo-relative artifact paths when a path is present, explicit clean-room
+notes, and absence of machine-local absolute paths in the canonical sample.
 
 Validate the `oxforms-xvx.12` golden trace:
 

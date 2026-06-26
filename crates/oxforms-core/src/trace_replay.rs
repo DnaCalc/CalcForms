@@ -1,28 +1,25 @@
 use std::collections::BTreeMap;
 
 use oxforms_pal::{
-    render_headless, ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation,
-    CloseQueryPolicy, CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId,
-    CoordinatePayload, CoordinatePoint, CoordinateSpace, DataObjectSnapshot, DpiScale,
-    DropOrPasteOrigin, FormId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
-    LogicalPoint, LogicalRect, LogicalSize, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
-    PumpFrameExitedEvent, QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic,
-    RawKeyDiagnostics, ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, SurfaceSize,
-    UiEvent, UiEventId, UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent,
-    WindowHiddenEvent, WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
+    ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation, CloseQueryPolicy,
+    CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId, CoordinatePayload,
+    CoordinatePoint, CoordinateSpace, DataObjectSnapshot, DpiScale, DropOrPasteOrigin, FormId,
+    KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect,
+    MouseButton, MouseButtonEvent, MouseButtons, PointerId, PumpFrameExitedEvent,
+    QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics,
+    ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind,
+    UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent, WindowId, WindowShownEvent,
+    UI_EVENT_SCHEMA_VERSION,
 };
 use serde_json::{json, Value};
 
 use crate::{
-    build_probe_display_list, build_probe_pal_smoke_display_list, hit_test_control_tree,
-    ControlNode, DirtyRegionSpace, EffectKind, EffectRequest, FocusTarget, FormState,
-    InvalidationReason, LifecycleState, ProbeDisplayList, PumpTerm, ReducerOutput, StateSummary,
+    hit_test_control_tree, ControlNode, DirtyRegionSpace, EffectKind, EffectRequest, FocusTarget,
+    FormState, InvalidationReason, LifecycleState, PumpTerm, ReducerOutput, StateSummary,
 };
 
 pub const W005_TRACE_REPLAY_GOLDEN_TRACE_PATH: &str =
     "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json";
-pub const W005_TRACE_REPLAY_DISPLAY_LIST_PATH: &str =
-    "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json";
 pub const W006_MODAL_FRAME_TRACE_PATH: &str =
     "docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json";
 
@@ -36,13 +33,9 @@ const SURFACE_WIDTH: u32 = 260;
 const SURFACE_HEIGHT: u32 = 128;
 const DPI: f64 = 96.0;
 
-const FNV_OFFSET_BASIS: u64 = 0xcbf29ce484222325;
-const FNV_PRIME: u64 = 0x0000_0100_0000_01b3;
-
 #[derive(Clone, Debug, Eq, PartialEq)]
 pub struct W005TraceReplayGoldenArtifacts {
     pub trace_json: String,
-    pub display_list_json: String,
 }
 
 #[must_use]
@@ -65,13 +58,8 @@ struct W005TraceReplayRunner {
     row_index: u64,
     next_ui_event_id: u64,
     dispatch_index: u64,
-    display_index: u64,
-    render_index: u64,
     rows: Vec<Value>,
     effect_row_ids: BTreeMap<u64, String>,
-    display_artifacts: Vec<Value>,
-    render_artifacts: Vec<Value>,
-    final_display_list: Option<ProbeDisplayList>,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
@@ -98,13 +86,8 @@ impl W005TraceReplayRunner {
             row_index: 1,
             next_ui_event_id: 1,
             dispatch_index: 1,
-            display_index: 1,
-            render_index: 1,
             rows: Vec::new(),
             effect_row_ids: BTreeMap::new(),
-            display_artifacts: Vec::new(),
-            render_artifacts: Vec::new(),
-            final_display_list: None,
         }
     }
 
@@ -125,7 +108,6 @@ impl W005TraceReplayRunner {
             "window_shown_event",
         );
         self.complete_non_dispatch_effects();
-        self.render_probe_surface("initial_window_shown");
 
         self.push_script_step(
             "script-0002",
@@ -194,7 +176,6 @@ impl W005TraceReplayRunner {
         self.complete_non_dispatch_effects();
         self.apply_next_event(|event_id| mouse_button_event(event_id, 176.0, 64.0, false));
         self.complete_non_dispatch_effects();
-        self.render_probe_surface("final_after_command_click");
 
         self.push_script_step(
             "script-0006",
@@ -382,10 +363,6 @@ impl W005TraceReplayRunner {
     }
 
     fn finish(self) -> W005TraceReplayGoldenArtifacts {
-        let display_list = self
-            .final_display_list
-            .expect("runner should render at least one display list");
-        let display_list_json = pretty_json(&json!(display_list));
         let artifact = json!({
             "schema": "oxforms.trace_replay.v1",
             "schema_version": 1,
@@ -428,8 +405,7 @@ impl W005TraceReplayRunner {
                 },
                 "runner": {
                     "implementation": "crates/oxforms-core/src/trace_replay.rs",
-                    "golden_trace_path": W005_TRACE_REPLAY_GOLDEN_TRACE_PATH,
-                    "golden_display_list_path": W005_TRACE_REPLAY_DISPLAY_LIST_PATH
+                    "golden_trace_path": W005_TRACE_REPLAY_GOLDEN_TRACE_PATH
                 },
                 "path_policy": "canonical_artifact_paths_are_repo_relative"
             },
@@ -441,8 +417,6 @@ impl W005TraceReplayRunner {
             },
             "rows": self.rows,
             "artifacts": {
-                "display_lists": self.display_artifacts,
-                "renders": self.render_artifacts,
                 "screenshots": [],
                 "external_files": [
                     {
@@ -469,15 +443,10 @@ impl W005TraceReplayRunner {
 
         W005TraceReplayGoldenArtifacts {
             trace_json: pretty_json(&artifact),
-            display_list_json,
         }
     }
 
     fn finish_w006_modal_frame_subset(self) -> String {
-        let display_list = self
-            .final_display_list
-            .expect("modal subset runner should render at least one display list");
-        let _display_list_json = pretty_json(&json!(display_list));
         let artifact = json!({
             "schema": "oxforms.trace_replay.v1",
             "schema_version": 1,
@@ -536,8 +505,6 @@ impl W005TraceReplayRunner {
             },
             "rows": self.rows,
             "artifacts": {
-                "display_lists": self.display_artifacts,
-                "renders": self.render_artifacts,
                 "screenshots": [],
                 "external_files": [
                     {
@@ -845,10 +812,6 @@ impl W005TraceReplayRunner {
                 nesting_depth,
             );
         }
-
-        if !output.invalidations.is_empty() {
-            self.render_probe_surface("post_invalidation");
-        }
     }
 
     fn complete_non_dispatch_effects(&mut self) {
@@ -976,103 +939,6 @@ impl W005TraceReplayRunner {
             parent_row_id,
             nesting_depth,
         );
-    }
-
-    fn render_probe_surface(&mut self, reason: &str) {
-        let display_list = build_probe_display_list(
-            &self.state,
-            LogicalSize::new(f64::from(SURFACE_WIDTH), f64::from(SURFACE_HEIGHT)),
-        );
-        let display_json = json!(display_list);
-        let display_checksum = checksum_label(&pretty_json(&display_json));
-        let display_id = format!("display-list-{:04}", self.display_index);
-        self.display_index += 1;
-
-        let pal_display_list = build_probe_pal_smoke_display_list(
-            &self.state,
-            SurfaceSize::new(SURFACE_WIDTH, SURFACE_HEIGHT),
-        );
-        let render = render_headless(&pal_display_list)
-            .expect("W005 probe PAL smoke display list should render headlessly");
-        let render_id = format!("render-{:04}", self.render_index);
-        self.render_index += 1;
-
-        let display_path = if reason == "final_after_command_click" {
-            Some(W005_TRACE_REPLAY_DISPLAY_LIST_PATH)
-        } else {
-            None
-        };
-
-        self.push_row(
-            "render",
-            "display_list",
-            json!({
-                "display_list_id": display_id,
-                "producer": "oxforms-core::build_probe_display_list",
-                "target": {
-                    "form_id": FORM_ID,
-                    "window_id": WINDOW_ID
-                },
-                "coordinate_space": "display_list_logical",
-                "command_count": display_list.commands.len(),
-                "checksum": display_checksum,
-                "reason": reason,
-                "artifact_ref": {
-                    "artifact_id": display_id,
-                    "storage": if display_path.is_some() { "repo_file" } else { "inline_trace_row" },
-                    "uri_fragment": null,
-                    "path": display_path
-                }
-            }),
-            None,
-            0,
-        );
-        self.push_row(
-            "render",
-            "render_artifact",
-            json!({
-                "render_id": render_id,
-                "source_display_list_id": display_id,
-                "target": {
-                    "form_id": FORM_ID,
-                    "window_id": WINDOW_ID
-                },
-                "output_kind": "headless_framebuffer_hash",
-                "hash_algorithm": render.diagnostics.hash_algorithm,
-                "hash": render.diagnostics.framebuffer_hash.to_string(),
-                "width": render.diagnostics.width,
-                "height": render.diagnostics.height,
-                "command_count": render.diagnostics.command_count,
-                "artifact_ref": {
-                    "artifact_id": render_id,
-                    "storage": "inline_trace_row",
-                    "uri_fragment": null,
-                    "path": null
-                }
-            }),
-            None,
-            0,
-        );
-
-        self.display_artifacts.push(json!({
-            "artifact_id": display_id,
-            "role": format!("{reason} probe display-list reference"),
-            "storage": if display_path.is_some() { "repo_file" } else { "inline_trace_row" },
-            "path": display_path,
-            "uri_fragment": null,
-            "sha256": null,
-            "notes": "Display-list checksum is recorded in the display_list row; file checksums live in trace-replay/checksums.sha256."
-        }));
-        self.render_artifacts.push(json!({
-            "artifact_id": render_id,
-            "role": format!("{reason} PAL smoke headless render hash"),
-            "storage": "inline_trace_row",
-            "path": null,
-            "uri_fragment": null,
-            "sha256": null,
-            "notes": "The hash is over the PAL FillRect smoke framebuffer and does not include text rendering."
-        }));
-        self.final_display_list = Some(display_list);
     }
 
     fn push_row(
@@ -2348,19 +2214,6 @@ fn pretty_json(value: &Value) -> String {
     text
 }
 
-fn checksum_label(text: &str) -> String {
-    format!("fnv1a64-json-bytes-v1:{:016x}", fnv1a64(text.as_bytes()))
-}
-
-fn fnv1a64(bytes: &[u8]) -> u64 {
-    let mut hash = FNV_OFFSET_BASIS;
-    for byte in bytes {
-        hash ^= u64::from(*byte);
-        hash = hash.wrapping_mul(FNV_PRIME);
-    }
-    hash
-}
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -2374,13 +2227,6 @@ mod tests {
             include_str!(concat!(
                 env!("CARGO_MANIFEST_DIR"),
                 "/../../docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json"
-            ))
-        );
-        assert_eq!(
-            artifacts.display_list_json,
-            include_str!(concat!(
-                env!("CARGO_MANIFEST_DIR"),
-                "/../../docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json"
             ))
         );
     }

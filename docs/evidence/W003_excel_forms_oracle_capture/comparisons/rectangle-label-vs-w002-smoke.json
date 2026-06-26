@@ -71,11 +71,8 @@
     },
     {
       "role": "w002_pal_renderer",
-      "path": "crates/oxforms-pal/src/lib.rs"
-    },
-    {
-      "role": "w002_visible_smoke_example",
-      "path": "crates/oxforms-pal/examples/visible_rectangle_smoke.rs"
+      "path": "crates/oxforms-pal/src/lib.rs",
+      "note": "The W002 immediate display-list renderer (and the visible_rectangle_smoke example) were deleted in oxforms-rq5; this path now holds only shared value types (Color/Rect/SurfaceSize/fnv1a64). The W002 rectangle framebuffer-hash proof is preserved as a Scene-native fixture in the oxforms-pal scene tests."
     }
   ],
   "excel_oracle": {
@@ -260,9 +257,6 @@
       },
       {
         "path": "crates/oxforms-pal/src/lib.rs"
-      },
-      {
-        "path": "crates/oxforms-pal/examples/visible_rectangle_smoke.rs"
       }
     ]
   },

@@ -81,17 +81,13 @@
     {
       "role": "oxforms_headless_replay_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-      "sha256": "d3a6385648c922b53e49c1303f05bc1de508ba001a85db7650f5c4ffb9f061d8"
-    },
-    {
-      "role": "oxforms_headless_display_list_golden",
-      "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-display-list.golden.v1.json",
-      "sha256": "f9e26d7f8477993ae96257d422f220bf4592594db13f568f3acfdfd052fe6a73"
+      "sha256": "5098698f4b3ff8c544bbadd1e60a704a128ccca07644fda88bb5b80b1af33aab",
+      "note": "Regenerated in oxforms-rq5.1: the probe display-list renderer was deleted, so the display_list/render_artifact rows were dropped from this golden (rendering is now VBA-authored). The display-list golden file was removed. Row counts/indices in the comparison below describe the pre-rq5.1 golden and are retained as the original observation."
     },
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "bc0590bb2c7d3198fa126d459ab489e93e537239dc155079d3b7595da8f5ffde"
+      "sha256": "5602e323ea775800e3be5eb81da9f56894a22f97e2e92a209959c8aa6ad6fcd6"
     },
     {
       "role": "oxforms_visible_smoke_manifest",

@@ -151,17 +151,13 @@ Entry points (all control-blind):
   compares incoming `content_hash` against the resident node: equal → no damage
   (collapses an over-invalidation to a no-op); different → replace prims, add
   old ∪ new bounds to damage. `Remove`/`Reorder` damage old and new bounds.
-  `Retain` costs nothing. Bounds-checked decode fails deterministically like
-  `render_headless`'s `SurfaceTooLarge` guards.
+  `Retain` costs nothing. Bounds-checked decode fails deterministically.
 - `render_full(&Scene, &mut dyn PrimSink)` — walks nodes in (parent, z, insert)
-  order applying transform/clip, replaying prims. `render_headless` generalized
-  from FillRect to the full vocabulary; the deterministic golden path.
+  order applying transform/clip, replaying prims; the deterministic golden path
+  (the headless reference sink owns the canonical `framebuffer_hash`).
 - `render_damage(&Scene, &mut dyn PrimSink, &DamageSet)` — clips the walk to nodes
   intersecting coalesced damage rects, z-aware so overlaps/transparent controls
   recomposite correctly.
-- `flatten(&Scene) -> DisplayList` — depth-first walk producing the legacy
-  immediate list, so existing W002/golden infra and the immediate fallback keep
-  working (invariant §10a).
 - `pick(&[HitNode], PointF) -> Option<NodeId>` — pure-geometry topmost-by-(z,order)
   respecting clip/transform.
 
@@ -350,15 +346,14 @@ rounding so goldens don't churn on formatting.
 
 **Keystone invariants (CI'd):**
 
-- **(a) — transitional, retires in §12 step 8.** `flatten(scene) == legacy
-  DisplayList`, byte-for-byte (full re-emit degenerates to the immediate path).
-  This is a *migration* check that the Scene reproduces the pre-Scene W002
-  immediate display list; it exists only while that list does. It is deleted
-  together with the W002 path in step 8 (`flatten`, `DisplayList`,
-  `DisplayCommand::FillRect`, `render_headless`, the `w002_rectangle_fixture_*`
-  helpers, and `SceneError::FlattenUnsupportedPrim` all go). It is **not** a
-  permanent property — the permanent determinism guarantee is (c), which is
-  Scene-native and needs no DisplayList.
+- **(a) — transitional, RETIRED in oxforms-rq5.1.** This was `flatten(scene) ==
+  legacy DisplayList`, byte-for-byte — a *migration* check that the Scene reproduced
+  the pre-Scene W002 immediate display list. It existed only while that list did, and
+  was deleted with the whole W002 path in §12 step 8 (`flatten`, `DisplayList`,
+  `DisplayCommand::FillRect`, `render_headless`, the `w002_rectangle_fixture_*` helpers,
+  and `SceneError::FlattenUnsupportedPrim` all gone). It was **never** a permanent
+  property — the permanent determinism guarantees are (b)/(c), which are Scene-native.
+  The historical W002 framebuffer hash is now pinned by a Scene-native FillRect fixture.
 - **(b) — permanent.** `render_damage(region) == render_full restricted to region`,
   pixel-for-pixel (incremental never diverges from canonical).
 - **(c) — permanent.** immediate-scene golden == applied-patch-scene golden ==
@@ -390,41 +385,52 @@ text AA/subpixel rounding, bounded by §10.1 profiles. DPI is a single root
 
 Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
 
-1. Add `oxforms_pal::scene` additively (types + serde + `apply_patch`/`render_full`/
-   `render_damage`/`flatten`/`pick` + `PrimSink` headless impl). Leave
-   `DisplayList`/`FillRect`/`render_headless`/`w002` fixture untouched. **← this bead.**
-2. Pin to the W002 golden: `render_full` of a one-node FillRect scene reproduces
-   `w002_rectangle_fixture_diagnostics`; `flatten` == the W002 display list. **← this bead.**
-3. Generalize the seam: `OxForms.Surface` projection in the adapter +
-   `Variant`↔`ScenePatch` decoder + `NodeId`↔`IOxControl` map; keep `SmokeCanvas`
-   registered in parallel (quarantined per CHARTER §3.1).
-4. VBA `OxSceneBuilder` + `OxTheme` (classic table) + `OxTextMetricsCache` +
-   `IOxControl.Render` + the `OxControlCore` appearance band; port `probe.rs`
-   appearance logic into VBA Render/theme code.
-5. Parity gate: VBA Render → ScenePatch → `render_full` framebuffer hash ==
-   `build_probe_display_list` hash for the same FormState. Delete nothing yet.
-6. Supersede: delete `build_probe_display_list`/`ProbeDisplayCommand`/
-   `ProbeDisplayRole`/`probe_face_color`. **Keep** `ControlNode`/`ControlKind` as
-   reducer policy and `hit_test_control_tree` as routing policy.
-7. Wire invalidation (dedup fix + Suspend/Resume + per-frame SubmitPatch); add
-   invariant (c) + the shuffle/show-hide determinism golden.
-8. Retire the entire pre-Scene W002 immediate path now that nothing consumes it
-   (the probe smoke went in step 6; the visible/`SmokeCanvas` smokes go here).
-   Relocate the W002 rectangle proof as a one-node `ScenePatch` through
-   `OxForms.Surface`, then **delete** `SmokeCanvas`, `DisplayList`,
-   `DisplayCommand::FillRect`, `render_headless`/`HeadlessRender`/`RenderDiagnostics`,
-   the `w002_rectangle_fixture_*` helpers, `flatten`/`SceneError::FlattenUnsupportedPrim`,
-   and any error type left unused (`RenderError`). Invariant (a) retires with them.
-   Keep `Color`/`SurfaceSize`/`Rect`/`fnv1a64`/`BYTES_PER_PIXEL`/
+1. **DONE.** Added `oxforms_pal::scene` additively (types + serde + `apply_patch`/
+   `render_full`/`render_damage`/`pick` + `PrimSink` headless impl). (The transitional
+   `flatten` + the `DisplayList`/`render_headless`/`w002` fixture it mirrored have since
+   been removed in step 8.)
+2. **DONE.** Pinned to the W002 golden: `render_full` of a one-node FillRect scene
+   reproduces the historical W002 framebuffer hash (now a Scene-native fixture).
+3. **DONE.** Generalized the seam: `OxForms.Surface` projection in the adapter +
+   `Variant`↔`ScenePatch` decoder + `NodeId`↔`IOxControl` map. (`SmokeCanvas` ran in
+   parallel during the migration and was retired in step 8.)
+4. **DONE.** VBA `OxSceneBuilder` + `OxTheme` (classic table) + text-metrics seam +
+   `IOxControl.Render` + the `OxControlCore` appearance band; the appearance logic lives
+   in VBA Render/theme code.
+5. ~~Parity gate: VBA Render → ScenePatch → `render_full` framebuffer hash ==
+   `build_probe_display_list` hash for the same FormState.~~ **SUPERSEDED (oxforms-rq5.1).**
+   The literal dual-path hash gate became ill-defined once the W007 VBA control model
+   diverged from the probe `FormState` model (probe models CheckBox; the VBA control set
+   is Label/TextBox/CommandButton, with no `CheckBox.cls`). It is superseded by W007's
+   invariant-(c) proof end-to-end across the real VBA↔Rust boundary
+   (`oxvba_w007_render_frame`) plus the existing W005/W006 reducer goldens; a Scene-native
+   FillRect-subset fixture pins the W002 framebuffer hash. Per owner direction the probe
+   path was then deleted directly (delete-first) behind the green floor rather than gated.
+6. **DONE (oxforms-rq5.1).** Superseded the probe renderer: deleted
+   `build_probe_display_list`/`build_probe_pal_smoke_display_list`/`ProbeDisplayList`/
+   `ProbeDisplayCommand`/`ProbeDisplayRole`/`ProbeColor`/`probe_face_color`. **Kept**
+   `ControlNode`/`ControlKind` as reducer policy and `hit_test_control_tree` as routing
+   policy; the W005/W006 trace-replay goldens were regenerated without the render rows.
+7. **(oxforms-rq5.2, open.)** Wire invalidation (dedup fix + Suspend/Resume + per-frame
+   SubmitPatch); add invariant (c) + the shuffle/show-hide determinism golden.
+8. **DONE (oxforms-rq5.1, landed together with step 6 per the delete-first direction).**
+   Retired the entire pre-Scene W002 immediate path. Relocated the W002 rectangle proof
+   as a Scene-native one-node FillRect fixture (and through `OxForms.Surface`), then
+   **deleted** `SmokeCanvas`, `DisplayList`, `DisplayCommand::FillRect`,
+   `render_headless`/`HeadlessRender`/`RenderDiagnostics`, the `w002_rectangle_fixture_*`
+   helpers, `flatten`/`SceneError::FlattenUnsupportedPrim`, and `RenderError`. Invariant
+   (a) retired with them. Kept `Color`/`SurfaceSize`/`Rect`/`fnv1a64`/`BYTES_PER_PIXEL`/
    `FRAMEBUFFER_HASH_ALGORITHM` — the Scene rasterizer uses them.
-9. Record crossing-budget benchmark traces as P6 gates; enable incremental-by-default
-   behind the invariants + budget.
+9. **(oxforms-rq5.3, open.)** Record crossing-budget benchmark traces as P6 gates; wire
+   `render_damage` into the present loop and enable incremental-by-default behind the
+   invariants + budget.
 
 Kept: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs` UiEvent, and
 the shared value types above. Relocated: appearance → VBA theme. Deleted (no
-fallback/compat path survives initial development): the probe render code (step 6),
-and the whole W002 immediate display-list path incl. `SmokeCanvas` and `flatten`
-(step 8).
+fallback/compat path survives initial development): the probe render code and the whole
+W002 immediate display-list path incl. `SmokeCanvas` and `flatten` (both removed in
+oxforms-rq5.1). Remaining: incremental invalidation (rq5.2) and crossing-budget
+benchmarks + incremental-by-default (rq5.3).
 
 ## 13. D7 amendment
 

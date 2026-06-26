@@ -12,7 +12,3 @@ unsafe_code = "forbid"
 oxforms-pal = { path = "../oxforms-pal" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-
-[target.'cfg(windows)'.dev-dependencies]
-# W005 visible input smoke only. Headless reducer tests remain the deterministic path.
-minifb = "0.28.0"

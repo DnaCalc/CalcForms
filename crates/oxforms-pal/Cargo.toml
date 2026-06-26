@@ -13,8 +13,3 @@ serde = { version = "1.0", features = ["derive"] }
 
 [dev-dependencies]
 serde_json = "1.0"
-
-[target.'cfg(windows)'.dev-dependencies]
-# Smoke-only native bitmap window presenter. The automated oracle remains
-# `render_headless`; this dependency is used only by the manual Windows example.
-minifb = "0.28.0"

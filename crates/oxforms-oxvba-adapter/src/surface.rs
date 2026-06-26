@@ -10,8 +10,9 @@
 //! The contract is deliberately small and serde-shaped (the payload is JSON, so it
 //! is hand-inspectable and versioned). Per `docs/specs/RENDERING_ARCHITECTURE.md`
 //! §6 the marshalling and the `NodeId`↔control map live here, in the adapter; the
-//! control-agnostic scene types live in `oxforms-pal`. SmokeCanvas stays registered
-//! in parallel (quarantined) until the migration retires it.
+//! control-agnostic scene types live in `oxforms-pal`. (The W002 `SmokeCanvas` ran in
+//! parallel during the migration and was retired in oxforms-rq5.1; this seam is now the
+//! sole VBA→Rust drawing path.)
 //!
 //! Crossings implemented for the W007 slice:
 //! - `BeginScene(width, height, dpiX, dpiY) -> baseToken` — (re)initialize an empty
@@ -423,7 +424,11 @@ mod tests {
         text_run_id, NodeEdit, Paint, Prim, RectF, SceneNode, ScenePatch, StubShaper, TextAlign,
         TextFlags, TextKey, TextRunId, SCENE_PATCH_VERSION,
     };
-    use oxforms_pal::{w002_rectangle_fixture_diagnostics, Color};
+    use oxforms_pal::Color;
+
+    /// Historical W002 rectangle framebuffer hash, now reproduced through the Scene seam
+    /// (the pre-Scene `w002_rectangle_fixture_*` helpers retired in oxforms-rq5.1).
+    const W002_FRAMEBUFFER_HASH: u64 = 13_797_848_596_963_948_501;
 
     fn dispatch() -> (Arc<SurfaceFactory>, Box<dyn PortableDispatch>) {
         let factory = Arc::new(SurfaceFactory::new());
@@ -514,8 +519,7 @@ mod tests {
         assert_eq!(snap.node_count, 1);
         let report = snap.last_report.expect("report");
         assert_eq!(
-            report.framebuffer_hash,
-            w002_rectangle_fixture_diagnostics().framebuffer_hash,
+            report.framebuffer_hash, W002_FRAMEBUFFER_HASH,
             "the Scene seam must reproduce the historical W002 framebuffer hash"
         );
         assert_eq!(report.command_count, 1);

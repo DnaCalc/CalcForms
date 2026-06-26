@@ -2,10 +2,7 @@ use std::error::Error;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use oxforms_core::{
-    build_w005_trace_replay_golden_artifacts, W005_TRACE_REPLAY_DISPLAY_LIST_PATH,
-    W005_TRACE_REPLAY_GOLDEN_TRACE_PATH,
-};
+use oxforms_core::{build_w005_trace_replay_golden_artifacts, W005_TRACE_REPLAY_GOLDEN_TRACE_PATH};
 
 fn main() -> Result<(), Box<dyn Error>> {
     let config = Config::from_args(std::env::args().skip(1))?;
@@ -23,22 +20,13 @@ fn main() -> Result<(), Box<dyn Error>> {
     if let Some(dir) = config.write_dir.as_deref() {
         fs::create_dir_all(dir)?;
         fs::write(dir.join(trace_file_name()), artifacts.trace_json.as_bytes())?;
-        fs::write(
-            dir.join(display_list_file_name()),
-            artifacts.display_list_json.as_bytes(),
-        )?;
         println!("Wrote W005 trace replay artifacts to {}", dir.display());
     }
 
     if config.check {
         assert_file_matches(W005_TRACE_REPLAY_GOLDEN_TRACE_PATH, &artifacts.trace_json)?;
-        assert_file_matches(
-            W005_TRACE_REPLAY_DISPLAY_LIST_PATH,
-            &artifacts.display_list_json,
-        )?;
         println!("W005 trace replay check: ok");
         println!("Trace: {W005_TRACE_REPLAY_GOLDEN_TRACE_PATH}");
-        println!("Display list: {W005_TRACE_REPLAY_DISPLAY_LIST_PATH}");
     }
 
     if !config.print && config.write_dir.is_none() && !config.check {
@@ -109,11 +97,4 @@ fn trace_file_name() -> &'static str {
         .file_name()
         .and_then(|name| name.to_str())
         .expect("golden trace path should have a file name")
-}
-
-fn display_list_file_name() -> &'static str {
-    Path::new(W005_TRACE_REPLAY_DISPLAY_LIST_PATH)
-        .file_name()
-        .and_then(|name| name.to_str())
-        .expect("golden display-list path should have a file name")
 }

@@ -8,21 +8,19 @@
 //!
 //! Invariants this module upholds (and tests assert):
 //! - `render_damage(full surface)` is pixel-identical to `render_full` (permanent);
-//! - a one-node FillRect scene reproduces the historical W002 framebuffer hash;
-//! - `flatten(scene)` reproduces the pre-Scene W002 [`DisplayList`] for the FillRect
-//!   vocabulary (a full re-emit degenerates to the immediate path). This last one is
-//!   a TRANSITIONAL migration check, not a permanent property: `flatten`, the W002
-//!   `DisplayList` path, and this invariant are all deleted once the Scene is the
-//!   sole render path (RENDERING_ARCHITECTURE.md §12 step 8 / bead `oxforms-rq5.3`).
+//! - a one-node FillRect scene reproduces the historical W002 framebuffer hash
+//!   (a Scene-native fixture; the pre-Scene immediate `DisplayList` path and its
+//!   transitional `flatten` check — RENDERING_ARCHITECTURE.md §12 step 8 — were removed
+//!   in bead `oxforms-rq5.1`).
 
 use std::collections::{BTreeMap, HashSet};
 
 use serde::{Deserialize, Serialize};
 
 use crate::input::DpiScale;
-use crate::{fnv1a64, Color, DisplayCommand, DisplayList, Rect, SurfaceSize, BYTES_PER_PIXEL};
+use crate::{fnv1a64, Color, Rect, SurfaceSize, BYTES_PER_PIXEL, FRAMEBUFFER_HASH_ALGORITHM};
 
-/// Scene wire/storage schema version (mirrors `DISPLAY_LIST_VERSION`).
+/// Scene wire/storage schema version.
 pub const SCENE_VERSION: u16 = 1;
 /// Scene patch wire schema version.
 pub const SCENE_PATCH_VERSION: u16 = 1;
@@ -835,17 +833,8 @@ pub struct HitNode {
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum SceneError {
-    UnsupportedVersion {
-        actual: u16,
-        expected: u16,
-    },
-    StaleBase {
-        expected: u64,
-        actual: u64,
-    },
-    /// `flatten` met a primitive outside the transitional W002 FillRect vocabulary
-    /// (retires with `flatten`; see `oxforms-rq5.3`).
-    FlattenUnsupportedPrim,
+    UnsupportedVersion { actual: u16, expected: u16 },
+    StaleBase { expected: u64, actual: u64 },
 }
 
 impl std::fmt::Display for SceneError {
@@ -858,9 +847,6 @@ impl std::fmt::Display for SceneError {
                 f,
                 "scene patch base_hash {actual} does not match resident frame_hash {expected}; resubmit a full rebuild"
             ),
-            Self::FlattenUnsupportedPrim => {
-                write!(f, "flatten supports only the transitional W002 FillRect vocabulary")
-            }
         }
     }
 }
@@ -919,55 +905,6 @@ fn render_node(scene: &Scene, id: NodeId, sink: &mut dyn PrimSink, damage: Optio
         sink.pop_clip();
     }
     sink.pop_transform();
-}
-
-/// Produce the pre-Scene W002 [`DisplayList`] for the FillRect vocabulary, so the
-/// W002 golden infrastructure keeps working during the migration. Errors on any
-/// primitive outside that subset.
-///
-/// TRANSITIONAL: this exists only to prove the Scene reproduces the W002 immediate
-/// path byte-for-byte. It is deleted with the rest of the W002 display-list path
-/// once the Scene is the sole renderer (RENDERING_ARCHITECTURE.md §12 step 8 / bead
-/// `oxforms-rq5.3`); it is not a long-term serialization format.
-pub fn flatten(scene: &Scene) -> Result<DisplayList, SceneError> {
-    let mut list = DisplayList::new(scene.surface);
-    flatten_node(scene, scene.root, Affine::IDENTITY, &mut list)?;
-    Ok(list)
-}
-
-fn flatten_node(
-    scene: &Scene,
-    id: NodeId,
-    parent_xf: Affine,
-    list: &mut DisplayList,
-) -> Result<(), SceneError> {
-    let Some(node) = scene.get(id) else {
-        return Ok(());
-    };
-    if !node.visible {
-        return Ok(());
-    }
-    let xf = parent_xf.compose(node.transform);
-    for prim in &node.prims {
-        match prim {
-            Prim::FillRect {
-                rect,
-                paint: Paint::Solid(color),
-            } => {
-                if let Some(rect) = rect_to_device(xf.apply_rect(*rect)) {
-                    list.commands.push(DisplayCommand::FillRect {
-                        rect,
-                        color: *color,
-                    });
-                }
-            }
-            _ => return Err(SceneError::FlattenUnsupportedPrim),
-        }
-    }
-    for child in &node.children {
-        flatten_node(scene, *child, xf, list)?;
-    }
-    Ok(())
 }
 
 /// Topmost (by z, then arena order) hit node whose absolute bounds contain the
@@ -1159,14 +1096,16 @@ impl PrimSink for HeadlessSink {
 }
 
 /// Stable diagnostics from rendering a [`Scene`] through the headless reference.
-/// Mirrors [`crate::RenderDiagnostics`] so the Scene seam reports the same shape
-/// the W002 `SmokeCanvas` did.
+/// Reports the same shape the historical W002 headless renderer did
+/// (width/height/command_count/framebuffer_hash/hash_algorithm).
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub struct SceneRenderReport {
     pub width: u32,
     pub height: u32,
     pub command_count: usize,
     pub framebuffer_hash: u64,
+    /// Canonical framebuffer-hash algorithm identifier ([`FRAMEBUFFER_HASH_ALGORITHM`]).
+    pub hash_algorithm: &'static str,
 }
 
 /// Render a scene through the headless reference and return stable diagnostics.
@@ -1179,6 +1118,7 @@ pub fn render_headless_report(scene: &Scene) -> SceneRenderReport {
         height: scene.surface.height,
         command_count: sink.command_count(),
         framebuffer_hash: sink.framebuffer_hash(),
+        hash_algorithm: FRAMEBUFFER_HASH_ALGORITHM,
     }
 }
 
@@ -1385,7 +1325,10 @@ impl ContentHasher {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::{w002_rectangle_fixture_diagnostics, w002_rectangle_fixture_display_list};
+
+    /// The historical W002 rectangle framebuffer hash, now reproduced by a Scene-native
+    /// fixture (the pre-Scene `w002_rectangle_fixture_*` helpers retired in oxforms-rq5.1).
+    const W002_FRAMEBUFFER_HASH: u64 = 13_797_848_596_963_948_501;
 
     fn dpi() -> DpiScale {
         DpiScale::new(72.0, 72.0)
@@ -1410,18 +1353,8 @@ mod tests {
         let scene = w002_scene();
         assert_eq!(
             render_headless_hash(&scene),
-            w002_rectangle_fixture_diagnostics().framebuffer_hash,
+            W002_FRAMEBUFFER_HASH,
             "scene render must reproduce the historical W002 framebuffer hash"
-        );
-    }
-
-    #[test]
-    fn flatten_reproduces_the_w002_display_list() {
-        let scene = w002_scene();
-        assert_eq!(
-            flatten(&scene).expect("FillRect-only scene flattens"),
-            w002_rectangle_fixture_display_list(),
-            "flatten must byte-match the W002 immediate display list (transitional invariant a)"
         );
     }
 
@@ -1612,10 +1545,7 @@ mod tests {
         };
         let damage = scene.apply_patch(&patch).expect("apply on matching base");
         assert!(damage.dirty.contains(&NodeId(0)));
-        assert_eq!(
-            render_headless_hash(&scene),
-            w002_rectangle_fixture_diagnostics().framebuffer_hash
-        );
+        assert_eq!(render_headless_hash(&scene), W002_FRAMEBUFFER_HASH);
 
         // A stale base_hash self-heals to StaleBase rather than corrupting.
         let stale = ScenePatch {
@@ -1683,10 +1613,7 @@ mod tests {
         );
         assert_eq!(report.width, 4);
         assert_eq!(report.height, 3);
-        assert_eq!(
-            report.framebuffer_hash,
-            w002_rectangle_fixture_diagnostics().framebuffer_hash
-        );
+        assert_eq!(report.framebuffer_hash, W002_FRAMEBUFFER_HASH);
     }
 
     #[test]

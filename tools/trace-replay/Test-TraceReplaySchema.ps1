@@ -189,6 +189,10 @@ $allowedRowKinds = [System.Collections.Generic.HashSet[string]]::new([System.Str
     'diagnostic'
 ) | ForEach-Object { [void]$allowedRowKinds.Add($_) }
 
+# 'display_list'/'render_artifact' rows retired with the probe display-list renderer
+# (oxforms-rq5.1): rendering is now VBA-authored, so these goldens carry only
+# reducer/input/lifecycle/effect/routing rows. Both kinds remain in $allowedRowKinds
+# for back-compatibility with any older committed trace, but are no longer required.
 $requiredRowKinds = @(
     'input_script_step',
     'ui_event',
@@ -198,9 +202,7 @@ $requiredRowKinds = @(
     'effect_completed',
     'vba_dispatch',
     'lifecycle_pump',
-    'invalidation',
-    'display_list',
-    'render_artifact'
+    'invalidation'
 )
 
 $allowedUiEventSources = [System.Collections.Generic.HashSet[string]]::new([System.StringComparer]::Ordinal)
@@ -263,8 +265,6 @@ $uiEvents = @{}
 $effectRequests = @{}
 $dispatches = @{}
 $invalidations = @{}
-$displayLists = @{}
-$renders = @{}
 $lastSequence = 0
 $coordinateCount = 0
 
@@ -385,19 +385,6 @@ foreach ($row in $rows) {
                 $coordinateCount++
             }
         }
-        'display_list' {
-            $displayListId = Get-PropertyValue -Object $row.payload -Name 'display_list_id'
-            Assert-NonEmptyString -Value $displayListId -Name "display_list_id for row '$($row.row_id)'"
-            Assert-True -Condition ($allowedCoordinateSpaces.Contains([string]$row.payload.coordinate_space)) -Message "Display list '$displayListId' has unsupported coordinate space '$($row.payload.coordinate_space)'."
-            $displayLists[$displayListId] = $row
-        }
-        'render_artifact' {
-            $renderId = Get-PropertyValue -Object $row.payload -Name 'render_id'
-            Assert-NonEmptyString -Value $renderId -Name "render_id for row '$($row.row_id)'"
-            $sourceDisplayListId = Get-PropertyValue -Object $row.payload -Name 'source_display_list_id'
-            Assert-True -Condition ($displayLists.ContainsKey($sourceDisplayListId)) -Message "Render '$renderId' refers to unknown or later display_list_id '$sourceDisplayListId'."
-            $renders[$renderId] = $row
-        }
     }
 }
 
@@ -407,26 +394,6 @@ foreach ($requiredKind in $requiredRowKinds) {
 
 Assert-True -Condition ($coordinateCount -gt 0) -Message 'Trace sample must include coordinate-space-tagged coordinates or regions.'
 Assert-True -Condition ($dispatches.Count -gt 0) -Message 'Trace sample must include at least one VBA dispatch row.'
-
-foreach ($displayArtifact in @($trace.artifacts.display_lists)) {
-    Assert-True -Condition ($displayLists.ContainsKey($displayArtifact.artifact_id)) -Message "Display artifact '$($displayArtifact.artifact_id)' has no display_list row."
-    $artifactPath = Get-PropertyValue -Object $displayArtifact -Name 'path'
-    if (-not [string]::IsNullOrWhiteSpace($artifactPath)) {
-        Assert-RepoRelativeArtifactPath -Path $artifactPath -Context "Display artifact '$($displayArtifact.artifact_id)' path"
-        $resolvedArtifactPath = Resolve-RepoPath -Path $artifactPath
-        Assert-True -Condition (Test-Path -LiteralPath $resolvedArtifactPath -PathType Leaf) -Message "Display artifact '$($displayArtifact.artifact_id)' path does not exist: $artifactPath"
-    }
-}
-
-foreach ($renderArtifact in @($trace.artifacts.renders)) {
-    Assert-True -Condition ($renders.ContainsKey($renderArtifact.artifact_id)) -Message "Render artifact '$($renderArtifact.artifact_id)' has no render_artifact row."
-    $artifactPath = Get-PropertyValue -Object $renderArtifact -Name 'path'
-    if (-not [string]::IsNullOrWhiteSpace($artifactPath)) {
-        Assert-RepoRelativeArtifactPath -Path $artifactPath -Context "Render artifact '$($renderArtifact.artifact_id)' path"
-        $resolvedArtifactPath = Resolve-RepoPath -Path $artifactPath
-        Assert-True -Condition (Test-Path -LiteralPath $resolvedArtifactPath -PathType Leaf) -Message "Render artifact '$($renderArtifact.artifact_id)' path does not exist: $artifactPath"
-    }
-}
 
 Write-Host 'Trace replay schema check: ok'
 Write-Host "Schema: $SchemaPath"

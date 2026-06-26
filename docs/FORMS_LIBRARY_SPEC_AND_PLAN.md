@@ -222,17 +222,17 @@ Rust ports of proven hot reducers.
 ### 4.4 Rendering architecture: display lists
 > **Superseded framing (see D7 revised / [`specs/RENDERING_ARCHITECTURE.md`](specs/RENDERING_ARCHITECTURE.md)).**
 > The *authoring* model below is unchanged — VBA controls emit a platform-neutral
-> primitive stream in immediate mode. The *storage* model is now a control-agnostic
+> primitive stream in immediate mode. The *storage* model is a control-agnostic
 > retained primitive tree (the **Scene**) in `oxforms-pal` that the kernel diffs for
-> incremental repaint; a full re-emit is byte-identical to the immediate display
-> list (`flatten(scene) == legacy list`). Read "DisplayList" below as the immediate
-> authoring vocabulary and the flattened legacy view, not the kernel's storage form.
+> incremental repaint. The transitional `flatten`/legacy-`DisplayList` view (a byte
+> parity check during migration) was **removed in oxforms-rq5.1** — the Scene is now
+> the sole render path. Read "DisplayList" below as the historical immediate authoring
+> vocabulary, not a current kernel type.
 
-The render path should be:
+The render path is:
 
 ```
 FormState -> LayoutTree -> per-control immediate Prim emit -> Scene (retained) -> PAL renderer
-            (legacy/flatten view: FormState -> LayoutTree -> DisplayList -> PAL renderer)
 ```
 
 The display list is platform-neutral and serializable enough for tests. It should

@@ -274,7 +274,7 @@ if (-not (@($roles.Keys | Where-Object { $_ -like 'oxforms_*' }).Count -gt 0)) {
 }
 
 if ($manifest.comparison_id -eq 'interaction-events-modeless-vs-headless-probe') {
-    foreach ($requiredRole in @('msforms_modeless_event_log_json', 'oxforms_headless_replay_golden', 'oxforms_headless_display_list_golden')) {
+    foreach ($requiredRole in @('msforms_modeless_event_log_json', 'oxforms_headless_replay_golden')) {
         if (-not $roles.ContainsKey($requiredRole)) {
             throw "Required evidence role '$requiredRole' is missing."
         }
