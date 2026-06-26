@@ -86,21 +86,41 @@ Public Function BuildScenePatch( _
     Dim I As Long
     Dim Control As IOxControl
 
-    ' Measure pre-pass: stamp each text control's content-hash run id from
-    ' OxForms.Surface.MeasureText (the §8 cache-miss path; the string crosses here, once).
-    ' OxControlPaint then emits Core.RunId by reference. v1 re-measures every render and
-    ' lets the Rust store de-dup by id; a VBA-side memo is a later optimization.
-    ' The id is written straight onto the live core (as Add does for NodeId), not via a
-    ' ByVal-object helper, so the mutation persists into the paint pass.
+    ' Measure pass (measure -> layout -> paint): stamp each text control's content-hash
+    ' run id + measured size from OxForms.Surface.MeasureText (the §8 cache-miss path; the
+    ' string crosses here, once). Written straight onto the live core (as Add does for
+    ' NodeId), so the mutation persists into the paint pass. v1 re-measures every render
+    ' and lets the Rust store de-dup by id; a VBA-side memo is a later optimization.
     Dim Cap As String
+    Dim Rid As String, MeasW As Single, MeasH As Single
     For I = 1 To mControls.Count
         Set Control = mControls.Item(I)
         Cap = Control.Core.DisplayText
         If Len(Cap) > 0 Then
-            Control.Core.RunId = FirstField( _
-                Surface.MeasureText(OX_DEFAULT_FONT_ID, CLng(Control.Core.FontSize * 1000), Cap))
+            ParseMeasure _
+                Surface.MeasureText(OX_DEFAULT_FONT_ID, CLng(Control.Core.FontSize * 1000), Cap), _
+                Rid, MeasW, MeasH
+            Control.Core.RunId = Rid
+            Control.Core.MeasuredWidth = MeasW
+            Control.Core.MeasuredHeight = MeasH
         Else
             Control.Core.RunId = ""
+            Control.Core.MeasuredWidth = 0
+            Control.Core.MeasuredHeight = 0
+        End If
+    Next I
+
+    ' Layout pass: an AutoSize control shrink-wraps its caption — Width/Height become the
+    ' measured run plus padding (matching OxControlPaint's 4pt/3pt text insets), so its
+    ' face, border, and node bounds hug the text. A font-size or caption change re-measures
+    ' above and re-fits here, BEFORE any geometry is emitted — the metrics are load-bearing.
+    For I = 1 To mControls.Count
+        Set Control = mControls.Item(I)
+        If Control.Core.AutoSize And Len(Control.Core.DisplayText) > 0 Then
+            ' Render-derived geometry: set bounds WITHOUT MarkDirty (see SetAutoSizeBounds)
+            ' so a re-render does not leave the control phantom-dirty for sync_properties.
+            Control.Core.SetAutoSizeBounds _
+                Control.Core.MeasuredWidth + 8, Control.Core.MeasuredHeight + 6
         End If
     Next I
 
@@ -148,21 +168,34 @@ Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
     ClearInvalidations
 End Sub
 
-' The first ':'-delimited field of a MeasureText result (the run id). Avoids a Split
-' dependency. Uses Mid$ rather than Left$ ON PURPOSE: OxUserForm has a Left property, and
-' OxVba resolves the bare Left$ intrinsic to that member (returning 0) — the Left/Left$
-' shadowing divergence from docs/handovers/HANDOVER_OxVba_left_intrinsic_shadowed.md,
-' recurring here for a class that has a Left member. Mid$(S, 1, n) is the unaffected
-' equivalent of Left$(S, n).
-Private Function FirstField(ByVal S As String) As String
-    Dim P As Long
-    P = InStr(S, ":")
-    If P > 0 Then
-        FirstField = Mid$(S, 1, P - 1)
-    Else
-        FirstField = S
+' Parse a MeasureText result "id:advance:ascent:descent:linegap" (metrics in 1/1000 pt)
+' into the run id (a String) and the caption's measured size in points (advance width;
+' ascent+descent height). Avoids a Split dependency (InStr + Mid$ + Val). Uses Mid$ rather
+' than Left$ ON PURPOSE: OxUserForm has a Left property and OxVba resolves the bare Left$
+' intrinsic to that member (returning 0) — the Left/Left$ shadowing divergence in
+' docs/handovers/HANDOVER_OxVba_left_intrinsic_shadowed.md. Val is locale-independent for
+' the integer milli-pt fields. The 5-field shape is OxForms.Surface.MeasureText's contract.
+Private Sub ParseMeasure( _
+        ByVal S As String, ByRef RunId As String, _
+        ByRef WidthPt As Single, ByRef HeightPt As Single)
+    WidthPt = 0
+    HeightPt = 0
+    Dim p1 As Long, p2 As Long, p3 As Long, p4 As Long
+    p1 = InStr(S, ":")
+    If p1 = 0 Then
+        ' No metrics (a bare id or unexpected shape): degrade gracefully — take the whole
+        ' string as the id, zero metrics — rather than raise on a contract drift.
+        RunId = S
+        Exit Sub
     End If
-End Function
+    RunId = Mid$(S, 1, p1 - 1)
+    p2 = InStr(p1 + 1, S, ":")
+    p3 = InStr(p2 + 1, S, ":")
+    p4 = InStr(p3 + 1, S, ":")
+    If p2 = 0 Or p3 = 0 Or p4 = 0 Then Exit Sub
+    WidthPt = Val(Mid$(S, p1 + 1, p2 - p1 - 1)) / 1000
+    HeightPt = (Val(Mid$(S, p2 + 1, p3 - p2 - 1)) + Val(Mid$(S, p3 + 1, p4 - p3 - 1))) / 1000
+End Sub
 
 Public Property Get LastSceneToken() As String
     LastSceneToken = mLastSceneToken

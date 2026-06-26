@@ -69,6 +69,25 @@ pub fn render_scene_to_rgba(scene: &Scene, width: u32, height: u32, fonts: &Font
     pixmap.data().to_vec()
 }
 
+/// Render a scene to a PNG file at `path` (a headless convenience for evidence/tools).
+///
+/// # Errors
+/// Returns an error string if the pixmap can't be allocated or the PNG can't be written.
+pub fn render_scene_to_png(
+    scene: &Scene,
+    width: u32,
+    height: u32,
+    fonts: &FontTable,
+    path: &std::path::Path,
+) -> Result<(), String> {
+    let mut pixmap =
+        ts::Pixmap::new(width, height).ok_or_else(|| "non-zero pixmap required".to_string())?;
+    render_scene_to_pixmap(scene, &mut pixmap, fonts);
+    pixmap
+        .save_png(path)
+        .map_err(|err| format!("save_png {}: {err}", path.display()))
+}
+
 /// A `PrimSink` that paints into a borrowed `tiny_skia::Pixmap`.
 pub struct SkiaSink<'a> {
     pixmap: &'a mut ts::Pixmap,

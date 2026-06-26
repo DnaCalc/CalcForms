@@ -121,6 +121,11 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 ModuleKind::Class,
                 "vba/smoke/fixtures/render_scene_probe_form.cls",
             ),
+            module_unit(
+                "AutoSizeDemoForm",
+                ModuleKind::Class,
+                "vba/smoke/fixtures/autosize_demo_form.cls",
+            ),
         ],
         references: Vec::new(),
         reference_projects: Vec::new(),
@@ -373,4 +378,160 @@ fn vba_self_render_rasterizes_captions_through_the_real_shaper() {
         dark > 0,
         "the real VBA self-render must rasterize caption glyphs; found no dark pixels"
     );
+}
+
+/// AutoSize layout (oxforms-4pn.14): a bordered AutoSize label shrink-wraps its caption,
+/// deriving its bounds from the MeasureText metrics (measure -> layout -> paint), so a
+/// font-size change re-measures and the box re-fits. This proves the metrics round-trip
+/// is load-bearing, not merely plumbed. Uses StubShaper for deterministic geometry.
+#[test]
+fn autosize_label_bounds_track_metrics_and_grow_with_font_size() {
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
+    register_surface(&projection, surface.clone());
+
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("AutoSizeDemoForm")
+        .expect("create autosize demo form");
+    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+        session
+            .invoke_member_values(
+                form.clone(),
+                name,
+                Some(ProjectMemberKind::Method),
+                Vec::new(),
+            )
+            .unwrap_or_else(|err| panic!("invoke {name}: {}", err.message()));
+    };
+
+    // Build + first render at the default 8pt font.
+    call(&mut session, "Build");
+    call(&mut session, "RenderOnce");
+    let before = autolabel_node(&surface);
+    // Pin the exact hug, not just "it shrank": StubShaper is exact, so "Size me" (7 chars)
+    // at 8pt is advance 7*(8*0.5)=28 + 8 padding wide, ascent+descent 8 + 6 padding tall =
+    // 36 x 14 (a wrong padding / W<->H swap would fail here, where a `>` check would not).
+    assert_eq!(
+        (before.bounds.w, before.bounds.h),
+        (36.0, 14.0),
+        "8pt AutoSize bounds = measured advance/height + 4pt/3pt insets"
+    );
+    // The single-line border hugs those bounds exactly (border rect == node bounds).
+    let border = before
+        .prims
+        .iter()
+        .find_map(|p| match p {
+            Prim::StrokeRect { rect, .. } => Some(*rect),
+            _ => None,
+        })
+        .expect("the AutoSize label paints a hugging border");
+    assert_eq!(
+        (border.x, border.y, border.w, border.h),
+        (
+            before.bounds.x,
+            before.bounds.y,
+            before.bounds.w,
+            before.bounds.h
+        ),
+        "the border rect equals the autosized node bounds — it hugs exactly"
+    );
+
+    // Grow the font (8pt -> 14pt); re-measure + re-layout must re-fit the hugging box.
+    call(&mut session, "GrowFont");
+    call(&mut session, "RenderOnce");
+    let after = autolabel_node(&surface);
+    // 14pt: advance 7*(14*0.5)=49 + 8 wide, height 14 + 6 tall = 57 x 20.
+    assert_eq!(
+        (after.bounds.w, after.bounds.h),
+        (57.0, 20.0),
+        "14pt AutoSize bounds re-fit to the larger measured run"
+    );
+    assert!(
+        after.bounds.w > before.bounds.w && after.bounds.h > before.bounds.h,
+        "the box grew in both dimensions with the font"
+    );
+}
+
+/// The AutoLabel control node (NodeId 1 — the form's only control) from the resident scene.
+fn autolabel_node(surface: &Arc<SurfaceFactory>) -> SceneNode {
+    let snap = surface.snapshot().expect("surface snapshot");
+    let scene = snap.scene.expect("resident scene");
+    scene
+        .get(NodeId(1))
+        .expect("the AutoLabel control node")
+        .clone()
+}
+
+/// Evidence generator (on-demand): render the AutoSize demo through the REAL ab_glyph
+/// shaper at the default and grown font sizes, writing two PNGs so the hugging box and
+/// its growth are visible. Run with `cargo test -p oxforms-oxvba-adapter
+/// --test oxvba_surface_render_smoke -- --ignored autosize_evidence`.
+#[test]
+#[ignore = "evidence generator: writes autosize PNGs to docs/evidence"]
+fn autosize_evidence_pngs() {
+    let Ok(font) = load_ui_font() else {
+        eprintln!("SKIP: no platform UI font on this host");
+        return;
+    };
+    let font_id = FontId(1);
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(AbGlyphShaper::new(
+        font_id,
+        font.clone(),
+    ))));
+    register_surface(&projection, surface.clone());
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("AutoSizeDemoForm")
+        .expect("create autosize demo form");
+    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+        session
+            .invoke_member_values(
+                form.clone(),
+                name,
+                Some(ProjectMemberKind::Method),
+                Vec::new(),
+            )
+            .unwrap_or_else(|err| panic!("invoke {name}: {}", err.message()));
+    };
+    let mut fonts = FontTable::new();
+    fonts.add(font_id, font);
+
+    let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join(
+        "../../docs/evidence/W007_production_runtime_vertical_slice/captures/autosize-hug-20260626",
+    );
+    std::fs::create_dir_all(&dir).expect("create evidence dir");
+
+    // Guard against clobbering committed evidence with a blank/degenerate render: only
+    // write a PNG once the scene drew something over the form face — i.e. non-background
+    // pixels exist (the label's box/border/text; the face clears to ~0xF0F0F0). A
+    // near-black check would miss this label, whose theme paints white text on a blue box.
+    let content_pixels = |scene: &Scene| -> usize {
+        render_scene_to_rgba(scene, 600, 360, &fonts)
+            .chunks_exact(4)
+            .filter(|p| !(p[0] > 0xE0 && p[1] > 0xE0 && p[2] > 0xE0))
+            .count()
+    };
+
+    call(&mut session, "Build");
+    call(&mut session, "RenderOnce");
+    let small = surface.snapshot().unwrap().scene.unwrap();
+    assert!(
+        content_pixels(&small) > 0,
+        "small autosize render must paint the label box"
+    );
+    oxforms_pal_win::render_scene_to_png(&small, 600, 360, &fonts, &dir.join("autosize-small.png"))
+        .expect("write small png");
+
+    call(&mut session, "GrowFont");
+    call(&mut session, "RenderOnce");
+    let big = surface.snapshot().unwrap().scene.unwrap();
+    assert!(
+        content_pixels(&big) > 0,
+        "big autosize render must paint the label box"
+    );
+    oxforms_pal_win::render_scene_to_png(&big, 600, 360, &fonts, &dir.join("autosize-big.png"))
+        .expect("write big png");
+    eprintln!("wrote autosize evidence PNGs to {}", dir.display());
 }

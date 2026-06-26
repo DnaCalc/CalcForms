@@ -26,6 +26,6 @@ pub mod raster;
 pub mod text;
 pub mod window;
 
-pub use raster::{render_scene_to_pixmap, render_scene_to_rgba, SkiaSink};
+pub use raster::{render_scene_to_pixmap, render_scene_to_png, render_scene_to_rgba, SkiaSink};
 pub use text::{load_ui_font, AbGlyphShaper, FontTable, SceneTextResolver, TextResolver};
 pub use window::{run_scene_window, WindowError, WindowOptions, WindowSignal};

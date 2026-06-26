@@ -34,10 +34,16 @@ Private mBorderColor As Long
 Private mSpecialEffect As OxSpecialEffect
 Private mBorderStyle As OxBorderStyle
 Private mFontSize As Single
+Private mAutoSize As Boolean
 ' Transient per-render scratch: the content-hash text-run id the measure pre-pass
 ' obtained from OxForms.Surface.MeasureText (a decimal u64 as a String, since it does
 ' not fit a Long). Set each render, read by OxControlPaint; never persisted state.
 Private mRunId As String
+' Transient per-render scratch: the caption's measured size in points (advance width,
+' and ascent+descent height), parsed from the MeasureText result. The layout pass reads
+' these to shrink-wrap an AutoSize control before it paints.
+Private mMeasuredWidth As Single
+Private mMeasuredHeight As Single
 
 ' Called by the concrete control's Class_Initialize with its intrinsic kind. Sets
 ' the per-kind appearance defaults from [MS-OFORMS] s5.6: morph controls (TextBox)
@@ -58,7 +64,10 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mBorderStyle = oxBorderNone
     ' MSForms default font is 8pt (Microsoft Sans Serif / Tahoma).
     mFontSize = 8
+    mAutoSize = False
     mRunId = ""
+    mMeasuredWidth = 0
+    mMeasuredHeight = 0
 
     Select Case Kind
         Case oxControlLabel
@@ -192,6 +201,17 @@ Public Property Let FontSize(ByVal Value As Single)
     MarkDirty
 End Property
 
+' AutoSize (MSForms): when True, the control shrink-wraps its caption — the layout pass
+' derives Width/Height from the measured run plus padding before it paints. A font-size
+' or caption change re-measures and re-fits.
+Public Property Get AutoSize() As Boolean
+    AutoSize = mAutoSize
+End Property
+Public Property Let AutoSize(ByVal Value As Boolean)
+    mAutoSize = Value
+    MarkDirty
+End Property
+
 ' Transient render scratch (see the field comment): the text-run id string the measure
 ' pre-pass stamped this frame. Not dirty-tracked — it is derived render output.
 Public Property Get RunId() As String
@@ -199,6 +219,31 @@ Public Property Get RunId() As String
 End Property
 Public Property Let RunId(ByVal Value As String)
     mRunId = Value
+End Property
+
+' Render-internal geometry write for the AutoSize layout pass: set Width/Height WITHOUT
+' MarkDirty, because shrink-wrap bounds are render-DERIVED, not user/handler state.
+' Routing them through the dirty channel would leave the control dirty after every render,
+' so the runtime's sync_properties would see a phantom dirty for an untouched AutoSize
+' control. (Mirrors how RunId is set — render output, not tracked state.)
+Public Sub SetAutoSizeBounds(ByVal NewWidth As Single, ByVal NewHeight As Single)
+    mWidth = NewWidth
+    mHeight = NewHeight
+End Sub
+
+' Transient render scratch: the caption's measured size (points), set by the measure
+' pre-pass, read by the AutoSize layout pass.
+Public Property Get MeasuredWidth() As Single
+    MeasuredWidth = mMeasuredWidth
+End Property
+Public Property Let MeasuredWidth(ByVal Value As Single)
+    mMeasuredWidth = Value
+End Property
+Public Property Get MeasuredHeight() As Single
+    MeasuredHeight = mMeasuredHeight
+End Property
+Public Property Let MeasuredHeight(ByVal Value As Single)
+    mMeasuredHeight = Value
 End Property
 
 ' Stable, control-derived scene identity (the kernel's NodeId). Assigned once by

@@ -308,6 +308,12 @@ over the projection boundary would be the worst crossing-storm).
   and scaled affinely at paint, so one run serves every DPI (a future hinted/subpixel
   shaper would add DPI). Cached both VBA-side (the text→id memo) and kernel-side (the
   persistent interning/LRU store, Surface-held; projected per-frame into `Scene.text`).
+- Layout consumes the metrics — the per-frame pipeline is **measure → layout → paint**:
+  a control that depends on text extent (e.g. MSForms `AutoSize`, word-wrap, autofit)
+  reads the measured run (advance + ascent/descent) and computes its own bounds *before*
+  emitting geometry, so the face/border/node bounds shrink-wrap the caption and re-fit
+  when the text or font size changes. This is what makes the `MeasureText` round-trip
+  load-bearing rather than merely plumbed (proven by the AutoSize-hug demo, oxforms-4pn.14).
 - Paint: `Prim::DrawText` references `TextRunId` — a color/position change
   re-emits the same run id → zero re-measure, zero re-marshal.
 - Caret/selection: replace `probe.rs`'s approximate `6.0`px cell with PAL
