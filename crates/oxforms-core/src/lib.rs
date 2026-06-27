@@ -1221,6 +1221,13 @@ fn reduce_mouse_down(
     let previous_focus = state.focus_owner.clone();
 
     if route.can_receive_focus && previous_focus.as_ref() != Some(&target) {
+        // MSForms fires Exit on the control losing focus before focus moves.
+        if let Some(FocusTarget::Control(losing_id)) = &previous_focus {
+            if find_control(state, losing_id).is_some() {
+                let losing_id = losing_id.clone();
+                queue_focus_exit_event(state, context, &losing_id);
+            }
+        }
         state.focus_history.push(target.clone());
         state.focus_owner = Some(target.clone());
         context.push_effect(
@@ -1534,6 +1541,15 @@ fn reduce_tab_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, 
 
     let effect_target =
         UiEventTarget::control(state.form_id.0.clone(), next_focus.control_id.0.clone());
+
+    // MSForms fires Exit on the control losing focus before focus moves.
+    if let Some(FocusTarget::Control(losing_id)) = &previous_focus {
+        if find_control(state, losing_id).is_some() {
+            let losing_id = losing_id.clone();
+            queue_focus_exit_event(state, context, &losing_id);
+        }
+    }
+
     state.focus_history.push(next_target.clone());
     state.focus_owner = Some(next_target.clone());
     context.push_effect(
@@ -2941,6 +2957,37 @@ fn queue_vba_event(
     );
 }
 
+/// Emit the FM20 focus `Exit` event on the control losing focus, before the focus
+/// transfer (MSForms order: Exit on the old control, then focus moves). Carries a
+/// mutable `Cancel` modeled as the by_ref `ReturnBoolean` helper; the dispatching
+/// runtime reads the post-handler value back via `PerformExit`. Honoring a veto
+/// (rolling back the focus commit) is deferred -- focus commits synchronously here.
+fn queue_focus_exit_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    losing_control_id: &ControlId,
+) {
+    let target = UiEventTarget::control(state.form_id.0.clone(), losing_control_id.0.clone());
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "Exit".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: vec![EffectArgument {
+                name: "Cancel".to_string(),
+                value: "False".to_string(),
+                by_ref: true,
+            }],
+            cancel_metadata: Some(
+                "Exit Cancel is the mutable MSForms.ReturnBoolean helper (the by_ref Cancel arg). The dispatching runtime reads back the post-handler Cancel via control.PerformExit (oxforms-esq.2); honoring a veto -- rolling back the focus commit -- remains deferred, so focus commits synchronously this slice."
+                    .to_string(),
+            ),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+}
+
 fn event_target_or_form(state: &FormState, event: &UiEvent) -> UiEventTarget {
     if event.target.form_id.is_some()
         || event.target.window_id.is_some()
@@ -3202,13 +3249,20 @@ mod tests {
             output.state.focus_owner,
             Some(FocusTarget::Control(ControlId::new("ok")))
         );
+        // Tab off text-1 fires Exit on the losing control before the focus transfer
+        // (oxforms-esq.2).
         assert_eq!(
             effect_names(&output.effects),
             vec![
                 "fire_vba_event:KeyDown",
+                "fire_vba_event:Exit",
                 "transfer_focus",
                 "request_repaint"
             ]
+        );
+        assert_eq!(
+            output.effects[1].target,
+            UiEventTarget::control("form-main", "text-1")
         );
 
         let output = reduce(

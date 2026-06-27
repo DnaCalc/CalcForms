@@ -19,11 +19,12 @@
 //! Scope: handler-backed events are natively dispatched — `Click` → `PerformClick`,
 //! `Change` → `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`
 //! and `KeyPress` → `PerformKeyPress` (with the `MSForms.ReturnInteger` KeyCode/
-//! KeyAscii readback), and `MouseDown`/`MouseUp` → `PerformMouseDown`/`PerformMouseUp`
-//! (oxforms-esq.2). The remaining reducer-routed FM20 events (focus and lifecycle)
-//! are still *acknowledged* in the trace ([`RuntimeTraceRow::EventAcknowledged`]) but
-//! not natively dispatched yet. This is an explicit, traced non-claim — never a
-//! silent default.
+//! KeyAscii readback), `MouseDown`/`MouseUp` → `PerformMouseDown`/`PerformMouseUp`,
+//! and focus `[Exit]` → `PerformExit` (with the `MSForms.ReturnBoolean` Cancel
+//! readback) (oxforms-esq.2). The remaining reducer-routed FM20 events (form-level
+//! lifecycle and `QueryClose`) are still *acknowledged* in the trace
+//! ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched yet. This is
+//! an explicit, traced non-claim — never a silent default.
 
 use std::collections::HashMap;
 
@@ -86,9 +87,10 @@ impl std::error::Error for RuntimeError {}
 
 /// Completion status of a native dispatch. Only `Succeeded` is emitted today: a
 /// failed native invoke aborts the step with a precise [`RuntimeError`] rather than
-/// recording a completion. `Failed`/`Cancelled` (e.g. a cancelable
-/// `BeforeUpdate`/`Exit` veto) are a later slice — an explicit non-claim, mirroring
-/// the deferred-capability style used elsewhere in this runner.
+/// recording a completion. A cancelable `Exit` now dispatches and its post-handler
+/// Cancel is read back into [`NativeDispatchRecord::returned`], but honoring the veto
+/// (a `Cancelled` completion that rolls back the focus commit) is a later slice — an
+/// explicit non-claim, mirroring the deferred-capability style used elsewhere.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DispatchCompletion {
     Succeeded,
@@ -138,9 +140,9 @@ pub enum RuntimeTraceRow {
         reason: String,
         invalidation_ids: Vec<u64>,
     },
-    /// A reducer-routed FM20 event not yet natively dispatched (focus/lifecycle), or
-    /// a mouse press on the form background. Recorded, never silently dropped; the
-    /// remaining native event dispatch is a later slice.
+    /// A reducer-routed FM20 event not yet natively dispatched (form-level lifecycle
+    /// and `QueryClose`), or a mouse press on the form background. Recorded, never
+    /// silently dropped; the remaining native event dispatch is a later slice.
     EventAcknowledged {
         event_name: String,
         target: Option<String>,
@@ -328,8 +330,8 @@ impl RuntimeRunner {
                         }
                         None => {
                             // Reducer-routed FM20 event with no native dispatch yet
-                            // (e.g. focus/lifecycle, or a form-background mouse
-                            // press): recorded, not dropped.
+                            // (e.g. form-level lifecycle/QueryClose, or a form-
+                            // background mouse press): recorded, not dropped.
                             step.trace.push(RuntimeTraceRow::EventAcknowledged {
                                 event_name: event_name.clone(),
                                 target: target_label,
@@ -366,8 +368,9 @@ impl RuntimeRunner {
     /// to a native control member (`Click` → `PerformClick`, `Change` →
     /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`, `KeyPress`
     /// → `PerformKeyPress`, `MouseDown`/`MouseUp` → `PerformMouseDown`/
-    /// `PerformMouseUp`), or `None` when it is a reducer-routed FM20 event still
-    /// acknowledged but not natively dispatched (focus/lifecycle, …), or a mouse press
+    /// `PerformMouseUp`, `Exit` → `PerformExit`), or `None` when it is a reducer-routed
+    /// FM20 event still acknowledged but not natively dispatched (form-level
+    /// lifecycle, `QueryClose`, …), or a mouse press
     /// that landed on the form background (no control target). `dispatch_seq` advances
     /// only after a native member call succeeds.
     fn dispatch_fire_vba_event(
@@ -377,7 +380,14 @@ impl RuntimeRunner {
     ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
         if !matches!(
             event_name,
-            "Click" | "Change" | "KeyDown" | "KeyUp" | "KeyPress" | "MouseDown" | "MouseUp"
+            "Click"
+                | "Change"
+                | "KeyDown"
+                | "KeyUp"
+                | "KeyPress"
+                | "MouseDown"
+                | "MouseUp"
+                | "Exit"
         ) {
             return Ok(None);
         }
@@ -466,6 +476,12 @@ impl RuntimeRunner {
                     ],
                 )
             }
+            "Exit" => {
+                // Focus-exit fires on the control losing focus; PerformExit raises
+                // [Exit] with a fresh ReturnBoolean Cancel and returns the
+                // post-handler value (True when the handler vetoed the focus change).
+                ("PerformExit", Vec::new())
+            }
             // Unreachable: guarded by the `matches!` above. Kept total without a
             // panic path.
             _ => return Ok(None),
@@ -482,10 +498,13 @@ impl RuntimeRunner {
 
         // PerformKeyDown/PerformKeyUp return the post-handler KeyCode and
         // PerformKeyPress the post-handler KeyAscii (0 when the handler swallowed the
-        // key/character) via the MSForms.ReturnInteger helper; PerformClick,
-        // ApplyUserText, and the mouse members return nothing meaningful.
+        // key/character) via the MSForms.ReturnInteger helper; PerformExit returns the
+        // post-handler Cancel via the MSForms.ReturnBoolean helper (True = vetoed);
+        // PerformClick, ApplyUserText, and the mouse members return nothing meaningful.
         let returned = if matches!(event_name, "KeyDown" | "KeyUp" | "KeyPress") {
             result.as_i16().map(|code| code.to_string())
+        } else if event_name == "Exit" {
+            result.as_bool().map(|cancel| cancel.to_string())
         } else {
             None
         };

@@ -81,13 +81,13 @@
     {
       "role": "oxforms_headless_replay_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-      "sha256": "72107dae02a209731e0d1b478b15eff9a4ced5c65e757ad0234b25f124a53634",
-      "note": "Regenerated in oxforms-rq5.1: the probe display-list renderer was deleted, so the display_list/render_artifact rows were dropped from this golden (rendering is now VBA-authored). The display-list golden file was removed. Row counts/indices in the comparison below describe the pre-rq5.1 golden and are retained as the original observation. Refreshed by oxforms-esq.2: native KeyDown dispatch added dispatch-ready Shift (mask) and KeyCode (mutable MSForms.ReturnInteger) arguments to key-event effects, an additive change to the KeyDown/KeyUp argument lists. Refreshed again by oxforms-esq.2 (KeyPress): the KeyPress effect's char-code argument was renamed key_ascii_placeholder -> KeyAscii (now dispatched natively to PerformKeyPress) and its cancel_metadata note was refreshed off the stale 'deferred in W005'."
+      "sha256": "79c13013b94cb11ac9f918044f3167fc5751ae41f3596ff24ae5fabe84a4d3f5",
+      "note": "Regenerated in oxforms-rq5.1: the probe display-list renderer was deleted, so the display_list/render_artifact rows were dropped from this golden (rendering is now VBA-authored). The display-list golden file was removed. Row counts/indices in the comparison below describe the pre-rq5.1 golden and are retained as the original observation. Refreshed by oxforms-esq.2: native KeyDown dispatch added dispatch-ready Shift (mask) and KeyCode (mutable MSForms.ReturnInteger) arguments to key-event effects, an additive change to the KeyDown/KeyUp argument lists. Refreshed again by oxforms-esq.2 (KeyPress): the KeyPress effect's char-code argument was renamed key_ascii_placeholder -> KeyAscii (now dispatched natively to PerformKeyPress) and its cancel_metadata note was refreshed off the stale 'deferred in W005'. Refreshed again by oxforms-esq.2 (focus Exit): the reducer now emits a focus Exit FireVbaEvent (with a mutable Cancel ReturnBoolean) on the control losing focus before each control->control TransferFocus, dispatched natively to PerformExit -- an additive change inserting Exit effects at the golden's focus transitions."
     },
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "16485f905c1a273cf252956de4e4e15b8d2f2f8a084027b4457e0afcb6ea6690"
+      "sha256": "da9468728531371c32de73d66c30ca76428489b7cf4e228b1656f178a75b4ec7"
     },
     {
       "role": "oxforms_visible_smoke_manifest",

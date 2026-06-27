@@ -738,3 +738,60 @@ fn runner_dispatches_native_keypress_with_returninteger_readback() {
         "an un-swallowed character is read back unchanged"
     );
 }
+
+#[test]
+fn runner_dispatches_native_exit_with_returnboolean_veto_readback() {
+    // oxforms-esq.2: focus leaving a control fires Exit, dispatched to PerformExit;
+    // the handler's veto (Cancel = True) is read back via the MSForms.ReturnBoolean
+    // helper -- consuming the OTHER half of the esq.1 proof in the real runtime. The
+    // veto is recorded, not yet honored (focus still commits synchronously).
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // Focus the InputField.
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press InputField");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 20.0, 18.0)),
+        ))
+        .expect("release InputField");
+
+    // Move focus to OkButton (control -> control): InputField loses focus -> Exit.
+    let moved = runner
+        .dispatch(ui_event(
+            3,
+            UiEventKind::MouseDown(mouse_event(true, 150.0, 20.0)),
+        ))
+        .expect("press OkButton");
+    let exit = moved
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "Exit")
+        .unwrap_or_else(|| {
+            panic!(
+                "Exit natively dispatched, got {:?}",
+                moved.native_dispatches
+            )
+        });
+    assert_eq!(exit.native_member, "PerformExit");
+    assert_eq!(exit.control_id, ControlId::new("InputField"));
+    assert_eq!(
+        exit.returned.as_deref(),
+        Some("true"),
+        "InputField_Exit vetoes; the runtime reads back Cancel=true via the ReturnBoolean helper"
+    );
+}
