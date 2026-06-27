@@ -1,0 +1,372 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_checkbox_click_change_input_actions.v1",
+    "bead":  "oxforms-p41",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "label":  "toggle_checkbox",
+                                 "screen_x":  960,
+                                 "screen_y":  540,
+                                 "foreground":  {
+                                                    "schema":  "oxforms.w005.foreground_transition.v1",
+                                                    "api":  "public_user32_ShowWindow_SetForegroundWindow",
+                                                    "set_foreground_result":  true,
+                                                    "before":  {
+                                                                   "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                   "phase":  "before_set_foreground",
+                                                                   "captured_at_utc":  "2026-06-27T16:24:13.5452013Z",
+                                                                   "foreground_window":  {
+                                                                                             "handle":  "0xFB1B04",
+                                                                                             "title":  "OxForms W006 CheckBox Oracle",
+                                                                                             "class_name":  "ThunderDFrame",
+                                                                                             "process_id":  24852,
+                                                                                             "process_name":  "EXCEL",
+                                                                                             "thread_id":  40120,
+                                                                                             "bounds":  {
+                                                                                                            "left":  826,
+                                                                                                            "top":  460,
+                                                                                                            "right":  1093,
+                                                                                                            "bottom":  620,
+                                                                                                            "width":  267,
+                                                                                                            "height":  160
+                                                                                                        }
+                                                                                         },
+                                                                   "process_thread_focus_window":  null,
+                                                                   "target_window":  {
+                                                                                         "handle":  "0xFB1B04",
+                                                                                         "title":  "OxForms W006 CheckBox Oracle",
+                                                                                         "class_name":  "ThunderDFrame",
+                                                                                         "process_id":  24852,
+                                                                                         "process_name":  "EXCEL",
+                                                                                         "thread_id":  40120,
+                                                                                         "bounds":  {
+                                                                                                        "left":  826,
+                                                                                                        "top":  460,
+                                                                                                        "right":  1093,
+                                                                                                        "bottom":  620,
+                                                                                                        "width":  267,
+                                                                                                        "height":  160
+                                                                                                    }
+                                                                                     },
+                                                                   "target_thread_gui":  {
+                                                                                             "thread_id":  40120,
+                                                                                             "active_window":  {
+                                                                                                                   "handle":  "0xFB1B04",
+                                                                                                                   "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                                   "class_name":  "ThunderDFrame",
+                                                                                                                   "process_id":  24852,
+                                                                                                                   "process_name":  "EXCEL",
+                                                                                                                   "thread_id":  40120,
+                                                                                                                   "bounds":  {
+                                                                                                                                  "left":  826,
+                                                                                                                                  "top":  460,
+                                                                                                                                  "right":  1093,
+                                                                                                                                  "bottom":  620,
+                                                                                                                                  "width":  267,
+                                                                                                                                  "height":  160
+                                                                                                                              }
+                                                                                                               },
+                                                                                             "focus_window":  {
+                                                                                                                  "handle":  "0x1AD16FA",
+                                                                                                                  "title":  "",
+                                                                                                                  "class_name":  "F3 Server e37a0000",
+                                                                                                                  "process_id":  24852,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  40120,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  834,
+                                                                                                                                 "top":  491,
+                                                                                                                                 "right":  1085,
+                                                                                                                                 "bottom":  612,
+                                                                                                                                 "width":  251,
+                                                                                                                                 "height":  121
+                                                                                                                             }
+                                                                                                              },
+                                                                                             "capture_window":  null,
+                                                                                             "caret_window":  null
+                                                                                         },
+                                                                   "cursor_screen_pixels":  {
+                                                                                                "x":  600,
+                                                                                                "y":  400
+                                                                                            },
+                                                                   "notes":  [
+                                                                                 "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                 "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                             ]
+                                                               },
+                                                    "after":  {
+                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                  "phase":  "after_set_foreground",
+                                                                  "captured_at_utc":  "2026-06-27T16:24:13.8262560Z",
+                                                                  "foreground_window":  {
+                                                                                            "handle":  "0xFB1B04",
+                                                                                            "title":  "OxForms W006 CheckBox Oracle",
+                                                                                            "class_name":  "ThunderDFrame",
+                                                                                            "process_id":  24852,
+                                                                                            "process_name":  "EXCEL",
+                                                                                            "thread_id":  40120,
+                                                                                            "bounds":  {
+                                                                                                           "left":  826,
+                                                                                                           "top":  460,
+                                                                                                           "right":  1093,
+                                                                                                           "bottom":  620,
+                                                                                                           "width":  267,
+                                                                                                           "height":  160
+                                                                                                       }
+                                                                                        },
+                                                                  "process_thread_focus_window":  null,
+                                                                  "target_window":  {
+                                                                                        "handle":  "0xFB1B04",
+                                                                                        "title":  "OxForms W006 CheckBox Oracle",
+                                                                                        "class_name":  "ThunderDFrame",
+                                                                                        "process_id":  24852,
+                                                                                        "process_name":  "EXCEL",
+                                                                                        "thread_id":  40120,
+                                                                                        "bounds":  {
+                                                                                                       "left":  826,
+                                                                                                       "top":  460,
+                                                                                                       "right":  1093,
+                                                                                                       "bottom":  620,
+                                                                                                       "width":  267,
+                                                                                                       "height":  160
+                                                                                                   }
+                                                                                    },
+                                                                  "target_thread_gui":  {
+                                                                                            "thread_id":  40120,
+                                                                                            "active_window":  {
+                                                                                                                  "handle":  "0xFB1B04",
+                                                                                                                  "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                  "process_id":  24852,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  40120,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  826,
+                                                                                                                                 "top":  460,
+                                                                                                                                 "right":  1093,
+                                                                                                                                 "bottom":  620,
+                                                                                                                                 "width":  267,
+                                                                                                                                 "height":  160
+                                                                                                                             }
+                                                                                                              },
+                                                                                            "focus_window":  {
+                                                                                                                 "handle":  "0x1AD16FA",
+                                                                                                                 "title":  "",
+                                                                                                                 "class_name":  "F3 Server e37a0000",
+                                                                                                                 "process_id":  24852,
+                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                 "thread_id":  40120,
+                                                                                                                 "bounds":  {
+                                                                                                                                "left":  834,
+                                                                                                                                "top":  491,
+                                                                                                                                "right":  1085,
+                                                                                                                                "bottom":  612,
+                                                                                                                                "width":  251,
+                                                                                                                                "height":  121
+                                                                                                                            }
+                                                                                                             },
+                                                                                            "capture_window":  null,
+                                                                                            "caret_window":  null
+                                                                                        },
+                                                                  "cursor_screen_pixels":  {
+                                                                                               "x":  600,
+                                                                                               "y":  400
+                                                                                           },
+                                                                  "notes":  [
+                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                            ]
+                                                              }
+                                                },
+                                 "input":  {
+                                               "schema":  "oxforms.w005.sendinput_mouse_action.v1",
+                                               "input_driver":  "public_user32_sendinput",
+                                               "action":  "mouse_click",
+                                               "target_screen_pixels":  {
+                                                                            "x":  960,
+                                                                            "y":  540
+                                                                        },
+                                               "set_cursor_result":  true,
+                                               "send_input":  {
+                                                                  "requested_down":  1,
+                                                                  "sent_down":  1,
+                                                                  "requested_up":  1,
+                                                                  "sent_up":  1
+                                                              },
+                                               "diagnostics":  {
+                                                                   "before":  {
+                                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                  "phase":  "before_sendinput_mouse_click",
+                                                                                  "captured_at_utc":  "2026-06-27T16:24:13.8816341Z",
+                                                                                  "foreground_window":  {
+                                                                                                            "handle":  "0xFB1B04",
+                                                                                                            "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                            "class_name":  "ThunderDFrame",
+                                                                                                            "process_id":  24852,
+                                                                                                            "process_name":  "EXCEL",
+                                                                                                            "thread_id":  40120,
+                                                                                                            "bounds":  {
+                                                                                                                           "left":  826,
+                                                                                                                           "top":  460,
+                                                                                                                           "right":  1093,
+                                                                                                                           "bottom":  620,
+                                                                                                                           "width":  267,
+                                                                                                                           "height":  160
+                                                                                                                       }
+                                                                                                        },
+                                                                                  "process_thread_focus_window":  null,
+                                                                                  "target_window":  {
+                                                                                                        "handle":  "0xFB1B04",
+                                                                                                        "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                        "class_name":  "ThunderDFrame",
+                                                                                                        "process_id":  24852,
+                                                                                                        "process_name":  "EXCEL",
+                                                                                                        "thread_id":  40120,
+                                                                                                        "bounds":  {
+                                                                                                                       "left":  826,
+                                                                                                                       "top":  460,
+                                                                                                                       "right":  1093,
+                                                                                                                       "bottom":  620,
+                                                                                                                       "width":  267,
+                                                                                                                       "height":  160
+                                                                                                                   }
+                                                                                                    },
+                                                                                  "target_thread_gui":  {
+                                                                                                            "thread_id":  40120,
+                                                                                                            "active_window":  {
+                                                                                                                                  "handle":  "0xFB1B04",
+                                                                                                                                  "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                                  "process_id":  24852,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  40120,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  826,
+                                                                                                                                                 "top":  460,
+                                                                                                                                                 "right":  1093,
+                                                                                                                                                 "bottom":  620,
+                                                                                                                                                 "width":  267,
+                                                                                                                                                 "height":  160
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                            "focus_window":  {
+                                                                                                                                 "handle":  "0x1AD16FA",
+                                                                                                                                 "title":  "",
+                                                                                                                                 "class_name":  "F3 Server e37a0000",
+                                                                                                                                 "process_id":  24852,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  40120,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  834,
+                                                                                                                                                "top":  491,
+                                                                                                                                                "right":  1085,
+                                                                                                                                                "bottom":  612,
+                                                                                                                                                "width":  251,
+                                                                                                                                                "height":  121
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                            "capture_window":  null,
+                                                                                                            "caret_window":  null
+                                                                                                        },
+                                                                                  "cursor_screen_pixels":  {
+                                                                                                               "x":  600,
+                                                                                                               "y":  400
+                                                                                                           },
+                                                                                  "notes":  [
+                                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                            ]
+                                                                              },
+                                                                   "after":  {
+                                                                                 "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                 "phase":  "after_sendinput_mouse_click",
+                                                                                 "captured_at_utc":  "2026-06-27T16:24:14.5538821Z",
+                                                                                 "foreground_window":  {
+                                                                                                           "handle":  "0xFB1B04",
+                                                                                                           "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                           "class_name":  "ThunderDFrame",
+                                                                                                           "process_id":  24852,
+                                                                                                           "process_name":  "EXCEL",
+                                                                                                           "thread_id":  40120,
+                                                                                                           "bounds":  {
+                                                                                                                          "left":  826,
+                                                                                                                          "top":  460,
+                                                                                                                          "right":  1093,
+                                                                                                                          "bottom":  620,
+                                                                                                                          "width":  267,
+                                                                                                                          "height":  160
+                                                                                                                      }
+                                                                                                       },
+                                                                                 "process_thread_focus_window":  null,
+                                                                                 "target_window":  {
+                                                                                                       "handle":  "0xFB1B04",
+                                                                                                       "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                       "class_name":  "ThunderDFrame",
+                                                                                                       "process_id":  24852,
+                                                                                                       "process_name":  "EXCEL",
+                                                                                                       "thread_id":  40120,
+                                                                                                       "bounds":  {
+                                                                                                                      "left":  826,
+                                                                                                                      "top":  460,
+                                                                                                                      "right":  1093,
+                                                                                                                      "bottom":  620,
+                                                                                                                      "width":  267,
+                                                                                                                      "height":  160
+                                                                                                                  }
+                                                                                                   },
+                                                                                 "target_thread_gui":  {
+                                                                                                           "thread_id":  40120,
+                                                                                                           "active_window":  {
+                                                                                                                                 "handle":  "0xFB1B04",
+                                                                                                                                 "title":  "OxForms W006 CheckBox Oracle",
+                                                                                                                                 "class_name":  "ThunderDFrame",
+                                                                                                                                 "process_id":  24852,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  40120,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  826,
+                                                                                                                                                "top":  460,
+                                                                                                                                                "right":  1093,
+                                                                                                                                                "bottom":  620,
+                                                                                                                                                "width":  267,
+                                                                                                                                                "height":  160
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                           "focus_window":  {
+                                                                                                                                "handle":  "0x1AD16FA",
+                                                                                                                                "title":  "",
+                                                                                                                                "class_name":  "F3 Server e37a0000",
+                                                                                                                                "process_id":  24852,
+                                                                                                                                "process_name":  "EXCEL",
+                                                                                                                                "thread_id":  40120,
+                                                                                                                                "bounds":  {
+                                                                                                                                               "left":  834,
+                                                                                                                                               "top":  491,
+                                                                                                                                               "right":  1085,
+                                                                                                                                               "bottom":  612,
+                                                                                                                                               "width":  251,
+                                                                                                                                               "height":  121
+                                                                                                                                           }
+                                                                                                                            },
+                                                                                                           "capture_window":  null,
+                                                                                                           "caret_window":  null
+                                                                                                       },
+                                                                                 "cursor_screen_pixels":  {
+                                                                                                              "x":  960,
+                                                                                                              "y":  540
+                                                                                                          },
+                                                                                 "notes":  [
+                                                                                               "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                               "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                           ]
+                                                                             }
+                                                               }
+                                           }
+                             }
+                         ],
+    "notes":  [
+                  "One public user32 SendInput mouse click at the form window centre toggles the CheckBox."
+              ]
+}

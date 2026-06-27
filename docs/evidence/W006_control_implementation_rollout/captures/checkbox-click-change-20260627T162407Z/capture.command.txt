@@ -1,0 +1,1 @@
+﻿C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/office-oracle/Capture-W006CheckBoxClickChange.ps1 -OutDir docs/evidence/W006_control_implementation_rollout/captures/checkbox-click-change-20260627T162407Z

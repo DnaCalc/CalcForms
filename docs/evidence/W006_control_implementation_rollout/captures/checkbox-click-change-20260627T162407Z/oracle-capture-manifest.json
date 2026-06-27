@@ -1,0 +1,69 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_checkbox_click_change_capture.v1",
+    "bead":  "oxforms-p41",
+    "capture_id":  "checkbox-click-change-20260627T162407Z",
+    "status":  "captured",
+    "fixture":  {
+                    "id":  "excel-msforms-w006-checkbox-click-change-v1",
+                    "inputs":  {
+                                   "manifest":  {
+                                                    "path":  "fixtures/office-oracle/excel-msforms/userforms/checkbox-click-change/fixture.json",
+                                                    "sha256":  "117d88ca29088a6a754dd7d7c9e912a5e683060654a39c2caff5b3cc0c6cdbfc"
+                                                },
+                                   "form_code_behind":  {
+                                                            "path":  "fixtures/office-oracle/excel-msforms/userforms/checkbox-click-change/form-code-behind.bas",
+                                                            "sha256":  "e7e9b56dfb1d20fb91386e434d2c3800b7d13f062261b7fe2839fe7aa6caf206"
+                                                        },
+                                   "standard_module":  {
+                                                           "path":  "fixtures/office-oracle/excel-msforms/userforms/checkbox-click-change/standard-module.bas",
+                                                           "sha256":  "96beb6e31cdc61a70a1da8b973950f23804f1039e4f0ff1e762e85b02a4c36f8"
+                                                       },
+                                   "capture_tool":  {
+                                                        "path":  "tools/office-oracle/Capture-W006CheckBoxClickChange.ps1",
+                                                        "sha256":  "da9d19968e945551d1e76c8281eb14ed5cf1b0d82f16273234bce4967bbecf70"
+                                                    }
+                               }
+                },
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "is_windows":  true,
+                     "powershell":  "5.1.26100.8655"
+                 },
+    "excel":  {
+                  "path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                  "file_version":  "16.0.20026.20182",
+                  "product_version":  "16.0.20026.20182",
+                  "product_name":  "Microsoft Office",
+                  "company_name":  "Microsoft Corporation"
+              },
+    "artifacts":  {
+                      "generated_workbook":  {
+                                                 "path":  "docs/evidence/W006_control_implementation_rollout/captures/checkbox-click-change-20260627T162407Z/w006-checkbox-click-change-oracle.xlsm",
+                                                 "sha256":  "a74169da428da50e4ac803e810b08f4d57e8507179f84f480a18f136b3c223ed"
+                                             },
+                      "event_log_json":  "docs/evidence/W006_control_implementation_rollout/captures/checkbox-click-change-20260627T162407Z/checkbox-click-change-event-log.json",
+                      "event_log_csv":  "docs/evidence/W006_control_implementation_rollout/captures/checkbox-click-change-20260627T162407Z/checkbox-click-change-event-log.csv",
+                      "input_actions":  "docs/evidence/W006_control_implementation_rollout/captures/checkbox-click-change-20260627T162407Z/input-actions.json"
+                  },
+    "observed_coverage":  {
+                              "row_count":  3,
+                              "click_change_order":  "change_before_click",
+                              "value_at_click":  "True"
+                          },
+    "trace_replay_implications":  [
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: CheckBox toggle dispatch needs ordered Click/Change rows.",
+                                      "docs/specs/FM20_EVENT_FACTS.md: this oracle settles the CheckBox Click-vs-Change ordering previously marked oracle-gated."
+                                  ],
+    "warnings":  [
+                     "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+                     "Covers one mouse toggle; keyboard/programmatic/accelerator toggles are not exercised."
+                 ],
+    "clean_room":  {
+                       "source":  "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows input APIs.",
+                       "prohibited":  "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+                   },
+    "non_claims":  [
+                       "No OxForms runtime CheckBox event-ordering behavior is implemented or claimed.",
+                       "This capture is not an exhaustive CheckBox event parity matrix."
+                   ]
+}

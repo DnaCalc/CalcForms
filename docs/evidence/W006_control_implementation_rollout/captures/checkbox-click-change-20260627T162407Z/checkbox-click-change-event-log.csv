@@ -1,0 +1,4 @@
+﻿"sequence","form_name","control_name","event_name","value","notes"
+"1","OxFormsW006CheckBox","ToggleCheck","Initialize","False","form initialize"
+"2","OxFormsW006CheckBox","ToggleCheck","Change","True","Change handler; .Value read at handler entry"
+"3","OxFormsW006CheckBox","ToggleCheck","Click","True","Click handler; .Value read at handler entry"

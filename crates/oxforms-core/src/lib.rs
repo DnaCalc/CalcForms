@@ -1341,7 +1341,11 @@ fn reduce_mouse_up(
     );
 
     if captured_target.is_some() && route.is_inside_pressed_target && route.supports_click_event {
-        queue_vba_event(state, context, effect_target.clone(), "Click");
+        // MSForms fires the CheckBox value Change BEFORE Click (oracle-confirmed
+        // value-change-first ordering: the value toggles, then Change fires, then
+        // Click fires, both handlers seeing the new value -- oxforms-p41, live
+        // capture checkbox-click-change-20260627T162407Z). The toggle (which
+        // queues Change) therefore runs before the Click event is queued.
         if let Some(control_id) = route
             .control_id
             .as_ref()
@@ -1350,6 +1354,7 @@ fn reduce_mouse_up(
         {
             toggle_check_box(state, context, control_id);
         }
+        queue_vba_event(state, context, effect_target.clone(), "Click");
     }
 
     if pressed_target.is_some() {
@@ -4191,14 +4196,17 @@ mod tests {
             check_box_state(&up.state, &ControlId::new("agree")).map(|entry| entry.checked),
             Some(true)
         );
+        // Oracle-confirmed (oxforms-p41, capture checkbox-click-change-20260627T162407Z):
+        // MSForms fires the value Change before Click (value-change-first), so the
+        // toggle's Change + repaint precede the Click event.
         assert_eq!(
             effect_names(&up.effects),
             vec![
                 "release_mouse",
                 "fire_vba_event:MouseUp",
-                "fire_vba_event:Click",
                 "fire_vba_event:Change",
                 "request_repaint",
+                "fire_vba_event:Click",
                 "request_repaint"
             ]
         );

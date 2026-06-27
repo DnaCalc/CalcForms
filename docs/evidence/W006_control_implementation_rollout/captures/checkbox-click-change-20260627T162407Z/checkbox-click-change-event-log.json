@@ -1,0 +1,61 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_checkbox_click_change_event_log.v1",
+    "bead":  "oxforms-p41",
+    "source":  {
+                   "worksheet":  "W006CheckBoxLog",
+                   "fixture":  "fixtures/office-oracle/excel-msforms/userforms/checkbox-click-change/fixture.json",
+                   "trace_schema":  {
+                                        "ordering":  "docs/specs/TRACE_REPLAY_SCHEMA.md#5-Ordering-Model"
+                                    }
+               },
+    "observed_facts":  {
+                           "row_count":  3,
+                           "click_change_order":  "change_before_click",
+                           "click_sequence":  3,
+                           "change_sequence":  2,
+                           "value_at_click":  "True",
+                           "value_at_change":  "True",
+                           "event_names":  [
+                                               "Initialize",
+                                               "Change",
+                                               "Click"
+                                           ],
+                           "rows":  [
+                                        {
+                                            "sequence":  "1",
+                                            "form_name":  "OxFormsW006CheckBox",
+                                            "control_name":  "ToggleCheck",
+                                            "event_name":  "Initialize",
+                                            "value":  "False",
+                                            "notes":  "form initialize"
+                                        },
+                                        {
+                                            "sequence":  "2",
+                                            "form_name":  "OxFormsW006CheckBox",
+                                            "control_name":  "ToggleCheck",
+                                            "event_name":  "Change",
+                                            "value":  "True",
+                                            "notes":  "Change handler; .Value read at handler entry"
+                                        },
+                                        {
+                                            "sequence":  "3",
+                                            "form_name":  "OxFormsW006CheckBox",
+                                            "control_name":  "ToggleCheck",
+                                            "event_name":  "Click",
+                                            "value":  "True",
+                                            "notes":  "Click handler; .Value read at handler entry"
+                                        }
+                                    ]
+                       },
+    "assumptions":  [
+                        "Rows are worksheet rows emitted by repo-owned VBA handlers while real Excel/MSForms dispatched one injected click on the CheckBox.",
+                        "value is the CheckBox .Value read at handler entry; value_at_click=True means the toggle already happened before the Click handler ran."
+                    ],
+    "unknowns":  [
+                     "This capture exercises one mouse toggle of one CheckBox; it does not cover keyboard toggle (space), programmatic .Value set, triple-state, or accelerator activation."
+                 ],
+    "non_claims":  [
+                       "No OxForms runtime CheckBox event ordering behavior is implemented or claimed by this oracle.",
+                       "Absence of a row is not a negative parity fact."
+                   ]
+}
