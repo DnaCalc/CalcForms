@@ -981,19 +981,35 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
             state.pump.reentrancy_depth = event.nesting_depth;
         }
         UiEventKind::PumpFrameExited(payload) => {
-            state.pump.nested_modal_depth = payload.modal_depth.saturating_sub(1);
+            // Derive the new modal depth from our own tracked state, not from the
+            // payload: a stale or off-by-one PumpFrameExited.modal_depth must not
+            // silently desync nested modal tracking (oxforms-mau). The frame being
+            // exited is the current tracked depth; after exit we drop one level
+            // (saturating at 0). The payload's modal_depth is a cross-check only —
+            // on mismatch we still trust tracked state but annotate the exit reason
+            // so the divergence is observable in the effect trace.
+            let exited_depth = state.pump.nested_modal_depth;
+            state.pump.nested_modal_depth = exited_depth.saturating_sub(1);
             state.pump.term = if state.pump.nested_modal_depth == 0 {
                 PumpTerm::HostModelessPump
             } else {
                 PumpTerm::ModalFrame
+            };
+            let reason = if payload.modal_depth == exited_depth {
+                payload.exit_reason.clone()
+            } else {
+                format!(
+                    "{} [modal_depth cross-check mismatch: payload={}, tracked={}]",
+                    payload.exit_reason, payload.modal_depth, exited_depth
+                )
             };
             let target = UiEventTarget::form(state.form_id.0.clone());
             context.push_effect(
                 &mut state,
                 target,
                 EffectKind::ExitModalFrame {
-                    modal_depth: payload.modal_depth,
-                    reason: payload.exit_reason.clone(),
+                    modal_depth: exited_depth,
+                    reason,
                 },
                 CompletionPolicy::ImmediateDiagnostic,
             );
@@ -2935,8 +2951,9 @@ mod tests {
         ClipboardResultEvent, CloseRequestEvent, CloseRequestOrigin, CoordinatePayload,
         DataObjectSnapshot, DragOverEvent, DropOrPasteEvent, DropOrPasteOrigin, KeyCode, KeyRepeat,
         KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons,
-        RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics, ServiceOutcome, ServicePayload,
-        ServiceRequestId, ShowRequestedEvent, UiEventSource, UnloadedEvent, WindowHiddenEvent,
+        PumpFrameExitedEvent, RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics,
+        ServiceOutcome, ServicePayload, ServiceRequestId, ShowRequestedEvent, UiEventSource,
+        UnloadedEvent, WindowHiddenEvent,
     };
 
     #[test]
@@ -4293,6 +4310,140 @@ mod tests {
                 "show_form_modal",
                 "enter_modal_frame"
             ]
+        );
+    }
+
+    #[test]
+    fn pump_frame_exited_tracks_two_level_nested_modal_depth() {
+        // Enter two nested modal frames, then exit them; depth must follow the
+        // reducer's own tracked state, not the payload (oxforms-mau).
+        let mut state = FormState::new("form-main");
+        for id in [30u64, 31u64] {
+            state = reduce(
+                state,
+                UiEvent {
+                    target: UiEventTarget::form("form-main"),
+                    ..UiEvent::new(
+                        UiEventId(id),
+                        UiEventSource::Replay,
+                        UiEventKind::ShowRequested(ShowRequestedEvent {
+                            form_id: FormId::new("form-main"),
+                            show_mode: ShowMode::Modal,
+                            owner: None,
+                            initial_bounds: None,
+                            reason: LifecycleReason::Replay,
+                        }),
+                    )
+                },
+            )
+            .state;
+        }
+        assert_eq!(state.pump.nested_modal_depth, 2);
+        assert_eq!(state.pump.term, PumpTerm::ModalFrame);
+
+        // Exit the inner frame: depth 2 -> 1, still inside a modal frame.
+        let inner_exit = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(32),
+                UiEventSource::Replay,
+                UiEventKind::PumpFrameExited(PumpFrameExitedEvent {
+                    modal_depth: 2,
+                    exit_reason: "inner exit".to_string(),
+                }),
+            ),
+        );
+        assert_eq!(inner_exit.state.pump.nested_modal_depth, 1);
+        assert_eq!(inner_exit.state.pump.term, PumpTerm::ModalFrame);
+        let inner_effect = inner_exit
+            .effects
+            .iter()
+            .find_map(|effect| match &effect.kind {
+                EffectKind::ExitModalFrame {
+                    modal_depth,
+                    reason,
+                } => Some((*modal_depth, reason.clone())),
+                _ => None,
+            })
+            .expect("exit_modal_frame effect");
+        // payload matched tracked depth -> exit carries tracked depth, reason verbatim.
+        assert_eq!(inner_effect.0, 2);
+        assert_eq!(inner_effect.1, "inner exit");
+
+        // Exit the outer frame: depth 1 -> 0, back to the host modeless pump.
+        let outer_exit = reduce(
+            inner_exit.state,
+            UiEvent::new(
+                UiEventId(33),
+                UiEventSource::Replay,
+                UiEventKind::PumpFrameExited(PumpFrameExitedEvent {
+                    modal_depth: 1,
+                    exit_reason: "outer exit".to_string(),
+                }),
+            ),
+        );
+        assert_eq!(outer_exit.state.pump.nested_modal_depth, 0);
+        assert_eq!(outer_exit.state.pump.term, PumpTerm::HostModelessPump);
+    }
+
+    #[test]
+    fn pump_frame_exited_derives_depth_from_tracked_state_on_payload_mismatch() {
+        // A single modal frame is active (tracked depth 1).
+        let shown = reduce(
+            FormState::new("form-main"),
+            UiEvent {
+                target: UiEventTarget::form("form-main"),
+                ..UiEvent::new(
+                    UiEventId(40),
+                    UiEventSource::Replay,
+                    UiEventKind::ShowRequested(ShowRequestedEvent {
+                        form_id: FormId::new("form-main"),
+                        show_mode: ShowMode::Modal,
+                        owner: None,
+                        initial_bounds: None,
+                        reason: LifecycleReason::Replay,
+                    }),
+                )
+            },
+        );
+        assert_eq!(shown.state.pump.nested_modal_depth, 1);
+
+        // A stale / off-by-one payload claims depth 5. Tracked state wins: depth
+        // drops 1 -> 0 and the mismatch is recorded on the exit reason rather than
+        // silently desyncing nested modal tracking (oxforms-mau).
+        let exited = reduce(
+            shown.state,
+            UiEvent::new(
+                UiEventId(41),
+                UiEventSource::Replay,
+                UiEventKind::PumpFrameExited(PumpFrameExitedEvent {
+                    modal_depth: 5,
+                    exit_reason: "stale exit".to_string(),
+                }),
+            ),
+        );
+        assert_eq!(exited.state.pump.nested_modal_depth, 0);
+        assert_eq!(exited.state.pump.term, PumpTerm::HostModelessPump);
+        let (modal_depth, reason) = exited
+            .effects
+            .iter()
+            .find_map(|effect| match &effect.kind {
+                EffectKind::ExitModalFrame {
+                    modal_depth,
+                    reason,
+                } => Some((*modal_depth, reason.clone())),
+                _ => None,
+            })
+            .expect("exit_modal_frame effect");
+        assert_eq!(
+            modal_depth, 1,
+            "exit depth is derived from tracked state, not the payload"
+        );
+        assert!(
+            reason.contains("cross-check mismatch")
+                && reason.contains("payload=5")
+                && reason.contains("tracked=1"),
+            "exit reason must record the payload/tracked mismatch: {reason}"
         );
     }
 
