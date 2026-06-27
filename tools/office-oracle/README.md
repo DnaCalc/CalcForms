@@ -140,3 +140,35 @@ Comparison manifest validation:
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-OracleComparisonManifest.ps1 -ManifestPath docs\evidence\W003_excel_forms_oracle_capture\comparisons\rectangle-label-vs-w002-smoke.json
 ```
+
+## Blocked captures: lightweight note vs full evidence directory
+
+Pick the lightest form that is honest:
+
+- **Rows captured (full or partial):** write the full capture directory
+  (manifest + run-summary + checksums + command/progress logs). If some
+  scenarios were blocked, record those inline in the run-summary/manifest
+  `blockers[]` array next to the real rows -- see the W006 nested-modal and
+  terminate captures, where the modal-return / modeless-close paths are precise
+  inline blockers alongside the observed scenarios.
+- **Nothing captured, blocked by the environment or a tooling capability:** use
+  the one-file `BLOCKED-CAPTURE-NOTE.template.md` (copy to
+  `docs/evidence/<workset>/captures/<capture-id>/BLOCKED.md`) instead of a full
+  directory that checksums no observed behavior. This keeps the
+  evidence-to-capability ratio honest and avoids churn.
+
+Never infer MSForms behavior from missing rows, in either form.
+
+### Consolidation decision (oxforms-sut)
+
+The earlier suggestion to consolidate the per-scenario "harden timeout" beads
+(`oxforms-0a0.24`, `oxforms-0a0.25`, `oxforms-k1i`) behind a single
+"environment-blocked" decision is **not applicable**: this host has live Excel
+with VBA-project access, and those beads were each resolved on their own merits,
+not blocked --
+`oxforms-0a0.24` now captures 42 live nested-modal rows (the timeout was a
+design-time-font / SaveAs-dialog defect, fixed),
+`oxforms-k1i` added a bounded screenshot retry, and
+`oxforms-0a0.25` narrowed its remaining blocks to the held-reference dimension
+with the ordering captured elsewhere. There is no environment-blocked class to
+consolidate.
