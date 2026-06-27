@@ -9,7 +9,9 @@ param(
     [string]$ClassName,
     [string]$OutDir,
     [switch]$CaptureScreenshot,
-    [switch]$AllowAmbiguous
+    [switch]$AllowAmbiguous,
+    [int]$ScreenshotMaxAttempts = 4,
+    [int]$ScreenshotRetryDelayMilliseconds = 250
 )
 
 Set-StrictMode -Version Latest
@@ -365,47 +367,108 @@ function New-CandidateSummary {
     }
 }
 
+function Set-WindowForegroundForCapture {
+    param([System.IntPtr]$Handle)
+
+    $hwndTopMost = [System.IntPtr]::new(-1)
+    $swpNoMove = 0x0002
+    $swpNoSize = 0x0001
+    [void][OxForms.OfficeOracle.NativeMethods]::ShowWindow($Handle, 5)
+    [void][OxForms.OfficeOracle.NativeMethods]::SetWindowPos($Handle, $hwndTopMost, 0, 0, 0, 0, ($swpNoMove -bor $swpNoSize))
+    [void][OxForms.OfficeOracle.NativeMethods]::SetForegroundWindow($Handle)
+}
+
 function Save-WindowScreenshot {
     param(
         [object]$Window,
-        [string]$Directory
+        [string]$Directory,
+        [int]$MaxAttempts = 4,
+        [int]$RetryDelayMilliseconds = 250
     )
 
     if ($null -eq $Window.bounds -or $Window.bounds.width -le 0 -or $Window.bounds.height -le 0) {
         throw 'Selected window has empty or unavailable bounds.'
     }
 
+    if ($MaxAttempts -lt 1) {
+        $MaxAttempts = 1
+    }
+
     Add-Type -AssemblyName System.Drawing
 
     $handleValue = [System.IntPtr]::new([Convert]::ToInt64($Window.handle.Substring(2), 16))
-    $hwndTopMost = [System.IntPtr]::new(-1)
     $hwndNoTopMost = [System.IntPtr]::new(-2)
     $swpNoMove = 0x0002
     $swpNoSize = 0x0001
-    [void][OxForms.OfficeOracle.NativeMethods]::ShowWindow($handleValue, 5)
-    [void][OxForms.OfficeOracle.NativeMethods]::SetWindowPos($handleValue, $hwndTopMost, 0, 0, 0, 0, ($swpNoMove -bor $swpNoSize))
-    [void][OxForms.OfficeOracle.NativeMethods]::SetForegroundWindow($handleValue)
-    Start-Sleep -Milliseconds 300
 
     $imagePath = Join-Path $Directory 'window-capture.png'
-    $bitmap = [System.Drawing.Bitmap]::new([int]$Window.bounds.width, [int]$Window.bounds.height)
-    $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+    $width = [int]$Window.bounds.width
+    $height = [int]$Window.bounds.height
+
+    # CopyFromScreen can throw a transient 'The handle is invalid' Win32 GDI error
+    # while the just-raised window is still settling under focus/composition churn.
+    # Re-assert foreground + topmost and retry a bounded number of times, recording
+    # each attempt, so a flake becomes a deterministic retry rather than a failed
+    # capture -- and a persistent failure still surfaces a precise error.
+    $attempts = [System.Collections.Generic.List[object]]::new()
+    $captured = $false
+    $lastError = $null
+
     try {
-        $graphics.CopyFromScreen([int]$Window.bounds.left, [int]$Window.bounds.top, 0, 0, $bitmap.Size)
-        $bitmap.Save($imagePath, [System.Drawing.Imaging.ImageFormat]::Png)
+        for ($attempt = 1; $attempt -le $MaxAttempts; $attempt++) {
+            Set-WindowForegroundForCapture -Handle $handleValue
+            Start-Sleep -Milliseconds 300
+
+            # Construct bitmap/graphics inside the try so a partial construction
+            # (e.g. Graphics.FromImage throwing) is recorded, retried, and disposed
+            # like any other attempt instead of escaping the retry loop and leaking.
+            $bitmap = $null
+            $graphics = $null
+            try {
+                $bitmap = [System.Drawing.Bitmap]::new($width, $height)
+                $graphics = [System.Drawing.Graphics]::FromImage($bitmap)
+                $graphics.CopyFromScreen([int]$Window.bounds.left, [int]$Window.bounds.top, 0, 0, $bitmap.Size)
+                $bitmap.Save($imagePath, [System.Drawing.Imaging.ImageFormat]::Png)
+                $captured = $true
+                $attempts.Add([ordered]@{ attempt = $attempt; status = 'ok' }) | Out-Null
+            }
+            catch {
+                $lastError = $_.Exception.Message
+                $attempts.Add([ordered]@{ attempt = $attempt; status = 'error'; message = $lastError }) | Out-Null
+            }
+            finally {
+                if ($null -ne $graphics) { $graphics.Dispose() }
+                if ($null -ne $bitmap) { $bitmap.Dispose() }
+            }
+
+            if ($captured) {
+                break
+            }
+
+            if ($attempt -lt $MaxAttempts) {
+                Start-Sleep -Milliseconds $RetryDelayMilliseconds
+            }
+        }
     }
     finally {
-        $graphics.Dispose()
-        $bitmap.Dispose()
         [void][OxForms.OfficeOracle.NativeMethods]::SetWindowPos($handleValue, $hwndNoTopMost, 0, 0, 0, 0, ($swpNoMove -bor $swpNoSize))
+    }
+
+    if (-not $captured) {
+        if (Test-Path -LiteralPath $imagePath -PathType Leaf) {
+            Remove-Item -LiteralPath $imagePath -Force -ErrorAction SilentlyContinue
+        }
+        $detail = if ([string]::IsNullOrWhiteSpace($lastError)) { 'unknown error' } else { $lastError }
+        throw "Window screenshot capture failed after $MaxAttempts attempt(s): $detail"
     }
 
     [ordered]@{
         path = (Resolve-Path -LiteralPath $imagePath).Path
         sha256 = Get-Sha256Hex -Path $imagePath
-        width = [int]$Window.bounds.width
-        height = [int]$Window.bounds.height
+        width = $width
+        height = $height
         format = 'png'
+        attempts = @($attempts)
     }
 }
 
@@ -474,7 +537,7 @@ function Invoke-WindowCapture {
 
         if ($ShouldCaptureScreenshot) {
             try {
-                $result.screenshot = Save-WindowScreenshot -Window $selected -Directory $resolvedOutDir
+                $result.screenshot = Save-WindowScreenshot -Window $selected -Directory $resolvedOutDir -MaxAttempts $ScreenshotMaxAttempts -RetryDelayMilliseconds $ScreenshotRetryDelayMilliseconds
             }
             catch {
                 $result.diagnostics += New-Diagnostic -Code 'screenshot_failure' -Message $_.Exception.Message
