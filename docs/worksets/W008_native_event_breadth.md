@@ -50,8 +50,8 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
   ByRef-SCALAR copyback and the real `MSForms.ReturnInteger`/`ReturnBoolean` COM
   types crossing the foreign-COM boundary (vs the repo-owned `W008ReturnValue`
   stand-in) are not exercised. `oxforms-esq.2` (B) is unblocked.
-- **`oxforms-esq.2` (B): IN PROGRESS** — the full pointer + keyboard native-dispatch
-  surface is wired through `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
+- **`oxforms-esq.2` (B): COMPLETE** — every targeted FM20 event is wired through
+  `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
   `dispatch_fire_vba_event`, each reaching a real `WithEvents` handler via the
   control's `Perform*` member (never the W005 `RaiseDispatch` carrier), proven by
   RuntimeRunner tests in
@@ -72,25 +72,28 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
   - W005 trace-replay golden + interaction-comparison hash chain regenerated for the
     KeyDown/KeyPress reducer-arg changes; floor + 21/21 evidence checks green each
     increment.
-  - **Remaining:**
-    - **focus `[Exit]`** (ReturnBoolean Cancel veto — the *other* half of esq.1):
-      `PerformExit` already exists on CommandButton/TextBox and the fixture's
-      `InputField_Exit` vetoes, but the reducer emits **no** focus `Exit`/`Enter`
-      event yet. Wiring it means emitting `Exit` before `TransferFocus` at the two
-      focus-transition sites (`reduce_mouse_down`, `reduce_tab_key_down`). **Wider
-      blast radius than first scoped:** it inserts an effect at *every* control→
-      control focus transition, so it regenerates the W005 golden AND ripples into
-      the W005 event-dispatch carrier path + smoke test (which must map/handle
-      `Exit`) and several reducer unit tests. The Cancel veto would be **recorded,
-      not folded back** (focus still commits synchronously) — same boundary as the
-      KeyCode readback.
-    - **form-level `QueryClose` + lifecycle** (`Initialize`/`Activate`/`Deactivate`/
-      `Terminate`): form-targeted events have no control to call `Perform*` on. The
-      design panel recommends a single `OxRaiseFormEvent` dispatcher Sub on the form
-      module (returning the post-handler `Cancel` as Integer via a `ReturnInteger`
-      helper) + retaining the form object on the runner + emitting the one missing
-      `Terminate` effect. **This is a foundation-level decision** (the form-dispatch
-      surface) flagged for owner ratification before it lands.
+  - **focus `[Exit]`** → `PerformExit`, reading back the post-handler `Cancel` via the
+    `MSForms.ReturnBoolean` helper — the *other* half of esq.1 in the real runtime.
+    The reducer now emits `Exit` on the control losing focus before `TransferFocus` at
+    both transition sites (`reduce_mouse_down`, `reduce_tab_key_down`); the legacy W005
+    event-dispatch carrier maps `Exit` → `RaiseDispatch` so its smoke test stays green.
+    Commit `a9d54aa` (W005 golden + hash chain regenerated for the inserted `Exit`
+    effects).
+  - **form-level `QueryClose` + lifecycle** → the form module's `Perform*` surface
+    (owner-ratified: five `Perform*` members, not a single dispatcher). The runner
+    retains the form object (`form_module`) and routes form-targeted events
+    (`control_id == None`) to `dispatch_form_event` before the control lookup:
+    `QueryClose` → `PerformQueryClose(CloseMode)` reading back the post-handler `Cancel`
+    (Integer, via `ReturnInteger`; the fixture vetoes CloseMode 0, allows 1);
+    `Initialize`/`Activate`/`Deactivate`/`Terminate` → the matching no-arg `Perform*`.
+    The reducer's missing `Terminate` emission was added. Form events use a sentinel
+    `<form>` control_id in the dispatch record.
+  - **Non-claims / follow-ups (not blockers):** focus `Enter` is not emitted/dispatched
+    (needs a new control `Enter` event — a documented gap, not in the targeted set);
+    every Return* readback (KeyCode/KeyAscii/Cancel) is **recorded** in
+    `NativeDispatchRecord.returned`, not yet **folded back into reducer state** (a
+    swallowed key/char or vetoed Exit/QueryClose does not yet change downstream reducer
+    behavior — the fold-back loop is the natural next step).
   - **Explicit non-claims (all wired events):** Return* readbacks are **recorded**,
     not yet **folded back into reducer state** (a swallowed key/char or vetoed
     Cancel does not yet change downstream reducer behavior); `KeyCode` is the OS

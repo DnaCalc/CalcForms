@@ -12,11 +12,15 @@
 use std::path::{Path, PathBuf};
 
 use oxforms_core::materialize_w007_demo_form;
-use oxforms_oxvba_adapter::runtime_runner::{RuntimeError, RuntimeRunner, RuntimeTraceRow};
+use oxforms_oxvba_adapter::runtime_runner::{
+    RuntimeError, RuntimeRunner, RuntimeStep, RuntimeTraceRow,
+};
 use oxforms_pal::{
-    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, KeyCode, KeyEvent, KeyRepeat,
-    KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
-    RawKeyDiagnostics, UiEvent, UiEventId, UiEventKind, UiEventSource,
+    ActivationEvent, ActivationReason, CharacterInputEvent, ClickCount, CloseQueryPolicy,
+    CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId, CoordinatePayload,
+    FormLoadedEvent, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
+    LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics,
+    TerminatedEvent, UiEvent, UiEventId, UiEventKind, UiEventSource,
 };
 
 use oxvba_bundle::BundlePackage;
@@ -794,4 +798,160 @@ fn runner_dispatches_native_exit_with_returnboolean_veto_readback() {
         Some("true"),
         "InputField_Exit vetoes; the runtime reads back Cancel=true via the ReturnBoolean helper"
     );
+}
+
+fn close_request_event(id: u64, origin: CloseRequestOrigin) -> UiEvent {
+    ui_event(
+        id,
+        UiEventKind::CloseRequest(CloseRequestEvent {
+            origin,
+            reason: CloseReason::User,
+            query_policy: CloseQueryPolicy::Query,
+            coordinates: None,
+        }),
+    )
+}
+
+fn assert_form_dispatch(step: &RuntimeStep, event: &str, member: &str) {
+    let dispatch = step
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == event)
+        .unwrap_or_else(|| {
+            panic!(
+                "{event} natively dispatched, got {:?}",
+                step.native_dispatches
+            )
+        });
+    assert_eq!(dispatch.native_member, member);
+    assert_eq!(
+        dispatch.returned, None,
+        "{member} is a Sub; nothing is read back"
+    );
+}
+
+#[test]
+fn runner_dispatches_native_queryclose_with_cancel_readback() {
+    // oxforms-esq.2: a form-targeted QueryClose dispatches to the form module's
+    // PerformQueryClose (no control to call Perform* on); the post-handler Cancel is
+    // read back via the ReturnInteger helper -- consuming the esq.1 mechanism at form
+    // level. The fixture vetoes a control-menu close (CloseMode 0) and allows a code
+    // Unload (CloseMode 1), so the readback reflects the handler's decision. The veto
+    // is recorded, not yet folded back into the reducer close flow.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // CloseButton -> CloseMode 0 -> the handler vetoes (Cancel = -1).
+    let menu_close = runner
+        .dispatch(close_request_event(1, CloseRequestOrigin::CloseButton))
+        .expect("control-menu close request");
+    let vetoed = menu_close
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "QueryClose")
+        .unwrap_or_else(|| {
+            panic!(
+                "QueryClose natively dispatched, got {:?}",
+                menu_close.native_dispatches
+            )
+        });
+    assert_eq!(vetoed.native_member, "PerformQueryClose");
+    assert_eq!(
+        vetoed.returned.as_deref(),
+        Some("-1"),
+        "the handler vetoes a control-menu close; the runtime reads back Cancel=-1"
+    );
+
+    // CodeUnload -> CloseMode 1 -> the handler allows the close (Cancel stays 0).
+    let code_close = runner
+        .dispatch(close_request_event(2, CloseRequestOrigin::CodeUnload))
+        .expect("code unload close request");
+    let allowed = code_close
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "QueryClose")
+        .unwrap_or_else(|| {
+            panic!(
+                "QueryClose natively dispatched, got {:?}",
+                code_close.native_dispatches
+            )
+        });
+    assert_eq!(allowed.native_member, "PerformQueryClose");
+    assert_eq!(
+        allowed.returned.as_deref(),
+        Some("0"),
+        "the handler allows a code unload; Cancel reads back 0"
+    );
+}
+
+#[test]
+fn runner_dispatches_native_form_lifecycle_events() {
+    // oxforms-esq.2: the form lifecycle events (no readback) dispatch to the form
+    // module's Perform* members via the same form-event path as QueryClose.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+    let form_id = runner.form().form_id.clone();
+
+    let init = runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::FormLoaded(FormLoadedEvent {
+                form_id: form_id.clone(),
+                load_source: "test".to_string(),
+                control_count: None,
+            }),
+        ))
+        .expect("form loaded");
+    assert_form_dispatch(&init, "Initialize", "PerformInitialize");
+
+    let activate = runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::Activate(ActivationEvent {
+                reason: ActivationReason::WindowShown,
+                previous: None,
+                next: None,
+            }),
+        ))
+        .expect("activate");
+    assert_form_dispatch(&activate, "Activate", "PerformActivate");
+
+    let deactivate = runner
+        .dispatch(ui_event(
+            3,
+            UiEventKind::Deactivate(ActivationEvent {
+                reason: ActivationReason::WindowShown,
+                previous: None,
+                next: None,
+            }),
+        ))
+        .expect("deactivate");
+    assert_form_dispatch(&deactivate, "Deactivate", "PerformDeactivate");
+
+    let terminate = runner
+        .dispatch(ui_event(
+            4,
+            UiEventKind::Terminated(TerminatedEvent {
+                form_id,
+                reason: LifecycleReason::User,
+            }),
+        ))
+        .expect("terminated");
+    assert_form_dispatch(&terminate, "Terminate", "PerformTerminate");
 }

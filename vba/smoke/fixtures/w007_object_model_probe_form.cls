@@ -109,6 +109,61 @@ Private Sub OkButton_Click()
     OutputLabel.Caption = "Hello, " & InputField.Text
 End Sub
 
+' --- Form-level FM20 dispatch surface (oxforms-esq.2) ---
+' The runtime invokes these Perform* members on the form module for form-targeted
+' events (no control to call Perform* on); each calls the form's own UserForm_*
+' handler. PerformQueryClose carries a mutable Cancel (ReturnInteger) the handler can
+' set nonzero to veto the close, and returns the post-handler value.
+Public Sub PerformInitialize()
+    UserForm_Initialize
+End Sub
+
+Public Sub PerformActivate()
+    UserForm_Activate
+End Sub
+
+Public Sub PerformDeactivate()
+    UserForm_Deactivate
+End Sub
+
+Public Sub PerformTerminate()
+    UserForm_Terminate
+End Sub
+
+Public Function PerformQueryClose(ByVal CloseMode As Integer) As Integer
+    Dim Cancel As ReturnInteger
+    Set Cancel = New ReturnInteger
+    Cancel.Value = 0
+    UserForm_QueryClose Cancel, CloseMode
+    PerformQueryClose = Cancel.Value
+End Function
+
+' Form-level handlers (the form's own events).
+Private Sub UserForm_Initialize()
+    Append "UserForm_Initialize"
+End Sub
+
+Private Sub UserForm_Activate()
+    Append "UserForm_Activate"
+End Sub
+
+Private Sub UserForm_Deactivate()
+    Append "UserForm_Deactivate"
+End Sub
+
+Private Sub UserForm_Terminate()
+    Append "UserForm_Terminate"
+End Sub
+
+' Vetoes a user/control-menu close (CloseMode 0 = vbFormControlMenu) and allows a
+' code Unload (CloseMode 1), proving the readback reflects the handler's decision.
+Private Sub UserForm_QueryClose(ByVal Cancel As ReturnInteger, ByVal CloseMode As Integer)
+    Append "UserForm_QueryClose;CloseMode=" & CloseMode
+    If CloseMode = 0 Then
+        Cancel.Value = -1
+    End If
+End Sub
+
 Private Sub Append(ByVal Line As String)
     If Len(mLog) > 0 Then
         mLog = mLog & vbLf

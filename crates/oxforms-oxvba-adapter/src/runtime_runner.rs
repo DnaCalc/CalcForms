@@ -20,11 +20,13 @@
 //! `Change` → `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`
 //! and `KeyPress` → `PerformKeyPress` (with the `MSForms.ReturnInteger` KeyCode/
 //! KeyAscii readback), `MouseDown`/`MouseUp` → `PerformMouseDown`/`PerformMouseUp`,
-//! and focus `[Exit]` → `PerformExit` (with the `MSForms.ReturnBoolean` Cancel
-//! readback) (oxforms-esq.2). The remaining reducer-routed FM20 events (form-level
-//! lifecycle and `QueryClose`) are still *acknowledged* in the trace
-//! ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched yet. This is
-//! an explicit, traced non-claim — never a silent default.
+//! focus `[Exit]` → `PerformExit` (with the `MSForms.ReturnBoolean` Cancel readback),
+//! and the form-level events `QueryClose` → `PerformQueryClose` (with the Cancel
+//! readback) and `Initialize`/`Activate`/`Deactivate`/`Terminate` → the matching form
+//! `Perform*` (oxforms-esq.2). The remaining reducer-routed FM20 events (e.g.
+//! `MouseMove`, or a mouse press on the form background) are still *acknowledged* in
+//! the trace ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched yet.
+//! This is an explicit, traced non-claim — never a silent default.
 
 use std::collections::HashMap;
 
@@ -140,9 +142,9 @@ pub enum RuntimeTraceRow {
         reason: String,
         invalidation_ids: Vec<u64>,
     },
-    /// A reducer-routed FM20 event not yet natively dispatched (form-level lifecycle
-    /// and `QueryClose`), or a mouse press on the form background. Recorded, never
-    /// silently dropped; the remaining native event dispatch is a later slice.
+    /// A reducer-routed FM20 event not yet natively dispatched (e.g. `MouseMove`), or
+    /// a mouse press on the form background. Recorded, never silently dropped; the
+    /// remaining native event dispatch is a later slice.
     EventAcknowledged {
         event_name: String,
         target: Option<String>,
@@ -171,6 +173,9 @@ pub struct RuntimeRunner {
     form: RuntimeForm,
     /// The `UserForm` object — the runtime's Re-render target (`render_frame`).
     user_form: ObjectRef,
+    /// The form-document object (the form class hosting the `UserForm_*` handlers and
+    /// the form-level `Perform*` dispatch surface) — the target for form-level events.
+    form_module: ObjectRef,
     /// VBA object per control (for native member calls), keyed by reducer identity.
     control_objects: HashMap<ControlId, ObjectRef>,
     /// The control's `OxControlCore` object (for Dirty/DisplayText/ClearDirty).
@@ -239,6 +244,7 @@ impl RuntimeRunner {
             session,
             form,
             user_form,
+            form_module: form_object,
             control_objects,
             core_objects,
             dispatch_seq: 0,
@@ -330,8 +336,8 @@ impl RuntimeRunner {
                         }
                         None => {
                             // Reducer-routed FM20 event with no native dispatch yet
-                            // (e.g. form-level lifecycle/QueryClose, or a form-
-                            // background mouse press): recorded, not dropped.
+                            // (e.g. MouseMove, or a form-background mouse press):
+                            // recorded, not dropped.
                             step.trace.push(RuntimeTraceRow::EventAcknowledged {
                                 event_name: event_name.clone(),
                                 target: target_label,
@@ -368,16 +374,26 @@ impl RuntimeRunner {
     /// to a native control member (`Click` → `PerformClick`, `Change` →
     /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`, `KeyPress`
     /// → `PerformKeyPress`, `MouseDown`/`MouseUp` → `PerformMouseDown`/
-    /// `PerformMouseUp`, `Exit` → `PerformExit`), or `None` when it is a reducer-routed
-    /// FM20 event still acknowledged but not natively dispatched (form-level
-    /// lifecycle, `QueryClose`, …), or a mouse press
-    /// that landed on the form background (no control target). `dispatch_seq` advances
-    /// only after a native member call succeeds.
+    /// `PerformMouseUp`, `Exit` → `PerformExit`) or, for form-level events
+    /// (`QueryClose`/lifecycle), to the form module's `Perform*` via
+    /// [`Self::dispatch_form_event`]; or `None` when it is a reducer-routed FM20 event
+    /// still acknowledged but not natively dispatched (e.g. `MouseMove`), or a mouse
+    /// press that landed on the form background (no control target). `dispatch_seq`
+    /// advances only after a native member call succeeds.
     fn dispatch_fire_vba_event(
         &mut self,
         effect: &EffectRequest,
         event_name: &str,
     ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
+        // Form-level events (form target, no control) dispatch to the form module's
+        // Perform* surface, not a control member.
+        if matches!(
+            event_name,
+            "Initialize" | "Activate" | "Deactivate" | "QueryClose" | "Terminate"
+        ) {
+            return self.dispatch_form_event(effect, event_name);
+        }
+
         if !matches!(
             event_name,
             "Click"
@@ -511,6 +527,60 @@ impl RuntimeRunner {
 
         Ok(Some(NativeDispatchRecord {
             control_id,
+            event_name: event_name.to_string(),
+            native_member: native_member.to_string(),
+            completion: DispatchCompletion::Succeeded,
+            returned,
+        }))
+    }
+
+    /// Dispatch a form-level FM20 event (form target, no control) to the form module's
+    /// `Perform*` surface. `QueryClose` reads back the post-handler `Cancel` (an
+    /// `Integer` via the `ReturnInteger` helper — nonzero/`True` = vetoed); the
+    /// lifecycle events (`Initialize`/`Activate`/`Deactivate`/`Terminate`) take no args
+    /// and return nothing. The `Cancel` veto is recorded in
+    /// [`NativeDispatchRecord::returned`], not yet folded back into the reducer close
+    /// flow — the same recorded-not-honored boundary as the keyboard/focus readbacks.
+    fn dispatch_form_event(
+        &mut self,
+        effect: &EffectRequest,
+        event_name: &str,
+    ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
+        let (native_member, args, reads_cancel): (&str, Vec<Variant>, bool) = match event_name {
+            "Initialize" => ("PerformInitialize", Vec::new(), false),
+            "Activate" => ("PerformActivate", Vec::new(), false),
+            "Deactivate" => ("PerformDeactivate", Vec::new(), false),
+            "Terminate" => ("PerformTerminate", Vec::new(), false),
+            "QueryClose" => {
+                let close_mode = effect_arg_i16(effect, "CloseMode").unwrap_or(0);
+                (
+                    "PerformQueryClose",
+                    vec![Variant::from_i16(close_mode)],
+                    true,
+                )
+            }
+            // Unreachable: guarded by the `matches!` at the dispatch entry.
+            _ => return Ok(None),
+        };
+
+        let result = invoke(
+            &mut self.session,
+            self.form_module.clone(),
+            native_member,
+            ProjectMemberKind::Method,
+            args,
+        )?;
+        self.dispatch_seq += 1;
+
+        let returned = if reads_cancel {
+            result.as_i16().map(|cancel| cancel.to_string())
+        } else {
+            None
+        };
+
+        Ok(Some(NativeDispatchRecord {
+            // Form-level events have no control; a sentinel marks the form as target.
+            control_id: ControlId::new("<form>"),
             event_name: event_name.to_string(),
             native_member: native_member.to_string(),
             completion: DispatchCompletion::Succeeded,

@@ -972,6 +972,10 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::Terminated(payload) => {
             if payload.form_id == state.form_id {
+                // The VBA-visible teardown event fires before the lifecycle reaches
+                // Terminated (the W006 nested-modal oracle: QueryClose -> Terminate).
+                let target = UiEventTarget::form(state.form_id.0.clone());
+                queue_vba_event(&mut state, &mut context, target, "Terminate");
                 state.lifecycle = LifecycleState::Terminated;
                 state.close_flow = None;
             }
