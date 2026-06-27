@@ -1,0 +1,127 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_nested_modal_lifecycle_capture.v1",
+    "bead":  "oxforms-0a0.19",
+    "capture_id":  "nested-modal-lifecycle-20260627T141239Z",
+    "status":  "captured",
+    "fixture":  {
+                    "id":  "excel-msforms-w006-nested-modal-lifecycle-v1",
+                    "inputs":  {
+                                   "manifest":  {
+                                                    "path":  "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/fixture.json",
+                                                    "sha256":  "07be75eb8af1621169b8202842ee29dfc6edcb785dedf807f911347712f66fbd"
+                                                },
+                                   "form_code_behind":  [
+                                                            {
+                                                                "form_identity":  "outer",
+                                                                "path":  "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/outer-form-code-behind.bas",
+                                                                "sha256":  "60e5ae54cb9168de25151b24f4373f04023383f9abc0431c94ca9955ade6f5b3"
+                                                            },
+                                                            {
+                                                                "form_identity":  "inner",
+                                                                "path":  "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/inner-form-code-behind.bas",
+                                                                "sha256":  "d1b7224c10896acb8b48498e0d01ef3fcbb6c2d03b47849051887f369d90a3f9"
+                                                            }
+                                                        ],
+                                   "standard_module":  {
+                                                           "path":  "fixtures/office-oracle/excel-msforms/userforms/nested-modal-lifecycle/standard-module.bas",
+                                                           "sha256":  "7440d4fc09f4b978bd7a4e6a40549f62d798db8c045a1586bba286e0c4b5132b"
+                                                       },
+                                   "capture_tool":  {
+                                                        "path":  "tools/office-oracle/Capture-W006NestedModalLifecycle.ps1",
+                                                        "sha256":  "7f0697a549dabcd952c7305f1e47986c510d03abe614b092896b857580f2d693"
+                                                    }
+                               }
+                },
+    "commands":  {
+                     "capture":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture.command.txt",
+                     "rerun_note":  "Run this script from the repository root. It generates the workbook, opens Excel, drives the outer and inner UserForms with public Windows input, exports W006NestedModalLog, writes manifests, and checksums artifacts."
+                 },
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "is_windows":  true,
+                     "powershell":  "5.1.26100.8655"
+                 },
+    "excel":  {
+                  "path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                  "file_version":  "16.0.20026.20182",
+                  "product_version":  "16.0.20026.20182",
+                  "product_name":  "Microsoft Office",
+                  "company_name":  "Microsoft Corporation"
+              },
+    "artifacts":  {
+                      "generated_workbook":  {
+                                                 "path":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/w006-nested-modal-lifecycle-oracle.xlsm",
+                                                 "sha256":  "cebd728beaecd83b531826620ad732f3ebd100ed09ef828ee17f6e0c58b1131b"
+                                             },
+                      "run_summary":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/run-summary.json",
+                      "event_log_json":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/nested-modal-event-log.json",
+                      "event_log_csv":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/nested-modal-event-log.csv",
+                      "input_actions":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/input-actions.json",
+                      "command_logs":  [
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-progress.log",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-outer-initial.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-outer-initial.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-outer-initial.stderr.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-hide.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-hide.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-hide.stderr.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-unload.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-unload.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-unload.stderr.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-close.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-close.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-inner-close.stderr.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-outer-after-hide.command.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-outer-after-hide.stdout.txt",
+                                           "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/capture-window-outer-after-hide.stderr.txt"
+                                       ]
+                  },
+    "observed_coverage":  {
+                              "row_count":  42,
+                              "event_names":  [
+                                                  "Activate",
+                                                  "AfterHide",
+                                                  "AfterInnerShowModalReturn",
+                                                  "AfterUnload",
+                                                  "BeforeHide",
+                                                  "BeforeInnerShowModal",
+                                                  "BeforeUnload",
+                                                  "Click",
+                                                  "Deactivate",
+                                                  "Initialize",
+                                                  "QueryClose",
+                                                  "Terminate"
+                                              ],
+                              "form_identities":  [
+                                                      "inner",
+                                                      "outer"
+                                                  ],
+                              "manual_inputs":  [
+
+                                                ],
+                              "input_method":  "automated public Windows SendInput and SendKeys"
+                          },
+    "blockers":  [
+
+                 ],
+    "trace_replay_implications":  [
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: nested modal rows require parent_row_id and nesting_depth.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 9: modal show, hide, unload, dispatch, and platform work must record effect_requested rows separately from effect_completed rows.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 11: lifecycle_pump rows must carry modal depth, active form/window/control, close/query/hide/unload/terminate reasons, cancellation status, and causal row ids.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 14: validators must check parent/nesting and reducer/effect/dispatch causal ordering."
+                                  ],
+    "warnings":  [
+                     "This is black-box Excel/MSForms event evidence only; no OxForms output was compared.",
+                     "Missing event rows are unobserved rows in this run, not negative facts about all MSForms behavior.",
+                     "Desktop theme, DPI, input focus, Excel/MSForms version, and macro security can affect observed rows."
+                 ],
+    "clean_room":  {
+                       "source":  "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows input APIs.",
+                       "prohibited":  "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison were used."
+                   },
+    "non_claims":  [
+                       "No OxForms runtime modal, reentrant pump, hide/unload, QueryClose, or Terminate behavior is implemented or claimed.",
+                       "This capture is not an exhaustive MSForms parity matrix."
+                   ]
+}

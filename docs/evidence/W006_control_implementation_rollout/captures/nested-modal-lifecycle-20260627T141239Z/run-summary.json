@@ -1,0 +1,60 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_nested_modal_run_summary.v1",
+    "bead":  "oxforms-0a0.19",
+    "capture_id":  "nested-modal-lifecycle-20260627T141239Z",
+    "row_count":  42,
+    "event_names":  [
+                        "Activate",
+                        "AfterHide",
+                        "AfterInnerShowModalReturn",
+                        "AfterUnload",
+                        "BeforeHide",
+                        "BeforeInnerShowModal",
+                        "BeforeUnload",
+                        "Click",
+                        "Deactivate",
+                        "Initialize",
+                        "QueryClose",
+                        "Terminate"
+                    ],
+    "form_identities":  [
+                            "inner",
+                            "outer"
+                        ],
+    "selected_surface_status":  {
+                                    "nested_modal_entry":  "observed_inner_rows_with_parent_row_id",
+                                    "inner_hide_path":  "observed_fixture_hide_rows",
+                                    "inner_unload_path":  "observed_fixture_unload_rows",
+                                    "inner_system_close_path":  "observed_queryclose_row",
+                                    "outer_hide_path":  "observed_fixture_hide_rows",
+                                    "outer_unload_path":  "observed_fixture_unload_rows",
+                                    "query_close_values":  "observed_cancel_before_cancel_after_close_mode_rows",
+                                    "terminate_rows":  "observed"
+                                },
+    "facts":  [
+                  "The event log records outer and inner form identity, show mode, active control/window caption, close origin, QueryClose Cancel before/after values, CloseMode, and nesting metadata where rows were emitted.",
+                  "Inner modal rows carry nesting_depth=1 and parent_row_id pointing at the outer BeforeInnerShowModal row when the fixture logger had that parent context.",
+                  "Fixture action rows record Hide and Unload call sites separately from MSForms QueryClose and Terminate rows."
+              ],
+    "assumptions":  [
+                        "Public input actions target controls by screenshot anchor derivation and manifest point geometry.",
+                        "Window screenshots and active-window captions are diagnostics for this run, not final active-window parity rules."
+                    ],
+    "unknowns":  [
+                     "This capture does not settle all owner-window policies, host shutdown close modes, cancellation variants, or object-lifetime reference-release timing.",
+                     "Rows absent from this run remain unknown for this fixture and are not negative MSForms facts."
+                 ],
+    "blockers":  [
+
+                 ],
+    "trace_replay_implications":  [
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 5 requires nested modal activity to carry parent_row_id and nesting_depth rather than prose-only causality.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 9 requires modal show, hide, unload, VBA dispatch, and platform work to preserve separate effect_requested and effect_completed rows.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 11 requires lifecycle_pump rows to carry modal depth, active form/window/focus, close/query/hide/unload/terminate reasons, cancellation status, and causal row ids.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 14 validates parent/nesting relationships and reducer/effect/dispatch causal ordering."
+                                  ],
+    "non_claims":  [
+                       "No OxForms runtime modal or reentrant pump behavior is implemented or claimed by this capture.",
+                       "This capture is oracle evidence, not a pass/fail comparison artifact."
+                   ]
+}

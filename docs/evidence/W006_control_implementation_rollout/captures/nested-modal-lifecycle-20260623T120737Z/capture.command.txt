@@ -1,1 +1,0 @@
-﻿"C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-W006NestedModalLifecycle.ps1 -FixtureDir fixtures\office-oracle\excel-msforms\userforms\nested-modal-lifecycle -OutDir docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260623T120737Z -Force

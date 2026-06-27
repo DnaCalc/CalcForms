@@ -1,0 +1,39 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_nested_modal_coordinate_derivation.v1",
+    "bead":  "oxforms-0a0.19",
+    "run":  "outer-after-hide",
+    "form_identity":  "outer",
+    "screenshot":  {
+                       "path":  "docs/evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/outer-after-hide-window/window-capture.png",
+                       "width":  424,
+                       "height":  301,
+                       "sha256":  "bef3b0ea717bd96b8988c84be132e6ede2bd2acd2cdd51034caa0a7b70377372",
+                       "coordinate_origin":  "top_left_of_captured_top_level_window"
+                   },
+    "dpi":  96,
+    "points_to_pixels":  1.3333333333333333,
+    "anchor_control":  {
+                           "name":  "OuterAnchorLabel",
+                           "rgb":  {
+                                       "red":  64,
+                                       "green":  64,
+                                       "blue":  64
+                                   },
+                           "rect_screenshot_pixels":  {
+                                                          "x":  33,
+                                                          "y":  56,
+                                                          "width":  94,
+                                                          "height":  30,
+                                                          "pixel_count":  2443
+                                                      }
+                       },
+    "form_origin_screenshot_pixels":  {
+                                          "x":  9,
+                                          "y":  32,
+                                          "source":  "exact_anchor_label_fill_color"
+                                      },
+    "notes":  [
+                  "Coordinates drive public Windows input only; worksheet rows remain the observed MSForms lifecycle facts.",
+                  "The derived form origin uses a repo-owned colored Label anchor and does not assert pixel parity."
+              ]
+}

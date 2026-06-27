@@ -1,0 +1,72 @@
+﻿{
+    "schema":  "oxforms.office_oracle.window_capture.v1",
+    "tool":  "tools/office-oracle/Capture-Window.ps1",
+    "mode":  "capture",
+    "timestamp_utc":  "2026-06-27T14:12:51.6338275Z",
+    "command":  "\"C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -ExecutionPolicy Bypass -File C:\\Work\\DnaCalc\\OxForms\\tools\\office-oracle\\Capture-Window.ps1 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W006_control_implementation_rollout\\captures\\nested-modal-lifecycle-20260627T141239Z\\inner-hide-window -TitleContains \"OxForms W006 Nested Inner\" -ProcessName EXCEL -CaptureScreenshot ",
+    "host":  {
+                 "os":  "Microsoft Windows NT 10.0.26200.0",
+                 "is_windows":  true,
+                 "powershell":  "5.1.26100.8655"
+             },
+    "query":  {
+                  "title_contains":  "OxForms W006 Nested Inner",
+                  "process_contains":  "",
+                  "process_name":  "EXCEL",
+                  "class_name":  ""
+              },
+    "status":  "ok",
+    "diagnostics":  [
+
+                    ],
+    "visible_top_level_window_count":  26,
+    "match_count":  1,
+    "candidates":  [
+                       {
+                           "handle":  "0x2211AF6",
+                           "title":  "OxForms W006 Nested Inner",
+                           "class_name":  "ThunderDFrame",
+                           "process_id":  56588,
+                           "process_name":  "EXCEL",
+                           "bounds":  {
+                                          "left":  730,
+                                          "top":  423,
+                                          "right":  1077,
+                                          "bottom":  628,
+                                          "width":  347,
+                                          "height":  205
+                                      }
+                       }
+                   ],
+    "selected_window":  {
+                            "handle":  "0x2211AF6",
+                            "title":  "OxForms W006 Nested Inner",
+                            "class_name":  "ThunderDFrame",
+                            "process_id":  56588,
+                            "process_name":  "EXCEL",
+                            "process_path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                            "bounds":  {
+                                           "left":  730,
+                                           "top":  423,
+                                           "right":  1077,
+                                           "bottom":  628,
+                                           "width":  347,
+                                           "height":  205
+                                       },
+                            "dpi":  96
+                        },
+    "screenshot":  {
+                       "path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W006_control_implementation_rollout\\captures\\nested-modal-lifecycle-20260627T141239Z\\inner-hide-window\\window-capture.png",
+                       "sha256":  "d253e16fa71e5d50bedfd572da814b0298ac14b8c08d9616ffd040550284db0b",
+                       "width":  347,
+                       "height":  205,
+                       "format":  "png",
+                       "attempts":  [
+                                        {
+                                            "attempt":  1,
+                                            "status":  "ok"
+                                        }
+                                    ]
+                   },
+    "manifest_path":  "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W006_control_implementation_rollout\\captures\\nested-modal-lifecycle-20260627T141239Z\\inner-hide-window\\window-capture-manifest.json"
+}

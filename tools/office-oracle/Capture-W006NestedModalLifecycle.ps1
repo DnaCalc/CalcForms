@@ -4,6 +4,7 @@ param(
     [string]$OutDir,
     [switch]$Force,
     [switch]$DryRun,
+    [switch]$GenerateOnly,
     [int]$ActionDelayMilliseconds = 240
 )
 
@@ -137,7 +138,10 @@ function Resolve-FixtureSourcePath {
 function Get-Sha256Hex {
     param([Parameter(Mandatory = $true)][string]$Path)
 
-    $stream = [System.IO.File]::OpenRead($Path)
+    # Open with FileShare.ReadWrite so the workbook can be hashed even while the
+    # live Excel instance still has it open (manifest/run-summary hashing runs
+    # before Excel is released in the finally).
+    $stream = [System.IO.File]::Open($Path, [System.IO.FileMode]::Open, [System.IO.FileAccess]::Read, [System.IO.FileShare]::ReadWrite)
     try {
         $sha256 = [System.Security.Cryptography.SHA256]::Create()
         try {
@@ -249,24 +253,6 @@ function Set-ControlPropertyIfPresent {
     & $Apply $ControlObject $value
 }
 
-function Set-ControlFontIfPresent {
-    param(
-        [Parameter(Mandatory = $true)]$ControlObject,
-        $FontSpec
-    )
-
-    if ($null -eq $FontSpec) {
-        return
-    }
-
-    Set-ControlPropertyIfPresent $ControlObject $FontSpec 'name' { param($c, $v) $c.Font.Name = [string]$v }
-    Set-ControlPropertyIfPresent $ControlObject $FontSpec 'sizePt' { param($c, $v) $c.Font.Size = [double]$v }
-    Set-ControlPropertyIfPresent $ControlObject $FontSpec 'bold' { param($c, $v) $c.Font.Bold = [bool]$v }
-    Set-ControlPropertyIfPresent $ControlObject $FontSpec 'italic' { param($c, $v) $c.Font.Italic = [bool]$v }
-    Set-ControlPropertyIfPresent $ControlObject $FontSpec 'underline' { param($c, $v) $c.Font.Underline = [bool]$v }
-    Set-ControlPropertyIfPresent $ControlObject $FontSpec 'strikethrough' { param($c, $v) $c.Font.Strikethrough = [bool]$v }
-}
-
 function Add-UserFormComponent {
     param(
         [Parameter(Mandatory = $true)]$VbProject,
@@ -301,7 +287,15 @@ function Add-UserFormComponent {
         Set-ControlPropertyIfPresent $createdControl $control 'tabIndex' { param($c, $v) $c.TabIndex = [int]$v }
         Set-ControlPropertyIfPresent $createdControl $control 'tabStop' { param($c, $v) $c.TabStop = [bool]$v }
         Set-ControlPropertyIfPresent $createdControl $control 'takeFocusOnClick' { param($c, $v) $c.TakeFocusOnClick = [bool]$v }
-        Set-ControlFontIfPresent $createdControl (Get-OptionalValue $control 'font')
+        # Design-time control fonts are intentionally NOT set here. Setting
+        # control.Font.* on a VBIDE designer control via COM is the unreliable path
+        # the base generator (Open-ExcelUserFormFixture.ps1) already avoids -- in
+        # this nested-modal generation it left the workbook in a state where SaveAs
+        # fell back to the interactive "Save As" dialog and blocked COM forever
+        # (the oxforms-0a0.19 generation timeout). Fonts are not load-bearing for
+        # the lifecycle oracle (it keys on event rows + the anchor-label background
+        # color, not text metrics); if a future fixture needs a specific font, set
+        # it at runtime in the standard module like the base generator does.
     }
 
     $codePath = Resolve-FixtureSourcePath -FixtureRoot $FixtureRoot -Path ([string](Get-RequiredValue $FormSpec 'codeBehindSourcePath'))
@@ -739,7 +733,7 @@ function Convert-ScreenshotToScreenPoint {
 
 function Add-InputAction {
     param(
-        [Parameter(Mandatory = $true)][System.Collections.Generic.List[object]]$Actions,
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][System.Collections.Generic.List[object]]$Actions,
         [Parameter(Mandatory = $true)][string]$Scenario,
         [Parameter(Mandatory = $true)][string]$Method,
         [Parameter(Mandatory = $true)][string]$Action,
@@ -781,7 +775,7 @@ function Invoke-ClickControl {
         [Parameter(Mandatory = $true)]$FormSpec,
         [Parameter(Mandatory = $true)]$Calibration,
         [Parameter(Mandatory = $true)][string]$ControlName,
-        [Parameter(Mandatory = $true)][System.Collections.Generic.List[object]]$Actions,
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][System.Collections.Generic.List[object]]$Actions,
         [Parameter(Mandatory = $true)][string]$Scenario,
         [Parameter(Mandatory = $true)][string]$TargetIntent
     )
@@ -799,7 +793,7 @@ function Invoke-ClickControl {
 function Invoke-AltF4 {
     param(
         [Parameter(Mandatory = $true)]$Window,
-        [Parameter(Mandatory = $true)][System.Collections.Generic.List[object]]$Actions,
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][System.Collections.Generic.List[object]]$Actions,
         [Parameter(Mandatory = $true)][string]$Scenario,
         [Parameter(Mandatory = $true)][string]$TargetIntent
     )
@@ -819,7 +813,7 @@ function Export-WorksheetLog {
     param(
         [Parameter(Mandatory = $true)]$Workbook,
         [Parameter(Mandatory = $true)][string]$ResolvedOutDir,
-        [Parameter(Mandatory = $true)][array]$AutomatedInputs
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][array]$AutomatedInputs
     )
 
     $sheet = $Workbook.Worksheets.Item('W006NestedModalLog')
@@ -982,7 +976,7 @@ function New-RunSummary {
     param(
         [Parameter(Mandatory = $true)][string]$CaptureId,
         [Parameter(Mandatory = $true)]$EventLog,
-        [Parameter(Mandatory = $true)][array]$Blockers
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][array]$Blockers
     )
 
     $rows = @($EventLog.rows)
@@ -1037,7 +1031,7 @@ function New-RunSummary {
 function New-BlockedRunSummary {
     param(
         [Parameter(Mandatory = $true)][string]$CaptureId,
-        [Parameter(Mandatory = $true)][array]$Blockers
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][array]$Blockers
     )
 
     return [ordered]@{
@@ -1086,7 +1080,7 @@ function New-BlockedRunSummary {
 function Write-BlockedInputActions {
     param(
         [Parameter(Mandatory = $true)][string]$ResolvedOutDir,
-        [Parameter(Mandatory = $true)][array]$Blockers
+        [Parameter(Mandatory = $true)][AllowEmptyCollection()][array]$Blockers
     )
 
     Write-JsonFile -Path (Join-Path $ResolvedOutDir 'input-actions.json') -Value ([ordered]@{
@@ -1289,6 +1283,16 @@ Set-Location $repoRoot
 try {
     New-WorkbookFromFixture -Fixture $fixture -FixtureRoot $fixtureRoot -WorkbookPath $workbookPath
     Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step 'workbook_generated'
+
+    if ($GenerateOnly) {
+        # Generation-only verification path (oxforms-0a0.24): prove the workbook
+        # generates headlessly without driving the live UserForm capture.
+        Write-Host "GenerateOnly: workbook generated at $workbookPath"
+        if (Test-Path -LiteralPath $workbookPath -PathType Leaf) {
+            Write-Host "GenerateOnly: SHA256 $(Get-Sha256Hex -Path $workbookPath)"
+        }
+        exit 0
+    }
 
     $excel = New-Object -ComObject Excel.Application
     $excel.Visible = $true

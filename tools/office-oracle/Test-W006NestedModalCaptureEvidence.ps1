@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$CaptureDir = 'docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260623T120737Z'
+    [string]$CaptureDir = 'docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260627T141239Z'
 )
 
 Set-StrictMode -Version Latest

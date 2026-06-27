@@ -132,7 +132,7 @@ W006 nested modal lifecycle fixture dry run and evidence validation:
 
 ```powershell
 powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-W006NestedModalLifecycle.ps1 -DryRun
-powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-W006NestedModalCaptureEvidence.ps1 -CaptureDir docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260623T120737Z
+powershell -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Test-W006NestedModalCaptureEvidence.ps1 -CaptureDir docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260627T141239Z
 ```
 
 Comparison manifest validation:

@@ -1,0 +1,1 @@
+﻿powershell.exe -NoProfile -ExecutionPolicy Bypass -File C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-Window.ps1 -OutDir C:\Work\DnaCalc\OxForms\docs\evidence\W006_control_implementation_rollout\captures\nested-modal-lifecycle-20260627T141239Z\inner-close-window -TitleContains "OxForms W006 Nested Inner" -ProcessName EXCEL -CaptureScreenshot

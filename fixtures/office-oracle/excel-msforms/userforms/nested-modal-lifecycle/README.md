@@ -26,6 +26,20 @@ handlers. Those handlers call the inner form with `Show vbModal`, and the
 shared logger assigns the outer `BeforeInnerShowModal` row as the
 `parent_row_id` for inner rows.
 
+## Control Fonts Are Declared But Not Applied
+
+The per-control `font` fields in `fixture.json` are descriptive metadata only;
+the lifecycle capture generator does **not** apply them (consistent with the
+other multi-form lifecycle captures, e.g. terminate-lifetime). Setting
+`control.Font.*` on a VBIDE designer control via COM is the unreliable path the
+base generator (`Open-ExcelUserFormFixture.ps1`) deliberately avoids — here it
+left `Workbook.SaveAs` falling back to the interactive "Save As" dialog, which
+blocked COM with no exception (the `oxforms-0a0.19` "timed out before
+workbook_generated" blocker, resolved under `oxforms-0a0.24`). Fonts are not
+load-bearing for this oracle: coordinate derivation keys on the anchor label's
+background color and control point geometry, and lifecycle facts come from
+worksheet event rows — never text metrics.
+
 ## Generate Or Validate
 
 Safe dry run from the repo root, no Excel required:

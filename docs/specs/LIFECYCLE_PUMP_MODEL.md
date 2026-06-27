@@ -73,12 +73,17 @@ Current facts:
   (`oxforms-0a0.23`). No broad modal pump or `DoEvents` implementation is
   authorized by this classification alone.
 - `oxforms-0a0.19` adds a repo-owned two-UserForm Excel/MSForms nested modal
-  lifecycle fixture plan and capture driver, but the first bounded live Office
-  capture is precisely blocked at
-  [`nested-modal-lifecycle-20260623T120737Z`](../evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260623T120737Z/):
-  it timed out before `workbook_generated`, so no nested-modal MSForms event
-  rows were recorded. The fixture/blocker does not change the remaining live
-  ordering unknowns and does not treat missing rows as negative facts.
+  lifecycle fixture and capture driver, and the live Office capture succeeded at
+  [`nested-modal-lifecycle-20260627T141239Z`](../evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/):
+  it exported 42 rows across the outer and inner forms with zero blockers after
+  `oxforms-0a0.24` hardened the generation path (the design-time control-font
+  COM call that left `SaveAs` falling back to the interactive "Save As" dialog
+  and hung the prior bounded attempt before `workbook_generated`). The capture
+  observed nested modal entry (inner rows at `nesting_depth=1` with
+  `parent_row_id`), inner hide, inner unload, inner system close, outer
+  hide/unload, `QueryClose` `Cancel`/`CloseMode` values, and `Terminate`. These
+  are observed ordering facts for this run only, not an exhaustive MSForms parity
+  matrix, and missing rows are not treated as negative facts.
 - `oxforms-0a0.21` adds a repo-owned Excel/MSForms `Terminate` lifetime
   fixture and the narrowed live capture
   [`terminate-lifetime-20260623T132422Z`](../evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260623T132422Z/).
@@ -511,9 +516,11 @@ the downstream bead it blocks.
   with explicit fixture reference-state rows.
 - How `DoEvents` interacts with modal frames, nested forms, pending effects, and
   host callbacks.
-- Whether the W006 nested-modal fixture can be captured after hardening the
-  public Office/VBIDE generation path that timed out before workbook generation
-  in `nested-modal-lifecycle-20260623T120737Z`.
+- The W006 nested-modal fixture was captured live in
+  `nested-modal-lifecycle-20260627T141239Z` (42 rows, no blocker) after
+  `oxforms-0a0.24` hardened the public Office/VBIDE generation path that had
+  timed out before workbook generation. Exhaustive MSForms ordering across all
+  paths beyond the rows observed in that run remains unknown.
 - Which lifecycle DISPIDs, if any, are used outside the captured FM20 source
   interfaces.
 
