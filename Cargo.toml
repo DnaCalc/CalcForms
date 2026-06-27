@@ -14,5 +14,7 @@ edition = "2021"
 
 [workspace.metadata.oxforms.oxvba_baseline]
 repo = "https://github.com/DnaCalc/OxVba.git"
-rev = "5bc7246ee28c403ba6abd6d6ec4be5b04f4f5010"
+rev = "807dd215169e10fb28a577f7ffd256538b1212a8"
+branch = "oxir-vm3-m2c"
+note = "Pinned to the oxir-vm3-m2c branch HEAD (ahead of master 5bc7246e): adds the same-class Left$ intrinsic-resolution fix (807dd215) + the M2-c vm3 error model. Re-pin when the branch advances or once it merges to master."
 policy = "Committed manifests must use pinned git dependencies when OxVba crates are needed; mutable ../OxVba path overrides are local-only."

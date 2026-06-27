@@ -1,5 +1,8 @@
-Status: Resolved (cross-class case); OPEN for a same-class sub-case — re-verified still open
-at OxVba `5bc7246e` (see the 2026-06-27 verification under the Addendum below)
+Status: **Resolved** (both the cross-class case and the same-class sub-case). The
+same-class sub-case was fixed in OxVba `807dd215` (branch `oxir-vm3-m2c`); OxForms pinned
+that rev and reverted the `Mid$` workaround to the idiomatic `Left$` — verified green (see
+"Resolution of the same-class case" + "OxForms adoption" under the Addendum). No
+OxForms-side workaround remains.
 Target: OxVba
 Ask: Resolve an unqualified call to an intrinsic VBA function (confirmed: the
 string functions `Left` / `Left$`) to the VBA library intrinsic, not to a
@@ -140,14 +143,13 @@ name `Left$` as matching the bare member `Left`. Fix should keep `Left$` (and th
 plain `Left` at an argument-bearing call site) routed to the intrinsic unless a
 genuine same-named, same-arity local/member is the intended target.
 
-Impact / current handling: `UserForm.ParseMeasure` uses `Mid$(s, 1, n)` (the
-unaffected equivalent of `Left$(s, n)`) so the self-render path is unblocked today; this
-is a local equivalent, not an architectural change. Once OxVba routes `Left$` to the
-intrinsic for same-class scopes too, the `Mid$` choice can stay or revert freely; no
-OxForms version bump is required to adopt. The broader guidance stands: any forms
-class that both owns a `Left` property and needs the string intrinsic is affected.
+Impact / handling (historical; now resolved): `UserForm.ParseMeasure` used `Mid$(s, 1, n)`
+(the unaffected equivalent of `Left$(s, n)`) to keep the self-render path unblocked while the
+same-class case was open; with the `807dd215` fix adopted it has reverted to the idiomatic
+`Left$(s, n)` (see **OxForms adoption** below). The broader guidance stood: any forms class
+that both owns a `Left` property and needs the string intrinsic was affected until this fix.
 
-### Verification 2026-06-27 — STILL OPEN at OxVba `5bc7246e`
+### Verification 2026-06-27 — was STILL OPEN at OxVba `5bc7246e` (superseded — fixed at `807dd215`, see below)
 
 Re-verified after bumping OxForms onto OxVba `master` `5bc7246e` (the M0–M2 OxIR/vm3
 overhaul + the multi-form event-route fix). The same-class case is **not fixed**:
@@ -158,3 +160,41 @@ reverting `UserForm.ParseMeasure` line `RunId = Mid$(S, 1, p1 - 1)` to the idiom
 to the form's own `Left` property (`Me.Left` → `"0"`), so the parsed run id is wrong and
 no caption shapes into `Scene.text`. The `Mid$` workaround is therefore **kept**; this
 addendum remains the open ask. (The cross-class case from the body stays resolved.)
+
+### Resolution of the same-class case (OxVba `807dd215`, 2026-06-27)
+
+Root cause confirmed: the binder dropped the `$` type-declaration character (it is a
+separate `TypeSuffix` token, so `ident_name_token()` returns the bare `Left`) and
+resolved the suffix-less name. Inside the class that owns the property, that name hits
+the `Left` property in the `Member` namespace of the class's own scope, ahead of the
+VBA library — exactly the same-class/implicit-`Me` path the addendum predicted. (The
+`95be9ff2` cross-class fix only kept the property out of *project-name* lookup, which
+the same-class scope chain bypasses.)
+
+Fix: the binder now honors the type-declaration suffix at unqualified call/identifier
+sites (`oxvba-bind` `resolve_suffixed`). A type-declaration character denotes a
+variable/function/property only when that referent's type matches the character, so a
+`Left As Single` property can never be `Left$`. When a suffixed reference would bind to
+a referent whose type is incompatible with the suffix, the binder re-resolves the
+*suffixed* name; because no scope-chain symbol folds with a suffix, that reaches the VBA
+library provider's `$`-variant entry (`name_to_intrinsic("Left$")` → `VBA.Strings.Left`).
+A same-named, type-matching variable/function still shadows (e.g. `Dim Left As String`),
+and the plain `Left` (no suffix) still resolves to the class property, matching VBA
+scoping. No public API change.
+
+Covered by two new `oxvba-bind` regression tests:
+`left_dollar_intrinsic_is_not_shadowed_by_own_class_left_property` (the fix:
+`Len(Left$("hello", 2))` = 2 inside a class with a `Left` property) and
+`left_intrinsic_without_suffix_is_shadowed_by_own_class_left_property` (the deliberate
+boundary: bare `Left` still reads the property). The full `oxvba-bind` suite is green.
+
+### OxForms adoption (2026-06-27)
+
+OxForms pinned the OxVba baseline to `807dd215` (branch `oxir-vm3-m2c`, which adds this fix on
+top of master `5bc7246e`) and reverted `UserForm.ParseMeasure` from `RunId = Mid$(S, 1, p1 - 1)`
+back to the idiomatic `RunId = Left$(S, p1 - 1)` (the two other `Mid$` calls there are genuine
+mid-string extractions and stay). The exact two tests the 2026-06-27 "STILL OPEN" verification
+used as the gate — `vba_self_render_crosses_the_surface_and_matches_the_canonical_scene` and
+`vba_self_render_rasterizes_captions_through_the_real_shaper` — which **failed** under the
+reverted `Left$` on `5bc7246e`, now **pass** on `807dd215`. Full floor green. The `Mid$`
+workaround is retired; no OxForms-side workaround for this divergence remains.

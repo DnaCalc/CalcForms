@@ -261,11 +261,10 @@ End Function
 
 ' Parse a MeasureText result "id:advance:ascent:descent:linegap" (metrics in 1/1000 pt)
 ' into the run id (a String) and the caption's measured size in points (advance width;
-' ascent+descent height). Avoids a Split dependency (InStr + Mid$ + Val). Uses Mid$ rather
-' than Left$ ON PURPOSE: UserForm has a Left property and OxVba resolves the bare Left$
-' intrinsic to that member (returning 0) — the Left/Left$ shadowing divergence in
-' docs/handovers/HANDOVER_OxVba_left_intrinsic_shadowed.md. Val is locale-independent for
-' the integer milli-pt fields. The 5-field shape is OxForms.Surface.MeasureText's contract.
+' ascent+descent height). Avoids a Split dependency (InStr + Left$/Mid$ + Val). Val is
+' locale-independent for the integer milli-pt fields. The 5-field shape is
+' OxForms.Surface.MeasureText's contract. (Left$ here resolves to the VBA string intrinsic
+' even though UserForm owns a Left property — fixed in OxVba 807dd215; see the handover.)
 Private Sub ParseMeasure( _
         ByVal S As String, ByRef RunId As String, _
         ByRef WidthPt As Single, ByRef HeightPt As Single)
@@ -279,7 +278,7 @@ Private Sub ParseMeasure( _
         RunId = S
         Exit Sub
     End If
-    RunId = Mid$(S, 1, p1 - 1)
+    RunId = Left$(S, p1 - 1)
     p2 = InStr(p1 + 1, S, ":")
     p3 = InStr(p2 + 1, S, ":")
     p4 = InStr(p3 + 1, S, ":")
