@@ -89,6 +89,14 @@ Private Sub InputField_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Inte
     End If
 End Sub
 
+' KeyPress carries a mutable KeyAscii; setting it to 0 swallows the character.
+Private Sub InputField_KeyPress(ByVal KeyAscii As ReturnInteger)
+    Append "InputField_KeyPress=" & KeyAscii.Value
+    If KeyAscii.Value = 90 Then
+        KeyAscii.Value = 0
+    End If
+End Sub
+
 ' Native FM20 focus-exit event (reserved word, handled as InputField_Exit). Sets
 ' the mutable Cancel to keep focus, proving the ReturnBoolean round-trip.
 Private Sub InputField_Exit(ByVal Cancel As ReturnBoolean)

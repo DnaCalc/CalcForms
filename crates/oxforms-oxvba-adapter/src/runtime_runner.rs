@@ -18,11 +18,12 @@
 //!
 //! Scope: handler-backed events are natively dispatched — `Click` → `PerformClick`,
 //! `Change` → `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`
-//! (with the `MSForms.ReturnInteger` KeyCode readback), and `MouseDown`/`MouseUp` →
-//! `PerformMouseDown`/`PerformMouseUp` (oxforms-esq.2). The remaining reducer-routed
-//! FM20 events (`KeyPress`, focus/lifecycle) are still *acknowledged* in the trace
-//! ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched yet. This is
-//! an explicit, traced non-claim — never a silent default.
+//! and `KeyPress` → `PerformKeyPress` (with the `MSForms.ReturnInteger` KeyCode/
+//! KeyAscii readback), and `MouseDown`/`MouseUp` → `PerformMouseDown`/`PerformMouseUp`
+//! (oxforms-esq.2). The remaining reducer-routed FM20 events (focus and lifecycle)
+//! are still *acknowledged* in the trace ([`RuntimeTraceRow::EventAcknowledged`]) but
+//! not natively dispatched yet. This is an explicit, traced non-claim — never a
+//! silent default.
 
 use std::collections::HashMap;
 
@@ -137,9 +138,9 @@ pub enum RuntimeTraceRow {
         reason: String,
         invalidation_ids: Vec<u64>,
     },
-    /// A reducer-routed FM20 event not yet natively dispatched (`KeyPress`,
-    /// focus/lifecycle), or a mouse press on the form background. Recorded, never
-    /// silently dropped; the remaining native event dispatch is a later slice.
+    /// A reducer-routed FM20 event not yet natively dispatched (focus/lifecycle), or
+    /// a mouse press on the form background. Recorded, never silently dropped; the
+    /// remaining native event dispatch is a later slice.
     EventAcknowledged {
         event_name: String,
         target: Option<String>,
@@ -327,8 +328,8 @@ impl RuntimeRunner {
                         }
                         None => {
                             // Reducer-routed FM20 event with no native dispatch yet
-                            // (e.g. KeyPress/focus/lifecycle, or a form-background
-                            // mouse press): recorded, not dropped.
+                            // (e.g. focus/lifecycle, or a form-background mouse
+                            // press): recorded, not dropped.
                             step.trace.push(RuntimeTraceRow::EventAcknowledged {
                                 event_name: event_name.clone(),
                                 target: target_label,
@@ -363,12 +364,12 @@ impl RuntimeRunner {
 
     /// Execute one reducer `FireVbaEvent`. Returns `Some(record)` when the event maps
     /// to a native control member (`Click` → `PerformClick`, `Change` →
-    /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`,
-    /// `MouseDown`/`MouseUp` → `PerformMouseDown`/`PerformMouseUp`), or `None` when it
-    /// is a reducer-routed FM20 event still acknowledged but not natively dispatched
-    /// (`KeyPress`, focus/lifecycle, …), or a mouse press that landed on the form
-    /// background (no control target). `dispatch_seq` advances only after a native
-    /// member call succeeds.
+    /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`, `KeyPress`
+    /// → `PerformKeyPress`, `MouseDown`/`MouseUp` → `PerformMouseDown`/
+    /// `PerformMouseUp`), or `None` when it is a reducer-routed FM20 event still
+    /// acknowledged but not natively dispatched (focus/lifecycle, …), or a mouse press
+    /// that landed on the form background (no control target). `dispatch_seq` advances
+    /// only after a native member call succeeds.
     fn dispatch_fire_vba_event(
         &mut self,
         effect: &EffectRequest,
@@ -376,7 +377,7 @@ impl RuntimeRunner {
     ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
         if !matches!(
             event_name,
-            "Click" | "Change" | "KeyDown" | "KeyUp" | "MouseDown" | "MouseUp"
+            "Click" | "Change" | "KeyDown" | "KeyUp" | "KeyPress" | "MouseDown" | "MouseUp"
         ) {
             return Ok(None);
         }
@@ -435,6 +436,14 @@ impl RuntimeRunner {
                     vec![Variant::from_i16(key_code), Variant::from_i16(shift)],
                 )
             }
+            "KeyPress" => {
+                // KeyAscii is the mutable MSForms.ReturnInteger value the handler may
+                // swallow (set to 0); absent/out-of-range input acknowledges instead.
+                let Some(key_ascii) = effect_arg_i16(effect, "KeyAscii") else {
+                    return Ok(None);
+                };
+                ("PerformKeyPress", vec![Variant::from_i16(key_ascii)])
+            }
             "MouseDown" | "MouseUp" => {
                 // Clean scalar args from the reducer: Button/Shift as Integer masks,
                 // X/Y as Single (the FM20 mouse-event signature).
@@ -471,10 +480,11 @@ impl RuntimeRunner {
         )?;
         self.dispatch_seq += 1;
 
-        // PerformKeyDown/PerformKeyUp return the post-handler KeyCode (0 when the
-        // handler swallowed the key) via the MSForms.ReturnInteger helper; PerformClick,
+        // PerformKeyDown/PerformKeyUp return the post-handler KeyCode and
+        // PerformKeyPress the post-handler KeyAscii (0 when the handler swallowed the
+        // key/character) via the MSForms.ReturnInteger helper; PerformClick,
         // ApplyUserText, and the mouse members return nothing meaningful.
-        let returned = if matches!(event_name, "KeyDown" | "KeyUp") {
+        let returned = if matches!(event_name, "KeyDown" | "KeyUp" | "KeyPress") {
             result.as_i16().map(|code| code.to_string())
         } else {
             None

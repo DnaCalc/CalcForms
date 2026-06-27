@@ -289,12 +289,13 @@ fn runner_drives_w007_demo_path_through_native_oxvba_dispatch() {
         .iter()
         .any(|row| matches!(row, RuntimeTraceRow::RepaintRequested { .. })));
 
-    // MouseDown and MouseUp now dispatch natively to PerformMouseDown/PerformMouseUp
-    // (oxforms-esq.2); the W007 setup presses + releases inside InputField and
-    // OkButton, all control hits.
+    // The mouse and keyboard events the W007 path exercises all dispatch natively now
+    // (oxforms-esq.2): the setup presses + releases inside InputField and OkButton
+    // (all control hits) and types "World" (a KeyPress on the focused InputField).
     for (event, member) in [
         ("MouseDown", "PerformMouseDown"),
         ("MouseUp", "PerformMouseUp"),
+        ("KeyPress", "PerformKeyPress"),
     ] {
         assert!(
             trace.iter().any(|row| matches!(
@@ -312,23 +313,6 @@ fn runner_drives_w007_demo_path_through_native_oxvba_dispatch() {
             "{event} is no longer merely acknowledged"
         );
     }
-
-    // KeyPress is still acknowledged-not-dispatched (the control library has no
-    // PerformKeyPress yet); the typed "World" input emits it.
-    assert!(
-        trace.iter().any(|row| matches!(
-            row,
-            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "KeyPress"
-        )),
-        "KeyPress is acknowledged in the trace"
-    );
-    assert!(
-        !trace.iter().any(|row| matches!(
-            row,
-            RuntimeTraceRow::NativeDispatch { event_name, .. } if event_name == "KeyPress"
-        )),
-        "KeyPress is not natively dispatched"
-    );
 
     // The W005 RaiseDispatch carrier is never used by the runtime path (criterion 3).
     assert!(
@@ -669,5 +653,88 @@ fn runner_dispatches_native_keyup_with_returninteger_readback() {
         letter_dispatch.returned.as_deref(),
         Some("65"),
         "an un-swallowed key is read back unchanged on KeyUp"
+    );
+}
+
+fn character_input_event(id: u64, text: &str) -> UiEvent {
+    ui_event(
+        id,
+        UiEventKind::CharacterInput(CharacterInputEvent {
+            text: text.to_string(),
+            modifiers: KeyboardModifiers::default(),
+            raw: Vec::new(),
+        }),
+    )
+}
+
+#[test]
+fn runner_dispatches_native_keypress_with_returninteger_readback() {
+    // oxforms-esq.2: typed character input dispatches KeyPress to PerformKeyPress and
+    // reads back the post-handler KeyAscii via the MSForms.ReturnInteger helper.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // Focus the InputField so character input routes to it.
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press InputField");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 20.0, 18.0)),
+        ))
+        .expect("release InputField");
+
+    // 'Z' (KeyAscii 90): InputField_KeyPress swallows it (KeyAscii -> 0).
+    let zed = runner
+        .dispatch(character_input_event(3, "Z"))
+        .expect("type Z");
+    let zed_dispatch = zed
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "KeyPress")
+        .unwrap_or_else(|| {
+            panic!(
+                "KeyPress natively dispatched, got {:?}",
+                zed.native_dispatches
+            )
+        });
+    assert_eq!(zed_dispatch.native_member, "PerformKeyPress");
+    assert_eq!(
+        zed_dispatch.returned.as_deref(),
+        Some("0"),
+        "the handler swallowed 'Z'; the runtime reads back KeyAscii 0"
+    );
+
+    // 'A' (KeyAscii 65): not swallowed, read back unchanged.
+    let ay = runner
+        .dispatch(character_input_event(4, "A"))
+        .expect("type A");
+    let ay_dispatch = ay
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "KeyPress")
+        .unwrap_or_else(|| {
+            panic!(
+                "KeyPress natively dispatched, got {:?}",
+                ay.native_dispatches
+            )
+        });
+    assert_eq!(ay_dispatch.native_member, "PerformKeyPress");
+    assert_eq!(
+        ay_dispatch.returned.as_deref(),
+        Some("65"),
+        "an un-swallowed character is read back unchanged"
     );
 }

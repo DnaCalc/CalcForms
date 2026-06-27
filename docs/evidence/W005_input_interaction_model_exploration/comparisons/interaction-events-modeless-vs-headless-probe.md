@@ -114,7 +114,7 @@ Known gaps:
   for its synthetic OK probe geometry.
 - MSForms typed lowercase `a` through SendKeys and records `KeyCode=65`,
   `KeyAscii=97`, `Shift=0`. OxForms typed uppercase `A` and records normalized
-  shift diagnostics plus `key_ascii_placeholder=65`.
+  shift diagnostics plus `KeyAscii=65`.
 - MSForms rows are live VBA handler observations. OxForms `vba_dispatch` rows
   are reconstructed from reducer `FireVbaEvent` effects and have status
   `not_executed_headless_replay`.

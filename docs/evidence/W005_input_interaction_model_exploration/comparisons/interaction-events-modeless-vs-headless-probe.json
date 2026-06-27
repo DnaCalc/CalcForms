@@ -81,13 +81,13 @@
     {
       "role": "oxforms_headless_replay_golden",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-      "sha256": "969f3e4782109f5cdddede91ba61e504461184676df29d63ab9445647bbeb9db",
-      "note": "Regenerated in oxforms-rq5.1: the probe display-list renderer was deleted, so the display_list/render_artifact rows were dropped from this golden (rendering is now VBA-authored). The display-list golden file was removed. Row counts/indices in the comparison below describe the pre-rq5.1 golden and are retained as the original observation. Refreshed by oxforms-esq.2: native KeyDown dispatch added dispatch-ready Shift (mask) and KeyCode (mutable MSForms.ReturnInteger) arguments to key-event effects, an additive change to the KeyDown/KeyUp argument lists."
+      "sha256": "72107dae02a209731e0d1b478b15eff9a4ced5c65e757ad0234b25f124a53634",
+      "note": "Regenerated in oxforms-rq5.1: the probe display-list renderer was deleted, so the display_list/render_artifact rows were dropped from this golden (rendering is now VBA-authored). The display-list golden file was removed. Row counts/indices in the comparison below describe the pre-rq5.1 golden and are retained as the original observation. Refreshed by oxforms-esq.2: native KeyDown dispatch added dispatch-ready Shift (mask) and KeyCode (mutable MSForms.ReturnInteger) arguments to key-event effects, an additive change to the KeyDown/KeyUp argument lists. Refreshed again by oxforms-esq.2 (KeyPress): the KeyPress effect's char-code argument was renamed key_ascii_placeholder -> KeyAscii (now dispatched natively to PerformKeyPress) and its cancel_metadata note was refreshed off the stale 'deferred in W005'."
     },
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "59d6ff5f4afa179e7bb46b2590504b3ce8fdab2722650091aa004256490d269d"
+      "sha256": "16485f905c1a273cf252956de4e4e15b8d2f2f8a084027b4457e0afcb6ea6690"
     },
     {
       "role": "oxforms_visible_smoke_manifest",

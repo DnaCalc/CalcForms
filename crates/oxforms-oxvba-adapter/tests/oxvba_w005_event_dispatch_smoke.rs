@@ -317,7 +317,7 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
             "3|ok|Click|no arguments",
             "4|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
             "5|text-1|KeyDown|key=character:A;Shift=1;modifiers=shift;repeat=false;raw_virtual_key=65;KeyCode=65;raw_scan_code=30",
-            "6|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=shift",
+            "6|text-1|KeyPress|text=A;KeyAscii=65;modifiers=shift",
             "7|text-1|Change|no arguments",
             "8|text-1|KeyUp|key=character:A;Shift=0;modifiers=none;repeat=false",
         ],
@@ -359,9 +359,9 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
         row.event_name == "KeyPress"
             && row
                 .argument_summary
-                .contains(&"key_ascii_placeholder=65:byref_or_mutable".to_string())
+                .contains(&"KeyAscii=65:byref_or_mutable".to_string())
             && row.cancel_metadata.as_deref().is_some_and(|metadata| {
-                metadata.contains("ReturnInteger mutation") && metadata.contains("deferred")
+                metadata.contains("PerformKeyPress") && metadata.contains("deferred")
             })
     }));
 }

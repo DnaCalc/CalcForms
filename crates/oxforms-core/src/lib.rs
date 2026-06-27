@@ -2462,7 +2462,7 @@ fn queue_character_event(
                     by_ref: false,
                 },
                 EffectArgument {
-                    name: "key_ascii_placeholder".to_string(),
+                    name: "KeyAscii".to_string(),
                     value: payload.text.chars().next().map_or(0, u32::from).to_string(),
                     by_ref: true,
                 },
@@ -2473,7 +2473,7 @@ fn queue_character_event(
                 },
             ],
             cancel_metadata: Some(
-                "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005."
+                "KeyAscii is the mutable MSForms.ReturnInteger value (the by_ref KeyAscii arg). The dispatching runtime applies the helper and reads back the post-handler KeyAscii via control.PerformKeyPress (oxforms-esq.2); folding it back into reducer state and IME composition remain deferred. The clean-room library spells it KeyAscii (MS Learn uses KeyANSI)."
                     .to_string(),
             ),
         },

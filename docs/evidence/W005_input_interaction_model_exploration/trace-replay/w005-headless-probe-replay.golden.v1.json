@@ -1886,7 +1886,7 @@
           },
           {
             "by_ref": true,
-            "name": "key_ascii_placeholder",
+            "name": "KeyAscii",
             "value": "65"
           },
           {
@@ -1895,7 +1895,7 @@
             "value": "shift"
           }
         ],
-        "cancel_metadata": "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005.",
+        "cancel_metadata": "KeyAscii is the mutable MSForms.ReturnInteger value (the by_ref KeyAscii arg). The dispatching runtime applies the helper and reads back the post-handler KeyAscii via control.PerformKeyPress (oxforms-esq.2); folding it back into reducer state and IME composition remain deferred. The clean-room library spells it KeyAscii (MS Learn uses KeyANSI).",
         "cause": {
           "transition_id": "transition-0006",
           "ui_event_id": "ui-0006"
@@ -1928,7 +1928,7 @@
           },
           {
             "by_ref": true,
-            "name": "key_ascii_placeholder",
+            "name": "KeyAscii",
             "value": "65"
           },
           {
@@ -1950,11 +1950,11 @@
             "after": "65",
             "before": "65",
             "mutation_status": "not_executed_headless_replay",
-            "name": "key_ascii_placeholder"
+            "name": "KeyAscii"
           }
         ],
         "result": {
-          "cancel_metadata": "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005.",
+          "cancel_metadata": "KeyAscii is the mutable MSForms.ReturnInteger value (the by_ref KeyAscii arg). The dispatching runtime applies the helper and reads back the post-handler KeyAscii via control.PerformKeyPress (oxforms-esq.2); folding it back into reducer state and IME composition remain deferred. The clean-room library spells it KeyAscii (MS Learn uses KeyANSI).",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -2920,7 +2920,7 @@
           },
           {
             "by_ref": true,
-            "name": "key_ascii_placeholder",
+            "name": "KeyAscii",
             "value": "66"
           },
           {
@@ -2929,7 +2929,7 @@
             "value": "shift"
           }
         ],
-        "cancel_metadata": "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005.",
+        "cancel_metadata": "KeyAscii is the mutable MSForms.ReturnInteger value (the by_ref KeyAscii arg). The dispatching runtime applies the helper and reads back the post-handler KeyAscii via control.PerformKeyPress (oxforms-esq.2); folding it back into reducer state and IME composition remain deferred. The clean-room library spells it KeyAscii (MS Learn uses KeyANSI).",
         "cause": {
           "transition_id": "transition-0009",
           "ui_event_id": "ui-0009"
@@ -2962,7 +2962,7 @@
           },
           {
             "by_ref": true,
-            "name": "key_ascii_placeholder",
+            "name": "KeyAscii",
             "value": "66"
           },
           {
@@ -2984,11 +2984,11 @@
             "after": "66",
             "before": "66",
             "mutation_status": "not_executed_headless_replay",
-            "name": "key_ascii_placeholder"
+            "name": "KeyAscii"
           }
         ],
         "result": {
-          "cancel_metadata": "KeyAscii/KeyANSI ReturnInteger mutation and IME composition are deferred in W005.",
+          "cancel_metadata": "KeyAscii is the mutable MSForms.ReturnInteger value (the by_ref KeyAscii arg). The dispatching runtime applies the helper and reads back the post-handler KeyAscii via control.PerformKeyPress (oxforms-esq.2); folding it back into reducer state and IME composition remain deferred. The clean-room library spells it KeyAscii (MS Learn uses KeyANSI).",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
