@@ -1,0 +1,38 @@
+{
+  "id": "excel-msforms-w006-ctrlv-keyboard-ordering-v1",
+  "form": {
+    "name": "OxFormsW006CtrlV",
+    "caption": "OxForms W006 CtrlV Oracle",
+    "widthPt": 240,
+    "heightPt": 120,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 8,
+        "topPt": 8,
+        "widthPt": 224,
+        "heightPt": 104
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w006-ctrlv-keyboard-ordering-oracle.xlsm",
+    "vbaModuleName": "OxFormsW006CtrlVOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW006CtrlVModeless",
+    "clearLogMacroName": "ClearW006CtrlVLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with the public Windows clipboard and public user32 SendInput keyboard input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "TextBox1 fills the form client area so a single window-centre click focuses it; no screenshot anchor is needed.",
+    "Control fonts are intentionally not declared/applied (this is a keyboard event-ordering oracle, not a text-metrics oracle).",
+    "The BeforeDropOrPaste handler uses the public MSForms TextBox paste signature with no Index argument; for MultiPage/TabStrip the signature would add a leading Index As Long, but a plain TextBox source interface (MdcTextEvents) does not.",
+    "The capture seeds the public Windows clipboard with a repo-owned text value, focuses TextBox1, and sends Ctrl+V via public user32 SendInput (Ctrl down, V down, V up, Ctrl up = 4 inputs). It records the KeyDown/KeyPress/KeyUp keyboard ordering relative to BeforeDropOrPaste and Change."
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "id": "excel-msforms-w006-checkbox-keyboard-toggle-v1",
+  "form": {
+    "name": "OxFormsW006CheckBoxKbd",
+    "caption": "OxForms W006 CheckBox Kbd Oracle",
+    "widthPt": 200,
+    "heightPt": 120,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "ToggleCheck",
+        "type": "Forms.CheckBox.1",
+        "caption": "Toggle me",
+        "leftPt": 8,
+        "topPt": 8,
+        "widthPt": 184,
+        "heightPt": 104
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w006-checkbox-keyboard-toggle-oracle.xlsm",
+    "vbaModuleName": "OxFormsW006CheckBoxKbdOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW006CheckBoxKbdModeless",
+    "clearLogMacroName": "ClearW006CheckBoxKbdLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows mouse and keyboard input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "ToggleCheck fills the form client area so a single window-centre click focuses it; the capture then sends Space then Enter via public user32 SendInput.",
+    "Control fonts are intentionally not declared/applied (Click/Change/keyboard-toggle ordering oracle, not a text-metrics oracle).",
+    "ToggleCheck_KeyDown/KeyUp log the .Value at handler entry plus the KeyCode helper before/after, so value_at_keydown and value_at_keyup are observable relative to Click and Change."
+  ]
+}

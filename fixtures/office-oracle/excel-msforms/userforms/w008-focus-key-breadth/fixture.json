@@ -1,0 +1,64 @@
+{
+  "id": "excel-msforms-w008-focus-key-breadth-v1",
+  "form": {
+    "name": "OxFormsW008Breadth",
+    "caption": "OxForms W008 Focus/Key Breadth Oracle",
+    "widthPt": 260,
+    "heightPt": 180,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "TextBox2",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 42,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "OkButton",
+        "type": "Forms.CommandButton.1",
+        "caption": "OK",
+        "leftPt": 12,
+        "topPt": 78,
+        "widthPt": 90,
+        "heightPt": 24
+      },
+      {
+        "name": "ToggleCheck",
+        "type": "Forms.CheckBox.1",
+        "caption": "Toggle",
+        "leftPt": 120,
+        "topPt": 80,
+        "widthPt": 120,
+        "heightPt": 20
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-focus-key-breadth-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008BreadthOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008BreadthModeless",
+    "clearLogMacroName": "ClearW008BreadthLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "Two TextBoxes, an OK CommandButton, and a Toggle CheckBox laid out non-overlapping so a window-bounds + fixture-layout calculation can target each control by point.",
+    "Focus/validation/key event handlers each log the relevant ReturnBoolean/ReturnInteger argument before and after the handler mutated it, plus the post-handler focus owner and the relevant TextBox .Text.",
+    "Mutations (Exit veto, BeforeUpdate veto, KeyDown/KeyPress swallow) are gated on Public module flags set by per-scenario Set... macros, so one workbook covers every focus/key fold-back scenario through the shared W008BreadthLog worksheet.",
+    "OkButton.Default is set to True at RUNTIME in UserForm_Initialize; control fonts are intentionally not declared/applied (focus/key breadth oracle, not a text-metrics oracle)."
+  ]
+}

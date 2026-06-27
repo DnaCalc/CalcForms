@@ -1,0 +1,213 @@
+{
+  "id": "excel-msforms-w006-held-ref-residuals-v1",
+  "title": "W006 Excel MSForms UserForm held-reference residual oracle fixture",
+  "bead": "oxforms-0a0.25",
+  "cleanRoom": {
+    "source": "Repo-owned manifest and VBA source consumed through public Excel/VBIDE automation.",
+    "prohibited": "No Office internals, decompilation, disassembly, or binary inspection."
+  },
+  "prerequisites": [
+    "Windows desktop session with Microsoft Excel installed.",
+    "Excel macro execution allowed for the generated workbook when opening the fixture.",
+    "Trust access to the VBA project object model enabled when generating through automation.",
+    "The Microsoft Forms 2.0 UserForm designer available through Excel/VBA.",
+    "A stable desktop scaling/theme should be recorded by the capture bead; this fixture does not claim event-order, coordinate, or pixel parity."
+  ],
+  "workbook": {
+    "fileName": "w006-held-ref-residuals-oracle.xlsm",
+    "vbaModuleName": "OxFormsW006HeldRefResidualsOracle",
+    "showMacroName": "ShowW006HeldRefLauncherModeless",
+    "clearLogMacroName": "ClearW006HeldRefResidualsLog",
+    "standardModuleSourcePath": "standard-module.bas"
+  },
+  "evidence": {
+    "defaultCaptureRoot": "docs/evidence/W006_control_implementation_rollout/captures"
+  },
+  "eventFactSource": {
+    "curated": "docs/specs/FM20_EVENT_FACTS.md",
+    "lifecycleModel": "docs/specs/LIFECYCLE_PUMP_MODEL.md",
+    "traceSchema": "docs/specs/TRACE_REPLAY_SCHEMA.md"
+  },
+  "logging": {
+    "worksheetName": "W006HeldRefResidualsLog",
+    "sequenceField": "sequence",
+    "rowsAreEvidenceOnlyAfterLiveCapture": true,
+    "referenceStateColumns": [
+      "local_ref_state",
+      "held_ref_state",
+      "default_instance_state",
+      "release_phase"
+    ]
+  },
+  "scenarioMacros": {
+    "modeless_system_close": {
+      "startMacroName": "StartW006HeldRefModelessSystemCloseScenario",
+      "finishMacroName": "FinishW006HeldRefModelessSystemCloseScenario",
+      "cleanupMacroName": "CleanupW006HeldRefModelessSystemCloseScenario",
+      "setScenarioFlagMacroName": "SetW006HeldRefScenarioModelessSystemClose"
+    },
+    "modal_hide_return": {
+      "setScenarioFlagMacroName": "SetW006HeldRefScenarioModalHideReturn",
+      "launcherButton": "LauncherModalHideButton"
+    },
+    "modal_unload_return": {
+      "setScenarioFlagMacroName": "SetW006HeldRefScenarioModalUnloadReturn",
+      "launcherButton": "LauncherModalUnloadButton"
+    }
+  },
+  "forms": [
+    {
+      "identity": "launcher",
+      "name": "OxFormsW006HeldRefLauncher",
+      "caption": "OxForms W006 HeldRef Launcher",
+      "widthPt": 318,
+      "heightPt": 168,
+      "startupPosition": 2,
+      "startupPositionName": "CenterScreen",
+      "codeBehindSourcePath": "launcher-form-code-behind.bas",
+      "controls": [
+        {
+          "type": "Forms.Label.1",
+          "kind": "MSForms.Label",
+          "name": "LauncherAnchorLabel",
+          "caption": "Launcher",
+          "leftPt": 18,
+          "topPt": 18,
+          "widthPt": 72,
+          "heightPt": 24,
+          "backColorOle": 4210752,
+          "backColorRgb": {
+            "red": 64,
+            "green": 64,
+            "blue": 64
+          },
+          "foreColorOle": 16777215,
+          "borderStyle": 1,
+          "backStyle": 1
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "LauncherModalHideButton",
+          "caption": "Held Modal Hide",
+          "leftPt": 108,
+          "topPt": 18,
+          "widthPt": 168,
+          "heightPt": 26,
+          "tabIndex": 0,
+          "tabStop": true,
+          "takeFocusOnClick": true
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "LauncherModalUnloadButton",
+          "caption": "Held Modal Unload",
+          "leftPt": 108,
+          "topPt": 56,
+          "widthPt": 168,
+          "heightPt": 26,
+          "tabIndex": 1,
+          "tabStop": true,
+          "takeFocusOnClick": true
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "LauncherCloseButton",
+          "caption": "Close Launcher",
+          "leftPt": 108,
+          "topPt": 94,
+          "widthPt": 168,
+          "heightPt": 26,
+          "tabIndex": 2,
+          "tabStop": true,
+          "takeFocusOnClick": true
+        }
+      ]
+    },
+    {
+      "identity": "held",
+      "name": "OxFormsW006HeldRefForm",
+      "caption": "OxForms W006 HeldRef Form",
+      "widthPt": 260,
+      "heightPt": 154,
+      "startupPosition": 2,
+      "startupPositionName": "CenterScreen",
+      "codeBehindSourcePath": "held-form-code-behind.bas",
+      "controls": [
+        {
+          "type": "Forms.Label.1",
+          "kind": "MSForms.Label",
+          "name": "HeldAnchorLabel",
+          "caption": "Held",
+          "leftPt": 18,
+          "topPt": 18,
+          "widthPt": 72,
+          "heightPt": 24,
+          "backColorOle": 12611616,
+          "backColorRgb": {
+            "red": 32,
+            "green": 112,
+            "blue": 192
+          },
+          "foreColorOle": 16777215,
+          "borderStyle": 1,
+          "backStyle": 1
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "HeldHideButton",
+          "caption": "Hide Held",
+          "leftPt": 108,
+          "topPt": 18,
+          "widthPt": 104,
+          "heightPt": 26,
+          "tabIndex": 0,
+          "tabStop": true,
+          "takeFocusOnClick": true
+        },
+        {
+          "type": "Forms.CommandButton.1",
+          "kind": "MSForms.CommandButton",
+          "name": "HeldUnloadButton",
+          "caption": "Unload Held",
+          "leftPt": 108,
+          "topPt": 56,
+          "widthPt": 104,
+          "heightPt": 26,
+          "tabIndex": 1,
+          "tabStop": true,
+          "takeFocusOnClick": true
+        }
+      ]
+    }
+  ],
+  "scenarios": [
+    {
+      "name": "modeless_system_close",
+      "showMode": "modeless",
+      "path": "A new held instance is created and stashed in the global gHeldRef while the local reference is released; the held form is shown modeless; public SendKeys Alt+F4 sends a system close to the held window; then the global held reference is released and the held-reference state is logged."
+    },
+    {
+      "name": "modal_hide_return",
+      "showMode": "modal",
+      "path": "Injected input clicks the launcher Held-Modal-Hide button. The launcher button _Click handler creates a held instance, stashes it in gHeldRef, and runs held.Show vbModal. Injected input clicks the held Hide button so the modal returns; the launcher handler then releases the global held reference and logs the held-reference state."
+    },
+    {
+      "name": "modal_unload_return",
+      "showMode": "modal",
+      "path": "Injected input clicks the launcher Held-Modal-Unload button. The launcher button _Click handler creates a held instance, stashes it in gHeldRef, and runs held.Show vbModal. Injected input clicks the held Unload button so the modal returns; the launcher handler then releases the global held reference and logs the held-reference state."
+    }
+  ],
+  "notes": {
+    "scope": "This fixture builds repo-owned Excel/MSForms oracle inputs only. It does not implement OxForms behavior and does not settle final MSForms event ordering by itself.",
+    "heldReference": "The held-reference state dimension is the in-scope residual. Reference-state columns are explicit fixture state around the local variable, the global held reference (gHeldRef), and whether a default instance was used. They are not private Office reference counts.",
+    "launcherModal": "Modal scenarios are entered ONLY from a launcher CommandButton _Click handler via injected input. The capture script never calls excel.Run Show vbModal, because a macro-driven Show vbModal blocks the COM thread. The launcher button _Click runs held.Show vbModal and only returns after the held modal closes; the held-reference release and logging happen in that same _Click handler after the modal returns.",
+    "modelessSystemClose": "The modeless system-close scenario starts via excel.Run (Show vbModeless returns immediately and does not block COM); the capture script then sends public SendKeys Alt+F4 to the held window (never PostMessage WM_CLOSE, which destabilizes Excel COM) and finishes via excel.Run to release the held reference.",
+    "ordering": "Event ORDERING for these closes is already captured in oxforms-0a0.24 (nested-modal-lifecycle); only the held-reference state dimension is in scope here.",
+    "missingRows": "Missing rows are not negative MSForms facts. Live output from oxforms-0a0.25 remains the oracle evidence.",
+    "generatedArtifacts": "Generated .xlsm files, logs, exported worksheets, command logs, and hashes belong under docs/evidence/W006_control_implementation_rollout/ when captured."
+  }
+}
