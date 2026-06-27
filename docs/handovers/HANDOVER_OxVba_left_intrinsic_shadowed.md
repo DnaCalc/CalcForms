@@ -1,4 +1,5 @@
-Status: Resolved (cross-class case); REOPENED for a same-class sub-case — see Addendum 2026-06-26
+Status: Resolved (cross-class case); OPEN for a same-class sub-case — re-verified still open
+at OxVba `5bc7246e` (see the 2026-06-27 verification under the Addendum below)
 Target: OxVba
 Ask: Resolve an unqualified call to an intrinsic VBA function (confirmed: the
 string functions `Left` / `Left$`) to the VBA library intrinsic, not to a
@@ -117,8 +118,8 @@ its own methods, OxVba resolves `Left$` to that class's own `Left` property (imp
 `Me`), not to `VBA.Strings.Left`.
 
 Found in `oxforms-4pn.13`: `UserForm` has a `Public Property Get Left()` (MSForms
-surface) and a helper `FirstField` that called `Left$(s, n)` to take the leading
-characters of a `MeasureText` result. At `95be9ff2`, `FirstField` returned the value
+surface) and a helper (now `ParseMeasure`) that called `Left$(s, n)` to take the leading
+characters of a `MeasureText` result. At `95be9ff2`, that `Left$` returned the value
 of `Me.Left` (the form's left, `0`) coerced to a string ("0") instead of the leading
 substring — no runtime 424 this time, just a **silently wrong value** (the property
 get succeeds and is type-coerced). Probed via the real OxVba session:
@@ -139,9 +140,21 @@ name `Left$` as matching the bare member `Left`. Fix should keep `Left$` (and th
 plain `Left` at an argument-bearing call site) routed to the intrinsic unless a
 genuine same-named, same-arity local/member is the intended target.
 
-Impact / current handling: `UserForm.FirstField` uses `Mid$(s, 1, n)` (the
-unaffected equivalent of `Left$(s, n)`) so `oxforms-4pn.13` is unblocked today; this
+Impact / current handling: `UserForm.ParseMeasure` uses `Mid$(s, 1, n)` (the
+unaffected equivalent of `Left$(s, n)`) so the self-render path is unblocked today; this
 is a local equivalent, not an architectural change. Once OxVba routes `Left$` to the
 intrinsic for same-class scopes too, the `Mid$` choice can stay or revert freely; no
 OxForms version bump is required to adopt. The broader guidance stands: any forms
 class that both owns a `Left` property and needs the string intrinsic is affected.
+
+### Verification 2026-06-27 — STILL OPEN at OxVba `5bc7246e`
+
+Re-verified after bumping OxForms onto OxVba `master` `5bc7246e` (the M0–M2 OxIR/vm3
+overhaul + the multi-form event-route fix). The same-class case is **not fixed**:
+reverting `UserForm.ParseMeasure` line `RunId = Mid$(S, 1, p1 - 1)` to the idiomatic
+`RunId = Left$(S, p1 - 1)` and running the adapter suite fails
+`vba_self_render_crosses_the_surface_and_matches_the_canonical_scene` and
+`vba_self_render_rasterizes_captions_through_the_real_shaper` — `Left$` still resolves
+to the form's own `Left` property (`Me.Left` → `"0"`), so the parsed run id is wrong and
+no caption shapes into `Scene.text`. The `Mid$` workaround is therefore **kept**; this
+addendum remains the open ask. (The cross-class case from the body stays resolved.)

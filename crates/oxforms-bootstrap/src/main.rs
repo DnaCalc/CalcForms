@@ -129,8 +129,8 @@ impl Demo {
         }
     }
 
-    /// The demo's VBA form fixture module — bundled alone (one form per bundle; see
-    /// `oxforms_modules`).
+    /// The demo's VBA form fixture module. The bootstrap runs one demo at a time, so it
+    /// bundles just that demo's form (an app bundles the forms it uses; see `oxforms_modules`).
     fn form_module(&self) -> ModuleUnit {
         match self {
             Self::Greeting => unit(
@@ -195,8 +195,8 @@ fn run() -> Result<(), BootstrapError> {
     let demo = Demo::from_args();
 
     // 1. Load + configure the project: the OxForms VBA library + the SELECTED demo form
-    //    (one form per bundle), with the OxForms.Surface boundary registered so the form
-    //    can self-render.
+    //    (the bootstrap runs one demo at a time), with the OxForms.Surface boundary
+    //    registered so the form can self-render.
     let (session, surface, fonts) = build_session(&demo)?;
 
     // 2. Invoke the VBA startup (minimal entrypoint): materialize the selected demo form
@@ -480,10 +480,11 @@ fn oxforms_modules(demo: &Demo) -> Vec<ModuleUnit> {
             Class,
             include_str!("../../../vba/oxforms/OxSceneBuilder.cls"),
         ),
-        // Only the SELECTED demo's form is bundled. One form per bundle: OxVba builds event
-        // routes per project, and two WithEvents `CommandButton_Click` handlers in one bundle
-        // collide ("build_event_routes dedup invariant violated"); a real app likewise bundles
-        // the forms it uses. See docs/handovers for the OxVba multi-form-events note.
+        // Only the SELECTED demo's form is bundled: the bootstrap runs one demo at a time, and
+        // a real app bundles the forms it uses. Multiple forms — including two with WithEvents
+        // `CommandButton_Click` handlers — may now share a bundle (OxVba `2f0b5058`, adopted at
+        // rev `5bc7246e`); bundling one here is a deliberate app shape, not a workaround. See
+        // docs/handovers/HANDOVER_OxVba_multi_form_event_route_collision.md.
         demo.form_module(),
     ]
 }

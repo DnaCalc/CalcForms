@@ -56,69 +56,75 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-/// Build a session with the OxForms VBA library + ONE demo form `(module_name, path)`, and
-/// the `OxForms.Surface` boundary registered so the form's `Render` can self-render. One
-/// form per bundle: two `WithEvents CommandButton_Click` handlers in one bundle collide in
-/// OxVba's per-project event routing (see the handover note).
+/// Build a session with the OxForms VBA library + the given demo form(s) `(module_name,
+/// path)`, and the `OxForms.Surface` boundary registered so each form's `Render` can
+/// self-render. Multiple forms may share one bundle — including two that each hold a
+/// `WithEvents CommandButton` with a `_Click` handler (OxVba `2f0b5058`, adopted at rev
+/// `5bc7246e`, keys event routes per host binding; see
+/// `HANDOVER_OxVba_multi_form_event_route_collision.md`).
 fn prepare_session_with_surface(
-    demo_form: (&str, &str),
+    demo_forms: &[(&str, &str)],
 ) -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
+    let mut modules = vec![
+        module_unit(
+            "OxFormsModel",
+            ModuleKind::Procedural,
+            "vba/oxforms/OxFormsModel.bas",
+        ),
+        module_unit(
+            "IOxControl",
+            ModuleKind::Class,
+            "vba/oxforms/IOxControl.cls",
+        ),
+        module_unit(
+            "IOxControlHost",
+            ModuleKind::Class,
+            "vba/oxforms/IOxControlHost.cls",
+        ),
+        module_unit(
+            "OxControlCore",
+            ModuleKind::Class,
+            "vba/oxforms/OxControlCore.cls",
+        ),
+        module_unit("Controls", ModuleKind::Class, "vba/oxforms/Controls.cls"),
+        module_unit(
+            "ReturnInteger",
+            ModuleKind::Class,
+            "vba/oxforms/ReturnInteger.cls",
+        ),
+        module_unit(
+            "ReturnBoolean",
+            ModuleKind::Class,
+            "vba/oxforms/ReturnBoolean.cls",
+        ),
+        module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
+        module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
+        module_unit(
+            "CommandButton",
+            ModuleKind::Class,
+            "vba/oxforms/CommandButton.cls",
+        ),
+        module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
+        module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
+        module_unit(
+            "OxControlPaint",
+            ModuleKind::Procedural,
+            "vba/oxforms/OxControlPaint.bas",
+        ),
+        module_unit(
+            "OxSceneBuilder",
+            ModuleKind::Class,
+            "vba/oxforms/OxSceneBuilder.cls",
+        ),
+    ];
+    for &(name, path) in demo_forms {
+        modules.push(module_unit(name, ModuleKind::Class, path));
+    }
+
     let manifest = SymbolProjectManifest {
         project_name: "W007RenderFrame".to_string(),
         project_kind: ProjectKind::Library,
-        modules: vec![
-            module_unit(
-                "OxFormsModel",
-                ModuleKind::Procedural,
-                "vba/oxforms/OxFormsModel.bas",
-            ),
-            module_unit(
-                "IOxControl",
-                ModuleKind::Class,
-                "vba/oxforms/IOxControl.cls",
-            ),
-            module_unit(
-                "IOxControlHost",
-                ModuleKind::Class,
-                "vba/oxforms/IOxControlHost.cls",
-            ),
-            module_unit(
-                "OxControlCore",
-                ModuleKind::Class,
-                "vba/oxforms/OxControlCore.cls",
-            ),
-            module_unit("Controls", ModuleKind::Class, "vba/oxforms/Controls.cls"),
-            module_unit(
-                "ReturnInteger",
-                ModuleKind::Class,
-                "vba/oxforms/ReturnInteger.cls",
-            ),
-            module_unit(
-                "ReturnBoolean",
-                ModuleKind::Class,
-                "vba/oxforms/ReturnBoolean.cls",
-            ),
-            module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
-            module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
-            module_unit(
-                "CommandButton",
-                ModuleKind::Class,
-                "vba/oxforms/CommandButton.cls",
-            ),
-            module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
-            module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
-            module_unit(
-                "OxControlPaint",
-                ModuleKind::Procedural,
-                "vba/oxforms/OxControlPaint.bas",
-            ),
-            module_unit(
-                "OxSceneBuilder",
-                ModuleKind::Class,
-                "vba/oxforms/OxSceneBuilder.cls",
-            ),
-            module_unit(demo_form.0, ModuleKind::Class, demo_form.1),
-        ],
+        modules,
         references: Vec::new(),
         reference_projects: Vec::new(),
         conditional_constants: Default::default(),
@@ -179,10 +185,10 @@ fn label_caption(runner: &RuntimeRunner, name: &str) -> String {
 
 #[test]
 fn render_frame_drives_vba_self_render_into_the_resident_scene() {
-    let (session, surface) = prepare_session_with_surface((
+    let (session, surface) = prepare_session_with_surface(&[(
         "W007ObjectModelProbeForm",
         "vba/smoke/fixtures/w007_object_model_probe_form.cls",
-    ));
+    )]);
     let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
     let mut runner = RuntimeRunner::attach(
         session,
@@ -307,16 +313,96 @@ fn render_frame_drives_vba_self_render_into_the_resident_scene() {
     );
 }
 
+/// Regression for the OxVba multi-form event-route collision
+/// (`HANDOVER_OxVba_multi_form_event_route_collision.md`): two form classes that EACH hold a
+/// `WithEvents CommandButton` with a `_Click` handler used to panic in `build_event_routes`
+/// ("dedup invariant violated") when bundled together. OxVba `2f0b5058` (bundle-global
+/// WithEvents binding tokens, adopted at rev `5bc7246e`) fixed it. Bundling both the probe
+/// form (`OkButton_Click`) AND the AutoSize form (`GrowButton_Click`) must now prepare without
+/// the panic, and a button click in the bundle must still dispatch to its native handler.
+#[test]
+fn two_forms_with_withevents_buttons_share_one_bundle() {
+    // The prepare itself is the former panic site: build_event_routes runs over BOTH sinks.
+    let (session, surface) = prepare_session_with_surface(&[
+        (
+            "W007ObjectModelProbeForm",
+            "vba/smoke/fixtures/w007_object_model_probe_form.cls",
+        ),
+        (
+            "AutoSizeInteractiveForm",
+            "vba/smoke/fixtures/autosize_interactive_form.cls",
+        ),
+    ]);
+
+    // Prove dispatch still works in the multi-form bundle: drive the probe form's OK button
+    // (its native OkButton_Click sets OutputLabel from the typed text).
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner");
+    runner.render_frame().expect("render_frame");
+
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press field");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 20.0, 18.0)),
+        ))
+        .expect("release field");
+    runner
+        .dispatch(ui_event(
+            3,
+            UiEventKind::CharacterInput(CharacterInputEvent {
+                text: "World".to_string(),
+                modifiers: KeyboardModifiers::default(),
+                raw: Vec::new(),
+            }),
+        ))
+        .expect("type into field");
+    runner
+        .dispatch(ui_event(
+            4,
+            UiEventKind::MouseDown(mouse_event(true, 164.0, 22.0)),
+        ))
+        .expect("press OK");
+    runner
+        .dispatch(ui_event(
+            5,
+            UiEventKind::MouseUp(mouse_event(false, 164.0, 22.0)),
+        ))
+        .expect("release OK");
+
+    assert!(
+        label_caption(&runner, "OutputLabel").contains("World"),
+        "OkButton_Click dispatched in a two-form bundle; got {:?}",
+        label_caption(&runner, "OutputLabel")
+    );
+    assert!(
+        surface.snapshot().expect("snapshot").revision >= 1,
+        "the probe form rendered in the multi-form bundle"
+    );
+}
+
 /// The interactive AutoSize demo (the runnable `cargo run -p oxforms-bootstrap -- autosize`
 /// window) end to end: clicking "Grow font" fires the native `GrowButton_Click`, which bumps
 /// the label font, so the runtime re-renders incrementally and the bordered AutoSize box
 /// re-fits LARGER. Proves the live demo's click → grow → re-fit chain (rq5.2) headlessly.
 #[test]
 fn autosize_demo_grow_click_refits_the_label_larger() {
-    let (session, surface) = prepare_session_with_surface((
+    let (session, surface) = prepare_session_with_surface(&[(
         "AutoSizeInteractiveForm",
         "vba/smoke/fixtures/autosize_interactive_form.cls",
-    ));
+    )]);
     let runtime_form = oxforms_core::materialize_form_from_frm(&read_source(
         "fixtures/frm/w007-autosize/autosize-interactive.frm",
     ))
