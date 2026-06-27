@@ -115,7 +115,7 @@ Public Sub DrawEdge( _
 End Sub
 
 ' Text references a measured run by id. RunId is a decimal String (a content-hash u64
-' from OxForms.Surface.MeasureText — it does not fit a VBA Long), emitted raw as the
+' from OxForms.Surface.MeasureBatch — it does not fit a VBA Long), emitted raw as the
 ' JSON number; "0" means an unmeasured/empty run. Align is "left"/"center"/"right".
 Public Sub DrawText( _
         ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _

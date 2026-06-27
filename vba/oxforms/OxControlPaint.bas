@@ -9,7 +9,7 @@ Option Explicit
 '
 ' Geometry is surface-absolute (v1 identity transforms). Text references the content-
 ' hash run id the measure pre-pass stamped on Core.RunId (UserForm, via
-' OxForms.Surface.MeasureText); color/edge selection is the only appearance the kernel
+' OxForms.Surface.MeasureBatch); color/edge selection is the only appearance the kernel
 ' ever receives, already resolved to bytes.
 
 Public Sub OxPaintStandardControl( _

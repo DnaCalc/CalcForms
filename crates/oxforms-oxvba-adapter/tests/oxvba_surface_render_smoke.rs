@@ -22,8 +22,8 @@ use std::sync::Arc;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::input::DpiScale;
 use oxforms_pal::scene::{
-    render_headless_hash, EdgeBorder, EdgeEffect, FontId, NodeEdit, NodeId, Paint, Prim, RectF,
-    Scene, SceneNode, ScenePatch, StubShaper,
+    render_headless_hash, text_run_id, EdgeBorder, EdgeEffect, FontId, NodeEdit, NodeId, Paint,
+    Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextKey,
 };
 use oxforms_pal::{Color, SurfaceSize};
 use oxforms_pal_win::{load_ui_font, render_scene_to_rgba, AbGlyphShaper, FontTable};
@@ -132,6 +132,11 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 "CrossingBudgetForm",
                 ModuleKind::Class,
                 "vba/smoke/fixtures/crossing_budget_form.cls",
+            ),
+            module_unit(
+                "MeasureBatchProbeForm",
+                ModuleKind::Class,
+                "vba/smoke/fixtures/measure_batch_probe_form.cls",
             ),
         ],
         references: Vec::new(),
@@ -269,15 +274,9 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
         snap.calls,
-        [
-            "BeginScene:4",
-            "MeasureText:3",
-            "MeasureText:3",
-            "MeasureText:3",
-            "SubmitPatch:1"
-        ],
-        "VBA drives one BeginScene, a MeasureText per text control (the §8 measure \
-         pre-pass), then one batched SubmitPatch"
+        ["BeginScene:4", "MeasureBatch:1", "SubmitPatch:1"],
+        "VBA drives one BeginScene, ONE batched MeasureBatch for all text controls (the §8 \
+         measure pre-pass, batched per §6 — oxforms-98v), then one batched SubmitPatch"
     );
     assert!(
         !snap.last_stale_base,
@@ -677,13 +676,14 @@ fn keystroke_crossing_count_is_independent_of_control_count() {
     let small = keystroke_calls(3);
     let large = keystroke_calls(30);
     // Assert the call KINDS, not just the count: a keystroke re-measures the one changed
-    // caption and submits one incremental patch. Pinning the exact calls guards against a
-    // STALE-base FULL rebuild (which would also be a constant count, but a BeginScene + N
-    // MeasureText + SubmitPatch sequence) masquerading as a passing budget.
+    // caption (one batched MeasureBatch) and submits one incremental patch. Pinning the exact
+    // calls guards against a STALE-base FULL rebuild (which would also be a constant count, but
+    // a BeginScene + MeasureBatch + SubmitPatch sequence — note the leading BeginScene)
+    // masquerading as a passing budget.
     assert_eq!(
         small,
-        ["MeasureText:3", "SubmitPatch:1"],
-        "a keystroke crosses exactly one MeasureText + one incremental SubmitPatch"
+        ["MeasureBatch:1", "SubmitPatch:1"],
+        "a keystroke crosses exactly one MeasureBatch + one incremental SubmitPatch"
     );
     assert_eq!(
         small, large,
@@ -691,34 +691,110 @@ fn keystroke_crossing_count_is_independent_of_control_count() {
     );
 }
 
-/// First paint currently crosses `BeginScene` + one `MeasureText` PER text control +
-/// `SubmitPatch` (= N+2), so it scales with the text-control count. Hitting the §6 ≤5
-/// first-paint target *independent of N* needs a BATCHED `MeasureText` (one crossing for all
-/// runs needing measurement, per RENDERING_ARCHITECTURE.md §6) — deferred to oxforms-98v.
-/// This test locks the current behavior (the exact call sequence) and documents the gap.
+/// oxforms-98v: first paint now crosses `BeginScene` + ONE batched `MeasureBatch` (every text
+/// control measured in a single crossing) + `SubmitPatch` = 3 crossings, INDEPENDENT of the
+/// text-control count — the §6 first-paint budget, now met. Asserting the exact call vector for
+/// two very different control counts pins that independence (previously this was N+2 and the
+/// test documented the gap).
 #[test]
-fn first_paint_crossings_scale_with_text_controls_pending_batched_measuretext() {
+fn first_paint_crosses_once_for_all_text_via_batched_measuretext() {
     let first_paint_calls = |count: i32| -> Vec<String> {
         let (mut session, surface, form) = crossing_budget_session(count);
         invoke_no_args(&mut session, &form, "RenderOnce");
         surface.snapshot().expect("snapshot").calls
     };
-    // BeginScene once, MeasureText once per text control (no batching), SubmitPatch once.
-    let expected = |n: usize| -> Vec<String> {
-        let mut calls = Vec::with_capacity(n + 2);
-        calls.push("BeginScene:4".to_string());
-        for _ in 0..n {
-            calls.push("MeasureText:3".to_string());
-        }
-        calls.push("SubmitPatch:1".to_string());
-        calls
-    };
+    let expected = ["BeginScene:4", "MeasureBatch:1", "SubmitPatch:1"];
     assert_eq!(
         first_paint_calls(3),
-        expected(3),
-        "first paint = BeginScene + N MeasureText + SubmitPatch (batched MeasureText would drop the per-control MeasureText)"
+        expected,
+        "first paint = BeginScene + one batched MeasureBatch + SubmitPatch"
     );
-    assert_eq!(first_paint_calls(10), expected(10));
+    assert_eq!(
+        first_paint_calls(30),
+        expected,
+        "first paint is independent of control count (3 vs 30 controls cross identically)"
+    );
+}
+
+/// oxforms-98v: the `OxForms.Surface.MeasureBatch` typed-record round-trip end to end through
+/// the real OxVba dispatch. The VBA probe builds an `OxMeasureRequest()` UDT array, calls
+/// `MeasureBatch` ONCE, and reads back an `OxMeasureResult()` UDT array. Asserts: exactly one
+/// `MeasureBatch` crossing; both result rows present; each row's `RunId` (a String record
+/// field) equals the content hash of its caption — which proves the caption crossed verbatim
+/// as a native String field (not packed/escaped) AND the result String field round-tripped;
+/// the metrics arrive as the typed Long fields. This is the marshaling proof the batched
+/// render path (below) relies on.
+#[test]
+fn measure_batch_round_trips_typed_records() {
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
+    register_surface(&projection, surface.clone());
+
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("MeasureBatchProbeForm")
+        .expect("create MeasureBatchProbeForm");
+    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| -> Variant {
+        session
+            .invoke_member_values(
+                form.clone(),
+                name,
+                Some(ProjectMemberKind::Method),
+                Vec::new(),
+            )
+            .unwrap_or_else(|err| panic!("invoke {name}: {}", err.message()))
+    };
+
+    call(&mut session, "Build");
+    let probe = call(&mut session, "ProbeTwo");
+    let probe = probe
+        .as_bstr()
+        .map(|s| s.to_string())
+        .expect("ProbeTwo returns a String");
+
+    // Exactly one batched crossing measured BOTH runs.
+    assert_eq!(
+        surface.snapshot().expect("snapshot").calls,
+        ["MeasureBatch:1"],
+        "MeasureBatch crosses once for the whole batch"
+    );
+
+    // "runId,advanceMilliPt,heightMilliPt;runId,advanceMilliPt,heightMilliPt"
+    let rows: Vec<&str> = probe.split(';').collect();
+    assert_eq!(
+        rows.len(),
+        2,
+        "two index-aligned result rows; got {probe:?}"
+    );
+    let row0: Vec<&str> = rows[0].split(',').collect();
+    let row1: Vec<&str> = rows[1].split(',').collect();
+
+    // RunId == content hash of the exact caption: the caption crossed verbatim as a typed
+    // String field, and the result String field round-tripped (not a packed/parsed blob).
+    let key = TextKey {
+        font: FontId(1),
+        size_milli_pt: 12000,
+        wrap_width_milli_pt: None,
+    };
+    assert_eq!(
+        row0[0],
+        text_run_id(&key, "Hello").0.to_string(),
+        "row 0 RunId is the hash of \"Hello\""
+    );
+    assert_eq!(
+        row1[0],
+        text_run_id(&key, "Hi").0.to_string(),
+        "row 1 RunId is the hash of \"Hi\""
+    );
+    // Metrics arrived as the typed Long fields (parse as integers).
+    assert!(
+        row0[1].parse::<i64>().is_ok() && row0[2].parse::<i64>().is_ok(),
+        "row 0 metrics are integer Long fields: {row0:?}"
+    );
+    assert!(
+        row1[1].parse::<i64>().is_ok() && row1[2].parse::<i64>().is_ok(),
+        "row 1 metrics are integer Long fields: {row1:?}"
+    );
 }
 
 /// Evidence generator (on-demand): render the AutoSize demo through the REAL ab_glyph

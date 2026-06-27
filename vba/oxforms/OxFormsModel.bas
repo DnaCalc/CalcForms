@@ -41,6 +41,29 @@ End Enum
 ' value and from the 0x80000000 OLE_COLOR system-index flag.
 Public Const oxColorAuto As Long = -1
 
+' The OxForms.Surface.MeasureBatch wire contract (oxforms-98v): ONE VBA->Rust crossing
+' measures every text run a frame needs. A request and a result are typed records, so the
+' free-form caption rides as a native String field (never packed/escaped/length-prefixed)
+' and the metrics return as typed Longs (no VBA-side string parsing). The field order and
+' kinds MUST match the Rust-side VbaRecordLayouts in
+' crates/oxforms-oxvba-adapter/src/surface.rs; the VBA library and the renderer are
+' co-versioned, so the two layouts change together in one commit (no on-wire versioning).
+' Metrics are 1/1000 pt integers. RunId is the content-hash u64 as a decimal token (it does
+' not fit a Long), which VBA re-emits verbatim into the patch's DrawText run.
+Public Type OxMeasureRequest
+    FontId As Long
+    SizeMilliPt As Long
+    Caption As String
+End Type
+
+Public Type OxMeasureResult
+    RunId As String
+    AdvanceMilliPt As Long
+    AscentMilliPt As Long
+    DescentMilliPt As Long
+    LineGapMilliPt As Long
+End Type
+
 ' Map a Forms 2.0 control ProgID ("Forms.Label.1") to the internal kind. Unknown -> -1.
 ' Case-insensitive, like real MSForms Controls.Add. "Forms.CheckBox.1" is a recognized kind
 ' but has no class module yet, so OxCreateControl returns Nothing for it and Controls.Add

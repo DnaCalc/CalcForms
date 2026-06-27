@@ -2,7 +2,7 @@ Option Explicit
 
 ' W007 AutoSize layout proving fixture (oxforms-4pn.14). Test infrastructure, not the
 ' OxForms library. A bordered AutoSize label shrink-wraps its caption: the measure ->
-' layout -> paint pipeline derives the label's bounds from OxForms.Surface.MeasureText
+' layout -> paint pipeline derives the label's bounds from OxForms.Surface.MeasureBatch
 ' metrics, so a font-size change re-measures and the box re-fits. This makes the metrics
 ' round-trip load-bearing (a wrong measurement would be a visibly wrong box).
 '

@@ -247,9 +247,12 @@ The crossings (flat Variants, serde-shaped payload):
 
 - `BeginScene(w, h, dpiX, dpiY)` — rare (resize / first show / DPI change).
 - `RegisterFont(family, sizePt, bold, italic, underline) -> FontId` — once per font.
-- `MeasureText(batch) -> metrics[] + TextRunId[]` — one batched call for runs
-  needing (re)measurement; cached both sides, so steady-state frames need zero
-  text crossings.
+- `MeasureBatch(requests) -> results[]` — one batched call measuring every run a frame
+  needs (oxforms-98v): typed `SAFEARRAY`s of `OxMeasureRequest`/`OxMeasureResult` records, so
+  captions cross as native `String` fields (no packing/escaping) and metrics return as typed
+  `Long`s (no VBA-side parsing). The single-run `MeasureText(fontId, sizeMilliPt, caption)`
+  remains for one-off measures. Cached both sides, so steady-state frames need zero new-text
+  crossings.
 - `SubmitPatch(payload) -> RenderDiagnostics` — **the** per-frame crossing (folds
   Render in via a flag). Returns `command_count` + `framebuffer_hash`. Carries
   `base_hash`; on `StaleBase` the runtime resubmits a full rebuild.
@@ -263,7 +266,11 @@ The crossings (flat Variants, serde-shaped payload):
 first paint ≈ 3–5 crossings total, *independent of control count*; one keystroke
 ≈ 1–2 crossings, *independent of the other 49 controls*; drag under capture = 0
 hit-test crossings. If the VBA-side encoder profiles hot, only the encoder
-migrates to Rust under §4.6 — the contract is unchanged.
+migrates to Rust under §4.6 — the contract is unchanged. **Realized + gated
+(oxforms-98v):** first paint is `BeginScene + MeasureBatch + SubmitPatch` = 3 crossings
+independent of control count (`first_paint_crosses_once_for_all_text_via_batched_measuretext`);
+a keystroke is `MeasureBatch + SubmitPatch`, independent of the other controls
+(`keystroke_crossing_count_is_independent_of_control_count`).
 
 ## 7. Invalidation and damage
 
@@ -439,9 +446,9 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    control count** (the §6 keystroke budget — the rq5.2 payoff). (Hit-testing is reducer-side,
    so there is no `HitTest` crossing to make under drag-capture — that crossing is simply
    unimplemented, not a separately gated property.)
-   First paint is currently `BeginScene + N MeasureText + SubmitPatch` (per-control); hitting
-   the §6 ≤5-first-paint target independent of N needs the **batched** `MeasureText` of §6
-   (one crossing for all runs) — deferred to **oxforms-98v** (locked + documented by a test).
+   First paint is `BeginScene + MeasureBatch + SubmitPatch` (constant in control count) since
+   **oxforms-98v** batched the measure crossing (§6); a keystroke is `MeasureBatch +
+   SubmitPatch`. Both are gated by exact-`calls` tests.
    (b) `render_damage` wired into the present loop: the backend retains the framebuffer and
    repaints only the scene's damage (per damage rect: clear + `render_damage` clipped to that
    rect), full-rendering only on first frame / resize. Pixel-identical to a full repaint
@@ -452,8 +459,9 @@ the shared value types above. Relocated: appearance → VBA theme. Deleted (no
 fallback/compat path survives initial development): the probe render code and the whole
 W002 immediate display-list path incl. `SmokeCanvas` and `flatten` (both removed in
 oxforms-rq5.1). Incremental invalidation landed in rq5.2; incremental-by-default repaint +
-the crossing-budget gates in rq5.3. **The rq5 migration is complete.** Remaining follow-up:
-batched `MeasureText` for the first-paint crossing budget (oxforms-98v).
+the crossing-budget gates in rq5.3. **The rq5 migration is complete.** The first-paint
+crossing budget closed in **oxforms-98v** (batched `MeasureBatch`); both the first-paint and
+keystroke budgets are now met and gated.
 
 ## 13. D7 amendment
 

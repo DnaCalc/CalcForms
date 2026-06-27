@@ -141,55 +141,94 @@ Public Function BuildScenePatch( _
     Builder.FillRect 0, 0, mWidth, mHeight, OxThemeFormBackColor(), 255
     Builder.CloseNode
 
-    ' Each control measures -> lays out -> paints itself into its own node.
-    For I = 1 To mControls.Count
-        Set Control = mControls.Item(I)
-        EmitControl Control, Builder, Surface
-    Next I
+    ' Measure every caption in ONE batched crossing, then lay out + paint each control.
+    EmitControls mControls, Builder, Surface
 
     BuildScenePatch = Builder.ToPatchJson()
 End Function
 
-' Measure -> layout -> paint ONE control into the builder as an Upsert node. Shared by the
-' full rebuild and the incremental path so a control's emitted node is byte-identical
-' either way -- which is what lets an incremental patch reach the same resident scene a
-' full rebuild would (determinism invariant (c), RENDERING_ARCHITECTURE.md §10).
-'   measure: stamp the content-hash run id + measured size from OxForms.Surface.MeasureText
-'     (the §8 cache-miss path; the caption crosses here, once) straight onto the live core.
-'   layout: an AutoSize control shrink-wraps its caption (measured run + 4pt/3pt insets),
-'     written WITHOUT MarkDirty (see SetAutoSizeBounds) so a re-render leaves no phantom dirty.
-'   paint: the control emits its own node.
-Private Sub EmitControl( _
-        ByVal Control As IOxControl, ByVal Builder As OxSceneBuilder, ByVal Surface As Object)
-    Dim Cap As String, Rid As String, MeasW As Single, MeasH As Single
-    Cap = Control.Core.DisplayText
-    If Len(Cap) > 0 Then
-        ParseMeasure _
-            Surface.MeasureText(OX_DEFAULT_FONT_ID, CLng(Control.Core.FontSize * 1000), Cap), _
-            Rid, MeasW, MeasH
-        Control.Core.RunId = Rid
-        Control.Core.MeasuredWidth = MeasW
-        Control.Core.MeasuredHeight = MeasH
-    Else
-        Control.Core.RunId = ""
-        Control.Core.MeasuredWidth = 0
-        Control.Core.MeasuredHeight = 0
-    End If
+' Emit a set of controls into the builder in two passes that share one batched text-measure
+' crossing (oxforms-98v). Pass 1 (MeasureControls) crosses OxForms.Surface.MeasureBatch ONCE
+' for every caption in the set; pass 2 (PaintControls) lays out + paints each control with no
+' further crossing. A control's emitted node is byte-identical to the old per-control path, so
+' an incremental patch still reaches the same resident scene a full rebuild would (determinism
+' invariant (c), RENDERING_ARCHITECTURE.md §10) -- only the measure FAN-OUT changed (N crossings
+' -> 1). Both BuildScenePatch (all controls) and RenderIncremental (the invalidated set) use it.
+Private Sub EmitControls( _
+        ByVal List As Object, ByVal Builder As OxSceneBuilder, ByVal Surface As Object)
+    MeasureControls List, Surface
+    PaintControls List, Builder
+End Sub
 
-    If Control.Core.AutoSize And Len(Control.Core.DisplayText) > 0 Then
-        Control.Core.SetAutoSizeBounds _
-            Control.Core.MeasuredWidth + 8, Control.Core.MeasuredHeight + 6
-    End If
+' Pass 1 -- measure: stamp each text control's content-hash run id + measured size from a
+' SINGLE OxForms.Surface.MeasureBatch crossing (the §8 measure step, batched per §6). Captions
+' ride to Rust as native String record fields and metrics return as typed Longs (OxMeasureRequest
+' / OxMeasureResult in OxFormsModel) -- no string packing or parsing. Controls with no caption
+' need no measurement (empty run, zero size) and take no request slot; if the set has no text at
+' all, no crossing happens.
+Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
+    Dim I As Long, Control As IOxControl, TextCount As Long
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        If Len(Control.Core.DisplayText) > 0 Then
+            TextCount = TextCount + 1
+        Else
+            Control.Core.RunId = ""
+            Control.Core.MeasuredWidth = 0
+            Control.Core.MeasuredHeight = 0
+        End If
+    Next I
+    If TextCount = 0 Then Exit Sub
 
-    Control.Render Builder
+    Dim Reqs() As OxMeasureRequest
+    ReDim Reqs(0 To TextCount - 1)
+    Dim Measured As Collection
+    Set Measured = New Collection
+    Dim J As Long
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        If Len(Control.Core.DisplayText) > 0 Then
+            Reqs(J).FontId = OX_DEFAULT_FONT_ID
+            Reqs(J).SizeMilliPt = CLng(Control.Core.FontSize * 1000)
+            Reqs(J).Caption = Control.Core.DisplayText
+            Measured.Add Control
+            J = J + 1
+        End If
+    Next I
 
-    ' The control's current state is now committed to the resident scene, so it is no
-    ' longer dirty. Clearing it here (the render path) keeps Core.Dirty meaning "changed
-    ' since last emitted" -- which is what ResumeLayout's dirty re-derive assumes. Without
-    ' this, a render-only flow (no runtime dispatch, which is the only other ClearDirty
-    ' caller) would let Core.Dirty accumulate, so each later ResumeLayout band would
-    ' re-invalidate every control ever changed.
-    Control.Core.ClearDirty
+    Dim Res() As OxMeasureResult
+    Res = Surface.MeasureBatch(Reqs)
+
+    For J = 0 To TextCount - 1
+        Set Control = Measured.Item(J + 1)
+        Control.Core.RunId = Res(J).RunId
+        Control.Core.MeasuredWidth = Res(J).AdvanceMilliPt / 1000
+        Control.Core.MeasuredHeight = (Res(J).AscentMilliPt + Res(J).DescentMilliPt) / 1000
+    Next J
+End Sub
+
+' Pass 2 -- layout + paint: no crossing. An AutoSize control with a caption shrink-wraps its
+' measured run (measured size + 4pt/3pt insets per side = +8pt/+6pt total), written WITHOUT
+' MarkDirty (see SetAutoSizeBounds) so a re-render leaves no phantom dirty. Then it emits its node.
+Private Sub PaintControls(ByVal List As Object, ByVal Builder As OxSceneBuilder)
+    Dim I As Long, Control As IOxControl
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        If Control.Core.AutoSize And Len(Control.Core.DisplayText) > 0 Then
+            Control.Core.SetAutoSizeBounds _
+                Control.Core.MeasuredWidth + 8, Control.Core.MeasuredHeight + 6
+        End If
+
+        Control.Render Builder
+
+        ' The control's current state is now committed to the resident scene, so it is no
+        ' longer dirty. Clearing it here (the render path) keeps Core.Dirty meaning "changed
+        ' since last emitted" -- which is what ResumeLayout's dirty re-derive assumes. Without
+        ' this, a render-only flow (no runtime dispatch, which is the only other ClearDirty
+        ' caller) would let Core.Dirty accumulate, so each later ResumeLayout band would
+        ' re-invalidate every control ever changed.
+        Control.Core.ClearDirty
+    Next I
 End Sub
 
 ' Re-render across the OxForms.Surface boundary -- the Re-render the runtime invokes each
@@ -247,45 +286,13 @@ Private Function RenderIncremental( _
     Set Builder = New OxSceneBuilder
     Builder.BeginPatch mLastSceneToken, CLng(mWidth), CLng(mHeight), DpiX, DpiY
 
-    Dim I As Long, Control As IOxControl
-    For I = 1 To mInvalidated.Count
-        Set Control = mInvalidated.Item(I)
-        EmitControl Control, Builder, Surface
-    Next I
+    EmitControls mInvalidated, Builder, Surface
 
     Dim NewToken As String
     NewToken = Surface.SubmitPatch(Builder.ToPatchJson())
     If NewToken <> OX_STALE_SENTINEL Then mLastSceneToken = NewToken
     RenderIncremental = NewToken
 End Function
-
-' Parse a MeasureText result "id:advance:ascent:descent:linegap" (metrics in 1/1000 pt)
-' into the run id (a String) and the caption's measured size in points (advance width;
-' ascent+descent height). Avoids a Split dependency (InStr + Left$/Mid$ + Val). Val is
-' locale-independent for the integer milli-pt fields. The 5-field shape is
-' OxForms.Surface.MeasureText's contract. (Left$ here resolves to the VBA string intrinsic
-' even though UserForm owns a Left property — fixed in OxVba 807dd215; see the handover.)
-Private Sub ParseMeasure( _
-        ByVal S As String, ByRef RunId As String, _
-        ByRef WidthPt As Single, ByRef HeightPt As Single)
-    WidthPt = 0
-    HeightPt = 0
-    Dim p1 As Long, p2 As Long, p3 As Long, p4 As Long
-    p1 = InStr(S, ":")
-    If p1 = 0 Then
-        ' No metrics (a bare id or unexpected shape): degrade gracefully — take the whole
-        ' string as the id, zero metrics — rather than raise on a contract drift.
-        RunId = S
-        Exit Sub
-    End If
-    RunId = Left$(S, p1 - 1)
-    p2 = InStr(p1 + 1, S, ":")
-    p3 = InStr(p2 + 1, S, ":")
-    p4 = InStr(p3 + 1, S, ":")
-    If p2 = 0 Or p3 = 0 Or p4 = 0 Then Exit Sub
-    WidthPt = Val(Mid$(S, p1 + 1, p2 - p1 - 1)) / 1000
-    HeightPt = (Val(Mid$(S, p2 + 1, p3 - p2 - 1)) + Val(Mid$(S, p3 + 1, p4 - p3 - 1))) / 1000
-End Sub
 
 Public Property Get LastSceneToken() As String
     LastSceneToken = mLastSceneToken

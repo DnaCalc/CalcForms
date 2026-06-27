@@ -24,12 +24,18 @@
 //!   resubmits a full rebuild — the self-healing path from §3).
 //!
 //! - `MeasureText(fontId, sizeMilliPt, caption) -> "id:advance:ascent:descent:linegap"`
-//!   — the text-metrics round-trip (RENDERING_ARCHITECTURE.md §8). The caption (a BSTR
-//!   borrow) is copied + shaped **once** by an injected [`TextShaper`] into a retained
-//!   shaped run stored kernel-side; the returned `id` is a Rust-assigned content hash
-//!   VBA memoizes by text. Metrics are returned in 1/1000 pt integers (locale-safe to
-//!   parse in VBA). This is the cache-miss path; steady-state frames re-emit the id
-//!   only, in the patch.
+//!   — the single-run text-metrics round-trip (RENDERING_ARCHITECTURE.md §8). The caption
+//!   (a BSTR borrow) is copied + shaped **once** by an injected [`TextShaper`] into a
+//!   retained shaped run stored kernel-side; the returned `id` is a Rust-assigned content
+//!   hash. Metrics are returned in 1/1000 pt integers (locale-safe to parse in VBA).
+//!
+//! - `MeasureBatch(requests) -> results` — the BATCHED text-metrics round-trip
+//!   (RENDERING_ARCHITECTURE.md §6/§8, oxforms-98v): one crossing measures every run a frame
+//!   needs. `requests`/`results` are typed `SAFEARRAY`s of `OxMeasureRequest`/`OxMeasureResult`
+//!   records, so captions ride as native `String` fields (no packing/escaping) and metrics
+//!   return as typed `Long`s (no VBA string parsing). Shares [`shape_run`]/[`store_run`] with
+//!   `MeasureText`, so an id is identical whichever path measured it. This is what keeps first
+//!   paint of N text controls to ONE measure crossing instead of N.
 //!
 //! Deferred crossings (not needed to paint the W007 slice; tracked by the rendering
 //! architecture): `RegisterFont`, `HitTest`, `ResolveSysColor`, `DecodeImage`.
@@ -41,7 +47,8 @@ use oxvba_com::{
     platform::portable::{PortableDispatch, PortableObjectFactory},
     PortableComProjection,
 };
-use oxvba_runtime::Variant;
+use oxvba_runtime::safe_array::{SafeArray, SafeArrayBound};
+use oxvba_runtime::{Variant, VbaRecord, VbaRecordFieldKind, VbaRecordFieldSpec, VbaRecordLayout};
 
 use oxforms_pal::input::DpiScale;
 use oxforms_pal::scene::{
@@ -176,6 +183,7 @@ impl PortableDispatch for SurfaceDispatch {
             "BeginScene" => self.begin_scene(args),
             "SubmitPatch" => self.submit_patch(args),
             "MeasureText" => self.measure_text(args),
+            "MeasureBatch" => self.measure_batch(args),
             _ => unreachable!("canonical_member filters methods"),
         }
     }
@@ -197,6 +205,7 @@ impl PortableDispatch for SurfaceDispatch {
             "BeginScene".into(),
             "SubmitPatch".into(),
             "MeasureText".into(),
+            "MeasureBatch".into(),
         ]
     }
 }
@@ -288,34 +297,90 @@ impl SurfaceDispatch {
             format!("{SURFACE_PROG_ID}.MeasureText called without a registered text shaper")
         })?;
 
-        let key = TextKey {
-            font: FontId(u64::from(font_id)),
-            size_milli_pt,
-            wrap_width_milli_pt: None,
-        };
-        let run = shaper.shape(&key, &caption);
-        let id = run.id;
-        let metrics = run.metrics;
-
+        let run = shape_run(shaper, font_id, size_milli_pt, &caption);
+        let line = format_measure(&run);
         let mut state = self.lock()?;
-        debug_assert!(
-            state
-                .text_runs
-                .get(&id.0)
-                .is_none_or(|existing| *existing == run),
-            "text_run_id collision in the MeasureText store: id {:#x}",
-            id.0
-        );
-        state.text_runs.insert(id.0, run);
+        store_run(&mut state, run);
+        Ok(Variant::from_string(line))
+    }
 
-        Ok(Variant::from_string(format!(
-            "{}:{}:{}:{}:{}",
-            id.0,
-            milli_pt(metrics.advance),
-            milli_pt(metrics.ascent),
-            milli_pt(metrics.descent),
-            milli_pt(metrics.line_gap),
-        )))
+    /// `MeasureBatch(requests) -> results` — the BATCHED §8 text-metrics crossing
+    /// (RENDERING_ARCHITECTURE.md §6/§8). One crossing measures EVERY run a frame needs:
+    /// `requests` is a `SAFEARRAY` of `OxMeasureRequest` records `(FontId, SizeMilliPt,
+    /// Caption)`; the return is an index-aligned `SAFEARRAY` of `OxMeasureResult` records
+    /// `(RunId, AdvanceMilliPt, AscentMilliPt, DescentMilliPt, LineGapMilliPt)`. Captions
+    /// ride as native `String` record fields (never packed/escaped); metrics return as
+    /// typed `Long`s, so there is no VBA-side string parsing. Each run is shaped once and
+    /// stored exactly as the single-run [`Self::measure_text`] does (shared [`shape_run`] +
+    /// [`store_run`]), so a content-hash id is identical whichever path measured it. This
+    /// replaces the per-control `MeasureText` fan-out: first paint of N text controls
+    /// crosses once, not N times (the §6 first-paint budget — oxforms-98v).
+    fn measure_batch(&self, args: &[Variant]) -> Result<Variant, String> {
+        expect_arg_count("MeasureBatch", args, 1)?;
+        let requests = args[0].as_safearray().ok_or_else(|| {
+            format!(
+                "{SURFACE_PROG_ID}.MeasureBatch expected a SAFEARRAY of OxMeasureRequest records"
+            )
+        })?;
+        let shaper = self.shaper.as_ref().ok_or_else(|| {
+            format!("{SURFACE_PROG_ID}.MeasureBatch called without a registered text shaper")
+        })?;
+
+        // Shape every requested run (pure; no store mutation yet).
+        let elements = requests.variant_elements().unwrap_or_default();
+        let mut runs: Vec<TextRun> = Vec::with_capacity(elements.len());
+        for (row, element) in elements.iter().enumerate() {
+            let record = element.as_vba_record().ok_or_else(|| {
+                format!("{SURFACE_PROG_ID}.MeasureBatch request {row} is not an OxMeasureRequest record")
+            })?;
+            let font_id = record_u32(&record, REQ_FONT_ID, "FontId", row)?;
+            let size_milli_pt = record_u32(&record, REQ_SIZE_MILLI_PT, "SizeMilliPt", row)?;
+            let caption = record_string(&record, REQ_CAPTION, "Caption", row)?;
+            runs.push(shape_run(shaper, font_id, size_milli_pt, &caption));
+        }
+
+        // Store the whole batch under one lock, then build the index-aligned result array.
+        {
+            let mut state = self.lock()?;
+            for run in &runs {
+                store_run(&mut state, run.clone());
+            }
+        }
+
+        let layout = measure_result_layout();
+        let mut results: Vec<VbaRecord> = Vec::with_capacity(runs.len());
+        for run in &runs {
+            let mut rec = VbaRecord::new_default(layout.clone())
+                .map_err(|err| format!("{SURFACE_PROG_ID}.MeasureBatch result record: {err}"))?;
+            rec.write_field_variant(RES_RUN_ID, &Variant::from_string(run.id.0.to_string()))?;
+            rec.write_field_variant(
+                RES_ADVANCE,
+                &Variant::from_i32(milli_pt_i32(run.metrics.advance)?),
+            )?;
+            rec.write_field_variant(
+                RES_ASCENT,
+                &Variant::from_i32(milli_pt_i32(run.metrics.ascent)?),
+            )?;
+            rec.write_field_variant(
+                RES_DESCENT,
+                &Variant::from_i32(milli_pt_i32(run.metrics.descent)?),
+            )?;
+            rec.write_field_variant(
+                RES_LINE_GAP,
+                &Variant::from_i32(milli_pt_i32(run.metrics.line_gap)?),
+            )?;
+            results.push(rec);
+        }
+
+        let count = u32::try_from(results.len())
+            .map_err(|_| format!("{SURFACE_PROG_ID}.MeasureBatch result count overflow"))?;
+        let array = SafeArray::from_vba_records_nd(
+            vec![SafeArrayBound { count, lower: 0 }],
+            layout,
+            results,
+        )
+        .map_err(|err| format!("{SURFACE_PROG_ID}.MeasureBatch result array: {err}"))?;
+        Ok(Variant::from_safearray(array))
     }
 
     fn record_call(&self, member: &str, arg_count: usize) -> Result<(), String> {
@@ -361,6 +426,111 @@ fn milli_pt(points: f32) -> i64 {
     (f64::from(points) * 1000.0).round().max(0.0) as i64
 }
 
+/// `milli_pt` as a VBA `Long` (i32) for a typed `OxMeasureResult` field. The metric contract
+/// IS i32-bounded — the result record's fields are VBA `Long`s — and realistic text metrics
+/// are far inside that, so the guard only fires on a degenerate value, erroring rather than
+/// wrapping. (The single-run `MeasureText` returns the same `milli_pt` value as a string; the
+/// shared i32 ceiling is the wire contract, not a divergence.)
+fn milli_pt_i32(points: f32) -> Result<i32, String> {
+    let milli = milli_pt(points);
+    i32::try_from(milli).map_err(|_| {
+        format!("{SURFACE_PROG_ID}.MeasureBatch metric {milli} (1/1000 pt) exceeds a VBA Long")
+    })
+}
+
+// Field order of the `OxMeasureRequest` / `OxMeasureResult` records — MUST match the VBA
+// `Type`s in vba/oxforms/OxFormsModel.bas (co-versioned; both change together).
+const REQ_FONT_ID: usize = 0;
+const REQ_SIZE_MILLI_PT: usize = 1;
+const REQ_CAPTION: usize = 2;
+const RES_RUN_ID: usize = 0;
+const RES_ADVANCE: usize = 1;
+const RES_ASCENT: usize = 2;
+const RES_DESCENT: usize = 3;
+const RES_LINE_GAP: usize = 4;
+
+/// Shape one run via the injected shaper (pure — no store mutation). Shared by the single
+/// `MeasureText` and the batched `MeasureBatch` so a content-hash id never depends on which
+/// path measured it.
+fn shape_run(shaper: &SharedShaper, font_id: u32, size_milli_pt: u32, caption: &str) -> TextRun {
+    let key = TextKey {
+        font: FontId(u64::from(font_id)),
+        size_milli_pt,
+        wrap_width_milli_pt: None,
+    };
+    shaper.shape(&key, caption)
+}
+
+/// Insert a shaped run into the persistent store (idempotent by content-hash id; a second
+/// measure of identical text is a no-op). Shared by both measure paths.
+fn store_run(state: &mut SurfaceState, run: TextRun) {
+    debug_assert!(
+        state
+            .text_runs
+            .get(&run.id.0)
+            .is_none_or(|existing| *existing == run),
+        "text_run_id collision in the MeasureText store: id {:#x}",
+        run.id.0
+    );
+    state.text_runs.insert(run.id.0, run);
+}
+
+/// The `MeasureText` return string `id:advance:ascent:descent:linegap` (milli-pt integers).
+fn format_measure(run: &TextRun) -> String {
+    format!(
+        "{}:{}:{}:{}:{}",
+        run.id.0,
+        milli_pt(run.metrics.advance),
+        milli_pt(run.metrics.ascent),
+        milli_pt(run.metrics.descent),
+        milli_pt(run.metrics.line_gap),
+    )
+}
+
+/// The shared `OxMeasureResult` record layout (RunId: String, then four milli-pt Longs).
+/// Built per call (cheap); its field kinds + order mirror the VBA `OxMeasureResult` `Type`.
+fn measure_result_layout() -> Arc<VbaRecordLayout> {
+    let layout = VbaRecordLayout::new(vec![
+        VbaRecordFieldSpec::named("RunId", VbaRecordFieldKind::String),
+        VbaRecordFieldSpec::named("AdvanceMilliPt", VbaRecordFieldKind::Long),
+        VbaRecordFieldSpec::named("AscentMilliPt", VbaRecordFieldKind::Long),
+        VbaRecordFieldSpec::named("DescentMilliPt", VbaRecordFieldKind::Long),
+        VbaRecordFieldSpec::named("LineGapMilliPt", VbaRecordFieldKind::Long),
+    ])
+    .expect("OxMeasureResult layout is statically valid");
+    Arc::new(layout)
+}
+
+/// Read a non-negative `Long` field from an `OxMeasureRequest` record.
+fn record_u32(record: &VbaRecord, index: usize, field: &str, row: usize) -> Result<u32, String> {
+    let value = record.read_field_variant(index).map_err(|err| {
+        format!("{SURFACE_PROG_ID}.MeasureBatch request {row} field `{field}`: {err}")
+    })?;
+    let number = value.as_i32().ok_or_else(|| {
+        format!("{SURFACE_PROG_ID}.MeasureBatch request {row} field `{field}` is not a Long")
+    })?;
+    u32::try_from(number).map_err(|_| {
+        format!("{SURFACE_PROG_ID}.MeasureBatch request {row} field `{field}` must be non-negative, got {number}")
+    })
+}
+
+/// Read a `String` field from an `OxMeasureRequest` record — the native BSTR carrier for the
+/// free-form caption (no delimiting/escaping/length-prefix; any caption survives verbatim).
+fn record_string(
+    record: &VbaRecord,
+    index: usize,
+    field: &str,
+    row: usize,
+) -> Result<String, String> {
+    let value = record.read_field_variant(index).map_err(|err| {
+        format!("{SURFACE_PROG_ID}.MeasureBatch request {row} field `{field}`: {err}")
+    })?;
+    let text = value.as_bstr().ok_or_else(|| {
+        format!("{SURFACE_PROG_ID}.MeasureBatch request {row} field `{field}` is not a String")
+    })?;
+    Ok(text.to_string())
+}
+
 fn canonical_member(member: &str) -> Option<&'static str> {
     if member.eq_ignore_ascii_case("BeginScene") {
         Some("BeginScene")
@@ -368,6 +538,8 @@ fn canonical_member(member: &str) -> Option<&'static str> {
         Some("SubmitPatch")
     } else if member.eq_ignore_ascii_case("MeasureText") {
         Some("MeasureText")
+    } else if member.eq_ignore_ascii_case("MeasureBatch") {
+        Some("MeasureBatch")
     } else {
         None
     }
@@ -737,6 +909,124 @@ mod tests {
         assert!(
             snap.scene.unwrap().text_run(TextRunId(id)).is_some(),
             "the run survived BeginScene and re-projected into the new scene"
+        );
+    }
+
+    // ── MeasureBatch — the batched typed-record measure crossing (oxforms-98v) ──
+
+    /// Build a request `SAFEARRAY` of `OxMeasureRequest` records — the exact shape the VM
+    /// marshals a VBA `Dim reqs() As OxMeasureRequest` into — so the batch path is unit-tested
+    /// at the dispatch boundary without the VBA/VM layer.
+    fn request_array(rows: &[(i32, i32, &str)]) -> Variant {
+        let layout = Arc::new(
+            VbaRecordLayout::new(vec![
+                VbaRecordFieldSpec::named("FontId", VbaRecordFieldKind::Long),
+                VbaRecordFieldSpec::named("SizeMilliPt", VbaRecordFieldKind::Long),
+                VbaRecordFieldSpec::named("Caption", VbaRecordFieldKind::String),
+            ])
+            .expect("request layout"),
+        );
+        let records: Vec<VbaRecord> = rows
+            .iter()
+            .map(|(font, size, caption)| {
+                let mut rec = VbaRecord::new_default(layout.clone()).expect("request record");
+                rec.write_field_variant(0, &Variant::from_i32(*font))
+                    .unwrap();
+                rec.write_field_variant(1, &Variant::from_i32(*size))
+                    .unwrap();
+                rec.write_field_variant(2, &Variant::from_string((*caption).to_string()))
+                    .unwrap();
+                rec
+            })
+            .collect();
+        let array = SafeArray::from_vba_records_nd(
+            vec![SafeArrayBound {
+                count: rows.len() as u32,
+                lower: 0,
+            }],
+            layout,
+            records,
+        )
+        .expect("request SAFEARRAY");
+        Variant::from_safearray(array)
+    }
+
+    #[test]
+    fn measure_batch_shapes_a_record_array_in_one_crossing() {
+        let (factory, disp) = dispatch_with_stub();
+        let result = disp
+            .invoke(
+                "MeasureBatch",
+                &[request_array(&[(1, 12_000, "OK"), (1, 12_000, "Hi")])],
+            )
+            .expect("MeasureBatch");
+
+        // One crossing measured both runs.
+        assert_eq!(factory.snapshot().unwrap().calls, ["MeasureBatch:1"]);
+
+        // The result is an index-aligned SAFEARRAY of OxMeasureResult records.
+        let rows = result
+            .as_safearray()
+            .expect("result is a SAFEARRAY")
+            .variant_elements()
+            .expect("result rows");
+        assert_eq!(rows.len(), 2);
+
+        let key = TextKey {
+            font: FontId(1),
+            size_milli_pt: 12_000,
+            wrap_width_milli_pt: None,
+        };
+        let row0 = rows[0].as_vba_record().expect("result record 0");
+        // RunId is a String field (the content hash); metrics are typed Long fields. StubShaper
+        // at 12pt: "OK" -> advance 12000, ascent 9600, descent 2400, line_gap 0 (milli-pt).
+        assert_eq!(
+            row0.read_field_variant(RES_RUN_ID)
+                .unwrap()
+                .as_bstr()
+                .unwrap()
+                .to_string(),
+            text_run_id(&key, "OK").0.to_string()
+        );
+        assert_eq!(
+            row0.read_field_variant(RES_ADVANCE).unwrap().as_i32(),
+            Some(12_000)
+        );
+        assert_eq!(
+            row0.read_field_variant(RES_ASCENT).unwrap().as_i32(),
+            Some(9_600)
+        );
+        assert_eq!(
+            row0.read_field_variant(RES_DESCENT).unwrap().as_i32(),
+            Some(2_400)
+        );
+        assert_eq!(
+            row0.read_field_variant(RES_LINE_GAP).unwrap().as_i32(),
+            Some(0)
+        );
+
+        // The runs landed in the persistent store (resolvable via a referencing patch).
+        let id: u64 = text_run_id(&key, "OK").0;
+        let base = begin(&*disp, 4, 3);
+        submit(&*disp, &text_patch(base, TextRunId(id)));
+        assert!(factory
+            .snapshot()
+            .unwrap()
+            .scene
+            .unwrap()
+            .text_run(TextRunId(id))
+            .is_some());
+    }
+
+    #[test]
+    fn measure_batch_without_a_shaper_is_a_clear_error() {
+        let (_factory, disp) = dispatch(); // no shaper injected
+        let err = disp
+            .invoke("MeasureBatch", &[request_array(&[(1, 12_000, "OK")])])
+            .expect_err("MeasureBatch without a shaper must error");
+        assert!(
+            err.contains("without a registered text shaper"),
+            "got: {err}"
         );
     }
 }

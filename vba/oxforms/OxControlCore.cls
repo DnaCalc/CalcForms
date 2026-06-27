@@ -36,11 +36,11 @@ Private mBorderStyle As fmBorderStyle
 Private mFontSize As Single
 Private mAutoSize As Boolean
 ' Transient per-render scratch: the content-hash text-run id the measure pre-pass
-' obtained from OxForms.Surface.MeasureText (a decimal u64 as a String, since it does
+' obtained from OxForms.Surface.MeasureBatch (a decimal u64 as a String, since it does
 ' not fit a Long). Set each render, read by OxControlPaint; never persisted state.
 Private mRunId As String
 ' Transient per-render scratch: the caption's measured size in points (advance width,
-' and ascent+descent height), parsed from the MeasureText result. The layout pass reads
+' and ascent+descent height), from the MeasureBatch result. The layout pass reads
 ' these to shrink-wrap an AutoSize control before it paints.
 Private mMeasuredWidth As Single
 Private mMeasuredHeight As Single
