@@ -8,7 +8,9 @@ Implements IOxControl
 
 Public Event Change()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 ' The FM20 focus-exit event is the reserved word "Exit", declared via the VBA
 ' bracketed-name form [Exit] (OxVba accepts bracketed RaiseEvent names as of
 ' baseline 366a40e). Carries a mutable Cancel (ReturnBoolean); a handler sets
@@ -105,12 +107,25 @@ Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByV
     RaiseEvent MouseDown(Button, Shift, X, Y)
 End Sub
 
+Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    RaiseEvent MouseUp(Button, Shift, X, Y)
+End Sub
+
 Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
     Dim helper As ReturnInteger
     Set helper = New ReturnInteger
     helper.Value = KeyCode
     RaiseEvent KeyDown(helper, Shift)
     PerformKeyDown = helper.Value
+End Function
+
+' Raises KeyUp with a mutable KeyCode helper and returns the post-handler key code.
+Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    Dim helper As ReturnInteger
+    Set helper = New ReturnInteger
+    helper.Value = KeyCode
+    RaiseEvent KeyUp(helper, Shift)
+    PerformKeyUp = helper.Value
 End Function
 
 Public Function PerformExit() As Boolean

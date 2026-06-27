@@ -82,6 +82,13 @@ Private Sub InputField_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As In
     End If
 End Sub
 
+Private Sub InputField_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "InputField_KeyUp=" & KeyCode.Value & ";Shift=" & Shift
+    If KeyCode.Value = 27 Then
+        KeyCode.Value = 0
+    End If
+End Sub
+
 ' Native FM20 focus-exit event (reserved word, handled as InputField_Exit). Sets
 ' the mutable Cancel to keep focus, proving the ReturnBoolean round-trip.
 Private Sub InputField_Exit(ByVal Cancel As ReturnBoolean)

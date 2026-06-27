@@ -6,6 +6,7 @@ Implements IOxControl
 
 Public Event Click()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 
 Private mCore As OxControlCore
 
@@ -91,4 +92,8 @@ End Sub
 
 Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     RaiseEvent MouseDown(Button, Shift, X, Y)
+End Sub
+
+Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub

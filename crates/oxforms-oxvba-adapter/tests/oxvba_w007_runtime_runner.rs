@@ -289,39 +289,45 @@ fn runner_drives_w007_demo_path_through_native_oxvba_dispatch() {
         .iter()
         .any(|row| matches!(row, RuntimeTraceRow::RepaintRequested { .. })));
 
-    // MouseDown now dispatches natively to PerformMouseDown (oxforms-esq.2); the W007
-    // setup presses inside InputField and OkButton, both control hits.
-    assert!(
-        trace.iter().any(|row| matches!(
-            row,
-            RuntimeTraceRow::NativeDispatch { event_name, native_member, .. }
-                if event_name == "MouseDown" && native_member == "PerformMouseDown"
-        )),
-        "MouseDown is natively dispatched via PerformMouseDown"
-    );
-    assert!(
-        !trace.iter().any(|row| matches!(
-            row,
-            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "MouseDown"
-        )),
-        "MouseDown is no longer merely acknowledged"
-    );
+    // MouseDown and MouseUp now dispatch natively to PerformMouseDown/PerformMouseUp
+    // (oxforms-esq.2); the W007 setup presses + releases inside InputField and
+    // OkButton, all control hits.
+    for (event, member) in [
+        ("MouseDown", "PerformMouseDown"),
+        ("MouseUp", "PerformMouseUp"),
+    ] {
+        assert!(
+            trace.iter().any(|row| matches!(
+                row,
+                RuntimeTraceRow::NativeDispatch { event_name, native_member, .. }
+                    if event_name == event && native_member == member
+            )),
+            "{event} is natively dispatched via {member}"
+        );
+        assert!(
+            !trace.iter().any(|row| matches!(
+                row,
+                RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == event
+            )),
+            "{event} is no longer merely acknowledged"
+        );
+    }
 
-    // MouseUp remains acknowledged-not-dispatched (the control library has no
-    // PerformMouseUp yet).
+    // KeyPress is still acknowledged-not-dispatched (the control library has no
+    // PerformKeyPress yet); the typed "World" input emits it.
     assert!(
         trace.iter().any(|row| matches!(
             row,
-            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "MouseUp"
+            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "KeyPress"
         )),
-        "MouseUp is acknowledged in the trace"
+        "KeyPress is acknowledged in the trace"
     );
     assert!(
         !trace.iter().any(|row| matches!(
             row,
-            RuntimeTraceRow::NativeDispatch { event_name, .. } if event_name == "MouseUp"
+            RuntimeTraceRow::NativeDispatch { event_name, .. } if event_name == "KeyPress"
         )),
-        "MouseUp is not natively dispatched"
+        "KeyPress is not natively dispatched"
     );
 
     // The W005 RaiseDispatch carrier is never used by the runtime path (criterion 3).
@@ -531,5 +537,137 @@ fn runner_acknowledges_form_background_mousedown_without_dispatch() {
             RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "MouseDown"
         )),
         "the form-background MouseDown is acknowledged in the trace"
+    );
+}
+
+/// Build a native KeyUp UiEvent for `character` with the given OS virtual key.
+fn key_up_event(id: u64, character: &str, virtual_key: u32) -> UiEvent {
+    ui_event(
+        id,
+        UiEventKind::KeyUp(KeyEvent {
+            key: KeyCode::Character(character.to_string()),
+            modifiers: KeyboardModifiers::default(),
+            repeat: KeyRepeat::default(),
+            raw: RawKeyDiagnostics {
+                virtual_key: Some(virtual_key),
+                ..RawKeyDiagnostics::default()
+            },
+        }),
+    )
+}
+
+#[test]
+fn runner_dispatches_native_mouseup_to_perform_mouse_up() {
+    // oxforms-esq.2: a control-hit MouseUp dispatches natively to PerformMouseUp,
+    // symmetric to MouseDown. PerformMouseUp is a Sub, so nothing is read back.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 150.0, 20.0)),
+        ))
+        .expect("press OkButton");
+    let released = runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 150.0, 20.0)),
+        ))
+        .expect("release OkButton");
+    let mouse_up = released
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "MouseUp")
+        .unwrap_or_else(|| {
+            panic!(
+                "MouseUp natively dispatched, got {:?}",
+                released.native_dispatches
+            )
+        });
+    assert_eq!(mouse_up.native_member, "PerformMouseUp");
+    assert_eq!(
+        mouse_up.returned, None,
+        "PerformMouseUp is a Sub; nothing is read back"
+    );
+}
+
+#[test]
+fn runner_dispatches_native_keyup_with_returninteger_readback() {
+    // oxforms-esq.2: KeyUp dispatches to PerformKeyUp with the same ReturnInteger
+    // KeyCode readback as KeyDown (the FM20 KeyUp KeyCode is likewise mutable).
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // Focus the InputField so key events route to it.
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press InputField");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 20.0, 18.0)),
+        ))
+        .expect("release InputField");
+
+    // Escape (27): InputField_KeyUp swallows it (KeyCode -> 0).
+    let escape = runner
+        .dispatch(key_up_event(3, "\u{1b}", 27))
+        .expect("dispatch Escape KeyUp");
+    let escape_dispatch = escape
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "KeyUp")
+        .unwrap_or_else(|| {
+            panic!(
+                "KeyUp natively dispatched, got {:?}",
+                escape.native_dispatches
+            )
+        });
+    assert_eq!(escape_dispatch.native_member, "PerformKeyUp");
+    assert_eq!(
+        escape_dispatch.returned.as_deref(),
+        Some("0"),
+        "the handler swallowed Escape on KeyUp; the runtime reads back KeyCode 0"
+    );
+
+    // 'A' (65): not swallowed, read back unchanged.
+    let letter = runner
+        .dispatch(key_up_event(4, "A", 65))
+        .expect("dispatch A KeyUp");
+    let letter_dispatch = letter
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "KeyUp")
+        .unwrap_or_else(|| {
+            panic!(
+                "KeyUp natively dispatched, got {:?}",
+                letter.native_dispatches
+            )
+        });
+    assert_eq!(letter_dispatch.native_member, "PerformKeyUp");
+    assert_eq!(
+        letter_dispatch.returned.as_deref(),
+        Some("65"),
+        "an un-swallowed key is read back unchanged on KeyUp"
     );
 }
