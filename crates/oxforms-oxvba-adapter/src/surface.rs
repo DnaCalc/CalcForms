@@ -515,7 +515,16 @@ fn record_u32(record: &VbaRecord, index: usize, field: &str, row: usize) -> Resu
 }
 
 /// Read a `String` field from an `OxMeasureRequest` record — the native BSTR carrier for the
-/// free-form caption (no delimiting/escaping/length-prefix; any caption survives verbatim).
+/// free-form caption (no delimiting/escaping/length-prefix).
+///
+/// Encoding boundary: the wire field is a BSTR (UTF-16, length-prefixed, so embedded NULs are
+/// fine), and `BStr::to_string` normalizes it to a Rust `String` (UTF-8) via
+/// `String::from_utf16_lossy`. That is lossless for every well-formed caption — including
+/// embedded `\0` and astral chars/emoji (surrogate PAIRS) — with one corner: an *unpaired*
+/// UTF-16 surrogate becomes `U+FFFD`. Unpaired surrogates are malformed UTF-16 that a real
+/// control caption never carries (and a font could not shape anyway), so this is not
+/// observable in normal use; the content-hash run id is then computed over the UTF-8 form. If
+/// bit-exact UTF-16 fidelity were ever needed, key off the BSTR's `&[u16]` units instead.
 fn record_string(
     record: &VbaRecord,
     index: usize,
