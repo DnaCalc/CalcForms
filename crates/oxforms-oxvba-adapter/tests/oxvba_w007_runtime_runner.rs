@@ -289,24 +289,40 @@ fn runner_drives_w007_demo_path_through_native_oxvba_dispatch() {
         .iter()
         .any(|row| matches!(row, RuntimeTraceRow::RepaintRequested { .. })));
 
-    // The reducer-routed mouse events are acknowledged (explicit non-claim), never
-    // natively dispatched in this slice.
-    for event in ["MouseDown", "MouseUp"] {
-        assert!(
-            trace.iter().any(|row| matches!(
-                row,
-                RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == event
-            )),
-            "{event} is acknowledged in the trace"
-        );
-        assert!(
-            !trace.iter().any(|row| matches!(
-                row,
-                RuntimeTraceRow::NativeDispatch { event_name, .. } if event_name == event
-            )),
-            "{event} is not natively dispatched"
-        );
-    }
+    // MouseDown now dispatches natively to PerformMouseDown (oxforms-esq.2); the W007
+    // setup presses inside InputField and OkButton, both control hits.
+    assert!(
+        trace.iter().any(|row| matches!(
+            row,
+            RuntimeTraceRow::NativeDispatch { event_name, native_member, .. }
+                if event_name == "MouseDown" && native_member == "PerformMouseDown"
+        )),
+        "MouseDown is natively dispatched via PerformMouseDown"
+    );
+    assert!(
+        !trace.iter().any(|row| matches!(
+            row,
+            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "MouseDown"
+        )),
+        "MouseDown is no longer merely acknowledged"
+    );
+
+    // MouseUp remains acknowledged-not-dispatched (the control library has no
+    // PerformMouseUp yet).
+    assert!(
+        trace.iter().any(|row| matches!(
+            row,
+            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "MouseUp"
+        )),
+        "MouseUp is acknowledged in the trace"
+    );
+    assert!(
+        !trace.iter().any(|row| matches!(
+            row,
+            RuntimeTraceRow::NativeDispatch { event_name, .. } if event_name == "MouseUp"
+        )),
+        "MouseUp is not natively dispatched"
+    );
 
     // The W005 RaiseDispatch carrier is never used by the runtime path (criterion 3).
     assert!(
@@ -431,5 +447,89 @@ fn runner_dispatches_native_keydown_with_returninteger_readback() {
         letter_dispatch.returned.as_deref(),
         Some("65"),
         "an un-swallowed key is read back unchanged through the ReturnInteger helper"
+    );
+}
+
+#[test]
+fn runner_dispatches_native_mousedown_to_perform_mouse_down() {
+    // oxforms-esq.2: a control-hit MouseDown dispatches natively to the control's
+    // PerformMouseDown (Button, Shift, X, Y) -- X/Y typed as Single. PerformMouseDown
+    // is a Sub (RaiseEvent MouseDown), so nothing is read back.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // Press inside the OkButton (bounds 140,12,48,20).
+    let pressed = runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 150.0, 20.0)),
+        ))
+        .expect("press OkButton");
+    let mouse_down = pressed
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "MouseDown")
+        .unwrap_or_else(|| {
+            panic!(
+                "MouseDown natively dispatched, got {:?}",
+                pressed.native_dispatches
+            )
+        });
+    assert_eq!(mouse_down.native_member, "PerformMouseDown");
+    assert_eq!(
+        mouse_down.returned, None,
+        "PerformMouseDown is a Sub; nothing is read back"
+    );
+    assert_eq!(mouse_down.control_id, ControlId::new("OkButton"));
+}
+
+#[test]
+fn runner_acknowledges_form_background_mousedown_without_dispatch() {
+    // A MouseDown that misses every control (form background) has no control target,
+    // so it is acknowledged, not natively dispatched -- the no-control acknowledge
+    // path, distinct from key events which always have a focused control.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // The form is 200x120; its controls occupy y<=58 (OutputLabel ends at 40+18), so
+    // (60,90) is inside the form but on no control -> a form-background press.
+    let pressed = runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 60.0, 90.0)),
+        ))
+        .expect("press the form background");
+    assert!(
+        !pressed
+            .native_dispatches
+            .iter()
+            .any(|dispatch| dispatch.event_name == "MouseDown"),
+        "a form-background MouseDown is not natively dispatched, got {:?}",
+        pressed.native_dispatches
+    );
+    // It is acknowledged (emitted by the reducer, recorded by the runtime), not
+    // silently absent -- proving the no-control acknowledge path, not a vacuous miss.
+    assert!(
+        runner.trace().iter().any(|row| matches!(
+            row,
+            RuntimeTraceRow::EventAcknowledged { event_name, .. } if event_name == "MouseDown"
+        )),
+        "the form-background MouseDown is acknowledged in the trace"
     );
 }

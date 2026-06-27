@@ -16,12 +16,13 @@
 //! malformed return value surfaces as a precise [`RuntimeError`], never a silent
 //! no-op.
 //!
-//! Scope (W007 slice): the demo's handler-backed events — `Click` and `Change` —
-//! are natively dispatched to `PerformClick` and `ApplyUserText`. Other
-//! reducer-routed FM20 events (e.g. `MouseDown`/`MouseUp`) are *acknowledged* in
-//! the trace ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched
-//! yet; native mouse/key dispatch is a later slice. This is an explicit, traced
-//! non-claim — never a silent default.
+//! Scope: handler-backed events are natively dispatched — `Click` → `PerformClick`,
+//! `Change` → `ApplyUserText`, `KeyDown` → `PerformKeyDown` (with the
+//! `MSForms.ReturnInteger` KeyCode readback), and `MouseDown` → `PerformMouseDown`
+//! (oxforms-esq.2). The remaining reducer-routed FM20 events (`MouseUp`, `KeyUp`,
+//! `KeyPress`, focus/lifecycle) are still *acknowledged* in the trace
+//! ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched yet. This is
+//! an explicit, traced non-claim — never a silent default.
 
 use std::collections::HashMap;
 
@@ -136,9 +137,10 @@ pub enum RuntimeTraceRow {
         reason: String,
         invalidation_ids: Vec<u64>,
     },
-    /// A reducer-routed FM20 event that the W007 slice does not natively dispatch
-    /// (e.g. `MouseDown`/`MouseUp`). Recorded, never silently dropped; native
-    /// mouse/key event dispatch is a later slice.
+    /// A reducer-routed FM20 event not yet natively dispatched (`MouseUp`, `KeyUp`,
+    /// `KeyPress`, focus/lifecycle), or a `MouseDown` on the form background.
+    /// Recorded, never silently dropped; the remaining native event dispatch is a
+    /// later slice.
     EventAcknowledged {
         event_name: String,
         target: Option<String>,
@@ -325,8 +327,9 @@ impl RuntimeRunner {
                             step.native_dispatches.push(record);
                         }
                         None => {
-                            // Reducer-routed FM20 event with no native dispatch in the
-                            // W007 slice (e.g. MouseDown/MouseUp): recorded, not dropped.
+                            // Reducer-routed FM20 event with no native dispatch yet
+                            // (e.g. MouseUp/KeyUp/KeyPress, or a form-background
+                            // MouseDown): recorded, not dropped.
                             step.trace.push(RuntimeTraceRow::EventAcknowledged {
                                 event_name: event_name.clone(),
                                 target: target_label,
@@ -361,15 +364,24 @@ impl RuntimeRunner {
 
     /// Execute one reducer `FireVbaEvent`. Returns `Some(record)` when the event maps
     /// to a native control member (`Click` → `PerformClick`, `Change` →
-    /// `ApplyUserText`), or `None` when it is a reducer-routed FM20 event the W007
-    /// slice acknowledges but does not natively dispatch yet (`MouseDown`/`MouseUp`,
-    /// …). `dispatch_seq` advances only after a native member call succeeds.
+    /// `ApplyUserText`, `KeyDown` → `PerformKeyDown`, `MouseDown` →
+    /// `PerformMouseDown`), or `None` when it is a reducer-routed FM20 event still
+    /// acknowledged but not natively dispatched (`MouseUp`/`KeyUp`/`KeyPress`, …), or
+    /// a `MouseDown` that landed on the form background (no control target).
+    /// `dispatch_seq` advances only after a native member call succeeds.
     fn dispatch_fire_vba_event(
         &mut self,
         effect: &EffectRequest,
         event_name: &str,
     ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
-        if !matches!(event_name, "Click" | "Change" | "KeyDown") {
+        if !matches!(event_name, "Click" | "Change" | "KeyDown" | "MouseDown") {
+            return Ok(None);
+        }
+
+        // MouseDown can land on the form background (no control target); acknowledge
+        // it without native dispatch there, unlike key events which always have a
+        // focused control.
+        if event_name == "MouseDown" && effect.target.control_id.is_none() {
             return Ok(None);
         }
 
@@ -415,6 +427,23 @@ impl RuntimeRunner {
                     vec![Variant::from_i16(key_code), Variant::from_i16(shift)],
                 )
             }
+            "MouseDown" => {
+                // Clean scalar args from the reducer: Button/Shift as Integer masks,
+                // X/Y as Single (the FM20 MouseDown signature).
+                let button = effect_arg_i16(effect, "Button").unwrap_or(0);
+                let shift = effect_arg_i16(effect, "Shift").unwrap_or(0);
+                let x = effect_arg_f32(effect, "X").unwrap_or(0.0);
+                let y = effect_arg_f32(effect, "Y").unwrap_or(0.0);
+                (
+                    "PerformMouseDown",
+                    vec![
+                        Variant::from_i16(button),
+                        Variant::from_i16(shift),
+                        Variant::from_f32(x),
+                        Variant::from_f32(y),
+                    ],
+                )
+            }
             // Unreachable: guarded by the `matches!` above. Kept total without a
             // panic path.
             _ => return Ok(None),
@@ -430,8 +459,8 @@ impl RuntimeRunner {
         self.dispatch_seq += 1;
 
         // PerformKeyDown returns the post-handler KeyCode (0 when the handler
-        // swallowed the key) via the MSForms.ReturnInteger helper; PerformClick and
-        // ApplyUserText return nothing meaningful.
+        // swallowed the key) via the MSForms.ReturnInteger helper; PerformClick,
+        // ApplyUserText, and PerformMouseDown return nothing meaningful.
         let returned = if event_name == "KeyDown" {
             result.as_i16().map(|code| code.to_string())
         } else {
@@ -566,6 +595,13 @@ fn effect_arg_i16(effect: &EffectRequest, name: &str) -> Option<i16> {
     effect_argument(effect, name)
         .and_then(|value| value.parse::<i32>().ok())
         .and_then(|value| i16::try_from(value).ok())
+}
+
+/// Parse a `FireVbaEvent` argument as the `Single` (`f32`) shape the native mouse
+/// members expect for the `X`/`Y` coordinates. Returns `None` when absent or
+/// unparseable.
+fn effect_arg_f32(effect: &EffectRequest, name: &str) -> Option<f32> {
+    effect_argument(effect, name).and_then(|value| value.parse::<f32>().ok())
 }
 
 fn invoke(
