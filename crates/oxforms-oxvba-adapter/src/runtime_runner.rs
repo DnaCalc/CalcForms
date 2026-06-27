@@ -369,7 +369,7 @@ impl RuntimeRunner {
         effect: &EffectRequest,
         event_name: &str,
     ) -> Result<Option<NativeDispatchRecord>, RuntimeError> {
-        if !matches!(event_name, "Click" | "Change") {
+        if !matches!(event_name, "Click" | "Change" | "KeyDown") {
             return Ok(None);
         }
 
@@ -402,12 +402,25 @@ impl RuntimeRunner {
                     .ok_or_else(|| RuntimeError::MissingTextForChange(control_id.0.clone()))?;
                 ("ApplyUserText", vec![Variant::from_string(text)])
             }
+            "KeyDown" => {
+                // KeyCode is the mutable MSForms.ReturnInteger value the handler may
+                // swallow; it is absent when the platform supplied no virtual key, in
+                // which case we acknowledge without native dispatch.
+                let Some(key_code) = effect_arg_i16(effect, "KeyCode") else {
+                    return Ok(None);
+                };
+                let shift = effect_arg_i16(effect, "Shift").unwrap_or(0);
+                (
+                    "PerformKeyDown",
+                    vec![Variant::from_i16(key_code), Variant::from_i16(shift)],
+                )
+            }
             // Unreachable: guarded by the `matches!` above. Kept total without a
             // panic path.
             _ => return Ok(None),
         };
 
-        invoke(
+        let result = invoke(
             &mut self.session,
             control,
             native_member,
@@ -416,12 +429,21 @@ impl RuntimeRunner {
         )?;
         self.dispatch_seq += 1;
 
+        // PerformKeyDown returns the post-handler KeyCode (0 when the handler
+        // swallowed the key) via the MSForms.ReturnInteger helper; PerformClick and
+        // ApplyUserText return nothing meaningful.
+        let returned = if event_name == "KeyDown" {
+            result.as_i16().map(|code| code.to_string())
+        } else {
+            None
+        };
+
         Ok(Some(NativeDispatchRecord {
             control_id,
             event_name: event_name.to_string(),
             native_member: native_member.to_string(),
             completion: DispatchCompletion::Succeeded,
-            returned: None,
+            returned,
         }))
     }
 
@@ -524,6 +546,26 @@ fn effect_kind_label(kind: &EffectKind) -> &'static str {
         EffectKind::HostCapabilityRequest { .. } => "host_capability_request",
         _ => "other_effect",
     }
+}
+
+/// Look up a `FireVbaEvent` argument value by name (the reducer emits typed,
+/// dispatch-ready args such as `KeyCode` and `Shift` alongside descriptive ones).
+fn effect_argument<'a>(effect: &'a EffectRequest, name: &str) -> Option<&'a str> {
+    match &effect.kind {
+        EffectKind::FireVbaEvent { arguments, .. } => arguments
+            .iter()
+            .find(|arg| arg.name == name)
+            .map(|arg| arg.value.as_str()),
+        _ => None,
+    }
+}
+
+/// Parse a `FireVbaEvent` argument as the `Integer` (`i16`) shape the native
+/// control members expect. Returns `None` when absent or out of `Integer` range.
+fn effect_arg_i16(effect: &EffectRequest, name: &str) -> Option<i16> {
+    effect_argument(effect, name)
+        .and_then(|value| value.parse::<i32>().ok())
+        .and_then(|value| i16::try_from(value).ok())
 }
 
 fn invoke(

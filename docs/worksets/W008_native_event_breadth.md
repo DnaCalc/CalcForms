@@ -50,6 +50,37 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
   ByRef-SCALAR copyback and the real `MSForms.ReturnInteger`/`ReturnBoolean` COM
   types crossing the foreign-COM boundary (vs the repo-owned `W008ReturnValue`
   stand-in) are not exercised. `oxforms-esq.2` (B) is unblocked.
+- **`oxforms-esq.2` (B): IN PROGRESS** — native `KeyDown` is now wired through
+  the runtime, consuming the esq.1 mechanism in the real runtime (not a synthetic
+  gate). `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
+  `dispatch_fire_vba_event` dispatches `KeyDown` to the focused control's
+  `PerformKeyDown(KeyCode, Shift)` and reads back the post-handler `KeyCode`
+  through the `MSForms.ReturnInteger` helper (recorded in
+  `NativeDispatchRecord.returned`). The reducer's `key_event_arguments` now emits
+  dispatch-ready `Shift` (mask) and mutable `KeyCode` (the VK) args, mirroring the
+  clean mouse-event arg shape; the KeyDown `cancel_metadata` note was refreshed
+  off the stale "deferred in W005". Proof:
+  [`oxvba_w007_runtime_runner.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_w007_runtime_runner.rs)
+  `runner_dispatches_native_keydown_with_returninteger_readback` (Escape `27`→`0`
+  swallowed; `A` `65` read back unchanged), reusing the W007 runtime harness +
+  the existing `W007ObjectModelProbeForm.InputField_KeyDown` swallow handler.
+  W005/W006 goldens + the W005 interaction-comparison hashes regenerated for the
+  additive arg change; floor + 21/21 evidence checks green.
+  - **Done:** `Change` (TextBox, prior), `Click` (prior), `KeyDown` + Return*
+    readback (this increment).
+  - **Remaining (each: wire-or-blocker):** `KeyUp`, `KeyPress`, `MouseDown`,
+    `MouseUp` (the W007 test currently fences mouse as acknowledged-not-dispatched;
+    `KeyUp`/`KeyPress`/`MouseUp` also need control-library `Perform*`/event
+    declarations the library does not yet expose), focus `Enter`/`Exit`,
+    `QueryClose` (form/focus-level, not control-level `Perform*`), and lifecycle
+    (`Initialize`/`Activate`/`Deactivate`/`Terminate`).
+  - **Explicit non-claims for the KeyDown increment:** `KeyCode` is the OS virtual
+    key (faithful for standard keys; exotic/platform VK variance untested); the
+    post-handler `KeyCode` is **recorded**, not yet **folded back into reducer
+    state** (so a swallowed key does not yet suppress downstream
+    `KeyPress`/`Change` in the reducer — that feedback is the next esq.2 step);
+    `KeyDown` without a platform virtual key is acknowledged without native
+    dispatch.
 
 ## Non-claims (preserved from W006/W007)
 

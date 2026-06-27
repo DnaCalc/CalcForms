@@ -1588,6 +1588,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -1602,12 +1607,17 @@
             "value": "65"
           },
           {
+            "by_ref": true,
+            "name": "KeyCode",
+            "value": "65"
+          },
+          {
             "by_ref": false,
             "name": "raw_scan_code",
             "value": "30"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0005",
           "ui_event_id": "ui-0005"
@@ -1640,6 +1650,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -1651,6 +1666,11 @@
           {
             "by_ref": false,
             "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": true,
+            "name": "KeyCode",
             "value": "65"
           },
           {
@@ -1673,10 +1693,16 @@
             "before": "character:A",
             "mutation_status": "not_executed_headless_replay",
             "name": "key"
+          },
+          {
+            "after": "65",
+            "before": "65",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "KeyCode"
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -2271,6 +2297,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -2285,12 +2316,17 @@
             "value": "65"
           },
           {
+            "by_ref": true,
+            "name": "KeyCode",
+            "value": "65"
+          },
+          {
             "by_ref": false,
             "name": "raw_scan_code",
             "value": "30"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0007",
           "ui_event_id": "ui-0007"
@@ -2323,6 +2359,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -2334,6 +2375,11 @@
           {
             "by_ref": false,
             "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": true,
+            "name": "KeyCode",
             "value": "65"
           },
           {
@@ -2356,10 +2402,16 @@
             "before": "character:A",
             "mutation_status": "not_executed_headless_replay",
             "name": "key"
+          },
+          {
+            "after": "65",
+            "before": "65",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "KeyCode"
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -2559,6 +2611,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -2573,12 +2630,17 @@
             "value": "65"
           },
           {
+            "by_ref": true,
+            "name": "KeyCode",
+            "value": "65"
+          },
+          {
             "by_ref": false,
             "name": "raw_scan_code",
             "value": "30"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0008",
           "ui_event_id": "ui-0008"
@@ -2611,6 +2673,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -2622,6 +2689,11 @@
           {
             "by_ref": false,
             "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": true,
+            "name": "KeyCode",
             "value": "65"
           },
           {
@@ -2644,10 +2716,16 @@
             "before": "character:B",
             "mutation_status": "not_executed_headless_replay",
             "name": "key"
+          },
+          {
+            "after": "65",
+            "before": "65",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "KeyCode"
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -3253,6 +3331,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -3267,12 +3350,17 @@
             "value": "65"
           },
           {
+            "by_ref": true,
+            "name": "KeyCode",
+            "value": "65"
+          },
+          {
             "by_ref": false,
             "name": "raw_scan_code",
             "value": "30"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0010",
           "ui_event_id": "ui-0010"
@@ -3305,6 +3393,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "shift"
           },
@@ -3316,6 +3409,11 @@
           {
             "by_ref": false,
             "name": "raw_virtual_key",
+            "value": "65"
+          },
+          {
+            "by_ref": true,
+            "name": "KeyCode",
             "value": "65"
           },
           {
@@ -3338,10 +3436,16 @@
             "before": "character:B",
             "mutation_status": "not_executed_headless_replay",
             "name": "key"
+          },
+          {
+            "after": "65",
+            "before": "65",
+            "mutation_status": "not_executed_headless_replay",
+            "name": "KeyCode"
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -3561,6 +3665,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -3570,7 +3679,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0011",
           "ui_event_id": "ui-0011"
@@ -3603,6 +3712,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -3629,7 +3743,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -3896,6 +4010,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -3905,7 +4024,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0012",
           "ui_event_id": "ui-0012"
@@ -3938,6 +4057,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -3964,7 +4088,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -4168,6 +4292,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -4177,7 +4306,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0013",
           "ui_event_id": "ui-0013"
@@ -4210,6 +4339,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -4236,7 +4370,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -4579,6 +4713,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -4588,7 +4727,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0014",
           "ui_event_id": "ui-0014"
@@ -4621,6 +4760,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -4647,7 +4791,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -4850,6 +4994,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -4859,7 +5008,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0015",
           "ui_event_id": "ui-0015"
@@ -4892,6 +5041,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -4918,7 +5072,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -5185,6 +5339,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -5194,7 +5353,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0016",
           "ui_event_id": "ui-0016"
@@ -5227,6 +5386,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -5253,7 +5417,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -5456,6 +5620,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -5465,7 +5634,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0017",
           "ui_event_id": "ui-0017"
@@ -5498,6 +5667,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -5524,7 +5698,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -5791,6 +5965,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -5800,7 +5979,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0018",
           "ui_event_id": "ui-0018"
@@ -5833,6 +6012,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -5859,7 +6043,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -6063,6 +6247,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -6072,7 +6261,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0019",
           "ui_event_id": "ui-0019"
@@ -6105,6 +6294,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -6131,7 +6325,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"
@@ -6474,6 +6668,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -6483,7 +6682,7 @@
             "value": "1"
           }
         ],
-        "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+        "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
         "cause": {
           "transition_id": "transition-0020",
           "ui_event_id": "ui-0020"
@@ -6516,6 +6715,11 @@
           },
           {
             "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
             "name": "modifiers",
             "value": "none"
           },
@@ -6542,7 +6746,7 @@
           }
         ],
         "result": {
-          "cancel_metadata": "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005.",
+          "cancel_metadata": "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred.",
           "handler": null,
           "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
           "status": "not_executed_headless_replay"

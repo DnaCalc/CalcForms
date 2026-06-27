@@ -14,9 +14,9 @@ use std::path::{Path, PathBuf};
 use oxforms_core::materialize_w007_demo_form;
 use oxforms_oxvba_adapter::runtime_runner::{RuntimeError, RuntimeRunner, RuntimeTraceRow};
 use oxforms_pal::{
-    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, KeyboardModifiers, LogicalPoint,
-    MouseButton, MouseButtonEvent, MouseButtons, PointerId, UiEvent, UiEventId, UiEventKind,
-    UiEventSource,
+    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, KeyCode, KeyEvent, KeyRepeat,
+    KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
+    RawKeyDiagnostics, UiEvent, UiEventId, UiEventKind, UiEventSource,
 };
 
 use oxvba_bundle::BundlePackage;
@@ -339,4 +339,97 @@ fn attach_failure_is_a_precise_diagnostic_not_a_panic() {
         Err(other) => panic!("expected a precise Invoke diagnostic, got {other:?}"),
         Ok(_) => panic!("attach unexpectedly succeeded with a missing build member"),
     }
+}
+
+/// Build a native KeyDown UiEvent for `character` with the given OS virtual key
+/// (the MSForms KeyCode). The runtime maps it to the focused control's
+/// `PerformKeyDown` and reads back the post-handler KeyCode.
+fn key_down_event(id: u64, character: &str, virtual_key: u32) -> UiEvent {
+    ui_event(
+        id,
+        UiEventKind::KeyDown(KeyEvent {
+            key: KeyCode::Character(character.to_string()),
+            modifiers: KeyboardModifiers::default(),
+            repeat: KeyRepeat::default(),
+            raw: RawKeyDiagnostics {
+                virtual_key: Some(virtual_key),
+                ..RawKeyDiagnostics::default()
+            },
+        }),
+    )
+}
+
+#[test]
+fn runner_dispatches_native_keydown_with_returninteger_readback() {
+    // oxforms-esq.2: native KeyDown dispatches through the control's PerformKeyDown
+    // member, and the post-handler KeyCode (the MSForms.ReturnInteger helper the
+    // WithEvents handler may swallow) is read back by the runtime -- consuming the
+    // oxforms-esq.1 mechanism end to end in the real runtime, not a synthetic gate.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // Focus the InputField so key events route to it.
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press InputField");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 20.0, 18.0)),
+        ))
+        .expect("release InputField");
+
+    // Escape (VK 27): InputField_KeyDown swallows it (KeyCode -> 0); the runtime
+    // reads that back through the ReturnInteger helper.
+    let escape = runner
+        .dispatch(key_down_event(3, "\u{1b}", 27))
+        .expect("dispatch Escape KeyDown");
+    let escape_dispatch = escape
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "KeyDown")
+        .unwrap_or_else(|| {
+            panic!(
+                "KeyDown natively dispatched, got {:?}",
+                escape.native_dispatches
+            )
+        });
+    assert_eq!(escape_dispatch.native_member, "PerformKeyDown");
+    assert_eq!(
+        escape_dispatch.returned.as_deref(),
+        Some("0"),
+        "the handler swallowed Escape; the runtime reads back KeyCode 0 via the ReturnInteger helper"
+    );
+
+    // 'A' (VK 65): not swallowed, read back unchanged.
+    let letter = runner
+        .dispatch(key_down_event(4, "A", 65))
+        .expect("dispatch A KeyDown");
+    let letter_dispatch = letter
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "KeyDown")
+        .unwrap_or_else(|| {
+            panic!(
+                "KeyDown natively dispatched, got {:?}",
+                letter.native_dispatches
+            )
+        });
+    assert_eq!(letter_dispatch.native_member, "PerformKeyDown");
+    assert_eq!(
+        letter_dispatch.returned.as_deref(),
+        Some("65"),
+        "an un-swallowed key is read back unchanged through the ReturnInteger helper"
+    );
 }

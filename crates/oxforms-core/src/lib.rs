@@ -2435,7 +2435,7 @@ fn queue_key_event(
             fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
             arguments: key_event_arguments(payload),
             cancel_metadata: Some(
-                "KeyCode is modeled as an MSForms.ReturnInteger helper placeholder; helper mutation is deferred in W005."
+                "KeyCode is the mutable MSForms.ReturnInteger helper (the by_ref KeyCode arg). For KeyDown the dispatching runtime applies the helper mutation and reads back the post-handler KeyCode via control.PerformKeyDown (oxforms-esq.2); folding that value back into reducer state, and KeyUp readback, remain deferred."
                     .to_string(),
             ),
         },
@@ -2822,6 +2822,11 @@ fn key_event_arguments(payload: &KeyEvent) -> Vec<EffectArgument> {
             by_ref: true,
         },
         EffectArgument {
+            name: "Shift".to_string(),
+            value: fm_shift_mask(payload.modifiers).to_string(),
+            by_ref: false,
+        },
+        EffectArgument {
             name: "modifiers".to_string(),
             value: modifier_summary(payload.modifiers),
             by_ref: false,
@@ -2841,6 +2846,15 @@ fn key_event_arguments(payload: &KeyEvent) -> Vec<EffectArgument> {
             name: "raw_virtual_key".to_string(),
             value: virtual_key.to_string(),
             by_ref: false,
+        });
+        // Dispatch-ready, mutable KeyCode: the VK is the MSForms KeyCode, modeled
+        // as the by_ref MSForms.ReturnInteger helper value the runtime passes to
+        // control.PerformKeyDown and reads back (oxforms-esq.2). Kept distinct from
+        // the descriptive summary `key` arg above.
+        arguments.push(EffectArgument {
+            name: "KeyCode".to_string(),
+            value: virtual_key.to_string(),
+            by_ref: true,
         });
     }
     if let Some(scan_code) = payload.raw.scan_code {

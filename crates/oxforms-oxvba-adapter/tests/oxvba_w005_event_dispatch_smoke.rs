@@ -316,10 +316,10 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
             "2|ok|MouseUp|Button=1;Shift=0;X=4;Y=4",
             "3|ok|Click|no arguments",
             "4|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
-            "5|text-1|KeyDown|key=character:A;modifiers=shift;repeat=false;raw_virtual_key=65;raw_scan_code=30",
+            "5|text-1|KeyDown|key=character:A;Shift=1;modifiers=shift;repeat=false;raw_virtual_key=65;KeyCode=65;raw_scan_code=30",
             "6|text-1|KeyPress|text=A;key_ascii_placeholder=65;modifiers=shift",
             "7|text-1|Change|no arguments",
-            "8|text-1|KeyUp|key=character:A;modifiers=none;repeat=false",
+            "8|text-1|KeyUp|key=character:A;Shift=0;modifiers=none;repeat=false",
         ],
         "VBA handler should observe reducer event order and serialized W005 smoke args"
     );
@@ -337,20 +337,23 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
             && row
                 .argument_summary
                 .contains(&"modifiers=shift:byval".to_string())
-            && !row
+            // Key events now carry a dispatch-ready Shift mask (by_ref scalar) and a
+            // mutable KeyCode -- the MSForms.ReturnInteger value native KeyDown
+            // dispatch passes to PerformKeyDown and reads back (oxforms-esq.2),
+            // consistent with the clean mouse-event arg shape.
+            && row
                 .argument_summary
-                .iter()
-                .any(|argument| argument.starts_with("Shift="))
+                .contains(&"Shift=1:byval".to_string())
+            && row
+                .argument_summary
+                .contains(&"KeyCode=65:byref_or_mutable".to_string())
     }));
     assert!(succeeded.iter().any(|row| {
         row.event_name == "KeyUp"
             && row
                 .argument_summary
                 .contains(&"modifiers=none:byval".to_string())
-            && !row
-                .argument_summary
-                .iter()
-                .any(|argument| argument.starts_with("Shift="))
+            && row.argument_summary.contains(&"Shift=0:byval".to_string())
     }));
     assert!(succeeded.iter().any(|row| {
         row.event_name == "KeyPress"
