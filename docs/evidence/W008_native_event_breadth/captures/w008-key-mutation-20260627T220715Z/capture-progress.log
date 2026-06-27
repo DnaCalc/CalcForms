@@ -1,0 +1,11 @@
+2026-06-27T22:07:15.4243485Z capture_directory_prepared
+2026-06-27T22:07:17.8829003Z workbook_generated
+2026-06-27T22:07:19.5535451Z workbook_opened
+2026-06-27T22:07:19.9101083Z form_shown_modeless
+2026-06-27T22:08:20.8072223Z scenario_default_button_enter_driven
+2026-06-27T22:08:22.0331120Z scenario_swallow_keydown_driven
+2026-06-27T22:08:23.2639737Z scenario_swallow_keypress_driven
+2026-06-27T22:08:24.5007100Z scenario_arrow_swallow_driven
+2026-06-27T22:08:25.7318508Z scenario_change_timing_driven
+2026-06-27T22:08:26.6453950Z event_log_exported_rows=20
+2026-06-27T22:08:26.8764406Z excel_closed_before_manifest

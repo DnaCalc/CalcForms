@@ -1,0 +1,3357 @@
+{
+  "schema": "oxforms.office_oracle.w008_key_mutation_input_actions.v1",
+  "bead": "oxforms-esq.3",
+  "manual_inputs": [],
+  "automated_inputs": [
+    {
+      "label": "click_TextBox1",
+      "control": "TextBox1",
+      "screen_x": 917,
+      "screen_y": 466,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:18.4258357Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            }
+          },
+          "cursor_screen_pixels": {
+            "x": 970,
+            "y": 534
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:18.6770809Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            }
+          },
+          "cursor_screen_pixels": {
+            "x": 970,
+            "y": 534
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 917,
+          "y": 466
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:18.6871909Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 970,
+              "y": 534
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:19.2897747Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario": "default_button_enter",
+      "label": "enter",
+      "key_action": {
+        "schema": "oxforms.office_oracle.w008_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "label": "default_enter",
+        "virtual_keys": [
+          "0x0D"
+        ],
+        "requested": 2,
+        "sent": 2,
+        "last_win32_error": 0,
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_keys_default_enter",
+            "captured_at_utc": "2026-06-27T22:08:19.3041113Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_keys_default_enter",
+            "captured_at_utc": "2026-06-27T22:08:19.5378171Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "click_TextBox1",
+      "control": "TextBox1",
+      "screen_x": 917,
+      "screen_y": 466,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:19.7856855Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:20.0200987Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 917,
+          "y": 466
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:20.0234700Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:20.5950645Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario": "default_button_enter",
+      "label": "escape",
+      "key_action": {
+        "schema": "oxforms.office_oracle.w008_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "label": "default_escape",
+        "virtual_keys": [
+          "0x1B"
+        ],
+        "requested": 2,
+        "sent": 2,
+        "last_win32_error": 0,
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_keys_default_escape",
+            "captured_at_utc": "2026-06-27T22:08:20.5986380Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_keys_default_escape",
+            "captured_at_utc": "2026-06-27T22:08:20.8048653Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "click_TextBox1",
+      "control": "TextBox1",
+      "screen_x": 917,
+      "screen_y": 466,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:21.0487432Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:21.2843383Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 917,
+          "y": 466
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:21.2880740Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:21.8291047Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario": "swallow_keydown",
+      "label": "type_A",
+      "key_action": {
+        "schema": "oxforms.office_oracle.w008_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "label": "swallow_keydown_A",
+        "virtual_keys": [
+          "0x41"
+        ],
+        "requested": 2,
+        "sent": 2,
+        "last_win32_error": 0,
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_keys_swallow_keydown_A",
+            "captured_at_utc": "2026-06-27T22:08:21.8339652Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_keys_swallow_keydown_A",
+            "captured_at_utc": "2026-06-27T22:08:22.0315449Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "click_TextBox1",
+      "control": "TextBox1",
+      "screen_x": 917,
+      "screen_y": 466,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:22.2816343Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:22.5133117Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 917,
+          "y": 466
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:22.5156318Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:23.0624001Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario": "swallow_keypress",
+      "label": "type_A",
+      "key_action": {
+        "schema": "oxforms.office_oracle.w008_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "label": "swallow_keypress_A",
+        "virtual_keys": [
+          "0x41"
+        ],
+        "requested": 2,
+        "sent": 2,
+        "last_win32_error": 0,
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_keys_swallow_keypress_A",
+            "captured_at_utc": "2026-06-27T22:08:23.0656849Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_keys_swallow_keypress_A",
+            "captured_at_utc": "2026-06-27T22:08:23.2630042Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "click_TextBox1",
+      "control": "TextBox1",
+      "screen_x": 917,
+      "screen_y": 466,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:23.4994579Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:23.7368539Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 917,
+          "y": 466
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:23.7395626Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:24.2963507Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario": "arrow_swallow",
+      "label": "arrow_left",
+      "key_action": {
+        "schema": "oxforms.office_oracle.w008_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "label": "arrow_swallow_left",
+        "virtual_keys": [
+          "0x25"
+        ],
+        "requested": 2,
+        "sent": 2,
+        "last_win32_error": 0,
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_keys_arrow_swallow_left",
+            "captured_at_utc": "2026-06-27T22:08:24.2993003Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_keys_arrow_swallow_left",
+            "captured_at_utc": "2026-06-27T22:08:24.4987849Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "label": "click_TextBox1",
+      "control": "TextBox1",
+      "screen_x": 917,
+      "screen_y": 466,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:24.7513667Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:08:24.9875738Z",
+          "foreground_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0x1591824",
+            "title": "OxForms W008 Focus/Key Breadth Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 47260,
+            "process_name": "EXCEL",
+            "thread_id": 44912,
+            "bounds": {
+              "left": 786,
+              "top": 420,
+              "right": 1133,
+              "bottom": 660,
+              "width": 347,
+              "height": 240
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 44912,
+            "active_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "focus_window": {
+              "handle": "0xB5183C",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 794,
+                "top": 451,
+                "right": 1125,
+                "bottom": 652,
+                "width": 331,
+                "height": 201
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 917,
+            "y": 466
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 917,
+          "y": 466
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:24.9902072Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:08:25.5297796Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "scenario": "change_timing",
+      "label": "type_A",
+      "key_action": {
+        "schema": "oxforms.office_oracle.w008_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "label": "change_timing_A",
+        "virtual_keys": [
+          "0x41"
+        ],
+        "requested": 2,
+        "sent": 2,
+        "last_win32_error": 0,
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_keys_change_timing_A",
+            "captured_at_utc": "2026-06-27T22:08:25.5319620Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_keys_change_timing_A",
+            "captured_at_utc": "2026-06-27T22:08:25.7303667Z",
+            "foreground_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0x1591824",
+              "title": "OxForms W008 Focus/Key Breadth Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 47260,
+              "process_name": "EXCEL",
+              "thread_id": 44912,
+              "bounds": {
+                "left": 786,
+                "top": 420,
+                "right": 1133,
+                "bottom": 660,
+                "width": 347,
+                "height": 240
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 44912,
+              "active_window": {
+                "handle": "0x1591824",
+                "title": "OxForms W008 Focus/Key Breadth Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 786,
+                  "top": 420,
+                  "right": 1133,
+                  "bottom": 660,
+                  "width": 347,
+                  "height": 240
+                }
+              },
+              "focus_window": {
+                "handle": "0xB5183C",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 47260,
+                "process_name": "EXCEL",
+                "thread_id": 44912,
+                "bounds": {
+                  "left": 794,
+                  "top": 451,
+                  "right": 1125,
+                  "bottom": 652,
+                  "width": 331,
+                  "height": 201
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 917,
+              "y": 466
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    }
+  ],
+  "notes": [
+    "Per-scenario Set... macro calls precede each scenario's injected input so one W008BreadthLog covers every keyboard scenario.",
+    "Control clicks are public user32 SendInput mouse clicks at window-bounds + fixture-layout points; all keys are public user32 SendInput keyboard events.",
+    "Every key injection asserted sent==requested before the run continued; a non-completed injection throws and yields a blocker."
+  ]
+}

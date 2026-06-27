@@ -1,0 +1,5 @@
+"C:\Program Files\PowerShell\7\pwsh.dll" -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "& 'C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-W006CtrlVKeyboardOrdering.ps1' 2>&1 | Out-String
+$x = Get-Process EXCEL -ErrorAction SilentlyContinue; if ($x) { $x | ForEach-Object { Stop-Process -Id $_.Id -Force }; \"cleaned $($x.Count) stray Excel\" }
+; $_ec = if ($null -ne $LASTEXITCODE) { $LASTEXITCODE } elseif ($?) { 0 } else { 1 }
+; (Get-Location).Path | Out-File -FilePath 'C:\Users\GOVERT~1\AppData\Local\Temp\claude\claude-pwd-ps-3450' -Encoding utf8 -NoNewline
+; if ($ExecutionContext.SessionState.LanguageMode -eq 'FullLanguage') { $host.SetShouldExit($_ec) } else { exit $_ec }"

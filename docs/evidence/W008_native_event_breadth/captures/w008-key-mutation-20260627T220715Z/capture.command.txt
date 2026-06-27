@@ -1,0 +1,1 @@
+"C:\Program Files\PowerShell\7\pwsh.dll" -NoProfile -ExecutionPolicy Bypass -File C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-W008KeyMutation.ps1 -ActionDelayMilliseconds 220

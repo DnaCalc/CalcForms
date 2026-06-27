@@ -1,0 +1,74 @@
+{
+  "schema": "oxforms.office_oracle.w008_focus_validation_capture.v1",
+  "bead": "oxforms-esq.3",
+  "capture_id": "w008-focus-validation-20260627T223020Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w008-focus-key-breadth-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-focus-key-breadth/fixture.json",
+        "sha256": "34943f229e2b2f5b2c1664e3ea7ad4d2434d844f21bb19a27c760e3a93b6f4aa"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-focus-key-breadth/form-code-behind.bas",
+        "sha256": "65bc2ef86bcd45e28e1bc1f7dfd23cda128cf4c5dfef6579353f613770837f28"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-focus-key-breadth/standard-module.bas",
+        "sha256": "0a3c1c79bea62b2b3536636b7480c9e964a2e9ad4ac93a8f7d55382c68754fd3"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/Capture-W008FocusValidation.ps1",
+        "sha256": "fd81d2a041b83f586ba5ad7fab76e50afeb0d2463605cf6ae8ce1f888edcad8c"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.20026.20182",
+    "product_version": "16.0.20026.20182",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-focus-validation-20260627T223020Z/w008-focus-key-breadth-oracle.xlsm",
+      "sha256": "75469fb8bd06b8a1797344e1fb628eeebbc8b13cccea14ce407d2e5918d072fd"
+    },
+    "run_summary": "docs/evidence/W008_native_event_breadth/captures/w008-focus-validation-20260627T223020Z/run-summary.json",
+    "event_log_json": "docs/evidence/W008_native_event_breadth/captures/w008-focus-validation-20260627T223020Z/w008-focus-validation-event-log.json",
+    "event_log_csv": "docs/evidence/W008_native_event_breadth/captures/w008-focus-validation-20260627T223020Z/w008-focus-validation-event-log.csv",
+    "input_actions": "docs/evidence/W008_native_event_breadth/captures/w008-focus-validation-20260627T223020Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 30,
+    "scenarios": [
+      "before_update_veto",
+      "exit_veto_keeps_focus",
+      "tab_transfer"
+    ]
+  },
+  "trace_replay_implications": [
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: focus/validation fold-back needs ordered Enter/Exit/BeforeUpdate/AfterUpdate rows with the active-control owner.",
+    "docs/specs/FM20_EVENT_FACTS.md: Exit/BeforeUpdate Cancel=True fold-back and Tab focus transfer ordering are settled by this oracle for the W008 surface."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "Covers Tab transfer, Exit veto, BeforeUpdate veto, and a CheckBox focus baseline; not an exhaustive focus/validation matrix."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows input APIs.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime focus/validation event behavior is implemented or claimed.",
+    "This capture is not an exhaustive focus/validation parity matrix.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}

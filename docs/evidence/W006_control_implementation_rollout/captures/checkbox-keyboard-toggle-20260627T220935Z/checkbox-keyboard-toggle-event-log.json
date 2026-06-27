@@ -1,0 +1,135 @@
+{
+  "schema": "oxforms.office_oracle.w006_checkbox_keyboard_toggle_event_log.v1",
+  "bead": "oxforms-0a0.12",
+  "source": {
+    "worksheet": "W006CheckBoxKbdLog",
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/checkbox-keyboard-toggle/fixture.json",
+    "event_facts": "docs/specs/FM20_EVENT_FACTS.md#W006-CheckBox-Boolean-Value-Readiness-Subset",
+    "trace_schema": "docs/specs/TRACE_REPLAY_SCHEMA.md#5-Ordering-Model"
+  },
+  "observed_facts": {
+    "row_count": 9,
+    "event_names": [
+      "Initialize",
+      "Change",
+      "Click",
+      "KeyDown",
+      "KeyUp",
+      "Change",
+      "Click",
+      "KeyDown",
+      "KeyUp"
+    ],
+    "click_count": 2,
+    "change_count": 2,
+    "key_down_count": 2,
+    "key_up_count": 2,
+    "value_at_keydown": "True",
+    "value_at_keyup": "True",
+    "rows": [
+      {
+        "sequence": "1",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "Initialize",
+        "value": "False",
+        "key_code_before": "",
+        "key_code_after": "",
+        "notes": "form initialize"
+      },
+      {
+        "sequence": "2",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "Change",
+        "value": "True",
+        "key_code_before": "",
+        "key_code_after": "",
+        "notes": "Change handler; .Value read at handler entry"
+      },
+      {
+        "sequence": "3",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "Click",
+        "value": "True",
+        "key_code_before": "",
+        "key_code_after": "",
+        "notes": "Click handler; .Value read at handler entry"
+      },
+      {
+        "sequence": "4",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "KeyDown",
+        "value": "True",
+        "key_code_before": "32",
+        "key_code_after": "32",
+        "notes": "KeyDown; Shift=0; value read at handler entry (value_at_keydown)"
+      },
+      {
+        "sequence": "5",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "KeyUp",
+        "value": "True",
+        "key_code_before": "32",
+        "key_code_after": "32",
+        "notes": "KeyUp; Shift=0; value read at handler entry (value_at_keyup)"
+      },
+      {
+        "sequence": "6",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "Change",
+        "value": "False",
+        "key_code_before": "",
+        "key_code_after": "",
+        "notes": "Change handler; .Value read at handler entry"
+      },
+      {
+        "sequence": "7",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "Click",
+        "value": "False",
+        "key_code_before": "",
+        "key_code_after": "",
+        "notes": "Click handler; .Value read at handler entry"
+      },
+      {
+        "sequence": "8",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "KeyDown",
+        "value": "False",
+        "key_code_before": "13",
+        "key_code_after": "13",
+        "notes": "KeyDown; Shift=0; value read at handler entry (value_at_keydown)"
+      },
+      {
+        "sequence": "9",
+        "form_name": "OxFormsW006CheckBoxKbd",
+        "control_name": "ToggleCheck",
+        "event_name": "KeyUp",
+        "value": "False",
+        "key_code_before": "13",
+        "key_code_after": "13",
+        "notes": "KeyUp; Shift=0; value read at handler entry (value_at_keyup)"
+      }
+    ]
+  },
+  "assumptions": [
+    "Rows are worksheet rows emitted by repo-owned VBA handlers while real Excel/MSForms dispatched one focus click then an injected Space then an injected Enter on the CheckBox.",
+    "value is the CheckBox .Value read at handler entry; value_at_keydown/value_at_keyup show whether the toggle already happened when each keyboard handler ran.",
+    "key_code_before/key_code_after are the KeyCode helper .Value read before/after the KeyDown/KeyUp handler body."
+  ],
+  "unknowns": [
+    "This capture exercises Space then Enter keyboard activation of one CheckBox; it does not cover programmatic .Value set, triple-state, accelerator activation, or every keyboard layout.",
+    "Rows absent from this run remain unobserved and are not negative MSForms facts."
+  ],
+  "non_claims": [
+    "No OxForms runtime CheckBox keyboard-toggle behavior is implemented or claimed by this oracle.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}

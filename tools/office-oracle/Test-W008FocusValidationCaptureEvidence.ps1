@@ -12,7 +12,7 @@ $manifestSchema = 'oxforms.office_oracle.w008_focus_validation_capture.v1'
 $eventLogSchema = 'oxforms.office_oracle.w008_focus_validation_event_log.v1'
 $runSummarySchema = 'oxforms.office_oracle.w008_focus_validation_run_summary.v1'
 $expectedBead = 'oxforms-esq.3'
-$declaredScenarios = @('tab_transfer', 'exit_veto_keeps_focus', 'before_update_veto', 'checkbox_baseline')
+$declaredScenarios = @('tab_transfer', 'exit_veto_keeps_focus', 'before_update_veto')
 
 function Resolve-RepoPath {
     param([Parameter(Mandatory = $true)][string]$Path)

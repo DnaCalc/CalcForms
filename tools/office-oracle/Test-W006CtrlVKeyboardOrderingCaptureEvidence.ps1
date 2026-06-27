@@ -104,7 +104,9 @@ if ($manifest.status -eq 'blocked') {
     $inputActions = Get-JsonFile -Path (Resolve-RepoPath $manifest.artifacts.input_actions)
     if ($inputActions.schema -ne 'oxforms.office_oracle.w006_ctrlv_keyboard_ordering_input_actions.v1') { throw "Unexpected input-actions schema: $($inputActions.schema)" }
     if ($null -eq $inputActions.manual_inputs) { throw 'input-actions.json must preserve manual_inputs, even when empty.' }
-    $ctrlVAction = @($inputActions.automated_inputs | Where-Object { $_.action -eq 'ctrl_v' })[0]
+    # PSObject.Properties guard: input-actions entries are PSCustomObjects after JSON load,
+    # and not all carry an 'action' property; bare $_.action throws under Set-StrictMode.
+    $ctrlVAction = $inputActions.automated_inputs | Where-Object { $_.PSObject.Properties['action'] -and $_.action -eq 'ctrl_v' } | Select-Object -First 1
     if ($null -eq $ctrlVAction) { throw 'Captured input-actions.json is missing the ctrl_v automated input.' }
     if ($ctrlVAction.result.status -ne 'completed') { throw "Captured ctrl_v SendInput status must be completed; got $($ctrlVAction.result.status)" }
     if ([int]$ctrlVAction.result.send_input.sent -ne 4) { throw "Captured ctrl_v SendInput must have sent=4; got $($ctrlVAction.result.send_input.sent)" }

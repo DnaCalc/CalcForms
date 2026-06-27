@@ -1,0 +1,82 @@
+{
+  "schema": "oxforms.office_oracle.w006_checkbox_keyboard_toggle_capture.v1",
+  "bead": "oxforms-0a0.12",
+  "capture_id": "checkbox-keyboard-toggle-20260627T220935Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w006-checkbox-keyboard-toggle-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/checkbox-keyboard-toggle/fixture.json",
+        "sha256": "778d86cb0b691e1586073216058f4c126ccd7d5fa57ccd2acf768e8b56a58937"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/checkbox-keyboard-toggle/form-code-behind.bas",
+        "sha256": "3488fdca1660e3fdea30620a65a2258cf0d6d03b75e8a7fc6bf256f466f68e41"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/checkbox-keyboard-toggle/standard-module.bas",
+        "sha256": "b31a51b5635e3975a7cf6d11b4793cbb5017727416fb7cc0b212718255043f87"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/Capture-W006CheckBoxKeyboardToggle.ps1",
+        "sha256": "f07529aedefbdd7971f8e3a889cb7ee64538fa3ce9be7be50e6d7d316e132eee"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.20026.20182",
+    "product_version": "16.0.20026.20182",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": {
+      "path": "docs/evidence/W006_control_implementation_rollout/captures/checkbox-keyboard-toggle-20260627T220935Z/w006-checkbox-keyboard-toggle-oracle.xlsm",
+      "sha256": "7995fa7dc2d998cd24982f5763702e695819a08b4bb95c82f307329b7a35c2ff"
+    },
+    "event_log_json": "docs/evidence/W006_control_implementation_rollout/captures/checkbox-keyboard-toggle-20260627T220935Z/checkbox-keyboard-toggle-event-log.json",
+    "event_log_csv": "docs/evidence/W006_control_implementation_rollout/captures/checkbox-keyboard-toggle-20260627T220935Z/checkbox-keyboard-toggle-event-log.csv",
+    "input_actions": "docs/evidence/W006_control_implementation_rollout/captures/checkbox-keyboard-toggle-20260627T220935Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 9,
+    "event_names": [
+      "Initialize",
+      "Change",
+      "Click",
+      "KeyDown",
+      "KeyUp",
+      "Change",
+      "Click",
+      "KeyDown",
+      "KeyUp"
+    ],
+    "value_at_keydown": "True",
+    "value_at_keyup": "True"
+  },
+  "trace_replay_implications": [
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: CheckBox keyboard activation dispatch needs ordered KeyDown/KeyUp rows alongside Click/Change.",
+    "docs/specs/FM20_EVENT_FACTS.md: this oracle settles the CheckBox Space/Enter keyboard activation ordering and value timing previously marked oracle-gated."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "Covers Space then Enter keyboard activation of one CheckBox; programmatic/accelerator/triple-state toggles are not exercised.",
+    "Desktop focus, keyboard layout, theme, DPI, and Excel/MSForms version can affect observed rows."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture generated through public Excel/VBIDE automation and driven through public Windows mouse and user32 SendInput keyboard input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime CheckBox keyboard-toggle behavior is implemented or claimed.",
+    "This capture is not an exhaustive CheckBox event parity matrix.",
+    "Absence of a row is not a negative MSForms fact."
+  ]
+}

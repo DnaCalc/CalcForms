@@ -1,0 +1,79 @@
+{
+  "schema": "oxforms.office_oracle.w006_ctrlv_keyboard_ordering_capture.v1",
+  "bead": "oxforms-0a0.17",
+  "capture_id": "ctrlv-keyboard-ordering-20260627T222310Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w006-ctrlv-keyboard-ordering-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/ctrlv-keyboard-ordering/fixture.json",
+        "sha256": "86da1ca9b46a647f00bd6f31bd53305c380295c27374ddf9e237e1839f8aedeb"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/ctrlv-keyboard-ordering/form-code-behind.bas",
+        "sha256": "01bd9106171b793a3cc695fce1983db470c43d96f1e27af70c24537870a54af6"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/ctrlv-keyboard-ordering/standard-module.bas",
+        "sha256": "55964f2d54d23bdffd5900f4dfb13f035a2d8f4d405b145f83dcd360300adbc1"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/Capture-W006CtrlVKeyboardOrdering.ps1",
+        "sha256": "ed45d3c631d5e60cd90bb2b7a4e0b274bb92f93bffe33d5d69e14fe6d7b73d89"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.20026.20182",
+    "product_version": "16.0.20026.20182",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": {
+      "path": "docs/evidence/W006_control_implementation_rollout/captures/ctrlv-keyboard-ordering-20260627T222310Z/w006-ctrlv-keyboard-ordering-oracle.xlsm",
+      "sha256": "d6e6cd03b2a8a13306896097c9599ecc7e1ce66a65323b258ceaf4a66d6ddce4"
+    },
+    "event_log_json": "docs/evidence/W006_control_implementation_rollout/captures/ctrlv-keyboard-ordering-20260627T222310Z/ctrlv-keyboard-ordering-event-log.json",
+    "event_log_csv": "docs/evidence/W006_control_implementation_rollout/captures/ctrlv-keyboard-ordering-20260627T222310Z/ctrlv-keyboard-ordering-event-log.csv",
+    "input_actions": "docs/evidence/W006_control_implementation_rollout/captures/ctrlv-keyboard-ordering-20260627T222310Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 7,
+    "event_names": [
+      "Initialize",
+      "KeyDown",
+      "KeyDown",
+      "BeforeDropOrPaste",
+      "Change",
+      "KeyUp",
+      "KeyUp"
+    ],
+    "keydown_vs_paste_order": "keydown_before_paste"
+  },
+  "trace_replay_implications": [
+    "docs/specs/TRACE_REPLAY_SCHEMA.md section 10: VBA dispatch rows for a keyboard paste need ordered KeyDown/KeyPress/KeyUp and BeforeDropOrPaste/Change rows.",
+    "docs/specs/FM20_EVENT_FACTS.md: this oracle redoes the oxforms-0a0.17 Ctrl+V keyboard-driver blocker on a working-input desktop and records the keyboard-vs-paste ordering."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "Covers one keyboard Ctrl+V into one TextBox; menu paste, IME, dead keys, and true drag/drop are not exercised.",
+    "Desktop focus, keyboard layout, clipboard policy, theme, DPI, and Excel/MSForms version can affect observed rows."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture generated through public Excel/VBIDE automation and driven through the public Windows clipboard and public user32 SendInput keyboard input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime Ctrl+V keyboard-ordering behavior is implemented or claimed.",
+    "This capture is not an exhaustive paste/keyboard event parity matrix.",
+    "Absence of a row is not a negative MSForms fact."
+  ]
+}

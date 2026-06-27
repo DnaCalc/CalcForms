@@ -1,0 +1,870 @@
+{
+  "schema": "oxforms.office_oracle.w006_ctrlv_keyboard_ordering_input_actions.v1",
+  "bead": "oxforms-0a0.17",
+  "manual_inputs": [],
+  "automated_inputs": [
+    {
+      "label": "focus_textbox",
+      "screen_x": 960,
+      "screen_y": 540,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:23:19.3031604Z",
+          "foreground_window": {
+            "handle": "0x6137A",
+            "title": "Claude",
+            "class_name": "Chrome_WidgetWin_1",
+            "process_id": 50152,
+            "process_name": "claude",
+            "thread_id": 60748,
+            "bounds": {
+              "left": -8,
+              "top": -8,
+              "right": 1928,
+              "bottom": 1040,
+              "width": 1936,
+              "height": 1048
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 35272,
+            "active_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            }
+          },
+          "cursor_screen_pixels": {
+            "x": 978,
+            "y": 695
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:23:19.5476510Z",
+          "foreground_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 35272,
+            "active_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            }
+          },
+          "cursor_screen_pixels": {
+            "x": 978,
+            "y": 695
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 960,
+          "y": 540
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:23:19.5700222Z",
+            "foreground_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 35272,
+              "active_window": {
+                "handle": "0xE7036E",
+                "title": "OxForms W006 CtrlV Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 800,
+                  "top": 460,
+                  "right": 1120,
+                  "bottom": 620,
+                  "width": 320,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 978,
+              "y": 695
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:23:20.1671166Z",
+            "foreground_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 35272,
+              "active_window": {
+                "handle": "0xE7036E",
+                "title": "OxForms W006 CtrlV Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 800,
+                  "top": 460,
+                  "right": 1120,
+                  "bottom": 620,
+                  "width": 320,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "public_windows_clipboard",
+      "action": "set_clipboard_text",
+      "manual": false,
+      "clipboard_seed_id": "repo_owned_ctrlv_text_seed_v1",
+      "target_intent": "Clipboard contains repo-owned text seed before Ctrl+V.",
+      "payload_policy": "Repo-owned seed text may be identified by seed id in evidence."
+    },
+    {
+      "sequence": 3,
+      "method": "public_user32_showwindow_setforegroundwindow",
+      "action": "focus_userform",
+      "manual": false,
+      "target_intent": "Prepare the modeless UserForm for public Ctrl+V keyboard input.",
+      "result": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:23:20.5250290Z",
+          "foreground_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 35272,
+            "active_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            }
+          },
+          "cursor_screen_pixels": {
+            "x": 960,
+            "y": 540
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:23:20.7747830Z",
+          "foreground_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xE7036E",
+            "title": "OxForms W006 CtrlV Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 60236,
+            "process_name": "EXCEL",
+            "thread_id": 35272,
+            "bounds": {
+              "left": 800,
+              "top": 460,
+              "right": 1120,
+              "bottom": 620,
+              "width": 320,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 35272,
+            "active_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": {
+              "handle": "0x9819E6",
+              "title": "",
+              "class_name": "F3 Server bf760000",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 808,
+                "top": 491,
+                "right": 1112,
+                "bottom": 612,
+                "width": 304,
+                "height": 121
+              }
+            }
+          },
+          "cursor_screen_pixels": {
+            "x": 960,
+            "y": 540
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      }
+    },
+    {
+      "sequence": 4,
+      "method": "public_user32_sendinput_keyboard",
+      "action": "ctrl_v",
+      "keys": "Ctrl down, V down, V up, Ctrl up",
+      "manual": false,
+      "target_intent": "Paste the repo-owned clipboard text into TextBox1 and record keyboard ordering.",
+      "result": {
+        "schema": "oxforms.office_oracle.w006_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "action": "ctrl_v",
+        "virtual_keys": {
+          "control": "0x11",
+          "v": "0x56"
+        },
+        "send_input": {
+          "requested": 4,
+          "sent": 4,
+          "last_win32_error": 0
+        },
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_ctrl_v",
+            "captured_at_utc": "2026-06-27T22:23:20.7831318Z",
+            "foreground_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 35272,
+              "active_window": {
+                "handle": "0xE7036E",
+                "title": "OxForms W006 CtrlV Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 800,
+                  "top": 460,
+                  "right": 1120,
+                  "bottom": 620,
+                  "width": 320,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_ctrl_v",
+            "captured_at_utc": "2026-06-27T22:23:21.5303412Z",
+            "foreground_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xE7036E",
+              "title": "OxForms W006 CtrlV Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 60236,
+              "process_name": "EXCEL",
+              "thread_id": 35272,
+              "bounds": {
+                "left": 800,
+                "top": 460,
+                "right": 1120,
+                "bottom": 620,
+                "width": 320,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 35272,
+              "active_window": {
+                "handle": "0xE7036E",
+                "title": "OxForms W006 CtrlV Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 800,
+                  "top": 460,
+                  "right": 1120,
+                  "bottom": 620,
+                  "width": 320,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": {
+                "handle": "0x9819E6",
+                "title": "",
+                "class_name": "F3 Server bf760000",
+                "process_id": 60236,
+                "process_name": "EXCEL",
+                "thread_id": 35272,
+                "bounds": {
+                  "left": 808,
+                  "top": 491,
+                  "right": 1112,
+                  "bottom": 612,
+                  "width": 304,
+                  "height": 121
+                }
+              }
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      },
+      "notes": "This is evidence-driving infrastructure, not OxForms runtime architecture."
+    }
+  ],
+  "notes": [
+    "WinForms Clipboard and public user32 SendInput keyboard input are evidence-driving tools around live Excel/MSForms.",
+    "One public mouse click focuses TextBox1; the public Windows clipboard is seeded; then public user32 SendInput sends Ctrl down, V down, V up, Ctrl up."
+  ]
+}

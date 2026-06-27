@@ -1,0 +1,931 @@
+{
+  "schema": "oxforms.office_oracle.w006_checkbox_keyboard_toggle_input_actions.v1",
+  "bead": "oxforms-0a0.12",
+  "manual_inputs": [],
+  "automated_inputs": [
+    {
+      "label": "focus_checkbox",
+      "screen_x": 960,
+      "screen_y": 540,
+      "foreground": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:09:41.9511299Z",
+          "foreground_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 9968,
+            "active_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x12E1730",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 834,
+                "top": 491,
+                "right": 1085,
+                "bottom": 612,
+                "width": 251,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 960,
+            "y": 540
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:09:42.1852917Z",
+          "foreground_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 9968,
+            "active_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x12E1730",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 834,
+                "top": 491,
+                "right": 1085,
+                "bottom": 612,
+                "width": 251,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 960,
+            "y": 540
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      },
+      "input": {
+        "schema": "oxforms.w005.sendinput_mouse_action.v1",
+        "input_driver": "public_user32_sendinput",
+        "action": "mouse_click",
+        "target_screen_pixels": {
+          "x": 960,
+          "y": 540
+        },
+        "set_cursor_result": true,
+        "send_input": {
+          "requested_down": 1,
+          "sent_down": 1,
+          "requested_up": 1,
+          "sent_up": 1
+        },
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:09:42.2137234Z",
+            "foreground_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 9968,
+              "active_window": {
+                "handle": "0xA41528",
+                "title": "OxForms W006 CheckBox Kbd Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 826,
+                  "top": 460,
+                  "right": 1093,
+                  "bottom": 620,
+                  "width": 267,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x12E1730",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 834,
+                  "top": 491,
+                  "right": 1085,
+                  "bottom": 612,
+                  "width": 251,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_mouse_click",
+            "captured_at_utc": "2026-06-27T22:09:42.7920188Z",
+            "foreground_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 9968,
+              "active_window": {
+                "handle": "0xA41528",
+                "title": "OxForms W006 CheckBox Kbd Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 826,
+                  "top": 460,
+                  "right": 1093,
+                  "bottom": 620,
+                  "width": 267,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x12E1730",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 834,
+                  "top": 491,
+                  "right": 1085,
+                  "bottom": 612,
+                  "width": 251,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      }
+    },
+    {
+      "sequence": 2,
+      "method": "public_user32_showwindow_setforegroundwindow",
+      "action": "focus_userform",
+      "manual": false,
+      "target_intent": "Prepare the modeless UserForm for public keyboard input.",
+      "result": {
+        "schema": "oxforms.w005.foreground_transition.v1",
+        "api": "public_user32_ShowWindow_SetForegroundWindow",
+        "set_foreground_result": true,
+        "before": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "before_set_foreground",
+          "captured_at_utc": "2026-06-27T22:09:43.0485852Z",
+          "foreground_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 9968,
+            "active_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x12E1730",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 834,
+                "top": 491,
+                "right": 1085,
+                "bottom": 612,
+                "width": 251,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 960,
+            "y": 540
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        },
+        "after": {
+          "schema": "oxforms.w005.windows_input_diagnostics.v1",
+          "phase": "after_set_foreground",
+          "captured_at_utc": "2026-06-27T22:09:43.2816709Z",
+          "foreground_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "process_thread_focus_window": null,
+          "target_window": {
+            "handle": "0xA41528",
+            "title": "OxForms W006 CheckBox Kbd Oracle",
+            "class_name": "ThunderDFrame",
+            "process_id": 42232,
+            "process_name": "EXCEL",
+            "thread_id": 9968,
+            "bounds": {
+              "left": 826,
+              "top": 460,
+              "right": 1093,
+              "bottom": 620,
+              "width": 267,
+              "height": 160
+            }
+          },
+          "target_thread_gui": {
+            "thread_id": 9968,
+            "active_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "focus_window": {
+              "handle": "0x12E1730",
+              "title": "",
+              "class_name": "F3 Server c2440000",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 834,
+                "top": 491,
+                "right": 1085,
+                "bottom": 612,
+                "width": 251,
+                "height": 121
+              }
+            },
+            "capture_window": null,
+            "caret_window": null
+          },
+          "cursor_screen_pixels": {
+            "x": 960,
+            "y": 540
+          },
+          "notes": [
+            "Foreground/focus metadata is public Windows harness diagnostics only.",
+            "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+          ]
+        }
+      }
+    },
+    {
+      "sequence": 3,
+      "method": "public_user32_sendinput_keyboard",
+      "action": "space",
+      "keys": "Space down, Space up",
+      "manual": false,
+      "target_intent": "Activate the focused CheckBox via Space and record Click/Change/KeyDown/KeyUp ordering.",
+      "result": {
+        "schema": "oxforms.office_oracle.w006_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "action": "space",
+        "virtual_keys": [
+          "0x20"
+        ],
+        "send_input": {
+          "requested": 2,
+          "sent": 2,
+          "last_win32_error": 0
+        },
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_space",
+            "captured_at_utc": "2026-06-27T22:09:43.2978771Z",
+            "foreground_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 9968,
+              "active_window": {
+                "handle": "0xA41528",
+                "title": "OxForms W006 CheckBox Kbd Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 826,
+                  "top": 460,
+                  "right": 1093,
+                  "bottom": 620,
+                  "width": 267,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x12E1730",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 834,
+                  "top": 491,
+                  "right": 1085,
+                  "bottom": 612,
+                  "width": 251,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_space",
+            "captured_at_utc": "2026-06-27T22:09:44.0084396Z",
+            "foreground_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 9968,
+              "active_window": {
+                "handle": "0xA41528",
+                "title": "OxForms W006 CheckBox Kbd Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 826,
+                  "top": 460,
+                  "right": 1093,
+                  "bottom": 620,
+                  "width": 267,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x12E1730",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 834,
+                  "top": 491,
+                  "right": 1085,
+                  "bottom": 612,
+                  "width": 251,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      },
+      "notes": "This is evidence-driving infrastructure, not OxForms runtime architecture."
+    },
+    {
+      "sequence": 4,
+      "method": "public_user32_sendinput_keyboard",
+      "action": "enter",
+      "keys": "Enter down, Enter up",
+      "manual": false,
+      "target_intent": "Send Enter to the focused CheckBox and record any Click/Change/KeyDown/KeyUp ordering.",
+      "result": {
+        "schema": "oxforms.office_oracle.w006_sendinput_keyboard_action.v1",
+        "input_driver": "public_user32_sendinput_keyboard",
+        "action": "enter",
+        "virtual_keys": [
+          "0xD"
+        ],
+        "send_input": {
+          "requested": 2,
+          "sent": 2,
+          "last_win32_error": 0
+        },
+        "status": "completed",
+        "diagnostics": {
+          "before": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "before_sendinput_enter",
+            "captured_at_utc": "2026-06-27T22:09:44.5048024Z",
+            "foreground_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 9968,
+              "active_window": {
+                "handle": "0xA41528",
+                "title": "OxForms W006 CheckBox Kbd Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 826,
+                  "top": 460,
+                  "right": 1093,
+                  "bottom": 620,
+                  "width": 267,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x12E1730",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 834,
+                  "top": 491,
+                  "right": 1085,
+                  "bottom": 612,
+                  "width": 251,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          },
+          "after": {
+            "schema": "oxforms.w005.windows_input_diagnostics.v1",
+            "phase": "after_sendinput_enter",
+            "captured_at_utc": "2026-06-27T22:09:45.1869023Z",
+            "foreground_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "process_thread_focus_window": null,
+            "target_window": {
+              "handle": "0xA41528",
+              "title": "OxForms W006 CheckBox Kbd Oracle",
+              "class_name": "ThunderDFrame",
+              "process_id": 42232,
+              "process_name": "EXCEL",
+              "thread_id": 9968,
+              "bounds": {
+                "left": 826,
+                "top": 460,
+                "right": 1093,
+                "bottom": 620,
+                "width": 267,
+                "height": 160
+              }
+            },
+            "target_thread_gui": {
+              "thread_id": 9968,
+              "active_window": {
+                "handle": "0xA41528",
+                "title": "OxForms W006 CheckBox Kbd Oracle",
+                "class_name": "ThunderDFrame",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 826,
+                  "top": 460,
+                  "right": 1093,
+                  "bottom": 620,
+                  "width": 267,
+                  "height": 160
+                }
+              },
+              "focus_window": {
+                "handle": "0x12E1730",
+                "title": "",
+                "class_name": "F3 Server c2440000",
+                "process_id": 42232,
+                "process_name": "EXCEL",
+                "thread_id": 9968,
+                "bounds": {
+                  "left": 834,
+                  "top": 491,
+                  "right": 1085,
+                  "bottom": 612,
+                  "width": 251,
+                  "height": 121
+                }
+              },
+              "capture_window": null,
+              "caret_window": null
+            },
+            "cursor_screen_pixels": {
+              "x": 960,
+              "y": 540
+            },
+            "notes": [
+              "Foreground/focus metadata is public Windows harness diagnostics only.",
+              "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+            ]
+          }
+        }
+      },
+      "notes": "This is evidence-driving infrastructure, not OxForms runtime architecture."
+    }
+  ],
+  "notes": [
+    "One public user32 SendInput mouse click focuses the CheckBox; then public user32 SendInput sends Space (VK 0x20) then Enter (VK 0x0D), each as a down+up pair.",
+    "These are evidence-driving tools around live Excel/MSForms, not OxForms runtime architecture."
+  ]
+}

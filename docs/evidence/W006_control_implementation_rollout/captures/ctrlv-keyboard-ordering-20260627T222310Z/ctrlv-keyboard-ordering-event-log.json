@@ -1,0 +1,114 @@
+{
+  "schema": "oxforms.office_oracle.w006_ctrlv_keyboard_ordering_event_log.v1",
+  "bead": "oxforms-0a0.17",
+  "source": {
+    "worksheet": "W006CtrlVLog",
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/ctrlv-keyboard-ordering/fixture.json",
+    "event_facts": "docs/specs/FM20_EVENT_FACTS.md#W006-Deferred-Input-Surface-Fact-Split",
+    "trace_schema": "docs/specs/TRACE_REPLAY_SCHEMA.md#10-VBA-Dispatch-Rows"
+  },
+  "observed_facts": {
+    "row_count": 7,
+    "event_names": [
+      "Initialize",
+      "KeyDown",
+      "KeyDown",
+      "BeforeDropOrPaste",
+      "Change",
+      "KeyUp",
+      "KeyUp"
+    ],
+    "keydown_vs_paste_order": "keydown_before_paste",
+    "keydown_sequence": 2,
+    "keypress_sequence": null,
+    "keyup_sequence": 6,
+    "before_drop_or_paste_sequence": 4,
+    "change_sequence": 5,
+    "clipboard_seed_id": "repo_owned_ctrlv_text_seed_v1",
+    "rows": [
+      {
+        "sequence": "1",
+        "control_name": "TextBox1",
+        "event_name": "Initialize",
+        "arg_name": "",
+        "arg_before": "",
+        "arg_after": "",
+        "value": "",
+        "notes": "form initialize"
+      },
+      {
+        "sequence": "2",
+        "control_name": "TextBox1",
+        "event_name": "KeyDown",
+        "arg_name": "KeyCode",
+        "arg_before": "17",
+        "arg_after": "17",
+        "value": "",
+        "notes": "KeyDown; Shift=2"
+      },
+      {
+        "sequence": "3",
+        "control_name": "TextBox1",
+        "event_name": "KeyDown",
+        "arg_name": "KeyCode",
+        "arg_before": "86",
+        "arg_after": "86",
+        "value": "",
+        "notes": "KeyDown; Shift=2"
+      },
+      {
+        "sequence": "4",
+        "control_name": "TextBox1",
+        "event_name": "BeforeDropOrPaste",
+        "arg_name": "Cancel",
+        "arg_before": "False",
+        "arg_after": "False",
+        "value": "",
+        "notes": "Action=2; Effect_before=0; Effect_after=0; X=0; Y=0; Shift=2; data_object=present; public_getformat_1=True"
+      },
+      {
+        "sequence": "5",
+        "control_name": "TextBox1",
+        "event_name": "Change",
+        "arg_name": "",
+        "arg_before": "",
+        "arg_after": "",
+        "value": "OxFormsClipboardSeed",
+        "notes": "Change handler; .Value read at handler entry"
+      },
+      {
+        "sequence": "6",
+        "control_name": "TextBox1",
+        "event_name": "KeyUp",
+        "arg_name": "KeyCode",
+        "arg_before": "86",
+        "arg_after": "86",
+        "value": "OxFormsClipboardSeed",
+        "notes": "KeyUp; Shift=2"
+      },
+      {
+        "sequence": "7",
+        "control_name": "TextBox1",
+        "event_name": "KeyUp",
+        "arg_name": "KeyCode",
+        "arg_before": "17",
+        "arg_after": "17",
+        "value": "OxFormsClipboardSeed",
+        "notes": "KeyUp; Shift=0"
+      }
+    ]
+  },
+  "assumptions": [
+    "Rows are worksheet rows emitted by repo-owned VBA handlers while real Excel/MSForms dispatched one injected Ctrl+V (Ctrl down, V down, V up, Ctrl up) into TextBox1.",
+    "The repo-owned clipboard seed text may be identified by seed id; unexpected payloads are not recorded.",
+    "For every MSForms.Return* helper, arg_before/arg_after are .Value read before/after the handler body; the value column is TextBox1 .Value at handler entry."
+  ],
+  "unknowns": [
+    "This capture exercises one keyboard Ctrl+V into one TextBox; it does not cover menu paste, IME/composition, dead keys, true OLE drag/drop, or Action mutation.",
+    "Rows absent from this run remain unobserved and are not negative MSForms facts."
+  ],
+  "non_claims": [
+    "No OxForms runtime Ctrl+V keyboard-ordering behavior is implemented or claimed by this oracle.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}

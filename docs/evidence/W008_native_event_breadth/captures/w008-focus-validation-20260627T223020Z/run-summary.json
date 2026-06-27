@@ -1,0 +1,367 @@
+{
+  "schema": "oxforms.office_oracle.w008_focus_validation_run_summary.v1",
+  "bead": "oxforms-esq.3",
+  "capture_id": "w008-focus-validation-20260627T223020Z",
+  "status": "captured",
+  "row_count": 30,
+  "scenarios": [
+    "before_update_veto",
+    "exit_veto_keeps_focus",
+    "tab_transfer"
+  ],
+  "scenario_coverage": {
+    "tab_transfer": "observed_rows",
+    "exit_veto_keeps_focus": "observed_rows",
+    "before_update_veto": "observed_rows",
+    "checkbox_baseline": "not_observed_in_this_run"
+  },
+  "scenario_summaries": [
+    {
+      "scenario": "tab_transfer",
+      "row_count": 12,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyPress",
+        "Change",
+        "KeyUp",
+        "KeyDown",
+        "BeforeUpdate",
+        "AfterUpdate",
+        "Exit",
+        "Enter",
+        "KeyUp",
+        "Exit",
+        "Enter"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "4",
+          "control_name": "TextBox1",
+          "event_name": "KeyPress",
+          "arg_name": "KeyAscii",
+          "arg_before": "97",
+          "arg_after": "97",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "5",
+          "control_name": "TextBox1",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "6",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "7",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "9",
+          "arg_after": "9",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "8",
+          "control_name": "TextBox1",
+          "event_name": "BeforeUpdate",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "9",
+          "control_name": "TextBox1",
+          "event_name": "AfterUpdate",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "10",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "11",
+          "control_name": "TextBox2",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox2",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "12",
+          "control_name": "TextBox2",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "9",
+          "arg_after": "9",
+          "focus_owner_after": "TextBox2",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "13",
+          "control_name": "TextBox2",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox2",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "14",
+          "control_name": "TextBox1",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        }
+      ]
+    },
+    {
+      "scenario": "exit_veto_keeps_focus",
+      "row_count": 9,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyPress",
+        "Change",
+        "KeyUp",
+        "KeyDown",
+        "BeforeUpdate",
+        "AfterUpdate",
+        "Exit",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "15",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "66",
+          "arg_after": "66",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "16",
+          "control_name": "TextBox1",
+          "event_name": "KeyPress",
+          "arg_name": "KeyAscii",
+          "arg_before": "98",
+          "arg_after": "98",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "a"
+        },
+        {
+          "sequence": "17",
+          "control_name": "TextBox1",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "18",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "66",
+          "arg_after": "66",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "19",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "9",
+          "arg_after": "9",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "20",
+          "control_name": "TextBox1",
+          "event_name": "BeforeUpdate",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "21",
+          "control_name": "TextBox1",
+          "event_name": "AfterUpdate",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "22",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "True",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "23",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "9",
+          "arg_after": "9",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        }
+      ]
+    },
+    {
+      "scenario": "before_update_veto",
+      "row_count": 7,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyPress",
+        "Change",
+        "KeyUp",
+        "KeyDown",
+        "BeforeUpdate",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "24",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "67",
+          "arg_after": "67",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "25",
+          "control_name": "TextBox1",
+          "event_name": "KeyPress",
+          "arg_name": "KeyAscii",
+          "arg_before": "99",
+          "arg_after": "99",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "ab"
+        },
+        {
+          "sequence": "26",
+          "control_name": "TextBox1",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "abc"
+        },
+        {
+          "sequence": "27",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "67",
+          "arg_after": "67",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "abc"
+        },
+        {
+          "sequence": "28",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "9",
+          "arg_after": "9",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "abc"
+        },
+        {
+          "sequence": "29",
+          "control_name": "TextBox1",
+          "event_name": "BeforeUpdate",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "True",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "abc"
+        },
+        {
+          "sequence": "30",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "9",
+          "arg_after": "9",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": "abc"
+        }
+      ]
+    },
+    {
+      "scenario": "checkbox_baseline",
+      "row_count": 0,
+      "observed": false,
+      "event_names": [],
+      "rows": []
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "No OxForms runtime focus/validation behavior is implemented or claimed.",
+    "not_observed_in_this_run is not a negative MSForms fact."
+  ]
+}

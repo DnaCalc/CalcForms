@@ -1,0 +1,9 @@
+"C:\Program Files\PowerShell\7\pwsh.dll" -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command "Remove-Item -Recurse -Force 'docs\evidence\W008_native_event_breadth\captures\w008-focus-validation-20260627T222833Z' -ErrorAction SilentlyContinue
+& 'C:\Work\DnaCalc\OxForms\tools\office-oracle\Capture-W008FocusValidation.ps1' 2>&1 | Out-String
+$x = Get-Process EXCEL -ErrorAction SilentlyContinue; if ($x) { $x | ForEach-Object { Stop-Process -Id $_.Id -Force } }
+$d = Get-ChildItem 'docs\evidence\W008_native_event_breadth\captures' -Directory | Where-Object { $_.Name -like 'w008-focus-validation-*' } | Select-Object -First 1
+\"=== CSV ($($d.Name)) ===\"
+Get-Content (Join-Path $d.FullName 'w008-focus-validation-event-log.csv') | ForEach-Object { $_ -replace '\"','' }
+; $_ec = if ($null -ne $LASTEXITCODE) { $LASTEXITCODE } elseif ($?) { 0 } else { 1 }
+; (Get-Location).Path | Out-File -FilePath 'C:\Users\GOVERT~1\AppData\Local\Temp\claude\claude-pwd-ps-254d' -Encoding utf8 -NoNewline
+; if ($ExecutionContext.SessionState.LanguageMode -eq 'FullLanguage') { $host.SetShouldExit($_ec) } else { exit $_ec }"

@@ -98,7 +98,9 @@ if ($manifest.status -eq 'blocked') {
     if ($inputActions.schema -ne 'oxforms.office_oracle.w006_checkbox_keyboard_toggle_input_actions.v1') { throw "Unexpected input-actions schema: $($inputActions.schema)" }
     if ($null -eq $inputActions.manual_inputs) { throw 'input-actions.json must preserve manual_inputs, even when empty.' }
     foreach ($expectedAction in @('space', 'enter')) {
-        $action = @($inputActions.automated_inputs | Where-Object { $_.action -eq $expectedAction })[0]
+        # PSObject.Properties guard: input-actions entries are PSCustomObjects after JSON load,
+        # and not all carry an 'action' property; bare $_.action throws under Set-StrictMode.
+        $action = $inputActions.automated_inputs | Where-Object { $_.PSObject.Properties['action'] -and $_.action -eq $expectedAction } | Select-Object -First 1
         if ($null -eq $action) { throw "Captured input-actions.json is missing the $expectedAction automated input." }
         if ($action.result.status -ne 'completed') { throw "Captured $expectedAction SendInput status must be completed; got $($action.result.status)" }
         if ([int]$action.result.send_input.sent -ne [int]$action.result.send_input.requested) { throw "Captured $expectedAction SendInput sent must equal requested; got sent=$($action.result.send_input.sent) requested=$($action.result.send_input.requested)" }

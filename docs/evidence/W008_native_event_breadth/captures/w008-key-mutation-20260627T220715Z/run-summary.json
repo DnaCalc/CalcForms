@@ -1,0 +1,271 @@
+{
+  "schema": "oxforms.office_oracle.w008_key_mutation_run_summary.v1",
+  "bead": "oxforms-esq.3",
+  "capture_id": "w008-key-mutation-20260627T220715Z",
+  "status": "captured",
+  "row_count": 20,
+  "scenarios": [
+    "arrow_swallow",
+    "change_timing",
+    "default_button_enter",
+    "swallow_keydown",
+    "swallow_keypress"
+  ],
+  "scenario_coverage": {
+    "default_button_enter": "observed_rows",
+    "swallow_keydown": "observed_rows",
+    "swallow_keypress": "observed_rows",
+    "arrow_swallow": "observed_rows",
+    "change_timing": "observed_rows"
+  },
+  "scenario_summaries": [
+    {
+      "scenario": "default_button_enter",
+      "row_count": 8,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "Exit",
+        "Enter",
+        "Click",
+        "KeyUp",
+        "KeyDown",
+        "KeyPress",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "13",
+          "arg_after": "13",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "4",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "5",
+          "control_name": "OkButton",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "6",
+          "control_name": "OkButton",
+          "event_name": "Click",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "7",
+          "control_name": "OkButton",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "13",
+          "arg_after": "13",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "8",
+          "control_name": "OkButton",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "27",
+          "arg_after": "27",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "9",
+          "control_name": "OkButton",
+          "event_name": "KeyPress",
+          "arg_name": "KeyAscii",
+          "arg_before": "27",
+          "arg_after": "27",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "10",
+          "control_name": "OkButton",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "27",
+          "arg_after": "27",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        }
+      ]
+    },
+    {
+      "scenario": "swallow_keydown",
+      "row_count": 2,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "11",
+          "control_name": "OkButton",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "0",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "12",
+          "control_name": "OkButton",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        }
+      ]
+    },
+    {
+      "scenario": "swallow_keypress",
+      "row_count": 3,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyPress",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "13",
+          "control_name": "OkButton",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "14",
+          "control_name": "OkButton",
+          "event_name": "KeyPress",
+          "arg_name": "KeyAscii",
+          "arg_before": "97",
+          "arg_after": "0",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "15",
+          "control_name": "OkButton",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        }
+      ]
+    },
+    {
+      "scenario": "arrow_swallow",
+      "row_count": 2,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "16",
+          "control_name": "OkButton",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "37",
+          "arg_after": "0",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "17",
+          "control_name": "OkButton",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "37",
+          "arg_after": "37",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        }
+      ]
+    },
+    {
+      "scenario": "change_timing",
+      "row_count": 3,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyPress",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "18",
+          "control_name": "OkButton",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "19",
+          "control_name": "OkButton",
+          "event_name": "KeyPress",
+          "arg_name": "KeyAscii",
+          "arg_before": "97",
+          "arg_after": "97",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "20",
+          "control_name": "OkButton",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "65",
+          "arg_after": "65",
+          "focus_owner_after": "OkButton",
+          "text_value_after": ""
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "No OxForms runtime keyboard behavior is implemented or claimed.",
+    "not_observed_in_this_run is not a negative MSForms fact."
+  ]
+}

@@ -337,11 +337,14 @@ function Export-WorksheetLog {
     $rows | Export-Csv -LiteralPath $csvPath -NoTypeInformation -Encoding UTF8
 
     $eventNames = @($rows | ForEach-Object { $_.event_name } | Where-Object { -not [string]::IsNullOrWhiteSpace($_) })
-    $keyDownRow = @($rows | Where-Object { $_.event_name -eq 'KeyDown' })[0]
-    $keyPressRow = @($rows | Where-Object { $_.event_name -eq 'KeyPress' })[0]
-    $keyUpRow = @($rows | Where-Object { $_.event_name -eq 'KeyUp' })[0]
-    $beforePasteRow = @($rows | Where-Object { $_.event_name -eq 'BeforeDropOrPaste' })[0]
-    $changeRow = @($rows | Where-Object { $_.event_name -eq 'Change' })[0]
+    # Select-Object -First 1 (not @(...)[0]) so an event that did not fire yields $null
+    # instead of throwing "Index was outside the bounds of the array" under Set-StrictMode:
+    # a keyboard Ctrl+V fires NO KeyPress, so the KeyPress row is legitimately absent.
+    $keyDownRow = $rows | Where-Object { $_.event_name -eq 'KeyDown' } | Select-Object -First 1
+    $keyPressRow = $rows | Where-Object { $_.event_name -eq 'KeyPress' } | Select-Object -First 1
+    $keyUpRow = $rows | Where-Object { $_.event_name -eq 'KeyUp' } | Select-Object -First 1
+    $beforePasteRow = $rows | Where-Object { $_.event_name -eq 'BeforeDropOrPaste' } | Select-Object -First 1
+    $changeRow = $rows | Where-Object { $_.event_name -eq 'Change' } | Select-Object -First 1
     $seqOf = { param($row) if ($null -ne $row) { [int]$row.sequence } else { $null } }
     $keyDownSeq = & $seqOf $keyDownRow
     $beforePasteSeq = & $seqOf $beforePasteRow
