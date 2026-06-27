@@ -11,7 +11,7 @@
 
 use std::path::{Path, PathBuf};
 
-use oxforms_core::materialize_w007_demo_form;
+use oxforms_core::{materialize_w007_demo_form, LifecycleState};
 use oxforms_oxvba_adapter::runtime_runner::{
     RuntimeError, RuntimeRunner, RuntimeStep, RuntimeTraceRow,
 };
@@ -954,4 +954,43 @@ fn runner_dispatches_native_form_lifecycle_events() {
         ))
         .expect("terminated");
     assert_form_dispatch(&terminate, "Terminate", "PerformTerminate");
+}
+
+#[test]
+fn queryclose_veto_foldback_cancels_the_close() {
+    // oxforms-esq.4: the QueryClose Cancel readback is folded back into the reducer via
+    // a synthesized QueryCloseCompleted re-reduce. A vetoed close (CloseMode 0 -> the
+    // handler sets Cancel -1) reaches LifecycleState::CloseCancelled -- the close is
+    // genuinely prevented, not just recorded; an allowed close (CloseMode 1 -> Cancel
+    // 0) proceeds to HidePending.
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // CloseButton -> CloseMode 0 -> the handler vetoes -> the close is cancelled.
+    runner
+        .dispatch(close_request_event(1, CloseRequestOrigin::CloseButton))
+        .expect("control-menu close request");
+    assert_eq!(
+        runner.form().state.lifecycle,
+        LifecycleState::CloseCancelled,
+        "a vetoed QueryClose folds back to cancel the close"
+    );
+
+    // CodeUnload -> CloseMode 1 -> the handler allows -> the close proceeds to hide.
+    runner
+        .dispatch(close_request_event(2, CloseRequestOrigin::CodeUnload))
+        .expect("code unload close request");
+    assert_eq!(
+        runner.form().state.lifecycle,
+        LifecycleState::HidePending,
+        "an allowed QueryClose folds back to proceed with hiding the form"
+    );
 }

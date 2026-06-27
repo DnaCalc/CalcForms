@@ -28,15 +28,22 @@
 //! the trace ([`RuntimeTraceRow::EventAcknowledged`]) but not natively dispatched yet.
 //! This is an explicit, traced non-claim — never a silent default.
 
-use std::collections::HashMap;
+use std::collections::{HashMap, VecDeque};
 
 use oxforms_core::{
     reduce, sync_control_display_text, EffectKind, EffectRequest, RenderInvalidation, RuntimeForm,
 };
-use oxforms_pal::{ControlId, UiEvent};
+use oxforms_pal::{
+    ControlId, QueryCloseCompletedEvent, UiEvent, UiEventId, UiEventKind, UiEventSource,
+};
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
 use oxvba_runtime::{ObjectRef, Variant};
+
+/// Upper bound on readback fold-back re-entry per dispatch (see
+/// [`RuntimeRunner::dispatch_with_foldback`]). The modeled fold-back paths re-enter at
+/// most once; the bound is a defensive guard against a future fold-back cycle.
+const MAX_FOLDBACK_ITERATIONS: u32 = 16;
 
 /// A precise runtime failure; never a silent state mutation side channel.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -53,6 +60,9 @@ pub enum RuntimeError {
     MissingControlTarget { event_name: String },
     /// A `Change` targeted a control with no text-box state to source the value from.
     MissingTextForChange(String),
+    /// Dispatch readback fold-back re-entered the reducer past the iteration bound — a
+    /// runaway-loop guard, never expected to trigger for the modeled fold-back paths.
+    FoldbackOverflow { iterations: u32 },
 }
 
 impl std::fmt::Display for RuntimeError {
@@ -79,6 +89,12 @@ impl std::fmt::Display for RuntimeError {
                 write!(
                     f,
                     "Change for control `{id}` has no text-box state to dispatch"
+                )
+            }
+            Self::FoldbackOverflow { iterations } => {
+                write!(
+                    f,
+                    "dispatch readback fold-back re-entered the reducer {iterations} times (runaway loop)"
                 )
             }
         }
@@ -290,23 +306,51 @@ impl RuntimeRunner {
     /// is folded into the durable trace **even on error**, so a failing dispatch
     /// stays diagnosable.
     pub fn dispatch(&mut self, event: UiEvent) -> Result<RuntimeStep, RuntimeError> {
-        let output = reduce(self.form.state.clone(), event);
-        self.form.state = output.state;
-
         let mut step = RuntimeStep::default();
-        let result = self.process(&output.effects, &mut step);
+        let result = self.dispatch_with_foldback(event, &mut step);
         self.trace.extend(step.trace.iter().cloned());
         result?;
         Ok(step)
     }
 
+    /// Reduce `event`, drain its effects, then re-reduce any readback fold-back events
+    /// (a `QueryClose` `Cancel` re-entering as `QueryCloseCompleted`, …) into the same
+    /// step until none remain — so a swallow/veto actually changes reducer state
+    /// (oxforms-esq.4), not just the recorded readback. Bounded against runaway
+    /// re-entry by [`MAX_FOLDBACK_ITERATIONS`].
+    fn dispatch_with_foldback(
+        &mut self,
+        event: UiEvent,
+        step: &mut RuntimeStep,
+    ) -> Result<(), RuntimeError> {
+        let mut pending = VecDeque::from([event]);
+        let mut iterations = 0u32;
+        while let Some(event) = pending.pop_front() {
+            iterations += 1;
+            if iterations > MAX_FOLDBACK_ITERATIONS {
+                return Err(RuntimeError::FoldbackOverflow { iterations });
+            }
+            let output = reduce(self.form.state.clone(), event);
+            self.form.state = output.state;
+            let mut fold_back = Vec::new();
+            self.process(&output.effects, step, &mut fold_back)?;
+            for event in fold_back {
+                pending.push_back(event);
+            }
+        }
+        Ok(())
+    }
+
     /// Drain the reducer effects into `step`, dispatching effects and syncing
-    /// properties. Separated from [`Self::dispatch`] so the trace is flushed whether
-    /// this returns `Ok` or `Err`.
+    /// properties. Native dispatches whose readback must re-enter the reducer push a
+    /// synthesized follow-up event onto `fold_back` (drained by
+    /// [`Self::dispatch_with_foldback`]). Separated from [`Self::dispatch`] so the
+    /// trace is flushed whether this returns `Ok` or `Err`.
     fn process(
         &mut self,
         effects: &[EffectRequest],
         step: &mut RuntimeStep,
+        fold_back: &mut Vec<UiEvent>,
     ) -> Result<(), RuntimeError> {
         for effect in effects {
             let target_label = effect
@@ -332,6 +376,12 @@ impl RuntimeRunner {
                                 completion: record.completion,
                                 returned: record.returned.clone(),
                             });
+                            // If the readback must change reducer state (e.g. a
+                            // QueryClose Cancel), synthesize the follow-up event for
+                            // the fold-back loop to re-reduce.
+                            if let Some(event) = self.foldback_event(&record) {
+                                fold_back.push(event);
+                            }
                             step.native_dispatches.push(record);
                         }
                         None => {
@@ -586,6 +636,36 @@ impl RuntimeRunner {
             completion: DispatchCompletion::Succeeded,
             returned,
         }))
+    }
+
+    /// Synthesize the follow-up `UiEvent` (if any) that a native dispatch's readback
+    /// must re-enter the reducer as, so a swallow/veto actually changes reducer state
+    /// (oxforms-esq.4) rather than only being recorded. Currently: a `QueryClose`
+    /// `Cancel` re-enters as `QueryCloseCompleted`, so a nonzero (vetoing) Cancel
+    /// drives the reducer to `CloseCancelled` instead of hiding the form.
+    fn foldback_event(&self, record: &NativeDispatchRecord) -> Option<UiEvent> {
+        match record.event_name.as_str() {
+            "QueryClose" => {
+                let flow = self.form.state.close_flow.as_ref()?;
+                let cancelled = record
+                    .returned
+                    .as_deref()
+                    .and_then(|value| value.parse::<i32>().ok())
+                    .is_some_and(|value| value != 0);
+                Some(UiEvent::new(
+                    UiEventId(0),
+                    UiEventSource::Service,
+                    UiEventKind::QueryCloseCompleted(QueryCloseCompletedEvent {
+                        form_id: self.form.form_id.clone(),
+                        reason: flow.reason,
+                        cancelled,
+                        close_mode: flow.close_mode,
+                        dispatch_diagnostics: Vec::new(),
+                    }),
+                ))
+            }
+            _ => None,
+        }
     }
 
     /// After dispatch, fold any VBA-set control text back into reducer state. For each
