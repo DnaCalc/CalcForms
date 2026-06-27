@@ -38,6 +38,19 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
 `checkbox-click-change-20260627T162407Z`, `nested-modal-lifecycle-20260627T141239Z`,
 `doevents-yield-20260627T161225Z`, `terminate-lifetime-20260627T144316Z`.
 
+## Status
+
+- **`oxforms-esq.1` (A): PROVEN** — gate
+  [`crates/oxforms-oxvba-adapter/tests/oxvba_w008_byref_return_mutation_gate.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_w008_byref_return_mutation_gate.rs)
+  shows a `Return*` helper object's `.Value`, mutated by a `WithEvents` handler,
+  is read back by the raiser through the OxVba `RaiseEvent`/`invoke_member_values`
+  path on the same shared instance (KeyDown swallow `65`→`0`; QueryClose veto
+  `0`→`-1`; no-handler control stays `65`). **No OxVba handover needed** — the
+  `Cancel`/`KeyCode` helper-mutation mechanism is supported. Non-claims: true VBA
+  ByRef-SCALAR copyback and the real `MSForms.ReturnInteger`/`ReturnBoolean` COM
+  types crossing the foreign-COM boundary (vs the repo-owned `W008ReturnValue`
+  stand-in) are not exercised. `oxforms-esq.2` (B) is unblocked.
+
 ## Non-claims (preserved from W006/W007)
 
 No full UserForm/control event parity; no pixel-perfect rendering; no
