@@ -383,15 +383,20 @@ try {
     Start-Sleep -Milliseconds ($ActionDelayMilliseconds * 2)
 
     $window = Wait-ForOracleWindow -Title $formCaption -TimeoutSeconds 25
-    # First click: enters YieldButton_Click (depth 1), which pumps DoEvents ~2.5s.
+    # First click: enters YieldButton_Click (depth 1), which pumps DoEvents ~3.5s.
     $inputActions.Add((Invoke-CenterClick -Window $window -Label 'outer_click_enters_doevents_pump')) | Out-Null
     Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step 'outer_click_sent'
-    Start-Sleep -Milliseconds 900
-    # Second click while the first handler is still pumping: reenters at depth 2.
-    $inputActions.Add((Invoke-CenterClick -Window $window -Label 'reentrant_click_during_doevents_pump')) | Out-Null
-    Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step 'reentrant_click_sent'
-    # Wait out the remainder of the outer 2.5s pump loop plus margin.
-    Start-Sleep -Milliseconds 3000
+    # Inject several clicks while the first handler is still pumping. Any one that
+    # is dispatched through the pump reenters YieldButton_Click at depth 2; using
+    # multiple attempts makes the reentrancy robust to a transient focus loss on
+    # any single injected click (a lost click simply produces no extra row).
+    for ($attempt = 1; $attempt -le 3; $attempt++) {
+        Start-Sleep -Milliseconds 600
+        $inputActions.Add((Invoke-CenterClick -Window $window -Label ("reentrant_click_attempt_$attempt"))) | Out-Null
+        Write-ProgressStep -ResolvedOutDir $resolvedOutDir -Step ("reentrant_click_attempt_$attempt`_sent")
+    }
+    # Wait out the remainder of the outer ~3.5s pump loop plus margin.
+    Start-Sleep -Milliseconds 2500
 
     Write-JsonFile -Path (Join-Path $resolvedOutDir 'input-actions.json') -Value ([ordered]@{
         schema = 'oxforms.office_oracle.w006_doevents_yield_input_actions.v1'

@@ -27,7 +27,7 @@ Private Sub YieldButton_Click()
         W006DoEventsLog Me.Name, "YieldButton", "BeforeDoEvents", "handler", "DoEvents call site; entering bounded pump loop"
         Dim startSeconds As Double
         startSeconds = Timer
-        Do While (Timer - startSeconds) < 2.5
+        Do While (Timer - startSeconds) < 3.5
             DoEvents
         Loop
         W006DoEventsLog Me.Name, "YieldButton", "AfterDoEvents", "handler", "DoEvents pump loop returned"

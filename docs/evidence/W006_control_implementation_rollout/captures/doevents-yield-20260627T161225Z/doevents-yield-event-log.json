@@ -1,0 +1,118 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_doevents_yield_event_log.v1",
+    "bead":  "oxforms-0a0.23",
+    "source":  {
+                   "worksheet":  "W006DoEventsLog",
+                   "fixture":  "fixtures/office-oracle/excel-msforms/userforms/doevents-yield/fixture.json",
+                   "trace_schema":  {
+                                        "ordering":  "docs/specs/TRACE_REPLAY_SCHEMA.md#5-Ordering-Model",
+                                        "lifecycle_pump":  "docs/specs/TRACE_REPLAY_SCHEMA.md#11-Lifecycle-And-Pump-Rows"
+                                    }
+               },
+    "observed_facts":  {
+                           "row_count":  8,
+                           "max_handler_depth":  2,
+                           "reentrant_during_doevents":  true,
+                           "event_names":  [
+                                               "AfterDoEvents",
+                                               "BeforeDoEvents",
+                                               "Click",
+                                               "ClickEnd",
+                                               "Initialize",
+                                               "ReentrantClick"
+                                           ],
+                           "rows":  [
+                                        {
+                                            "sequence":  "1",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "UserForm",
+                                            "event_name":  "Initialize",
+                                            "row_kind":  "lifecycle",
+                                            "handler_depth":  "0",
+                                            "active_handler":  "",
+                                            "notes":  "form initialize"
+                                        },
+                                        {
+                                            "sequence":  "2",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "Click",
+                                            "row_kind":  "handler",
+                                            "handler_depth":  "1",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "click handler start at depth 1"
+                                        },
+                                        {
+                                            "sequence":  "3",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "BeforeDoEvents",
+                                            "row_kind":  "handler",
+                                            "handler_depth":  "1",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "DoEvents call site; entering bounded pump loop"
+                                        },
+                                        {
+                                            "sequence":  "4",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "Click",
+                                            "row_kind":  "handler",
+                                            "handler_depth":  "2",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "click handler start at depth 2"
+                                        },
+                                        {
+                                            "sequence":  "5",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "ReentrantClick",
+                                            "row_kind":  "reentrant_handler",
+                                            "handler_depth":  "2",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "this Click reentered YieldButton_Click during the outer DoEvents pump at depth 2"
+                                        },
+                                        {
+                                            "sequence":  "6",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "ClickEnd",
+                                            "row_kind":  "handler",
+                                            "handler_depth":  "2",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "click handler resume/end at depth 2"
+                                        },
+                                        {
+                                            "sequence":  "7",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "AfterDoEvents",
+                                            "row_kind":  "handler",
+                                            "handler_depth":  "1",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "DoEvents pump loop returned"
+                                        },
+                                        {
+                                            "sequence":  "8",
+                                            "form_name":  "OxFormsW006DoEvents",
+                                            "control_name":  "YieldButton",
+                                            "event_name":  "ClickEnd",
+                                            "row_kind":  "handler",
+                                            "handler_depth":  "1",
+                                            "active_handler":  "YieldButton_Click",
+                                            "notes":  "click handler resume/end at depth 1"
+                                        }
+                                    ]
+                       },
+    "assumptions":  [
+                        "Rows are worksheet rows emitted by repo-owned VBA handlers while real Excel/MSForms handled the injected clicks and the DoEvents pump.",
+                        "handler_depth is explicit VBA instrumentation (enter/exit counter), not a private Office call-stack metric."
+                    ],
+    "unknowns":  [
+                     "This capture exercises one reentrant click during one DoEvents pump; it does not enumerate all DoEvents/yield scenarios, queued services, timers, or modal-frame yields."
+                 ],
+    "non_claims":  [
+                       "No OxForms runtime DoEvents, forms-owned event loop, or yield/resume behavior is implemented or claimed by this oracle.",
+                       "Absence of a row is not a negative parity fact."
+                   ]
+}

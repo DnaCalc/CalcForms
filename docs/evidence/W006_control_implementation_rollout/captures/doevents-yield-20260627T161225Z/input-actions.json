@@ -1,0 +1,1483 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_doevents_yield_input_actions.v1",
+    "bead":  "oxforms-0a0.23",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "label":  "outer_click_enters_doevents_pump",
+                                 "screen_x":  960,
+                                 "screen_y":  540,
+                                 "foreground":  {
+                                                    "schema":  "oxforms.w005.foreground_transition.v1",
+                                                    "api":  "public_user32_ShowWindow_SetForegroundWindow",
+                                                    "set_foreground_result":  false,
+                                                    "before":  {
+                                                                   "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                   "phase":  "before_set_foreground",
+                                                                   "captured_at_utc":  "2026-06-27T16:12:32.0229298Z",
+                                                                   "foreground_window":  {
+                                                                                             "handle":  "0xB0A78",
+                                                                                             "title":  "⠂ fix-dnatreecalc-name-refs",
+                                                                                             "class_name":  "CASCADIA_HOSTING_WINDOW_CLASS",
+                                                                                             "process_id":  8392,
+                                                                                             "process_name":  "WindowsTerminal",
+                                                                                             "thread_id":  27832,
+                                                                                             "bounds":  {
+                                                                                                            "left":  -8,
+                                                                                                            "top":  -8,
+                                                                                                            "right":  1928,
+                                                                                                            "bottom":  1040,
+                                                                                                            "width":  1936,
+                                                                                                            "height":  1048
+                                                                                                        }
+                                                                                         },
+                                                                   "process_thread_focus_window":  null,
+                                                                   "target_window":  {
+                                                                                         "handle":  "0x18E19CC",
+                                                                                         "title":  "OxForms W006 DoEvents Oracle",
+                                                                                         "class_name":  "ThunderDFrame",
+                                                                                         "process_id":  42532,
+                                                                                         "process_name":  "EXCEL",
+                                                                                         "thread_id":  58880,
+                                                                                         "bounds":  {
+                                                                                                        "left":  826,
+                                                                                                        "top":  460,
+                                                                                                        "right":  1093,
+                                                                                                        "bottom":  620,
+                                                                                                        "width":  267,
+                                                                                                        "height":  160
+                                                                                                    }
+                                                                                     },
+                                                                   "target_thread_gui":  {
+                                                                                             "thread_id":  58880,
+                                                                                             "active_window":  {
+                                                                                                                   "handle":  "0x18E19CC",
+                                                                                                                   "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                   "class_name":  "ThunderDFrame",
+                                                                                                                   "process_id":  42532,
+                                                                                                                   "process_name":  "EXCEL",
+                                                                                                                   "thread_id":  58880,
+                                                                                                                   "bounds":  {
+                                                                                                                                  "left":  826,
+                                                                                                                                  "top":  460,
+                                                                                                                                  "right":  1093,
+                                                                                                                                  "bottom":  620,
+                                                                                                                                  "width":  267,
+                                                                                                                                  "height":  160
+                                                                                                                              }
+                                                                                                               },
+                                                                                             "focus_window":  {
+                                                                                                                  "handle":  "0x4A1CF8",
+                                                                                                                  "title":  "",
+                                                                                                                  "class_name":  "F3 Server c13d0000",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  834,
+                                                                                                                                 "top":  491,
+                                                                                                                                 "right":  1085,
+                                                                                                                                 "bottom":  612,
+                                                                                                                                 "width":  251,
+                                                                                                                                 "height":  121
+                                                                                                                             }
+                                                                                                              },
+                                                                                             "capture_window":  null,
+                                                                                             "caret_window":  null
+                                                                                         },
+                                                                   "cursor_screen_pixels":  {
+                                                                                                "x":  481,
+                                                                                                "y":  719
+                                                                                            },
+                                                                   "notes":  [
+                                                                                 "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                 "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                             ]
+                                                               },
+                                                    "after":  {
+                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                  "phase":  "after_set_foreground",
+                                                                  "captured_at_utc":  "2026-06-27T16:12:32.2971147Z",
+                                                                  "foreground_window":  {
+                                                                                            "handle":  "0xB0A78",
+                                                                                            "title":  "⠂ fix-dnatreecalc-name-refs",
+                                                                                            "class_name":  "CASCADIA_HOSTING_WINDOW_CLASS",
+                                                                                            "process_id":  8392,
+                                                                                            "process_name":  "WindowsTerminal",
+                                                                                            "thread_id":  27832,
+                                                                                            "bounds":  {
+                                                                                                           "left":  -8,
+                                                                                                           "top":  -8,
+                                                                                                           "right":  1928,
+                                                                                                           "bottom":  1040,
+                                                                                                           "width":  1936,
+                                                                                                           "height":  1048
+                                                                                                       }
+                                                                                        },
+                                                                  "process_thread_focus_window":  null,
+                                                                  "target_window":  {
+                                                                                        "handle":  "0x18E19CC",
+                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                        "class_name":  "ThunderDFrame",
+                                                                                        "process_id":  42532,
+                                                                                        "process_name":  "EXCEL",
+                                                                                        "thread_id":  58880,
+                                                                                        "bounds":  {
+                                                                                                       "left":  826,
+                                                                                                       "top":  460,
+                                                                                                       "right":  1093,
+                                                                                                       "bottom":  620,
+                                                                                                       "width":  267,
+                                                                                                       "height":  160
+                                                                                                   }
+                                                                                    },
+                                                                  "target_thread_gui":  {
+                                                                                            "thread_id":  58880,
+                                                                                            "active_window":  {
+                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  826,
+                                                                                                                                 "top":  460,
+                                                                                                                                 "right":  1093,
+                                                                                                                                 "bottom":  620,
+                                                                                                                                 "width":  267,
+                                                                                                                                 "height":  160
+                                                                                                                             }
+                                                                                                              },
+                                                                                            "focus_window":  {
+                                                                                                                 "handle":  "0x4A1CF8",
+                                                                                                                 "title":  "",
+                                                                                                                 "class_name":  "F3 Server c13d0000",
+                                                                                                                 "process_id":  42532,
+                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                 "thread_id":  58880,
+                                                                                                                 "bounds":  {
+                                                                                                                                "left":  834,
+                                                                                                                                "top":  491,
+                                                                                                                                "right":  1085,
+                                                                                                                                "bottom":  612,
+                                                                                                                                "width":  251,
+                                                                                                                                "height":  121
+                                                                                                                            }
+                                                                                                             },
+                                                                                            "capture_window":  null,
+                                                                                            "caret_window":  null
+                                                                                        },
+                                                                  "cursor_screen_pixels":  {
+                                                                                               "x":  481,
+                                                                                               "y":  719
+                                                                                           },
+                                                                  "notes":  [
+                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                            ]
+                                                              }
+                                                },
+                                 "input":  {
+                                               "schema":  "oxforms.w005.sendinput_mouse_action.v1",
+                                               "input_driver":  "public_user32_sendinput",
+                                               "action":  "mouse_click",
+                                               "target_screen_pixels":  {
+                                                                            "x":  960,
+                                                                            "y":  540
+                                                                        },
+                                               "set_cursor_result":  true,
+                                               "send_input":  {
+                                                                  "requested_down":  1,
+                                                                  "sent_down":  1,
+                                                                  "requested_up":  1,
+                                                                  "sent_up":  1
+                                                              },
+                                               "diagnostics":  {
+                                                                   "before":  {
+                                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                  "phase":  "before_sendinput_mouse_click",
+                                                                                  "captured_at_utc":  "2026-06-27T16:12:32.3468281Z",
+                                                                                  "foreground_window":  {
+                                                                                                            "handle":  "0xB0A78",
+                                                                                                            "title":  "⠂ fix-dnatreecalc-name-refs",
+                                                                                                            "class_name":  "CASCADIA_HOSTING_WINDOW_CLASS",
+                                                                                                            "process_id":  8392,
+                                                                                                            "process_name":  "WindowsTerminal",
+                                                                                                            "thread_id":  27832,
+                                                                                                            "bounds":  {
+                                                                                                                           "left":  -8,
+                                                                                                                           "top":  -8,
+                                                                                                                           "right":  1928,
+                                                                                                                           "bottom":  1040,
+                                                                                                                           "width":  1936,
+                                                                                                                           "height":  1048
+                                                                                                                       }
+                                                                                                        },
+                                                                                  "process_thread_focus_window":  null,
+                                                                                  "target_window":  {
+                                                                                                        "handle":  "0x18E19CC",
+                                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                        "class_name":  "ThunderDFrame",
+                                                                                                        "process_id":  42532,
+                                                                                                        "process_name":  "EXCEL",
+                                                                                                        "thread_id":  58880,
+                                                                                                        "bounds":  {
+                                                                                                                       "left":  826,
+                                                                                                                       "top":  460,
+                                                                                                                       "right":  1093,
+                                                                                                                       "bottom":  620,
+                                                                                                                       "width":  267,
+                                                                                                                       "height":  160
+                                                                                                                   }
+                                                                                                    },
+                                                                                  "target_thread_gui":  {
+                                                                                                            "thread_id":  58880,
+                                                                                                            "active_window":  {
+                                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                                  "process_id":  42532,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  58880,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  826,
+                                                                                                                                                 "top":  460,
+                                                                                                                                                 "right":  1093,
+                                                                                                                                                 "bottom":  620,
+                                                                                                                                                 "width":  267,
+                                                                                                                                                 "height":  160
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                            "focus_window":  {
+                                                                                                                                 "handle":  "0x4A1CF8",
+                                                                                                                                 "title":  "",
+                                                                                                                                 "class_name":  "F3 Server c13d0000",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  834,
+                                                                                                                                                "top":  491,
+                                                                                                                                                "right":  1085,
+                                                                                                                                                "bottom":  612,
+                                                                                                                                                "width":  251,
+                                                                                                                                                "height":  121
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                            "capture_window":  null,
+                                                                                                            "caret_window":  null
+                                                                                                        },
+                                                                                  "cursor_screen_pixels":  {
+                                                                                                               "x":  481,
+                                                                                                               "y":  719
+                                                                                                           },
+                                                                                  "notes":  [
+                                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                            ]
+                                                                              },
+                                                                   "after":  {
+                                                                                 "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                 "phase":  "after_sendinput_mouse_click",
+                                                                                 "captured_at_utc":  "2026-06-27T16:12:32.9685545Z",
+                                                                                 "foreground_window":  {
+                                                                                                           "handle":  "0xB0A78",
+                                                                                                           "title":  "⠐ fix-dnatreecalc-name-refs",
+                                                                                                           "class_name":  "CASCADIA_HOSTING_WINDOW_CLASS",
+                                                                                                           "process_id":  8392,
+                                                                                                           "process_name":  "WindowsTerminal",
+                                                                                                           "thread_id":  27832,
+                                                                                                           "bounds":  {
+                                                                                                                          "left":  -8,
+                                                                                                                          "top":  -8,
+                                                                                                                          "right":  1928,
+                                                                                                                          "bottom":  1040,
+                                                                                                                          "width":  1936,
+                                                                                                                          "height":  1048
+                                                                                                                      }
+                                                                                                       },
+                                                                                 "process_thread_focus_window":  null,
+                                                                                 "target_window":  {
+                                                                                                       "handle":  "0x18E19CC",
+                                                                                                       "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                       "class_name":  "ThunderDFrame",
+                                                                                                       "process_id":  42532,
+                                                                                                       "process_name":  "EXCEL",
+                                                                                                       "thread_id":  58880,
+                                                                                                       "bounds":  {
+                                                                                                                      "left":  826,
+                                                                                                                      "top":  460,
+                                                                                                                      "right":  1093,
+                                                                                                                      "bottom":  620,
+                                                                                                                      "width":  267,
+                                                                                                                      "height":  160
+                                                                                                                  }
+                                                                                                   },
+                                                                                 "target_thread_gui":  {
+                                                                                                           "thread_id":  58880,
+                                                                                                           "active_window":  {
+                                                                                                                                 "handle":  "0x18E19CC",
+                                                                                                                                 "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                 "class_name":  "ThunderDFrame",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  826,
+                                                                                                                                                "top":  460,
+                                                                                                                                                "right":  1093,
+                                                                                                                                                "bottom":  620,
+                                                                                                                                                "width":  267,
+                                                                                                                                                "height":  160
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                           "focus_window":  {
+                                                                                                                                "handle":  "0x4A1CF8",
+                                                                                                                                "title":  "",
+                                                                                                                                "class_name":  "F3 Server c13d0000",
+                                                                                                                                "process_id":  42532,
+                                                                                                                                "process_name":  "EXCEL",
+                                                                                                                                "thread_id":  58880,
+                                                                                                                                "bounds":  {
+                                                                                                                                               "left":  834,
+                                                                                                                                               "top":  491,
+                                                                                                                                               "right":  1085,
+                                                                                                                                               "bottom":  612,
+                                                                                                                                               "width":  251,
+                                                                                                                                               "height":  121
+                                                                                                                                           }
+                                                                                                                            },
+                                                                                                           "capture_window":  null,
+                                                                                                           "caret_window":  null
+                                                                                                       },
+                                                                                 "cursor_screen_pixels":  {
+                                                                                                              "x":  1386,
+                                                                                                              "y":  629
+                                                                                                          },
+                                                                                 "notes":  [
+                                                                                               "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                               "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                           ]
+                                                                             }
+                                                               }
+                                           }
+                             },
+                             {
+                                 "label":  "reentrant_click_attempt_1",
+                                 "screen_x":  960,
+                                 "screen_y":  540,
+                                 "foreground":  {
+                                                    "schema":  "oxforms.w005.foreground_transition.v1",
+                                                    "api":  "public_user32_ShowWindow_SetForegroundWindow",
+                                                    "set_foreground_result":  true,
+                                                    "before":  {
+                                                                   "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                   "phase":  "before_set_foreground",
+                                                                   "captured_at_utc":  "2026-06-27T16:12:33.6418140Z",
+                                                                   "foreground_window":  {
+                                                                                             "handle":  "0xB0A78",
+                                                                                             "title":  "⠂ fix-dnatreecalc-name-refs",
+                                                                                             "class_name":  "CASCADIA_HOSTING_WINDOW_CLASS",
+                                                                                             "process_id":  8392,
+                                                                                             "process_name":  "WindowsTerminal",
+                                                                                             "thread_id":  27832,
+                                                                                             "bounds":  {
+                                                                                                            "left":  -8,
+                                                                                                            "top":  -8,
+                                                                                                            "right":  1928,
+                                                                                                            "bottom":  1040,
+                                                                                                            "width":  1936,
+                                                                                                            "height":  1048
+                                                                                                        }
+                                                                                         },
+                                                                   "process_thread_focus_window":  null,
+                                                                   "target_window":  {
+                                                                                         "handle":  "0x18E19CC",
+                                                                                         "title":  "OxForms W006 DoEvents Oracle",
+                                                                                         "class_name":  "ThunderDFrame",
+                                                                                         "process_id":  42532,
+                                                                                         "process_name":  "EXCEL",
+                                                                                         "thread_id":  58880,
+                                                                                         "bounds":  {
+                                                                                                        "left":  826,
+                                                                                                        "top":  460,
+                                                                                                        "right":  1093,
+                                                                                                        "bottom":  620,
+                                                                                                        "width":  267,
+                                                                                                        "height":  160
+                                                                                                    }
+                                                                                     },
+                                                                   "target_thread_gui":  {
+                                                                                             "thread_id":  58880,
+                                                                                             "active_window":  {
+                                                                                                                   "handle":  "0x18E19CC",
+                                                                                                                   "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                   "class_name":  "ThunderDFrame",
+                                                                                                                   "process_id":  42532,
+                                                                                                                   "process_name":  "EXCEL",
+                                                                                                                   "thread_id":  58880,
+                                                                                                                   "bounds":  {
+                                                                                                                                  "left":  826,
+                                                                                                                                  "top":  460,
+                                                                                                                                  "right":  1093,
+                                                                                                                                  "bottom":  620,
+                                                                                                                                  "width":  267,
+                                                                                                                                  "height":  160
+                                                                                                                              }
+                                                                                                               },
+                                                                                             "focus_window":  {
+                                                                                                                  "handle":  "0x4A1CF8",
+                                                                                                                  "title":  "",
+                                                                                                                  "class_name":  "F3 Server c13d0000",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  834,
+                                                                                                                                 "top":  491,
+                                                                                                                                 "right":  1085,
+                                                                                                                                 "bottom":  612,
+                                                                                                                                 "width":  251,
+                                                                                                                                 "height":  121
+                                                                                                                             }
+                                                                                                              },
+                                                                                             "capture_window":  null,
+                                                                                             "caret_window":  null
+                                                                                         },
+                                                                   "cursor_screen_pixels":  {
+                                                                                                "x":  974,
+                                                                                                "y":  291
+                                                                                            },
+                                                                   "notes":  [
+                                                                                 "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                 "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                             ]
+                                                               },
+                                                    "after":  {
+                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                  "phase":  "after_set_foreground",
+                                                                  "captured_at_utc":  "2026-06-27T16:12:33.9313194Z",
+                                                                  "foreground_window":  {
+                                                                                            "handle":  "0x18E19CC",
+                                                                                            "title":  "OxForms W006 DoEvents Oracle",
+                                                                                            "class_name":  "ThunderDFrame",
+                                                                                            "process_id":  42532,
+                                                                                            "process_name":  "EXCEL",
+                                                                                            "thread_id":  58880,
+                                                                                            "bounds":  {
+                                                                                                           "left":  826,
+                                                                                                           "top":  460,
+                                                                                                           "right":  1093,
+                                                                                                           "bottom":  620,
+                                                                                                           "width":  267,
+                                                                                                           "height":  160
+                                                                                                       }
+                                                                                        },
+                                                                  "process_thread_focus_window":  null,
+                                                                  "target_window":  {
+                                                                                        "handle":  "0x18E19CC",
+                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                        "class_name":  "ThunderDFrame",
+                                                                                        "process_id":  42532,
+                                                                                        "process_name":  "EXCEL",
+                                                                                        "thread_id":  58880,
+                                                                                        "bounds":  {
+                                                                                                       "left":  826,
+                                                                                                       "top":  460,
+                                                                                                       "right":  1093,
+                                                                                                       "bottom":  620,
+                                                                                                       "width":  267,
+                                                                                                       "height":  160
+                                                                                                   }
+                                                                                    },
+                                                                  "target_thread_gui":  {
+                                                                                            "thread_id":  58880,
+                                                                                            "active_window":  {
+                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  826,
+                                                                                                                                 "top":  460,
+                                                                                                                                 "right":  1093,
+                                                                                                                                 "bottom":  620,
+                                                                                                                                 "width":  267,
+                                                                                                                                 "height":  160
+                                                                                                                             }
+                                                                                                              },
+                                                                                            "focus_window":  {
+                                                                                                                 "handle":  "0x4A1CF8",
+                                                                                                                 "title":  "",
+                                                                                                                 "class_name":  "F3 Server c13d0000",
+                                                                                                                 "process_id":  42532,
+                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                 "thread_id":  58880,
+                                                                                                                 "bounds":  {
+                                                                                                                                "left":  834,
+                                                                                                                                "top":  491,
+                                                                                                                                "right":  1085,
+                                                                                                                                "bottom":  612,
+                                                                                                                                "width":  251,
+                                                                                                                                "height":  121
+                                                                                                                            }
+                                                                                                             },
+                                                                                            "capture_window":  null,
+                                                                                            "caret_window":  null
+                                                                                        },
+                                                                  "cursor_screen_pixels":  {
+                                                                                               "x":  881,
+                                                                                               "y":  460
+                                                                                           },
+                                                                  "notes":  [
+                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                            ]
+                                                              }
+                                                },
+                                 "input":  {
+                                               "schema":  "oxforms.w005.sendinput_mouse_action.v1",
+                                               "input_driver":  "public_user32_sendinput",
+                                               "action":  "mouse_click",
+                                               "target_screen_pixels":  {
+                                                                            "x":  960,
+                                                                            "y":  540
+                                                                        },
+                                               "set_cursor_result":  true,
+                                               "send_input":  {
+                                                                  "requested_down":  1,
+                                                                  "sent_down":  1,
+                                                                  "requested_up":  1,
+                                                                  "sent_up":  1
+                                                              },
+                                               "diagnostics":  {
+                                                                   "before":  {
+                                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                  "phase":  "before_sendinput_mouse_click",
+                                                                                  "captured_at_utc":  "2026-06-27T16:12:33.9702885Z",
+                                                                                  "foreground_window":  {
+                                                                                                            "handle":  "0x18E19CC",
+                                                                                                            "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                            "class_name":  "ThunderDFrame",
+                                                                                                            "process_id":  42532,
+                                                                                                            "process_name":  "EXCEL",
+                                                                                                            "thread_id":  58880,
+                                                                                                            "bounds":  {
+                                                                                                                           "left":  826,
+                                                                                                                           "top":  460,
+                                                                                                                           "right":  1093,
+                                                                                                                           "bottom":  620,
+                                                                                                                           "width":  267,
+                                                                                                                           "height":  160
+                                                                                                                       }
+                                                                                                        },
+                                                                                  "process_thread_focus_window":  null,
+                                                                                  "target_window":  {
+                                                                                                        "handle":  "0x18E19CC",
+                                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                        "class_name":  "ThunderDFrame",
+                                                                                                        "process_id":  42532,
+                                                                                                        "process_name":  "EXCEL",
+                                                                                                        "thread_id":  58880,
+                                                                                                        "bounds":  {
+                                                                                                                       "left":  826,
+                                                                                                                       "top":  460,
+                                                                                                                       "right":  1093,
+                                                                                                                       "bottom":  620,
+                                                                                                                       "width":  267,
+                                                                                                                       "height":  160
+                                                                                                                   }
+                                                                                                    },
+                                                                                  "target_thread_gui":  {
+                                                                                                            "thread_id":  58880,
+                                                                                                            "active_window":  {
+                                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                                  "process_id":  42532,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  58880,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  826,
+                                                                                                                                                 "top":  460,
+                                                                                                                                                 "right":  1093,
+                                                                                                                                                 "bottom":  620,
+                                                                                                                                                 "width":  267,
+                                                                                                                                                 "height":  160
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                            "focus_window":  {
+                                                                                                                                 "handle":  "0x4A1CF8",
+                                                                                                                                 "title":  "",
+                                                                                                                                 "class_name":  "F3 Server c13d0000",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  834,
+                                                                                                                                                "top":  491,
+                                                                                                                                                "right":  1085,
+                                                                                                                                                "bottom":  612,
+                                                                                                                                                "width":  251,
+                                                                                                                                                "height":  121
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                            "capture_window":  null,
+                                                                                                            "caret_window":  null
+                                                                                                        },
+                                                                                  "cursor_screen_pixels":  {
+                                                                                                               "x":  860,
+                                                                                                               "y":  447
+                                                                                                           },
+                                                                                  "notes":  [
+                                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                            ]
+                                                                              },
+                                                                   "after":  {
+                                                                                 "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                 "phase":  "after_sendinput_mouse_click",
+                                                                                 "captured_at_utc":  "2026-06-27T16:12:34.5815024Z",
+                                                                                 "foreground_window":  {
+                                                                                                           "handle":  "0xA01384",
+                                                                                                           "title":  "w006-doevents-yield-oracle.xlsm - Excel",
+                                                                                                           "class_name":  "XLMAIN",
+                                                                                                           "process_id":  42532,
+                                                                                                           "process_name":  "EXCEL",
+                                                                                                           "thread_id":  58880,
+                                                                                                           "bounds":  {
+                                                                                                                          "left":  184,
+                                                                                                                          "top":  149,
+                                                                                                                          "right":  1624,
+                                                                                                                          "bottom":  902,
+                                                                                                                          "width":  1440,
+                                                                                                                          "height":  753
+                                                                                                                      }
+                                                                                                       },
+                                                                                 "process_thread_focus_window":  null,
+                                                                                 "target_window":  {
+                                                                                                       "handle":  "0x18E19CC",
+                                                                                                       "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                       "class_name":  "ThunderDFrame",
+                                                                                                       "process_id":  42532,
+                                                                                                       "process_name":  "EXCEL",
+                                                                                                       "thread_id":  58880,
+                                                                                                       "bounds":  {
+                                                                                                                      "left":  826,
+                                                                                                                      "top":  460,
+                                                                                                                      "right":  1093,
+                                                                                                                      "bottom":  620,
+                                                                                                                      "width":  267,
+                                                                                                                      "height":  160
+                                                                                                                  }
+                                                                                                   },
+                                                                                 "target_thread_gui":  {
+                                                                                                           "thread_id":  58880,
+                                                                                                           "active_window":  {
+                                                                                                                                 "handle":  "0xA01384",
+                                                                                                                                 "title":  "w006-doevents-yield-oracle.xlsm - Excel",
+                                                                                                                                 "class_name":  "XLMAIN",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  184,
+                                                                                                                                                "top":  149,
+                                                                                                                                                "right":  1624,
+                                                                                                                                                "bottom":  902,
+                                                                                                                                                "width":  1440,
+                                                                                                                                                "height":  753
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                           "focus_window":  {
+                                                                                                                                "handle":  "0x660EF2",
+                                                                                                                                "title":  "w006-doevents-yield-oracle.xlsm",
+                                                                                                                                "class_name":  "EXCEL7",
+                                                                                                                                "process_id":  42532,
+                                                                                                                                "process_name":  "EXCEL",
+                                                                                                                                "thread_id":  58880,
+                                                                                                                                "bounds":  {
+                                                                                                                                               "left":  192,
+                                                                                                                                               "top":  369,
+                                                                                                                                               "right":  1616,
+                                                                                                                                               "bottom":  872,
+                                                                                                                                               "width":  1424,
+                                                                                                                                               "height":  503
+                                                                                                                                           }
+                                                                                                                            },
+                                                                                                           "capture_window":  null,
+                                                                                                           "caret_window":  {
+                                                                                                                                "handle":  "0x660EF2",
+                                                                                                                                "title":  "w006-doevents-yield-oracle.xlsm",
+                                                                                                                                "class_name":  "EXCEL7",
+                                                                                                                                "process_id":  42532,
+                                                                                                                                "process_name":  "EXCEL",
+                                                                                                                                "thread_id":  58880,
+                                                                                                                                "bounds":  {
+                                                                                                                                               "left":  192,
+                                                                                                                                               "top":  369,
+                                                                                                                                               "right":  1616,
+                                                                                                                                               "bottom":  872,
+                                                                                                                                               "width":  1424,
+                                                                                                                                               "height":  503
+                                                                                                                                           }
+                                                                                                                            }
+                                                                                                       },
+                                                                                 "cursor_screen_pixels":  {
+                                                                                                              "x":  1022,
+                                                                                                              "y":  711
+                                                                                                          },
+                                                                                 "notes":  [
+                                                                                               "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                               "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                           ]
+                                                                             }
+                                                               }
+                                           }
+                             },
+                             {
+                                 "label":  "reentrant_click_attempt_2",
+                                 "screen_x":  960,
+                                 "screen_y":  540,
+                                 "foreground":  {
+                                                    "schema":  "oxforms.w005.foreground_transition.v1",
+                                                    "api":  "public_user32_ShowWindow_SetForegroundWindow",
+                                                    "set_foreground_result":  true,
+                                                    "before":  {
+                                                                   "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                   "phase":  "before_set_foreground",
+                                                                   "captured_at_utc":  "2026-06-27T16:12:35.2455601Z",
+                                                                   "foreground_window":  {
+                                                                                             "handle":  "0xA01384",
+                                                                                             "title":  "w006-doevents-yield-oracle.xlsm - Excel",
+                                                                                             "class_name":  "XLMAIN",
+                                                                                             "process_id":  42532,
+                                                                                             "process_name":  "EXCEL",
+                                                                                             "thread_id":  58880,
+                                                                                             "bounds":  {
+                                                                                                            "left":  184,
+                                                                                                            "top":  149,
+                                                                                                            "right":  1624,
+                                                                                                            "bottom":  902,
+                                                                                                            "width":  1440,
+                                                                                                            "height":  753
+                                                                                                        }
+                                                                                         },
+                                                                   "process_thread_focus_window":  null,
+                                                                   "target_window":  {
+                                                                                         "handle":  "0x18E19CC",
+                                                                                         "title":  "OxForms W006 DoEvents Oracle",
+                                                                                         "class_name":  "ThunderDFrame",
+                                                                                         "process_id":  42532,
+                                                                                         "process_name":  "EXCEL",
+                                                                                         "thread_id":  58880,
+                                                                                         "bounds":  {
+                                                                                                        "left":  826,
+                                                                                                        "top":  460,
+                                                                                                        "right":  1093,
+                                                                                                        "bottom":  620,
+                                                                                                        "width":  267,
+                                                                                                        "height":  160
+                                                                                                    }
+                                                                                     },
+                                                                   "target_thread_gui":  {
+                                                                                             "thread_id":  58880,
+                                                                                             "active_window":  {
+                                                                                                                   "handle":  "0xA01384",
+                                                                                                                   "title":  "w006-doevents-yield-oracle.xlsm - Excel",
+                                                                                                                   "class_name":  "XLMAIN",
+                                                                                                                   "process_id":  42532,
+                                                                                                                   "process_name":  "EXCEL",
+                                                                                                                   "thread_id":  58880,
+                                                                                                                   "bounds":  {
+                                                                                                                                  "left":  184,
+                                                                                                                                  "top":  149,
+                                                                                                                                  "right":  1624,
+                                                                                                                                  "bottom":  902,
+                                                                                                                                  "width":  1440,
+                                                                                                                                  "height":  753
+                                                                                                                              }
+                                                                                                               },
+                                                                                             "focus_window":  {
+                                                                                                                  "handle":  "0x660EF2",
+                                                                                                                  "title":  "w006-doevents-yield-oracle.xlsm",
+                                                                                                                  "class_name":  "EXCEL7",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  192,
+                                                                                                                                 "top":  369,
+                                                                                                                                 "right":  1616,
+                                                                                                                                 "bottom":  872,
+                                                                                                                                 "width":  1424,
+                                                                                                                                 "height":  503
+                                                                                                                             }
+                                                                                                              },
+                                                                                             "capture_window":  null,
+                                                                                             "caret_window":  {
+                                                                                                                  "handle":  "0x660EF2",
+                                                                                                                  "title":  "w006-doevents-yield-oracle.xlsm",
+                                                                                                                  "class_name":  "EXCEL7",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  192,
+                                                                                                                                 "top":  369,
+                                                                                                                                 "right":  1616,
+                                                                                                                                 "bottom":  872,
+                                                                                                                                 "width":  1424,
+                                                                                                                                 "height":  503
+                                                                                                                             }
+                                                                                                              }
+                                                                                         },
+                                                                   "cursor_screen_pixels":  {
+                                                                                                "x":  1022,
+                                                                                                "y":  711
+                                                                                            },
+                                                                   "notes":  [
+                                                                                 "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                 "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                             ]
+                                                               },
+                                                    "after":  {
+                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                  "phase":  "after_set_foreground",
+                                                                  "captured_at_utc":  "2026-06-27T16:12:35.5295062Z",
+                                                                  "foreground_window":  {
+                                                                                            "handle":  "0x18E19CC",
+                                                                                            "title":  "OxForms W006 DoEvents Oracle",
+                                                                                            "class_name":  "ThunderDFrame",
+                                                                                            "process_id":  42532,
+                                                                                            "process_name":  "EXCEL",
+                                                                                            "thread_id":  58880,
+                                                                                            "bounds":  {
+                                                                                                           "left":  826,
+                                                                                                           "top":  460,
+                                                                                                           "right":  1093,
+                                                                                                           "bottom":  620,
+                                                                                                           "width":  267,
+                                                                                                           "height":  160
+                                                                                                       }
+                                                                                        },
+                                                                  "process_thread_focus_window":  null,
+                                                                  "target_window":  {
+                                                                                        "handle":  "0x18E19CC",
+                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                        "class_name":  "ThunderDFrame",
+                                                                                        "process_id":  42532,
+                                                                                        "process_name":  "EXCEL",
+                                                                                        "thread_id":  58880,
+                                                                                        "bounds":  {
+                                                                                                       "left":  826,
+                                                                                                       "top":  460,
+                                                                                                       "right":  1093,
+                                                                                                       "bottom":  620,
+                                                                                                       "width":  267,
+                                                                                                       "height":  160
+                                                                                                   }
+                                                                                    },
+                                                                  "target_thread_gui":  {
+                                                                                            "thread_id":  58880,
+                                                                                            "active_window":  {
+                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  826,
+                                                                                                                                 "top":  460,
+                                                                                                                                 "right":  1093,
+                                                                                                                                 "bottom":  620,
+                                                                                                                                 "width":  267,
+                                                                                                                                 "height":  160
+                                                                                                                             }
+                                                                                                              },
+                                                                                            "focus_window":  {
+                                                                                                                 "handle":  "0x18E19CC",
+                                                                                                                 "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                 "class_name":  "ThunderDFrame",
+                                                                                                                 "process_id":  42532,
+                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                 "thread_id":  58880,
+                                                                                                                 "bounds":  {
+                                                                                                                                "left":  826,
+                                                                                                                                "top":  460,
+                                                                                                                                "right":  1093,
+                                                                                                                                "bottom":  620,
+                                                                                                                                "width":  267,
+                                                                                                                                "height":  160
+                                                                                                                            }
+                                                                                                             },
+                                                                                            "capture_window":  null,
+                                                                                            "caret_window":  null
+                                                                                        },
+                                                                  "cursor_screen_pixels":  {
+                                                                                               "x":  1022,
+                                                                                               "y":  711
+                                                                                           },
+                                                                  "notes":  [
+                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                            ]
+                                                              }
+                                                },
+                                 "input":  {
+                                               "schema":  "oxforms.w005.sendinput_mouse_action.v1",
+                                               "input_driver":  "public_user32_sendinput",
+                                               "action":  "mouse_click",
+                                               "target_screen_pixels":  {
+                                                                            "x":  960,
+                                                                            "y":  540
+                                                                        },
+                                               "set_cursor_result":  true,
+                                               "send_input":  {
+                                                                  "requested_down":  1,
+                                                                  "sent_down":  1,
+                                                                  "requested_up":  1,
+                                                                  "sent_up":  1
+                                                              },
+                                               "diagnostics":  {
+                                                                   "before":  {
+                                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                  "phase":  "before_sendinput_mouse_click",
+                                                                                  "captured_at_utc":  "2026-06-27T16:12:35.5755652Z",
+                                                                                  "foreground_window":  {
+                                                                                                            "handle":  "0x18E19CC",
+                                                                                                            "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                            "class_name":  "ThunderDFrame",
+                                                                                                            "process_id":  42532,
+                                                                                                            "process_name":  "EXCEL",
+                                                                                                            "thread_id":  58880,
+                                                                                                            "bounds":  {
+                                                                                                                           "left":  826,
+                                                                                                                           "top":  460,
+                                                                                                                           "right":  1093,
+                                                                                                                           "bottom":  620,
+                                                                                                                           "width":  267,
+                                                                                                                           "height":  160
+                                                                                                                       }
+                                                                                                        },
+                                                                                  "process_thread_focus_window":  null,
+                                                                                  "target_window":  {
+                                                                                                        "handle":  "0x18E19CC",
+                                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                        "class_name":  "ThunderDFrame",
+                                                                                                        "process_id":  42532,
+                                                                                                        "process_name":  "EXCEL",
+                                                                                                        "thread_id":  58880,
+                                                                                                        "bounds":  {
+                                                                                                                       "left":  826,
+                                                                                                                       "top":  460,
+                                                                                                                       "right":  1093,
+                                                                                                                       "bottom":  620,
+                                                                                                                       "width":  267,
+                                                                                                                       "height":  160
+                                                                                                                   }
+                                                                                                    },
+                                                                                  "target_thread_gui":  {
+                                                                                                            "thread_id":  58880,
+                                                                                                            "active_window":  {
+                                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                                  "process_id":  42532,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  58880,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  826,
+                                                                                                                                                 "top":  460,
+                                                                                                                                                 "right":  1093,
+                                                                                                                                                 "bottom":  620,
+                                                                                                                                                 "width":  267,
+                                                                                                                                                 "height":  160
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                            "focus_window":  {
+                                                                                                                                 "handle":  "0x18E19CC",
+                                                                                                                                 "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                 "class_name":  "ThunderDFrame",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  826,
+                                                                                                                                                "top":  460,
+                                                                                                                                                "right":  1093,
+                                                                                                                                                "bottom":  620,
+                                                                                                                                                "width":  267,
+                                                                                                                                                "height":  160
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                            "capture_window":  null,
+                                                                                                            "caret_window":  null
+                                                                                                        },
+                                                                                  "cursor_screen_pixels":  {
+                                                                                                               "x":  1022,
+                                                                                                               "y":  711
+                                                                                                           },
+                                                                                  "notes":  [
+                                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                            ]
+                                                                              },
+                                                                   "after":  {
+                                                                                 "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                 "phase":  "after_sendinput_mouse_click",
+                                                                                 "captured_at_utc":  "2026-06-27T16:12:36.1657328Z",
+                                                                                 "foreground_window":  {
+                                                                                                           "handle":  "0x18E19CC",
+                                                                                                           "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                           "class_name":  "ThunderDFrame",
+                                                                                                           "process_id":  42532,
+                                                                                                           "process_name":  "EXCEL",
+                                                                                                           "thread_id":  58880,
+                                                                                                           "bounds":  {
+                                                                                                                          "left":  826,
+                                                                                                                          "top":  460,
+                                                                                                                          "right":  1093,
+                                                                                                                          "bottom":  620,
+                                                                                                                          "width":  267,
+                                                                                                                          "height":  160
+                                                                                                                      }
+                                                                                                       },
+                                                                                 "process_thread_focus_window":  null,
+                                                                                 "target_window":  {
+                                                                                                       "handle":  "0x18E19CC",
+                                                                                                       "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                       "class_name":  "ThunderDFrame",
+                                                                                                       "process_id":  42532,
+                                                                                                       "process_name":  "EXCEL",
+                                                                                                       "thread_id":  58880,
+                                                                                                       "bounds":  {
+                                                                                                                      "left":  826,
+                                                                                                                      "top":  460,
+                                                                                                                      "right":  1093,
+                                                                                                                      "bottom":  620,
+                                                                                                                      "width":  267,
+                                                                                                                      "height":  160
+                                                                                                                  }
+                                                                                                   },
+                                                                                 "target_thread_gui":  {
+                                                                                                           "thread_id":  58880,
+                                                                                                           "active_window":  {
+                                                                                                                                 "handle":  "0x18E19CC",
+                                                                                                                                 "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                 "class_name":  "ThunderDFrame",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  826,
+                                                                                                                                                "top":  460,
+                                                                                                                                                "right":  1093,
+                                                                                                                                                "bottom":  620,
+                                                                                                                                                "width":  267,
+                                                                                                                                                "height":  160
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                           "focus_window":  {
+                                                                                                                                "handle":  "0x4A1CF8",
+                                                                                                                                "title":  "",
+                                                                                                                                "class_name":  "F3 Server c13d0000",
+                                                                                                                                "process_id":  42532,
+                                                                                                                                "process_name":  "EXCEL",
+                                                                                                                                "thread_id":  58880,
+                                                                                                                                "bounds":  {
+                                                                                                                                               "left":  834,
+                                                                                                                                               "top":  491,
+                                                                                                                                               "right":  1085,
+                                                                                                                                               "bottom":  612,
+                                                                                                                                               "width":  251,
+                                                                                                                                               "height":  121
+                                                                                                                                           }
+                                                                                                                            },
+                                                                                                           "capture_window":  null,
+                                                                                                           "caret_window":  null
+                                                                                                       },
+                                                                                 "cursor_screen_pixels":  {
+                                                                                                              "x":  960,
+                                                                                                              "y":  540
+                                                                                                          },
+                                                                                 "notes":  [
+                                                                                               "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                               "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                           ]
+                                                                             }
+                                                               }
+                                           }
+                             },
+                             {
+                                 "label":  "reentrant_click_attempt_3",
+                                 "screen_x":  960,
+                                 "screen_y":  540,
+                                 "foreground":  {
+                                                    "schema":  "oxforms.w005.foreground_transition.v1",
+                                                    "api":  "public_user32_ShowWindow_SetForegroundWindow",
+                                                    "set_foreground_result":  true,
+                                                    "before":  {
+                                                                   "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                   "phase":  "before_set_foreground",
+                                                                   "captured_at_utc":  "2026-06-27T16:12:36.8377795Z",
+                                                                   "foreground_window":  {
+                                                                                             "handle":  "0x18E19CC",
+                                                                                             "title":  "OxForms W006 DoEvents Oracle",
+                                                                                             "class_name":  "ThunderDFrame",
+                                                                                             "process_id":  42532,
+                                                                                             "process_name":  "EXCEL",
+                                                                                             "thread_id":  58880,
+                                                                                             "bounds":  {
+                                                                                                            "left":  826,
+                                                                                                            "top":  460,
+                                                                                                            "right":  1093,
+                                                                                                            "bottom":  620,
+                                                                                                            "width":  267,
+                                                                                                            "height":  160
+                                                                                                        }
+                                                                                         },
+                                                                   "process_thread_focus_window":  null,
+                                                                   "target_window":  {
+                                                                                         "handle":  "0x18E19CC",
+                                                                                         "title":  "OxForms W006 DoEvents Oracle",
+                                                                                         "class_name":  "ThunderDFrame",
+                                                                                         "process_id":  42532,
+                                                                                         "process_name":  "EXCEL",
+                                                                                         "thread_id":  58880,
+                                                                                         "bounds":  {
+                                                                                                        "left":  826,
+                                                                                                        "top":  460,
+                                                                                                        "right":  1093,
+                                                                                                        "bottom":  620,
+                                                                                                        "width":  267,
+                                                                                                        "height":  160
+                                                                                                    }
+                                                                                     },
+                                                                   "target_thread_gui":  {
+                                                                                             "thread_id":  58880,
+                                                                                             "active_window":  {
+                                                                                                                   "handle":  "0x18E19CC",
+                                                                                                                   "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                   "class_name":  "ThunderDFrame",
+                                                                                                                   "process_id":  42532,
+                                                                                                                   "process_name":  "EXCEL",
+                                                                                                                   "thread_id":  58880,
+                                                                                                                   "bounds":  {
+                                                                                                                                  "left":  826,
+                                                                                                                                  "top":  460,
+                                                                                                                                  "right":  1093,
+                                                                                                                                  "bottom":  620,
+                                                                                                                                  "width":  267,
+                                                                                                                                  "height":  160
+                                                                                                                              }
+                                                                                                               },
+                                                                                             "focus_window":  {
+                                                                                                                  "handle":  "0x4A1CF8",
+                                                                                                                  "title":  "",
+                                                                                                                  "class_name":  "F3 Server c13d0000",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  834,
+                                                                                                                                 "top":  491,
+                                                                                                                                 "right":  1085,
+                                                                                                                                 "bottom":  612,
+                                                                                                                                 "width":  251,
+                                                                                                                                 "height":  121
+                                                                                                                             }
+                                                                                                              },
+                                                                                             "capture_window":  null,
+                                                                                             "caret_window":  null
+                                                                                         },
+                                                                   "cursor_screen_pixels":  {
+                                                                                                "x":  960,
+                                                                                                "y":  540
+                                                                                            },
+                                                                   "notes":  [
+                                                                                 "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                 "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                             ]
+                                                               },
+                                                    "after":  {
+                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                  "phase":  "after_set_foreground",
+                                                                  "captured_at_utc":  "2026-06-27T16:12:37.1155420Z",
+                                                                  "foreground_window":  {
+                                                                                            "handle":  "0x18E19CC",
+                                                                                            "title":  "OxForms W006 DoEvents Oracle",
+                                                                                            "class_name":  "ThunderDFrame",
+                                                                                            "process_id":  42532,
+                                                                                            "process_name":  "EXCEL",
+                                                                                            "thread_id":  58880,
+                                                                                            "bounds":  {
+                                                                                                           "left":  826,
+                                                                                                           "top":  460,
+                                                                                                           "right":  1093,
+                                                                                                           "bottom":  620,
+                                                                                                           "width":  267,
+                                                                                                           "height":  160
+                                                                                                       }
+                                                                                        },
+                                                                  "process_thread_focus_window":  null,
+                                                                  "target_window":  {
+                                                                                        "handle":  "0x18E19CC",
+                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                        "class_name":  "ThunderDFrame",
+                                                                                        "process_id":  42532,
+                                                                                        "process_name":  "EXCEL",
+                                                                                        "thread_id":  58880,
+                                                                                        "bounds":  {
+                                                                                                       "left":  826,
+                                                                                                       "top":  460,
+                                                                                                       "right":  1093,
+                                                                                                       "bottom":  620,
+                                                                                                       "width":  267,
+                                                                                                       "height":  160
+                                                                                                   }
+                                                                                    },
+                                                                  "target_thread_gui":  {
+                                                                                            "thread_id":  58880,
+                                                                                            "active_window":  {
+                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                  "process_id":  42532,
+                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                  "thread_id":  58880,
+                                                                                                                  "bounds":  {
+                                                                                                                                 "left":  826,
+                                                                                                                                 "top":  460,
+                                                                                                                                 "right":  1093,
+                                                                                                                                 "bottom":  620,
+                                                                                                                                 "width":  267,
+                                                                                                                                 "height":  160
+                                                                                                                             }
+                                                                                                              },
+                                                                                            "focus_window":  {
+                                                                                                                 "handle":  "0x4A1CF8",
+                                                                                                                 "title":  "",
+                                                                                                                 "class_name":  "F3 Server c13d0000",
+                                                                                                                 "process_id":  42532,
+                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                 "thread_id":  58880,
+                                                                                                                 "bounds":  {
+                                                                                                                                "left":  834,
+                                                                                                                                "top":  491,
+                                                                                                                                "right":  1085,
+                                                                                                                                "bottom":  612,
+                                                                                                                                "width":  251,
+                                                                                                                                "height":  121
+                                                                                                                            }
+                                                                                                             },
+                                                                                            "capture_window":  null,
+                                                                                            "caret_window":  null
+                                                                                        },
+                                                                  "cursor_screen_pixels":  {
+                                                                                               "x":  960,
+                                                                                               "y":  540
+                                                                                           },
+                                                                  "notes":  [
+                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                            ]
+                                                              }
+                                                },
+                                 "input":  {
+                                               "schema":  "oxforms.w005.sendinput_mouse_action.v1",
+                                               "input_driver":  "public_user32_sendinput",
+                                               "action":  "mouse_click",
+                                               "target_screen_pixels":  {
+                                                                            "x":  960,
+                                                                            "y":  540
+                                                                        },
+                                               "set_cursor_result":  true,
+                                               "send_input":  {
+                                                                  "requested_down":  1,
+                                                                  "sent_down":  1,
+                                                                  "requested_up":  1,
+                                                                  "sent_up":  1
+                                                              },
+                                               "diagnostics":  {
+                                                                   "before":  {
+                                                                                  "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                  "phase":  "before_sendinput_mouse_click",
+                                                                                  "captured_at_utc":  "2026-06-27T16:12:37.1560782Z",
+                                                                                  "foreground_window":  {
+                                                                                                            "handle":  "0x18E19CC",
+                                                                                                            "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                            "class_name":  "ThunderDFrame",
+                                                                                                            "process_id":  42532,
+                                                                                                            "process_name":  "EXCEL",
+                                                                                                            "thread_id":  58880,
+                                                                                                            "bounds":  {
+                                                                                                                           "left":  826,
+                                                                                                                           "top":  460,
+                                                                                                                           "right":  1093,
+                                                                                                                           "bottom":  620,
+                                                                                                                           "width":  267,
+                                                                                                                           "height":  160
+                                                                                                                       }
+                                                                                                        },
+                                                                                  "process_thread_focus_window":  null,
+                                                                                  "target_window":  {
+                                                                                                        "handle":  "0x18E19CC",
+                                                                                                        "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                        "class_name":  "ThunderDFrame",
+                                                                                                        "process_id":  42532,
+                                                                                                        "process_name":  "EXCEL",
+                                                                                                        "thread_id":  58880,
+                                                                                                        "bounds":  {
+                                                                                                                       "left":  826,
+                                                                                                                       "top":  460,
+                                                                                                                       "right":  1093,
+                                                                                                                       "bottom":  620,
+                                                                                                                       "width":  267,
+                                                                                                                       "height":  160
+                                                                                                                   }
+                                                                                                    },
+                                                                                  "target_thread_gui":  {
+                                                                                                            "thread_id":  58880,
+                                                                                                            "active_window":  {
+                                                                                                                                  "handle":  "0x18E19CC",
+                                                                                                                                  "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                  "class_name":  "ThunderDFrame",
+                                                                                                                                  "process_id":  42532,
+                                                                                                                                  "process_name":  "EXCEL",
+                                                                                                                                  "thread_id":  58880,
+                                                                                                                                  "bounds":  {
+                                                                                                                                                 "left":  826,
+                                                                                                                                                 "top":  460,
+                                                                                                                                                 "right":  1093,
+                                                                                                                                                 "bottom":  620,
+                                                                                                                                                 "width":  267,
+                                                                                                                                                 "height":  160
+                                                                                                                                             }
+                                                                                                                              },
+                                                                                                            "focus_window":  {
+                                                                                                                                 "handle":  "0x4A1CF8",
+                                                                                                                                 "title":  "",
+                                                                                                                                 "class_name":  "F3 Server c13d0000",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  834,
+                                                                                                                                                "top":  491,
+                                                                                                                                                "right":  1085,
+                                                                                                                                                "bottom":  612,
+                                                                                                                                                "width":  251,
+                                                                                                                                                "height":  121
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                            "capture_window":  null,
+                                                                                                            "caret_window":  null
+                                                                                                        },
+                                                                                  "cursor_screen_pixels":  {
+                                                                                                               "x":  960,
+                                                                                                               "y":  540
+                                                                                                           },
+                                                                                  "notes":  [
+                                                                                                "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                                "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                            ]
+                                                                              },
+                                                                   "after":  {
+                                                                                 "schema":  "oxforms.w005.windows_input_diagnostics.v1",
+                                                                                 "phase":  "after_sendinput_mouse_click",
+                                                                                 "captured_at_utc":  "2026-06-27T16:12:37.7456876Z",
+                                                                                 "foreground_window":  {
+                                                                                                           "handle":  "0x18E19CC",
+                                                                                                           "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                           "class_name":  "ThunderDFrame",
+                                                                                                           "process_id":  42532,
+                                                                                                           "process_name":  "EXCEL",
+                                                                                                           "thread_id":  58880,
+                                                                                                           "bounds":  {
+                                                                                                                          "left":  826,
+                                                                                                                          "top":  460,
+                                                                                                                          "right":  1093,
+                                                                                                                          "bottom":  620,
+                                                                                                                          "width":  267,
+                                                                                                                          "height":  160
+                                                                                                                      }
+                                                                                                       },
+                                                                                 "process_thread_focus_window":  null,
+                                                                                 "target_window":  {
+                                                                                                       "handle":  "0x18E19CC",
+                                                                                                       "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                       "class_name":  "ThunderDFrame",
+                                                                                                       "process_id":  42532,
+                                                                                                       "process_name":  "EXCEL",
+                                                                                                       "thread_id":  58880,
+                                                                                                       "bounds":  {
+                                                                                                                      "left":  826,
+                                                                                                                      "top":  460,
+                                                                                                                      "right":  1093,
+                                                                                                                      "bottom":  620,
+                                                                                                                      "width":  267,
+                                                                                                                      "height":  160
+                                                                                                                  }
+                                                                                                   },
+                                                                                 "target_thread_gui":  {
+                                                                                                           "thread_id":  58880,
+                                                                                                           "active_window":  {
+                                                                                                                                 "handle":  "0x18E19CC",
+                                                                                                                                 "title":  "OxForms W006 DoEvents Oracle",
+                                                                                                                                 "class_name":  "ThunderDFrame",
+                                                                                                                                 "process_id":  42532,
+                                                                                                                                 "process_name":  "EXCEL",
+                                                                                                                                 "thread_id":  58880,
+                                                                                                                                 "bounds":  {
+                                                                                                                                                "left":  826,
+                                                                                                                                                "top":  460,
+                                                                                                                                                "right":  1093,
+                                                                                                                                                "bottom":  620,
+                                                                                                                                                "width":  267,
+                                                                                                                                                "height":  160
+                                                                                                                                            }
+                                                                                                                             },
+                                                                                                           "focus_window":  {
+                                                                                                                                "handle":  "0x4A1CF8",
+                                                                                                                                "title":  "",
+                                                                                                                                "class_name":  "F3 Server c13d0000",
+                                                                                                                                "process_id":  42532,
+                                                                                                                                "process_name":  "EXCEL",
+                                                                                                                                "thread_id":  58880,
+                                                                                                                                "bounds":  {
+                                                                                                                                               "left":  834,
+                                                                                                                                               "top":  491,
+                                                                                                                                               "right":  1085,
+                                                                                                                                               "bottom":  612,
+                                                                                                                                               "width":  251,
+                                                                                                                                               "height":  121
+                                                                                                                                           }
+                                                                                                                            },
+                                                                                                           "capture_window":  null,
+                                                                                                           "caret_window":  null
+                                                                                                       },
+                                                                                 "cursor_screen_pixels":  {
+                                                                                                              "x":  960,
+                                                                                                              "y":  540
+                                                                                                          },
+                                                                                 "notes":  [
+                                                                                               "Foreground/focus metadata is public Windows harness diagnostics only.",
+                                                                                               "GetGUIThreadInfo reports the target window thread GUI state; it explains input delivery risk but is not an OxForms runtime contract."
+                                                                                           ]
+                                                                             }
+                                                               }
+                                           }
+                             }
+                         ],
+    "notes":  [
+                  "Public user32 SendInput mouse clicks at the form window centre are evidence-driving infrastructure only.",
+                  "Two clicks at the same point: the second is injected while the first Click handler is pumping DoEvents, so it reenters the handler through the pump."
+              ]
+}

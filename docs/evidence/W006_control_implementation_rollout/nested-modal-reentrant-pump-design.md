@@ -7,7 +7,7 @@ object-lifetime oracle capture (25 rows, 1 `Terminate`) whose three remaining
 blocked paths are now narrowed to the held-reference dimension only, because
 their `Terminate` ordering is captured elsewhere (modal by `oxforms-0a0.24`,
 modeless by W005).
-Beads: `oxforms-0a0.10`, `oxforms-0a0.19`, `oxforms-0a0.20`, `oxforms-0a0.21`, `oxforms-0a0.22`, `oxforms-0a0.25`
+Beads: `oxforms-0a0.10`, `oxforms-0a0.19`, `oxforms-0a0.20`, `oxforms-0a0.21`, `oxforms-0a0.22`, `oxforms-0a0.23`, `oxforms-0a0.25`
 Date: 2026-06-23
 
 This note classifies the lifecycle/pump surfaces deferred from the first
@@ -41,6 +41,10 @@ return, hide/unload, or object-lifetime `Terminate` parity.
   `fixtures/office-oracle/excel-msforms/userforms/terminate-lifetime/`
   and
   `docs/evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260627T144316Z/`.
+- W006 `DoEvents`-yield fixture, capture tool, and live capture:
+  `fixtures/office-oracle/excel-msforms/userforms/doevents-yield/`,
+  `tools/office-oracle/Capture-W006DoEventsYield.ps1`, and
+  `docs/evidence/W006_control_implementation_rollout/captures/doevents-yield-20260627T161225Z/`.
 
 ## Durable Requirements
 
@@ -154,6 +158,24 @@ Consequences:
   `CloseMode=1` (code unload) distinction is a concrete observed fact.
 - Outer hide then unload recorded `BeforeHide`/`AfterHide`, then `BeforeUnload`
   -> `QueryClose` (`CloseMode=1`) -> `Terminate` -> `AfterUnload`.
+- `oxforms-0a0.23` adds a repo-owned Excel/MSForms `DoEvents`-yield fixture
+  (`fixtures/office-oracle/excel-msforms/userforms/doevents-yield/`, a form whose
+  `YieldButton` fills the client area) and capture tool
+  `tools/office-oracle/Capture-W006DoEventsYield.ps1`. The live capture at
+  `doevents-yield-20260627T161225Z` exported 8 rows with `max_handler_depth=2`
+  and `reentrant_during_doevents=true`. The first click runs `YieldButton_Click`
+  at handler-depth 1, logs `BeforeDoEvents`, and pumps `DoEvents` in a bounded
+  loop; a second click injected during the pump is dispatched THROUGH the pump,
+  reentering `YieldButton_Click` at handler-depth 2 (the `Click`, `ReentrantClick`,
+  and `ClickEnd` rows are all depth 2), sandwiched between the outer
+  `BeforeDoEvents` (depth 1) and `AfterDoEvents` (depth 1). Nesting depth is
+  recorded with an explicit module-global enter/exit counter. This is a
+  deterministic black-box MSForms observation of reentrant event dispatch during
+  a `DoEvents` yield for this run only; it is not an exhaustive `DoEvents` parity
+  matrix, absent rows are not negative facts, and it does not implement or claim
+  any OxForms runtime `DoEvents`/yield/reentrant-pump behavior. The remaining
+  runtime support (OxVba call-stack yield/resume semantics) is still
+  unimplemented.
 - `oxforms-0a0.21` adds a repo-owned Excel/MSForms `Terminate` lifetime
   fixture with explicit `local_ref_state`, `held_ref_state`,
   `default_instance_state`, and `release_phase` worksheet columns. The refreshed
@@ -211,7 +233,7 @@ Consequences:
 | Surface | Facts | Assumptions For Design | Unknowns | Blockers / Owners | Follow-up |
 |---|---|---|---|---|---|
 | Nested modal forms | W005 names `modal_frame` and `nested_modal_depth`; the W005 modal capture proves only a single modal run with every row at depth `0`. `TRACE_REPLAY_SCHEMA.md` requires `parent_row_id`, `nesting_depth`, `lifecycle_pump` rows, modal depth, and effect completions. `oxforms-0a0.19` adds a repo-owned two-form fixture, and the live capture `nested-modal-lifecycle-20260627T141239Z` exported 42 rows with no oracle blocker remaining after `oxforms-0a0.24` hardened the generation path. | Each entered modal frame increments modal depth and preserves the outer frame's trace context instead of replacing it. Inner-form input, dispatch results, and effect completions re-enter the same reducer/effect path. | Beyond the observed ordering facts for this run (inner hide return, inner unload, inner system close with `CloseMode=0` versus code unload with `CloseMode=1`, outer hide/unload), exhaustive MSForms ordering for activation/deactivation and modal frame exit across all paths is still not an exhaustive parity matrix; unobserved rows are not negative facts. | Live Office oracle row capture succeeded: 42 rows, no oracle blocker remains. PAL/effect-runner support for first-class modal frame entry/exit is still not implemented, and OxVba must still supply real event dispatch and caller-side `Show` behavior before runtime parity. | `oxforms-0a0.22` implements or blocks a synthetic host-neutral modal-frame trace subset. |
-| `DoEvents`-like yield | W005 reserves `PumpYieldRequested` and `doevents_yield`; no W005 or W006 evidence exercises it. `TRACE_REPLAY_SCHEMA.md` can express the yield with `parent_row_id`, `nesting_depth`, `lifecycle_pump`, and `effect_completed` rows. | A yield from VBA/runtime execution returns to the shared event pump with the active dispatch/effect as parent context, then resumes only through a documented completion policy. | Whether live MSForms/Office permits queued form input, timers, modal-frame input, host callbacks, or close/unload work during specific `DoEvents` scenarios is unknown. | OxVba owns VBA call-stack yield/resume semantics and any integration with its runtime scheduler. PAL may deliver input during the yield, but must not mutate form state directly. | `oxforms-0a0.20` defines the shared ownership contract and exact blockers. `oxforms-0a0.23` captures or blocks live `DoEvents` yield oracle evidence. |
+| `DoEvents`-like yield | W005 reserves `PumpYieldRequested` and `doevents_yield`. `oxforms-0a0.23` now exercises reentrant dispatch during a `DoEvents` pump live in `captures/doevents-yield-20260627T161225Z` (8 rows, `max_handler_depth=2`, `reentrant_during_doevents=true`): the first click runs `YieldButton_Click` at handler-depth 1, logs `BeforeDoEvents`, and pumps `DoEvents`; a second click injected during the pump is dispatched THROUGH the pump and reenters `YieldButton_Click` at handler-depth 2 (`Click`/`ReentrantClick`/`ClickEnd` rows, all depth 2), sandwiched between the outer `BeforeDoEvents` (depth 1) and `AfterDoEvents` (depth 1). `TRACE_REPLAY_SCHEMA.md` can express the yield with `parent_row_id`, `nesting_depth`, `lifecycle_pump`, and `effect_completed` rows. | A yield from VBA/runtime execution returns to the shared event pump with the active dispatch/effect as parent context, then resumes only through a documented completion policy. | The observed ordering is for this run only; it is not an exhaustive MSForms `DoEvents` parity matrix, and absence of a row is not a negative fact. Whether live MSForms/Office also permits queued timers, modal-frame input, host callbacks, or close/unload work during other `DoEvents` scenarios is unknown. | OxVba owns VBA call-stack yield/resume semantics and any integration with its runtime scheduler, which remains unimplemented. PAL may deliver input during the yield, but must not mutate form state directly. | `oxforms-0a0.20` defines the shared ownership contract and exact blockers. `oxforms-0a0.23` captured live reentrant-dispatch-during-`DoEvents` oracle evidence (`captures/doevents-yield-20260627T161225Z`); the runtime yield/resume support stays unimplemented. |
 | Reentrant dispatch during modal frames | `INPUT_INTERACTION_MODEL.md` requires reentrant input from VBA dispatch, modal pumps, or host callbacks to get nested sequence metadata and re-enter the same `UiEvent` path. Existing trace samples can validate nested rows, but not modal-frame parity. | Dispatch reentrancy is allowed but must be explicit: parent dispatch/effect ids, parent rows, nesting depth, and effect completions are trace data, not prose. | Live ordering when handlers show forms, close forms, call `DoEvents`, mutate `Cancel`, or trigger host callbacks is unknown. | OxVba owns native event dispatch, handler reentry, mutable helper/scalar propagation, and call-stack diagnostics. OxForms core owns reducer serialization and effect ordering. | `oxforms-0a0.20` documents ownership. Later implementation beads must be split by scenario. |
 | Modal return/completion policy | `LIFECYCLE_PUMP_MODEL.md` already names `EnterModalFrame`, `ExitModalFrame`, and `PumpFrameExited`; `TRACE_REPLAY_SCHEMA.md` requires effect requests and completions to be separate. | `ShowFormModal` should not complete to the caller until the modal frame exits through a recorded hide, close, unload, cancellation, or error policy. Modeless show remains a scheduling/completion policy, not a nested modal frame. | Exact live MSForms return point for `Me.Hide`, `Unload Me`, close-button/system-menu close, cancelled `QueryClose`, and errors is unknown. | PAL/effect runner must expose modal frame entry/exit completions. OxVba must represent blocked caller-side `Show` and resumed execution without a forms-only loop. | `oxforms-0a0.19` records the fixture and its live capture (`nested-modal-lifecycle-20260627T141239Z`, 42 rows). `oxforms-0a0.20` documents shared ownership. `oxforms-0a0.22` proves or blocks the smallest trace subset. |
 | Object-lifetime `Terminate` timing | W005 modeless and modal captures observed final `Terminate` rows, but both fixtures were not designed to isolate held references or exact release timing. `oxforms-0a0.21` adds a narrower fixture; in the refreshed stable capture `terminate-lifetime-20260627T144316Z`, `unload_held_release` observed `Terminate` at row 20 after `QueryClose` row 19 and before `AfterUnload` row 21 while fixture reference-state columns still said local and held refs were `held`; `hide_held_release` exported no `Terminate` row for its explicit release sequence. `oxforms-0a0.3` keeps `Unloaded` separate from `Terminated`. | `Unloaded` is logical interaction removal; `Terminated` should be recorded only when object-lifetime evidence, a live oracle row, or OxVba runtime state says the form instance is terminal. | The held-reference state during modeless system close, modal hide return, and modal unload return is still uncaptured by this fixture; default instances, host shutdown, cancellation, and error paths also remain unknown. The `Terminate` ordering for those three paths is captured elsewhere (modal by `oxforms-0a0.24` in `nested-modal-lifecycle-20260627T141239Z`; modeless by the W005 modeless interaction capture). The fixture reference-state columns are explicit VBA instrumentation, not private Office reference counts. | OxVba owns object lifetime, default instance behavior, reference release, and `Terminate` dispatch. This fixture blocks the modeless system-close path because `PostMessage(WM_CLOSE)` leaves Excel COM unavailable (RPC `0x800706BA`) before the held-reference export, and blocks the modal-return paths because a macro-driven `Show vbModal` blocks the COM thread; the narrowed paths forward are SendKeys Alt+F4 and the SendInput-driven modal pattern from `oxforms-0a0.24`. OxForms can only model `Terminated` as an input/effect completion. | Residual oracle hardening is tracked by `oxforms-0a0.25`, which refreshed the stable capture to `terminate-lifetime-20260627T144316Z` and narrowed the three blocked paths to the held-reference dimension; no runtime `Terminate` timing behavior is implemented by this evidence bead. |
@@ -247,8 +269,12 @@ Oracle/evidence blockers:
   Office/VBIDE generation path (the design-time control-font COM call that left
   `SaveAs` falling back to the interactive dialog) that had blocked the prior
   attempt.
-- A `DoEvents` fixture has not yet recorded yield behavior; this is tracked by
-  `oxforms-0a0.23`.
+- The `DoEvents` fixture has now recorded yield behavior:
+  `oxforms-0a0.23` captured `doevents-yield-20260627T161225Z` (8 rows,
+  `max_handler_depth=2`, `reentrant_during_doevents=true`), observing reentrant
+  event dispatch at handler-depth 2 through the `DoEvents` pump. This is the
+  black-box oracle fact only; the OxVba runtime yield/resume support remains
+  unimplemented.
 - The refreshed stable Terminate capture `terminate-lifetime-20260627T144316Z`
   isolated one modeless `Unload` held-reference sequence and one `Hide` release
   sequence. The modeless system-close and modal-return branches remain blocked
@@ -265,7 +291,7 @@ Oracle/evidence blockers:
 
 | Surface | Missing shared support | Owner | Blocks | Follow-up / evidence |
 |---|---|---|---|---|
-| `DoEvents`-like yield | Call-stack yield/resume hook that exposes parent dispatch/effect context and resumes deterministically after queued work. | OxVba runtime; PAL only supplies queued input; OxForms records completions. | Runtime `DoEvents` parity and any modal-frame yield implementation. | OxVba handover in `HANDOVER_OxVba_w006_modal_reentrant_pump.md`; OxForms oracle bead `oxforms-0a0.23`. |
+| `DoEvents`-like yield | Call-stack yield/resume hook that exposes parent dispatch/effect context and resumes deterministically after queued work. (The oracle fact below is captured; this runtime support is still missing.) | OxVba runtime; PAL only supplies queued input; OxForms records completions. | Runtime `DoEvents` parity and any modal-frame yield implementation. | OxVba handover in `HANDOVER_OxVba_w006_modal_reentrant_pump.md`; OxForms oracle bead `oxforms-0a0.23` captured live reentrant dispatch during a `DoEvents` pump in `captures/doevents-yield-20260627T161225Z` (8 rows, depth 2). |
 | Modal `Show` completion | Caller-side blocked `Show` frame that resumes only after `PumpFrameExited` and matching `effect_completed` rows. | OxVba runtime with OxForms effect-runner completion policy and PAL window completions. | Live modal `ShowFormModal`, nested modal runtime, and caller-side return claims. | Nested modal oracle bead `oxforms-0a0.19`; trace subset bead `oxforms-0a0.22`; OxVba handover. |
 | Reentrant dispatch during modal frames | Native event dispatch must preserve parent call/effect ids and allow handler-triggered modal show, close, unload, host callback, or yield rows to reenter the shared path. | OxVba dispatch plus OxForms trace/effect runner. | Reentrant modal runtime and trace/replay parity beyond synthetic rows. | `oxforms-0a0.19`, `oxforms-0a0.22`, and OxVba handover. |
 | `QueryClose` mutation | `Cancel As Integer` and `CloseMode As Integer` before/after values through native FM20-named dispatch. | OxVba dispatch/object argument machinery. | Real close cancellation, modal close cancellation, and close-mode parity. | `HANDOVER_OxVba_w005_fm20_event_raise.md`, native dispatch blocker doc, and OxVba modal handover. |
@@ -314,7 +340,7 @@ support remains explicit:
 | `oxforms-0a0.20` | Define the shared OxVba/OxForms/PAL ownership contract for modal frames, `DoEvents`, reentrancy, modal completion, and `Terminate`. |
 | `oxforms-0a0.21` | Capture or precisely block `UserForm.Terminate` object-lifetime oracle evidence. |
 | `oxforms-0a0.22` | Implement or precisely block the first host-neutral modal-frame trace/replay subset. |
-| `oxforms-0a0.23` | Capture or precisely block live `DoEvents`-like yield oracle evidence. |
+| `oxforms-0a0.23` | CAPTURED live `DoEvents`-like yield oracle evidence: `captures/doevents-yield-20260627T161225Z` (8 rows, `max_handler_depth=2`, `reentrant_during_doevents=true`) records reentrant `YieldButton_Click` dispatch at handler-depth 2 through a `DoEvents` pump. Oracle fact only; OxVba runtime yield/resume support stays unimplemented. |
 | `oxforms-0a0.25` | Refresh the W006 `Terminate` oracle to the stable capture `terminate-lifetime-20260627T144316Z` and narrow the three blocked paths to the held-reference dimension, with cross-referenced ordering (`oxforms-0a0.24`, W005), documented root causes (`WM_CLOSE` COM-unavailable; macro-modal thread block), and paths forward (SendKeys Alt+F4; SendInput-driven modal). |
 
 ## Non-claims

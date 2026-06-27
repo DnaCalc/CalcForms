@@ -1,0 +1,72 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_doevents_yield_capture.v1",
+    "bead":  "oxforms-0a0.23",
+    "capture_id":  "doevents-yield-20260627T161225Z",
+    "status":  "captured",
+    "fixture":  {
+                    "id":  "excel-msforms-w006-doevents-yield-v1",
+                    "inputs":  {
+                                   "manifest":  {
+                                                    "path":  "fixtures/office-oracle/excel-msforms/userforms/doevents-yield/fixture.json",
+                                                    "sha256":  "3b92e3790d53f1d083cca3c133e90ff0bcbf297b5e3d0dbaddc72d8ef1f53e99"
+                                                },
+                                   "form_code_behind":  {
+                                                            "path":  "fixtures/office-oracle/excel-msforms/userforms/doevents-yield/form-code-behind.bas",
+                                                            "sha256":  "524b964abb9ac59e4215537e3762db08c676c923370ee4bda93b899539e67b14"
+                                                        },
+                                   "standard_module":  {
+                                                           "path":  "fixtures/office-oracle/excel-msforms/userforms/doevents-yield/standard-module.bas",
+                                                           "sha256":  "7eda1218963463d1ac87fd77aaa2500c5f7235ace130f051aaa8539a611b4f6c"
+                                                       },
+                                   "capture_tool":  {
+                                                        "path":  "tools/office-oracle/Capture-W006DoEventsYield.ps1",
+                                                        "sha256":  "9352ede214369b90fece09d7d3c21656c5e210b28141a1b06f57f389168850d3"
+                                                    }
+                               }
+                },
+    "platform":  {
+                     "os":  "Microsoft Windows NT 10.0.26200.0",
+                     "is_windows":  true,
+                     "powershell":  "5.1.26100.8655"
+                 },
+    "excel":  {
+                  "path":  "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+                  "file_version":  "16.0.20026.20182",
+                  "product_version":  "16.0.20026.20182",
+                  "product_name":  "Microsoft Office",
+                  "company_name":  "Microsoft Corporation"
+              },
+    "artifacts":  {
+                      "generated_workbook":  {
+                                                 "path":  "docs/evidence/W006_control_implementation_rollout/captures/doevents-yield-20260627T161225Z/w006-doevents-yield-oracle.xlsm",
+                                                 "sha256":  "30f8b8e5bb30c38f8e85a4afae13b575d52daef7806b9d7f37de3e968159ebaf"
+                                             },
+                      "event_log_json":  "docs/evidence/W006_control_implementation_rollout/captures/doevents-yield-20260627T161225Z/doevents-yield-event-log.json",
+                      "event_log_csv":  "docs/evidence/W006_control_implementation_rollout/captures/doevents-yield-20260627T161225Z/doevents-yield-event-log.csv",
+                      "input_actions":  "docs/evidence/W006_control_implementation_rollout/captures/doevents-yield-20260627T161225Z/input-actions.json"
+                  },
+    "observed_coverage":  {
+                              "row_count":  8,
+                              "max_handler_depth":  2,
+                              "reentrant_during_doevents":  true
+                          },
+    "blockers":  [
+
+                 ],
+    "trace_replay_implications":  [
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 5: reentrant dispatch during a DoEvents yield needs ordered sequence and nesting depth.",
+                                      "docs/specs/TRACE_REPLAY_SCHEMA.md section 11: lifecycle_pump rows must carry pump term and reentrancy depth for a DoEvents-like yield."
+                                  ],
+    "warnings":  [
+                     "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+                     "Desktop focus, DPI, and Excel/MSForms version can affect whether the reentrant click is dispatched during the pump."
+                 ],
+    "clean_room":  {
+                       "source":  "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows input APIs.",
+                       "prohibited":  "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+                   },
+    "non_claims":  [
+                       "No OxForms runtime DoEvents/yield/reentrant-pump behavior is implemented or claimed.",
+                       "This capture is not an exhaustive DoEvents parity matrix."
+                   ]
+}

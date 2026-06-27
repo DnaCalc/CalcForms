@@ -70,8 +70,14 @@ Current facts:
   (`oxforms-0a0.19`), object-lifetime `Terminate` evidence
   (`oxforms-0a0.21`), a first host-neutral modal-frame trace subset
   (`oxforms-0a0.22`), and live `DoEvents` yield oracle evidence
-  (`oxforms-0a0.23`). No broad modal pump or `DoEvents` implementation is
-  authorized by this classification alone.
+  (`oxforms-0a0.23`). `oxforms-0a0.23` is now captured live in
+  [`doevents-yield-20260627T161225Z`](../evidence/W006_control_implementation_rollout/captures/doevents-yield-20260627T161225Z/):
+  a second click injected during a `DoEvents` pump reenters `YieldButton_Click`
+  at handler-depth 2 (8 rows, `max_handler_depth=2`,
+  `reentrant_during_doevents=true`), a black-box observation of reentrant
+  dispatch during a `DoEvents` yield. No broad modal pump or `DoEvents`
+  implementation is authorized by this classification or this oracle evidence;
+  the OxVba runtime yield/resume support remains unimplemented.
 - `oxforms-0a0.19` adds a repo-owned two-UserForm Excel/MSForms nested modal
   lifecycle fixture and capture driver, and the live Office capture succeeded at
   [`nested-modal-lifecycle-20260627T141239Z`](../evidence/W006_control_implementation_rollout/captures/nested-modal-lifecycle-20260627T141239Z/):
@@ -147,7 +153,7 @@ not who owns a platform window.
 | `host_modeless_pump` | The host or top-level application pump is running and delivers modeless input as normalized `UiEvent` rows. |
 | `modal_frame` | A nested pump frame entered for a modal form. It continues to receive PAL input, service completions, and OxVba dispatch results through the shared loop. |
 | `nested_modal_depth` | Integer depth for modal frames. Depth `0` means no active OxForms modal frame. |
-| `doevents_yield` | A controlled yield from VBA/runtime execution back into the shared event pump. W005 records the concept but does not implement final `DoEvents` parity. |
+| `doevents_yield` | A controlled yield from VBA/runtime execution back into the shared event pump. W005 records the concept and `oxforms-0a0.23` now exercises it as a black-box oracle (reentrant dispatch at handler-depth 2 during a `DoEvents` pump, capture `doevents-yield-20260627T161225Z`), but no runtime `DoEvents` parity is implemented. |
 | `vba_dispatch_reentrancy` | Reentrant input or effects produced while a VBA event handler is executing. |
 | `host_callback_reentrancy` | Reentrant input or effects produced by a host capability callback, such as a future Excel `RefEdit` capability. |
 | `close_unload_cancellation` | Temporary pump state while close/query/unload effects decide whether a form remains visible, becomes hidden, or terminates. |
@@ -349,7 +355,13 @@ Rules:
 
 W005 does not implement final `DoEvents` semantics. It reserves
 `PumpYieldRequested` and `doevents_yield` so later runtime work has a named
-place to integrate without inventing a forms-only loop.
+place to integrate without inventing a forms-only loop. `oxforms-0a0.23` now
+exercises that named place with black-box oracle evidence only: the
+`doevents-yield-20260627T161225Z` capture observes a second click reentering
+`YieldButton_Click` at handler-depth 2 while the outer handler pumps `DoEvents`
+(reentrant dispatch sandwiched between the outer `BeforeDoEvents` and
+`AfterDoEvents` rows). This records the MSForms reentrancy fact; it does not
+implement OxVba call-stack yield/resume semantics, which remain unimplemented.
 
 W006 preserves that boundary. `oxforms-0a0.10` requires later work to treat
 nested modal frames, `DoEvents`-like yields, dispatch reentrancy, modal
@@ -521,7 +533,12 @@ the downstream bead it blocks.
   and error paths. The W006 capture only narrows one modeless `Unload` sequence
   with explicit fixture reference-state rows.
 - How `DoEvents` interacts with modal frames, nested forms, pending effects, and
-  host callbacks.
+  host callbacks. `oxforms-0a0.23` captured one black-box fact here
+  (`doevents-yield-20260627T161225Z`): a click injected during a `DoEvents` pump
+  is dispatched through the pump and reenters the same handler at handler-depth 2.
+  That is a single modeless reentrant-dispatch run, not an exhaustive `DoEvents`
+  parity matrix; the modal-frame, timer, and host-callback interactions remain
+  unknown, and absent rows are not negative facts.
 - The W006 nested-modal fixture was captured live in
   `nested-modal-lifecycle-20260627T141239Z` (42 rows, no blocker) after
   `oxforms-0a0.24` hardened the public Office/VBIDE generation path that had

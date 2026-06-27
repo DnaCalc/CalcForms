@@ -126,7 +126,7 @@ or splitter beads before any all-surface implementation is attempted.
 | `oxforms-0a0.20` | Define shared modal and DoEvents pump ownership contract. | `oxforms-0a0.10` | OxVba, OxForms core/effect-runner, and PAL/window ownership for modal frames, `DoEvents`, reentrancy, modal completion, and `Terminate` timing is explicit, with handovers or blockers where shared support is missing. |
 | `oxforms-0a0.21` | Capture or precisely block `UserForm.Terminate` object-lifetime oracle evidence. | `oxforms-0a0.10` | Hide, unload, modal return, modeless close, held-reference, and reference-release scenarios separate `Unloaded` from `Terminated` using live evidence or exact blockers. |
 | `oxforms-0a0.22` | Implement or precisely block the first host-neutral modal-frame trace subset. | `oxforms-0a0.10`, `oxforms-0a0.20` | Synthetic/replayable modal-frame rows use `TRACE_REPLAY_SCHEMA.md` parent/nesting, modal depth, `lifecycle_pump`, effect request, and effect completion requirements without claiming live modal parity. |
-| `oxforms-0a0.23` | Capture DoEvents-like yield oracle evidence. | `oxforms-0a0.10`, `oxforms-0a0.20` | Modeless and modal-frame `DoEvents` yield attempts record or precisely block active handler, call site, queued work, parent dispatch/effect context, nesting depth, resume point, and trace implications without runtime implementation. |
+| `oxforms-0a0.23` | Capture DoEvents-like yield oracle evidence. | `oxforms-0a0.10`, `oxforms-0a0.20` | CAPTURED live at `doevents-yield-20260627T161225Z` (8 rows, `max_handler_depth=2`, `reentrant_during_doevents=true`): a click injected during a `DoEvents` pump is dispatched through the pump and reenters `YieldButton_Click` at handler-depth 2, sandwiched between the outer `BeforeDoEvents`/`AfterDoEvents` rows. Black-box oracle fact only, not an exhaustive `DoEvents` parity matrix; no OxVba runtime yield/resume support is implemented. |
 | `oxforms-0a0.24` | Rerun or harden nested modal lifecycle oracle evidence capture. | `oxforms-0a0.19` | Hardened the generation path (design-time control fonts no longer set, so Excel `SaveAs` no longer falls back to the interactive dialog that hung the COM thread); the live capture then succeeded at `nested-modal-lifecycle-20260627T141239Z` with 42 rows and no oracle blocker, recording outer/inner ordering. |
 | `oxforms-0a0.25` | Harden Terminate modeless close and modal return oracle capture. | `oxforms-0a0.21` | Refreshed the stable capture to `terminate-lifetime-20260627T144316Z` (same coverage: 25 rows, 1 `Terminate`) and narrowed `modeless_system_close_held_release`, `modal_hide_return_held_release`, and `modal_unload_return_held_release` to the held-reference dimension, since their `Terminate` ordering is captured elsewhere (modal by `oxforms-0a0.24`, modeless by W005). Documented root causes (`PostMessage(WM_CLOSE)` leaves Excel COM unavailable, RPC `0x800706BA`; macro-driven `Show vbModal` blocks the COM thread) and paths forward (SendKeys Alt+F4; SendInput-driven modal pattern), without implementing runtime `Terminate` timing. |
 | `oxforms-0a0.5` | Split the first intrinsic-control implementation lane beyond W005 probes. | `oxforms-0a0.9`, `oxforms-0a0.4`, `oxforms-0a0.8` | First control lane is fact-backed or precisely blocked; implementation work is split into control-specific beads; W005 probe scaffolds are promoted, replaced, deleted, or quarantined intentionally. |
@@ -211,8 +211,10 @@ handover
 [`../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md`](../handovers/HANDOVER_OxVba_w006_modal_reentrant_pump.md)
 names the minimal modal show, nested modal, `DoEvents`, reentrant dispatch,
 `QueryClose`, and `Terminate` scenarios with inputs, expected completions, and
-evidence paths. Missing `DoEvents` oracle evidence is split into
-`oxforms-0a0.23`. No runtime implementation is claimed.
+evidence paths. The `DoEvents` oracle evidence split into `oxforms-0a0.23` is
+now captured live at `doevents-yield-20260627T161225Z` (8 rows, reentrant
+dispatch at handler-depth 2 during a `DoEvents` pump); no runtime
+implementation is claimed.
 
 Current `oxforms-0a0.4` status: implemented-subset in the host-neutral core
 loader/projection path. The selected fixture
