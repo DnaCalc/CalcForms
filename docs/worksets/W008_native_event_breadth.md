@@ -50,37 +50,53 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
   ByRef-SCALAR copyback and the real `MSForms.ReturnInteger`/`ReturnBoolean` COM
   types crossing the foreign-COM boundary (vs the repo-owned `W008ReturnValue`
   stand-in) are not exercised. `oxforms-esq.2` (B) is unblocked.
-- **`oxforms-esq.2` (B): IN PROGRESS** — native `KeyDown` is now wired through
-  the runtime, consuming the esq.1 mechanism in the real runtime (not a synthetic
-  gate). `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
-  `dispatch_fire_vba_event` dispatches `KeyDown` to the focused control's
-  `PerformKeyDown(KeyCode, Shift)` and reads back the post-handler `KeyCode`
-  through the `MSForms.ReturnInteger` helper (recorded in
-  `NativeDispatchRecord.returned`). The reducer's `key_event_arguments` now emits
-  dispatch-ready `Shift` (mask) and mutable `KeyCode` (the VK) args, mirroring the
-  clean mouse-event arg shape; the KeyDown `cancel_metadata` note was refreshed
-  off the stale "deferred in W005". Proof:
-  [`oxvba_w007_runtime_runner.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_w007_runtime_runner.rs)
-  `runner_dispatches_native_keydown_with_returninteger_readback` (Escape `27`→`0`
-  swallowed; `A` `65` read back unchanged), reusing the W007 runtime harness +
-  the existing `W007ObjectModelProbeForm.InputField_KeyDown` swallow handler.
-  W005/W006 goldens + the W005 interaction-comparison hashes regenerated for the
-  additive arg change; floor + 21/21 evidence checks green.
-  - **Done:** `Change` (TextBox, prior), `Click` (prior), `KeyDown` + Return*
-    readback (this increment).
-  - **Remaining (each: wire-or-blocker):** `KeyUp`, `KeyPress`, `MouseDown`,
-    `MouseUp` (the W007 test currently fences mouse as acknowledged-not-dispatched;
-    `KeyUp`/`KeyPress`/`MouseUp` also need control-library `Perform*`/event
-    declarations the library does not yet expose), focus `Enter`/`Exit`,
-    `QueryClose` (form/focus-level, not control-level `Perform*`), and lifecycle
-    (`Initialize`/`Activate`/`Deactivate`/`Terminate`).
-  - **Explicit non-claims for the KeyDown increment:** `KeyCode` is the OS virtual
-    key (faithful for standard keys; exotic/platform VK variance untested); the
-    post-handler `KeyCode` is **recorded**, not yet **folded back into reducer
-    state** (so a swallowed key does not yet suppress downstream
-    `KeyPress`/`Change` in the reducer — that feedback is the next esq.2 step);
-    `KeyDown` without a platform virtual key is acknowledged without native
-    dispatch.
+- **`oxforms-esq.2` (B): IN PROGRESS** — the full pointer + keyboard native-dispatch
+  surface is wired through `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
+  `dispatch_fire_vba_event`, each reaching a real `WithEvents` handler via the
+  control's `Perform*` member (never the W005 `RaiseDispatch` carrier), proven by
+  RuntimeRunner tests in
+  [`oxvba_w007_runtime_runner.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_w007_runtime_runner.rs):
+  - `Click` → `PerformClick`, `Change` → `ApplyUserText` (W007, prior).
+  - `KeyDown` → `PerformKeyDown`, `KeyUp` → `PerformKeyUp`, `KeyPress` →
+    `PerformKeyPress` — each reading back the post-handler `KeyCode`/`KeyAscii`
+    through the `MSForms.ReturnInteger` helper (consuming the esq.1 mechanism in the
+    real runtime). The reducer's `key_event_arguments` emits dispatch-ready `Shift`
+    (mask) + mutable `KeyCode` (VK); the KeyPress char-code arg was renamed
+    `key_ascii_placeholder` → `KeyAscii`. Commits `d6a5ae5` (KeyDown), `dcb5699`
+    (KeyUp), `331f88f` (KeyPress).
+  - `MouseDown` → `PerformMouseDown`, `MouseUp` → `PerformMouseUp` (clean Button/
+    Shift/X-Y args, X/Y as Single); a form-background press (no control target) is
+    acknowledged. New control events added to CommandButton/TextBox/Label. Commits
+    `dcfeec7` (MouseDown), `dcb5699` (MouseUp). The W007 mouse fence was split
+    accordingly (MouseDown/MouseUp/KeyPress now assert native dispatch).
+  - W005 trace-replay golden + interaction-comparison hash chain regenerated for the
+    KeyDown/KeyPress reducer-arg changes; floor + 21/21 evidence checks green each
+    increment.
+  - **Remaining:**
+    - **focus `[Exit]`** (ReturnBoolean Cancel veto — the *other* half of esq.1):
+      `PerformExit` already exists on CommandButton/TextBox and the fixture's
+      `InputField_Exit` vetoes, but the reducer emits **no** focus `Exit`/`Enter`
+      event yet. Wiring it means emitting `Exit` before `TransferFocus` at the two
+      focus-transition sites (`reduce_mouse_down`, `reduce_tab_key_down`). **Wider
+      blast radius than first scoped:** it inserts an effect at *every* control→
+      control focus transition, so it regenerates the W005 golden AND ripples into
+      the W005 event-dispatch carrier path + smoke test (which must map/handle
+      `Exit`) and several reducer unit tests. The Cancel veto would be **recorded,
+      not folded back** (focus still commits synchronously) — same boundary as the
+      KeyCode readback.
+    - **form-level `QueryClose` + lifecycle** (`Initialize`/`Activate`/`Deactivate`/
+      `Terminate`): form-targeted events have no control to call `Perform*` on. The
+      design panel recommends a single `OxRaiseFormEvent` dispatcher Sub on the form
+      module (returning the post-handler `Cancel` as Integer via a `ReturnInteger`
+      helper) + retaining the form object on the runner + emitting the one missing
+      `Terminate` effect. **This is a foundation-level decision** (the form-dispatch
+      surface) flagged for owner ratification before it lands.
+  - **Explicit non-claims (all wired events):** Return* readbacks are **recorded**,
+    not yet **folded back into reducer state** (a swallowed key/char or vetoed
+    Cancel does not yet change downstream reducer behavior); `KeyCode` is the OS
+    virtual key (faithful for standard keys; exotic/platform VK variance untested);
+    readback rides the repo-owned `ReturnInteger`/`ReturnBoolean` stand-ins, not the
+    real `MSForms.*` COM types or literal VBA ByRef-scalar copyback (per esq.1).
 
 ## Non-claims (preserved from W006/W007)
 
