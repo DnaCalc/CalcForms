@@ -201,7 +201,9 @@ namespace OxForms.W006CtrlV
         [StructLayout(LayoutKind.Sequential)]
         public struct INPUT { public uint type; public INPUTUNION u; }
 
-        [StructLayout(LayoutKind.Explicit)]
+        // Size = 32 pins this union to sizeof(MOUSEINPUT) so Marshal.SizeOf(INPUT) == 40 on x64;
+        // otherwise cbSize is 32 and SendInput rejects every event (ERROR_INVALID_PARAMETER 87).
+        [StructLayout(LayoutKind.Explicit, Size = 32)]
         public struct INPUTUNION { [FieldOffset(0)] public KEYBDINPUT ki; }
 
         [StructLayout(LayoutKind.Sequential)]
