@@ -1,6 +1,6 @@
 ﻿# W006 Terminate Lifetime Oracle Capture
 
-Capture id: terminate-lifetime-20260623T132422Z
+Capture id: terminate-lifetime-20260627T144316Z
 Bead: `oxforms-0a0.21`
 Status: captured
 
@@ -25,9 +25,9 @@ This directory contains black-box Excel/MSForms evidence for focused UserForm ob
 
 ## Blockers
 
-- `modeless_system_close_held_release`: This stable row capture was run with -SkipModelessCloseAttempt after the live public WM_CLOSE branch made Excel COM unavailable before the held-reference release/export step could complete.
-- `modal_hide_return_held_release`: This stable row capture was run with -SkipModalReturnAttempt after the modal auto-return macro path left Excel blocked inside the modal Show call before the capture could export evidence.
-- `modal_unload_return_held_release`: This stable row capture was run with -SkipModalReturnAttempt after the modal auto-return macro path left Excel blocked inside the modal Show call before the capture could export evidence.
+- `modeless_system_close_held_release`: Run with -SkipModelessCloseAttempt. PostMessage(WM_CLOSE) does close the modeless UserForm (wm_close_status=completed) but then leaves Excel COM unavailable (RPC 0x800706BA / DISP_E_EXCEPTION on the next excel.Run), so the held-reference release/export step cannot complete. Reconfirmed on a 2026-06-27 live attempt.
+- `modal_hide_return_held_release`: Run with -SkipModalReturnAttempt: a macro-driven Show vbModal blocks the COM thread (excel.Run does not return until the modal closes), so the capture cannot hold the modal open and drive/export it from the same thread. This is a structural limit of the macro-driven path, not an Excel availability flake.
+- `modal_unload_return_held_release`: Run with -SkipModalReturnAttempt: a macro-driven Show vbModal blocks the COM thread (excel.Run does not return until the modal closes), so the capture cannot hold the modal open and drive/export it from the same thread. This is a structural limit of the macro-driven path, not an Excel availability flake.
 
 ## Non-claims
 

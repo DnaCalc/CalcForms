@@ -85,8 +85,8 @@ Current facts:
   are observed ordering facts for this run only, not an exhaustive MSForms parity
   matrix, and missing rows are not treated as negative facts.
 - `oxforms-0a0.21` adds a repo-owned Excel/MSForms `Terminate` lifetime
-  fixture and the narrowed live capture
-  [`terminate-lifetime-20260623T132422Z`](../evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260623T132422Z/).
+  fixture and the refreshed stable live capture
+  [`terminate-lifetime-20260627T144316Z`](../evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260627T144316Z/).
   The capture exported 25 rows. `hide_held_release` recorded modeless show,
   `Hide`, local-reference release, held-reference release, and scenario end
   with no `Terminate` row in that sequence. `unload_held_release` recorded
@@ -94,8 +94,11 @@ Current facts:
   followed by `Terminate` row 20 before `AfterUnload` row 21 while the fixture's
   explicit reference-state columns still said local and held refs were `held`.
   Modeless system close, modal hide return, and modal unload return remain
-  explicit blockers in the capture. The artifact is evidence only; it does not
-  implement or claim OxForms runtime `Terminate` timing parity.
+  blocked by this fixture for the held-reference dimension only; `oxforms-0a0.25`
+  narrowed them after their `Terminate` ordering was captured elsewhere (modal by
+  `oxforms-0a0.24`, modeless by the W005 modeless interaction capture). The
+  artifact is evidence only; it does not implement or claim OxForms runtime
+  `Terminate` timing parity.
 
 This model is therefore a durable W005 architecture model plus downstream
 evidence requirements. Ordering statements below are design constraints unless
@@ -306,11 +309,14 @@ native FM20-named `QueryClose` dispatch through OxVba remains unavailable.
 follow-up.
 
 Current `oxforms-0a0.21` evidence refines only one object-lifetime subset:
-`terminate-lifetime-20260623T132422Z` ties an observed `Terminate` row to the
+`terminate-lifetime-20260627T144316Z` ties an observed `Terminate` row to the
 fixture's explicit `unload_held_release` sequence and reference-state columns.
-It does not prove `Hide` termination absence, modeless system-close timing,
-modal return timing, default-instance timing, or private Office reference-count
-state. Trace/replay rows must continue to follow
+It does not prove `Hide` termination absence, default-instance timing, or
+private Office reference-count state, nor the held-reference state during
+modeless system close, modal hide return, and modal unload return. The
+`Terminate` ordering for those three paths is captured elsewhere (modal by
+`oxforms-0a0.24`, modeless by the W005 modeless interaction capture), so
+`oxforms-0a0.25` narrows the residual here to the held-reference dimension. Trace/replay rows must continue to follow
 [`TRACE_REPLAY_SCHEMA.md`](TRACE_REPLAY_SCHEMA.md): section 9 keeps lifecycle
 effect requests and completions separate, section 11 requires `lifecycle_pump`
 rows to carry close/query/hide/unload/terminate reasons separately, and section

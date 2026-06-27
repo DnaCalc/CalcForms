@@ -1,0 +1,61 @@
+﻿{
+    "schema":  "oxforms.office_oracle.w006_terminate_lifetime_input_actions.v1",
+    "bead":  "oxforms-0a0.21",
+    "manual_inputs":  [
+
+                      ],
+    "automated_inputs":  [
+                             {
+                                 "sequence":  1,
+                                 "method":  "excel_vba_public_macro",
+                                 "action":  "RunW006TerminateHideHeldScenario",
+                                 "manual":  false,
+                                 "target_intent":  "Drive UserForm Terminate lifetime scenario through repo-owned VBA fixture macro."
+                             },
+                             {
+                                 "sequence":  2,
+                                 "method":  "excel_vba_public_macro",
+                                 "action":  "RunW006TerminateUnloadHeldScenario",
+                                 "manual":  false,
+                                 "target_intent":  "Drive UserForm Terminate lifetime scenario through repo-owned VBA fixture macro."
+                             },
+                             {
+                                 "sequence":  3,
+                                 "method":  "capture_policy",
+                                 "action":  "skip_modeless_system_close_attempt",
+                                 "manual":  false,
+                                 "target_intent":  "Preserve stable Hide/Unload row capture while recording modeless system close as blocked."
+                             },
+                             {
+                                 "sequence":  4,
+                                 "method":  "capture_policy",
+                                 "action":  "skip_modal_return_attempts",
+                                 "manual":  false,
+                                 "target_intent":  "Preserve stable Hide/Unload row capture while recording modal return scenarios as blocked."
+                             }
+                         ],
+    "blockers":  [
+                     {
+                         "surface":  "modeless_system_close_held_release",
+                         "reason":  "Run with -SkipModelessCloseAttempt. PostMessage(WM_CLOSE) does close the modeless UserForm (wm_close_status=completed) but then leaves Excel COM unavailable (RPC 0x800706BA / DISP_E_EXCEPTION on the next excel.Run), so the held-reference release/export step cannot complete. Reconfirmed on a 2026-06-27 live attempt.",
+                         "detail":  "The modeless system-close -\u003e QueryClose(CloseMode=0) -\u003e Terminate ORDERING is already captured live in W005 (the modeless interaction capture observed a final Terminate after a CloseMode=0 QueryClose). The residual not captured here is specifically the held-reference state during a modeless system close. A future capture should drive the close with SendKeys Alt+F4 -- which closed a UserForm cleanly without destabilizing COM in oxforms-0a0.24 -- rather than PostMessage(WM_CLOSE), then export after releasing the held reference.",
+                         "non_claim":  "No modeless system-close Terminate timing is claimed from this capture; see W005 for the CloseMode=0 -\u003e Terminate ordering."
+                     },
+                     {
+                         "surface":  "modal_hide_return_held_release",
+                         "reason":  "Run with -SkipModalReturnAttempt: a macro-driven Show vbModal blocks the COM thread (excel.Run does not return until the modal closes), so the capture cannot hold the modal open and drive/export it from the same thread. This is a structural limit of the macro-driven path, not an Excel availability flake.",
+                         "detail":  "The modal Terminate ORDERING is already captured live by oxforms-0a0.24 in captures/nested-modal-lifecycle-20260627T141239Z: inner Unload -\u003e QueryClose(CloseMode=1) -\u003e Terminate -\u003e AfterUnload; inner Alt+F4 system close -\u003e QueryClose(CloseMode=0) -\u003e Terminate; inner Hide fires no Terminate (the instance stays alive). The residual not captured here is specifically the held-reference state observed during a modal Hide/Unload return. Capturing that would require the SendInput-driven modal pattern (trigger Show vbModal from a launcher-form button via injected input, then drive the modal with injected input) rather than excel.Run; it is not attempted by this macro-driven fixture.",
+                         "non_claim":  "No modal_hide_return_held_release Terminate timing is claimed from this capture; see oxforms-0a0.24 for the modal Terminate ordering."
+                     },
+                     {
+                         "surface":  "modal_unload_return_held_release",
+                         "reason":  "Run with -SkipModalReturnAttempt: a macro-driven Show vbModal blocks the COM thread (excel.Run does not return until the modal closes), so the capture cannot hold the modal open and drive/export it from the same thread. This is a structural limit of the macro-driven path, not an Excel availability flake.",
+                         "detail":  "The modal Terminate ORDERING is already captured live by oxforms-0a0.24 in captures/nested-modal-lifecycle-20260627T141239Z: inner Unload -\u003e QueryClose(CloseMode=1) -\u003e Terminate -\u003e AfterUnload; inner Alt+F4 system close -\u003e QueryClose(CloseMode=0) -\u003e Terminate; inner Hide fires no Terminate (the instance stays alive). The residual not captured here is specifically the held-reference state observed during a modal Hide/Unload return. Capturing that would require the SendInput-driven modal pattern (trigger Show vbModal from a launcher-form button via injected input, then drive the modal with injected input) rather than excel.Run; it is not attempted by this macro-driven fixture.",
+                         "non_claim":  "No modal_unload_return_held_release Terminate timing is claimed from this capture; see oxforms-0a0.24 for the modal Terminate ordering."
+                     }
+                 ],
+    "notes":  [
+                  "Excel.Run macro calls and optional public user32 PostMessage(WM_CLOSE) are evidence-driving infrastructure only.",
+                  "Reference release steps are emitted by repo-owned VBA fixture rows before/after Set ... = Nothing call sites."
+              ]
+}

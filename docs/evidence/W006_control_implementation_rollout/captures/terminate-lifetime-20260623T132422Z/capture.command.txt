@@ -1,1 +1,0 @@
-﻿"C:\WINDOWS\System32\WindowsPowerShell\v1.0\powershell.exe" -NoProfile -ExecutionPolicy Bypass -File tools\office-oracle\Capture-W006TerminateLifetime.ps1 -SkipModelessCloseAttempt -SkipModalReturnAttempt

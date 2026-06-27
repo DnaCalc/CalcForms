@@ -1,0 +1,10 @@
+﻿2026-06-27T14:43:17.2002479Z capture_directory_prepared
+2026-06-27T14:43:23.2954397Z workbook_generated
+2026-06-27T14:43:24.8681524Z workbook_opened
+2026-06-27T14:43:25.1393302Z log_cleared
+2026-06-27T14:43:25.2481770Z macro_completed=RunW006TerminateHideHeldScenario
+2026-06-27T14:43:25.5865486Z macro_completed=RunW006TerminateUnloadHeldScenario
+2026-06-27T14:43:25.8364138Z modeless_close_attempt_skipped_with_blocker
+2026-06-27T14:43:25.8419899Z modal_return_attempts_skipped_with_blockers
+2026-06-27T14:43:26.3901132Z event_log_exported_rows=25
+2026-06-27T14:43:26.6054301Z excel_closed_before_manifest

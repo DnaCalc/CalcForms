@@ -2,7 +2,7 @@
     "schema":  "oxforms.office_oracle.w006_terminate_lifetime_event_log.v1",
     "bead":  "oxforms-0a0.21",
     "source":  {
-                   "workbook":  "docs/evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260623T132422Z/w006-terminate-lifetime-oracle.xlsm",
+                   "workbook":  "docs/evidence/W006_control_implementation_rollout/captures/terminate-lifetime-20260627T144316Z/w006-terminate-lifetime-oracle.xlsm",
                    "worksheet":  "W006TerminateLog",
                    "fixture":  "fixtures/office-oracle/excel-msforms/userforms/terminate-lifetime/fixture.json"
                },
@@ -319,7 +319,7 @@
                                                       "active_control":  "\u003cnone\u003e",
                                                       "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                                       "notes":  "Terminate row records the fixture reference-state columns visible to repo-owned VBA at handler entry.",
-                                                      "wall_clock_local":  "46196.6420717593"
+                                                      "wall_clock_local":  "46200.6968171296"
                                                   }
                                               ],
                            "query_close_rows":  [
@@ -348,7 +348,7 @@
                                                         "active_control":  "\u003cnone\u003e",
                                                         "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                                         "notes":  "",
-                                                        "wall_clock_local":  "46196.6420717593"
+                                                        "wall_clock_local":  "46200.6968171296"
                                                     }
                                                 ],
                            "rows":  [
@@ -377,7 +377,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "2",
@@ -404,7 +404,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "3",
@@ -431,7 +431,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "4",
@@ -458,7 +458,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "Local and global held references are both active before modeless Show.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "5",
@@ -485,7 +485,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "6",
@@ -512,7 +512,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "Calling f.Hide while local and global held references are active.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "7",
@@ -539,7 +539,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "VBA resumed after f.Hide; this row does not imply Terminate.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "8",
@@ -566,7 +566,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "The global held reference remains active after the local reference release.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "9",
@@ -593,7 +593,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "About to set the global held reference to Nothing.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "10",
@@ -620,7 +620,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "VBA resumed after setting the global held reference to Nothing.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "11",
@@ -647,7 +647,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "Scenario ended after the explicit release sequence.",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "12",
@@ -674,7 +674,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420601852"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "13",
@@ -701,7 +701,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "14",
@@ -728,7 +728,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "15",
@@ -755,7 +755,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "16",
@@ -782,7 +782,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "17",
@@ -809,7 +809,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "18",
@@ -836,7 +836,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "Calling Unload f while local and global held references are active.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "19",
@@ -863,7 +863,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "20",
@@ -890,7 +890,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "Terminate row records the fixture reference-state columns visible to repo-owned VBA at handler entry.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "21",
@@ -917,7 +917,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "This row is present only if VBA resumes after Unload f.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "22",
@@ -944,7 +944,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "The global held reference remains active after the local reference release.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "23",
@@ -971,7 +971,7 @@
                                             "active_control":  "\u003cnone\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "About to set the global held reference to Nothing.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "24",
@@ -998,7 +998,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "VBA resumed after setting the global held reference to Nothing.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         },
                                         {
                                             "sequence":  "25",
@@ -1025,7 +1025,7 @@
                                             "active_control":  "\u003cno form object\u003e",
                                             "active_window_caption":  "w006-terminate-lifetime-oracle.xlsm",
                                             "notes":  "Scenario ended after the explicit release sequence.",
-                                            "wall_clock_local":  "46196.6420717593"
+                                            "wall_clock_local":  "46200.6968171296"
                                         }
                                     ]
                        },
@@ -1047,21 +1047,21 @@
     "blockers":  [
                      {
                          "surface":  "modeless_system_close_held_release",
-                         "reason":  "This stable row capture was run with -SkipModelessCloseAttempt after the live public WM_CLOSE branch made Excel COM unavailable before the held-reference release/export step could complete.",
-                         "detail":  "The modeless close branch remains blocked unless a future capture can close the visible modeless UserForm and still export W006TerminateLog after releasing the held reference.",
-                         "non_claim":  "No modeless system-close Terminate timing is claimed from this stable row capture."
+                         "reason":  "Run with -SkipModelessCloseAttempt. PostMessage(WM_CLOSE) does close the modeless UserForm (wm_close_status=completed) but then leaves Excel COM unavailable (RPC 0x800706BA / DISP_E_EXCEPTION on the next excel.Run), so the held-reference release/export step cannot complete. Reconfirmed on a 2026-06-27 live attempt.",
+                         "detail":  "The modeless system-close -\u003e QueryClose(CloseMode=0) -\u003e Terminate ORDERING is already captured live in W005 (the modeless interaction capture observed a final Terminate after a CloseMode=0 QueryClose). The residual not captured here is specifically the held-reference state during a modeless system close. A future capture should drive the close with SendKeys Alt+F4 -- which closed a UserForm cleanly without destabilizing COM in oxforms-0a0.24 -- rather than PostMessage(WM_CLOSE), then export after releasing the held reference.",
+                         "non_claim":  "No modeless system-close Terminate timing is claimed from this capture; see W005 for the CloseMode=0 -\u003e Terminate ordering."
                      },
                      {
                          "surface":  "modal_hide_return_held_release",
-                         "reason":  "This stable row capture was run with -SkipModalReturnAttempt after the modal auto-return macro path left Excel blocked inside the modal Show call before the capture could export evidence.",
-                         "detail":  "The fixture plan distinguishes the modal Hide-return and modal Unload-return paths, but this run does not claim either path because public automation did not produce a bounded modal return/export sequence.",
-                         "non_claim":  "No modal_hide_return_held_release Terminate timing is claimed from this stable row capture."
+                         "reason":  "Run with -SkipModalReturnAttempt: a macro-driven Show vbModal blocks the COM thread (excel.Run does not return until the modal closes), so the capture cannot hold the modal open and drive/export it from the same thread. This is a structural limit of the macro-driven path, not an Excel availability flake.",
+                         "detail":  "The modal Terminate ORDERING is already captured live by oxforms-0a0.24 in captures/nested-modal-lifecycle-20260627T141239Z: inner Unload -\u003e QueryClose(CloseMode=1) -\u003e Terminate -\u003e AfterUnload; inner Alt+F4 system close -\u003e QueryClose(CloseMode=0) -\u003e Terminate; inner Hide fires no Terminate (the instance stays alive). The residual not captured here is specifically the held-reference state observed during a modal Hide/Unload return. Capturing that would require the SendInput-driven modal pattern (trigger Show vbModal from a launcher-form button via injected input, then drive the modal with injected input) rather than excel.Run; it is not attempted by this macro-driven fixture.",
+                         "non_claim":  "No modal_hide_return_held_release Terminate timing is claimed from this capture; see oxforms-0a0.24 for the modal Terminate ordering."
                      },
                      {
                          "surface":  "modal_unload_return_held_release",
-                         "reason":  "This stable row capture was run with -SkipModalReturnAttempt after the modal auto-return macro path left Excel blocked inside the modal Show call before the capture could export evidence.",
-                         "detail":  "The fixture plan distinguishes the modal Hide-return and modal Unload-return paths, but this run does not claim either path because public automation did not produce a bounded modal return/export sequence.",
-                         "non_claim":  "No modal_unload_return_held_release Terminate timing is claimed from this stable row capture."
+                         "reason":  "Run with -SkipModalReturnAttempt: a macro-driven Show vbModal blocks the COM thread (excel.Run does not return until the modal closes), so the capture cannot hold the modal open and drive/export it from the same thread. This is a structural limit of the macro-driven path, not an Excel availability flake.",
+                         "detail":  "The modal Terminate ORDERING is already captured live by oxforms-0a0.24 in captures/nested-modal-lifecycle-20260627T141239Z: inner Unload -\u003e QueryClose(CloseMode=1) -\u003e Terminate -\u003e AfterUnload; inner Alt+F4 system close -\u003e QueryClose(CloseMode=0) -\u003e Terminate; inner Hide fires no Terminate (the instance stays alive). The residual not captured here is specifically the held-reference state observed during a modal Hide/Unload return. Capturing that would require the SendInput-driven modal pattern (trigger Show vbModal from a launcher-form button via injected input, then drive the modal with injected input) rather than excel.Run; it is not attempted by this macro-driven fixture.",
+                         "non_claim":  "No modal_unload_return_held_release Terminate timing is claimed from this capture; see oxforms-0a0.24 for the modal Terminate ordering."
                      }
                  ],
     "clean_room":  {
