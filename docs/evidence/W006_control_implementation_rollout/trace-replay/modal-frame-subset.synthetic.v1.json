@@ -725,7 +725,7 @@
           "hover_path": [],
           "lifecycle_state": "modal_visible",
           "nested_modal_depth": 1,
-          "pending_effect_count": 9,
+          "pending_effect_count": 10,
           "pressed_state": {
             "armed": true,
             "origin": "mouse",
@@ -759,7 +759,8 @@
           "effect-0007",
           "effect-0008",
           "effect-0009",
-          "effect-0010"
+          "effect-0010",
+          "effect-0011"
         ],
         "invalidation_ids": [
           "inv-0002",
@@ -800,13 +801,16 @@
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
+        "arguments": [],
+        "cancel_metadata": null,
         "cause": {
           "transition_id": "transition-0003",
           "ui_event_id": "ui-0003"
         },
-        "completion_policy": "render_diagnostic_optional",
+        "completion_policy": "dispatch_result_required",
         "effect_id": "effect-0007",
-        "effect_kind": "request_repaint",
+        "effect_kind": "fire_vba_event",
+        "event_name": "Enter",
         "target": {
           "control_id": "ok",
           "form_id": "form-main",
@@ -818,8 +822,63 @@
       "sequence": 21
     },
     {
-      "kind": "effect_requested",
+      "kind": "vba_dispatch",
       "logical_tick": 21,
+      "nesting_depth": 2,
+      "parent_row_id": "row-0021",
+      "payload": {
+        "arguments": [],
+        "dispatch_id": "dispatch-0002",
+        "effect_id": "effect-0007",
+        "event_name": "Enter",
+        "fact_source": {
+          "event": "Enter",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [],
+        "result": {
+          "cancel_metadata": null,
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0022",
+      "sequence": 22
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 22,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0005",
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0003",
+          "ui_event_id": "ui-0003"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0008",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0023",
+      "sequence": 23
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 23,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -828,7 +887,7 @@
           "ui_event_id": "ui-0003"
         },
         "completion_policy": "platform_completion_or_diagnostic",
-        "effect_id": "effect-0008",
+        "effect_id": "effect-0009",
         "effect_kind": "capture_mouse",
         "target": {
           "control_id": "ok",
@@ -837,12 +896,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0022",
-      "sequence": 22
+      "row_id": "row-0024",
+      "sequence": 24
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 22,
+      "logical_tick": 24,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -874,7 +933,7 @@
           "ui_event_id": "ui-0003"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0009",
+        "effect_id": "effect-0010",
         "effect_kind": "fire_vba_event",
         "event_name": "MouseDown",
         "target": {
@@ -884,14 +943,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0023",
-      "sequence": 23
+      "row_id": "row-0025",
+      "sequence": 25
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 23,
+      "logical_tick": 25,
       "nesting_depth": 2,
-      "parent_row_id": "row-0023",
+      "parent_row_id": "row-0025",
       "payload": {
         "arguments": [
           {
@@ -915,8 +974,8 @@
             "value": "12"
           }
         ],
-        "dispatch_id": "dispatch-0002",
-        "effect_id": "effect-0009",
+        "dispatch_id": "dispatch-0003",
+        "effect_id": "effect-0010",
         "event_name": "MouseDown",
         "fact_source": {
           "event": "MouseDown",
@@ -937,12 +996,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0024",
-      "sequence": 24
+      "row_id": "row-0026",
+      "sequence": 26
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 24,
+      "logical_tick": 26,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -951,7 +1010,7 @@
           "ui_event_id": "ui-0003"
         },
         "completion_policy": "render_diagnostic_optional",
-        "effect_id": "effect-0010",
+        "effect_id": "effect-0011",
         "effect_kind": "request_repaint",
         "target": {
           "control_id": "ok",
@@ -960,12 +1019,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0025",
-      "sequence": 25
+      "row_id": "row-0027",
+      "sequence": 27
     },
     {
       "kind": "invalidation",
-      "logical_tick": 25,
+      "logical_tick": 27,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -986,12 +1045,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0026",
-      "sequence": 26
+      "row_id": "row-0028",
+      "sequence": 28
     },
     {
       "kind": "invalidation",
-      "logical_tick": 26,
+      "logical_tick": 28,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1012,12 +1071,12 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0027",
-      "sequence": 27
+      "row_id": "row-0029",
+      "sequence": 29
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 27,
+      "logical_tick": 29,
       "nesting_depth": 2,
       "parent_row_id": "row-0011",
       "payload": {
@@ -1030,42 +1089,6 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0028",
-      "sequence": 28
-    },
-    {
-      "kind": "effect_completed",
-      "logical_tick": 28,
-      "nesting_depth": 2,
-      "parent_row_id": "row-0013",
-      "payload": {
-        "diagnostics": [],
-        "effect_id": "effect-0005",
-        "result": {
-          "effect_kind": "request_repaint",
-          "runner": "oxforms-core headless trace replay"
-        },
-        "status": "completed_by_headless_render"
-      },
-      "phase": "effect",
-      "row_id": "row-0029",
-      "sequence": 29
-    },
-    {
-      "kind": "effect_completed",
-      "logical_tick": 29,
-      "nesting_depth": 2,
-      "parent_row_id": "row-0020",
-      "payload": {
-        "diagnostics": [],
-        "effect_id": "effect-0006",
-        "result": {
-          "effect_kind": "transfer_focus",
-          "runner": "oxforms-core headless trace replay"
-        },
-        "status": "diagnostic_only"
-      },
-      "phase": "effect",
       "row_id": "row-0030",
       "sequence": 30
     },
@@ -1073,10 +1096,10 @@
       "kind": "effect_completed",
       "logical_tick": 30,
       "nesting_depth": 2,
-      "parent_row_id": "row-0021",
+      "parent_row_id": "row-0013",
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0007",
+        "effect_id": "effect-0005",
         "result": {
           "effect_kind": "request_repaint",
           "runner": "oxforms-core headless trace replay"
@@ -1091,12 +1114,12 @@
       "kind": "effect_completed",
       "logical_tick": 31,
       "nesting_depth": 2,
-      "parent_row_id": "row-0022",
+      "parent_row_id": "row-0020",
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0008",
+        "effect_id": "effect-0006",
         "result": {
-          "effect_kind": "capture_mouse",
+          "effect_kind": "transfer_focus",
           "runner": "oxforms-core headless trace replay"
         },
         "status": "diagnostic_only"
@@ -1109,10 +1132,10 @@
       "kind": "effect_completed",
       "logical_tick": 32,
       "nesting_depth": 2,
-      "parent_row_id": "row-0023",
+      "parent_row_id": "row-0021",
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0009",
+        "effect_id": "effect-0007",
         "result": {
           "effect_kind": "fire_vba_event",
           "runner": "oxforms-core headless trace replay"
@@ -1127,10 +1150,10 @@
       "kind": "effect_completed",
       "logical_tick": 33,
       "nesting_depth": 2,
-      "parent_row_id": "row-0025",
+      "parent_row_id": "row-0023",
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0010",
+        "effect_id": "effect-0008",
         "result": {
           "effect_kind": "request_repaint",
           "runner": "oxforms-core headless trace replay"
@@ -1142,8 +1165,62 @@
       "sequence": 34
     },
     {
-      "kind": "ui_event",
+      "kind": "effect_completed",
       "logical_tick": 34,
+      "nesting_depth": 2,
+      "parent_row_id": "row-0024",
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0009",
+        "result": {
+          "effect_kind": "capture_mouse",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "diagnostic_only"
+      },
+      "phase": "effect",
+      "row_id": "row-0035",
+      "sequence": 35
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 35,
+      "nesting_depth": 2,
+      "parent_row_id": "row-0025",
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0010",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0036",
+      "sequence": 36
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 36,
+      "nesting_depth": 2,
+      "parent_row_id": "row-0027",
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0011",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
+      "row_id": "row-0037",
+      "sequence": 37
+    },
+    {
+      "kind": "ui_event",
+      "logical_tick": 37,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1246,12 +1323,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0035",
-      "sequence": 35
+      "row_id": "row-0038",
+      "sequence": 38
     },
     {
       "kind": "routing_decision",
-      "logical_tick": 35,
+      "logical_tick": 38,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1290,12 +1367,12 @@
         }
       },
       "phase": "routing",
-      "row_id": "row-0036",
-      "sequence": 36
+      "row_id": "row-0039",
+      "sequence": 39
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 36,
+      "logical_tick": 39,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1347,10 +1424,10 @@
         },
         "causal_ui_event_id": "ui-0004",
         "emitted_effect_ids": [
-          "effect-0011",
           "effect-0012",
           "effect-0013",
-          "effect-0014"
+          "effect-0014",
+          "effect-0015"
         ],
         "invalidation_ids": [
           "inv-0004"
@@ -1358,12 +1435,12 @@
         "transition_id": "transition-0004"
       },
       "phase": "reducer",
-      "row_id": "row-0037",
-      "sequence": 37
+      "row_id": "row-0040",
+      "sequence": 40
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 37,
+      "logical_tick": 40,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1372,7 +1449,7 @@
           "ui_event_id": "ui-0004"
         },
         "completion_policy": "platform_completion_or_diagnostic",
-        "effect_id": "effect-0011",
+        "effect_id": "effect-0012",
         "effect_kind": "release_mouse",
         "target": {
           "control_id": "ok",
@@ -1381,12 +1458,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0038",
-      "sequence": 38
+      "row_id": "row-0041",
+      "sequence": 41
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 38,
+      "logical_tick": 41,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1418,7 +1495,7 @@
           "ui_event_id": "ui-0004"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0012",
+        "effect_id": "effect-0013",
         "effect_kind": "fire_vba_event",
         "event_name": "MouseUp",
         "target": {
@@ -1428,14 +1505,14 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0039",
-      "sequence": 39
+      "row_id": "row-0042",
+      "sequence": 42
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 39,
+      "logical_tick": 42,
       "nesting_depth": 2,
-      "parent_row_id": "row-0039",
+      "parent_row_id": "row-0042",
       "payload": {
         "arguments": [
           {
@@ -1459,8 +1536,8 @@
             "value": "12"
           }
         ],
-        "dispatch_id": "dispatch-0003",
-        "effect_id": "effect-0012",
+        "dispatch_id": "dispatch-0004",
+        "effect_id": "effect-0013",
         "event_name": "MouseUp",
         "fact_source": {
           "event": "MouseUp",
@@ -1481,12 +1558,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0040",
-      "sequence": 40
+      "row_id": "row-0043",
+      "sequence": 43
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 40,
+      "logical_tick": 43,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1497,7 +1574,7 @@
           "ui_event_id": "ui-0004"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0013",
+        "effect_id": "effect-0014",
         "effect_kind": "fire_vba_event",
         "event_name": "Click",
         "target": {
@@ -1507,18 +1584,18 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0041",
-      "sequence": 41
+      "row_id": "row-0044",
+      "sequence": 44
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 41,
+      "logical_tick": 44,
       "nesting_depth": 2,
-      "parent_row_id": "row-0041",
+      "parent_row_id": "row-0044",
       "payload": {
         "arguments": [],
-        "dispatch_id": "dispatch-0004",
-        "effect_id": "effect-0013",
+        "dispatch_id": "dispatch-0005",
+        "effect_id": "effect-0014",
         "event_name": "Click",
         "fact_source": {
           "event": "Click",
@@ -1539,12 +1616,12 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0042",
-      "sequence": 42
+      "row_id": "row-0045",
+      "sequence": 45
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 42,
+      "logical_tick": 45,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1553,7 +1630,7 @@
           "ui_event_id": "ui-0004"
         },
         "completion_policy": "render_diagnostic_optional",
-        "effect_id": "effect-0014",
+        "effect_id": "effect-0015",
         "effect_kind": "request_repaint",
         "target": {
           "control_id": "ok",
@@ -1562,12 +1639,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0043",
-      "sequence": 43
+      "row_id": "row-0046",
+      "sequence": 46
     },
     {
       "kind": "invalidation",
-      "logical_tick": 43,
+      "logical_tick": 46,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1588,17 +1665,17 @@
         }
       },
       "phase": "render",
-      "row_id": "row-0044",
-      "sequence": 44
+      "row_id": "row-0047",
+      "sequence": 47
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 44,
+      "logical_tick": 47,
       "nesting_depth": 2,
-      "parent_row_id": "row-0038",
+      "parent_row_id": "row-0041",
       "payload": {
         "diagnostics": [],
-        "effect_id": "effect-0011",
+        "effect_id": "effect-0012",
         "result": {
           "effect_kind": "release_mouse",
           "runner": "oxforms-core headless trace replay"
@@ -1606,32 +1683,14 @@
         "status": "diagnostic_only"
       },
       "phase": "effect",
-      "row_id": "row-0045",
-      "sequence": 45
+      "row_id": "row-0048",
+      "sequence": 48
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 45,
+      "logical_tick": 48,
       "nesting_depth": 2,
-      "parent_row_id": "row-0039",
-      "payload": {
-        "diagnostics": [],
-        "effect_id": "effect-0012",
-        "result": {
-          "effect_kind": "fire_vba_event",
-          "runner": "oxforms-core headless trace replay"
-        },
-        "status": "recorded_not_executed"
-      },
-      "phase": "effect",
-      "row_id": "row-0046",
-      "sequence": 46
-    },
-    {
-      "kind": "effect_completed",
-      "logical_tick": 46,
-      "nesting_depth": 2,
-      "parent_row_id": "row-0041",
+      "parent_row_id": "row-0042",
       "payload": {
         "diagnostics": [],
         "effect_id": "effect-0013",
@@ -1642,17 +1701,35 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0047",
-      "sequence": 47
+      "row_id": "row-0049",
+      "sequence": 49
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 47,
+      "logical_tick": 49,
       "nesting_depth": 2,
-      "parent_row_id": "row-0043",
+      "parent_row_id": "row-0044",
       "payload": {
         "diagnostics": [],
         "effect_id": "effect-0014",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0050",
+      "sequence": 50
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 50,
+      "nesting_depth": 2,
+      "parent_row_id": "row-0046",
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0015",
         "result": {
           "effect_kind": "request_repaint",
           "runner": "oxforms-core headless trace replay"
@@ -1660,12 +1737,12 @@
         "status": "completed_by_headless_render"
       },
       "phase": "effect",
-      "row_id": "row-0048",
-      "sequence": 48
+      "row_id": "row-0051",
+      "sequence": 51
     },
     {
       "kind": "input_script_step",
-      "logical_tick": 48,
+      "logical_tick": 51,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1678,12 +1755,12 @@
         }
       },
       "phase": "script",
-      "row_id": "row-0049",
-      "sequence": 49
+      "row_id": "row-0052",
+      "sequence": 52
     },
     {
       "kind": "ui_event",
-      "logical_tick": 49,
+      "logical_tick": 52,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1706,12 +1783,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0050",
-      "sequence": 50
+      "row_id": "row-0053",
+      "sequence": 53
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 50,
+      "logical_tick": 53,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1753,18 +1830,18 @@
         },
         "causal_ui_event_id": "ui-0005",
         "emitted_effect_ids": [
-          "effect-0015"
+          "effect-0016"
         ],
         "invalidation_ids": [],
         "transition_id": "transition-0005"
       },
       "phase": "reducer",
-      "row_id": "row-0051",
-      "sequence": 51
+      "row_id": "row-0054",
+      "sequence": 54
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 51,
+      "logical_tick": 54,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1773,7 +1850,7 @@
           "ui_event_id": "ui-0005"
         },
         "completion_policy": "immediate_diagnostic",
-        "effect_id": "effect-0015",
+        "effect_id": "effect-0016",
         "effect_kind": "exit_modal_frame",
         "modal_depth": 1,
         "reason": "synthetic_replay_exit_without_live_window",
@@ -1784,12 +1861,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0052",
-      "sequence": 52
+      "row_id": "row-0055",
+      "sequence": 55
     },
     {
       "kind": "lifecycle_pump",
-      "logical_tick": 52,
+      "logical_tick": 55,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1808,14 +1885,14 @@
         "pump_term": "host_modeless_pump"
       },
       "phase": "pump",
-      "row_id": "row-0053",
-      "sequence": 53
+      "row_id": "row-0056",
+      "sequence": 56
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 53,
+      "logical_tick": 56,
       "nesting_depth": 2,
-      "parent_row_id": "row-0052",
+      "parent_row_id": "row-0055",
       "payload": {
         "diagnostics": [
           {
@@ -1829,7 +1906,7 @@
             "value": "OxVba caller-side modal Show blocking/resume and PAL/effect-runner live modal frame completions remain outside this subset."
           }
         ],
-        "effect_id": "effect-0015",
+        "effect_id": "effect-0016",
         "result": {
           "effect_kind": "exit_modal_frame",
           "runner": "oxforms-core headless trace replay"
@@ -1837,12 +1914,12 @@
         "status": "synthetic_pump_frame_exit_recorded"
       },
       "phase": "effect",
-      "row_id": "row-0054",
-      "sequence": 54
+      "row_id": "row-0057",
+      "sequence": 57
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 54,
+      "logical_tick": 57,
       "nesting_depth": 1,
       "parent_row_id": "row-0005",
       "payload": {
@@ -1866,12 +1943,12 @@
         "status": "completed_after_pump_frame_exited"
       },
       "phase": "effect",
-      "row_id": "row-0055",
-      "sequence": 55
+      "row_id": "row-0058",
+      "sequence": 58
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 55,
+      "logical_tick": 58,
       "nesting_depth": 1,
       "parent_row_id": "row-0006",
       "payload": {
@@ -1895,8 +1972,8 @@
         "status": "completed_after_pump_frame_exited"
       },
       "phase": "effect",
-      "row_id": "row-0056",
-      "sequence": 56
+      "row_id": "row-0059",
+      "sequence": 59
     }
   ],
   "scenario": {

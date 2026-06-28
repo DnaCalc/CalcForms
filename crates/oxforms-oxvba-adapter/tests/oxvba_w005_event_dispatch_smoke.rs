@@ -337,17 +337,27 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
     assert_eq!(
         rows,
         vec![
-            "1|ok|MouseDown|Button=1;Shift=0;X=4;Y=4",
-            "2|ok|MouseUp|Button=1;Shift=0;X=4;Y=4",
-            "3|ok|Click|no arguments",
+            // Pressing `ok` first focuses it: Enter on the gaining control before the
+            // MouseDown event (oxforms-esq.6).
+            "1|ok|Enter|no arguments",
+            "2|ok|MouseDown|Button=1;Shift=0;X=4;Y=4",
+            "3|ok|MouseUp|Button=1;Shift=0;X=4;Y=4",
+            "4|ok|Click|no arguments",
             // Pressing text-1 moves focus off `ok`, firing Exit on the losing control
-            // before the focus transfer (oxforms-esq.2).
-            "4|ok|Exit|Cancel=False",
-            "5|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
-            "6|text-1|KeyDown|key=character:A;Shift=1;modifiers=shift;repeat=false;raw_virtual_key=65;KeyCode=65;raw_scan_code=30",
-            "7|text-1|KeyPress|text=A;KeyAscii=65;modifiers=shift",
-            "8|text-1|Change|no arguments",
-            "9|text-1|KeyUp|key=character:A;Shift=0;modifiers=none;repeat=false",
+            // (oxforms-esq.2); the deferred commit then fires Enter on text-1 once the
+            // (uncancelled) validation completes (oxforms-esq.6 on the esq.4 model).
+            // KNOWN DIVERGENCE (oxforms-esq.10): the live oracle fires Enter BEFORE the
+            // gaining control's MouseDown (Exit -> Enter -> MouseDown), but the deferred
+            // commit currently lands Enter AFTER MouseDown here. This records the current
+            // runtime order, NOT oracle parity for the focus-changing-click case; esq.10
+            // will defer the press so Enter precedes MouseDown.
+            "5|ok|Exit|Cancel=False",
+            "6|text-1|MouseDown|Button=1;Shift=0;X=4;Y=4",
+            "7|text-1|Enter|no arguments",
+            "8|text-1|KeyDown|key=character:A;Shift=1;modifiers=shift;repeat=false;raw_virtual_key=65;KeyCode=65;raw_scan_code=30",
+            "9|text-1|KeyPress|text=A;KeyAscii=65;modifiers=shift",
+            "10|text-1|Change|no arguments",
+            "11|text-1|KeyUp|key=character:A;Shift=0;modifiers=none;repeat=false",
         ],
         "VBA handler should observe reducer event order and serialized W005 smoke args"
     );
@@ -356,7 +366,7 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
         .iter()
         .filter(|row| row.completion == AdapterDispatchCompletion::Succeeded)
         .collect();
-    assert_eq!(succeeded.len(), 9);
+    assert_eq!(succeeded.len(), 11);
     assert!(succeeded
         .iter()
         .all(|row| row.fact_source.as_deref() == Some("docs/specs/FM20_EVENT_FACTS.md")));

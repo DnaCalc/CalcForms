@@ -149,9 +149,9 @@ mod tests {
     use super::*;
     use crate::{reduce, EffectKind, FocusTarget};
     use oxforms_pal::{
-        ClickCount, CoordinatePayload, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers,
-        LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics,
-        UiEvent, UiEventId, UiEventKind, UiEventSource,
+        ClickCount, CoordinatePayload, FocusValidationCompletedEvent, KeyCode, KeyEvent, KeyRepeat,
+        KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
+        RawKeyDiagnostics, UiEvent, UiEventId, UiEventKind, UiEventSource,
     };
 
     /// The control names the VBA object-model demo uses; the materialized reducer
@@ -285,7 +285,9 @@ mod tests {
             Some(FocusTarget::Control(ControlId::new("InputField")))
         );
 
-        // Enter activates the default button (OkButton) -> a Click effect targeting it.
+        // A default-button Enter transfers focus to OkButton: Exit fires on InputField and
+        // the commit (and the button Click) is held pending the veto (oxforms-esq.6 on the
+        // esq.4 deferred-focus model).
         let entered = reduce(
             focused.state,
             UiEvent::new(
@@ -297,10 +299,29 @@ mod tests {
         assert!(
             entered.effects.iter().any(|effect| matches!(
                 &effect.kind,
+                EffectKind::FireVbaEvent { event_name, .. } if event_name == "Exit"
+            )),
+            "Enter begins a focus transfer with Exit on the focused control"
+        );
+
+        // The uncancelled completion commits focus to OkButton and fires its Click.
+        let completion = UiEvent::new(
+            UiEventId(3),
+            UiEventSource::Service,
+            UiEventKind::FocusValidationCompleted(FocusValidationCompletedEvent {
+                form_id: entered.state.form_id.clone(),
+                cancelled: false,
+                dispatch_diagnostics: Vec::new(),
+            }),
+        );
+        let committed = reduce(entered.state, completion);
+        assert!(
+            committed.effects.iter().any(|effect| matches!(
+                &effect.kind,
                 EffectKind::FireVbaEvent { event_name, .. } if event_name == "Click"
             ) && effect.target.control_id
                 == Some(ControlId::new("OkButton"))),
-            "Enter fires Click on the default OkButton"
+            "the committed default-button Enter fires Click on OkButton"
         );
     }
 

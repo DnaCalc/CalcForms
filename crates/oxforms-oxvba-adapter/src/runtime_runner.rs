@@ -425,7 +425,8 @@ impl RuntimeRunner {
     /// to a native control member (`Click` → `PerformClick`, `Change` →
     /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`, `KeyPress`
     /// → `PerformKeyPress`, `MouseDown`/`MouseUp` → `PerformMouseDown`/
-    /// `PerformMouseUp`, `Exit` → `PerformExit`) or, for form-level events
+    /// `PerformMouseUp`, `Exit` → `PerformExit`, `Enter` → `PerformEnter`) or, for
+    /// form-level events
     /// (`QueryClose`/lifecycle), to the form module's `Perform*` via
     /// [`Self::dispatch_form_event`]; or `None` when it is a reducer-routed FM20 event
     /// still acknowledged but not natively dispatched (e.g. `MouseMove`), or a mouse
@@ -455,6 +456,7 @@ impl RuntimeRunner {
                 | "MouseDown"
                 | "MouseUp"
                 | "Exit"
+                | "Enter"
         ) {
             return Ok(None);
         }
@@ -548,6 +550,11 @@ impl RuntimeRunner {
                 // [Exit] with a fresh ReturnBoolean Cancel and returns the
                 // post-handler value (True when the handler vetoed the focus change).
                 ("PerformExit", Vec::new())
+            }
+            "Enter" => {
+                // Focus-enter fires on the control gaining focus; PerformEnter raises
+                // Enter (no args, no readback -- Enter is not cancelable) (oxforms-esq.6).
+                ("PerformEnter", Vec::new())
             }
             // Unreachable: guarded by the `matches!` above. Kept total without a
             // panic path.

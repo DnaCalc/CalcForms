@@ -19,6 +19,9 @@ Public Event KeyPress(ByVal KeyAscii As ReturnInteger)
 ' baseline 366a40e). Carries a mutable Cancel (ReturnBoolean); a handler sets
 ' Cancel.Value = True to keep focus.
 Public Event [Exit](ByVal Cancel As ReturnBoolean)
+' The FM20 focus-enter event fires (no args) when the control receives focus,
+' after the losing control's [Exit] (oxforms-esq.6).
+Public Event Enter()
 
 Private mCore As OxControlCore
 
@@ -147,3 +150,8 @@ Public Function PerformExit() As Boolean
     RaiseEvent [Exit](cancel)
     PerformExit = cancel.Value
 End Function
+
+' Raises the focus-enter event when the control gains focus (no readback).
+Public Sub PerformEnter()
+    RaiseEvent Enter
+End Sub

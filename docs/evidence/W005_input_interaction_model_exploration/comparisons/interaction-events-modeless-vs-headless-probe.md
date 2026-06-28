@@ -39,7 +39,7 @@ modeless lifecycle close-slice rows to the committed headless replay golden.
 
 The mapping is partial by design. The MSForms capture is a long modeless run
 with 21 automated input actions and 1116 event rows. The OxForms headless
-golden is a focused five-step script with 227 trace rows:
+golden is a focused five-step script with 233 trace rows:
 
 1. show modeless;
 2. click the TextBox probe;
@@ -92,10 +92,18 @@ Known gaps:
 
 - MSForms records focus/validation rows such as `BeforeUpdate`, `AfterUpdate`,
   `Exit`, and `Enter` around focus movement. The replay now emits the focus `Exit`
-  FireVbaEvent and a replayed (uncancelled) `focus_validation_completed` completion
-  that defers the `transfer_focus` until the veto resolves (oxforms-esq.2 + esq.4);
-  the remaining gap is `BeforeUpdate`/`AfterUpdate` emission (esq.7) and `Enter` on
-  the gaining control (esq.6).
+  FireVbaEvent, a replayed (uncancelled) `focus_validation_completed` completion that
+  defers the `transfer_focus` until the veto resolves (oxforms-esq.2 + esq.4), and a
+  focus `Enter` FireVbaEvent on the gaining control after the commit (oxforms-esq.6);
+  the remaining gap is `BeforeUpdate`/`AfterUpdate` emission (oxforms-esq.7).
+- Enter-vs-MouseDown order on a focus-CHANGING click is divergent (oxforms-esq.10).
+  The oracle fires `Exit`(leaver) -> `Enter`(enterer) -> `MouseDown`(enterer) on every
+  focus-changing click (capture sequences 565-567, 626-628, 868-870, 983-985). Because
+  esq.6's `Enter` rides the esq.4 deferred focus commit while the gaining control's
+  `MouseDown` is emitted in-line, the replay currently produces `Exit` -> `MouseDown` ->
+  `Enter` (golden script-0005). The initial-focus (`None`->control) path commits
+  synchronously and is already correct (`Enter` before `MouseDown`). esq.10 will defer
+  the press to the validation commit so `Enter` precedes `MouseDown`.
 - The headless replay does not include close; the MSForms capture records
   `QueryClose`, `Exit`, and `Terminate`. The visible smoke has QueryClose-path
   evidence but not Terminate parity.

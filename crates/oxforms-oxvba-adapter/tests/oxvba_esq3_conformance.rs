@@ -34,9 +34,10 @@ use oxforms_core::{
 };
 use oxforms_oxvba_adapter::runtime_runner::{RuntimeRunner, RuntimeStep};
 use oxforms_pal::{
-    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, KeyCode, KeyEvent, KeyRepeat,
-    KeyboardModifiers, LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent, MouseButtons,
-    PointerId, RawKeyDiagnostics, UiEvent, UiEventId, UiEventKind, UiEventSource,
+    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, FocusValidationCompletedEvent,
+    FormId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LogicalPoint, LogicalRect,
+    MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics, UiEvent, UiEventId,
+    UiEventKind, UiEventSource,
 };
 
 use oxvba_bundle::BundlePackage;
@@ -248,6 +249,20 @@ fn enter_key_event(id: u64, down: bool) -> UiEvent {
         } else {
             UiEventKind::KeyUp(event)
         },
+    )
+}
+
+/// The runtime's `Exit`-Cancel fold-back, modeled for reduce()-path tests: a focus
+/// validation completing uncancelled (or vetoed) for the given form (oxforms-esq.4).
+fn focus_validation_completed_event(id: u64, form_id: &str, cancelled: bool) -> UiEvent {
+    UiEvent::new(
+        UiEventId(id),
+        UiEventSource::Service,
+        UiEventKind::FocusValidationCompleted(FocusValidationCompletedEvent {
+            form_id: FormId::new(form_id),
+            cancelled,
+            dispatch_diagnostics: Vec::new(),
+        }),
     )
 }
 
@@ -493,61 +508,133 @@ fn pin_checkbox_mouse_toggle_change_before_click() {
     );
 }
 
+/// PIN — focus gain natively dispatches Enter (oxforms-esq.6). Focusing InputField
+/// (None -> InputField) commits focus SYNCHRONOUSLY and dispatches Enter on the gaining
+/// control via its native `PerformEnter` member -- the runtime half of the
+/// default-button/tab Enter emission proven at the reducer level by
+/// [`gap_default_button_enter_transfers_focus`].
+///
+/// Oracle: the W005 modeless oracle (Enter on the initially-focused control, sequence 2).
+/// This pins only that Enter is natively dispatched on the gaining control on the
+/// SYNCHRONOUS initial-focus path. The DEFERRED control->control path's Enter-vs-MouseDown
+/// ordering is the separate gap [`gap_focus_changing_click_enter_precedes_mousedown`].
+#[test]
+fn pin_enter_dispatched_on_focus_gain() {
+    let mut runner = attach_runner();
+    let step = runner
+        .dispatch(ui_event(
+            900,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press InputField");
+    assert!(
+        step.native_dispatches
+            .iter()
+            .any(|dispatch| dispatch.event_name == "Enter"
+                && dispatch.control_id == ControlId::new("InputField")),
+        "focusing InputField natively dispatches Enter on it (PerformEnter), got {:?}",
+        step.native_dispatches
+    );
+}
+
 // ===========================================================================
 // GAPS — orderings the runtime cannot yet produce. Each encodes the FULL oracle
 // ordering and is mapped to the bead that will close it. Un-ignoring the test
 // when that bead lands is the proof.
 // ===========================================================================
 
-/// GAP — default-button Enter transfers focus: TextBox Exit then OkButton Enter,
-/// before the button Click. The runtime only fires KeyDown -> Click -> KeyUp on the
-/// focused control (no focus transfer, no Exit on the leaver, no Enter on the
-/// button), so the full oracle ordering is unmet.
+/// GAP — a focus-CHANGING click fires Exit -> Enter -> MouseDown on the gaining control.
+/// The W005 modeless oracle fires the gaining control's Enter BEFORE its MouseDown on
+/// every focus-changing click (capture sequences 565-567, 626-628, 868-870, 983-985).
+/// The runtime emits Exit (in-line) -> MouseDown (in-line) -> Enter (on the esq.4 deferred
+/// focus commit, where esq.6's Enter rides), inverting Enter/MouseDown, because the mouse
+/// press is not deferred through the focus validation. Driven over the reducer on a
+/// non-vetoing form (the W007 InputField_Exit vetoes, which would block the transfer).
+#[test]
+#[ignore = "GAP: a focus-changing click emits Exit -> MouseDown -> Enter; the oracle has Exit -> Enter -> MouseDown (the mouse press must be deferred through the focus validation) — pending oxforms-esq.10"]
+fn gap_focus_changing_click_enter_precedes_mousedown() {
+    let mut state = FormState::new("form-click");
+    state.controls = vec![
+        ControlNode::text_box("TextBox1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+        ControlNode::text_box("TextBox2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+    ];
+    state.focus_owner = Some(FocusTarget::Control(ControlId::new("TextBox1")));
+
+    let mut order = Vec::new();
+    // Click TextBox2 (focus-changing): Exit (TextBox1) and the MouseDown (TextBox2) are
+    // emitted in-line; the deferred completion then fires Enter (TextBox2).
+    let pressed = reduce_mouse(state, 1, true, 10.0, 30.0);
+    order.extend(reduced_event_names(&pressed.effects));
+    let committed = reduce(
+        pressed.state,
+        focus_validation_completed_event(2, "form-click", false),
+    );
+    order.extend(reduced_event_names(&committed.effects));
+
+    assert_eq!(
+        order,
+        vec!["Exit", "Enter", "MouseDown"],
+        "a focus-changing click must fire Exit (leaver), Enter (enterer), then MouseDown \
+         (enterer) — W005 modeless oracle seq 565-567/626-628/868-870/983-985"
+    );
+}
+
+/// PIN (closed by oxforms-esq.6; was a GAP) — default-button Enter transfers focus:
+/// TextBox Exit then OkButton Enter, before the button Click and the KeyUp on the button.
 ///
 /// Oracle: [`CAP_KEY_MUTATION`] rows 3-7 (scenario `default_button_enter`):
 ///   TextBox1 KeyDown(13) -> TextBox1 Exit -> OkButton Enter -> OkButton Click ->
 ///   OkButton KeyUp(13).
 ///
-/// Encoded as the full ordering the runtime must produce once esq.6 lands the
-/// default-button focus transfer (Exit on the leaving TextBox + Enter on the button).
+/// Driven through the reducer (not the W007 runner): the W007 probe form's InputField_Exit
+/// unconditionally vetoes (see [`gap_exit_veto_keeps_focus`]), which would correctly BLOCK
+/// the default-button transfer (a vetoed Exit suppresses the Enter/Click). The oracle
+/// capture's TextBox1_Exit does NOT veto, so this exercises the non-vetoing transfer on a
+/// reducer form -- the same FireVbaEvent stream the runtime dispatches natively. The Exit
+/// veto is folded back by the runtime as `FocusValidationCompleted`, modeled here by the
+/// injected uncancelled completion (oxforms-esq.4 channel).
 #[test]
-#[ignore = "GAP: default-button Enter does not transfer focus (no TextBox Exit, no OkButton Enter; runtime fires only KeyDown->Click->KeyUp) — pending oxforms-esq.6"]
 fn gap_default_button_enter_transfers_focus() {
-    let mut runner = attach_runner();
-    focus_input_field(&mut runner);
+    let mut state = FormState::new("form-default-button");
+    state.controls = vec![
+        ControlNode::text_box("TextBox1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+        ControlNode::command_button("OkButton", LogicalRect::new(0.0, 24.0, 64.0, 20.0), 0, 1),
+    ];
+    state.focus_owner = Some(FocusTarget::Control(ControlId::new("TextBox1")));
+    state.default_button = Some(ControlId::new("OkButton"));
 
     let mut order = Vec::new();
-    order.extend(dispatched_event_names(
-        &runner
-            .dispatch(enter_key_event(1, true))
-            .expect("Enter down"),
-    ));
-    order.extend(dispatched_event_names(
-        &runner
-            .dispatch(enter_key_event(2, false))
-            .expect("Enter up"),
-    ));
+    let down = reduce(state, enter_key_event(1, true));
+    order.extend(reduced_event_names(&down.effects));
+    let committed = reduce(
+        down.state,
+        focus_validation_completed_event(2, "form-default-button", false),
+    );
+    order.extend(reduced_event_names(&committed.effects));
+    let up = reduce(committed.state, enter_key_event(3, false));
+    order.extend(reduced_event_names(&up.effects));
 
     assert_eq!(
         order,
         vec!["KeyDown", "Exit", "Enter", "Click", "KeyUp"],
-        "default-button Enter must fire (on the TextBox) KeyDown, Exit; then (on the \
-         OkButton) Enter, Click, KeyUp — oracle {CAP_KEY_MUTATION} default_button_enter rows 3-7"
+        "default-button Enter must fire (on TextBox1) KeyDown, Exit; then (on OkButton) \
+         Enter, Click, KeyUp — oracle {CAP_KEY_MUTATION} default_button_enter rows 3-7"
     );
 }
 
 /// GAP — full Tab focus-out ordering KeyDown -> BeforeUpdate -> AfterUpdate -> Exit
-/// -> Enter. The runtime currently emits only [KeyDown, Exit] on a Tab commit: it
-/// never emits BeforeUpdate/AfterUpdate (esq.7) and never emits Enter on the gaining
-/// control (esq.6). This single test encodes the WHOLE contiguous oracle ordering so
-/// it stays red until BOTH beads land — a non-contiguous subsequence (e.g. asserting
-/// just KeyDown, Exit, Enter) could otherwise pass on a partial, wrongly-ordered
-/// emission once esq.6 lands Enter but esq.7 has not yet inserted BeforeUpdate/AfterUpdate.
+/// -> Enter. esq.6 landed the Enter emission, but it fires on the deferred focus-commit
+/// (the `FocusValidationCompleted` fold-back), NOT in the single Tab reduce: a Tab reduce
+/// now emits only [KeyDown, Exit] and holds the commit pending. esq.7 must (a) emit
+/// BeforeUpdate/AfterUpdate (before Exit) and (b) restructure this test to span the
+/// Tab reduce AND the injected completion (where Enter fires), mirroring
+/// [`gap_default_button_enter_transfers_focus`]. Kept as the WHOLE contiguous ordering so
+/// it stays red until esq.7 lands — a partial subsequence could otherwise false-pass.
 ///
 /// Oracle: [`CAP_FOCUS_VALIDATION`] rows 7-11 (scenario `tab_transfer` after editing):
 ///   TextBox1 KeyDown(9) -> BeforeUpdate -> AfterUpdate -> Exit -> TextBox2 Enter.
 #[test]
-#[ignore = "GAP: Tab commit emits only [KeyDown, Exit]; BeforeUpdate/AfterUpdate (esq.7) and Enter on the gaining control (esq.6) are not emitted — pending oxforms-esq.6 + oxforms-esq.7"]
+#[ignore = "GAP: Tab reduce emits [KeyDown, Exit] (Enter now fires on the deferred completion, esq.6); BeforeUpdate/AfterUpdate are still unemitted and the test needs restructuring to span the completion — pending oxforms-esq.7"]
 fn gap_tab_out_full_focus_ordering() {
     let mut state = FormState::new("form-tab");
     state.controls = vec![

@@ -481,6 +481,10 @@ pub struct ValidationRequest {
     /// (on [`ValidationResult::Passed`]) emits `TransferFocus` with the faithful reason
     /// (oxforms-esq.4).
     pub reason: FocusTransferReason,
+    /// When set, the gaining control is also activated (Clicked) once the transfer
+    /// commits -- a default-button `Enter` transfers focus to the button and then fires
+    /// its `Click` (oxforms-esq.6). A vetoed `Exit` therefore suppresses the `Click` too.
+    pub activate_on_commit: bool,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -1253,6 +1257,7 @@ fn reduce_mouse_down(
                 previous_focus.clone(),
                 target.clone(),
                 FocusTransferReason::Mouse,
+                false,
             ),
             // No control to veto (initial focus / from the form): commit synchronously.
             None => commit_focus_transfer(
@@ -1270,8 +1275,14 @@ fn reduce_mouse_down(
     // on MouseUp) proceeds regardless of any pending focus validation: esq.4 holds only
     // the FOCUS commit pending the Exit veto, not the press. In the runtime the Exit
     // foldback resolves the pending validation within this same dispatch, so the later
-    // MouseUp/Click never observes a pending state; gating the press on the veto is out of
-    // scope here (no oracle for the vetoed-mouse-click interaction).
+    // MouseUp/Click never observes a pending state.
+    //
+    // KNOWN DIVERGENCE (oxforms-esq.10): because this MouseDown is emitted in-line while
+    // esq.6's focus Enter rides the DEFERRED commit_focus_transfer, a focus-CHANGING click
+    // currently fires Exit -> MouseDown -> Enter, whereas the W005 modeless oracle fires
+    // Exit -> Enter -> MouseDown (capture seq 565-567, 626-628, 868-870, 983-985). esq.10
+    // will defer the press here to the validation commit so Enter precedes MouseDown (and a
+    // veto absorbs the press). The synchronous initial-focus path below is already correct.
     state.capture_owner = Some(CaptureOwner {
         target: target.clone(),
         pointer_id: payload.pointer_id,
@@ -1416,13 +1427,45 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
         | KeyCode::Home
         | KeyCode::End => reduce_text_box_editing_key_down(state, context, payload),
         KeyCode::Enter => {
-            if let Some(control_id) = state.default_button.clone() {
-                activate_command_button(
-                    state,
-                    context,
-                    &control_id,
-                    PressedOrigin::KeyboardDefault,
-                );
+            if let Some(button_id) = state.default_button.clone() {
+                let button_target = FocusTarget::Control(button_id.clone());
+                let previous_focus = state.focus_owner.clone();
+                // A default-button Enter transfers focus to the button (Exit on the
+                // focused control, then Enter on the button) before its Click; the Click
+                // is activated when the transfer commits (oxforms-esq.6). When focus is
+                // already the button -- or there is nothing to leave / a pending
+                // validation -- it Clicks in place as before. A non-activatable default
+                // button (hidden/disabled) does NOT transfer: it falls through to
+                // activate_command_button, which no-ops -- so no spurious Exit/focus move.
+                let button_activatable = find_control(state, &button_id).is_some_and(|control| {
+                    control.kind == ControlKind::CommandButton && control.visible && control.enabled
+                });
+                let losing = if button_activatable
+                    && state.validation.pending.is_none()
+                    && previous_focus.as_ref() != Some(&button_target)
+                {
+                    focusable_losing_control(state, &previous_focus)
+                } else {
+                    None
+                };
+                if let Some(losing_id) = losing {
+                    begin_focus_validation(
+                        state,
+                        context,
+                        &losing_id,
+                        previous_focus,
+                        button_target,
+                        FocusTransferReason::Keyboard,
+                        true,
+                    );
+                } else {
+                    activate_command_button(
+                        state,
+                        context,
+                        &button_id,
+                        PressedOrigin::KeyboardDefault,
+                    );
+                }
             }
         }
         KeyCode::Escape => {
@@ -1580,6 +1623,7 @@ fn reduce_tab_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, 
             previous_focus.clone(),
             next_target.clone(),
             FocusTransferReason::Keyboard,
+            false,
         ),
         // No control to veto (initial focus / from the form): commit synchronously.
         None => commit_focus_transfer(
@@ -3024,6 +3068,9 @@ fn commit_focus_transfer(
         },
         CompletionPolicy::DispatchResultRequired,
     );
+    // MSForms fires Enter on the gaining control after focus moves -- Exit (leaver) then
+    // Enter (enterer) (oxforms-esq.6).
+    queue_focus_enter_event(state, context, target);
     let invalidation_id = context.push_invalidation(
         state,
         effect_target.clone(),
@@ -3052,6 +3099,7 @@ fn begin_focus_validation(
     from: Option<FocusTarget>,
     to: FocusTarget,
     reason: FocusTransferReason,
+    activate_on_commit: bool,
 ) {
     // Focus is leaving this control: abandon any armed key-swallow (it only pairs with
     // this control's immediately-following character) (oxforms-esq.4).
@@ -3062,6 +3110,7 @@ fn begin_focus_validation(
         to: Some(to),
         cancelable: true,
         reason,
+        activate_on_commit,
     });
     state.validation.active = true;
 }
@@ -3105,6 +3154,13 @@ fn reduce_focus_validation_completed(
         &effect_target,
         request.reason,
     );
+    // A default-button Enter transfers focus to the button and then fires its Click,
+    // after the gaining control's Enter (oxforms-esq.6).
+    if request.activate_on_commit {
+        if let FocusTarget::Control(control_id) = &to {
+            activate_command_button(state, context, control_id, PressedOrigin::KeyboardDefault);
+        }
+    }
 }
 
 /// Fold a `KeyDown` handler's `KeyCode -> 0` swallow readback back into reducer state
@@ -3116,6 +3172,32 @@ fn reduce_key_down_swallowed(state: &mut FormState, payload: &KeyDownSwallowedEv
         return;
     }
     state.keyboard.suppress_next_character_input = true;
+}
+
+/// Emit the FM20 focus `Enter` event on the control gaining focus, after the transfer
+/// commits (MSForms order: Exit on the leaver, then Enter on the enterer). `Enter` takes
+/// no arguments and is not cancelable, so there is no readback (oxforms-esq.6). The form
+/// itself has no `Enter`, so a `Form` focus target is a no-op.
+fn queue_focus_enter_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    target: &FocusTarget,
+) {
+    let FocusTarget::Control(control_id) = target else {
+        return;
+    };
+    let event_target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    context.push_effect(
+        state,
+        event_target,
+        EffectKind::FireVbaEvent {
+            event_name: "Enter".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: Vec::new(),
+            cancel_metadata: None,
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
 }
 
 /// Emit the FM20 focus `Exit` event on the control losing focus, before the focus
@@ -3234,6 +3316,7 @@ mod tests {
             effect_names(&output.effects),
             vec![
                 "transfer_focus",
+                "fire_vba_event:Enter",
                 "request_repaint",
                 "capture_mouse",
                 "fire_vba_event:MouseDown",
@@ -3247,14 +3330,15 @@ mod tests {
                 EffectId(2),
                 EffectId(3),
                 EffectId(4),
-                EffectId(5)
+                EffectId(5),
+                EffectId(6)
             ]
         );
         assert_eq!(
             output.transition.invalidation_ids,
             vec![InvalidationId(1), InvalidationId(2)]
         );
-        assert_eq!(output.transition.after.pending_effect_count, 5);
+        assert_eq!(output.transition.after.pending_effect_count, 6);
         assert_eq!(output.state.pending_effects, output.effects);
     }
 
@@ -3298,7 +3382,7 @@ mod tests {
         );
         assert_eq!(
             output.transition.emitted_effect_ids,
-            vec![EffectId(6), EffectId(7), EffectId(8), EffectId(9)]
+            vec![EffectId(7), EffectId(8), EffectId(9), EffectId(10)]
         );
         assert_eq!(output.transition.invalidation_ids, vec![InvalidationId(3)]);
     }
@@ -3441,7 +3525,7 @@ mod tests {
         );
         assert_eq!(
             effect_names(&committed.effects),
-            vec!["transfer_focus", "request_repaint"]
+            vec!["transfer_focus", "fire_vba_event:Enter", "request_repaint"]
         );
         assert!(committed.state.validation.pending.is_none());
 
@@ -3521,7 +3605,7 @@ mod tests {
         );
         assert_eq!(
             effect_names(&committed.effects),
-            vec!["transfer_focus", "request_repaint"]
+            vec!["transfer_focus", "fire_vba_event:Enter", "request_repaint"]
         );
         assert_eq!(
             committed.state.validation.last_result,
@@ -4633,6 +4717,7 @@ mod tests {
             effect_names(&down.effects),
             vec![
                 "transfer_focus",
+                "fire_vba_event:Enter",
                 "request_repaint",
                 "capture_mouse",
                 "fire_vba_event:MouseDown",
@@ -5192,7 +5277,7 @@ mod tests {
         let encoded =
             serde_json::to_string_pretty(&rows).expect("transition rows should serialize");
 
-        assert_eq!(rows.len(), 8);
+        assert_eq!(rows.len(), 9);
         assert!(encoded.contains("reducer_transition"));
         assert!(encoded.contains("effect_requested"));
         assert!(encoded.contains("invalidation"));
@@ -5293,34 +5378,87 @@ mod tests {
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
         state.default_button = Some(ControlId::new("ok"));
 
+        // A default-button Enter transfers focus to the button: KeyDown then Exit on the
+        // text box, with the commit (and the button's Click) held pending the veto
+        // (oxforms-esq.6 on the esq.4 deferred-focus model).
         let down = reduce(state, key_down_event(UiEventId(52), KeyCode::Enter, false));
-
         assert_eq!(
             effect_names(&down.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:Exit"]
+        );
+        assert_eq!(
+            down.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1"))),
+            "focus is held pending the Exit veto"
+        );
+
+        // The Exit did not veto: focus commits to ok (Enter on the gaining button) and
+        // then the button is Clicked -- KeyDown, Exit, Enter, Click matches the oracle
+        // default_button_enter ordering.
+        let committed = reduce(
+            down.state,
+            focus_validation_completed_event(UiEventId(152), false),
+        );
+        assert_eq!(
+            committed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("ok")))
+        );
+        assert_eq!(
+            effect_names(&committed.effects),
             vec![
-                "fire_vba_event:KeyDown",
+                "transfer_focus",
+                "fire_vba_event:Enter",
+                "request_repaint",
                 "fire_vba_event:Click",
                 "request_repaint"
             ]
         );
         assert_eq!(
-            down.effects[1].target,
-            UiEventTarget::control("form-main", "ok")
-        );
-        assert_eq!(
-            down.state
+            committed
+                .state
                 .pressed_state
                 .as_ref()
                 .map(|pressed| pressed.origin),
             Some(PressedOrigin::KeyboardDefault)
         );
+        let click = committed
+            .effects
+            .iter()
+            .find(|effect| {
+                matches!(&effect.kind, EffectKind::FireVbaEvent { event_name, .. } if event_name == "Click")
+            })
+            .expect("Click effect");
+        assert_eq!(click.target, UiEventTarget::control("form-main", "ok"));
 
-        let up = reduce(down.state, key_up_event(UiEventId(53), KeyCode::Enter));
+        let up = reduce(committed.state, key_up_event(UiEventId(53), KeyCode::Enter));
         assert_eq!(
             effect_names(&up.effects),
             vec!["fire_vba_event:KeyUp", "request_repaint"]
         );
         assert!(up.state.pressed_state.is_none());
+    }
+
+    #[test]
+    fn disabled_default_button_enter_does_not_transfer_focus() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::command_button("ok", LogicalRect::new(0.0, 24.0, 64.0, 20.0), 0, 1)
+                .disabled(),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.default_button = Some(ControlId::new("ok"));
+
+        // A non-activatable (disabled) default button does not activate on Enter: no Exit,
+        // no focus transfer, no Click -- only the KeyDown fires and focus stays put
+        // (oxforms-esq.6).
+        let down = reduce(state, key_down_event(UiEventId(56), KeyCode::Enter, false));
+        assert_eq!(effect_names(&down.effects), vec!["fire_vba_event:KeyDown"]);
+        assert_eq!(
+            down.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert!(down.state.validation.pending.is_none());
     }
 
     #[test]
