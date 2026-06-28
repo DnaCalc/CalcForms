@@ -1,0 +1,77 @@
+{
+  "schema": "oxforms.office_oracle.w008_held_key_run_summary.v1",
+  "bead": "oxforms-esq.12",
+  "capture_id": "w008-held-key-20260628T213500Z",
+  "status": "captured",
+  "row_count": 6,
+  "scenarios": [
+    "held_space_checkbox"
+  ],
+  "scenario_coverage": {
+    "held_space_checkbox": "observed_rows",
+    "held_enter_default": "not_observed_in_this_run"
+  },
+  "finding": "CONSUMED FACT (toggle COUNT): holding Space on a focused, unchecked CheckBox for BOTH 1.0s and 2.5s produced exactly ONE KeyDown(32), one KeyUp(32), one Change(Value True), one Click(Value True) (a 6-row log incl. the Initialize + TextBox1 Enter setup rows). The toggle fires EXACTLY ONCE and does not multiply with hold time -- MSForms does not flood per-OS-repeat re-toggles for a held checkbox Space. esq.12 consumes ONLY this toggle-count fact (gating the keyboard CheckBox toggle on !KeyRepeat.is_repeat). CAVEATS: (1) not separately confirmed that the genuine OS key-hold emitted repeat WM_KEYDOWNs; the identical 1.0s vs 2.5s output is the evidence the toggle does not multiply. (2) INTRA-PRESS ORDER DIVERGENCE -- this held capture logged KeyDown -> KeyUp -> Change -> Click with value_after=False at KeyDown, the INVERSE of the esq.8 discrete-press capture (checkbox-keyboard-toggle-20260627T220935Z: Change -> Click -> KeyDown(value True) -> KeyUp, value-first). esq.8 value-first stands for discrete keystrokes and is what the reducer implements; whether the held order is genuinely press-duration-dependent or an artifact of the vision-driven hold/release interleaving is UNSETTLED and is NOT consumed by esq.12.",
+  "driving_method": "Computer-use hold_key (genuine OS key-hold) on a background-COM-hosted Excel; the fixture VBA logged events to the W008HeldKeyLog worksheet, exported to CSV. Two runs (1.0s and 2.5s holds) produced identical logs; one representative copy is recorded here.",
+  "scenario_summaries": [
+    {
+      "scenario": "held_space_checkbox",
+      "row_count": 4,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyUp",
+        "Change",
+        "Click"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "ToggleCheck",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "32",
+          "arg_after": "32",
+          "focus_owner_after": "ToggleCheck",
+          "value_after": "False"
+        },
+        {
+          "sequence": "4",
+          "control_name": "ToggleCheck",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "32",
+          "arg_after": "32",
+          "focus_owner_after": "ToggleCheck",
+          "value_after": "False"
+        },
+        {
+          "sequence": "5",
+          "control_name": "ToggleCheck",
+          "event_name": "Change",
+          "arg_name": "Value",
+          "arg_before": "True",
+          "arg_after": "True",
+          "focus_owner_after": "ToggleCheck",
+          "value_after": "True"
+        },
+        {
+          "sequence": "6",
+          "control_name": "ToggleCheck",
+          "event_name": "Click",
+          "arg_name": "Value",
+          "arg_before": "True",
+          "arg_after": "True",
+          "focus_owner_after": "ToggleCheck",
+          "value_after": "True"
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "held_enter_default (a held default-button Enter) was NOT captured this session and is deferred to a follow-up bead (oxforms-esq.15); not_observed_in_this_run is not a negative MSForms fact.",
+    "esq.12 consumes ONLY the toggle-COUNT fact (one Change/Click regardless of hold time), NOT the intra-press dispatch ORDER: the held order (KeyDown -> KeyUp -> Change -> Click) diverges from the esq.8 value-first discrete-press order and is unsettled, so it is not inherited by future beads.",
+    "No OxForms runtime behavior is claimed by the capture (oxforms-esq.12 consumes it)."
+  ]
+}

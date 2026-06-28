@@ -1,0 +1,7 @@
+"sequence","scenario","control_name","event_name","arg_name","arg_before","arg_after","focus_owner_after","value_after","notes"
+"1","","OxFormsW008HeldKey","Initialize","","","","","",""
+"2","","TextBox1","Enter","","","","TextBox1","",""
+"3","held_space_checkbox","ToggleCheck","KeyDown","KeyCode","32","32","ToggleCheck","False",""
+"4","held_space_checkbox","ToggleCheck","KeyUp","KeyCode","32","32","ToggleCheck","False",""
+"5","held_space_checkbox","ToggleCheck","Change","Value","True","True","ToggleCheck","True",""
+"6","held_space_checkbox","ToggleCheck","Click","Value","True","True","ToggleCheck","True",""

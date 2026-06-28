@@ -1,0 +1,69 @@
+{
+  "schema": "oxforms.office_oracle.w008_held_key_capture.v1",
+  "bead": "oxforms-esq.12",
+  "capture_id": "w008-held-key-20260628T213500Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w008-held-key-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-held-key/fixture.json",
+        "sha256": "29b6b3b95d9c940a2d6419d2b77fe966a9150a88ca14ced0db519a3e3635b1a2"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-held-key/form-code-behind.bas",
+        "sha256": "1583badfb8808faae13eac6d7601211e2a24152d35fba86204920993c279eb34"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-held-key/standard-module.bas",
+        "sha256": "d78d7c833c2e591ea4588a6e8e54fcc990d8337818cfb98bb3e4f08caf4d0115"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/Capture-W008HeldKey.ps1",
+        "sha256": "758a5e726be242f3a54e9f35ac4a7aa273498f357ea0858c7cc6483fa9a98367"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": null,
+    "run_summary": "docs/evidence/W008_native_event_breadth/captures/w008-held-key-20260628T213500Z/run-summary.json",
+    "event_log_json": "docs/evidence/W008_native_event_breadth/captures/w008-held-key-20260628T213500Z/w008-held-key-event-log.json",
+    "event_log_csv": "docs/evidence/W008_native_event_breadth/captures/w008-held-key-20260628T213500Z/w008-held-key-event-log.csv",
+    "input_actions": "docs/evidence/W008_native_event_breadth/captures/w008-held-key-20260628T213500Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 6,
+    "scenarios": [
+      "held_space_checkbox"
+    ]
+  },
+  "trace_replay_implications": [
+    "docs/specs/FM20_EVENT_FACTS.md: a held Space on a focused CheckBox toggles its Value EXACTLY ONCE (Change/Click fire once); the toggle does not multiply with OS auto-repeat. oxforms-esq.12 gates the keyboard CheckBox toggle on !KeyRepeat.is_repeat to match."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "Driven by computer-use hold_key (not public-user32 SendInput); events are live MSForms handler observations.",
+    "generated_workbook is null: the throwaway workbook was not retained; the committed fixture sources + Capture-W008HeldKey.ps1 regenerate it deterministically.",
+    "held_enter_default (held default-button Enter) was NOT captured; deferred to oxforms-esq.15.",
+    "INTRA-PRESS ORDER DIVERGENCE: this held capture logged KeyDown -> KeyUp -> Change -> Click (value_after=False at KeyDown), the inverse of the esq.8 discrete-press capture (checkbox-keyboard-toggle-20260627T220935Z: Change -> Click -> KeyDown(value True) -> KeyUp, value-first). The captures disagree on intra-press order for the same gesture; whether the held order is press-duration-dependent or a vision-driven-hold artifact is UNSETTLED. esq.12 consumes only the toggle COUNT, not this order; esq.8 value-first stands for discrete presses."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through a public OS key-hold; no Office internals.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime behavior is claimed by the capture (oxforms-esq.12 consumes it).",
+    "This capture is the held-Space CheckBox toggle only; the held default-button Enter is deferred.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}

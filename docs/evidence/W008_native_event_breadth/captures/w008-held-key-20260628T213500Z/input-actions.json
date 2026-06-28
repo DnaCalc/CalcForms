@@ -1,0 +1,20 @@
+{
+  "schema": "oxforms.office_oracle.w008_held_key_input_actions.v1",
+  "bead": "oxforms-esq.12",
+  "manual_inputs": [
+    {
+      "label": "focus_ToggleCheck",
+      "method": "background_com_FocusControlW008HeldKey",
+      "note": "Focus the unchecked CheckBox before the hold."
+    },
+    {
+      "label": "hold_space",
+      "method": "computer_use_hold_key",
+      "note": "Genuine OS key-hold of Space; run once for 1.0s and once for 2.5s (identical logs)."
+    }
+  ],
+  "automated_inputs": [],
+  "non_claims": [
+    "Inputs were driven by computer-use hold_key + background COM; events are live MSForms handler observations."
+  ]
+}

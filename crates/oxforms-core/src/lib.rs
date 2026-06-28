@@ -1548,7 +1548,11 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
                 // focused control, then Enter on the button) before its Click; the Click
                 // is activated when the transfer commits (oxforms-esq.6). When focus is
                 // already the button -- or there is nothing to leave / a pending
-                // validation -- it Clicks in place as before. A non-activatable default
+                // validation -- it Clicks in place as before. NOTE: held-Enter (OS
+                // auto-repeat) behavior is UNCAPTURED here -- unlike the CheckBox toggle
+                // (gated on !is_repeat, esq.12), a button may auto-repeat its activation, so
+                // this arm stays repeat-blind pending a held-default-button-Enter capture
+                // (oxforms-esq.15). A non-activatable default
                 // button (hidden/disabled) does NOT transfer: it falls through to
                 // activate_command_button, which no-ops -- so no spurious Exit/focus move.
                 let button_activatable = find_control(state, &button_id).is_some_and(|control| {
@@ -1833,13 +1837,26 @@ fn is_check_box_control(state: &FormState, control_id: &ControlId) -> bool {
 /// value and fires Change then Click BEFORE the KeyDown (value-first), so the caller
 /// must run the toggle ahead of the KeyDown event (oxforms-esq.8).
 ///
-/// Auto-repeat (held-key) toggle semantics are NOT captured: the oracle injected one
-/// discrete Space and one discrete Enter, so this returns a match on every KeyDown
-/// including auto-repeats (re-toggling each time) -- the same repeat-blindness as the
-/// esq.6 default-button Enter arm. Pinning held-key behavior is tracked by oxforms-esq.12.
+/// Held-key (auto-repeat) toggle COUNT is captured (oxforms-esq.12): holding Space on a
+/// focused CheckBox toggles it EXACTLY ONCE -- a 1.0s and a 2.5s hold produced the identical
+/// single Change/Click (docs/evidence/W008_native_event_breadth/captures/
+/// w008-held-key-20260628T213500Z/, `held_space_checkbox`). So an OS auto-repeat KeyDown
+/// (`KeyRepeat.is_repeat`) must NOT re-toggle: only the first (non-repeat) KeyDown toggles.
+/// Only the COUNT is consumed -- that held capture's intra-press ORDER diverges from esq.8's
+/// value-first discrete-press order (it logged KeyDown -> KeyUp -> Change -> Click) and is
+/// UNSETTLED; esq.8's value-first ordering (Change/Click before KeyDown) stands for discrete
+/// presses and is what the toggle path below still emits. (The held default-button Enter is
+/// uncaptured -- a button may auto-repeat its activation differently -- so that arm is left
+/// repeat-blind, tracked by oxforms-esq.15.)
 fn keyboard_toggle_check_box(state: &FormState, payload: &KeyEvent) -> Option<ControlId> {
     let control_id = state.focus_owner.as_ref()?.as_control_id()?;
     if !is_check_box_control(state, control_id) {
+        return None;
+    }
+    // An OS auto-repeat (held key) does NOT re-toggle: MSForms toggles once per physical
+    // press (oxforms-esq.12 held_space_checkbox). The repeat KeyDown still fires as an event
+    // (that is not gated here); only the toggle is suppressed.
+    if payload.repeat.is_repeat {
         return None;
     }
     // Only a bare keystroke toggles. The capture injected unmodified Space/Enter
@@ -5483,6 +5500,52 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn checkbox_held_space_auto_repeat_does_not_re_toggle() {
+        // Held Space toggles a focused CheckBox EXACTLY ONCE: the first (non-repeat) KeyDown
+        // flips the value (Change/Click), and OS auto-repeat KeyDowns (KeyRepeat.is_repeat)
+        // must NOT re-toggle -- the repeat KeyDown still fires as an event but the value and
+        // Change/Click do not multiply (oxforms-esq.12 oracle w008-held-key held_space_checkbox:
+        // a 1.0s and a 2.5s hold produced the identical single Change/Click).
+        let first = reduce(
+            focused_check_box_form(),
+            key_down_event(UiEventId(120), KeyCode::Space, false),
+        );
+        assert_eq!(
+            check_box_state(&first.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(true),
+            "the first Space KeyDown toggles the value"
+        );
+
+        // An auto-repeat Space KeyDown: only KeyDown fires, no second Change/Click, value held.
+        let repeated = reduce(
+            first.state,
+            UiEvent::new(
+                UiEventId(121),
+                UiEventSource::Replay,
+                UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                    key: KeyCode::Space,
+                    modifiers: KeyboardModifiers::default(),
+                    repeat: KeyRepeat {
+                        is_repeat: true,
+                        repeat_count: Some(1),
+                    },
+                    raw: RawKeyDiagnostics::default(),
+                }),
+            ),
+        );
+        assert_eq!(
+            effect_names(&repeated.effects),
+            vec!["fire_vba_event:KeyDown"],
+            "an auto-repeat Space emits only KeyDown -- no re-toggle (no Change/Click)"
+        );
+        assert_eq!(
+            check_box_state(&repeated.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(true),
+            "the value stays toggled once across the held-key auto-repeat"
+        );
     }
 
     #[test]

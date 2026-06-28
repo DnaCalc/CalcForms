@@ -1,0 +1,89 @@
+{
+  "schema": "oxforms.office_oracle.w008_held_key_event_log.v1",
+  "bead": "oxforms-esq.12",
+  "source": {
+    "worksheet": "W008HeldKeyLog",
+    "columns": [
+      "sequence",
+      "scenario",
+      "control_name",
+      "event_name",
+      "arg_name",
+      "arg_before",
+      "arg_after",
+      "focus_owner_after",
+      "value_after",
+      "notes"
+    ],
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/w008-held-key/fixture.json"
+  },
+  "observed_facts": {
+    "row_count": 6,
+    "scenarios": [
+      "held_space_checkbox"
+    ],
+    "event_names": [
+      "Initialize",
+      "Enter",
+      "KeyDown",
+      "KeyUp",
+      "Change",
+      "Click"
+    ],
+    "scenario_summaries": [
+      {
+        "scenario": "held_space_checkbox",
+        "row_count": 4,
+        "observed": true,
+        "event_names": [
+          "KeyDown",
+          "KeyUp",
+          "Change",
+          "Click"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "ToggleCheck",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "32",
+            "arg_after": "32",
+            "focus_owner_after": "ToggleCheck",
+            "value_after": "False"
+          },
+          {
+            "sequence": "4",
+            "control_name": "ToggleCheck",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "32",
+            "arg_after": "32",
+            "focus_owner_after": "ToggleCheck",
+            "value_after": "False"
+          },
+          {
+            "sequence": "5",
+            "control_name": "ToggleCheck",
+            "event_name": "Change",
+            "arg_name": "Value",
+            "arg_before": "True",
+            "arg_after": "True",
+            "focus_owner_after": "ToggleCheck",
+            "value_after": "True"
+          },
+          {
+            "sequence": "6",
+            "control_name": "ToggleCheck",
+            "event_name": "Click",
+            "arg_name": "Value",
+            "arg_before": "True",
+            "arg_after": "True",
+            "focus_owner_after": "ToggleCheck",
+            "value_after": "True"
+          }
+        ]
+      }
+    ]
+  }
+}
