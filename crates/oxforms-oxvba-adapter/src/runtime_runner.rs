@@ -448,11 +448,11 @@ impl RuntimeRunner {
                     });
                     // Fold the clipboard back as a ClipboardResult so the paste path
                     // (BeforeDropOrPaste -> Change) runs in this same dispatch — the same
-                    // readback fold-back idiom as Exit/QueryClose (oxforms-esq.9). An empty
-                    // clipboard folds back nothing (a traced no-op, not an error).
-                    if let Some(event) = self.clipboard_get_foldback(request_id, formats) {
-                        fold_back.push(event);
-                    }
+                    // readback fold-back idiom as Exit/QueryClose (oxforms-esq.9). Always
+                    // folds (empty clipboard -> a no-text result the reducer diagnoses as a
+                    // no-op paste) so the reducer's pending paste is always consumed
+                    // (oxforms-esq.13).
+                    fold_back.push(self.clipboard_get_foldback(request_id, formats));
                 }
                 other => {
                     // Reducer-internal / not-yet-runtime effects (focus, capture, …):
@@ -818,12 +818,20 @@ impl RuntimeRunner {
     }
 
     /// Synthesize the `ClipboardResult` that completes a `ClipboardGet` (the keyboard
-    /// Ctrl+V paste fold-back, oxforms-esq.9). Returns `None` for an empty clipboard, so
-    /// a paste with nothing to insert folds back nothing. Reading the live OS clipboard
-    /// is deferred (oxforms-esq.13); the host seeds [`Self::set_clipboard_text`].
-    fn clipboard_get_foldback(&self, request_id: &str, formats: &[String]) -> Option<UiEvent> {
-        let text = self.clipboard_text.clone()?;
-        Some(UiEvent::new(
+    /// Ctrl+V paste fold-back, oxforms-esq.9). ALWAYS folds a result so every request is
+    /// answered and the reducer's pending paste is consumed (oxforms-esq.13): a seeded
+    /// clipboard returns its text; an empty one returns a `Success` result with no text
+    /// payload, which the reducer diagnoses as a no-op paste (no `BeforeDropOrPaste`/
+    /// `Change`). Reading the live OS clipboard is deferred (oxforms-esq.16); the host seeds
+    /// [`Self::set_clipboard_text`].
+    fn clipboard_get_foldback(&self, request_id: &str, formats: &[String]) -> UiEvent {
+        let payload = self.clipboard_text.clone().map(|text| ServicePayload {
+            content_type: Some("text/plain".to_string()),
+            text: Some(text),
+            bytes_sha256: None,
+            metadata: Vec::new(),
+        });
+        UiEvent::new(
             UiEventId(0),
             UiEventSource::Service,
             UiEventKind::ClipboardResult(ClipboardResultEvent {
@@ -831,14 +839,9 @@ impl RuntimeRunner {
                 operation: ClipboardOperation::Get,
                 outcome: ServiceOutcome::Success,
                 formats: formats.to_vec(),
-                payload: Some(ServicePayload {
-                    content_type: Some("text/plain".to_string()),
-                    text: Some(text),
-                    bytes_sha256: None,
-                    metadata: Vec::new(),
-                }),
+                payload,
             }),
-        ))
+        )
     }
 
     /// After dispatch, fold any VBA-set control text back into reducer state. For each

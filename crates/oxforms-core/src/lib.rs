@@ -68,6 +68,10 @@ pub struct FormState {
     /// A mouse press deferred through a focus validation, replayed on commit after the
     /// gaining control's `Enter` (oxforms-esq.10). `None` outside a focus-changing click.
     pub pending_mouse_press: Option<PendingMousePress>,
+    /// A keyboard Ctrl+V clipboard read in flight: correlates the `ClipboardResult` back to
+    /// the originating request (target control + the chord's fm20 `Shift`) instead of
+    /// re-resolving current focus (oxforms-esq.13). `None` for a programmatic/menu paste.
+    pub pending_clipboard_paste: Option<PendingClipboardPaste>,
     pub default_button: Option<ControlId>,
     pub cancel_button: Option<ControlId>,
     pub keyboard: KeyboardState,
@@ -101,6 +105,7 @@ impl FormState {
             hover_path: Vec::new(),
             pressed_state: None,
             pending_mouse_press: None,
+            pending_clipboard_paste: None,
             default_button: None,
             cancel_button: None,
             keyboard: KeyboardState::default(),
@@ -328,6 +333,18 @@ pub struct PendingMousePress {
     pub modifiers: KeyboardModifiers,
     pub point: Option<oxforms_pal::LogicalPoint>,
     pub has_pressed_visual: bool,
+}
+
+/// A keyboard Ctrl+V clipboard read awaiting its `ClipboardResult` (oxforms-esq.13). It
+/// correlates the asynchronous result back to the originating request: the `request_id`
+/// matches the result, `control_id` is the paste target captured at request time (so the
+/// paste lands there even if focus moved before the result returns), and `fm20_shift` is
+/// the originating chord's FM20 `Shift` mask (2 for Ctrl) that `BeforeDropOrPaste` reports.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct PendingClipboardPaste {
+    pub request_id: String,
+    pub control_id: ControlId,
+    pub fm20_shift: i16,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -1528,7 +1545,12 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
     // the trailing KeyUp. It guards the edge of a platform that does emit a printable 'v'
     // for the chord, which must NOT type into the box on top of the paste.
     if let Some(control_id) = keyboard_paste_text_box(state, payload) {
-        queue_clipboard_paste_request(state, context, &control_id);
+        queue_clipboard_paste_request(
+            state,
+            context,
+            &control_id,
+            fm_shift_mask(payload.modifiers),
+        );
         state.keyboard.suppress_next_character_input = true;
     }
 
@@ -2235,13 +2257,23 @@ fn queue_clipboard_paste_request(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
     control_id: &ControlId,
+    fm20_shift: i16,
 ) {
+    let request_id = format!("keyboard-paste-{}", context.event.event_id.0);
+    // Remember the in-flight paste so the folded-back ClipboardResult lands on THIS target
+    // with the originating Ctrl+V Shift, rather than re-resolving current focus / Shift=0
+    // (oxforms-esq.13).
+    state.pending_clipboard_paste = Some(PendingClipboardPaste {
+        request_id: request_id.clone(),
+        control_id: control_id.clone(),
+        fm20_shift,
+    });
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
     context.push_effect(
         state,
         target,
         EffectKind::ClipboardGet {
-            request_id: format!("keyboard-paste-{}", context.event.event_id.0),
+            request_id,
             formats: vec!["cf_unicode_text".to_string(), "text/plain".to_string()],
         },
         CompletionPolicy::ServiceResultRequired,
@@ -2257,6 +2289,25 @@ fn reduce_clipboard_result(
         queue_clipboard_diagnostic(state, context, payload, "unsupported_clipboard_operation");
         return;
     }
+
+    // Correlate the result to the in-flight keyboard Ctrl+V request (oxforms-esq.13): a
+    // matching request_id consumes the pending paste (its captured target + Ctrl+V Shift);
+    // a non-matching id while a paste is pending is a foreign/stale result (ignored, the
+    // pending request is left intact); no pending paste means a programmatic/menu paste
+    // (resolved against current focus, Shift=0). Every ClipboardGet is answered (the runner
+    // always folds a ClipboardResult, empty or not, carrying the request_id), so a keyboard
+    // paste's pending is always consumed by its OWN matching result -- the mismatch arm only
+    // ever sees a truly foreign result, never a stale leak.
+    let keyboard_paste = match state.pending_clipboard_paste.as_ref() {
+        Some(pending) if pending.request_id == payload.request_id.0 => {
+            state.pending_clipboard_paste.take()
+        }
+        Some(_) => {
+            queue_clipboard_diagnostic(state, context, payload, "clipboard_request_id_mismatch");
+            return;
+        }
+        None => None,
+    };
 
     if !matches!(&payload.outcome, ServiceOutcome::Success) {
         queue_clipboard_diagnostic(state, context, payload, "clipboard_get_failed");
@@ -2282,15 +2333,29 @@ fn reduce_clipboard_result(
         return;
     }
 
-    let Some(control_id) = focused_text_box_control_id(state) else {
-        queue_clipboard_diagnostic(state, context, payload, "no_focused_textbox");
-        return;
+    // A keyboard paste lands on its captured target with the chord's FM20 Shift (2 for
+    // Ctrl, oracle ctrlv row 4); a programmatic paste uses current focus with Shift=0.
+    let (control_id, fm20_shift) = match &keyboard_paste {
+        Some(pending) => {
+            if !is_text_box_control(state, &pending.control_id) {
+                queue_clipboard_diagnostic(state, context, payload, "paste_target_unavailable");
+                return;
+            }
+            (pending.control_id.clone(), pending.fm20_shift)
+        }
+        None => match focused_text_box_control_id(state) {
+            Some(control_id) => (control_id, 0),
+            None => {
+                queue_clipboard_diagnostic(state, context, payload, "no_focused_textbox");
+                return;
+            }
+        },
     };
 
     insert_text_box_text(state, &control_id, text);
 
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
-    queue_before_drop_or_paste_event(state, context, target.clone(), payload);
+    queue_before_drop_or_paste_event(state, context, target.clone(), payload, fm20_shift);
     queue_vba_event(state, context, target.clone(), "Change");
     let invalidation_id =
         context.push_invalidation(state, target.clone(), InvalidationReason::TextChanged);
@@ -2780,6 +2845,7 @@ fn queue_before_drop_or_paste_event(
     context: &mut ReducerContext<'_>,
     target: UiEventTarget,
     payload: &ClipboardResultEvent,
+    fm20_shift: i16,
 ) {
     context.push_effect(
         state,
@@ -2823,18 +2889,16 @@ fn queue_before_drop_or_paste_event(
                     by_ref: true,
                 },
                 EffectArgument {
-                    // Shift is hardcoded 0 because the synthesized ClipboardResult carries
-                    // no modifier context. The oracle ctrlv row 4 shows Shift=2 (Ctrl) for a
-                    // keyboard Ctrl+V; threading the chord's fm20 shift through the clipboard
-                    // round-trip is deferred to oxforms-esq.13 (the gap test asserts the
-                    // event-NAME order only, so it does not pin this arg).
+                    // The originating chord's FM20 Shift mask, threaded through the clipboard
+                    // round-trip via the pending paste (oxforms-esq.13): a keyboard Ctrl+V
+                    // reports Shift=2 (oracle ctrlv row 4), a programmatic/menu paste Shift=0.
                     name: "Shift".to_string(),
-                    value: "0".to_string(),
+                    value: fm20_shift.to_string(),
                     by_ref: false,
                 },
             ],
             cancel_metadata: Some(
-                "Text-only clipboard paste subset: Data is a serializable payload summary; live MSForms.DataObject, the Ctrl+V Shift=2 modifier context, rich formats, and Action mutation remain non-claims (oxforms-esq.13)."
+                "Text-only clipboard paste subset: Data is a serializable payload summary; the Ctrl+V Shift modifier is now threaded (oxforms-esq.13). Honoring the BeforeDropOrPaste Cancel=True veto is oxforms-esq.17 (no vetoing capture yet -- the ctrlv oracle is non-vetoing); live MSForms.DataObject, rich formats, and Action mutation remain non-claims; the live OS clipboard read is oxforms-esq.16."
                     .to_string(),
             ),
         },
@@ -4678,6 +4742,12 @@ mod tests {
                 "request_repaint"
             ]
         );
+        // The originating Ctrl+V chord's FM20 Shift (=2) is threaded through the clipboard
+        // round-trip to BeforeDropOrPaste (oracle ctrlv row 4; oxforms-esq.13).
+        assert_eq!(
+            before_drop_or_paste_shift(&pasted.effects),
+            Some("2".to_string())
+        );
         let text_box = pasted
             .state
             .text_boxes
@@ -4685,6 +4755,70 @@ mod tests {
             .find(|entry| entry.control_id == ControlId::new("text-1"))
             .expect("text box state");
         assert_eq!(text_box.text, "Seed");
+        // The paste consumed the pending request (no stale correlation left behind).
+        assert!(pasted.state.pending_clipboard_paste.is_none());
+    }
+
+    /// The folded-back ClipboardResult is correlated to the originating request by
+    /// request_id and pastes into the CAPTURED target -- not re-resolved current focus --
+    /// and a non-matching result is ignored (oxforms-esq.13).
+    #[test]
+    fn clipboard_result_is_correlated_to_the_pending_paste_request() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::text_box("text-2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        // Ctrl+V on text-1 records the pending paste (target text-1, Shift=2).
+        let down = reduce(
+            state,
+            ctrl_v_key_down(
+                UiEventId(80),
+                KeyboardModifiers {
+                    control: true,
+                    ..KeyboardModifiers::default()
+                },
+            ),
+        );
+        let pending = down
+            .state
+            .pending_clipboard_paste
+            .as_ref()
+            .expect("pending paste recorded");
+        assert_eq!(pending.request_id, "keyboard-paste-80");
+        assert_eq!(pending.control_id, ControlId::new("text-1"));
+        assert_eq!(pending.fm20_shift, 2);
+
+        // A result with a NON-matching request_id is ignored (no paste, pending intact).
+        let stale = reduce(
+            down.state.clone(),
+            clipboard_get_text_event(UiEventId(81), "keyboard-paste-999", "X", &["text/plain"]),
+        );
+        assert!(stale.state.pending_clipboard_paste.is_some());
+        assert!(text_box_state(&stale.state, &ControlId::new("text-1"))
+            .map(|entry| entry.text.is_empty())
+            .unwrap_or(true));
+
+        // Focus moves to text-2 BEFORE the matching result returns; the paste still lands on
+        // the captured target (text-1), not the now-focused text-2.
+        let mut moved = down.state;
+        moved.focus_owner = Some(FocusTarget::Control(ControlId::new("text-2")));
+        let pasted = reduce(
+            moved,
+            clipboard_get_text_event(UiEventId(82), "keyboard-paste-80", "Seed", &["text/plain"]),
+        );
+        assert_eq!(
+            text_box_state(&pasted.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.as_str()),
+            Some("Seed"),
+            "the paste lands on the captured target (text-1), not current focus (text-2)"
+        );
+        assert!(text_box_state(&pasted.state, &ControlId::new("text-2"))
+            .map(|entry| entry.text.is_empty())
+            .unwrap_or(true));
+        assert!(pasted.state.pending_clipboard_paste.is_none());
     }
 
     #[test]
@@ -4715,6 +4849,72 @@ mod tests {
             );
             assert!(!down.state.keyboard.suppress_next_character_input);
         }
+    }
+
+    /// A no-text (empty-clipboard) result still CONSUMES the pending paste -- no stale leak --
+    /// so a later programmatic paste (no pending) is not wrongly dropped by the mismatch arm
+    /// (oxforms-esq.13). The runner always folds a ClipboardResult, so the pending is always
+    /// resolved by its own matching result.
+    #[test]
+    fn empty_clipboard_result_consumes_pending_and_does_not_block_a_later_paste() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        // Ctrl+V records the pending paste.
+        let down = reduce(
+            state,
+            ctrl_v_key_down(
+                UiEventId(90),
+                KeyboardModifiers {
+                    control: true,
+                    ..KeyboardModifiers::default()
+                },
+            ),
+        );
+        assert!(down.state.pending_clipboard_paste.is_some());
+
+        // The matching result has no usable text (empty clipboard): no paste, but the
+        // pending IS consumed (taken before the text validation).
+        let empty = reduce(
+            down.state,
+            clipboard_get_text_event(UiEventId(91), "keyboard-paste-90", "", &["text/plain"]),
+        );
+        assert!(
+            empty.state.pending_clipboard_paste.is_none(),
+            "an empty-clipboard result consumes the pending paste (no leak)"
+        );
+        assert!(text_box_state(&empty.state, &ControlId::new("text-1"))
+            .map(|entry| entry.text.is_empty())
+            .unwrap_or(true));
+
+        // A later programmatic paste (no pending) is NOT blocked by a stale pending: it
+        // pastes at current focus with Shift=0.
+        let programmatic = reduce(
+            empty.state,
+            clipboard_get_text_event(
+                UiEventId(92),
+                "programmatic-paste-1",
+                "Prog",
+                &["text/plain"],
+            ),
+        );
+        assert_eq!(
+            text_box_state(&programmatic.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.as_str()),
+            Some("Prog"),
+            "a programmatic paste is not dropped by a (now-cleared) pending"
+        );
+        assert_eq!(
+            before_drop_or_paste_shift(&programmatic.effects),
+            Some("0".to_string()),
+            "a programmatic paste reports Shift=0"
+        );
     }
 
     #[test]
@@ -6630,6 +6830,20 @@ mod tests {
         ];
         state.default_button = Some(ControlId::new("ok"));
         state
+    }
+
+    fn before_drop_or_paste_shift(effects: &[EffectRequest]) -> Option<String> {
+        effects.iter().find_map(|effect| match &effect.kind {
+            EffectKind::FireVbaEvent {
+                event_name,
+                arguments,
+                ..
+            } if event_name == "BeforeDropOrPaste" => arguments
+                .iter()
+                .find(|arg| arg.name == "Shift")
+                .map(|arg| arg.value.clone()),
+            _ => None,
+        })
     }
 
     fn effect_names(effects: &[EffectRequest]) -> Vec<String> {

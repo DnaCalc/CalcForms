@@ -977,7 +977,11 @@ fn gap_checkbox_keyboard_toggle_change_click_keydown_keyup() {
 ///
 /// CLOSED by oxforms-esq.9: the V KeyDown requests the clipboard (ClipboardGet); the
 /// runner folds the seeded clipboard back as a ClipboardResult, driving the existing
-/// paste path (BeforeDropOrPaste -> Change) within the same dispatch.
+/// paste path (BeforeDropOrPaste -> Change) within the same dispatch. This pins the native
+/// dispatch ORDER; the BeforeDropOrPaste `Shift=2` arg value (oracle {CAP_CTRLV} row 4) is
+/// threaded through the clipboard round-trip and pinned by the reducer test
+/// oxforms_core::ctrl_v_keydown_requests_clipboard_then_pastes_on_the_folded_result
+/// (oxforms-esq.13).
 #[test]
 fn gap_ctrl_v_keyboard_paste_ordering() {
     let mut runner = attach_runner();
@@ -1008,11 +1012,12 @@ fn gap_ctrl_v_keyboard_paste_ordering() {
     );
 }
 
-/// PIN — an empty clipboard makes Ctrl+V a traced no-op: the `ClipboardGet` folds back
-/// nothing, so NO `BeforeDropOrPaste`/`Change` fires and only the key events dispatch.
-/// This is the deferred-OS-clipboard boundary (oxforms-esq.9/esq.13): the host seeds the
-/// clipboard; without a seed there is nothing to paste. AC2: this is a structural
-/// no-paste fact, not an oracle row (the capture seeded a clipboard).
+/// PIN — an empty clipboard makes Ctrl+V a traced no-op: the `ClipboardGet` folds back a
+/// no-text `ClipboardResult` the reducer diagnoses as a no-op paste, so NO
+/// `BeforeDropOrPaste`/`Change` fires and only the key events dispatch -- and the pending
+/// paste is consumed (no leak; oxforms-esq.13). This is the deferred-OS-clipboard boundary
+/// (oxforms-esq.9/esq.16): the host seeds the clipboard; without a seed there is nothing to
+/// paste. AC2: this is a structural no-paste fact, not an oracle row.
 #[test]
 fn pin_ctrl_v_empty_clipboard_is_a_no_paste() {
     let mut runner = attach_runner();
@@ -1029,8 +1034,13 @@ fn pin_ctrl_v_empty_clipboard_is_a_no_paste() {
     assert_eq!(
         order,
         vec!["KeyDown", "KeyDown", "KeyUp", "KeyUp"],
-        "an empty clipboard folds back no ClipboardResult, so Ctrl+V dispatches only the \
-         key events -- no BeforeDropOrPaste/Change (oxforms-esq.9)"
+        "an empty clipboard folds back a no-text ClipboardResult (no paste), so Ctrl+V \
+         dispatches only the key events -- no BeforeDropOrPaste/Change (oxforms-esq.9)"
+    );
+    assert!(
+        runner.form().state.pending_clipboard_paste.is_none(),
+        "the empty-clipboard result still consumes the pending paste -- no stale leak \
+         (oxforms-esq.13)"
     );
 }
 
