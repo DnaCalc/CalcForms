@@ -65,6 +65,9 @@ pub struct FormState {
     pub capture_owner: Option<CaptureOwner>,
     pub hover_path: Vec<ControlId>,
     pub pressed_state: Option<PressedState>,
+    /// A mouse press deferred through a focus validation, replayed on commit after the
+    /// gaining control's `Enter` (oxforms-esq.10). `None` outside a focus-changing click.
+    pub pending_mouse_press: Option<PendingMousePress>,
     pub default_button: Option<ControlId>,
     pub cancel_button: Option<ControlId>,
     pub keyboard: KeyboardState,
@@ -97,6 +100,7 @@ impl FormState {
             capture_owner: None,
             hover_path: Vec::new(),
             pressed_state: None,
+            pending_mouse_press: None,
             default_button: None,
             cancel_button: None,
             keyboard: KeyboardState::default(),
@@ -297,6 +301,33 @@ pub enum PressedOrigin {
     KeyboardDefault,
     KeyboardCancel,
     Accelerator,
+}
+
+/// A mouse press deferred through a focus validation (oxforms-esq.10). When a
+/// focus-CHANGING click begins a cancelable `Exit` validation, the press (capture +
+/// `MouseDown` + pressed visual) is held here and replayed by
+/// [`reduce_focus_validation_completed`] AFTER the gaining control's `Enter`, so the
+/// order is `Exit` -> `Enter` -> `MouseDown` (the W005 modeless oracle).
+///
+/// On a vetoed `Exit` the press STILL replays (`Exit` -> `MouseDown`, focus unchanged, no
+/// `Enter`) -- the press is the original physical input, not part of the focus transfer.
+/// Whether a vetoing `Exit` should instead ABSORB the click is unoracled (the W005 capture
+/// has only non-vetoing focus-changing clicks) and is tracked on oxforms-esq.11.
+///
+/// Invariant: at most one press is outstanding -- it is set only alongside
+/// [`begin_focus_validation`] (gated on `validation.pending.is_none()`) and taken only by
+/// the matching [`reduce_focus_validation_completed`], whose `Exit` readback the runtime
+/// folds back within the same dispatch. A debug assertion in `reduce_mouse_down` guards it.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct PendingMousePress {
+    pub target: FocusTarget,
+    pub effect_target: UiEventTarget,
+    pub control_id: Option<ControlId>,
+    pub pointer_id: Option<PointerId>,
+    pub button: MouseButton,
+    pub modifiers: KeyboardModifiers,
+    pub point: Option<oxforms_pal::LogicalPoint>,
+    pub has_pressed_visual: bool,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -1243,23 +1274,52 @@ fn reduce_mouse_down(
     let effect_target = route.effect_target.clone();
     let previous_focus = state.focus_owner.clone();
 
+    // The mouse press (capture + MouseDown + pressed visual), captured so it can be
+    // replayed after a deferred focus commit (oxforms-esq.10).
+    let press = PendingMousePress {
+        target: target.clone(),
+        effect_target: effect_target.clone(),
+        control_id: route.control_id.clone(),
+        pointer_id: payload.pointer_id,
+        button: payload.button,
+        modifiers: payload.modifiers,
+        point: route.control_local.or(route.form_logical),
+        has_pressed_visual: route.has_pressed_visual,
+    };
+
     if route.can_receive_focus
         && previous_focus.as_ref() != Some(&target)
         && state.validation.pending.is_none()
     {
         match focusable_losing_control(state, &previous_focus) {
-            // MSForms fires a cancelable Exit on the leaving control before focus moves;
-            // hold the focus commit until the veto is known (oxforms-esq.4).
-            Some(losing_id) => begin_focus_validation(
-                state,
-                context,
-                &losing_id,
-                previous_focus.clone(),
-                target.clone(),
-                FocusTransferReason::Mouse,
-                false,
-            ),
-            // No control to veto (initial focus / from the form): commit synchronously.
+            // Focus-CHANGING click: MSForms fires a cancelable Exit on the leaving control
+            // before focus moves (oxforms-esq.4). Defer BOTH the focus commit AND the mouse
+            // press until the Exit veto resolves, so on commit the order is Enter (enterer)
+            // then MouseDown -- matching the W005 modeless oracle's Exit -> Enter -> MouseDown
+            // on a focus-changing click (seq 565-567/626-628/868-870/983-985) -- and a vetoed
+            // Exit absorbs the press entirely (oxforms-esq.10).
+            Some(losing_id) => {
+                begin_focus_validation(
+                    state,
+                    context,
+                    &losing_id,
+                    previous_focus.clone(),
+                    target.clone(),
+                    FocusTransferReason::Mouse,
+                    false,
+                );
+                // At most one press is outstanding: begin_focus_validation is gated on
+                // validation.pending.is_none() (above), and the matching completion takes
+                // both together. A stale press here would mean a fold-back was dropped.
+                debug_assert!(
+                    state.pending_mouse_press.is_none(),
+                    "a deferred mouse press was already outstanding (dropped fold-back?)"
+                );
+                state.pending_mouse_press = Some(press);
+                return;
+            }
+            // No control to veto (initial focus / from the form): commit synchronously, so
+            // the in-line press below already fires after the gaining control's Enter.
             None => commit_focus_transfer(
                 state,
                 context,
@@ -1271,60 +1331,65 @@ fn reduce_mouse_down(
         }
     }
 
-    // The mouse press itself (capture, pressed visual, MouseDown, and the eventual Click
-    // on MouseUp) proceeds regardless of any pending focus validation: esq.4 holds only
-    // the FOCUS commit pending the Exit veto, not the press. In the runtime the Exit
-    // foldback resolves the pending validation within this same dispatch, so the later
-    // MouseUp/Click never observes a pending state.
-    //
-    // KNOWN DIVERGENCE (oxforms-esq.10): because this MouseDown is emitted in-line while
-    // esq.6's focus Enter rides the DEFERRED commit_focus_transfer, a focus-CHANGING click
-    // currently fires Exit -> MouseDown -> Enter, whereas the W005 modeless oracle fires
-    // Exit -> Enter -> MouseDown (capture seq 565-567, 626-628, 868-870, 983-985). esq.10
-    // will defer the press here to the validation commit so Enter precedes MouseDown (and a
-    // veto absorbs the press). The synchronous initial-focus path below is already correct.
+    // No focus change (same control / non-focusable target), or a synchronous commit: the
+    // press proceeds in-line. A press during an already-pending validation also lands here
+    // (the runtime's Exit foldback resolves that validation within the same dispatch, so
+    // MouseUp/Click never observes a pending state).
+    apply_mouse_press(state, context, &press);
+}
+
+/// Apply a mouse press: take mouse capture, emit `MouseDown`, and (for a control with a
+/// pressed visual) arm the pressed state + repaint. Shared by the synchronous press path
+/// and the deferred replay on a focus-validation commit (oxforms-esq.10).
+fn apply_mouse_press(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    press: &PendingMousePress,
+) {
     state.capture_owner = Some(CaptureOwner {
-        target: target.clone(),
-        pointer_id: payload.pointer_id,
-        button: Some(payload.button),
+        target: press.target.clone(),
+        pointer_id: press.pointer_id,
+        button: Some(press.button),
         reason: CaptureReason::MousePress,
     });
-
     context.push_effect(
         state,
-        effect_target.clone(),
+        press.effect_target.clone(),
         EffectKind::CaptureMouse {
-            pointer_id: payload.pointer_id,
-            button: Some(payload.button),
+            pointer_id: press.pointer_id,
+            button: Some(press.button),
             reason: CaptureReason::MousePress,
         },
         CompletionPolicy::PlatformCompletionOrDiagnostic,
     );
-    queue_mouse_event(
+    context.push_effect(
         state,
-        context,
-        effect_target.clone(),
-        "MouseDown",
-        payload,
-        &route,
+        press.effect_target.clone(),
+        EffectKind::FireVbaEvent {
+            event_name: "MouseDown".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: mouse_event_arguments(press.button, press.modifiers, press.point),
+            cancel_metadata: None,
+        },
+        CompletionPolicy::DispatchResultRequired,
     );
 
-    if route.has_pressed_visual {
+    if press.has_pressed_visual {
         state.pressed_state = Some(PressedState {
-            target,
+            target: press.target.clone(),
             origin: PressedOrigin::Mouse,
             armed: true,
         });
-        let reason = route
+        let reason = press
             .control_id
             .as_ref()
             .map_or(InvalidationReason::PressedStateChanged, |control_id| {
                 pressed_invalidation_reason(state, control_id)
             });
-        let invalidation_id = context.push_invalidation(state, effect_target.clone(), reason);
+        let invalidation_id = context.push_invalidation(state, press.effect_target.clone(), reason);
         context.push_effect(
             state,
-            effect_target,
+            press.effect_target.clone(),
             EffectKind::RequestRepaint {
                 invalidation_ids: vec![invalidation_id],
                 reason,
@@ -3247,33 +3312,57 @@ fn reduce_focus_validation_completed(
     };
     state.validation.active = false;
 
+    // A focus-CHANGING click deferred its mouse press here (oxforms-esq.10); it replays
+    // after any focus commit. Keyboard-initiated validations (Tab / default-button Enter)
+    // set no pending press.
+    let pending_press = state.pending_mouse_press.take();
+
     if payload.cancelled {
-        // Vetoed: focus is retained on `request.from` (never committed); nothing to emit.
+        // Vetoed: focus is retained on `request.from` (never committed) and no Enter fires.
+        // The deferred press still applies to the clicked control -- the press is the original
+        // physical input, not part of the focus transfer, so the established Exit -> MouseDown
+        // (no Enter, focus unchanged) behavior is preserved. NOTE the deliberate asymmetry with
+        // the keyboard default-button Enter, whose Click rides `activate_on_commit` (pass-only,
+        // below) and so IS suppressed on a veto -- a transfer consequence -- whereas this mouse
+        // press fires regardless. Whether a vetoing Exit should instead ABSORB the click is
+        // UNORACLED (the W005 oracle records only NON-vetoing focus-changing clicks); reconciling
+        // BOTH veto cases is tracked with the two-stage validation on oxforms-esq.11.
+        if let Some(press) = pending_press {
+            apply_mouse_press(state, context, &press);
+        }
         state.validation.last_result = Some(ValidationResult::Cancelled);
         return;
     }
 
     state.validation.last_result = Some(ValidationResult::Passed);
-    let Some(to) = request.to else {
-        return;
-    };
-    let Some(effect_target) = target_for_focus(&to, &state.form_id) else {
-        return;
-    };
-    commit_focus_transfer(
-        state,
-        context,
-        request.from,
-        &to,
-        &effect_target,
-        request.reason,
-    );
-    // A default-button Enter transfers focus to the button and then fires its Click,
-    // after the gaining control's Enter (oxforms-esq.6).
-    if request.activate_on_commit {
-        if let FocusTarget::Control(control_id) = &to {
-            activate_command_button(state, context, control_id, PressedOrigin::KeyboardDefault);
+    if let Some(to) = request.to {
+        if let Some(effect_target) = target_for_focus(&to, &state.form_id) {
+            commit_focus_transfer(
+                state,
+                context,
+                request.from,
+                &to,
+                &effect_target,
+                request.reason,
+            );
+            // A default-button Enter transfers focus to the button and then fires its Click,
+            // after the gaining control's Enter (oxforms-esq.6).
+            if request.activate_on_commit {
+                if let FocusTarget::Control(control_id) = &to {
+                    activate_command_button(
+                        state,
+                        context,
+                        control_id,
+                        PressedOrigin::KeyboardDefault,
+                    );
+                }
+            }
         }
+    }
+    // Replay the deferred press AFTER the gaining control's Enter: Exit -> Enter -> MouseDown
+    // (oxforms-esq.10).
+    if let Some(press) = pending_press {
+        apply_mouse_press(state, context, &press);
     }
 }
 
@@ -3754,9 +3843,10 @@ mod tests {
             Some(FocusTarget::Control(ControlId::new("text-1")))
         );
         assert!(pressed.state.validation.pending.is_some());
-        assert!(!effect_names(&pressed.effects)
-            .iter()
-            .any(|name| name == "transfer_focus"));
+        // esq.10: a focus-changing click also defers the press -- only Exit fires now
+        // (no MouseDown/capture until the validation commits).
+        assert!(pressed.state.pending_mouse_press.is_some());
+        assert_eq!(effect_names(&pressed.effects), vec!["fire_vba_event:Exit"]);
 
         // A vetoing Exit (Cancel = True) keeps focus on text-1 and commits nothing.
         let vetoed = reduce(
@@ -3772,7 +3862,18 @@ mod tests {
             vetoed.state.validation.last_result,
             Some(ValidationResult::Cancelled)
         );
-        assert!(effect_names(&vetoed.effects).is_empty());
+        // esq.10: the veto keeps focus and fires no Enter, but the deferred press still
+        // applies to the clicked control (Exit -> MouseDown, no commit) -- whether a veto
+        // should absorb the click is unoracled and tracked on esq.11.
+        assert_eq!(
+            effect_names(&vetoed.effects),
+            vec![
+                "capture_mouse",
+                "fire_vba_event:MouseDown",
+                "request_repaint"
+            ]
+        );
+        assert!(vetoed.state.pending_mouse_press.is_none());
 
         // From the same pending state, an un-vetoed completion commits the transfer to ok.
         let committed = reduce(
@@ -3783,10 +3884,20 @@ mod tests {
             committed.state.focus_owner,
             Some(FocusTarget::Control(ControlId::new("ok")))
         );
+        // esq.10: the deferred press replays AFTER the gaining control's Enter, so the
+        // committed order is Exit (already fired) -> Enter -> MouseDown.
         assert_eq!(
             effect_names(&committed.effects),
-            vec!["transfer_focus", "fire_vba_event:Enter", "request_repaint"]
+            vec![
+                "transfer_focus",
+                "fire_vba_event:Enter",
+                "request_repaint",
+                "capture_mouse",
+                "fire_vba_event:MouseDown",
+                "request_repaint",
+            ]
         );
+        assert!(committed.state.pending_mouse_press.is_none());
         assert_eq!(
             committed.state.validation.last_result,
             Some(ValidationResult::Passed)

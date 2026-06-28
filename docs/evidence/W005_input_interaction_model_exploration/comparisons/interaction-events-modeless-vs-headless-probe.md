@@ -79,6 +79,12 @@ Implemented matches:
   order for the first committed character.
 - Both record CommandButton `MouseDown`, `MouseUp`, and `Click` in that order
   for a direct button click.
+- A focus-CHANGING click fires `Exit`(leaver) -> `Enter`(enterer) -> `MouseDown`(enterer)
+  on both sides (oxforms-esq.10): the replay defers the mouse press through the focus
+  validation, so on commit (golden script-0005) the press replays after the gaining
+  control's `Enter`, matching the modeless oracle (capture sequences 565-567, 626-628,
+  868-870, 983-985). The initial-focus (`None`->control) path commits synchronously and
+  was already correct.
 
 Additional OxForms replay evidence:
 
@@ -99,14 +105,6 @@ Known gaps:
   (oxforms-esq.7; script-0005 leaves the edited text-1). The remaining gap is honoring the
   `BeforeUpdate` `Cancel=True` veto (suppress `AfterUpdate`/`Exit`/`Enter`) via a two-stage
   validation (oxforms-esq.11); esq.7 emits `BeforeUpdate` but records its Cancel only.
-- Enter-vs-MouseDown order on a focus-CHANGING click is divergent (oxforms-esq.10).
-  The oracle fires `Exit`(leaver) -> `Enter`(enterer) -> `MouseDown`(enterer) on every
-  focus-changing click (capture sequences 565-567, 626-628, 868-870, 983-985). Because
-  esq.6's `Enter` rides the esq.4 deferred focus commit while the gaining control's
-  `MouseDown` is emitted in-line, the replay currently produces `Exit` -> `MouseDown` ->
-  `Enter` (golden script-0005). The initial-focus (`None`->control) path commits
-  synchronously and is already correct (`Enter` before `MouseDown`). esq.10 will defer
-  the press to the validation commit so `Enter` precedes `MouseDown`.
 - The headless replay does not include close; the MSForms capture records
   `QueryClose`, `Exit`, and `Terminate`. The visible smoke has QueryClose-path
   evidence but not Terminate parity.

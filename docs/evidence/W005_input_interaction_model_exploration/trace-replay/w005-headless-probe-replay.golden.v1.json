@@ -7051,10 +7051,7 @@
         "after": {
           "active_form": "form-main",
           "active_window": "window-main",
-          "capture_owner": {
-            "kind": "control",
-            "target": "ok"
-          },
+          "capture_owner": null,
           "close_flow": null,
           "focus_owner": {
             "kind": "control",
@@ -7063,15 +7060,8 @@
           "hover_path": [],
           "lifecycle_state": "modeless_visible",
           "nested_modal_depth": 0,
-          "pending_effect_count": 6,
-          "pressed_state": {
-            "armed": true,
-            "origin": "mouse",
-            "target": {
-              "kind": "control",
-              "target": "ok"
-            }
-          },
+          "pending_effect_count": 3,
+          "pressed_state": null,
           "pump_term": "host_modeless_pump",
           "text_values": [
             {
@@ -7120,14 +7110,9 @@
         "emitted_effect_ids": [
           "effect-0040",
           "effect-0041",
-          "effect-0042",
-          "effect-0043",
-          "effect-0044",
-          "effect-0045"
+          "effect-0042"
         ],
-        "invalidation_ids": [
-          "inv-0010"
-        ],
+        "invalidation_ids": [],
         "transition_id": "transition-0021"
       },
       "phase": "reducer",
@@ -7347,180 +7332,8 @@
       "sequence": 184
     },
     {
-      "kind": "effect_requested",
-      "logical_tick": 184,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "cause": {
-          "transition_id": "transition-0021",
-          "ui_event_id": "ui-0021"
-        },
-        "completion_policy": "platform_completion_or_diagnostic",
-        "effect_id": "effect-0043",
-        "effect_kind": "capture_mouse",
-        "target": {
-          "control_id": "ok",
-          "form_id": "form-main",
-          "window_id": null
-        }
-      },
-      "phase": "effect",
-      "row_id": "row-0185",
-      "sequence": 185
-    },
-    {
-      "kind": "effect_requested",
-      "logical_tick": 185,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "arguments": [
-          {
-            "by_ref": false,
-            "name": "Button",
-            "value": "1"
-          },
-          {
-            "by_ref": false,
-            "name": "Shift",
-            "value": "0"
-          },
-          {
-            "by_ref": false,
-            "name": "X",
-            "value": "16"
-          },
-          {
-            "by_ref": false,
-            "name": "Y",
-            "value": "12"
-          }
-        ],
-        "cancel_metadata": null,
-        "cause": {
-          "transition_id": "transition-0021",
-          "ui_event_id": "ui-0021"
-        },
-        "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0044",
-        "effect_kind": "fire_vba_event",
-        "event_name": "MouseDown",
-        "target": {
-          "control_id": "ok",
-          "form_id": "form-main",
-          "window_id": null
-        }
-      },
-      "phase": "effect",
-      "row_id": "row-0186",
-      "sequence": 186
-    },
-    {
-      "kind": "vba_dispatch",
-      "logical_tick": 186,
-      "nesting_depth": 1,
-      "parent_row_id": "row-0186",
-      "payload": {
-        "arguments": [
-          {
-            "by_ref": false,
-            "name": "Button",
-            "value": "1"
-          },
-          {
-            "by_ref": false,
-            "name": "Shift",
-            "value": "0"
-          },
-          {
-            "by_ref": false,
-            "name": "X",
-            "value": "16"
-          },
-          {
-            "by_ref": false,
-            "name": "Y",
-            "value": "12"
-          }
-        ],
-        "dispatch_id": "dispatch-0028",
-        "effect_id": "effect-0044",
-        "event_name": "MouseDown",
-        "fact_source": {
-          "event": "MouseDown",
-          "evidence_class": "reducer_effect_metadata",
-          "path": "docs/specs/FM20_EVENT_FACTS.md"
-        },
-        "mutable_helpers": [],
-        "result": {
-          "cancel_metadata": null,
-          "handler": null,
-          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
-          "status": "not_executed_headless_replay"
-        },
-        "target": {
-          "control_id": "ok",
-          "form_id": "form-main",
-          "window_id": null
-        }
-      },
-      "phase": "dispatch",
-      "row_id": "row-0187",
-      "sequence": 187
-    },
-    {
-      "kind": "effect_requested",
-      "logical_tick": 187,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "cause": {
-          "transition_id": "transition-0021",
-          "ui_event_id": "ui-0021"
-        },
-        "completion_policy": "render_diagnostic_optional",
-        "effect_id": "effect-0045",
-        "effect_kind": "request_repaint",
-        "target": {
-          "control_id": "ok",
-          "form_id": "form-main",
-          "window_id": null
-        }
-      },
-      "phase": "effect",
-      "row_id": "row-0188",
-      "sequence": 188
-    },
-    {
-      "kind": "invalidation",
-      "logical_tick": 188,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "dirty_subtrees": [
-          {
-            "control_id": "ok",
-            "form_id": "form-main",
-            "window_id": null
-          }
-        ],
-        "invalidation_id": "inv-0010",
-        "reason": "pressed_state_changed",
-        "regions": [],
-        "target": {
-          "control_id": "ok",
-          "form_id": "form-main",
-          "window_id": null
-        }
-      },
-      "phase": "render",
-      "row_id": "row-0189",
-      "sequence": 189
-    },
-    {
       "kind": "effect_completed",
-      "logical_tick": 189,
+      "logical_tick": 184,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7533,12 +7346,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0190",
-      "sequence": 190
+      "row_id": "row-0185",
+      "sequence": 185
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 190,
+      "logical_tick": 185,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7551,12 +7364,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0191",
-      "sequence": 191
+      "row_id": "row-0186",
+      "sequence": 186
     },
     {
       "kind": "effect_completed",
-      "logical_tick": 191,
+      "logical_tick": 186,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7569,66 +7382,12 @@
         "status": "recorded_not_executed"
       },
       "phase": "effect",
-      "row_id": "row-0192",
-      "sequence": 192
-    },
-    {
-      "kind": "effect_completed",
-      "logical_tick": 192,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "diagnostics": [],
-        "effect_id": "effect-0043",
-        "result": {
-          "effect_kind": "capture_mouse",
-          "runner": "oxforms-core headless trace replay"
-        },
-        "status": "diagnostic_only"
-      },
-      "phase": "effect",
-      "row_id": "row-0193",
-      "sequence": 193
-    },
-    {
-      "kind": "effect_completed",
-      "logical_tick": 193,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "diagnostics": [],
-        "effect_id": "effect-0044",
-        "result": {
-          "effect_kind": "fire_vba_event",
-          "runner": "oxforms-core headless trace replay"
-        },
-        "status": "recorded_not_executed"
-      },
-      "phase": "effect",
-      "row_id": "row-0194",
-      "sequence": 194
-    },
-    {
-      "kind": "effect_completed",
-      "logical_tick": 194,
-      "nesting_depth": 0,
-      "parent_row_id": null,
-      "payload": {
-        "diagnostics": [],
-        "effect_id": "effect-0045",
-        "result": {
-          "effect_kind": "request_repaint",
-          "runner": "oxforms-core headless trace replay"
-        },
-        "status": "completed_by_headless_render"
-      },
-      "phase": "effect",
-      "row_id": "row-0195",
-      "sequence": 195
+      "row_id": "row-0187",
+      "sequence": 187
     },
     {
       "kind": "ui_event",
-      "logical_tick": 195,
+      "logical_tick": 187,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7661,12 +7420,12 @@
         "ui_event_schema_version": 1
       },
       "phase": "input",
-      "row_id": "row-0196",
-      "sequence": 196
+      "row_id": "row-0188",
+      "sequence": 188
     },
     {
       "kind": "reducer_transition",
-      "logical_tick": 196,
+      "logical_tick": 188,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7685,7 +7444,7 @@
           "hover_path": [],
           "lifecycle_state": "modeless_visible",
           "nested_modal_depth": 0,
-          "pending_effect_count": 3,
+          "pending_effect_count": 6,
           "pressed_state": {
             "armed": true,
             "origin": "mouse",
@@ -7712,10 +7471,7 @@
         "before": {
           "active_form": "form-main",
           "active_window": "window-main",
-          "capture_owner": {
-            "kind": "control",
-            "target": "ok"
-          },
+          "capture_owner": null,
           "close_flow": null,
           "focus_owner": {
             "kind": "control",
@@ -7725,14 +7481,7 @@
           "lifecycle_state": "modeless_visible",
           "nested_modal_depth": 0,
           "pending_effect_count": 0,
-          "pressed_state": {
-            "armed": true,
-            "origin": "mouse",
-            "target": {
-              "kind": "control",
-              "target": "ok"
-            }
-          },
+          "pressed_state": null,
           "pump_term": "host_modeless_pump",
           "text_values": [
             {
@@ -7750,22 +7499,26 @@
         },
         "causal_ui_event_id": "ui-0022",
         "emitted_effect_ids": [
+          "effect-0043",
+          "effect-0044",
+          "effect-0045",
           "effect-0046",
           "effect-0047",
           "effect-0048"
         ],
         "invalidation_ids": [
+          "inv-0010",
           "inv-0011"
         ],
         "transition_id": "transition-0022"
       },
       "phase": "reducer",
-      "row_id": "row-0197",
-      "sequence": 197
+      "row_id": "row-0189",
+      "sequence": 189
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 197,
+      "logical_tick": 189,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7774,7 +7527,7 @@
           "ui_event_id": "ui-0022"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0046",
+        "effect_id": "effect-0043",
         "effect_kind": "transfer_focus",
         "target": {
           "control_id": "ok",
@@ -7783,12 +7536,12 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0198",
-      "sequence": 198
+      "row_id": "row-0190",
+      "sequence": 190
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 198,
+      "logical_tick": 190,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7799,7 +7552,7 @@
           "ui_event_id": "ui-0022"
         },
         "completion_policy": "dispatch_result_required",
-        "effect_id": "effect-0047",
+        "effect_id": "effect-0044",
         "effect_kind": "fire_vba_event",
         "event_name": "Enter",
         "target": {
@@ -7809,18 +7562,18 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0199",
-      "sequence": 199
+      "row_id": "row-0191",
+      "sequence": 191
     },
     {
       "kind": "vba_dispatch",
-      "logical_tick": 199,
+      "logical_tick": 191,
       "nesting_depth": 1,
-      "parent_row_id": "row-0199",
+      "parent_row_id": "row-0191",
       "payload": {
         "arguments": [],
-        "dispatch_id": "dispatch-0029",
-        "effect_id": "effect-0047",
+        "dispatch_id": "dispatch-0028",
+        "effect_id": "effect-0044",
         "event_name": "Enter",
         "fact_source": {
           "event": "Enter",
@@ -7841,12 +7594,158 @@
         }
       },
       "phase": "dispatch",
-      "row_id": "row-0200",
-      "sequence": 200
+      "row_id": "row-0192",
+      "sequence": 192
     },
     {
       "kind": "effect_requested",
-      "logical_tick": 200,
+      "logical_tick": 192,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
+        },
+        "completion_policy": "render_diagnostic_optional",
+        "effect_id": "effect-0045",
+        "effect_kind": "request_repaint",
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0193",
+      "sequence": 193
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 193,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "cause": {
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
+        },
+        "completion_policy": "platform_completion_or_diagnostic",
+        "effect_id": "effect-0046",
+        "effect_kind": "capture_mouse",
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0194",
+      "sequence": 194
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 194,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": false,
+            "name": "Button",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
+            "name": "X",
+            "value": "16"
+          },
+          {
+            "by_ref": false,
+            "name": "Y",
+            "value": "12"
+          }
+        ],
+        "cancel_metadata": null,
+        "cause": {
+          "transition_id": "transition-0022",
+          "ui_event_id": "ui-0022"
+        },
+        "completion_policy": "dispatch_result_required",
+        "effect_id": "effect-0047",
+        "effect_kind": "fire_vba_event",
+        "event_name": "MouseDown",
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "effect",
+      "row_id": "row-0195",
+      "sequence": 195
+    },
+    {
+      "kind": "vba_dispatch",
+      "logical_tick": 195,
+      "nesting_depth": 1,
+      "parent_row_id": "row-0195",
+      "payload": {
+        "arguments": [
+          {
+            "by_ref": false,
+            "name": "Button",
+            "value": "1"
+          },
+          {
+            "by_ref": false,
+            "name": "Shift",
+            "value": "0"
+          },
+          {
+            "by_ref": false,
+            "name": "X",
+            "value": "16"
+          },
+          {
+            "by_ref": false,
+            "name": "Y",
+            "value": "12"
+          }
+        ],
+        "dispatch_id": "dispatch-0029",
+        "effect_id": "effect-0047",
+        "event_name": "MouseDown",
+        "fact_source": {
+          "event": "MouseDown",
+          "evidence_class": "reducer_effect_metadata",
+          "path": "docs/specs/FM20_EVENT_FACTS.md"
+        },
+        "mutable_helpers": [],
+        "result": {
+          "cancel_metadata": null,
+          "handler": null,
+          "note": "Headless replay records the reducer FireVbaEvent request but does not run OxVba or a VBA handler.",
+          "status": "not_executed_headless_replay"
+        },
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "dispatch",
+      "row_id": "row-0196",
+      "sequence": 196
+    },
+    {
+      "kind": "effect_requested",
+      "logical_tick": 196,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7864,12 +7763,38 @@
         }
       },
       "phase": "effect",
-      "row_id": "row-0201",
-      "sequence": 201
+      "row_id": "row-0197",
+      "sequence": 197
     },
     {
       "kind": "invalidation",
-      "logical_tick": 201,
+      "logical_tick": 197,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "dirty_subtrees": [
+          {
+            "control_id": "ok",
+            "form_id": "form-main",
+            "window_id": null
+          }
+        ],
+        "invalidation_id": "inv-0010",
+        "reason": "focus_changed",
+        "regions": [],
+        "target": {
+          "control_id": "ok",
+          "form_id": "form-main",
+          "window_id": null
+        }
+      },
+      "phase": "render",
+      "row_id": "row-0198",
+      "sequence": 198
+    },
+    {
+      "kind": "invalidation",
+      "logical_tick": 198,
       "nesting_depth": 0,
       "parent_row_id": null,
       "payload": {
@@ -7881,7 +7806,7 @@
           }
         ],
         "invalidation_id": "inv-0011",
-        "reason": "focus_changed",
+        "reason": "pressed_state_changed",
         "regions": [],
         "target": {
           "control_id": "ok",
@@ -7890,6 +7815,60 @@
         }
       },
       "phase": "render",
+      "row_id": "row-0199",
+      "sequence": 199
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 199,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0043",
+        "result": {
+          "effect_kind": "transfer_focus",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "diagnostic_only"
+      },
+      "phase": "effect",
+      "row_id": "row-0200",
+      "sequence": 200
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 200,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0044",
+        "result": {
+          "effect_kind": "fire_vba_event",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "recorded_not_executed"
+      },
+      "phase": "effect",
+      "row_id": "row-0201",
+      "sequence": 201
+    },
+    {
+      "kind": "effect_completed",
+      "logical_tick": 201,
+      "nesting_depth": 0,
+      "parent_row_id": null,
+      "payload": {
+        "diagnostics": [],
+        "effect_id": "effect-0045",
+        "result": {
+          "effect_kind": "request_repaint",
+          "runner": "oxforms-core headless trace replay"
+        },
+        "status": "completed_by_headless_render"
+      },
+      "phase": "effect",
       "row_id": "row-0202",
       "sequence": 202
     },
@@ -7902,7 +7881,7 @@
         "diagnostics": [],
         "effect_id": "effect-0046",
         "result": {
-          "effect_kind": "transfer_focus",
+          "effect_kind": "capture_mouse",
           "runner": "oxforms-core headless trace replay"
         },
         "status": "diagnostic_only"

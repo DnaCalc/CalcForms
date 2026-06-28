@@ -636,8 +636,10 @@ fn pin_before_after_update_dispatched_on_dirty_focus_out() {
 /// focus commit, where esq.6's Enter rides), inverting Enter/MouseDown, because the mouse
 /// press is not deferred through the focus validation. Driven over the reducer on a
 /// non-vetoing form (the W007 InputField_Exit vetoes, which would block the transfer).
+///
+/// CLOSED by oxforms-esq.10: a focus-changing click defers the mouse press through the
+/// Exit validation, so the press replays after the gaining control's Enter on commit.
 #[test]
-#[ignore = "GAP: a focus-changing click emits Exit -> MouseDown -> Enter; the oracle has Exit -> Enter -> MouseDown (the mouse press must be deferred through the focus validation) — pending oxforms-esq.10"]
 fn gap_focus_changing_click_enter_precedes_mousedown() {
     let mut state = FormState::new("form-click");
     state.controls = vec![
