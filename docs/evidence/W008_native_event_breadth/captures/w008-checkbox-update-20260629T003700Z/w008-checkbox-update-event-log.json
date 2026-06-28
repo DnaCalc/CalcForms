@@ -1,0 +1,264 @@
+{
+  "schema": "oxforms.office_oracle.w008_checkbox_update_event_log.v1",
+  "bead": "oxforms-esq.14",
+  "source": {
+    "worksheet": "W008CheckBoxUpdateLog",
+    "columns": [
+      "sequence",
+      "scenario",
+      "control_name",
+      "event_name",
+      "arg_name",
+      "arg_before",
+      "arg_after",
+      "focus_owner_after",
+      "value_after",
+      "notes"
+    ],
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/w008-checkbox-update/fixture.json",
+    "note": "Two separate clear -> drive -> export runs (one per scenario); the worksheet sequence restarts at 1 per run. observed_facts.row_count counts ALL CSV rows including the per-run Initialize + TextBox1 Enter setup rows (empty scenario); scenario_summaries enumerate only the scenario-tagged rows (seq >= 3), so the per-scenario row_counts sum to fewer than the headline count. The notes column is POST-CAPTURE author annotation (the fixture logger W008CbuLog writes column 10 empty); the captured fields are sequence/scenario/control_name/event_name/arg_name/arg_before/arg_after/focus_owner_after/value_after."
+  },
+  "observed_facts": {
+    "row_count": 22,
+    "scenarios": [
+      "checkbox_dirty_focus_out",
+      "edit_revert_focus_out"
+    ],
+    "scenario_summaries": [
+      {
+        "scenario": "checkbox_dirty_focus_out",
+        "row_count": 8,
+        "observed": true,
+        "event_names": [
+          "Exit",
+          "Enter",
+          "Change",
+          "Click",
+          "BeforeUpdate",
+          "AfterUpdate",
+          "Exit",
+          "Enter"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "TextBox1",
+            "event_name": "Exit",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": ""
+          },
+          {
+            "sequence": "4",
+            "control_name": "CheckBox1",
+            "event_name": "Enter",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "CheckBox1",
+            "value_after": "False",
+            "notes": ""
+          },
+          {
+            "sequence": "5",
+            "control_name": "CheckBox1",
+            "event_name": "Change",
+            "arg_name": "Value",
+            "arg_before": "True",
+            "arg_after": "True",
+            "focus_owner_after": "CheckBox1",
+            "value_after": "True",
+            "notes": ""
+          },
+          {
+            "sequence": "6",
+            "control_name": "CheckBox1",
+            "event_name": "Click",
+            "arg_name": "Value",
+            "arg_before": "True",
+            "arg_after": "True",
+            "focus_owner_after": "CheckBox1",
+            "value_after": "True",
+            "notes": ""
+          },
+          {
+            "sequence": "7",
+            "control_name": "CheckBox1",
+            "event_name": "BeforeUpdate",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "CheckBox1",
+            "value_after": "True",
+            "notes": ""
+          },
+          {
+            "sequence": "8",
+            "control_name": "CheckBox1",
+            "event_name": "AfterUpdate",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "CheckBox1",
+            "value_after": "True",
+            "notes": ""
+          },
+          {
+            "sequence": "9",
+            "control_name": "CheckBox1",
+            "event_name": "Exit",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "CheckBox1",
+            "value_after": "True",
+            "notes": ""
+          },
+          {
+            "sequence": "10",
+            "control_name": "TextBox2",
+            "event_name": "Enter",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox2",
+            "value_after": "",
+            "notes": ""
+          }
+        ]
+      },
+      {
+        "scenario": "edit_revert_focus_out",
+        "row_count": 10,
+        "observed": true,
+        "event_names": [
+          "KeyDown",
+          "Change",
+          "KeyUp",
+          "KeyDown",
+          "Change",
+          "KeyUp",
+          "BeforeUpdate",
+          "AfterUpdate",
+          "Exit",
+          "Enter"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "231",
+            "arg_after": "231",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "KeyCode 231 = VK_PACKET (computer-use type() unicode injection), not VK_X (88)"
+          },
+          {
+            "sequence": "4",
+            "control_name": "TextBox1",
+            "event_name": "Change",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox1",
+            "value_after": "X",
+            "notes": "edit: value now X"
+          },
+          {
+            "sequence": "5",
+            "control_name": "TextBox1",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "231",
+            "arg_after": "231",
+            "focus_owner_after": "TextBox1",
+            "value_after": "X",
+            "notes": ""
+          },
+          {
+            "sequence": "6",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "8",
+            "arg_after": "8",
+            "focus_owner_after": "TextBox1",
+            "value_after": "X",
+            "notes": "KeyCode 8 = Backspace"
+          },
+          {
+            "sequence": "7",
+            "control_name": "TextBox1",
+            "event_name": "Change",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "revert: value back to empty (net change = none)"
+          },
+          {
+            "sequence": "8",
+            "control_name": "TextBox1",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "8",
+            "arg_after": "8",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": ""
+          },
+          {
+            "sequence": "9",
+            "control_name": "TextBox1",
+            "event_name": "BeforeUpdate",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "STILL fires though net value is unchanged"
+          },
+          {
+            "sequence": "10",
+            "control_name": "TextBox1",
+            "event_name": "AfterUpdate",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "STILL fires though net value is unchanged"
+          },
+          {
+            "sequence": "11",
+            "control_name": "TextBox1",
+            "event_name": "Exit",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": ""
+          },
+          {
+            "sequence": "12",
+            "control_name": "TextBox2",
+            "event_name": "Enter",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox2",
+            "value_after": "",
+            "notes": ""
+          }
+        ]
+      }
+    ]
+  }
+}

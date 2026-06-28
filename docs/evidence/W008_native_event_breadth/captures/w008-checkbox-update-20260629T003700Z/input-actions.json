@@ -1,0 +1,20 @@
+{
+  "schema": "oxforms.office_oracle.w008_checkbox_update_input_actions.v1",
+  "bead": "oxforms-esq.14",
+  "manual_inputs": [
+    {
+      "label": "checkbox_dirty_focus_out",
+      "method": "computer_use_vision_clicks",
+      "note": "Click TextBox1 (focus), click CheckBox1 (focus + toggle), click TextBox2 (dirty CheckBox focus-out)."
+    },
+    {
+      "label": "edit_revert_focus_out",
+      "method": "computer_use_vision_clicks_plus_type",
+      "note": "Click TextBox1, type a char then Backspace (net change none), click TextBox2 (focus-out)."
+    }
+  ],
+  "automated_inputs": [],
+  "non_claims": [
+    "Inputs were driven by computer-use vision + background COM; events are live MSForms handler observations. The type() keystroke was injected via VK_PACKET."
+  ]
+}

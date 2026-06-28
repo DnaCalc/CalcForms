@@ -1,0 +1,260 @@
+{
+  "schema": "oxforms.office_oracle.w008_checkbox_update_run_summary.v1",
+  "bead": "oxforms-esq.14",
+  "capture_id": "w008-checkbox-update-20260629T003700Z",
+  "status": "captured",
+  "row_count": 22,
+  "scenarios": [
+    "checkbox_dirty_focus_out",
+    "edit_revert_focus_out"
+  ],
+  "scenario_coverage": {
+    "checkbox_dirty_focus_out": "observed_rows",
+    "edit_revert_focus_out": "observed_rows"
+  },
+  "finding": "TWO settled facts. (1) CHECKBOX DIRTY FOCUS-OUT: a toggled (dirty) CheckBox losing focus fires BeforeUpdate -> AfterUpdate -> Exit, exactly like a TextBox. Rows (checkbox_dirty_focus_out): TextBox1 Exit (clean, no BeforeUpdate) -> CheckBox1 Enter(False) -> Change(Value True) -> Click(Value True) -> BeforeUpdate(Cancel False) -> AfterUpdate -> Exit(Cancel False) -> TextBox2 Enter. So the focus-out validation MUST treat a dirty CheckBox like a dirty TextBox (queue BeforeUpdate/AfterUpdate before Exit). Also: a CheckBox DOES expose Enter/Exit/BeforeUpdate/AfterUpdate (FM20_EVENT_FACTS.md previously treated these as unknown for MdcCheckBoxEvents). (2) NET-VALUE / OldValue is a NON-GOAL: an edit-then-revert (type a char, Backspace back to the value-at-focus-gain, net change = none) STILL fires BeforeUpdate + AfterUpdate on focus-out. Rows (edit_revert_focus_out): KeyDown(231=VK_PACKET) -> Change(X) -> KeyUp -> KeyDown(8=Backspace) -> Change(empty) -> KeyUp -> BeforeUpdate(False) -> AfterUpdate -> Exit -> TextBox2 Enter. So MSForms uses the sticky edited-since flag, NOT a net-value-vs-baseline gate -- the OxForms sticky dirty flag (esq.7) is already faithful, and the OldValue/net-value refinement is dropped.",
+  "driving_method": "Computer-use vision (precise clicks + keystrokes) on a background-COM-hosted Excel running the committed w008-checkbox-update fixture; each scenario was a separate ClearLog -> Show -> SetW008Scenario* -> drive -> export-worksheet run, so the per-run sequence restarts at 1. The edit-revert keystroke was injected via VK_PACKET (KeyCode 231), a computer-use type() artifact -- the load-bearing facts are the Change/BeforeUpdate/AfterUpdate firings, not the KeyCode value. This fixture mutates no argument; it only observes whether the events fire.",
+  "scenario_summaries": [
+    {
+      "scenario": "checkbox_dirty_focus_out",
+      "row_count": 8,
+      "observed": true,
+      "event_names": [
+        "Exit",
+        "Enter",
+        "Change",
+        "Click",
+        "BeforeUpdate",
+        "AfterUpdate",
+        "Exit",
+        "Enter"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": ""
+        },
+        {
+          "sequence": "4",
+          "control_name": "CheckBox1",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "CheckBox1",
+          "value_after": "False",
+          "notes": ""
+        },
+        {
+          "sequence": "5",
+          "control_name": "CheckBox1",
+          "event_name": "Change",
+          "arg_name": "Value",
+          "arg_before": "True",
+          "arg_after": "True",
+          "focus_owner_after": "CheckBox1",
+          "value_after": "True",
+          "notes": ""
+        },
+        {
+          "sequence": "6",
+          "control_name": "CheckBox1",
+          "event_name": "Click",
+          "arg_name": "Value",
+          "arg_before": "True",
+          "arg_after": "True",
+          "focus_owner_after": "CheckBox1",
+          "value_after": "True",
+          "notes": ""
+        },
+        {
+          "sequence": "7",
+          "control_name": "CheckBox1",
+          "event_name": "BeforeUpdate",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "CheckBox1",
+          "value_after": "True",
+          "notes": ""
+        },
+        {
+          "sequence": "8",
+          "control_name": "CheckBox1",
+          "event_name": "AfterUpdate",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "CheckBox1",
+          "value_after": "True",
+          "notes": ""
+        },
+        {
+          "sequence": "9",
+          "control_name": "CheckBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "CheckBox1",
+          "value_after": "True",
+          "notes": ""
+        },
+        {
+          "sequence": "10",
+          "control_name": "TextBox2",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox2",
+          "value_after": "",
+          "notes": ""
+        }
+      ]
+    },
+    {
+      "scenario": "edit_revert_focus_out",
+      "row_count": 10,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "Change",
+        "KeyUp",
+        "KeyDown",
+        "Change",
+        "KeyUp",
+        "BeforeUpdate",
+        "AfterUpdate",
+        "Exit",
+        "Enter"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "231",
+          "arg_after": "231",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "KeyCode 231 = VK_PACKET (computer-use type() unicode injection), not VK_X (88)"
+        },
+        {
+          "sequence": "4",
+          "control_name": "TextBox1",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "value_after": "X",
+          "notes": "edit: value now X"
+        },
+        {
+          "sequence": "5",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "231",
+          "arg_after": "231",
+          "focus_owner_after": "TextBox1",
+          "value_after": "X",
+          "notes": ""
+        },
+        {
+          "sequence": "6",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "8",
+          "arg_after": "8",
+          "focus_owner_after": "TextBox1",
+          "value_after": "X",
+          "notes": "KeyCode 8 = Backspace"
+        },
+        {
+          "sequence": "7",
+          "control_name": "TextBox1",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "revert: value back to empty (net change = none)"
+        },
+        {
+          "sequence": "8",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "8",
+          "arg_after": "8",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": ""
+        },
+        {
+          "sequence": "9",
+          "control_name": "TextBox1",
+          "event_name": "BeforeUpdate",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "STILL fires though net value is unchanged"
+        },
+        {
+          "sequence": "10",
+          "control_name": "TextBox1",
+          "event_name": "AfterUpdate",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "STILL fires though net value is unchanged"
+        },
+        {
+          "sequence": "11",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": ""
+        },
+        {
+          "sequence": "12",
+          "control_name": "TextBox2",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox2",
+          "value_after": "",
+          "notes": ""
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "edit_revert KeyCode 231 is VK_PACKET (computer-use unicode injection), not the literal X virtual-key; the captured facts are the Change/BeforeUpdate/AfterUpdate firings, not the KeyCode.",
+    "No CheckBox BeforeUpdate VETO was captured here; a vetoing CheckBox BeforeUpdate would ride the existing two-stage veto path (esq.11) but is not separately claimed by this capture.",
+    "Absence of a row is not a negative parity fact.",
+    "No OxForms runtime behavior is claimed by the capture (oxforms-esq.14 consumes it)."
+  ]
+}

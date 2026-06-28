@@ -3582,16 +3582,25 @@ fn queue_focus_enter_event(
 /// gates the `BeforeUpdate`/`AfterUpdate` validation stage (oxforms-esq.7/esq.11): a dirty
 /// control validates in two stages, a clean one fires only `Exit`.
 ///
-/// Scope (oxforms-esq.7): `TextBox` only. A dirty CheckBox (or another committable data
-/// control) losing focus does NOT yet count here -- there is no oracle for focus-out after
-/// a CheckBox toggle, and the `dirty` gate is the sticky "edited-since" flag rather than
-/// net-value-vs-baseline (an edit-then-revert still reads dirty). Both refinements (CheckBox
-/// update events; an `OldValue` baseline) are tracked on oxforms-esq.14.
+/// Scope (oxforms-esq.14): `TextBox` AND `CheckBox`. A toggled (dirty) CheckBox losing focus
+/// fires `BeforeUpdate` -> `AfterUpdate` -> `Exit` exactly like a dirty TextBox -- oracle
+/// `w008-checkbox-update-20260629T003700Z` (`checkbox_dirty_focus_out`): CheckBox1
+/// Enter -> Change -> Click -> BeforeUpdate -> AfterUpdate -> Exit -> TextBox2 Enter.
+///
+/// The `dirty` gate is the sticky "edited-since" flag, NOT net-value-vs-baseline: an
+/// edit-then-revert (type then delete back to the focus-gain value, net change = none) STILL
+/// reads dirty and STILL fires BeforeUpdate/AfterUpdate -- oracle-confirmed (same capture,
+/// `edit_revert_focus_out`). So the sticky flag is faithful and the `OldValue`/net-value
+/// refinement once floated for esq.14 is a NON-GOAL (dropped).
 fn control_is_dirty(state: &FormState, control_id: &ControlId) -> bool {
     state
         .text_boxes
         .iter()
         .any(|entry| entry.control_id == *control_id && entry.dirty)
+        || state
+            .check_boxes
+            .iter()
+            .any(|entry| entry.control_id == *control_id && entry.dirty)
 }
 
 /// Emit the FM20 `BeforeUpdate` event on a dirty data control losing focus -- the FIRST of
@@ -3651,8 +3660,18 @@ fn queue_after_update_event(
         },
         CompletionPolicy::DispatchResultRequired,
     );
+    // Commit the value by clearing the sticky dirty flag on whichever store holds the control
+    // (TextBox or CheckBox, oxforms-esq.14): a control is in at most one store, so clearing both
+    // is safe and only the matching entry is touched.
     if let Some(entry) = state
         .text_boxes
+        .iter_mut()
+        .find(|entry| entry.control_id == *losing_control_id)
+    {
+        entry.dirty = false;
+    }
+    if let Some(entry) = state
+        .check_boxes
         .iter_mut()
         .find(|entry| entry.control_id == *losing_control_id)
     {
@@ -6613,6 +6632,177 @@ mod tests {
         assert_eq!(
             effect_names(&tab_clean.effects),
             vec!["fire_vba_event:KeyDown", "fire_vba_event:Exit"]
+        );
+    }
+
+    #[test]
+    fn dirty_checkbox_focus_out_fires_before_update_after_update_before_exit() {
+        // A toggled (dirty) CheckBox losing focus validates in TWO stages exactly like a dirty
+        // TextBox (oxforms-esq.14 oracle w008-checkbox-update-20260629T003700Z,
+        // checkbox_dirty_focus_out: CheckBox1 Enter -> Change -> Click -> BeforeUpdate ->
+        // AfterUpdate -> Exit -> TextBox2 Enter). The Tab fires KeyDown -> BeforeUpdate; the
+        // BeforeUpdate-stage completion fires AfterUpdate -> Exit and clears the CheckBox dirty
+        // flag; the Exit-stage completion commits focus (+ the gaining control's Enter).
+        let controls = || {
+            vec![
+                ControlNode::check_box("agree", LogicalRect::new(0.0, 0.0, 120.0, 18.0), 0, 0),
+                ControlNode::text_box("text-2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+            ]
+        };
+
+        let mut dirty = FormState::new("form-main");
+        dirty.controls = controls();
+        dirty.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
+        dirty.ensure_check_box(ControlId::new("agree")).dirty = true;
+        let tab = reduce(dirty, key_down_event(UiEventId(82), KeyCode::Tab, false));
+        assert_eq!(
+            effect_names(&tab.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:BeforeUpdate"],
+            "a dirty CheckBox Tab-out fires KeyDown -> BeforeUpdate (stage one), like a dirty TextBox"
+        );
+        assert!(
+            check_box_state(&tab.state, &ControlId::new("agree"))
+                .expect("agree state")
+                .dirty,
+            "the CheckBox stays dirty until AfterUpdate commits it"
+        );
+
+        // BeforeUpdate passes: AfterUpdate (commits + clears dirty) then Exit.
+        let after_before_update = reduce(
+            tab.state,
+            focus_validation_completed_event(UiEventId(182), false),
+        );
+        assert_eq!(
+            effect_names(&after_before_update.effects),
+            vec!["fire_vba_event:AfterUpdate", "fire_vba_event:Exit"]
+        );
+        assert!(
+            !check_box_state(&after_before_update.state, &ControlId::new("agree"))
+                .expect("agree state")
+                .dirty,
+            "AfterUpdate commits the CheckBox value: dirty cleared so a later focus-out does not refire"
+        );
+
+        // Exit passes: the deferred commit fires Enter and moves focus to text-2.
+        let committed = reduce(
+            after_before_update.state,
+            focus_validation_completed_event(UiEventId(282), false),
+        );
+        assert_eq!(
+            effect_names(&committed.effects),
+            vec!["transfer_focus", "fire_vba_event:Enter", "request_repaint"]
+        );
+        assert_eq!(
+            committed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-2")))
+        );
+
+        // A clean (un-toggled) CheckBox fires only Exit on focus-out -- no BeforeUpdate/AfterUpdate.
+        let mut clean = FormState::new("form-main");
+        clean.controls = controls();
+        clean.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
+        let tab_clean = reduce(clean, key_down_event(UiEventId(83), KeyCode::Tab, false));
+        assert_eq!(
+            effect_names(&tab_clean.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:Exit"],
+            "a clean CheckBox fires only Exit -- no BeforeUpdate/AfterUpdate"
+        );
+    }
+
+    #[test]
+    fn checkbox_space_toggle_then_tab_out_validates_end_to_end() {
+        // End-to-end (oxforms-esq.14): a real Space toggle marks the CheckBox dirty (Change +
+        // Click), and the subsequent Tab-out then validates in two stages -- tying the oracle's
+        // toggle (Change -> Click) -> BeforeUpdate -> AfterUpdate -> Exit into ONE reducer trace
+        // (the sibling test above sets dirty directly to focus on the validation stage). The
+        // dirty gate is value-source- AND focus-vehicle-agnostic: the oracle drove the focus-out
+        // by a mouse click on the sibling, this drives it by Tab -- both ride control_is_dirty.
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::check_box("agree", LogicalRect::new(0.0, 0.0, 120.0, 18.0), 0, 0),
+            ControlNode::text_box("text-2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
+
+        // Space toggles the focused CheckBox: value flips, Change + Click fire, dirty is set.
+        let toggled = reduce(state, key_down_event(UiEventId(84), KeyCode::Space, false));
+        assert_eq!(
+            check_box_state(&toggled.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(true),
+            "Space toggles the CheckBox value"
+        );
+        assert!(
+            check_box_state(&toggled.state, &ControlId::new("agree"))
+                .is_some_and(|entry| entry.dirty),
+            "the toggle marks the CheckBox dirty"
+        );
+
+        // Tab-out: the now-dirty CheckBox validates in two stages (KeyDown -> BeforeUpdate).
+        let tab = reduce(
+            toggled.state,
+            key_down_event(UiEventId(85), KeyCode::Tab, false),
+        );
+        assert_eq!(
+            effect_names(&tab.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:BeforeUpdate"],
+            "the toggled CheckBox Tab-out fires KeyDown -> BeforeUpdate, like a dirty TextBox"
+        );
+    }
+
+    #[test]
+    fn edit_then_revert_textbox_stays_dirty_and_still_validates() {
+        // NET-VALUE is a NON-GOAL (oxforms-esq.14 oracle w008-checkbox-update-20260629T003700Z,
+        // edit_revert_focus_out): typing a char then Backspacing back to the focus-gain value
+        // (net change = none) STILL fires BeforeUpdate/AfterUpdate on focus-out. MSForms uses
+        // the sticky edited-since flag, not a net-value-vs-baseline gate, so the reducer must
+        // keep `dirty` set across a net-zero edit -- no "clear dirty when the value returns to
+        // baseline" optimization. This test pins that the once-floated OldValue refinement stays
+        // dropped.
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::text_box("text-2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        // Type "X": the TextBox becomes dirty with value "X".
+        let typed = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(90),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "X".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+        // Backspace back to empty: the net value returns to the focus-gain value (empty).
+        let reverted = reduce(
+            typed.state,
+            key_down_event(UiEventId(91), KeyCode::Backspace, false),
+        );
+        let text1 =
+            text_box_state(&reverted.state, &ControlId::new("text-1")).expect("text-1 state");
+        assert_eq!(
+            text1.text, "",
+            "the edit was reverted: net value is back to empty"
+        );
+        assert!(
+            text1.dirty,
+            "dirty is sticky -- it stays set even though the net value is unchanged"
+        );
+
+        // Tab out: BeforeUpdate STILL fires (the sticky dirty drives the two-stage validation).
+        let tab = reduce(
+            reverted.state,
+            key_down_event(UiEventId(92), KeyCode::Tab, false),
+        );
+        assert_eq!(
+            effect_names(&tab.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:BeforeUpdate"],
+            "an edit-then-revert TextBox still validates in two stages (net-value is a non-goal)"
         );
     }
 

@@ -1,0 +1,71 @@
+{
+  "schema": "oxforms.office_oracle.w008_checkbox_update_capture.v1",
+  "bead": "oxforms-esq.14",
+  "capture_id": "w008-checkbox-update-20260629T003700Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w008-checkbox-update-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-checkbox-update/fixture.json",
+        "sha256": "c4cb4be57f7107cd2811eea98f9c9d37a642e0d76d864d5a9f8889a24a57a89f"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-checkbox-update/form-code-behind.bas",
+        "sha256": "73dde7eb86e0bbd7fc069ddad29a9d2282bf660b077eaba1f0ad6f3ea742aa16"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-checkbox-update/standard-module.bas",
+        "sha256": "e45832c260259673406006651471c9543b6512f1658ba78e07605d1ee42c585a"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/New-W008OracleWorkbook.ps1",
+        "sha256": "e09da0d0672dd4a58ee21b96ac7116f98b503a984aa428a772e72c86a96c5413"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": null,
+    "run_summary": "docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z/run-summary.json",
+    "event_log_json": "docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z/w008-checkbox-update-event-log.json",
+    "event_log_csv": "docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z/w008-checkbox-update-event-log.csv",
+    "input_actions": "docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 22,
+    "scenarios": [
+      "checkbox_dirty_focus_out",
+      "edit_revert_focus_out"
+    ]
+  },
+  "trace_replay_implications": [
+    "docs/specs/FM20_EVENT_FACTS.md: a dirty CheckBox losing focus fires BeforeUpdate -> AfterUpdate -> Exit (CheckBox exposes Enter/Exit/BeforeUpdate/AfterUpdate). oxforms-esq.14 extends the two-stage focus-out validation to dirty CheckBoxes.",
+    "docs/specs/FM20_EVENT_FACTS.md: an edit-then-revert (net value unchanged) STILL fires BeforeUpdate/AfterUpdate -- MSForms uses the sticky edited-since flag, not a net-value baseline; the OldValue/net-value refinement is a NON-GOAL."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "Driven by computer-use vision (not public-user32 SendInput); events are live MSForms handler observations.",
+    "generated_workbook is null: the throwaway workbook was not retained; the committed fixture sources + New-W008OracleWorkbook.ps1 regenerate it deterministically.",
+    "The two scenarios were captured as two separate ClearLog -> drive -> export runs, so the per-run sequence restarts at 1 (the scenario column distinguishes them).",
+    "edit_revert KeyCode 231 is VK_PACKET (computer-use type() unicode injection), not VK_X (88)."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows input; no Office internals.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime behavior is claimed by the capture (oxforms-esq.14 consumes it).",
+    "No CheckBox BeforeUpdate veto was captured; only the non-vetoing dirty focus-out is shown.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}
