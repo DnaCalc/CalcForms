@@ -425,7 +425,8 @@ impl RuntimeRunner {
     /// to a native control member (`Click` → `PerformClick`, `Change` →
     /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`, `KeyPress`
     /// → `PerformKeyPress`, `MouseDown`/`MouseUp` → `PerformMouseDown`/
-    /// `PerformMouseUp`, `Exit` → `PerformExit`, `Enter` → `PerformEnter`) or, for
+    /// `PerformMouseUp`, `Exit` → `PerformExit`, `Enter` → `PerformEnter`,
+    /// `BeforeUpdate`/`AfterUpdate` → `PerformBeforeUpdate`/`PerformAfterUpdate`) or, for
     /// form-level events
     /// (`QueryClose`/lifecycle), to the form module's `Perform*` via
     /// [`Self::dispatch_form_event`]; or `None` when it is a reducer-routed FM20 event
@@ -457,6 +458,8 @@ impl RuntimeRunner {
                 | "MouseUp"
                 | "Exit"
                 | "Enter"
+                | "BeforeUpdate"
+                | "AfterUpdate"
         ) {
             return Ok(None);
         }
@@ -556,6 +559,18 @@ impl RuntimeRunner {
                 // Enter (no args, no readback -- Enter is not cancelable) (oxforms-esq.6).
                 ("PerformEnter", Vec::new())
             }
+            "BeforeUpdate" => {
+                // Fires on a dirty data control's focus-out; PerformBeforeUpdate raises
+                // BeforeUpdate with a fresh ReturnBoolean Cancel and returns the
+                // post-handler value (True = veto). Recorded; honoring the veto is
+                // oxforms-esq.11 (oxforms-esq.7 emits only).
+                ("PerformBeforeUpdate", Vec::new())
+            }
+            "AfterUpdate" => {
+                // Fires after a committed update; PerformAfterUpdate raises AfterUpdate
+                // (no args, no readback) (oxforms-esq.7).
+                ("PerformAfterUpdate", Vec::new())
+            }
             // Unreachable: guarded by the `matches!` above. Kept total without a
             // panic path.
             _ => return Ok(None),
@@ -574,10 +589,13 @@ impl RuntimeRunner {
         // PerformKeyPress the post-handler KeyAscii (0 when the handler swallowed the
         // key/character) via the MSForms.ReturnInteger helper; PerformExit returns the
         // post-handler Cancel via the MSForms.ReturnBoolean helper (True = vetoed);
-        // PerformClick, ApplyUserText, and the mouse members return nothing meaningful.
+        // PerformClick, ApplyUserText, AfterUpdate, and the mouse members return nothing
+        // meaningful. PerformExit and PerformBeforeUpdate return the post-handler Cancel
+        // via the MSForms.ReturnBoolean helper (True = vetoed); the BeforeUpdate veto is
+        // recorded but not yet folded back (oxforms-esq.11).
         let returned = if matches!(event_name, "KeyDown" | "KeyUp" | "KeyPress") {
             result.as_i16().map(|code| code.to_string())
-        } else if event_name == "Exit" {
+        } else if matches!(event_name, "Exit" | "BeforeUpdate") {
             result.as_bool().map(|cancel| cancel.to_string())
         } else {
             None

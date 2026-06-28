@@ -22,6 +22,11 @@ Public Event [Exit](ByVal Cancel As ReturnBoolean)
 ' The FM20 focus-enter event fires (no args) when the control receives focus,
 ' after the losing control's [Exit] (oxforms-esq.6).
 Public Event Enter()
+' BeforeUpdate fires on focus-out when the value changed (dirty), carrying a mutable
+' Cancel (ReturnBoolean) -- a handler sets Cancel.Value = True to cancel the update and
+' keep focus. AfterUpdate fires (no args) after a committed update (oxforms-esq.7).
+Public Event BeforeUpdate(ByVal Cancel As ReturnBoolean)
+Public Event AfterUpdate()
 
 Private mCore As OxControlCore
 
@@ -154,4 +159,18 @@ End Function
 ' Raises the focus-enter event when the control gains focus (no readback).
 Public Sub PerformEnter()
     RaiseEvent Enter
+End Sub
+
+' Raises BeforeUpdate with a mutable Cancel helper and returns whether the handler
+' cancelled the update (True = veto).
+Public Function PerformBeforeUpdate() As Boolean
+    Dim cancel As ReturnBoolean
+    Set cancel = New ReturnBoolean
+    RaiseEvent BeforeUpdate(cancel)
+    PerformBeforeUpdate = cancel.Value
+End Function
+
+' Raises AfterUpdate after a committed update (no args, no readback).
+Public Sub PerformAfterUpdate()
+    RaiseEvent AfterUpdate
 End Sub

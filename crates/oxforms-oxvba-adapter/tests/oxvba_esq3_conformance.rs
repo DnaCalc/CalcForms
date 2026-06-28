@@ -537,6 +537,42 @@ fn pin_enter_dispatched_on_focus_gain() {
     );
 }
 
+/// PIN — a dirty data control's focus-out natively dispatches BeforeUpdate -> AfterUpdate
+/// -> Exit (oxforms-esq.7). Editing InputField marks it dirty; moving focus off it then
+/// drives PerformBeforeUpdate (Cancel readback recorded), PerformAfterUpdate, and
+/// PerformExit in order. The BeforeUpdate Cancel=True veto fold-back is oxforms-esq.11.
+///
+/// Oracle: [`CAP_FOCUS_VALIDATION`] tab_transfer rows 8-10 (BeforeUpdate -> AfterUpdate ->
+/// Exit on the edited, leaving control).
+#[test]
+fn pin_before_after_update_dispatched_on_dirty_focus_out() {
+    let mut runner = attach_runner();
+    focus_input_field(&mut runner);
+    // Edit InputField so its value is dirty (committable).
+    runner
+        .dispatch(character_input_event(1, "X"))
+        .expect("type X into InputField");
+    // Move focus off the dirty InputField -> BeforeUpdate -> AfterUpdate -> Exit.
+    let moved = runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseDown(mouse_event(true, 150.0, 20.0)),
+        ))
+        .expect("press OkButton");
+    let order: Vec<&str> = moved
+        .native_dispatches
+        .iter()
+        .map(|dispatch| dispatch.event_name.as_str())
+        .filter(|name| matches!(*name, "BeforeUpdate" | "AfterUpdate" | "Exit"))
+        .collect();
+    assert_eq!(
+        order,
+        vec!["BeforeUpdate", "AfterUpdate", "Exit"],
+        "a dirty focus-out natively dispatches BeforeUpdate -> AfterUpdate -> Exit on the \
+         leaving control — oracle {CAP_FOCUS_VALIDATION} tab_transfer rows 8-10"
+    );
+}
+
 // ===========================================================================
 // GAPS — orderings the runtime cannot yet produce. Each encodes the FULL oracle
 // ordering and is mapped to the bead that will close it. Un-ignoring the test
@@ -622,19 +658,16 @@ fn gap_default_button_enter_transfers_focus() {
     );
 }
 
-/// GAP — full Tab focus-out ordering KeyDown -> BeforeUpdate -> AfterUpdate -> Exit
-/// -> Enter. esq.6 landed the Enter emission, but it fires on the deferred focus-commit
-/// (the `FocusValidationCompleted` fold-back), NOT in the single Tab reduce: a Tab reduce
-/// now emits only [KeyDown, Exit] and holds the commit pending. esq.7 must (a) emit
-/// BeforeUpdate/AfterUpdate (before Exit) and (b) restructure this test to span the
-/// Tab reduce AND the injected completion (where Enter fires), mirroring
-/// [`gap_default_button_enter_transfers_focus`]. Kept as the WHOLE contiguous ordering so
-/// it stays red until esq.7 lands — a partial subsequence could otherwise false-pass.
+/// PIN (closed by oxforms-esq.6 + esq.7; was a GAP) — full Tab focus-out ordering
+/// KeyDown -> BeforeUpdate -> AfterUpdate -> Exit -> Enter. esq.7 emits BeforeUpdate then
+/// AfterUpdate (on a dirty data control) before the Exit; esq.6's Enter fires on the
+/// deferred focus-commit. The test spans the Tab reduce AND the injected (uncancelled)
+/// completion (where the commit + Enter land), and edits TextBox1 first so it is dirty
+/// (BeforeUpdate/AfterUpdate are gated on a changed value).
 ///
 /// Oracle: [`CAP_FOCUS_VALIDATION`] rows 7-11 (scenario `tab_transfer` after editing):
 ///   TextBox1 KeyDown(9) -> BeforeUpdate -> AfterUpdate -> Exit -> TextBox2 Enter.
 #[test]
-#[ignore = "GAP: Tab reduce emits [KeyDown, Exit] (Enter now fires on the deferred completion, esq.6); BeforeUpdate/AfterUpdate are still unemitted and the test needs restructuring to span the completion — pending oxforms-esq.7"]
 fn gap_tab_out_full_focus_ordering() {
     let mut state = FormState::new("form-tab");
     state.controls = vec![
@@ -642,7 +675,12 @@ fn gap_tab_out_full_focus_ordering() {
         ControlNode::text_box("TextBox2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
     ];
     state.focus_owner = Some(FocusTarget::Control(ControlId::new("TextBox1")));
+    // The oracle's tab_transfer is "after editing": mark TextBox1 dirty so the focus-out
+    // fires BeforeUpdate/AfterUpdate (they are gated on a committable, changed value).
+    state.ensure_text_box(ControlId::new("TextBox1")).dirty = true;
 
+    let mut order = Vec::new();
+    // Tab off the dirty TextBox1: BeforeUpdate -> AfterUpdate -> Exit, commit held pending.
     let tab = reduce(
         state,
         ui_event(
@@ -655,9 +693,16 @@ fn gap_tab_out_full_focus_ordering() {
             }),
         ),
     );
+    order.extend(reduced_event_names(&tab.effects));
+    // The uncancelled completion commits focus to TextBox2 and fires its Enter.
+    let committed = reduce(
+        tab.state,
+        focus_validation_completed_event(2, "form-tab", false),
+    );
+    order.extend(reduced_event_names(&committed.effects));
 
     assert_eq!(
-        reduced_event_names(&tab.effects),
+        order,
         vec!["KeyDown", "BeforeUpdate", "AfterUpdate", "Exit", "Enter"],
         "Tab commit must fire KeyDown, BeforeUpdate, AfterUpdate, Exit (TextBox1), \
          Enter (TextBox2) — oracle {CAP_FOCUS_VALIDATION} tab_transfer rows 7-11"
@@ -699,15 +744,18 @@ fn gap_exit_veto_keeps_focus() {
 
 /// GAP — BeforeUpdate veto suppresses AfterUpdate/Exit/Enter. When BeforeUpdate sets
 /// Cancel = True, NO AfterUpdate, Exit, or Enter fires; the focus key's KeyUp fires on
-/// the same control. The runtime emits no BeforeUpdate at all (so it cannot veto), and
-/// even once it does, the veto fold-back is esq.4.
+/// the same control. esq.7 now EMITS BeforeUpdate (on a dirty control) but records its
+/// Cancel readback without honoring it: a single Tab reduce emits [KeyDown, BeforeUpdate,
+/// AfterUpdate, Exit] regardless of the veto. Honoring the veto requires a two-stage
+/// validation (the BeforeUpdate Cancel must fold back and GATE AfterUpdate/Exit, like the
+/// Exit veto gates the commit) — that is oxforms-esq.11, which will also restructure this
+/// test to inject the BeforeUpdate-stage completion.
 ///
 /// Oracle: [`CAP_FOCUS_VALIDATION`] rows 28-30 (scenario `before_update_veto`):
 ///   TextBox1 KeyDown(9) -> BeforeUpdate (Cancel False->True) -> TextBox1 KeyUp(9).
-///   No AfterUpdate, no Exit, no TextBox2 Enter. Encoded as the full suppressed
-/// ordering for a Tab commit on a control whose BeforeUpdate vetoes.
+///   No AfterUpdate, no Exit, no TextBox2 Enter.
 #[test]
-#[ignore = "GAP: needs BeforeUpdate emission (esq.7) AND its Cancel=True veto fold-back suppressing AfterUpdate/Exit/Enter (esq.4) — pending oxforms-esq.7 + oxforms-esq.4"]
+#[ignore = "GAP: BeforeUpdate is emitted (esq.7) but its Cancel=True veto is recorded-not-honored (AfterUpdate/Exit still fire); honoring it needs the two-stage BeforeUpdate-gated validation — pending oxforms-esq.11"]
 fn gap_before_update_veto_suppresses_commit() {
     let mut state = FormState::new("form-tab");
     state.controls = vec![
@@ -715,6 +763,8 @@ fn gap_before_update_veto_suppresses_commit() {
         ControlNode::text_box("TextBox2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
     ];
     state.focus_owner = Some(FocusTarget::Control(ControlId::new("TextBox1")));
+    // The control must be dirty for BeforeUpdate to fire at all (esq.7 gate).
+    state.ensure_text_box(ControlId::new("TextBox1")).dirty = true;
 
     let tab = reduce(
         state,
@@ -729,8 +779,9 @@ fn gap_before_update_veto_suppresses_commit() {
         ),
     );
 
-    // A vetoing BeforeUpdate suppresses everything past it: only KeyDown then
-    // BeforeUpdate fire on the same control; focus stays on TextBox1.
+    // A vetoing BeforeUpdate must suppress everything past it: only KeyDown then
+    // BeforeUpdate fire on the same control; focus stays on TextBox1. (esq.11 will inject
+    // the vetoing BeforeUpdate-stage completion; esq.7 still emits AfterUpdate/Exit here.)
     assert_eq!(
         reduced_event_names(&tab.effects),
         vec!["KeyDown", "BeforeUpdate"],

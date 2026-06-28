@@ -3104,6 +3104,9 @@ fn begin_focus_validation(
     // Focus is leaving this control: abandon any armed key-swallow (it only pairs with
     // this control's immediately-following character) (oxforms-esq.4).
     state.keyboard.suppress_next_character_input = false;
+    // MSForms order: a dirty data control fires BeforeUpdate -> AfterUpdate before Exit on
+    // focus-out (oxforms-esq.7).
+    queue_focus_update_events(state, context, losing_control_id);
     queue_focus_exit_event(state, context, losing_control_id);
     state.validation.pending = Some(ValidationRequest {
         from,
@@ -3198,6 +3201,72 @@ fn queue_focus_enter_event(
         },
         CompletionPolicy::DispatchResultRequired,
     );
+}
+
+/// Emit the FM20 `BeforeUpdate` then `AfterUpdate` events on a control losing focus, but
+/// only when it is a data control whose value changed (a dirty `TextBox`) -- MSForms fires
+/// these before `Exit` on a committable focus-out (oxforms-esq.7). `BeforeUpdate` carries a
+/// mutable `Cancel` (`ReturnBoolean`) read back via `PerformBeforeUpdate`; honoring that
+/// veto (suppress `AfterUpdate`/`Exit`/`Enter` + keep focus) is oxforms-esq.11, so the
+/// Cancel is recorded but not yet folded back here. `AfterUpdate` is the committed signal;
+/// the dirty flag is cleared so a later focus-out without a fresh edit does not refire.
+///
+/// Scope (oxforms-esq.7): `TextBox` only. A dirty CheckBox (or another committable data
+/// control) losing focus does NOT yet fire these -- there is no oracle for focus-out after
+/// a CheckBox toggle, and the `dirty` gate is the sticky "edited-since" flag rather than
+/// net-value-vs-baseline (an edit-then-revert still reads dirty). Both refinements (CheckBox
+/// update events; an `OldValue` baseline) are tracked on oxforms-esq.11.
+fn queue_focus_update_events(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    losing_control_id: &ControlId,
+) {
+    let dirty = state
+        .text_boxes
+        .iter()
+        .any(|entry| entry.control_id == *losing_control_id && entry.dirty);
+    if !dirty {
+        return;
+    }
+    let target = UiEventTarget::control(state.form_id.0.clone(), losing_control_id.0.clone());
+    context.push_effect(
+        state,
+        target.clone(),
+        EffectKind::FireVbaEvent {
+            event_name: "BeforeUpdate".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: vec![EffectArgument {
+                name: "Cancel".to_string(),
+                value: "False".to_string(),
+                by_ref: true,
+            }],
+            cancel_metadata: Some(
+                "BeforeUpdate Cancel is the mutable MSForms.ReturnBoolean helper; the dispatching runtime reads the post-handler value back via PerformBeforeUpdate (True = veto). Honoring the veto -- suppressing AfterUpdate/Exit/Enter and keeping focus -- is oxforms-esq.11; this slice records the readback only."
+                    .to_string(),
+            ),
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+    context.push_effect(
+        state,
+        target,
+        EffectKind::FireVbaEvent {
+            event_name: "AfterUpdate".to_string(),
+            fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
+            arguments: Vec::new(),
+            cancel_metadata: None,
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+    // The value is committed on AfterUpdate: clear dirty so a later focus-out without a
+    // fresh edit does not refire BeforeUpdate/AfterUpdate.
+    if let Some(entry) = state
+        .text_boxes
+        .iter_mut()
+        .find(|entry| entry.control_id == *losing_control_id)
+    {
+        entry.dirty = false;
+    }
 }
 
 /// Emit the FM20 focus `Exit` event on the control losing focus, before the focus
@@ -5459,6 +5528,51 @@ mod tests {
             Some(FocusTarget::Control(ControlId::new("text-1")))
         );
         assert!(down.state.validation.pending.is_none());
+    }
+
+    #[test]
+    fn dirty_focus_out_fires_before_update_after_update_before_exit() {
+        let controls = || {
+            vec![
+                ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+                ControlNode::text_box("text-2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+            ]
+        };
+
+        // A dirty (edited) data control fires BeforeUpdate -> AfterUpdate before Exit on
+        // focus-out (oxforms-esq.7); the commit/Enter stay deferred (esq.4).
+        let mut dirty = FormState::new("form-main");
+        dirty.controls = controls();
+        dirty.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        dirty.ensure_text_box(ControlId::new("text-1")).dirty = true;
+        let tab = reduce(dirty, key_down_event(UiEventId(57), KeyCode::Tab, false));
+        assert_eq!(
+            effect_names(&tab.effects),
+            vec![
+                "fire_vba_event:KeyDown",
+                "fire_vba_event:BeforeUpdate",
+                "fire_vba_event:AfterUpdate",
+                "fire_vba_event:Exit"
+            ]
+        );
+        // AfterUpdate committed the value: the dirty flag is cleared so a later focus-out
+        // without a fresh edit does not refire.
+        assert!(
+            !text_box_state(&tab.state, &ControlId::new("text-1"))
+                .expect("text-1 state")
+                .dirty
+        );
+
+        // A clean (unedited) control fires only Exit on focus-out -- no BeforeUpdate/
+        // AfterUpdate.
+        let mut clean = FormState::new("form-main");
+        clean.controls = controls();
+        clean.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        let tab_clean = reduce(clean, key_down_event(UiEventId(58), KeyCode::Tab, false));
+        assert_eq!(
+            effect_names(&tab_clean.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:Exit"]
+        );
     }
 
     #[test]

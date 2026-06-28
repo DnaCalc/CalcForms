@@ -172,7 +172,9 @@ impl From<&EffectArgument> for VbaEventArgument {
 fn raise_member_for_event(event_name: &str) -> Result<String, VbaEventDispatchError> {
     match event_name {
         "Click" | "Change" | "MouseDown" | "MouseUp" | "MouseMove" | "KeyPress" | "KeyDown"
-        | "KeyUp" | "Activate" | "Exit" | "Enter" => Ok("RaiseDispatch".to_string()),
+        | "KeyUp" | "Activate" | "Exit" | "Enter" | "BeforeUpdate" | "AfterUpdate" => {
+            Ok("RaiseDispatch".to_string())
+        }
         other => Err(VbaEventDispatchError::UnsupportedEvent(other.to_string())),
     }
 }

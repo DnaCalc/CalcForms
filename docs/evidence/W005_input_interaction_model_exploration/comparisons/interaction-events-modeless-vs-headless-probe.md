@@ -39,7 +39,7 @@ modeless lifecycle close-slice rows to the committed headless replay golden.
 
 The mapping is partial by design. The MSForms capture is a long modeless run
 with 21 automated input actions and 1116 event rows. The OxForms headless
-golden is a focused five-step script with 233 trace rows:
+golden is a focused five-step script with 239 trace rows:
 
 1. show modeless;
 2. click the TextBox probe;
@@ -93,9 +93,12 @@ Known gaps:
 - MSForms records focus/validation rows such as `BeforeUpdate`, `AfterUpdate`,
   `Exit`, and `Enter` around focus movement. The replay now emits the focus `Exit`
   FireVbaEvent, a replayed (uncancelled) `focus_validation_completed` completion that
-  defers the `transfer_focus` until the veto resolves (oxforms-esq.2 + esq.4), and a
-  focus `Enter` FireVbaEvent on the gaining control after the commit (oxforms-esq.6);
-  the remaining gap is `BeforeUpdate`/`AfterUpdate` emission (oxforms-esq.7).
+  defers the `transfer_focus` until the veto resolves (oxforms-esq.2 + esq.4), a focus
+  `Enter` FireVbaEvent on the gaining control after the commit (oxforms-esq.6), and
+  `BeforeUpdate` -> `AfterUpdate` before `Exit` when the leaving control's value changed
+  (oxforms-esq.7; script-0005 leaves the edited text-1). The remaining gap is honoring the
+  `BeforeUpdate` `Cancel=True` veto (suppress `AfterUpdate`/`Exit`/`Enter`) via a two-stage
+  validation (oxforms-esq.11); esq.7 emits `BeforeUpdate` but records its Cancel only.
 - Enter-vs-MouseDown order on a focus-CHANGING click is divergent (oxforms-esq.10).
   The oracle fires `Exit`(leaver) -> `Enter`(enterer) -> `MouseDown`(enterer) on every
   focus-changing click (capture sequences 565-567, 626-628, 868-870, 983-985). Because
