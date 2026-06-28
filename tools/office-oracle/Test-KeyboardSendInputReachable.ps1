@@ -310,7 +310,8 @@ function Get-ProbeRowCount {
     if ($rowCount -lt 2) { return 0 }
     $dataRows = 0
     for ($r = 2; $r -le $rowCount; $r++) {
-        if ($null -ne $values[$r, 1] -and -not [string]::IsNullOrWhiteSpace([string]$values[$r, 1])) { $dataRows++ }
+        $cell = $values[$r, 1]
+        if ($null -ne $cell -and -not [string]::IsNullOrWhiteSpace([string]$cell)) { $dataRows++ }
     }
     return $dataRows
 }

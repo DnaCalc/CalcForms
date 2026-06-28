@@ -1,0 +1,56 @@
+{
+  "id": "excel-msforms-w008-held-key-v1",
+  "form": {
+    "name": "OxFormsW008HeldKey",
+    "caption": "OxForms W008 Held Key Oracle",
+    "widthPt": 260,
+    "heightPt": 140,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "OkButton",
+        "type": "Forms.CommandButton.1",
+        "caption": "OK",
+        "leftPt": 12,
+        "topPt": 46,
+        "widthPt": 90,
+        "heightPt": 24
+      },
+      {
+        "name": "ToggleCheck",
+        "type": "Forms.CheckBox.1",
+        "caption": "Toggle",
+        "leftPt": 12,
+        "topPt": 84,
+        "widthPt": 200,
+        "heightPt": 20
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-held-key-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008HeldKeyOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008HeldKeyModeless",
+    "clearLogMacroName": "ClearW008HeldKeyLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "A TextBox focus host, a default OkButton CommandButton, and a ToggleCheck CheckBox laid out non-overlapping so a window-bounds + fixture-layout calculation can target each control by point.",
+    "Key (KeyDown/KeyUp), Click, Change, and Enter handlers each log one W008HeldKeyLog row recording the count-relevant field (KeyCode before/after for keys, .Value for ToggleCheck), the post-handler focus owner, and the relevant value, so a held-key auto-repeat run yields one row per repeat.",
+    "OkButton.Default is set to True at RUNTIME in UserForm_Initialize, never as a design-time fixture property; control fonts are intentionally not declared/applied (a design-time font set hangs the SaveAs dialog).",
+    "Load-bearing question (esq.12): does a held Space re-toggle the CheckBox per OS auto-repeat (multiple Change/Click) or once, and does a held default-button Enter re-fire Click per repeat? Genuine OS auto-repeat is best driven by computer-use hold_key; SendInput repeated-KEYDOWN is a best-effort fallback that may not set the auto-repeat lParam bit."
+  ]
+}

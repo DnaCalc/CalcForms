@@ -48,6 +48,8 @@ $captureRoot = $w006Root  # batch-summary location
 $captureScripts = @(
     [ordered]@{ name = 'Capture-W008FocusValidation.ps1';        root = $w008Root; dir_prefix = 'w008-focus-validation' }
     [ordered]@{ name = 'Capture-W008KeyMutation.ps1';            root = $w008Root; dir_prefix = 'w008-key-mutation' }
+    [ordered]@{ name = 'Capture-W008VetoClick.ps1';              root = $w008Root; dir_prefix = 'w008-veto-click' }
+    [ordered]@{ name = 'Capture-W008HeldKey.ps1';                root = $w008Root; dir_prefix = 'w008-held-key' }
     [ordered]@{ name = 'Capture-W006CtrlVKeyboardOrdering.ps1';  root = $w006Root; dir_prefix = 'ctrlv-keyboard-ordering' }
     [ordered]@{ name = 'Capture-W006CheckBoxKeyboardToggle.ps1'; root = $w006Root; dir_prefix = 'checkbox-keyboard-toggle' }
 )

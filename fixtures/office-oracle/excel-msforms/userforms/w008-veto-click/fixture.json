@@ -1,0 +1,46 @@
+{
+  "id": "excel-msforms-w008-veto-click-v1",
+  "form": {
+    "name": "OxFormsW008VetoClick",
+    "caption": "OxForms W008 Veto Click Oracle",
+    "widthPt": 260,
+    "heightPt": 120,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "TextBox2",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 42,
+        "widthPt": 230,
+        "heightPt": 20
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-veto-click-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008VetoClickOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008VetoClickModeless",
+    "clearLogMacroName": "ClearW008VetoClickLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "Two TextBoxes laid out non-overlapping so a window-bounds + fixture-layout calculation can target each control by point for a focus-changing mouse click.",
+    "Every focus, validation, change, and mouse handler on both TextBoxes logs one W008VetoClickLog row recording the relevant Cancel ReturnBoolean before/after, the post-handler focus owner, and the control's own .Text.",
+    "The Exit veto is gated on Public module flags (gVetoExit And gVetoControl = thisname) set by the per-scenario Set... macros, so one workbook covers both the non-vetoing baseline and the vetoing mouse-click scenario through the shared worksheet.",
+    "No control fonts are declared/applied (a design-time font set hangs the SaveAs dialog); no design-time Default/accelerator properties are set."
+  ]
+}
