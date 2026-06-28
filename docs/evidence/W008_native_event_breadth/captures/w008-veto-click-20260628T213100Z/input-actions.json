@@ -1,0 +1,20 @@
+{
+  "schema": "oxforms.office_oracle.w008_veto_click_input_actions.v1",
+  "bead": "oxforms-esq.10",
+  "manual_inputs": [
+    {
+      "label": "focus_TextBox1",
+      "method": "background_com_FocusControlW008VetoClick",
+      "note": "The COM driver focused TextBox1 (Enter fires) before the click."
+    },
+    {
+      "label": "click_TextBox2",
+      "method": "computer_use_vision_left_click",
+      "note": "A precise vision-driven left click on TextBox2 (the focus-changing click). Baseline run: gVetoExit off. Veto run: gVetoExit armed for TextBox1."
+    }
+  ],
+  "automated_inputs": [],
+  "non_claims": [
+    "Inputs were driven by computer-use vision + background COM, not the public-user32 SendInput path; the events are still live MSForms handler observations."
+  ]
+}

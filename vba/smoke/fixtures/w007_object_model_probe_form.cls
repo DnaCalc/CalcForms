@@ -12,6 +12,14 @@ Private WithEvents OkButton As CommandButton
 Private WithEvents InputField As TextBox
 Private OutputLabel As Label
 Private mLog As String
+' When True, InputField_Exit vetoes (Cancel = True). Default False -- a realistic field
+' that releases focus, so the demo flow (focus field, type, click OK) lets OkButton_Click
+' fire. The focus-validation conformance tests arm the veto via ArmExitVeto to exercise
+' the Exit-veto-keeps-focus + ReturnBoolean readback paths (oxforms-esq.11).
+Private mExitVeto As Boolean
+' When True, InputField_BeforeUpdate vetoes (Cancel = True). Default False. Armed via
+' ArmBeforeUpdateVeto to exercise the two-stage BeforeUpdate veto end-to-end (oxforms-esq.11).
+Private mBeforeUpdateVeto As Boolean
 
 Public Sub Build()
     Set mForm = New UserForm
@@ -97,11 +105,32 @@ Private Sub InputField_KeyPress(ByVal KeyAscii As ReturnInteger)
     End If
 End Sub
 
-' Native FM20 focus-exit event (reserved word, handled as InputField_Exit). Sets
-' the mutable Cancel to keep focus, proving the ReturnBoolean round-trip.
+' Native FM20 focus-exit event (reserved word, handled as InputField_Exit). When the
+' veto is armed it sets the mutable Cancel to keep focus, proving the ReturnBoolean
+' round-trip; otherwise it releases focus (the default) so a click on OK commits.
 Private Sub InputField_Exit(ByVal Cancel As ReturnBoolean)
     Append "InputField_Exit"
-    Cancel.Value = True
+    Cancel.Value = mExitVeto
+End Sub
+
+' Arm the InputField_Exit veto for the focus-validation conformance tests. Called outside
+' the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.11).
+Public Sub ArmExitVeto()
+    mExitVeto = True
+End Sub
+
+' Native FM20 BeforeUpdate event (oxforms-esq.7). When the veto is armed it sets the mutable
+' Cancel to suppress the value commit (no AfterUpdate/Exit/Enter and focus stays); otherwise
+' it releases (the default). Fires only on a dirty (edited) focus-out, before Exit.
+Private Sub InputField_BeforeUpdate(ByVal Cancel As ReturnBoolean)
+    Append "InputField_BeforeUpdate"
+    Cancel.Value = mBeforeUpdateVeto
+End Sub
+
+' Arm the InputField_BeforeUpdate veto for the two-stage validation conformance test.
+' Called outside the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.11).
+Public Sub ArmBeforeUpdateVeto()
+    mBeforeUpdateVeto = True
 End Sub
 
 Private Sub OkButton_Click()

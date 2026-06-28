@@ -39,7 +39,7 @@ modeless lifecycle close-slice rows to the committed headless replay golden.
 
 The mapping is partial by design. The MSForms capture is a long modeless run
 with 21 automated input actions and 1116 event rows. The OxForms headless
-golden is a focused five-step script with 239 trace rows:
+golden is a focused five-step script with 241 trace rows:
 
 1. show modeless;
 2. click the TextBox probe;
@@ -94,17 +94,26 @@ Additional OxForms replay evidence:
   movement-only keys, and `Change` rows only for text mutation. These rows are
   not a new W005 modeless parity mapping.
 
-Known gaps:
+Implemented matches (focus/validation):
 
 - MSForms records focus/validation rows such as `BeforeUpdate`, `AfterUpdate`,
-  `Exit`, and `Enter` around focus movement. The replay now emits the focus `Exit`
-  FireVbaEvent, a replayed (uncancelled) `focus_validation_completed` completion that
-  defers the `transfer_focus` until the veto resolves (oxforms-esq.2 + esq.4), a focus
-  `Enter` FireVbaEvent on the gaining control after the commit (oxforms-esq.6), and
-  `BeforeUpdate` -> `AfterUpdate` before `Exit` when the leaving control's value changed
-  (oxforms-esq.7; script-0005 leaves the edited text-1). The remaining gap is honoring the
-  `BeforeUpdate` `Cancel=True` veto (suppress `AfterUpdate`/`Exit`/`Enter`) via a two-stage
-  validation (oxforms-esq.11); esq.7 emits `BeforeUpdate` but records its Cancel only.
+  `Exit`, and `Enter` around focus movement. The replay emits the focus `Exit`
+  FireVbaEvent, the focus `Enter` FireVbaEvent on the gaining control after the commit
+  (oxforms-esq.6), and `BeforeUpdate` -> `AfterUpdate` before `Exit` when the leaving
+  control's value changed (oxforms-esq.7; script-0005 leaves the edited text-1). The
+  focus-out now validates in TWO stages (oxforms-esq.11): `BeforeUpdate` fires first and is
+  held pending its `Cancel` readback; only on the (uncancelled) `BeforeUpdate` completion do
+  `AfterUpdate` + `Exit` fire (held pending again); only on the (uncancelled) `Exit`
+  completion does the `transfer_focus` commit. The headless replay injects both
+  (uncancelled) completions at script-0005. A vetoing `BeforeUpdate` (`Cancel=True`)
+  suppresses `AfterUpdate`/`Exit`/`Enter` and keeps focus (oracle
+  `W008.../captures/w008-focus-validation-20260627T223020Z` `before_update_veto` rows 28-30);
+  a vetoing `Exit` keeps focus and absorbs the focus-changing click (oracle
+  `W008.../captures/w008-veto-click-20260628T213100Z` `veto_exit_click` row 9). Neither veto
+  is exercised by this non-vetoing probe.
+
+Known gaps:
+
 - The headless replay does not include close; the MSForms capture records
   `QueryClose`, `Exit`, and `Terminate`. The visible smoke has QueryClose-path
   evidence but not Terminate parity.

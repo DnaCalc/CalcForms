@@ -1,0 +1,96 @@
+{
+  "schema": "oxforms.office_oracle.w008_veto_click_run_summary.v1",
+  "bead": "oxforms-esq.10",
+  "capture_id": "w008-veto-click-20260628T213100Z",
+  "status": "captured",
+  "row_count": 9,
+  "scenarios": [
+    "nonveto_click_baseline",
+    "veto_exit_click"
+  ],
+  "scenario_coverage": {
+    "nonveto_click_baseline": "observed_rows",
+    "veto_exit_click": "observed_rows"
+  },
+  "driving_method": "Computer-use vision (precise clicks) + a background-COM ready/done sentinel handshake held Excel.Application Visible=true across the click; the fixture VBA logged events to the W008VetoClickLog worksheet, exported to CSV. The canonical Capture-W008VetoClick.ps1 SendInput path was unreliable under foreground contention (a second user Excel competed for the foreground and the short-rendered form window mis-aligned the blind coordinate clicks), so the click was driven by computer-use vision instead. Captured as TWO separate driver invocations (baseline then veto), merged into one log; rows 1-2 and 7-8 are per-run setup (Initialize + Enter).",
+  "scenario_summaries": [
+    {
+      "scenario": "nonveto_click_baseline",
+      "row_count": 4,
+      "observed": true,
+      "event_names": [
+        "Exit",
+        "Enter",
+        "MouseDown",
+        "MouseUp"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "4",
+          "control_name": "TextBox2",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox2",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "5",
+          "control_name": "TextBox2",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "TextBox2",
+          "text_value_after": ""
+        },
+        {
+          "sequence": "6",
+          "control_name": "TextBox2",
+          "event_name": "MouseUp",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "TextBox2",
+          "text_value_after": ""
+        }
+      ]
+    },
+    {
+      "scenario": "veto_exit_click",
+      "row_count": 10,
+      "observed": true,
+      "event_names": [
+        "Exit"
+      ],
+      "rows": [
+        {
+          "sequence": "9",
+          "control_name": "TextBox1",
+          "event_name": "Exit",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "True",
+          "focus_owner_after": "TextBox1",
+          "text_value_after": ""
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "No OxForms runtime focus/validation behavior is implemented or claimed by the capture itself (oxforms-esq.11 consumes it).",
+    "Absence of a row is not a negative MSForms fact: the veto scenario records ZERO events on the clicked TextBox2 because the vetoing Exit absorbed the click."
+  ]
+}

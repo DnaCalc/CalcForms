@@ -1,0 +1,113 @@
+{
+  "schema": "oxforms.office_oracle.w008_veto_click_event_log.v1",
+  "bead": "oxforms-esq.10",
+  "source": {
+    "worksheet": "W008VetoClickLog",
+    "columns": [
+      "sequence",
+      "scenario",
+      "control_name",
+      "event_name",
+      "arg_name",
+      "arg_before",
+      "arg_after",
+      "focus_owner_after",
+      "text_value_after",
+      "notes"
+    ],
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/w008-veto-click/fixture.json"
+  },
+  "observed_facts": {
+    "row_count": 9,
+    "scenarios": [
+      "nonveto_click_baseline",
+      "veto_exit_click"
+    ],
+    "event_names": [
+      "Initialize",
+      "Enter",
+      "Exit",
+      "Enter",
+      "MouseDown",
+      "MouseUp",
+      "Initialize",
+      "Enter",
+      "Exit"
+    ],
+    "scenario_summaries": [
+      {
+        "scenario": "nonveto_click_baseline",
+        "row_count": 4,
+        "observed": true,
+        "event_names": [
+          "Exit",
+          "Enter",
+          "MouseDown",
+          "MouseUp"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "TextBox1",
+            "event_name": "Exit",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "TextBox1",
+            "text_value_after": ""
+          },
+          {
+            "sequence": "4",
+            "control_name": "TextBox2",
+            "event_name": "Enter",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox2",
+            "text_value_after": ""
+          },
+          {
+            "sequence": "5",
+            "control_name": "TextBox2",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "TextBox2",
+            "text_value_after": ""
+          },
+          {
+            "sequence": "6",
+            "control_name": "TextBox2",
+            "event_name": "MouseUp",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "TextBox2",
+            "text_value_after": ""
+          }
+        ]
+      },
+      {
+        "scenario": "veto_exit_click",
+        "row_count": 10,
+        "observed": true,
+        "event_names": [
+          "Exit"
+        ],
+        "rows": [
+          {
+            "sequence": "9",
+            "control_name": "TextBox1",
+            "event_name": "Exit",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "True",
+            "focus_owner_after": "TextBox1",
+            "text_value_after": ""
+          }
+        ]
+      }
+    ]
+  }
+}

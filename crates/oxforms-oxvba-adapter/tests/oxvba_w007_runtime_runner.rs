@@ -11,7 +11,7 @@
 
 use std::path::{Path, PathBuf};
 
-use oxforms_core::{materialize_w007_demo_form, LifecycleState};
+use oxforms_core::{materialize_w007_demo_form, FocusTarget, LifecycleState};
 use oxforms_oxvba_adapter::runtime_runner::{
     RuntimeError, RuntimeRunner, RuntimeStep, RuntimeTraceRow,
 };
@@ -225,13 +225,35 @@ fn runner_drives_w007_demo_path_through_native_oxvba_dispatch() {
         "the reducer text-box state reflects the typed input"
     );
 
-    // Press + release on the OkButton (bounds 140,12,48,20) -> a Click effect.
-    runner
+    // Press the OkButton (bounds 140,12,48,20). InputField is dirty (typed "World"), so this
+    // focus-CHANGING press runs the full two-stage focus-out validation end-to-end through
+    // the runtime fold-back (oxforms-esq.11): BeforeUpdate is dispatched and its (uncancelled)
+    // Cancel folds back, advancing to AfterUpdate -> Exit; the Exit completion commits focus
+    // to OkButton (its Enter) and replays the deferred press (MouseDown). None of these veto.
+    let pressed_ok = runner
         .dispatch(ui_event(
             4,
             UiEventKind::MouseDown(mouse_event(true, 150.0, 20.0)),
         ))
         .expect("press OkButton");
+    let focus_out_order: Vec<&str> = pressed_ok
+        .native_dispatches
+        .iter()
+        .map(|dispatch| dispatch.event_name.as_str())
+        .filter(|name| {
+            matches!(
+                *name,
+                "BeforeUpdate" | "AfterUpdate" | "Exit" | "Enter" | "MouseDown"
+            )
+        })
+        .collect();
+    assert_eq!(
+        focus_out_order,
+        vec!["BeforeUpdate", "AfterUpdate", "Exit", "Enter", "MouseDown"],
+        "a non-vetoing dirty focus-out validates in two stages then commits + replays the \
+         deferred press: BeforeUpdate -> AfterUpdate -> Exit -> Enter -> MouseDown, got {:?}",
+        pressed_ok.native_dispatches
+    );
     let clicked = runner
         .dispatch(ui_event(
             5,
@@ -762,6 +784,12 @@ fn runner_dispatches_native_exit_with_returnboolean_veto_readback() {
     )
     .expect("attach runtime runner to the OxVba session");
 
+    // Arm the InputField_Exit veto (off by default since oxforms-esq.11); this test asserts
+    // the Cancel=True readback round-trip.
+    runner
+        .invoke_form_sub("ArmExitVeto")
+        .expect("arm the InputField_Exit veto");
+
     // Focus the InputField.
     runner
         .dispatch(ui_event(
@@ -799,6 +827,126 @@ fn runner_dispatches_native_exit_with_returnboolean_veto_readback() {
         exit.returned.as_deref(),
         Some("true"),
         "InputField_Exit vetoes; the runtime reads back Cancel=true via the ReturnBoolean helper"
+    );
+}
+
+#[test]
+fn runner_honors_before_update_veto_end_to_end_through_native_dispatch() {
+    // oxforms-esq.11: a DIRTY control's focus-out validates BeforeUpdate FIRST; a vetoing
+    // BeforeUpdate (Cancel=True, read back via PerformBeforeUpdate and folded back as the
+    // stage-one FocusValidationCompleted) suppresses AfterUpdate/Exit/Enter and the
+    // focus-changing click is absorbed, with focus retained and the value left dirty. This
+    // drives the stage-gated fold-back parse + the cancelled BeforeUpdate branch through the
+    // REAL VBA dispatch (the pure-reducer gap_before_update_veto_suppresses_commit injects a
+    // synthetic completion; this closes the end-to-end seam).
+    let session = prepare_session();
+    let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
+    let mut runner = RuntimeRunner::attach(
+        session,
+        runtime_form,
+        "W007ObjectModelProbeForm",
+        "Build",
+        "Form",
+    )
+    .expect("attach runtime runner to the OxVba session");
+
+    // Arm the BeforeUpdate veto (off by default since oxforms-esq.11).
+    runner
+        .invoke_form_sub("ArmBeforeUpdateVeto")
+        .expect("arm the InputField_BeforeUpdate veto");
+
+    // Focus + type into InputField so it is dirty (the BeforeUpdate gate).
+    runner
+        .dispatch(ui_event(
+            1,
+            UiEventKind::MouseDown(mouse_event(true, 20.0, 18.0)),
+        ))
+        .expect("press InputField");
+    runner
+        .dispatch(ui_event(
+            2,
+            UiEventKind::MouseUp(mouse_event(false, 20.0, 18.0)),
+        ))
+        .expect("release InputField");
+    runner
+        .dispatch(ui_event(
+            3,
+            UiEventKind::CharacterInput(CharacterInputEvent {
+                text: "World".to_string(),
+                modifiers: KeyboardModifiers::default(),
+                raw: Vec::new(),
+            }),
+        ))
+        .expect("type into InputField");
+
+    // Focus-changing press on OkButton: the dirty focus-out fires BeforeUpdate, which vetoes.
+    let pressed_ok = runner
+        .dispatch(ui_event(
+            4,
+            UiEventKind::MouseDown(mouse_event(true, 150.0, 20.0)),
+        ))
+        .expect("press OkButton");
+
+    // The BeforeUpdate dispatch read back Cancel=true via PerformBeforeUpdate.
+    let before_update = pressed_ok
+        .native_dispatches
+        .iter()
+        .find(|dispatch| dispatch.event_name == "BeforeUpdate")
+        .unwrap_or_else(|| {
+            panic!(
+                "BeforeUpdate natively dispatched, got {:?}",
+                pressed_ok.native_dispatches
+            )
+        });
+    assert_eq!(before_update.native_member, "PerformBeforeUpdate");
+    assert_eq!(before_update.control_id, ControlId::new("InputField"));
+    assert_eq!(
+        before_update.returned.as_deref(),
+        Some("true"),
+        "InputField_BeforeUpdate vetoes; the runtime reads back Cancel=true via ReturnBoolean"
+    );
+
+    // The veto suppresses everything past BeforeUpdate and absorbs the click: among the
+    // focus-out / click events, ONLY BeforeUpdate fired (no AfterUpdate/Exit/Enter, and no
+    // MouseDown/Click on OkButton).
+    let focus_out_order: Vec<&str> = pressed_ok
+        .native_dispatches
+        .iter()
+        .map(|dispatch| dispatch.event_name.as_str())
+        .filter(|name| {
+            matches!(
+                *name,
+                "BeforeUpdate" | "AfterUpdate" | "Exit" | "Enter" | "MouseDown" | "Click"
+            )
+        })
+        .collect();
+    assert_eq!(
+        focus_out_order,
+        vec!["BeforeUpdate"],
+        "a vetoing BeforeUpdate suppresses AfterUpdate/Exit/Enter and absorbs the click, got {:?}",
+        pressed_ok.native_dispatches
+    );
+
+    // Focus stays on InputField and the validation fully resolves (no dangling Exit stage).
+    assert_eq!(
+        runner.form().state.focus_owner,
+        Some(FocusTarget::Control(ControlId::new("InputField"))),
+        "a vetoing BeforeUpdate keeps focus on InputField"
+    );
+    assert!(
+        runner.form().state.validation.pending.is_none(),
+        "the validation resolves on the veto (no dangling pending stage)"
+    );
+
+    // The value was never committed, so InputField stays dirty.
+    assert!(
+        runner
+            .form()
+            .state
+            .text_boxes
+            .iter()
+            .any(|entry| entry.control_id == ControlId::new("InputField") && entry.dirty),
+        "a vetoed BeforeUpdate keeps the value dirty (uncommitted)"
     );
 }
 

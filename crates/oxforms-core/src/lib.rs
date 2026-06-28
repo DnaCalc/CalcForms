@@ -516,6 +516,27 @@ pub struct ValidationRequest {
     /// commits -- a default-button `Enter` transfers focus to the button and then fires
     /// its `Click` (oxforms-esq.6). A vetoed `Exit` therefore suppresses the `Click` too.
     pub activate_on_commit: bool,
+    /// Which cancelable handler is currently in flight (oxforms-esq.11). A dirty data
+    /// control validates in two stages -- `BeforeUpdate` first, then `Exit` -- so the
+    /// folded-back `Cancel` is routed to the right gate; a clean control begins at `Exit`.
+    pub stage: ValidationStage,
+}
+
+/// Which cancelable validation handler is in flight on a focus-out. MSForms validates a
+/// dirty data control in TWO stages: `BeforeUpdate` fires first and its `Cancel` gates
+/// whether the value commits; only then does `Exit` fire and gate the focus move. A clean
+/// control skips straight to `Exit` (oxforms-esq.11).
+#[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum ValidationStage {
+    /// `BeforeUpdate` is in flight: a veto (`Cancel=True`) suppresses `AfterUpdate`,
+    /// `Exit`, and the focus move, and keeps the value dirty (uncommitted). A pass commits
+    /// the value (`AfterUpdate`) and advances to the `Exit` stage.
+    BeforeUpdate,
+    /// `Exit` is in flight: a veto keeps focus on the leaving control (and absorbs any
+    /// focus-changing mouse press); a pass commits the deferred focus transfer
+    /// (oxforms-esq.4).
+    Exit,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -3280,25 +3301,34 @@ fn begin_focus_validation(
     // Focus is leaving this control: abandon any armed key-swallow (it only pairs with
     // this control's immediately-following character) (oxforms-esq.4).
     state.keyboard.suppress_next_character_input = false;
-    // MSForms order: a dirty data control fires BeforeUpdate -> AfterUpdate before Exit on
-    // focus-out (oxforms-esq.7).
-    queue_focus_update_events(state, context, losing_control_id);
-    queue_focus_exit_event(state, context, losing_control_id);
+    // Two-stage focus-out validation (oxforms-esq.11): a dirty data control fires
+    // BeforeUpdate FIRST and waits on its Cancel before AfterUpdate/Exit; a clean control
+    // skips straight to the Exit stage. AfterUpdate (the committed signal) + Exit fire on
+    // the BeforeUpdate pass; esq.6's Enter + the deferred focus commit ride the Exit pass.
+    let stage = if control_is_dirty(state, losing_control_id) {
+        queue_before_update_event(state, context, losing_control_id);
+        ValidationStage::BeforeUpdate
+    } else {
+        queue_focus_exit_event(state, context, losing_control_id);
+        ValidationStage::Exit
+    };
     state.validation.pending = Some(ValidationRequest {
         from,
         to: Some(to),
         cancelable: true,
         reason,
         activate_on_commit,
+        stage,
     });
     state.validation.active = true;
 }
 
-/// Fold a focus-leaving `Exit` handler's `Cancel` readback back into reducer state
-/// (oxforms-esq.4). On a veto (`cancelled`) the pending focus change is dropped and focus
-/// stays on the originating control; otherwise the deferred [`commit_focus_transfer`]
-/// runs. Mirrors [`reduce_query_close_completed`]: the runtime synthesizes this from the
-/// post-handler readback, so the pure reducer never needs the live `Cancel` to progress.
+/// Fold a focus-leaving validation handler's `Cancel` readback back into reducer state
+/// (oxforms-esq.4/esq.11). Routes by the in-flight [`ValidationStage`]: a `BeforeUpdate`
+/// completion gates the value commit, an `Exit` completion gates the focus move. The
+/// runtime synthesizes this from the post-handler readback (for BOTH `BeforeUpdate` and
+/// `Exit` dispatches), so the pure reducer never needs the live `Cancel` to progress;
+/// mirrors [`reduce_query_close_completed`].
 fn reduce_focus_validation_completed(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -3310,26 +3340,77 @@ fn reduce_focus_validation_completed(
     let Some(request) = state.validation.pending.take() else {
         return;
     };
-    state.validation.active = false;
+    match request.stage {
+        ValidationStage::BeforeUpdate => {
+            reduce_before_update_completed(state, context, request, payload.cancelled)
+        }
+        ValidationStage::Exit => reduce_exit_completed(state, context, request, payload.cancelled),
+    }
+}
 
-    // A focus-CHANGING click deferred its mouse press here (oxforms-esq.10); it replays
-    // after any focus commit. Keyboard-initiated validations (Tab / default-button Enter)
-    // set no pending press.
+/// Stage one of the two-stage focus-out validation: the dirty control's `BeforeUpdate`
+/// `Cancel` came back (oxforms-esq.11). A veto suppresses everything past it -- no
+/// `AfterUpdate`, `Exit`, `Enter`, or focus move -- keeps the value dirty (it was never
+/// committed), and absorbs any deferred focus-changing press; focus stays on the leaving
+/// control. A pass commits the value (`AfterUpdate` clears dirty), fires `Exit`, and
+/// advances to the `Exit` stage (the deferred press + `validation.active` are carried
+/// forward for the `Exit` completion). Oracle: [`docs/specs/FM20_EVENT_FACTS.md`] +
+/// `W008.../before_update_veto` rows 28-30 (a vetoing BeforeUpdate suppresses
+/// AfterUpdate/Exit/Enter, focus stays).
+fn reduce_before_update_completed(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    request: ValidationRequest,
+    cancelled: bool,
+) {
+    if cancelled {
+        state.validation.active = false;
+        // The value is NOT committed: leave the control dirty so a later focus-out refires
+        // BeforeUpdate. Absorb any deferred focus-changing press (the click is eaten).
+        state.pending_mouse_press = None;
+        state.validation.last_result = Some(ValidationResult::Cancelled);
+        return;
+    }
+    // BeforeUpdate passed: commit the value (AfterUpdate + clear dirty), then Exit. The
+    // leaving control is the validation subject (`request.from`).
+    if let Some(FocusTarget::Control(losing_id)) = request.from.as_ref() {
+        let losing_id = losing_id.clone();
+        queue_after_update_event(state, context, &losing_id);
+        queue_focus_exit_event(state, context, &losing_id);
+    }
+    // Still in flight: advance to the Exit stage, keeping the deferred press and the
+    // active flag for the Exit completion.
+    state.validation.pending = Some(ValidationRequest {
+        stage: ValidationStage::Exit,
+        ..request
+    });
+}
+
+/// Stage two of the focus-out validation: the `Exit` `Cancel` came back (oxforms-esq.4).
+/// A veto retains focus on the leaving control and ABSORBS any focus-changing mouse press
+/// -- a vetoing `Exit` eats the click entirely (no `MouseDown`/`MouseUp`/`Click` on the
+/// clicked control). Oracle:
+/// `docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/`
+/// `w008-veto-click-event-log.csv` -- `veto_exit_click` row 9 (TextBox1 `Exit` Cancel
+/// False->True, focus stays, ZERO events on the clicked TextBox2) vs `nonveto_click_baseline`
+/// rows 3-6 (Exit -> TextBox2 Enter -> MouseDown -> MouseUp). This
+/// unifies with the keyboard default-button `Enter` whose `Click` rides `activate_on_commit`
+/// (pass-only) and is likewise suppressed on a veto -- both are transfer consequences. A
+/// pass runs the deferred [`commit_focus_transfer`] (+ the gaining control's `Enter`,
+/// esq.6) and then replays the deferred press, so the order is `Exit -> Enter -> MouseDown`
+/// (oxforms-esq.10).
+fn reduce_exit_completed(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    request: ValidationRequest,
+    cancelled: bool,
+) {
+    state.validation.active = false;
+    // The deferred focus-changing press is cleared from state either way: dropped (absorbed)
+    // on a veto, replayed after Enter on a pass. Keyboard validations set no pending press.
     let pending_press = state.pending_mouse_press.take();
 
-    if payload.cancelled {
-        // Vetoed: focus is retained on `request.from` (never committed) and no Enter fires.
-        // The deferred press still applies to the clicked control -- the press is the original
-        // physical input, not part of the focus transfer, so the established Exit -> MouseDown
-        // (no Enter, focus unchanged) behavior is preserved. NOTE the deliberate asymmetry with
-        // the keyboard default-button Enter, whose Click rides `activate_on_commit` (pass-only,
-        // below) and so IS suppressed on a veto -- a transfer consequence -- whereas this mouse
-        // press fires regardless. Whether a vetoing Exit should instead ABSORB the click is
-        // UNORACLED (the W005 oracle records only NON-vetoing focus-changing clicks); reconciling
-        // BOTH veto cases is tracked with the two-stage validation on oxforms-esq.11.
-        if let Some(press) = pending_press {
-            apply_mouse_press(state, context, &press);
-        }
+    if cancelled {
         state.validation.last_result = Some(ValidationResult::Cancelled);
         return;
     }
@@ -3403,35 +3484,39 @@ fn queue_focus_enter_event(
     );
 }
 
-/// Emit the FM20 `BeforeUpdate` then `AfterUpdate` events on a control losing focus, but
-/// only when it is a data control whose value changed (a dirty `TextBox`) -- MSForms fires
-/// these before `Exit` on a committable focus-out (oxforms-esq.7). `BeforeUpdate` carries a
-/// mutable `Cancel` (`ReturnBoolean`) read back via `PerformBeforeUpdate`; honoring that
-/// veto (suppress `AfterUpdate`/`Exit`/`Enter` + keep focus) is oxforms-esq.11, so the
-/// Cancel is recorded but not yet folded back here. `AfterUpdate` is the committed signal;
-/// the dirty flag is cleared so a later focus-out without a fresh edit does not refire.
+/// Whether a focus-leaving control has an uncommitted edit (a dirty data control). This
+/// gates the `BeforeUpdate`/`AfterUpdate` validation stage (oxforms-esq.7/esq.11): a dirty
+/// control validates in two stages, a clean one fires only `Exit`.
 ///
 /// Scope (oxforms-esq.7): `TextBox` only. A dirty CheckBox (or another committable data
-/// control) losing focus does NOT yet fire these -- there is no oracle for focus-out after
+/// control) losing focus does NOT yet count here -- there is no oracle for focus-out after
 /// a CheckBox toggle, and the `dirty` gate is the sticky "edited-since" flag rather than
 /// net-value-vs-baseline (an edit-then-revert still reads dirty). Both refinements (CheckBox
-/// update events; an `OldValue` baseline) are tracked on oxforms-esq.11.
-fn queue_focus_update_events(
+/// update events; an `OldValue` baseline) are tracked on oxforms-esq.14.
+fn control_is_dirty(state: &FormState, control_id: &ControlId) -> bool {
+    state
+        .text_boxes
+        .iter()
+        .any(|entry| entry.control_id == *control_id && entry.dirty)
+}
+
+/// Emit the FM20 `BeforeUpdate` event on a dirty data control losing focus -- the FIRST of
+/// the two-stage focus-out validation (oxforms-esq.11). MSForms fires this before `Exit`
+/// on a committable focus-out (oxforms-esq.7). `BeforeUpdate` carries a mutable `Cancel`
+/// (`ReturnBoolean`) read back via `PerformBeforeUpdate`; the runtime folds it back as
+/// [`UiEventKind::FocusValidationCompleted`] (stage `BeforeUpdate`), where a veto suppresses
+/// `AfterUpdate`/`Exit`/`Enter` + keeps focus and a pass advances to `AfterUpdate` + `Exit`
+/// (see [`reduce_before_update_completed`]). The caller ([`begin_focus_validation`]) gates
+/// this on [`control_is_dirty`].
+fn queue_before_update_event(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
     losing_control_id: &ControlId,
 ) {
-    let dirty = state
-        .text_boxes
-        .iter()
-        .any(|entry| entry.control_id == *losing_control_id && entry.dirty);
-    if !dirty {
-        return;
-    }
     let target = UiEventTarget::control(state.form_id.0.clone(), losing_control_id.0.clone());
     context.push_effect(
         state,
-        target.clone(),
+        target,
         EffectKind::FireVbaEvent {
             event_name: "BeforeUpdate".to_string(),
             fact_source: Some("docs/specs/FM20_EVENT_FACTS.md".to_string()),
@@ -3441,12 +3526,26 @@ fn queue_focus_update_events(
                 by_ref: true,
             }],
             cancel_metadata: Some(
-                "BeforeUpdate Cancel is the mutable MSForms.ReturnBoolean helper; the dispatching runtime reads the post-handler value back via PerformBeforeUpdate (True = veto). Honoring the veto -- suppressing AfterUpdate/Exit/Enter and keeping focus -- is oxforms-esq.11; this slice records the readback only."
+                "BeforeUpdate Cancel is the mutable MSForms.ReturnBoolean helper; the dispatching runtime reads the post-handler value back via PerformBeforeUpdate (True = veto) and folds it back as FocusValidationCompleted (stage BeforeUpdate). A veto suppresses AfterUpdate/Exit/Enter and keeps the value dirty (oxforms-esq.11)."
                     .to_string(),
             ),
         },
         CompletionPolicy::DispatchResultRequired,
     );
+}
+
+/// Emit the FM20 `AfterUpdate` event on a control whose `BeforeUpdate` passed, and commit
+/// the value by clearing the dirty flag -- the SECOND half of stage one (oxforms-esq.11).
+/// `AfterUpdate` is the committed signal and is not cancelable (no readback). Clearing
+/// dirty here -- only on a non-vetoing `BeforeUpdate` -- is what makes a vetoed
+/// `BeforeUpdate` correctly keep the value dirty/uncommitted, and stops a later focus-out
+/// without a fresh edit from refiring `BeforeUpdate`/`AfterUpdate`.
+fn queue_after_update_event(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    losing_control_id: &ControlId,
+) {
+    let target = UiEventTarget::control(state.form_id.0.clone(), losing_control_id.0.clone());
     context.push_effect(
         state,
         target,
@@ -3458,8 +3557,6 @@ fn queue_focus_update_events(
         },
         CompletionPolicy::DispatchResultRequired,
     );
-    // The value is committed on AfterUpdate: clear dirty so a later focus-out without a
-    // fresh edit does not refire BeforeUpdate/AfterUpdate.
     if let Some(entry) = state
         .text_boxes
         .iter_mut()
@@ -3862,17 +3959,10 @@ mod tests {
             vetoed.state.validation.last_result,
             Some(ValidationResult::Cancelled)
         );
-        // esq.10: the veto keeps focus and fires no Enter, but the deferred press still
-        // applies to the clicked control (Exit -> MouseDown, no commit) -- whether a veto
-        // should absorb the click is unoracled and tracked on esq.11.
-        assert_eq!(
-            effect_names(&vetoed.effects),
-            vec![
-                "capture_mouse",
-                "fire_vba_event:MouseDown",
-                "request_repaint"
-            ]
-        );
+        // esq.11 (oracle: W008 w008-veto-click-20260628T213100Z, veto_exit_click row 9):
+        // a vetoing Exit ABSORBS the focus-changing click -- focus stays, no Enter, and the
+        // deferred press is dropped (NO MouseDown/capture). The clicked control fires nothing.
+        assert_eq!(effect_names(&vetoed.effects), Vec::<String>::new());
         assert!(vetoed.state.pending_mouse_press.is_none());
 
         // From the same pending state, an un-vetoed completion commits the transfer to ok.
@@ -3901,6 +3991,102 @@ mod tests {
         assert_eq!(
             committed.state.validation.last_result,
             Some(ValidationResult::Passed)
+        );
+    }
+
+    #[test]
+    fn dirty_focus_changing_click_carries_press_across_stages_then_exit_veto_absorbs() {
+        // The cross-stage carry (oxforms-esq.11): a DIRTY control's focus-changing click
+        // defers the mouse press, validates BeforeUpdate (stage 1), and on its PASS re-arms
+        // at the Exit stage carrying the deferred press forward; a then-vetoing Exit must
+        // DROP that carried press (absorb the click) and keep focus.
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 40.0, 18.0), 0, 0),
+            ControlNode::command_button("ok", LogicalRect::new(0.0, 24.0, 40.0, 18.0), 0, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1")).dirty = true;
+
+        // Focus-changing press on ok off the dirty text-1: only BeforeUpdate fires; the
+        // press is deferred and focus is held pending at the BeforeUpdate stage.
+        let pressed = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(80),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 5.0, 30.0)),
+            ),
+        );
+        assert_eq!(
+            effect_names(&pressed.effects),
+            vec!["fire_vba_event:BeforeUpdate"]
+        );
+        assert_eq!(
+            pressed
+                .state
+                .validation
+                .pending
+                .as_ref()
+                .map(|request| request.stage),
+            Some(ValidationStage::BeforeUpdate)
+        );
+        assert!(pressed.state.pending_mouse_press.is_some());
+        assert_eq!(
+            pressed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert!(
+            text_box_state(&pressed.state, &ControlId::new("text-1"))
+                .expect("text-1 state")
+                .dirty
+        );
+
+        // BeforeUpdate passes: AfterUpdate (clears dirty) + Exit fire; the validation re-arms
+        // at the Exit stage and -- critically -- the deferred press survives the boundary.
+        let after_before_update = reduce(
+            pressed.state,
+            focus_validation_completed_event(UiEventId(81), false),
+        );
+        assert_eq!(
+            effect_names(&after_before_update.effects),
+            vec!["fire_vba_event:AfterUpdate", "fire_vba_event:Exit"]
+        );
+        assert_eq!(
+            after_before_update
+                .state
+                .validation
+                .pending
+                .as_ref()
+                .map(|request| request.stage),
+            Some(ValidationStage::Exit)
+        );
+        assert!(
+            after_before_update.state.pending_mouse_press.is_some(),
+            "the deferred press must survive the BeforeUpdate -> Exit stage boundary"
+        );
+        assert!(
+            !text_box_state(&after_before_update.state, &ControlId::new("text-1"))
+                .expect("text-1 state")
+                .dirty
+        );
+
+        // The Exit then VETOES: focus stays on text-1, the carried press is DROPPED (absorb),
+        // and nothing fires on the clicked control.
+        let vetoed = reduce(
+            after_before_update.state,
+            focus_validation_completed_event(UiEventId(82), true),
+        );
+        assert_eq!(
+            vetoed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert_eq!(effect_names(&vetoed.effects), Vec::<String>::new());
+        assert!(vetoed.state.pending_mouse_press.is_none());
+        assert!(vetoed.state.validation.pending.is_none());
+        assert_eq!(
+            vetoed.state.validation.last_result,
+            Some(ValidationResult::Cancelled)
         );
     }
 
@@ -5047,9 +5233,23 @@ mod tests {
             "focus is held on text-1 until the Exit veto resolves"
         );
         assert!(button_down.state.validation.pending.is_some());
-        let focus_committed = reduce(
+        // text-1 is dirty (typed "A"), so the focus-out validates in two stages
+        // (oxforms-esq.11): the BeforeUpdate-stage completion fires AfterUpdate/Exit and
+        // stays pending (now at the Exit stage), focus still held on text-1.
+        let after_before_update = reduce(
             button_down.state,
             focus_validation_completed_event(UiEventId(640), false),
+        );
+        assert_eq!(
+            after_before_update.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1"))),
+            "focus stays on text-1 through the BeforeUpdate stage"
+        );
+        assert!(after_before_update.state.validation.pending.is_some());
+        // The Exit-stage completion commits the transfer to "ok".
+        let focus_committed = reduce(
+            after_before_update.state,
+            focus_validation_completed_event(UiEventId(641), false),
         );
         assert_eq!(
             focus_committed.state.focus_owner,
@@ -5981,8 +6181,9 @@ mod tests {
             ]
         };
 
-        // A dirty (edited) data control fires BeforeUpdate -> AfterUpdate before Exit on
-        // focus-out (oxforms-esq.7); the commit/Enter stay deferred (esq.4).
+        // A dirty (edited) data control validates in TWO stages (oxforms-esq.11): the Tab
+        // fires only KeyDown -> BeforeUpdate; the BeforeUpdate-stage completion then fires
+        // AfterUpdate -> Exit; the Exit-stage completion fires Enter on the deferred commit.
         let mut dirty = FormState::new("form-main");
         dirty.controls = controls();
         dirty.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
@@ -5990,19 +6191,43 @@ mod tests {
         let tab = reduce(dirty, key_down_event(UiEventId(57), KeyCode::Tab, false));
         assert_eq!(
             effect_names(&tab.effects),
-            vec![
-                "fire_vba_event:KeyDown",
-                "fire_vba_event:BeforeUpdate",
-                "fire_vba_event:AfterUpdate",
-                "fire_vba_event:Exit"
-            ]
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:BeforeUpdate"]
         );
-        // AfterUpdate committed the value: the dirty flag is cleared so a later focus-out
-        // without a fresh edit does not refire.
+        // The value is NOT committed until AfterUpdate, so it stays dirty across stage one.
         assert!(
-            !text_box_state(&tab.state, &ControlId::new("text-1"))
+            text_box_state(&tab.state, &ControlId::new("text-1"))
                 .expect("text-1 state")
                 .dirty
+        );
+
+        // BeforeUpdate passes: AfterUpdate (commits + clears dirty) then Exit fire next.
+        let after_before_update = reduce(
+            tab.state,
+            focus_validation_completed_event(UiEventId(157), false),
+        );
+        assert_eq!(
+            effect_names(&after_before_update.effects),
+            vec!["fire_vba_event:AfterUpdate", "fire_vba_event:Exit"]
+        );
+        assert!(
+            !text_box_state(&after_before_update.state, &ControlId::new("text-1"))
+                .expect("text-1 state")
+                .dirty,
+            "AfterUpdate committed the value: dirty is cleared so a later focus-out does not refire"
+        );
+
+        // Exit passes: the deferred commit fires Enter and moves focus to text-2.
+        let committed = reduce(
+            after_before_update.state,
+            focus_validation_completed_event(UiEventId(257), false),
+        );
+        assert_eq!(
+            effect_names(&committed.effects),
+            vec!["transfer_focus", "fire_vba_event:Enter", "request_repaint"]
+        );
+        assert_eq!(
+            committed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-2")))
         );
 
         // A clean (unedited) control fires only Exit on focus-out -- no BeforeUpdate/

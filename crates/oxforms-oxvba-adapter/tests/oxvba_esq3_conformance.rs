@@ -589,8 +589,9 @@ fn pin_enter_dispatched_on_focus_gain() {
 
 /// PIN — a dirty data control's focus-out natively dispatches BeforeUpdate -> AfterUpdate
 /// -> Exit (oxforms-esq.7). Editing InputField marks it dirty; moving focus off it then
-/// drives PerformBeforeUpdate (Cancel readback recorded), PerformAfterUpdate, and
-/// PerformExit in order. The BeforeUpdate Cancel=True veto fold-back is oxforms-esq.11.
+/// drives PerformBeforeUpdate, PerformAfterUpdate, and PerformExit in order (the
+/// non-vetoing two-stage path, esq.11). The vetoing BeforeUpdate fold-back is asserted
+/// end-to-end by oxvba_w007_runtime_runner::runner_honors_before_update_veto_end_to_end.
 ///
 /// Oracle: [`CAP_FOCUS_VALIDATION`] tab_transfer rows 8-10 (BeforeUpdate -> AfterUpdate ->
 /// Exit on the edited, leaving control).
@@ -732,7 +733,8 @@ fn gap_tab_out_full_focus_ordering() {
     state.ensure_text_box(ControlId::new("TextBox1")).dirty = true;
 
     let mut order = Vec::new();
-    // Tab off the dirty TextBox1: BeforeUpdate -> AfterUpdate -> Exit, commit held pending.
+    // Tab off the dirty TextBox1: stage one fires only KeyDown -> BeforeUpdate, held
+    // pending (oxforms-esq.11).
     let tab = reduce(
         state,
         ui_event(
@@ -746,10 +748,16 @@ fn gap_tab_out_full_focus_ordering() {
         ),
     );
     order.extend(reduced_event_names(&tab.effects));
-    // The uncancelled completion commits focus to TextBox2 and fires its Enter.
-    let committed = reduce(
+    // The uncancelled BeforeUpdate completion fires AfterUpdate -> Exit, held pending again.
+    let after_before_update = reduce(
         tab.state,
         focus_validation_completed_event(2, "form-tab", false),
+    );
+    order.extend(reduced_event_names(&after_before_update.effects));
+    // The uncancelled Exit completion commits focus to TextBox2 and fires its Enter.
+    let committed = reduce(
+        after_before_update.state,
+        focus_validation_completed_event(3, "form-tab", false),
     );
     order.extend(reduced_event_names(&committed.effects));
 
@@ -774,6 +782,11 @@ fn gap_tab_out_full_focus_ordering() {
 #[test]
 fn gap_exit_veto_keeps_focus() {
     let mut runner = attach_runner();
+    // Arm the InputField_Exit veto (off by default since oxforms-esq.11, so the demo flow
+    // can click OK); this test exercises the veto path.
+    runner
+        .invoke_form_sub("ArmExitVeto")
+        .expect("arm the InputField_Exit veto");
     focus_input_field(&mut runner);
 
     // Move focus off InputField -> InputField_Exit vetoes (Cancel = True).
@@ -794,20 +807,18 @@ fn gap_exit_veto_keeps_focus() {
     );
 }
 
-/// GAP — BeforeUpdate veto suppresses AfterUpdate/Exit/Enter. When BeforeUpdate sets
-/// Cancel = True, NO AfterUpdate, Exit, or Enter fires; the focus key's KeyUp fires on
-/// the same control. esq.7 now EMITS BeforeUpdate (on a dirty control) but records its
-/// Cancel readback without honoring it: a single Tab reduce emits [KeyDown, BeforeUpdate,
-/// AfterUpdate, Exit] regardless of the veto. Honoring the veto requires a two-stage
-/// validation (the BeforeUpdate Cancel must fold back and GATE AfterUpdate/Exit, like the
-/// Exit veto gates the commit) — that is oxforms-esq.11, which will also restructure this
-/// test to inject the BeforeUpdate-stage completion.
+/// PIN (closed by oxforms-esq.11; was a GAP) — BeforeUpdate veto suppresses
+/// AfterUpdate/Exit/Enter. When BeforeUpdate sets Cancel = True, NO AfterUpdate, Exit, or
+/// Enter fires and focus stays on the leaving control; the value stays dirty (uncommitted).
+/// The two-stage validation folds the BeforeUpdate Cancel back as the first
+/// `FocusValidationCompleted`, which gates AfterUpdate/Exit (here modeled by injecting the
+/// vetoing BeforeUpdate-stage completion). A non-vetoing BeforeUpdate instead advances to
+/// AfterUpdate -> Exit (see [`gap_tab_out_full_focus_ordering`]).
 ///
 /// Oracle: [`CAP_FOCUS_VALIDATION`] rows 28-30 (scenario `before_update_veto`):
 ///   TextBox1 KeyDown(9) -> BeforeUpdate (Cancel False->True) -> TextBox1 KeyUp(9).
 ///   No AfterUpdate, no Exit, no TextBox2 Enter.
 #[test]
-#[ignore = "GAP: BeforeUpdate is emitted (esq.7) but its Cancel=True veto is recorded-not-honored (AfterUpdate/Exit still fire); honoring it needs the two-stage BeforeUpdate-gated validation — pending oxforms-esq.11"]
 fn gap_before_update_veto_suppresses_commit() {
     let mut state = FormState::new("form-tab");
     state.controls = vec![
@@ -818,6 +829,7 @@ fn gap_before_update_veto_suppresses_commit() {
     // The control must be dirty for BeforeUpdate to fire at all (esq.7 gate).
     state.ensure_text_box(ControlId::new("TextBox1")).dirty = true;
 
+    // Tab off the dirty TextBox1: stage one fires only KeyDown -> BeforeUpdate, held pending.
     let tab = reduce(
         state,
         ui_event(
@@ -830,20 +842,42 @@ fn gap_before_update_veto_suppresses_commit() {
             }),
         ),
     );
-
-    // A vetoing BeforeUpdate must suppress everything past it: only KeyDown then
-    // BeforeUpdate fire on the same control; focus stays on TextBox1. (esq.11 will inject
-    // the vetoing BeforeUpdate-stage completion; esq.7 still emits AfterUpdate/Exit here.)
     assert_eq!(
         reduced_event_names(&tab.effects),
         vec!["KeyDown", "BeforeUpdate"],
-        "a vetoing BeforeUpdate suppresses AfterUpdate/Exit/Enter — oracle \
-         {CAP_FOCUS_VALIDATION} before_update_veto rows 28-30"
+        "stage one fires only KeyDown then BeforeUpdate — oracle {CAP_FOCUS_VALIDATION} \
+         before_update_veto rows 28-30"
+    );
+
+    // The VETOING BeforeUpdate completion (Cancel = True) suppresses everything past it:
+    // no AfterUpdate, no Exit, no Enter, and focus stays on TextBox1.
+    let vetoed = reduce(
+        tab.state,
+        focus_validation_completed_event(2, "form-tab", true),
     );
     assert_eq!(
-        tab.state.focus_owner,
+        reduced_event_names(&vetoed.effects),
+        Vec::<String>::new(),
+        "a vetoing BeforeUpdate suppresses AfterUpdate/Exit/Enter"
+    );
+    assert_eq!(
+        vetoed.state.focus_owner,
         Some(FocusTarget::Control(ControlId::new("TextBox1"))),
         "a vetoing BeforeUpdate keeps focus on TextBox1"
+    );
+    assert!(
+        vetoed.state.validation.pending.is_none(),
+        "the validation is resolved (no dangling pending stage)"
+    );
+    // The value was never committed, so TextBox1 stays dirty (a later focus-out refires
+    // BeforeUpdate).
+    assert!(
+        vetoed
+            .state
+            .text_boxes
+            .iter()
+            .any(|entry| entry.control_id == ControlId::new("TextBox1") && entry.dirty),
+        "a vetoed BeforeUpdate keeps the value dirty (uncommitted)"
     );
 }
 

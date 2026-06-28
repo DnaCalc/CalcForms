@@ -174,9 +174,14 @@ impl W005TraceReplayRunner {
         );
         self.apply_next_event(|event_id| mouse_button_event(event_id, 176.0, 64.0, true));
         self.complete_non_dispatch_effects();
-        // Clicking "ok" moves focus off "text-1": Exit fires and the focus commit is held
-        // pending the veto (oxforms-esq.4). The runtime folds the (uncancelled) Exit
-        // readback back as FocusValidationCompleted, which commits the transfer to "ok".
+        // Clicking "ok" moves focus off the edited (dirty) "text-1", which validates in TWO
+        // stages (oxforms-esq.11): BeforeUpdate fires first (held pending), then -- on the
+        // uncancelled BeforeUpdate completion -- AfterUpdate + Exit (held pending again),
+        // then -- on the uncancelled Exit completion -- the deferred focus commit to "ok".
+        // The runtime folds each handler's (uncancelled) readback back as
+        // FocusValidationCompleted; headless replay supplies both completions in order.
+        self.apply_next_event(focus_validation_completed_event);
+        self.complete_non_dispatch_effects();
         self.apply_next_event(focus_validation_completed_event);
         self.complete_non_dispatch_effects();
         self.apply_next_event(|event_id| mouse_button_event(event_id, 176.0, 64.0, false));

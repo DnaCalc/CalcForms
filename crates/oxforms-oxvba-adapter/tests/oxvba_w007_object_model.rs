@@ -226,8 +226,16 @@ fn object_model_supports_the_w007_demo_shape() {
         Vec::new(),
     );
 
-    // Native FM20 [Exit] event (a reserved word) round-trips a mutable Cancel: the
-    // handler sets Cancel.Value = True and the control returns it.
+    // Native FM20 [Exit] event (a reserved word) round-trips a mutable Cancel: arm the
+    // veto (off by default since oxforms-esq.11) so the handler sets Cancel.Value = True
+    // and the control returns it.
+    call(
+        &mut session,
+        form.clone(),
+        "ArmExitVeto",
+        ProjectMemberKind::Method,
+        Vec::new(),
+    );
     let cancelled = call(
         &mut session,
         form.clone(),

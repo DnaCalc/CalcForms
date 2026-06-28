@@ -1,0 +1,68 @@
+{
+  "schema": "oxforms.office_oracle.w008_veto_click_capture.v1",
+  "bead": "oxforms-esq.10",
+  "capture_id": "w008-veto-click-20260628T213100Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w008-veto-click-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-veto-click/fixture.json",
+        "sha256": "75a04f8bdbe866886da03fb50c9a8c67ccd4e341eabdbca6b3d7f144e2cd1786"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-veto-click/form-code-behind.bas",
+        "sha256": "3978c20127c0e18f1994db53ebe40accde455675ea0cc21f5fde300b19f5838e"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-veto-click/standard-module.bas",
+        "sha256": "e4ffe1054b57156e3d01f5148045a50743834e0d308024bb2a701f21a6a18875"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/Capture-W008VetoClick.ps1",
+        "sha256": "9a984fa2fb09d40788cfcbef80c40b39b6c8624b833d03d0ada7a794c188d16a"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": null,
+    "run_summary": "docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/run-summary.json",
+    "event_log_json": "docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/w008-veto-click-event-log.json",
+    "event_log_csv": "docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/w008-veto-click-event-log.csv",
+    "input_actions": "docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 9,
+    "scenarios": [
+      "nonveto_click_baseline",
+      "veto_exit_click"
+    ]
+  },
+  "trace_replay_implications": [
+    "docs/specs/FM20_EVENT_FACTS.md: a vetoing focus Exit (Cancel=True) absorbs a focus-changing mouse click entirely -- zero MouseDown/MouseUp/Click on the clicked control, focus retained; a non-vetoing focus-changing click fires Exit -> Enter -> MouseDown -> MouseUp."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "The focus-changing click was driven by computer-use vision (not public-user32 SendInput) because SendInput was unreliable under foreground contention; the events are still live MSForms handler observations.",
+    "generated_workbook is null: the throwaway workbook from the live runs was not retained; the committed fixture sources + Capture-W008VetoClick.ps1 regenerate it deterministically."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public clicks; no Office internals.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime focus/validation event behavior is claimed by the capture (oxforms-esq.11 consumes it).",
+    "This capture is the click-absorb pair only (baseline + veto), not an exhaustive focus/validation matrix.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}

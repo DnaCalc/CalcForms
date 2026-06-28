@@ -32,6 +32,7 @@ use std::collections::{HashMap, VecDeque};
 
 use oxforms_core::{
     reduce, sync_control_display_text, EffectKind, EffectRequest, RenderInvalidation, RuntimeForm,
+    ValidationStage,
 };
 use oxforms_pal::{
     ClipboardOperation, ClipboardResultEvent, ControlId, FocusValidationCompletedEvent,
@@ -280,6 +281,23 @@ impl RuntimeRunner {
     /// owns clipboard provenance; the runner only echoes it back on a `ClipboardGet`.
     pub fn set_clipboard_text(&mut self, text: impl Into<String>) {
         self.clipboard_text = Some(text.into());
+    }
+
+    /// Invoke a no-argument `Sub` on the attached form-document module (the class hosting
+    /// the `UserForm_*` handlers + the form-level `Perform*` surface). A narrow host/test
+    /// affordance for toggling fixture-side state OUTSIDE the event pipeline -- e.g. arming
+    /// the W007 `InputField_Exit` veto for the focus-validation conformance tests. It does
+    /// not reduce a UI event or touch reducer state; the runtime remains the sole owner of
+    /// the dispatch + render VM entries.
+    pub fn invoke_form_sub(&mut self, name: &str) -> Result<(), RuntimeError> {
+        invoke(
+            &mut self.session,
+            self.form_module.clone(),
+            name,
+            ProjectMemberKind::Method,
+            Vec::new(),
+        )?;
+        Ok(())
     }
 
     /// Re-render the attached form across the `OxForms.Surface` boundary — the §16
@@ -633,12 +651,13 @@ impl RuntimeRunner {
 
         // PerformKeyDown/PerformKeyUp return the post-handler KeyCode and
         // PerformKeyPress the post-handler KeyAscii (0 when the handler swallowed the
-        // key/character) via the MSForms.ReturnInteger helper; PerformExit returns the
-        // post-handler Cancel via the MSForms.ReturnBoolean helper (True = vetoed);
-        // PerformClick, ApplyUserText, AfterUpdate, and the mouse members return nothing
-        // meaningful. PerformExit and PerformBeforeUpdate return the post-handler Cancel
-        // via the MSForms.ReturnBoolean helper (True = vetoed); the BeforeUpdate veto is
-        // recorded but not yet folded back (oxforms-esq.11).
+        // key/character) via the MSForms.ReturnInteger helper. PerformExit and
+        // PerformBeforeUpdate return the post-handler Cancel via the MSForms.ReturnBoolean
+        // helper (True = vetoed); both are folded back as FocusValidationCompleted and
+        // honored by the two-stage focus validation (oxforms-esq.4/esq.11). PerformClick,
+        // ApplyUserText, AfterUpdate, and the mouse members return nothing meaningful.
+        // PerformBeforeDropOrPaste returns its Cancel too, but that veto is recorded and not
+        // yet honored (oxforms-esq.13).
         let returned = if matches!(event_name, "KeyDown" | "KeyUp" | "KeyPress") {
             result.as_i16().map(|code| code.to_string())
         } else if matches!(event_name, "Exit" | "BeforeUpdate" | "BeforeDropOrPaste") {
@@ -717,8 +736,10 @@ impl RuntimeRunner {
     /// (oxforms-esq.4) rather than only being recorded:
     ///   * a `QueryClose` `Cancel` re-enters as `QueryCloseCompleted`, so a nonzero
     ///     (vetoing) Cancel drives the reducer to `CloseCancelled` instead of hiding;
-    ///   * an `Exit` `Cancel` re-enters as `FocusValidationCompleted`, so a vetoing
-    ///     Cancel retains focus instead of committing the deferred transfer;
+    ///   * a `BeforeUpdate` or `Exit` `Cancel` re-enters as `FocusValidationCompleted`,
+    ///     routed by the reducer's in-flight [`ValidationStage`] -- a vetoing `BeforeUpdate`
+    ///     suppresses the value commit (AfterUpdate/Exit/Enter) and a vetoing `Exit`
+    ///     retains focus instead of committing the deferred transfer (oxforms-esq.11);
     ///   * a swallowed `KeyDown` (`KeyCode -> 0`) re-enters as `KeyDownSwallowed`, so the
     ///     paired `KeyPress`/`Change` (the following `CharacterInput`) is suppressed.
     fn foldback_event(&self, record: &NativeDispatchRecord) -> Option<UiEvent> {
@@ -742,11 +763,24 @@ impl RuntimeRunner {
                     }),
                 ))
             }
-            "Exit" => {
-                // The reducer set validation.pending when it fired Exit and held the focus
-                // commit; fold the post-handler Cancel (ReturnBoolean -> "true"/"false")
-                // back so the deferred commit is gated on the veto.
-                self.form.state.validation.pending.as_ref()?;
+            "BeforeUpdate" | "Exit" => {
+                // Two-stage focus-out validation (oxforms-esq.4/esq.11): the reducer set
+                // validation.pending when it fired this handler and held the next step; fold
+                // the post-handler Cancel (ReturnBoolean -> "true"/"false") back as
+                // FocusValidationCompleted so the reducer's staged gate sees the veto
+                // (BeforeUpdate gates the value commit; Exit gates the focus move). The
+                // reducer routes by its OWN pending stage, so this synthesizes the same event
+                // for both; the stage guard only ensures we fold at the stage actually in
+                // flight (BeforeUpdate is only emitted at its stage, Exit at its).
+                let pending = self.form.state.validation.pending.as_ref()?;
+                let expected = if record.event_name == "BeforeUpdate" {
+                    ValidationStage::BeforeUpdate
+                } else {
+                    ValidationStage::Exit
+                };
+                if pending.stage != expected {
+                    return None;
+                }
                 let cancelled = record.returned.as_deref() == Some("true");
                 Some(UiEvent::new(
                     UiEventId(0),
