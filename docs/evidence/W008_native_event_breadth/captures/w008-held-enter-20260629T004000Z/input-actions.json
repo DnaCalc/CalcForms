@@ -1,0 +1,20 @@
+{
+  "schema": "oxforms.office_oracle.w008_held_enter_input_actions.v1",
+  "bead": "oxforms-esq.15",
+  "manual_inputs": [
+    {
+      "label": "focus_TextBox1",
+      "method": "background_com_FocusControlW008HeldKey",
+      "note": "Focus the TextBox host before the hold; the Default OkButton is set at runtime in UserForm_Initialize."
+    },
+    {
+      "label": "hold_enter",
+      "method": "computer_use_hold_key",
+      "note": "Genuine OS key-hold of Enter (~2.5s); the default button activated exactly once."
+    }
+  ],
+  "automated_inputs": [],
+  "non_claims": [
+    "Inputs were driven by computer-use hold_key + background COM; events are live MSForms handler observations."
+  ]
+}

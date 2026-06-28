@@ -1,0 +1,7 @@
+"sequence","scenario","control_name","event_name","arg_name","arg_before","arg_after","focus_owner_after","value_after","notes"
+"1","","OxFormsW008HeldKey","Initialize","","","","","",""
+"2","","TextBox1","Enter","","","","TextBox1","",""
+"3","held_enter_default","TextBox1","KeyDown","KeyCode","13","13","TextBox1","",""
+"4","held_enter_default","OkButton","Enter","","","","OkButton","",""
+"5","held_enter_default","OkButton","Click","","","","OkButton","",""
+"6","held_enter_default","OkButton","KeyUp","KeyCode","13","13","OkButton","",""

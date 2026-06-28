@@ -1,0 +1,89 @@
+{
+  "schema": "oxforms.office_oracle.w008_held_enter_event_log.v1",
+  "bead": "oxforms-esq.15",
+  "source": {
+    "worksheet": "W008HeldKeyLog",
+    "columns": [
+      "sequence",
+      "scenario",
+      "control_name",
+      "event_name",
+      "arg_name",
+      "arg_before",
+      "arg_after",
+      "focus_owner_after",
+      "value_after",
+      "notes"
+    ],
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/w008-held-key/fixture.json"
+  },
+  "observed_facts": {
+    "row_count": 6,
+    "scenarios": [
+      "held_enter_default"
+    ],
+    "event_names": [
+      "Initialize",
+      "Enter",
+      "KeyDown",
+      "Enter",
+      "Click",
+      "KeyUp"
+    ],
+    "scenario_summaries": [
+      {
+        "scenario": "held_enter_default",
+        "row_count": 4,
+        "observed": true,
+        "event_names": [
+          "KeyDown",
+          "Enter",
+          "Click",
+          "KeyUp"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "13",
+            "arg_after": "13",
+            "focus_owner_after": "TextBox1",
+            "value_after": ""
+          },
+          {
+            "sequence": "4",
+            "control_name": "OkButton",
+            "event_name": "Enter",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "OkButton",
+            "value_after": ""
+          },
+          {
+            "sequence": "5",
+            "control_name": "OkButton",
+            "event_name": "Click",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "OkButton",
+            "value_after": ""
+          },
+          {
+            "sequence": "6",
+            "control_name": "OkButton",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "13",
+            "arg_after": "13",
+            "focus_owner_after": "OkButton",
+            "value_after": ""
+          }
+        ]
+      }
+    ]
+  }
+}

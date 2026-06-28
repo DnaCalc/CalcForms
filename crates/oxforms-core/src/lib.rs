@@ -1562,7 +1562,20 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
         | KeyCode::ArrowRight
         | KeyCode::Home
         | KeyCode::End => reduce_text_box_editing_key_down(state, context, payload),
-        KeyCode::Enter => {
+        // A held Enter activates a default button EXACTLY ONCE: the held-default-button-Enter
+        // oracle (w008-held-enter capture: a sustained Enter hold logged a single KeyDown(13)
+        // -> OkButton Enter -> Click -> KeyUp(13), no per-repeat re-fire) settles the behavior
+        // the esq.12 work left repeat-blind. The guard drops OS auto-repeat Enter KeyDowns so
+        // they neither re-transfer focus nor re-Click -- INCLUDING a repeat arriving mid-flight
+        // while the first Enter's deferred focus transfer is still pending (which would otherwise
+        // fall to the in-place activate_command_button and emit a second Click). Mirrors the
+        // CheckBox toggle gate, esq.12. The KeyDown event itself already fired above (OxForms
+        // emits one per KeyDown it receives), so only the activation is suppressed; a repeat
+        // Enter falls through to the no-op `_` arm. The CheckBox Enter-toggle path
+        // (keyboard_toggle_check_box) is mutually exclusive with this arm -- it toggles only
+        // when default_button.is_none() -- so the two Enter consumers never double-fire.
+        // (oxforms-esq.15)
+        KeyCode::Enter if !payload.repeat.is_repeat => {
             if let Some(button_id) = state.default_button.clone() {
                 let button_target = FocusTarget::Control(button_id.clone());
                 let previous_focus = state.focus_owner.clone();
@@ -1570,11 +1583,7 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
                 // focused control, then Enter on the button) before its Click; the Click
                 // is activated when the transfer commits (oxforms-esq.6). When focus is
                 // already the button -- or there is nothing to leave / a pending
-                // validation -- it Clicks in place as before. NOTE: held-Enter (OS
-                // auto-repeat) behavior is UNCAPTURED here -- unlike the CheckBox toggle
-                // (gated on !is_repeat, esq.12), a button may auto-repeat its activation, so
-                // this arm stays repeat-blind pending a held-default-button-Enter capture
-                // (oxforms-esq.15). A non-activatable default
+                // validation -- it Clicks in place. A non-activatable default
                 // button (hidden/disabled) does NOT transfer: it falls through to
                 // activate_command_button, which no-ops -- so no spurious Exit/focus move.
                 let button_activatable = find_control(state, &button_id).is_some_and(|control| {
@@ -1609,6 +1618,10 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
             }
         }
         KeyCode::Escape => {
+            // Scope note (oxforms-esq.15): only the default-button Enter held-key repeat is
+            // oracle-captured. Whether a held Escape (cancel button) or a held Alt+accelerator
+            // re-activates per OS repeat is UNCAPTURED, so these arms are left repeat-blind
+            // rather than guessed -- the live-oracle capture + gate is tracked by oxforms-uvh.
             if let Some(control_id) = state.cancel_button.clone() {
                 activate_command_button(state, context, &control_id, PressedOrigin::KeyboardCancel);
             }
@@ -6410,6 +6423,104 @@ mod tests {
             vec!["fire_vba_event:KeyUp", "request_repaint"]
         );
         assert!(up.state.pressed_state.is_none());
+    }
+
+    #[test]
+    fn held_default_button_enter_activates_once() {
+        // A held Enter activates a default button EXACTLY ONCE (oxforms-esq.15 oracle
+        // w008-held-enter: a 2.5s hold logged a single KeyDown(13) -> OkButton Enter ->
+        // Click -> KeyUp(13)). The first (non-repeat) Enter transfers focus to the button
+        // and activates it; OS auto-repeat Enter KeyDowns fire only the KeyDown event and
+        // must NOT re-transfer focus or re-Click.
+        let form = || {
+            let mut state = FormState::new("form-main");
+            state.controls = vec![
+                ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+                ControlNode::command_button("ok", LogicalRect::new(0.0, 24.0, 64.0, 20.0), 0, 1),
+            ];
+            state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+            state.default_button = Some(ControlId::new("ok"));
+            state
+        };
+
+        // First (non-repeat) Enter: begins the default-button focus transfer.
+        let down = reduce(form(), key_down_event(UiEventId(60), KeyCode::Enter, false));
+        assert_eq!(
+            effect_names(&down.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:Exit"],
+            "the first Enter begins the default-button focus transfer"
+        );
+
+        // An OS auto-repeat Enter KeyDown: only KeyDown fires -- no Exit, no focus transfer,
+        // no Click, no pending validation, no pressed button. (The single KeyDown reflects
+        // OxForms' unconditional one-KeyDown-per-received-KeyDown emission -- the esq.12
+        // convention -- NOT an oracle-captured per-repeat row: the capture logged only one
+        // KeyDown and never confirmed the OS hold emitted repeat WM_KEYDOWNs.)
+        let repeated = reduce(
+            form(),
+            UiEvent::new(
+                UiEventId(61),
+                UiEventSource::Replay,
+                UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                    key: KeyCode::Enter,
+                    modifiers: KeyboardModifiers::default(),
+                    repeat: KeyRepeat {
+                        is_repeat: true,
+                        repeat_count: Some(1),
+                    },
+                    raw: RawKeyDiagnostics::default(),
+                }),
+            ),
+        );
+        assert_eq!(
+            effect_names(&repeated.effects),
+            vec!["fire_vba_event:KeyDown"],
+            "an auto-repeat Enter emits only KeyDown -- no default-button re-activation"
+        );
+        assert_eq!(
+            repeated.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1"))),
+            "a repeat Enter does not transfer focus"
+        );
+        assert!(
+            repeated.state.validation.pending.is_none(),
+            "a repeat Enter starts no focus validation"
+        );
+        assert!(
+            repeated.state.pressed_state.is_none(),
+            "a repeat Enter does not press the default button"
+        );
+
+        // A repeat Enter arriving MID-FLIGHT -- while the first Enter's deferred focus transfer
+        // is still pending -- must also be suppressed. Before the guard this case was the real
+        // hazard: with validation.pending = Some the `losing` branch is skipped and the arm fell
+        // straight to the in-place activate_command_button, emitting a SECOND Click on top of
+        // the pending transfer. Now only KeyDown fires and the in-flight validation is untouched.
+        let mid_flight = reduce(
+            down.state,
+            UiEvent::new(
+                UiEventId(62),
+                UiEventSource::Replay,
+                UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                    key: KeyCode::Enter,
+                    modifiers: KeyboardModifiers::default(),
+                    repeat: KeyRepeat {
+                        is_repeat: true,
+                        repeat_count: Some(2),
+                    },
+                    raw: RawKeyDiagnostics::default(),
+                }),
+            ),
+        );
+        assert_eq!(
+            effect_names(&mid_flight.effects),
+            vec!["fire_vba_event:KeyDown"],
+            "a repeat Enter mid focus-transfer emits only KeyDown -- no second activation/Click"
+        );
+        assert!(
+            mid_flight.state.validation.pending.is_some(),
+            "the in-flight focus validation from the first Enter is untouched by the repeat"
+        );
     }
 
     #[test]
