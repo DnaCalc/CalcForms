@@ -1,0 +1,55 @@
+{
+  "id": "excel-msforms-w008-checkbox-update-v1",
+  "form": {
+    "name": "OxFormsW008CheckBoxUpdate",
+    "caption": "OxForms W008 CheckBox Update Oracle",
+    "widthPt": 260,
+    "heightPt": 150,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "CheckBox1",
+        "type": "Forms.CheckBox.1",
+        "caption": "Agree",
+        "leftPt": 12,
+        "topPt": 44,
+        "widthPt": 200,
+        "heightPt": 20
+      },
+      {
+        "name": "TextBox2",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 84,
+        "widthPt": 230,
+        "heightPt": 20
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-checkbox-update-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008CheckBoxUpdateOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008CheckBoxUpdateModeless",
+    "clearLogMacroName": "ClearW008CheckBoxUpdateLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "A TextBox1 edit-then-revert subject, a CheckBox1 dirty-focus-out subject, and a TextBox2 focus-out landing target laid out non-overlapping so a window-bounds + fixture-layout calculation (or computer-use vision) can target each control by point.",
+    "CheckBox1 carries Enter/Exit/BeforeUpdate/AfterUpdate/Click/Change/KeyDown/KeyUp handlers so the capture reveals whether a dirty CheckBox fires BeforeUpdate/AfterUpdate before Exit on focus-out (esq.14 question 1); FM20_EVENT_FACTS.md currently treats CheckBox Enter/Exit/BeforeUpdate as unknown for MdcCheckBoxEvents -- absence of a row is observed, not a negative fact.",
+    "TextBox1 carries Change/BeforeUpdate/AfterUpdate so the capture reveals whether an edit-then-revert (type then delete back to the value at focus-gain, net change = none) still fires BeforeUpdate/AfterUpdate on focus-out (esq.14 question 2, the OldValue/net-value gate).",
+    "No control fonts are declared/applied (a design-time font set hangs the SaveAs dialog); no Default button is needed (no default-button scenario here). No argument is mutated -- this fixture only OBSERVES whether the events fire."
+  ]
+}

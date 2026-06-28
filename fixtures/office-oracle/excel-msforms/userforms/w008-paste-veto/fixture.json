@@ -1,0 +1,38 @@
+{
+  "id": "excel-msforms-w008-paste-veto-v1",
+  "form": {
+    "name": "OxFormsW008PasteVeto",
+    "caption": "OxForms W008 Paste Veto Oracle",
+    "widthPt": 260,
+    "heightPt": 90,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 48
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-paste-veto-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008PasteVetoOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008PasteVetoModeless",
+    "clearLogMacroName": "ClearW008PasteVetoLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows input + the public Windows clipboard.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "A single TextBox1 fills the form so a window-centre click (or computer-use vision click) focuses it; the capture seeds the public Windows clipboard with a repo-owned text value, then sends Ctrl+V.",
+    "TextBox1_BeforeDropOrPaste uses the plain-TextBox MdcTextEvents signature (Cancel, Action, Data, X, Y, Effect, Shift -- NO leading Index), matching the committed ctrlv-keyboard-ordering fixture. When gVetoPaste is armed it sets Cancel.Value = True.",
+    "Two scenarios: paste_baseline (gVetoPaste False) inserts the clipboard text (Change fires); paste_veto (gVetoPaste True) is the load-bearing esq.17 case -- the rows reveal whether a vetoing BeforeDropOrPaste suppresses Change and leaves TextBox1.Value unchanged.",
+    "No control fonts are declared/applied (a design-time font set hangs the SaveAs dialog). value_after is TextBox1.Value at handler entry, so a suppressed paste is visible as an unchanged value across the BeforeDropOrPaste row."
+  ]
+}
