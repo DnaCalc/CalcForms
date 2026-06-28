@@ -34,8 +34,9 @@ use oxforms_core::{
     reduce, sync_control_display_text, EffectKind, EffectRequest, RenderInvalidation, RuntimeForm,
 };
 use oxforms_pal::{
-    ControlId, FocusValidationCompletedEvent, KeyDownSwallowedEvent, QueryCloseCompletedEvent,
-    UiEvent, UiEventId, UiEventKind, UiEventSource,
+    ClipboardOperation, ClipboardResultEvent, ControlId, FocusValidationCompletedEvent,
+    KeyDownSwallowedEvent, QueryCloseCompletedEvent, ServiceOutcome, ServicePayload,
+    ServiceRequestId, UiEvent, UiEventId, UiEventKind, UiEventSource,
 };
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
@@ -197,6 +198,11 @@ pub struct RuntimeRunner {
     control_objects: HashMap<ControlId, ObjectRef>,
     /// The control's `OxControlCore` object (for Dirty/DisplayText/ClearDirty).
     core_objects: HashMap<ControlId, ObjectRef>,
+    /// The clipboard text the host returns for a `ClipboardGet` (keyboard Ctrl+V paste,
+    /// oxforms-esq.9). `None` (the default) means an empty clipboard: a `ClipboardGet`
+    /// folds back nothing and the paste is a traced no-op. Reading the live OS clipboard
+    /// is a later slice (oxforms-esq.13); for now the host seeds this directly.
+    clipboard_text: Option<String>,
     dispatch_seq: u64,
     trace: Vec<RuntimeTraceRow>,
 }
@@ -264,9 +270,16 @@ impl RuntimeRunner {
             form_module: form_object,
             control_objects,
             core_objects,
+            clipboard_text: None,
             dispatch_seq: 0,
             trace: Vec::new(),
         })
+    }
+
+    /// Seed the clipboard text a keyboard Ctrl+V paste reads (oxforms-esq.9). The host
+    /// owns clipboard provenance; the runner only echoes it back on a `ClipboardGet`.
+    pub fn set_clipboard_text(&mut self, text: impl Into<String>) {
+        self.clipboard_text = Some(text.into());
     }
 
     /// Re-render the attached form across the `OxForms.Surface` boundary — the §16
@@ -406,6 +419,23 @@ impl RuntimeRunner {
                         invalidation_ids: invalidation_ids.iter().map(|id| id.0).collect(),
                     });
                 }
+                EffectKind::ClipboardGet {
+                    request_id,
+                    formats,
+                } => {
+                    step.trace.push(RuntimeTraceRow::EffectDrained {
+                        effect_id: effect.effect_id.0,
+                        kind: "clipboard_get".to_string(),
+                        target: target_label,
+                    });
+                    // Fold the clipboard back as a ClipboardResult so the paste path
+                    // (BeforeDropOrPaste -> Change) runs in this same dispatch — the same
+                    // readback fold-back idiom as Exit/QueryClose (oxforms-esq.9). An empty
+                    // clipboard folds back nothing (a traced no-op, not an error).
+                    if let Some(event) = self.clipboard_get_foldback(request_id, formats) {
+                        fold_back.push(event);
+                    }
+                }
                 other => {
                     // Reducer-internal / not-yet-runtime effects (focus, capture, …):
                     // the reducer already applied them to state; record, do not skip.
@@ -426,7 +456,8 @@ impl RuntimeRunner {
     /// `ApplyUserText`, `KeyDown`/`KeyUp` → `PerformKeyDown`/`PerformKeyUp`, `KeyPress`
     /// → `PerformKeyPress`, `MouseDown`/`MouseUp` → `PerformMouseDown`/
     /// `PerformMouseUp`, `Exit` → `PerformExit`, `Enter` → `PerformEnter`,
-    /// `BeforeUpdate`/`AfterUpdate` → `PerformBeforeUpdate`/`PerformAfterUpdate`) or, for
+    /// `BeforeUpdate`/`AfterUpdate` → `PerformBeforeUpdate`/`PerformAfterUpdate`,
+    /// `BeforeDropOrPaste` → `PerformBeforeDropOrPaste`) or, for
     /// form-level events
     /// (`QueryClose`/lifecycle), to the form module's `Perform*` via
     /// [`Self::dispatch_form_event`]; or `None` when it is a reducer-routed FM20 event
@@ -460,6 +491,7 @@ impl RuntimeRunner {
                 | "Enter"
                 | "BeforeUpdate"
                 | "AfterUpdate"
+                | "BeforeDropOrPaste"
         ) {
             return Ok(None);
         }
@@ -571,6 +603,20 @@ impl RuntimeRunner {
                 // (no args, no readback) (oxforms-esq.7).
                 ("PerformAfterUpdate", Vec::new())
             }
+            "BeforeDropOrPaste" => {
+                // Fires before a clipboard/drag paste applies; PerformBeforeDropOrPaste
+                // raises BeforeDropOrPaste with a fresh ReturnBoolean Cancel + the Action
+                // (2 = fmActionPaste) and Shift, returning the post-handler Cancel.
+                // Recorded; honoring the cancel is a later slice (oxforms-esq.13). The
+                // Shift arg is whatever the reducer emitted (0 for a keyboard paste today;
+                // the oracle's Shift=2 modifier context is also deferred to esq.13).
+                let action = effect_arg_i16(effect, "Action").unwrap_or(2);
+                let shift = effect_arg_i16(effect, "Shift").unwrap_or(0);
+                (
+                    "PerformBeforeDropOrPaste",
+                    vec![Variant::from_i16(action), Variant::from_i16(shift)],
+                )
+            }
             // Unreachable: guarded by the `matches!` above. Kept total without a
             // panic path.
             _ => return Ok(None),
@@ -595,7 +641,7 @@ impl RuntimeRunner {
         // recorded but not yet folded back (oxforms-esq.11).
         let returned = if matches!(event_name, "KeyDown" | "KeyUp" | "KeyPress") {
             result.as_i16().map(|code| code.to_string())
-        } else if matches!(event_name, "Exit" | "BeforeUpdate") {
+        } else if matches!(event_name, "Exit" | "BeforeUpdate" | "BeforeDropOrPaste") {
             result.as_bool().map(|cancel| cancel.to_string())
         } else {
             None
@@ -735,6 +781,30 @@ impl RuntimeRunner {
             }
             _ => None,
         }
+    }
+
+    /// Synthesize the `ClipboardResult` that completes a `ClipboardGet` (the keyboard
+    /// Ctrl+V paste fold-back, oxforms-esq.9). Returns `None` for an empty clipboard, so
+    /// a paste with nothing to insert folds back nothing. Reading the live OS clipboard
+    /// is deferred (oxforms-esq.13); the host seeds [`Self::set_clipboard_text`].
+    fn clipboard_get_foldback(&self, request_id: &str, formats: &[String]) -> Option<UiEvent> {
+        let text = self.clipboard_text.clone()?;
+        Some(UiEvent::new(
+            UiEventId(0),
+            UiEventSource::Service,
+            UiEventKind::ClipboardResult(ClipboardResultEvent {
+                request_id: ServiceRequestId::new(request_id),
+                operation: ClipboardOperation::Get,
+                outcome: ServiceOutcome::Success,
+                formats: formats.to_vec(),
+                payload: Some(ServicePayload {
+                    content_type: Some("text/plain".to_string()),
+                    text: Some(text),
+                    bytes_sha256: None,
+                    metadata: Vec::new(),
+                }),
+            }),
+        ))
     }
 
     /// After dispatch, fold any VBA-set control text back into reducer state. For each

@@ -1431,6 +1431,21 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
 
     queue_key_event(state, context, keyboard_target, "KeyDown", payload);
 
+    // Ctrl+V on a focused TextBox routes to the clipboard paste path. The V KeyDown
+    // requests the clipboard (ClipboardGet); the host folds the result back as a
+    // ClipboardResult, which fires BeforeDropOrPaste(Paste) -> Change AFTER this
+    // KeyDown (oracle order; ctrlv-keyboard-ordering rows 2-7 -- oxforms-esq.9).
+    //
+    // Setting suppress_next_character_input is DEFENSIVE here, not the esq.4 1:1 contract:
+    // a Ctrl chord delivers no printable WM_CHAR (the OS yields a control char, already
+    // dropped by reduce_character_input), so the flag is normally cleared unconsumed by
+    // the trailing KeyUp. It guards the edge of a platform that does emit a printable 'v'
+    // for the chord, which must NOT type into the box on top of the paste.
+    if let Some(control_id) = keyboard_paste_text_box(state, payload) {
+        queue_clipboard_paste_request(state, context, &control_id);
+        state.keyboard.suppress_next_character_input = true;
+    }
+
     match &payload.key {
         KeyCode::Tab => reduce_tab_key_down(state, context, payload.modifiers.shift),
         KeyCode::Backspace
@@ -1950,6 +1965,31 @@ fn focused_text_box_control_id(state: &FormState) -> Option<ControlId> {
     }
 }
 
+/// The focused, interactive TextBox a keyboard paste chord targets: Ctrl+V with no
+/// other chord modifier (the capture recorded Shift=2, i.e. Ctrl only). The V KeyDown
+/// routes to the clipboard paste path -- it requests the clipboard (ClipboardGet) and
+/// the host folds the result back as a ClipboardResult, which fires
+/// BeforeDropOrPaste(Paste) then Change AFTER the KeyDown (oracle order;
+/// ctrlv-keyboard-ordering rows 2-7 -- oxforms-esq.9).
+fn keyboard_paste_text_box(state: &FormState, payload: &KeyEvent) -> Option<ControlId> {
+    let modifiers = &payload.modifiers;
+    if !modifiers.control
+        || modifiers.shift
+        || modifiers.alt
+        || modifiers.meta
+        || modifiers.platform
+    {
+        return None;
+    }
+    let KeyCode::Character(character) = &payload.key else {
+        return None;
+    };
+    if !character.eq_ignore_ascii_case("v") {
+        return None;
+    }
+    focused_text_box_control_id(state)
+}
+
 fn event_or_focused_text_box_control_id(state: &FormState, event: &UiEvent) -> Option<ControlId> {
     if let Some(control_id) = &event.target.control_id {
         if is_text_box_control(state, control_id) {
@@ -2080,6 +2120,28 @@ fn reduce_drop_or_paste(
             reason: InvalidationReason::TextChanged,
         },
         CompletionPolicy::RenderDiagnosticOptional,
+    );
+}
+
+/// Request the clipboard for a keyboard Ctrl+V paste (oxforms-esq.9). The host folds
+/// the result back as a `ClipboardResult`, which drives [`reduce_clipboard_result`]
+/// (BeforeDropOrPaste(Paste) -> Change with the pasted text), the same fold-back idiom
+/// the Exit/QueryClose readbacks use. No text is touched here -- the paste applies when
+/// the result returns.
+fn queue_clipboard_paste_request(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    control_id: &ControlId,
+) {
+    let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+    context.push_effect(
+        state,
+        target,
+        EffectKind::ClipboardGet {
+            request_id: format!("keyboard-paste-{}", context.event.event_id.0),
+            formats: vec!["cf_unicode_text".to_string(), "text/plain".to_string()],
+        },
+        CompletionPolicy::ServiceResultRequired,
     );
 }
 
@@ -2658,13 +2720,18 @@ fn queue_before_drop_or_paste_event(
                     by_ref: true,
                 },
                 EffectArgument {
+                    // Shift is hardcoded 0 because the synthesized ClipboardResult carries
+                    // no modifier context. The oracle ctrlv row 4 shows Shift=2 (Ctrl) for a
+                    // keyboard Ctrl+V; threading the chord's fm20 shift through the clipboard
+                    // round-trip is deferred to oxforms-esq.13 (the gap test asserts the
+                    // event-NAME order only, so it does not pin this arg).
                     name: "Shift".to_string(),
                     value: "0".to_string(),
                     by_ref: false,
                 },
             ],
             cancel_metadata: Some(
-                "Text-only clipboard paste subset: Data is a serializable payload summary; live MSForms.DataObject, Ctrl+V ordering, rich formats, and Action mutation remain non-claims."
+                "Text-only clipboard paste subset: Data is a serializable payload summary; live MSForms.DataObject, the Ctrl+V Shift=2 modifier context, rich formats, and Action mutation remain non-claims (oxforms-esq.13)."
                     .to_string(),
             ),
         },
@@ -4232,6 +4299,108 @@ mod tests {
                 "request_repaint"
             ]
         );
+    }
+
+    fn focused_text_box_form() -> FormState {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+        state
+    }
+
+    fn ctrl_v_key_down(event_id: UiEventId, modifiers: KeyboardModifiers) -> UiEvent {
+        UiEvent::new(
+            event_id,
+            UiEventSource::Replay,
+            UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                key: KeyCode::Character("v".to_string()),
+                modifiers,
+                repeat: KeyRepeat::default(),
+                raw: RawKeyDiagnostics::default(),
+            }),
+        )
+    }
+
+    #[test]
+    fn ctrl_v_keydown_requests_clipboard_then_pastes_on_the_folded_result() {
+        // The V KeyDown fires first, then requests the clipboard (ClipboardGet); the
+        // host folds the result back as a ClipboardResult that drives the existing paste
+        // path (BeforeDropOrPaste -> Change), matching the oracle's V KeyDown ->
+        // BeforeDropOrPaste -> Change order (ctrlv-keyboard-ordering -- oxforms-esq.9).
+        let down = reduce(
+            focused_text_box_form(),
+            ctrl_v_key_down(
+                UiEventId(70),
+                KeyboardModifiers {
+                    control: true,
+                    ..KeyboardModifiers::default()
+                },
+            ),
+        );
+        assert_eq!(
+            effect_names(&down.effects),
+            vec!["fire_vba_event:KeyDown", "clipboard_get"]
+        );
+        // The paired KeyPress is suppressed -- a Ctrl chord carries no character.
+        assert!(down.state.keyboard.suppress_next_character_input);
+
+        // The request_id encodes the originating event id; the folded-back result paste
+        // inserts the clipboard text and fires BeforeDropOrPaste -> Change.
+        let pasted = reduce(
+            down.state,
+            clipboard_get_text_event(UiEventId(71), "keyboard-paste-70", "Seed", &["text/plain"]),
+        );
+        assert_eq!(
+            effect_names(&pasted.effects),
+            vec![
+                "fire_vba_event:BeforeDropOrPaste",
+                "fire_vba_event:Change",
+                "request_repaint"
+            ]
+        );
+        let text_box = pasted
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state");
+        assert_eq!(text_box.text, "Seed");
+    }
+
+    #[test]
+    fn non_bare_ctrl_v_and_plain_v_do_not_request_the_clipboard() {
+        // Only a bare Ctrl+V on a focused TextBox pastes. A plain 'v' types normally, and
+        // a chorded Ctrl+Shift+V / Ctrl+Alt+V is left to other handling (oxforms-esq.9).
+        for modifiers in [
+            KeyboardModifiers::default(),
+            KeyboardModifiers {
+                control: true,
+                shift: true,
+                ..KeyboardModifiers::default()
+            },
+            KeyboardModifiers {
+                control: true,
+                alt: true,
+                ..KeyboardModifiers::default()
+            },
+        ] {
+            let down = reduce(
+                focused_text_box_form(),
+                ctrl_v_key_down(UiEventId(73), modifiers),
+            );
+            assert_eq!(
+                effect_names(&down.effects),
+                vec!["fire_vba_event:KeyDown"],
+                "{modifiers:?} must not request the clipboard"
+            );
+            assert!(!down.state.keyboard.suppress_next_character_input);
+        }
     }
 
     #[test]

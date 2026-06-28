@@ -34,10 +34,11 @@ use oxforms_core::{
 };
 use oxforms_oxvba_adapter::runtime_runner::{RuntimeRunner, RuntimeStep};
 use oxforms_pal::{
-    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, FocusValidationCompletedEvent,
-    FormId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LogicalPoint, LogicalRect,
-    MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics, UiEvent, UiEventId,
-    UiEventKind, UiEventSource,
+    CharacterInputEvent, ClickCount, ControlId, CoordinatePayload, DataObjectSnapshot,
+    DropOrPasteEvent, DropOrPasteOrigin, FocusValidationCompletedEvent, FormId, KeyCode, KeyEvent,
+    KeyRepeat, KeyboardModifiers, LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent,
+    MouseButtons, PointerId, RawKeyDiagnostics, ServicePayload, ServiceRequestId, UiEvent,
+    UiEventId, UiEventKind, UiEventSource,
 };
 
 use oxvba_bundle::BundlePackage;
@@ -250,6 +251,55 @@ fn enter_key_event(id: u64, down: bool) -> UiEvent {
             UiEventKind::KeyUp(event)
         },
     )
+}
+
+/// The four key events of a Ctrl+V chord on the focused control: KeyDown(Ctrl 17),
+/// KeyDown(V 86), KeyUp(V 86), KeyUp(Ctrl 17), with Ctrl held through the V press and
+/// release (oxforms-esq.9). Drives the keyboard paste path through the runner.
+fn ctrl_v_chord() -> [UiEvent; 4] {
+    let ctrl_held = KeyboardModifiers {
+        control: true,
+        ..KeyboardModifiers::default()
+    };
+    [
+        ui_event(
+            1,
+            UiEventKind::KeyDown(KeyEvent {
+                key: KeyCode::Other("Control".to_string()),
+                modifiers: ctrl_held,
+                repeat: KeyRepeat::default(),
+                raw: RawKeyDiagnostics {
+                    virtual_key: Some(17),
+                    ..RawKeyDiagnostics::default()
+                },
+            }),
+        ),
+        ui_event(
+            2,
+            UiEventKind::KeyDown(KeyEvent {
+                key: KeyCode::Character("v".to_string()),
+                modifiers: ctrl_held,
+                repeat: KeyRepeat::default(),
+                raw: RawKeyDiagnostics {
+                    virtual_key: Some(86),
+                    ..RawKeyDiagnostics::default()
+                },
+            }),
+        ),
+        key_up_event(3, "v", 86),
+        ui_event(
+            4,
+            UiEventKind::KeyUp(KeyEvent {
+                key: KeyCode::Other("Control".to_string()),
+                modifiers: KeyboardModifiers::default(),
+                repeat: KeyRepeat::default(),
+                raw: RawKeyDiagnostics {
+                    virtual_key: Some(17),
+                    ..RawKeyDiagnostics::default()
+                },
+            }),
+        ),
+    ]
 }
 
 /// The runtime's `Exit`-Cancel fold-back, modeled for reduce()-path tests: a focus
@@ -888,58 +938,20 @@ fn gap_checkbox_keyboard_toggle_change_click_keydown_keyup() {
 /// Oracle: [`CAP_CTRLV`] rows 2-7: KeyDown 17 -> KeyDown 86 -> BeforeDropOrPaste
 /// (Action=2) -> Change -> KeyUp 86 -> KeyUp 17. Encoded over the W007 runner as the
 /// full chord; once the keyboard paste path lands, the native dispatch order must match.
+///
+/// CLOSED by oxforms-esq.9: the V KeyDown requests the clipboard (ClipboardGet); the
+/// runner folds the seeded clipboard back as a ClipboardResult, driving the existing
+/// paste path (BeforeDropOrPaste -> Change) within the same dispatch.
 #[test]
-#[ignore = "GAP: a keyboard Ctrl+V chord is not wired to the paste path; no BeforeDropOrPaste/Change is produced — pending oxforms-esq.9"]
 fn gap_ctrl_v_keyboard_paste_ordering() {
     let mut runner = attach_runner();
     focus_input_field(&mut runner);
-
-    let ctrl_down = ui_event(
-        1,
-        UiEventKind::KeyDown(KeyEvent {
-            key: KeyCode::Other("Control".to_string()),
-            modifiers: KeyboardModifiers {
-                control: true,
-                ..KeyboardModifiers::default()
-            },
-            repeat: KeyRepeat::default(),
-            raw: RawKeyDiagnostics {
-                virtual_key: Some(17),
-                ..RawKeyDiagnostics::default()
-            },
-        }),
-    );
-    let v_down = ui_event(
-        2,
-        UiEventKind::KeyDown(KeyEvent {
-            key: KeyCode::Character("v".to_string()),
-            modifiers: KeyboardModifiers {
-                control: true,
-                ..KeyboardModifiers::default()
-            },
-            repeat: KeyRepeat::default(),
-            raw: RawKeyDiagnostics {
-                virtual_key: Some(86),
-                ..RawKeyDiagnostics::default()
-            },
-        }),
-    );
-    let v_up = key_up_event(3, "v", 86);
-    let ctrl_up = ui_event(
-        4,
-        UiEventKind::KeyUp(KeyEvent {
-            key: KeyCode::Other("Control".to_string()),
-            modifiers: KeyboardModifiers::default(),
-            repeat: KeyRepeat::default(),
-            raw: RawKeyDiagnostics {
-                virtual_key: Some(17),
-                ..RawKeyDiagnostics::default()
-            },
-        }),
-    );
+    // The host owns clipboard provenance; seed the text Ctrl+V pastes (the capture's
+    // OxFormsClipboardSeed). An empty clipboard would fold back nothing.
+    runner.set_clipboard_text("OxFormsClipboardSeed");
 
     let mut order = Vec::new();
-    for event in [ctrl_down, v_down, v_up, ctrl_up] {
+    for event in ctrl_v_chord() {
         order.extend(dispatched_event_names(
             &runner.dispatch(event).expect("dispatch Ctrl+V chord event"),
         ));
@@ -957,5 +969,76 @@ fn gap_ctrl_v_keyboard_paste_ordering() {
         ],
         "Ctrl+V must fire KeyDown(Ctrl), KeyDown(V), BeforeDropOrPaste(Action=2), \
          Change, KeyUp(V), KeyUp(Ctrl) with no KeyPress — oracle {CAP_CTRLV} rows 2-7"
+    );
+}
+
+/// PIN — an empty clipboard makes Ctrl+V a traced no-op: the `ClipboardGet` folds back
+/// nothing, so NO `BeforeDropOrPaste`/`Change` fires and only the key events dispatch.
+/// This is the deferred-OS-clipboard boundary (oxforms-esq.9/esq.13): the host seeds the
+/// clipboard; without a seed there is nothing to paste. AC2: this is a structural
+/// no-paste fact, not an oracle row (the capture seeded a clipboard).
+#[test]
+fn pin_ctrl_v_empty_clipboard_is_a_no_paste() {
+    let mut runner = attach_runner();
+    focus_input_field(&mut runner);
+    // No set_clipboard_text: the clipboard is empty.
+
+    let mut order = Vec::new();
+    for event in ctrl_v_chord() {
+        order.extend(dispatched_event_names(
+            &runner.dispatch(event).expect("dispatch Ctrl+V chord event"),
+        ));
+    }
+
+    assert_eq!(
+        order,
+        vec!["KeyDown", "KeyDown", "KeyUp", "KeyUp"],
+        "an empty clipboard folds back no ClipboardResult, so Ctrl+V dispatches only the \
+         key events -- no BeforeDropOrPaste/Change (oxforms-esq.9)"
+    );
+}
+
+/// PIN — a drag-drop text paste natively dispatches BeforeDropOrPaste -> Change. esq.9
+/// added BeforeDropOrPaste to the native-dispatch allowlist, which also routes the
+/// pre-existing drag-drop paste path (`reduce_drop_or_paste`) through
+/// PerformBeforeDropOrPaste instead of acknowledge-only; this locks that the unified
+/// dispatch fires for the drag origin too (not just the keyboard Ctrl+V path).
+#[test]
+fn pin_drag_drop_text_paste_dispatches_before_drop_or_paste_and_change() {
+    let mut runner = attach_runner();
+    focus_input_field(&mut runner);
+
+    let drop = ui_event(
+        1,
+        UiEventKind::DropOrPaste(DropOrPasteEvent {
+            transfer_session_id: "drag-1".to_string(),
+            origin: DropOrPasteOrigin::DragDrop,
+            coordinates: CoordinatePayload {
+                form_logical: Some(LogicalPoint::new(20.0, 18.0)),
+                ..CoordinatePayload::default()
+            },
+            modifiers: KeyboardModifiers::default(),
+            action: 2,
+            effect: 1,
+            data: DataObjectSnapshot {
+                snapshot_id: ServiceRequestId::new("drag-1"),
+                formats: vec!["text/plain".to_string()],
+                payload: Some(ServicePayload {
+                    content_type: Some("text/plain".to_string()),
+                    text: Some("DRAGGED".to_string()),
+                    bytes_sha256: None,
+                    metadata: Vec::new(),
+                }),
+                metadata: Vec::new(),
+            },
+        }),
+    );
+
+    let order = dispatched_event_names(&runner.dispatch(drop).expect("dispatch drag-drop paste"));
+    assert_eq!(
+        order,
+        vec!["BeforeDropOrPaste", "Change"],
+        "a drag-drop text paste natively dispatches BeforeDropOrPaste then Change \
+         (esq.9 unified the native dispatch of both paste origins)"
     );
 }

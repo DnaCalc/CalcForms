@@ -27,6 +27,12 @@ Public Event Enter()
 ' keep focus. AfterUpdate fires (no args) after a committed update (oxforms-esq.7).
 Public Event BeforeUpdate(ByVal Cancel As ReturnBoolean)
 Public Event AfterUpdate()
+' BeforeDropOrPaste fires before a clipboard paste (Ctrl+V) or drag-drop applies,
+' carrying a mutable Cancel (ReturnBoolean) -- a handler sets Cancel.Value = True to
+' cancel the paste -- plus the Action (fmAction; 2 = fmActionPaste) and Shift state.
+' The live MSForms event also carries Data/X/Y/Effect; the clean-room model surfaces
+' Cancel, Action, and Shift (oxforms-esq.9).
+Public Event BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)
 
 Private mCore As OxControlCore
 
@@ -174,3 +180,13 @@ End Function
 Public Sub PerformAfterUpdate()
     RaiseEvent AfterUpdate
 End Sub
+
+' Raises BeforeDropOrPaste with a mutable Cancel helper and returns whether the handler
+' cancelled the paste (True = cancel). Action 2 = fmActionPaste; the Cancel readback is
+' recorded, not yet honored (oxforms-esq.9).
+Public Function PerformBeforeDropOrPaste(ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+    Dim cancel As ReturnBoolean
+    Set cancel = New ReturnBoolean
+    RaiseEvent BeforeDropOrPaste(cancel, Action, Shift)
+    PerformBeforeDropOrPaste = cancel.Value
+End Function
