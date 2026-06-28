@@ -860,8 +860,10 @@ fn gap_keydown_swallow_suppresses_keypress() {
 /// Oracle: [`CAP_CHECKBOX_KBD`] rows 2-5 (Space toggle): Change True -> Click True ->
 /// KeyDown(32, value True) -> KeyUp(32, value True). Encoded as the full keyboard
 /// toggle ordering the runtime must produce once the CheckBox keyboard toggle lands.
+///
+/// CLOSED by oxforms-esq.8: a Space (or Enter, when no default button consumes it) on a
+/// focused CheckBox toggles the value and fires Change then Click ahead of the KeyDown.
 #[test]
-#[ignore = "GAP: a Space/Enter keystroke on a CheckBox does not toggle the value or fire Change/Click; only KeyDown/KeyUp are emitted — pending oxforms-esq.8"]
 fn gap_checkbox_keyboard_toggle_change_click_keydown_keyup() {
     let down = reduce_space(check_box_form(), 1, true);
     let up = reduce_space(down.state, 2, false);

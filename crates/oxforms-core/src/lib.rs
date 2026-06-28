@@ -1416,6 +1416,19 @@ fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payl
     // KeyDown whose paired CharacterInput/KeyUp never arrived (oxforms-esq.4).
     state.keyboard.suppress_next_character_input = false;
     let keyboard_target = keyboard_event_target(state);
+
+    // A Space (or Enter, when no default button consumes it) on a focused CheckBox
+    // toggles the value and fires Change then Click BEFORE the KeyDown: MSForms
+    // dispatches the value-change activation ahead of the key event, so the value is
+    // already toggled at KeyDown handler entry (oracle-confirmed value-first ordering
+    // Change -> Click -> KeyDown -> KeyUp; checkbox-keyboard-toggle capture rows 2-5
+    // (Space) / 6-9 (Enter) -- oxforms-esq.8).
+    if let Some(control_id) = keyboard_toggle_check_box(state, payload) {
+        let effect_target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
+        toggle_check_box(state, context, control_id);
+        queue_vba_event(state, context, effect_target, "Click");
+    }
+
     queue_key_event(state, context, keyboard_target, "KeyDown", payload);
 
     match &payload.key {
@@ -1712,6 +1725,37 @@ fn is_check_box_control(state: &FormState, control_id: &ControlId) -> bool {
     find_control(state, control_id).is_some_and(|control| {
         control.kind == ControlKind::CheckBox && control.visible && control.enabled
     })
+}
+
+/// The focused, interactive CheckBox a keyboard toggle key activates: Space always,
+/// or Enter when no default button consumes it. MSForms toggles such a CheckBox's
+/// value and fires Change then Click BEFORE the KeyDown (value-first), so the caller
+/// must run the toggle ahead of the KeyDown event (oxforms-esq.8).
+///
+/// Auto-repeat (held-key) toggle semantics are NOT captured: the oracle injected one
+/// discrete Space and one discrete Enter, so this returns a match on every KeyDown
+/// including auto-repeats (re-toggling each time) -- the same repeat-blindness as the
+/// esq.6 default-button Enter arm. Pinning held-key behavior is tracked by oxforms-esq.12.
+fn keyboard_toggle_check_box(state: &FormState, payload: &KeyEvent) -> Option<ControlId> {
+    let control_id = state.focus_owner.as_ref()?.as_control_id()?;
+    if !is_check_box_control(state, control_id) {
+        return None;
+    }
+    // Only a bare keystroke toggles. The capture injected unmodified Space/Enter
+    // (Shift=0, no Ctrl/Alt); a modifier-chorded Space/Enter stays inert (it still
+    // emits KeyDown/KeyUp, as before esq.8) -- MSForms does not toggle a CheckBox on
+    // a chorded key and the capture never exercises one (oxforms-esq.8). Lock states
+    // (Caps/Num/Scroll) are not chords, so they do not gate the toggle.
+    let modifiers = &payload.modifiers;
+    if modifiers.shift || modifiers.control || modifiers.alt || modifiers.meta || modifiers.platform
+    {
+        return None;
+    }
+    match payload.key {
+        KeyCode::Space => Some(control_id.clone()),
+        KeyCode::Enter if state.default_button.is_none() => Some(control_id.clone()),
+        _ => None,
+    }
 }
 
 fn pressed_invalidation_reason(state: &FormState, control_id: &ControlId) -> InvalidationReason {
@@ -4846,8 +4890,7 @@ mod tests {
         assert!(up.transition.after.check_box_values[0].checked);
     }
 
-    #[test]
-    fn checkbox_keyboard_shape_emits_key_events_but_does_not_claim_toggle_ordering() {
+    fn focused_check_box_form() -> FormState {
         let mut state = FormState::new("form-main");
         state.controls = vec![ControlNode::check_box(
             "agree",
@@ -4857,19 +4900,138 @@ mod tests {
         )];
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("agree")));
         state.ensure_check_box(ControlId::new("agree"));
+        state
+    }
 
-        let down = reduce(state, key_down_event(UiEventId(82), KeyCode::Space, false));
-        assert_eq!(effect_names(&down.effects), vec!["fire_vba_event:KeyDown"]);
+    #[test]
+    fn checkbox_space_toggles_value_first_change_click_before_keydown() {
+        // MSForms fires Change -> Click -> KeyDown -> KeyUp for a Space toggle, with the
+        // value already flipped at KeyDown entry (checkbox-keyboard-toggle capture rows
+        // 2-5 -- oxforms-esq.8).
+        let down = reduce(
+            focused_check_box_form(),
+            key_down_event(UiEventId(82), KeyCode::Space, false),
+        );
+        assert_eq!(
+            effect_names(&down.effects),
+            vec![
+                "fire_vba_event:Change",
+                "request_repaint",
+                "fire_vba_event:Click",
+                "fire_vba_event:KeyDown",
+            ]
+        );
         assert_eq!(
             check_box_state(&down.state, &ControlId::new("agree")).map(|entry| entry.checked),
-            Some(false)
+            Some(true)
         );
 
         let up = reduce(down.state, key_up_event(UiEventId(83), KeyCode::Space));
         assert_eq!(effect_names(&up.effects), vec!["fire_vba_event:KeyUp"]);
+        // The value stays toggled across the KeyUp (value_at_keyup: True).
         assert_eq!(
             check_box_state(&up.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(true)
+        );
+    }
+
+    #[test]
+    fn checkbox_enter_toggles_when_no_default_button_consumes_it() {
+        // Enter on a focused CheckBox toggles it the same way as Space when there is no
+        // default button to take the Enter (checkbox-keyboard-toggle capture rows 6-9).
+        let down = reduce(
+            focused_check_box_form(),
+            key_down_event(UiEventId(90), KeyCode::Enter, false),
+        );
+        assert_eq!(
+            effect_names(&down.effects),
+            vec![
+                "fire_vba_event:Change",
+                "request_repaint",
+                "fire_vba_event:Click",
+                "fire_vba_event:KeyDown",
+            ]
+        );
+        assert_eq!(
+            check_box_state(&down.state, &ControlId::new("agree")).map(|entry| entry.checked),
+            Some(true)
+        );
+    }
+
+    #[test]
+    fn checkbox_modifier_chorded_space_and_enter_do_not_toggle() {
+        // The capture injected unmodified Space/Enter only; a modifier-chorded key on a
+        // focused CheckBox stays inert (KeyDown/KeyUp, no value change) -- esq.8 must not
+        // extrapolate toggle-on-chord past the oracle.
+        for modifiers in [
+            KeyboardModifiers {
+                control: true,
+                ..KeyboardModifiers::default()
+            },
+            KeyboardModifiers {
+                shift: true,
+                ..KeyboardModifiers::default()
+            },
+            KeyboardModifiers {
+                alt: true,
+                ..KeyboardModifiers::default()
+            },
+        ] {
+            for key in [KeyCode::Space, KeyCode::Enter] {
+                let output = reduce(
+                    focused_check_box_form(),
+                    UiEvent::new(
+                        UiEventId(99),
+                        UiEventSource::Replay,
+                        UiEventKind::KeyDown(oxforms_pal::KeyEvent {
+                            key: key.clone(),
+                            modifiers,
+                            repeat: KeyRepeat::default(),
+                            raw: RawKeyDiagnostics::default(),
+                        }),
+                    ),
+                );
+                assert_eq!(
+                    effect_names(&output.effects),
+                    vec!["fire_vba_event:KeyDown"],
+                    "chorded {key:?} with {modifiers:?} must emit only KeyDown, no toggle"
+                );
+                assert_eq!(
+                    check_box_state(&output.state, &ControlId::new("agree"))
+                        .map(|entry| entry.checked),
+                    Some(false)
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn checkbox_enter_defers_to_a_default_button_instead_of_toggling() {
+        // When a default button claims Enter, the focused CheckBox is NOT toggled; the
+        // default-button activation path (oxforms-esq.6) owns the keystroke. The
+        // checkbox-keyboard-toggle capture had no default button, so this composes the
+        // esq.6 default-button-Enter fact with the esq.8 toggle gate rather than being
+        // constrained by that capture directly.
+        let mut state = focused_check_box_form();
+        state.controls.push(ControlNode::command_button(
+            "ok",
+            LogicalRect::new(0.0, 24.0, 80.0, 18.0),
+            1,
+            1,
+        ));
+        state.default_button = Some(ControlId::new("ok"));
+
+        let down = reduce(state, key_down_event(UiEventId(91), KeyCode::Enter, false));
+        // No Change/Click on the CheckBox; the value is untouched.
+        assert_eq!(
+            check_box_state(&down.state, &ControlId::new("agree")).map(|entry| entry.checked),
             Some(false)
+        );
+        assert!(
+            !effect_names(&down.effects)
+                .iter()
+                .any(|name| name == "fire_vba_event:Change"),
+            "a default-button Enter must not toggle the focused CheckBox"
         );
     }
 
