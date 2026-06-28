@@ -3,13 +3,13 @@ use std::collections::BTreeMap;
 use oxforms_pal::{
     ActivationReason, CharacterInputEvent, ClickCount, ClipboardOperation, CloseQueryPolicy,
     CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId, CoordinatePayload,
-    CoordinatePoint, CoordinateSpace, DataObjectSnapshot, DpiScale, DropOrPasteOrigin, FormId,
-    KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect,
-    MouseButton, MouseButtonEvent, MouseButtons, PointerId, PumpFrameExitedEvent,
-    QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic, RawKeyDiagnostics,
-    ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind,
-    UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent, WindowId, WindowShownEvent,
-    UI_EVENT_SCHEMA_VERSION,
+    CoordinatePoint, CoordinateSpace, DataObjectSnapshot, DpiScale, DropOrPasteOrigin,
+    FocusValidationCompletedEvent, FormId, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers,
+    LifecycleReason, LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent, MouseButtons,
+    PointerId, PumpFrameExitedEvent, QueryCloseCompletedEvent, RawCoordinateSample, RawDiagnostic,
+    RawKeyDiagnostics, ServiceOutcome, ServicePayload, ShowMode, ShowRequestedEvent, UiEvent,
+    UiEventId, UiEventKind, UiEventSource, UiEventTarget, UnloadedEvent, WindowHiddenEvent,
+    WindowId, WindowShownEvent, UI_EVENT_SCHEMA_VERSION,
 };
 use serde_json::{json, Value};
 
@@ -173,6 +173,11 @@ impl W005TraceReplayRunner {
             Some(LogicalPoint::new(176.0, 64.0)),
         );
         self.apply_next_event(|event_id| mouse_button_event(event_id, 176.0, 64.0, true));
+        self.complete_non_dispatch_effects();
+        // Clicking "ok" moves focus off "text-1": Exit fires and the focus commit is held
+        // pending the veto (oxforms-esq.4). The runtime folds the (uncancelled) Exit
+        // readback back as FocusValidationCompleted, which commits the transfer to "ok".
+        self.apply_next_event(focus_validation_completed_event);
         self.complete_non_dispatch_effects();
         self.apply_next_event(|event_id| mouse_button_event(event_id, 176.0, 64.0, false));
         self.complete_non_dispatch_effects();
@@ -1188,6 +1193,25 @@ fn query_close_completed_event(event_id: UiEventId) -> UiEvent {
     }
 }
 
+fn focus_validation_completed_event(event_id: UiEventId) -> UiEvent {
+    UiEvent {
+        target: target(),
+        ..UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::FocusValidationCompleted(FocusValidationCompletedEvent {
+                form_id: FormId::new(FORM_ID),
+                cancelled: false,
+                dispatch_diagnostics: vec![RawDiagnostic::text(
+                    "oxforms-esq.4",
+                    "focus_validation_foldback",
+                    "Exit handler execution is not driven in headless replay; the uncancelled completion supplies the deferred focus commit the W005 modeless oracle shows (focus moves to OkButton).",
+                )],
+            }),
+        )
+    }
+}
+
 fn window_hidden_event(event_id: UiEventId) -> UiEvent {
     UiEvent {
         target: target(),
@@ -1435,6 +1459,29 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
                 "reason": close_reason(payload.reason),
                 "cancelled": payload.cancelled,
                 "close_mode": payload.close_mode,
+                "dispatch_diagnostics": payload
+                    .dispatch_diagnostics
+                    .iter()
+                    .map(diagnostic_json)
+                    .collect::<Vec<_>>()
+            }
+        }),
+        UiEventKind::FocusValidationCompleted(payload) => json!({
+            "kind": "focus_validation_completed",
+            "payload": {
+                "form_id": payload.form_id.0,
+                "cancelled": payload.cancelled,
+                "dispatch_diagnostics": payload
+                    .dispatch_diagnostics
+                    .iter()
+                    .map(diagnostic_json)
+                    .collect::<Vec<_>>()
+            }
+        }),
+        UiEventKind::KeyDownSwallowed(payload) => json!({
+            "kind": "key_down_swallowed",
+            "payload": {
+                "form_id": payload.form_id.0,
                 "dispatch_diagnostics": payload
                     .dispatch_diagnostics
                     .iter()

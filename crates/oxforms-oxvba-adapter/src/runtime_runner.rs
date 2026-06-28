@@ -34,7 +34,8 @@ use oxforms_core::{
     reduce, sync_control_display_text, EffectKind, EffectRequest, RenderInvalidation, RuntimeForm,
 };
 use oxforms_pal::{
-    ControlId, QueryCloseCompletedEvent, UiEvent, UiEventId, UiEventKind, UiEventSource,
+    ControlId, FocusValidationCompletedEvent, KeyDownSwallowedEvent, QueryCloseCompletedEvent,
+    UiEvent, UiEventId, UiEventKind, UiEventSource,
 };
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
@@ -105,10 +106,10 @@ impl std::error::Error for RuntimeError {}
 
 /// Completion status of a native dispatch. Only `Succeeded` is emitted today: a
 /// failed native invoke aborts the step with a precise [`RuntimeError`] rather than
-/// recording a completion. A cancelable `Exit` now dispatches and its post-handler
-/// Cancel is read back into [`NativeDispatchRecord::returned`], but honoring the veto
-/// (a `Cancelled` completion that rolls back the focus commit) is a later slice — an
-/// explicit non-claim, mirroring the deferred-capability style used elsewhere.
+/// recording a completion. A cancelable `Exit` dispatches and its post-handler Cancel is
+/// read back into [`NativeDispatchRecord::returned`]; that readback is now folded back as
+/// [`UiEventKind::FocusValidationCompleted`] so a veto is honored (focus is held pending
+/// until then and retained on veto — oxforms-esq.4), not just recorded.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum DispatchCompletion {
     Succeeded,
@@ -589,8 +590,10 @@ impl RuntimeRunner {
     /// `Integer` via the `ReturnInteger` helper — nonzero/`True` = vetoed); the
     /// lifecycle events (`Initialize`/`Activate`/`Deactivate`/`Terminate`) take no args
     /// and return nothing. The `Cancel` veto is recorded in
-    /// [`NativeDispatchRecord::returned`], not yet folded back into the reducer close
-    /// flow — the same recorded-not-honored boundary as the keyboard/focus readbacks.
+    /// [`NativeDispatchRecord::returned`] AND folded back into the reducer close flow as
+    /// [`UiEventKind::QueryCloseCompleted`] (see [`Self::foldback_event`]); the focus
+    /// `Exit` and swallowed-`KeyDown` readbacks are likewise honored via fold-back
+    /// (oxforms-esq.4), so none of these three is a recorded-not-honored boundary.
     fn dispatch_form_event(
         &mut self,
         effect: &EffectRequest,
@@ -640,9 +643,13 @@ impl RuntimeRunner {
 
     /// Synthesize the follow-up `UiEvent` (if any) that a native dispatch's readback
     /// must re-enter the reducer as, so a swallow/veto actually changes reducer state
-    /// (oxforms-esq.4) rather than only being recorded. Currently: a `QueryClose`
-    /// `Cancel` re-enters as `QueryCloseCompleted`, so a nonzero (vetoing) Cancel
-    /// drives the reducer to `CloseCancelled` instead of hiding the form.
+    /// (oxforms-esq.4) rather than only being recorded:
+    ///   * a `QueryClose` `Cancel` re-enters as `QueryCloseCompleted`, so a nonzero
+    ///     (vetoing) Cancel drives the reducer to `CloseCancelled` instead of hiding;
+    ///   * an `Exit` `Cancel` re-enters as `FocusValidationCompleted`, so a vetoing
+    ///     Cancel retains focus instead of committing the deferred transfer;
+    ///   * a swallowed `KeyDown` (`KeyCode -> 0`) re-enters as `KeyDownSwallowed`, so the
+    ///     paired `KeyPress`/`Change` (the following `CharacterInput`) is suppressed.
     fn foldback_event(&self, record: &NativeDispatchRecord) -> Option<UiEvent> {
         match record.event_name.as_str() {
             "QueryClose" => {
@@ -660,6 +667,43 @@ impl RuntimeRunner {
                         reason: flow.reason,
                         cancelled,
                         close_mode: flow.close_mode,
+                        dispatch_diagnostics: Vec::new(),
+                    }),
+                ))
+            }
+            "Exit" => {
+                // The reducer set validation.pending when it fired Exit and held the focus
+                // commit; fold the post-handler Cancel (ReturnBoolean -> "true"/"false")
+                // back so the deferred commit is gated on the veto.
+                self.form.state.validation.pending.as_ref()?;
+                let cancelled = record.returned.as_deref() == Some("true");
+                Some(UiEvent::new(
+                    UiEventId(0),
+                    UiEventSource::Service,
+                    UiEventKind::FocusValidationCompleted(FocusValidationCompletedEvent {
+                        form_id: self.form.form_id.clone(),
+                        cancelled,
+                        dispatch_diagnostics: Vec::new(),
+                    }),
+                ))
+            }
+            "KeyDown" => {
+                // A swallowed KeyDown reads back KeyCode 0 (ReturnInteger); fold it back so
+                // the paired character is suppressed. An un-swallowed KeyDown (nonzero
+                // KeyCode) needs no follow-up.
+                let swallowed = record
+                    .returned
+                    .as_deref()
+                    .and_then(|value| value.parse::<i32>().ok())
+                    .is_some_and(|value| value == 0);
+                if !swallowed {
+                    return None;
+                }
+                Some(UiEvent::new(
+                    UiEventId(0),
+                    UiEventSource::Service,
+                    UiEventKind::KeyDownSwallowed(KeyDownSwallowedEvent {
+                        form_id: self.form.form_id.clone(),
                         dispatch_diagnostics: Vec::new(),
                     }),
                 ))

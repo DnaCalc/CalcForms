@@ -330,6 +330,18 @@ dispatch remains blocked in OxVba, the `query_close_completed` row is a replayed
 uncancelled completion with an explicit blocker diagnostic, not executed VBA
 handler evidence.
 
+For the `oxforms-esq.4` fold-back slice, the validator additionally accepts the
+`focus_validation_completed` and `key_down_swallowed` `ui_event` kinds. These are
+synthesized completions the runtime folds back from a native dispatch's post-handler
+readback: a focus-leaving `Exit` `Cancel` re-enters as `focus_validation_completed`
+(so a vetoing Cancel retains focus instead of committing the deferred transfer), and
+a swallowed `KeyDown` (`KeyCode -> 0`) re-enters as `key_down_swallowed` (so the
+paired character's `KeyPress`/`Change` is suppressed). As with
+`query_close_completed`, the headless replay golden's `focus_validation_completed`
+row is a replayed uncancelled completion carrying a blocker diagnostic (the `Exit`
+handler is not driven headless), not executed VBA-handler evidence; `schema_version`
+stays `1` because the generic v1 row shape is unchanged.
+
 For the `oxforms-0a0.12` CheckBox boolean-value slice, future CheckBox traces
 must include `check_box_values` in reducer summaries when CheckBox state is
 present, use `checkbox_value_changed` and `checkbox_pressed_changed`

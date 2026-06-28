@@ -193,6 +193,15 @@ pub enum UiEventKind {
     HideRequested(HideRequestedEvent),
     WindowHidden(WindowHiddenEvent),
     QueryCloseCompleted(QueryCloseCompletedEvent),
+    /// A focus-leaving `Exit` handler's post-dispatch `Cancel` readback, folded back so
+    /// a vetoed focus change is honored (focus retained) rather than only recorded
+    /// (oxforms-esq.4). Synthesized by the runtime after the `Exit` native dispatch.
+    FocusValidationCompleted(FocusValidationCompletedEvent),
+    /// A `KeyDown` handler's post-dispatch `KeyCode -> 0` swallow readback, folded back
+    /// so the paired `KeyPress`/`Change` (carried by the following `CharacterInput`) is
+    /// suppressed rather than only recorded (oxforms-esq.4). Synthesized by the runtime
+    /// after the `KeyDown` native dispatch.
+    KeyDownSwallowed(KeyDownSwallowedEvent),
     UnloadRequested(UnloadRequestedEvent),
     Unloaded(UnloadedEvent),
     Terminated(TerminatedEvent),
@@ -794,6 +803,27 @@ pub struct QueryCloseCompletedEvent {
     pub reason: CloseReason,
     pub cancelled: bool,
     pub close_mode: Option<i32>,
+    pub dispatch_diagnostics: Vec<RawDiagnostic>,
+}
+
+/// Folds an `Exit` handler's post-dispatch `Cancel` readback back into the reducer so a
+/// vetoing `Exit` is honored (oxforms-esq.4). The leaving/gaining controls come from the
+/// reducer's pending [`crate`]-side validation request; this carries only the decision.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct FocusValidationCompletedEvent {
+    pub form_id: FormId,
+    /// `true` when the leaving control's `Exit` set `Cancel = True` (vetoing the focus
+    /// change): the reducer retains focus on the originating control and commits nothing.
+    pub cancelled: bool,
+    pub dispatch_diagnostics: Vec<RawDiagnostic>,
+}
+
+/// Folds a `KeyDown` handler's post-dispatch `KeyCode -> 0` swallow back into the reducer
+/// so the paired character (the following `CharacterInput`'s `KeyPress`/`Change`) is
+/// suppressed (oxforms-esq.4).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct KeyDownSwallowedEvent {
+    pub form_id: FormId,
     pub dispatch_diagnostics: Vec<RawDiagnostic>,
 }
 

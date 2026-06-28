@@ -37,11 +37,11 @@ pub use trace_replay::{
 use oxforms_pal::{
     CharacterInputEvent, ClipboardOperation, ClipboardResultEvent, CloseQueryPolicy, CloseReason,
     CloseRequestEvent, CloseRequestOrigin, ControlId, DataObjectSnapshot, DragOverEvent,
-    DropOrPasteEvent, DropOrPasteOrigin, FormId, HostScopeId, KeyCode, KeyEvent, KeyRepeat,
-    KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent,
-    MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics, ServiceOutcome,
-    ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId,
-    WindowShownEvent,
+    DropOrPasteEvent, DropOrPasteOrigin, FocusValidationCompletedEvent, FormId, HostScopeId,
+    KeyCode, KeyDownSwallowedEvent, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
+    LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId,
+    QueryCloseCompletedEvent, RawKeyDiagnostics, ServiceOutcome, ShowMode, ShowRequestedEvent,
+    UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
@@ -423,6 +423,11 @@ pub struct KeyboardState {
     pub last_key_down: Option<KeyEventSummary>,
     pub last_key_up: Option<KeyEventSummary>,
     pub last_character_input: Option<CharacterInputSummary>,
+    /// Set when a `KeyDown` handler swallowed the key (`KeyCode -> 0`), folded back via
+    /// [`UiEventKind::KeyDownSwallowed`]; the next `CharacterInput` consumes it and
+    /// suppresses its `KeyPress`/`Change` (oxforms-esq.4). Cleared on consumption, on the
+    /// next `KeyUp`, and at the start of the next `KeyDown`.
+    pub suppress_next_character_input: bool,
 }
 
 #[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -472,6 +477,10 @@ pub struct ValidationRequest {
     pub from: Option<FocusTarget>,
     pub to: Option<FocusTarget>,
     pub cancelable: bool,
+    /// Why focus is moving, carried from the originating event so the deferred commit
+    /// (on [`ValidationResult::Passed`]) emits `TransferFocus` with the faithful reason
+    /// (oxforms-esq.4).
+    pub reason: FocusTransferReason,
 }
 
 #[derive(Clone, Copy, Debug, Eq, PartialEq, Serialize, Deserialize)]
@@ -949,6 +958,12 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         UiEventKind::QueryCloseCompleted(payload) => {
             reduce_query_close_completed(&mut state, &mut context, payload);
         }
+        UiEventKind::FocusValidationCompleted(payload) => {
+            reduce_focus_validation_completed(&mut state, &mut context, payload);
+        }
+        UiEventKind::KeyDownSwallowed(payload) => {
+            reduce_key_down_swallowed(&mut state, payload);
+        }
         UiEventKind::UnloadRequested(payload) => {
             state.lifecycle = LifecycleState::Unloading;
             let target = UiEventTarget::form(payload.form_id.0.clone());
@@ -1224,43 +1239,39 @@ fn reduce_mouse_down(
     let effect_target = route.effect_target.clone();
     let previous_focus = state.focus_owner.clone();
 
-    if route.can_receive_focus && previous_focus.as_ref() != Some(&target) {
-        // MSForms fires Exit on the control losing focus before focus moves.
-        if let Some(FocusTarget::Control(losing_id)) = &previous_focus {
-            if find_control(state, losing_id).is_some() {
-                let losing_id = losing_id.clone();
-                queue_focus_exit_event(state, context, &losing_id);
-            }
+    if route.can_receive_focus
+        && previous_focus.as_ref() != Some(&target)
+        && state.validation.pending.is_none()
+    {
+        match focusable_losing_control(state, &previous_focus) {
+            // MSForms fires a cancelable Exit on the leaving control before focus moves;
+            // hold the focus commit until the veto is known (oxforms-esq.4).
+            Some(losing_id) => begin_focus_validation(
+                state,
+                context,
+                &losing_id,
+                previous_focus.clone(),
+                target.clone(),
+                FocusTransferReason::Mouse,
+            ),
+            // No control to veto (initial focus / from the form): commit synchronously.
+            None => commit_focus_transfer(
+                state,
+                context,
+                previous_focus.clone(),
+                &target,
+                &effect_target,
+                FocusTransferReason::Mouse,
+            ),
         }
-        state.focus_history.push(target.clone());
-        state.focus_owner = Some(target.clone());
-        context.push_effect(
-            state,
-            effect_target.clone(),
-            EffectKind::TransferFocus {
-                from: previous_focus,
-                to: target.clone(),
-                reason: FocusTransferReason::Mouse,
-                validation_policy: ValidationPolicy::RequestCancelable,
-            },
-            CompletionPolicy::DispatchResultRequired,
-        );
-        let invalidation_id = context.push_invalidation(
-            state,
-            effect_target.clone(),
-            InvalidationReason::FocusChanged,
-        );
-        context.push_effect(
-            state,
-            effect_target.clone(),
-            EffectKind::RequestRepaint {
-                invalidation_ids: vec![invalidation_id],
-                reason: InvalidationReason::FocusChanged,
-            },
-            CompletionPolicy::RenderDiagnosticOptional,
-        );
     }
 
+    // The mouse press itself (capture, pressed visual, MouseDown, and the eventual Click
+    // on MouseUp) proceeds regardless of any pending focus validation: esq.4 holds only
+    // the FOCUS commit pending the Exit veto, not the press. In the runtime the Exit
+    // foldback resolves the pending validation within this same dispatch, so the later
+    // MouseUp/Click never observes a pending state; gating the press on the veto is out of
+    // scope here (no oracle for the vetoed-mouse-click interaction).
     state.capture_owner = Some(CaptureOwner {
         target: target.clone(),
         pointer_id: payload.pointer_id,
@@ -1390,6 +1401,9 @@ fn reduce_mouse_up(
 
 fn reduce_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, payload: &KeyEvent) {
     state.keyboard.last_key_down = Some(KeyEventSummary::from(payload));
+    // A new keystroke begins: clear any stale swallow flag left by a prior swallowed
+    // KeyDown whose paired CharacterInput/KeyUp never arrived (oxforms-esq.4).
+    state.keyboard.suppress_next_character_input = false;
     let keyboard_target = keyboard_event_target(state);
     queue_key_event(state, context, keyboard_target, "KeyDown", payload);
 
@@ -1493,6 +1507,9 @@ fn reduce_text_box_editing_key_down(
 
 fn reduce_key_up(state: &mut FormState, context: &mut ReducerContext<'_>, payload: &KeyEvent) {
     state.keyboard.last_key_up = Some(KeyEventSummary::from(payload));
+    // A swallowed key with no paired character (e.g. an arrow) ends here; clear the flag
+    // so it never suppresses a later, unrelated character (oxforms-esq.4).
+    state.keyboard.suppress_next_character_input = false;
     let keyboard_target = keyboard_event_target(state);
     queue_key_event(state, context, keyboard_target, "KeyUp", payload);
 
@@ -1546,41 +1563,34 @@ fn reduce_tab_key_down(state: &mut FormState, context: &mut ReducerContext<'_>, 
     let effect_target =
         UiEventTarget::control(state.form_id.0.clone(), next_focus.control_id.0.clone());
 
-    // MSForms fires Exit on the control losing focus before focus moves.
-    if let Some(FocusTarget::Control(losing_id)) = &previous_focus {
-        if find_control(state, losing_id).is_some() {
-            let losing_id = losing_id.clone();
-            queue_focus_exit_event(state, context, &losing_id);
-        }
+    // A pending validation must resolve before another focus change begins (in the
+    // runtime the Exit readback folds back within the same dispatch, so this never
+    // persists across external events).
+    if state.validation.pending.is_some() {
+        return;
     }
 
-    state.focus_history.push(next_target.clone());
-    state.focus_owner = Some(next_target.clone());
-    context.push_effect(
-        state,
-        effect_target.clone(),
-        EffectKind::TransferFocus {
-            from: previous_focus,
-            to: next_target,
-            reason: FocusTransferReason::Keyboard,
-            validation_policy: ValidationPolicy::RequestCancelable,
-        },
-        CompletionPolicy::DispatchResultRequired,
-    );
-    let invalidation_id = context.push_invalidation(
-        state,
-        effect_target.clone(),
-        InvalidationReason::FocusChanged,
-    );
-    context.push_effect(
-        state,
-        effect_target,
-        EffectKind::RequestRepaint {
-            invalidation_ids: vec![invalidation_id],
-            reason: InvalidationReason::FocusChanged,
-        },
-        CompletionPolicy::RenderDiagnosticOptional,
-    );
+    match focusable_losing_control(state, &previous_focus) {
+        // MSForms fires a cancelable Exit on the leaving control before focus moves;
+        // hold the focus commit until the veto is known (oxforms-esq.4).
+        Some(losing_id) => begin_focus_validation(
+            state,
+            context,
+            &losing_id,
+            previous_focus.clone(),
+            next_target.clone(),
+            FocusTransferReason::Keyboard,
+        ),
+        // No control to veto (initial focus / from the form): commit synchronously.
+        None => commit_focus_transfer(
+            state,
+            context,
+            previous_focus.clone(),
+            &next_target,
+            &effect_target,
+            FocusTransferReason::Keyboard,
+        ),
+    }
 }
 
 fn activate_command_button(
@@ -1877,6 +1887,17 @@ fn reduce_character_input(
         text_len: payload.text.len(),
         modifiers: payload.modifiers,
     });
+    if state.keyboard.suppress_next_character_input {
+        // The paired KeyDown swallowed the key (KeyCode -> 0, folded back as
+        // KeyDownSwallowed): drop this character's KeyPress/Change and its insertion
+        // (oxforms-esq.4). The keyboard swallow path is 1:1 -- one swallowed KeyDown arms
+        // exactly the single character it would have produced (the platform delivers one
+        // character per keystroke) -- so dropping the whole CharacterInput is correct.
+        // Multi-character payloads (IME/composition) do not pair with a swallowed KeyDown
+        // and are cleared off this flag by the intervening focus/KeyUp resets.
+        state.keyboard.suppress_next_character_input = false;
+        return;
+    }
     if payload.text.is_empty() || payload.text.chars().any(char::is_control) {
         return;
     }
@@ -2961,11 +2982,148 @@ fn queue_vba_event(
     );
 }
 
+/// The leaving control id when it both is a control and still exists -- i.e. when a
+/// cancelable `Exit` must fire and gate the focus change (oxforms-esq.4). Returns `None`
+/// for initial focus (`from` is `None`) or focus moving from the form itself, where there
+/// is nothing to veto and the focus change commits synchronously.
+fn focusable_losing_control(
+    state: &FormState,
+    previous_focus: &Option<FocusTarget>,
+) -> Option<ControlId> {
+    match previous_focus {
+        Some(FocusTarget::Control(id)) if find_control(state, id).is_some() => Some(id.clone()),
+        _ => None,
+    }
+}
+
+/// Commit a focus transfer to `target`: record history, set the owner, and emit the
+/// `TransferFocus` + `FocusChanged` repaint effects. Shared by the synchronous path
+/// (nothing to veto) and the deferred commit ([`reduce_focus_validation_completed`]) once
+/// a vetoable `Exit` has passed (oxforms-esq.4).
+fn commit_focus_transfer(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    from: Option<FocusTarget>,
+    target: &FocusTarget,
+    effect_target: &UiEventTarget,
+    reason: FocusTransferReason,
+) {
+    // A focus change abandons any armed key-swallow: a swallow only pairs with the same
+    // control's immediately-following character (oxforms-esq.4).
+    state.keyboard.suppress_next_character_input = false;
+    state.focus_history.push(target.clone());
+    state.focus_owner = Some(target.clone());
+    context.push_effect(
+        state,
+        effect_target.clone(),
+        EffectKind::TransferFocus {
+            from,
+            to: target.clone(),
+            reason,
+            validation_policy: ValidationPolicy::RequestCancelable,
+        },
+        CompletionPolicy::DispatchResultRequired,
+    );
+    let invalidation_id = context.push_invalidation(
+        state,
+        effect_target.clone(),
+        InvalidationReason::FocusChanged,
+    );
+    context.push_effect(
+        state,
+        effect_target.clone(),
+        EffectKind::RequestRepaint {
+            invalidation_ids: vec![invalidation_id],
+            reason: InvalidationReason::FocusChanged,
+        },
+        CompletionPolicy::RenderDiagnosticOptional,
+    );
+}
+
+/// Begin a cancelable focus change: fire `Exit` on the leaving control and record the
+/// pending validation WITHOUT committing the focus owner. The commit is deferred to
+/// [`reduce_focus_validation_completed`], driven by the runtime folding the `Exit`
+/// handler's `Cancel` readback back as [`UiEventKind::FocusValidationCompleted`]
+/// (oxforms-esq.4); a vetoing `Exit` (`Cancel = True`) therefore retains focus.
+fn begin_focus_validation(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    losing_control_id: &ControlId,
+    from: Option<FocusTarget>,
+    to: FocusTarget,
+    reason: FocusTransferReason,
+) {
+    // Focus is leaving this control: abandon any armed key-swallow (it only pairs with
+    // this control's immediately-following character) (oxforms-esq.4).
+    state.keyboard.suppress_next_character_input = false;
+    queue_focus_exit_event(state, context, losing_control_id);
+    state.validation.pending = Some(ValidationRequest {
+        from,
+        to: Some(to),
+        cancelable: true,
+        reason,
+    });
+    state.validation.active = true;
+}
+
+/// Fold a focus-leaving `Exit` handler's `Cancel` readback back into reducer state
+/// (oxforms-esq.4). On a veto (`cancelled`) the pending focus change is dropped and focus
+/// stays on the originating control; otherwise the deferred [`commit_focus_transfer`]
+/// runs. Mirrors [`reduce_query_close_completed`]: the runtime synthesizes this from the
+/// post-handler readback, so the pure reducer never needs the live `Cancel` to progress.
+fn reduce_focus_validation_completed(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &FocusValidationCompletedEvent,
+) {
+    if payload.form_id != state.form_id {
+        return;
+    }
+    let Some(request) = state.validation.pending.take() else {
+        return;
+    };
+    state.validation.active = false;
+
+    if payload.cancelled {
+        // Vetoed: focus is retained on `request.from` (never committed); nothing to emit.
+        state.validation.last_result = Some(ValidationResult::Cancelled);
+        return;
+    }
+
+    state.validation.last_result = Some(ValidationResult::Passed);
+    let Some(to) = request.to else {
+        return;
+    };
+    let Some(effect_target) = target_for_focus(&to, &state.form_id) else {
+        return;
+    };
+    commit_focus_transfer(
+        state,
+        context,
+        request.from,
+        &to,
+        &effect_target,
+        request.reason,
+    );
+}
+
+/// Fold a `KeyDown` handler's `KeyCode -> 0` swallow readback back into reducer state
+/// (oxforms-esq.4): arm the keyboard to suppress the paired character. The next
+/// `CharacterInput` consumes the flag and drops its `KeyPress`/`Change`. Synthesized by
+/// the runtime from the post-handler readback (see [`UiEventKind::KeyDownSwallowed`]).
+fn reduce_key_down_swallowed(state: &mut FormState, payload: &KeyDownSwallowedEvent) {
+    if payload.form_id != state.form_id {
+        return;
+    }
+    state.keyboard.suppress_next_character_input = true;
+}
+
 /// Emit the FM20 focus `Exit` event on the control losing focus, before the focus
 /// transfer (MSForms order: Exit on the old control, then focus moves). Carries a
-/// mutable `Cancel` modeled as the by_ref `ReturnBoolean` helper; the dispatching
-/// runtime reads the post-handler value back via `PerformExit`. Honoring a veto
-/// (rolling back the focus commit) is deferred -- focus commits synchronously here.
+/// mutable `Cancel` modeled as the by_ref `ReturnBoolean` helper; the dispatching runtime
+/// reads the post-handler value back via `PerformExit` and folds it back as
+/// [`UiEventKind::FocusValidationCompleted`], so a veto is honored: the focus commit is
+/// held pending in [`begin_focus_validation`] until then (oxforms-esq.4).
 fn queue_focus_exit_event(
     state: &mut FormState,
     context: &mut ReducerContext<'_>,
@@ -2984,7 +3142,7 @@ fn queue_focus_exit_event(
                 by_ref: true,
             }],
             cancel_metadata: Some(
-                "Exit Cancel is the mutable MSForms.ReturnBoolean helper (the by_ref Cancel arg). The dispatching runtime reads back the post-handler Cancel via control.PerformExit (oxforms-esq.2); honoring a veto -- rolling back the focus commit -- remains deferred, so focus commits synchronously this slice."
+                "Exit Cancel is the mutable MSForms.ReturnBoolean helper (the by_ref Cancel arg). The dispatching runtime reads back the post-handler Cancel via control.PerformExit (oxforms-esq.2) and folds it back as FocusValidationCompleted (oxforms-esq.4): focus is held pending until then, so a veto (Cancel=True) retains focus on this control."
                     .to_string(),
             ),
         },
@@ -3248,34 +3406,254 @@ mod tests {
         ];
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
 
-        let output = reduce(state, key_down_event(UiEventId(43), KeyCode::Tab, false));
+        // Tab off text-1 fires Exit on the losing control and holds the focus commit
+        // pending the veto -- it does not commit synchronously (oxforms-esq.4).
+        let tabbed = reduce(state, key_down_event(UiEventId(43), KeyCode::Tab, false));
         assert_eq!(
-            output.state.focus_owner,
+            tabbed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1"))),
+            "focus stays on the leaving control until the Exit veto is known"
+        );
+        assert_eq!(
+            effect_names(&tabbed.effects),
+            vec!["fire_vba_event:KeyDown", "fire_vba_event:Exit"]
+        );
+        assert_eq!(
+            tabbed.effects[1].target,
+            UiEventTarget::control("form-main", "text-1")
+        );
+        let pending = tabbed
+            .state
+            .validation
+            .pending
+            .as_ref()
+            .expect("Tab arms a pending focus validation");
+        assert_eq!(pending.to, Some(FocusTarget::Control(ControlId::new("ok"))));
+
+        // The Exit did not veto: the folded-back completion commits the deferred transfer.
+        let committed = reduce(
+            tabbed.state,
+            focus_validation_completed_event(UiEventId(143), false),
+        );
+        assert_eq!(
+            committed.state.focus_owner,
             Some(FocusTarget::Control(ControlId::new("ok")))
         );
-        // Tab off text-1 fires Exit on the losing control before the focus transfer
-        // (oxforms-esq.2).
         assert_eq!(
-            effect_names(&output.effects),
+            effect_names(&committed.effects),
+            vec!["transfer_focus", "request_repaint"]
+        );
+        assert!(committed.state.validation.pending.is_none());
+
+        // Shift+Tab back: same deferred shape, then the uncancelled completion returns
+        // focus to text-1.
+        let shift_tabbed = reduce(
+            committed.state,
+            key_down_event(UiEventId(44), KeyCode::Tab, true),
+        );
+        assert_eq!(
+            shift_tabbed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("ok"))),
+            "focus is held pending until the completion"
+        );
+        let back = reduce(
+            shift_tabbed.state,
+            focus_validation_completed_event(UiEventId(144), false),
+        );
+        assert_eq!(
+            back.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+    }
+
+    #[test]
+    fn vetoed_focus_validation_keeps_focus_and_uncancelled_commits() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 40.0, 18.0), 0, 0),
+            ControlNode::command_button("ok", LogicalRect::new(0.0, 24.0, 40.0, 18.0), 0, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+
+        // Mouse-press OkButton: Exit fires on text-1 and the focus commit is held pending
+        // the veto -- focus does not move and no transfer_focus is emitted yet.
+        let pressed = reduce(
+            state,
+            UiEvent::new(
+                UiEventId(70),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 5.0, 30.0)),
+            ),
+        );
+        assert_eq!(
+            pressed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert!(pressed.state.validation.pending.is_some());
+        assert!(!effect_names(&pressed.effects)
+            .iter()
+            .any(|name| name == "transfer_focus"));
+
+        // A vetoing Exit (Cancel = True) keeps focus on text-1 and commits nothing.
+        let vetoed = reduce(
+            pressed.state.clone(),
+            focus_validation_completed_event(UiEventId(71), true),
+        );
+        assert_eq!(
+            vetoed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1")))
+        );
+        assert!(vetoed.state.validation.pending.is_none());
+        assert_eq!(
+            vetoed.state.validation.last_result,
+            Some(ValidationResult::Cancelled)
+        );
+        assert!(effect_names(&vetoed.effects).is_empty());
+
+        // From the same pending state, an un-vetoed completion commits the transfer to ok.
+        let committed = reduce(
+            pressed.state,
+            focus_validation_completed_event(UiEventId(72), false),
+        );
+        assert_eq!(
+            committed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("ok")))
+        );
+        assert_eq!(
+            effect_names(&committed.effects),
+            vec!["transfer_focus", "request_repaint"]
+        );
+        assert_eq!(
+            committed.state.validation.last_result,
+            Some(ValidationResult::Passed)
+        );
+    }
+
+    #[test]
+    fn swallowed_keydown_suppresses_the_paired_character_input() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 80.0, 18.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+
+        // Fold back a swallowed KeyDown (KeyCode -> 0): arms the suppress flag.
+        let swallowed = reduce(state, key_down_swallowed_event(UiEventId(80)));
+        assert!(swallowed.state.keyboard.suppress_next_character_input);
+
+        // The paired character is dropped: no insertion, no KeyPress/Change.
+        let typed = reduce(
+            swallowed.state,
+            UiEvent::new(
+                UiEventId(81),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "A".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+        assert!(typed.effects.is_empty());
+        assert_eq!(
+            text_box_state(&typed.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.as_str()),
+            Some("")
+        );
+        assert!(
+            !typed.state.keyboard.suppress_next_character_input,
+            "the swallow flag is consumed by the suppressed character"
+        );
+
+        // A subsequent un-swallowed character inserts normally.
+        let typed2 = reduce(
+            typed.state,
+            UiEvent::new(
+                UiEventId(82),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "B".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+        assert_eq!(
+            effect_names(&typed2.effects),
             vec![
-                "fire_vba_event:KeyDown",
-                "fire_vba_event:Exit",
-                "transfer_focus",
+                "fire_vba_event:KeyPress",
+                "fire_vba_event:Change",
                 "request_repaint"
             ]
         );
         assert_eq!(
-            output.effects[1].target,
-            UiEventTarget::control("form-main", "text-1")
+            text_box_state(&typed2.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.as_str()),
+            Some("B")
+        );
+    }
+
+    #[test]
+    fn focus_change_disarms_a_stale_key_swallow() {
+        let mut state = FormState::new("form-main");
+        state.controls = vec![
+            ControlNode::text_box("text-1", LogicalRect::new(0.0, 0.0, 80.0, 18.0), 0, 0),
+            ControlNode::text_box("text-2", LogicalRect::new(0.0, 24.0, 80.0, 18.0), 1, 1),
+        ];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+        state.ensure_text_box(ControlId::new("text-2"));
+
+        // Arm a swallow on text-1, then leave it via a MOUSE press on text-2 before the
+        // paired character arrives. The mouse path does not clear the flag at KeyDown
+        // entry, so a surviving flag would leak; begin_focus_validation must disarm it at
+        // the focus boundary (oxforms-esq.4).
+        let armed = reduce(state, key_down_swallowed_event(UiEventId(90)));
+        assert!(armed.state.keyboard.suppress_next_character_input);
+
+        let pressed = reduce(
+            armed.state,
+            UiEvent::new(
+                UiEventId(91),
+                UiEventSource::Replay,
+                UiEventKind::MouseDown(mouse_button_event_at(true, 5.0, 30.0)),
+            ),
+        );
+        assert!(
+            !pressed.state.keyboard.suppress_next_character_input,
+            "leaving the control disarms the stale swallow"
         );
 
-        let output = reduce(
-            output.state,
-            key_down_event(UiEventId(44), KeyCode::Tab, true),
+        // After committing focus to text-2, a character there inserts normally -- the
+        // stale swallow does not bleed across the focus change.
+        let committed = reduce(
+            pressed.state,
+            focus_validation_completed_event(UiEventId(92), false),
         );
         assert_eq!(
-            output.state.focus_owner,
-            Some(FocusTarget::Control(ControlId::new("text-1")))
+            committed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-2")))
+        );
+        let typed = reduce(
+            committed.state,
+            UiEvent::new(
+                UiEventId(93),
+                UiEventSource::Replay,
+                UiEventKind::CharacterInput(CharacterInputEvent {
+                    text: "Z".to_string(),
+                    modifiers: KeyboardModifiers::default(),
+                    raw: Vec::new(),
+                }),
+            ),
+        );
+        assert_eq!(
+            text_box_state(&typed.state, &ControlId::new("text-2"))
+                .map(|entry| entry.text.as_str()),
+            Some("Z")
         );
     }
 
@@ -4175,6 +4553,9 @@ mod tests {
             ]
         );
 
+        // Pressing the button moves focus off text-1: the commit is held pending the Exit
+        // veto (oxforms-esq.4), so fold the uncancelled completion back to commit focus to
+        // "ok" before the release, mirroring the runtime's foldback.
         let button_down = reduce(
             typed.state,
             UiEvent::new(
@@ -4183,8 +4564,24 @@ mod tests {
                 UiEventKind::MouseDown(mouse_button_event_at(true, 8.0, 52.0)),
             ),
         );
-        let button_up = reduce(
+        assert_eq!(
+            button_down.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("text-1"))),
+            "focus is held on text-1 until the Exit veto resolves"
+        );
+        assert!(button_down.state.validation.pending.is_some());
+        let focus_committed = reduce(
             button_down.state,
+            focus_validation_completed_event(UiEventId(640), false),
+        );
+        assert_eq!(
+            focus_committed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("ok")))
+        );
+        assert!(focus_committed.state.validation.pending.is_none());
+
+        let button_up = reduce(
+            focus_committed.state,
             UiEvent::new(
                 UiEventId(65),
                 UiEventSource::Replay,
@@ -5075,6 +5472,29 @@ mod tests {
                 modifiers: KeyboardModifiers::default(),
                 repeat: KeyRepeat::default(),
                 raw: RawKeyDiagnostics::default(),
+            }),
+        )
+    }
+
+    fn focus_validation_completed_event(event_id: UiEventId, cancelled: bool) -> UiEvent {
+        UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::FocusValidationCompleted(FocusValidationCompletedEvent {
+                form_id: FormId::new("form-main"),
+                cancelled,
+                dispatch_diagnostics: Vec::new(),
+            }),
+        )
+    }
+
+    fn key_down_swallowed_event(event_id: UiEventId) -> UiEvent {
+        UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::KeyDownSwallowed(KeyDownSwallowedEvent {
+                form_id: FormId::new("form-main"),
+                dispatch_diagnostics: Vec::new(),
             }),
         )
     }

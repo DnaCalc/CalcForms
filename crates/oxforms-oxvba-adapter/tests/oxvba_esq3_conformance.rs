@@ -577,18 +577,17 @@ fn gap_tab_out_full_focus_ordering() {
     );
 }
 
-/// GAP — Exit veto keeps focus. When InputField_Exit sets Cancel = True the focus must
-/// stay on the same control and the enterer must NOT fire Enter; only the focus-key's
-/// KeyUp fires, on the same control. The runtime RECORDS the Exit Cancel readback
-/// (`returned == "true"`) but does not fold it back — focus still transfers.
+/// PIN (closed by oxforms-esq.4; was a GAP) — Exit veto keeps focus. When InputField_Exit
+/// sets Cancel = True the focus stays on the same control. The runtime now folds the Exit
+/// Cancel readback back as `FocusValidationCompleted`: the focus commit was held pending
+/// (never committed), so a veto retains focus on the originating control.
 ///
 /// Oracle: [`CAP_FOCUS_VALIDATION`] rows 19-23 (scenario `exit_veto_keeps_focus`):
 ///   TextBox1 KeyDown(9) -> BeforeUpdate -> AfterUpdate -> Exit (Cancel False->True)
-///   -> TextBox1 KeyUp(9). Focus stays on TextBox1 (no TextBox2 Enter). This drives
-/// the W007 runner where InputField_Exit vetoes; it encodes the post-veto invariant
-/// that focus is retained.
+///   -> TextBox1 KeyUp(9). Focus stays on TextBox1 (no TextBox2 Enter). This drives the
+/// W007 runner where InputField_Exit vetoes; it asserts the post-veto invariant that
+/// focus is retained (the BeforeUpdate/AfterUpdate/Enter ordering remains esq.6 + esq.7).
 #[test]
-#[ignore = "GAP: the Exit Cancel=True veto is recorded but not folded back; focus still transfers — pending oxforms-esq.4"]
 fn gap_exit_veto_keeps_focus() {
     let mut runner = attach_runner();
     focus_input_field(&mut runner);
@@ -601,8 +600,8 @@ fn gap_exit_veto_keeps_focus() {
         ))
         .expect("press OkButton");
 
-    // Per the oracle the veto retains focus on InputField. The runtime does not yet
-    // honor it: assert the honored end-state so the test is red until esq.4 folds back.
+    // Per the oracle the veto retains focus on InputField, now honored by the esq.4
+    // fold-back (the focus commit was held pending and is abandoned on veto).
     assert_eq!(
         runner.form().state.focus_owner,
         Some(FocusTarget::Control(ControlId::new("InputField"))),
@@ -658,21 +657,20 @@ fn gap_before_update_veto_suppresses_commit() {
     );
 }
 
-/// GAP — KeyDown KeyCode swallow suppresses KeyPress. When a KeyDown handler sets
-/// KeyCode = 0, the subsequent KeyPress must NOT fire. The runtime RECORDS the
-/// swallowed KeyCode (`returned == "0"`, pinned above) but does not fold it back, so a
-/// swallowed KeyDown still lets the KeyPress through.
+/// PIN (closed by oxforms-esq.4; was a GAP) — KeyDown KeyCode swallow suppresses KeyPress.
+/// When a KeyDown handler sets KeyCode = 0, the subsequent KeyPress must NOT fire. The
+/// runtime folds the swallowed KeyCode (`returned == "0"`, pinned above) back as
+/// `KeyDownSwallowed`, which arms the reducer to drop the paired character's
+/// KeyPress/Change.
 ///
 /// Oracle: [`CAP_KEY_MUTATION`] rows 11-12 (scenario `swallow_keydown`):
 ///   KeyDown KeyCode 65 -> 0, then KeyUp 65 — NO KeyPress between them; and rows 16-17
 ///   (`arrow_swallow`: KeyDown 37 -> 0, KeyUp 37, no KeyPress). Encoded over the W007
 /// runner whose InputField_KeyDown swallows Escape (27 -> 0): a swallowed KeyDown
 /// followed by the printable character input that would carry the KeyPress must NOT
-/// dispatch that KeyPress (nor the resulting Change). The runtime treats KeyDown and
-/// CharacterInput as independent events with no swallow linkage, so the KeyPress and
-/// Change still fire — that missing linkage is the gap.
+/// dispatch that KeyPress (nor the resulting Change). The fold-back bridges the otherwise
+/// independent KeyDown and CharacterInput events with the swallow linkage.
 #[test]
-#[ignore = "GAP: a KeyDown KeyCode=0 swallow is recorded but not folded back; the paired KeyPress/Change still fire — pending oxforms-esq.4"]
 fn gap_keydown_swallow_suppresses_keypress() {
     let mut runner = attach_runner();
     focus_input_field(&mut runner);
@@ -682,6 +680,10 @@ fn gap_keydown_swallow_suppresses_keypress() {
     // the KeyPress (and its Change) for the keystroke. We model the keystroke as the
     // swallowed KeyDown followed by the printable character input that carries the
     // KeyPress; once esq.4 folds the swallow back, neither KeyPress nor Change fires.
+    // This drives the fold-back MECHANISM end-to-end through the native runner; the
+    // realistic flag-lifecycle edges (consume, KeyUp/focus-boundary disarm, insert after)
+    // are covered by oxforms-core unit tests (swallowed_keydown_suppresses_the_paired_
+    // character_input, focus_change_disarms_a_stale_key_swallow).
     let swallowed = runner
         .dispatch(key_down_event(1, "\u{1b}", 27))
         .expect("KeyDown Escape (swallowed)");

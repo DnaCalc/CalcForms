@@ -549,9 +549,9 @@ fn unquote(value: &str) -> &str {
 #[cfg(test)]
 mod tests {
     use oxforms_pal::{
-        ClickCount, CoordinatePayload, KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers,
-        LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics,
-        UiEvent, UiEventId, UiEventKind, UiEventSource,
+        ClickCount, CoordinatePayload, FocusValidationCompletedEvent, KeyCode, KeyEvent, KeyRepeat,
+        KeyboardModifiers, LogicalPoint, MouseButton, MouseButtonEvent, MouseButtons, PointerId,
+        RawKeyDiagnostics, UiEvent, UiEventId, UiEventKind, UiEventSource,
     };
 
     use super::*;
@@ -630,15 +630,31 @@ mod tests {
                 UiEventKind::KeyDown(key_event(KeyCode::Tab)),
             ),
         );
+        // Tab holds focus pending the Exit veto on OracleTextBox (oxforms-esq.4); the
+        // folded-back (uncancelled) completion commits the transfer to the default button.
         assert_eq!(
             tabbed.state.focus_owner,
+            Some(FocusTarget::Control(ControlId::new("OracleTextBox")))
+        );
+        let completion = UiEvent::new(
+            UiEventId(3),
+            UiEventSource::Service,
+            UiEventKind::FocusValidationCompleted(FocusValidationCompletedEvent {
+                form_id: tabbed.state.form_id.clone(),
+                cancelled: false,
+                dispatch_diagnostics: Vec::new(),
+            }),
+        );
+        let committed = reduce(tabbed.state, completion);
+        assert_eq!(
+            committed.state.focus_owner,
             Some(FocusTarget::Control(ControlId::new("OracleDefaultButton")))
         );
 
         let enter = reduce(
-            tabbed.state,
+            committed.state,
             UiEvent::new(
-                UiEventId(3),
+                UiEventId(4),
                 UiEventSource::Replay,
                 UiEventKind::KeyDown(key_event(KeyCode::Enter)),
             ),

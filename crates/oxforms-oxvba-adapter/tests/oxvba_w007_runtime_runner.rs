@@ -747,8 +747,10 @@ fn runner_dispatches_native_keypress_with_returninteger_readback() {
 fn runner_dispatches_native_exit_with_returnboolean_veto_readback() {
     // oxforms-esq.2: focus leaving a control fires Exit, dispatched to PerformExit;
     // the handler's veto (Cancel = True) is read back via the MSForms.ReturnBoolean
-    // helper -- consuming the OTHER half of the esq.1 proof in the real runtime. The
-    // veto is recorded, not yet honored (focus still commits synchronously).
+    // helper -- consuming the OTHER half of the esq.1 proof in the real runtime. The veto
+    // is now folded back (oxforms-esq.4): the focus commit is held pending and retained on
+    // the veto. This test asserts the dispatch + readback; focus retention is asserted by
+    // oxvba_esq3_conformance::gap_exit_veto_keeps_focus.
     let session = prepare_session();
     let runtime_form = materialize_w007_demo_form().expect("materialize W007 demo form");
     let mut runner = RuntimeRunner::attach(

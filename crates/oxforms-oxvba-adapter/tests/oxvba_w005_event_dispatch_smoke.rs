@@ -175,6 +175,18 @@ fn with_event_id(mut event: UiEvent, id: u64) -> UiEvent {
     event
 }
 
+fn focus_validation_completed_event(form_id: &oxforms_pal::FormId, cancelled: bool) -> UiEvent {
+    UiEvent::new(
+        UiEventId(0),
+        UiEventSource::Service,
+        UiEventKind::FocusValidationCompleted(oxforms_pal::FocusValidationCompletedEvent {
+            form_id: form_id.clone(),
+            cancelled,
+            dispatch_diagnostics: Vec::new(),
+        }),
+    )
+}
+
 fn dispatch_effects(
     session: &mut oxvba_host::ProjectRuntimeSession,
     source: ObjectRef,
@@ -269,7 +281,20 @@ fn w005_probe_effects_reach_vba_withevents_handlers_in_order() {
         &mut trace,
     );
 
-    let key_down = reduce(text_down.state, with_event_id(key_down_event(), 4));
+    // Pressing text-1 moves focus off `ok`: Exit fires (dispatched above) and the focus
+    // commit is held pending (oxforms-esq.4). ok_Exit does not veto, so fold the
+    // uncancelled completion back to commit focus to text-1 before the key events route.
+    let completion = focus_validation_completed_event(&text_down.state.form_id, false);
+    let focus_committed = reduce(text_down.state, with_event_id(completion, 30));
+    dispatch_effects(
+        &mut session,
+        source.clone(),
+        &focus_committed.effects,
+        &mut dispatch_id,
+        &mut trace,
+    );
+
+    let key_down = reduce(focus_committed.state, with_event_id(key_down_event(), 4));
     dispatch_effects(
         &mut session,
         source.clone(),

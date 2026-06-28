@@ -39,7 +39,7 @@ modeless lifecycle close-slice rows to the committed headless replay golden.
 
 The mapping is partial by design. The MSForms capture is a long modeless run
 with 21 automated input actions and 1116 event rows. The OxForms headless
-golden is a focused five-step script with 228 trace rows:
+golden is a focused five-step script with 227 trace rows:
 
 1. show modeless;
 2. click the TextBox probe;
@@ -91,8 +91,11 @@ Additional OxForms replay evidence:
 Known gaps:
 
 - MSForms records focus/validation rows such as `BeforeUpdate`, `AfterUpdate`,
-  `Exit`, and `Enter` around focus movement. The current replay has only a
-  `transfer_focus` effect for this surface.
+  `Exit`, and `Enter` around focus movement. The replay now emits the focus `Exit`
+  FireVbaEvent and a replayed (uncancelled) `focus_validation_completed` completion
+  that defers the `transfer_focus` until the veto resolves (oxforms-esq.2 + esq.4);
+  the remaining gap is `BeforeUpdate`/`AfterUpdate` emission (esq.7) and `Enter` on
+  the gaining control (esq.6).
 - The headless replay does not include close; the MSForms capture records
   `QueryClose`, `Exit`, and `Terminate`. The visible smoke has QueryClose-path
   evidence but not Terminate parity.

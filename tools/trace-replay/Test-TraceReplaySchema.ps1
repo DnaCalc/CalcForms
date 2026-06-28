@@ -239,6 +239,8 @@ $allowedUiEventKinds = [System.Collections.Generic.HashSet[string]]::new([System
     'hide_requested',
     'window_hidden',
     'query_close_completed',
+    'focus_validation_completed',
+    'key_down_swallowed',
     'unload_requested',
     'unloaded',
     'terminated',
