@@ -4,12 +4,28 @@ Two W008 follow-ups need a live Excel/MSForms desktop session (a disruptive fore
 The repo-owned fixtures are authored + headlessly compile-checked; this is the drive runbook so
 the live session is fast and the captures formalize the same way as esq.14/15/17.
 
-**Status (prep):** both fixtures build + VBA-compile clean headlessly
-(`New-W008OracleWorkbook.ps1 -DryRun` then `-CompileCheck`). Gotcha hit + fixed during prep: a
-`vbaModuleName` >31 chars hangs the invisible-Excel build (VBA's component-name limit → an
-invalid-name modal that blocks COM with no exception); `w008-held-cancel-accel`'s module name was
-shortened from 32 → 28 chars. Recorded in the harness-gotcha memory. Only the disruptive live
-*drive* remains.
+**OUTCOME (live run, 2026-06-29):**
+- **oxforms-4f8 — CAPTURED + IMPLEMENTED.** Both drag-drop scenarios captured
+  (`docs/evidence/W008_native_event_breadth/captures/w008-dragdrop-veto-20260629T103500Z`): a
+  vetoing `BeforeDropOrPaste` suppresses the target drop (no `Change`); a drop is `Action=3`
+  (fmActionDragDrop) vs `Action=2` for a keyboard paste. `reduce_drop_or_paste` now routes through
+  the same two-stage defer as the keyboard paste (esq.17); bead closed.
+- **oxforms-uvh — BLOCKED (oracle-unreachable), stays open.** Both the modeless AND a purpose-built
+  MODAL harness were driven; held + discrete Escape logged only `KeyUp(27)` (no KeyDown, no Cancel
+  Click) while a MOUSE click on the same CancelButton fired Enter+Click, and Alt+A triggered Excel's
+  ribbon. **Excel intercepts Escape/Alt at the app level, before any MSForms form regardless of
+  modality** — so cancel/accelerator key-activation is not capturable in the Excel oracle. The
+  reducer Escape/accelerator arms stay repeat-blind as a documented non-claim. The modal harness
+  (`ShowW008HeldCancelAccelModal` + scratchpad `w008_modal_driver.ps1`) is kept as reusable infra
+  for future non-Escape/Alt modal captures. See [[oxforms-excel-oracle-harness]].
+
+**Prep note:** both fixtures build + VBA-compile clean headlessly (`-DryRun` then `-CompileCheck`).
+Gotcha hit + fixed during prep: a `vbaModuleName` >31 chars hangs the invisible-Excel build (VBA's
+component-name limit → an invalid-name modal that blocks COM with no exception);
+`w008-held-cancel-accel`'s module name was shortened from 32 → 28 chars (recorded in the
+harness-gotcha memory).
+
+The drive runbook below is retained as the record of how each scenario was driven.
 
 Drive method: the background-COM host (a PowerShell driver holding `Excel.Application`
 `Visible = true` with a ready/done sentinel-file handshake) + **computer-use vision** for the
@@ -105,11 +121,11 @@ CAVEATS (drag-drop is the finicky gesture):
 - A drop's `Action` enum value is unknown until captured (paste=2; drag-drop likely differs) —
   record as observed, do not assume.
 
-**Implementation conclusion shape:** if a vetoing drag-drop `BeforeDropOrPaste` suppresses the
-drop, route `reduce_drop_or_paste` through the same two-stage defer as esq.17 (fire
-`BeforeDropOrPaste` first with the value unchanged, defer the insert to a `pending_paste_commit`
--like state, drop on veto) + tests; update `FM20_EVENT_FACTS.md` (the drag-drop-origin veto is
-currently recorded-not-honored, marked at `reduce_drop_or_paste`).
+**Implementation conclusion (LANDED in esq.4f8):** the vetoing drag-drop `BeforeDropOrPaste` does
+suppress the drop, so `reduce_drop_or_paste` was routed through the same two-stage defer as esq.17
+(fire `BeforeDropOrPaste` first with the value unchanged, defer the insert to the shared
+`pending_paste_commit`, drop on veto) + tests; `FM20_EVENT_FACTS.md` updated and the former
+recorded-not-honored marker at `reduce_drop_or_paste` removed.
 
 ---
 

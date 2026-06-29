@@ -1,0 +1,20 @@
+{
+  "schema": "oxforms.office_oracle.w008_dragdrop_veto_input_actions.v1",
+  "bead": "oxforms-4f8",
+  "manual_inputs": [
+    {
+      "label": "dragdrop_baseline",
+      "method": "computer_use_select_plus_stepped_drag",
+      "note": "Triple-click SourceBox to select OxFormsDragSeed; drag (press -> stepped move -> release) onto TargetBox with gVetoDrop False -> the drop inserts."
+    },
+    {
+      "label": "dragdrop_veto",
+      "method": "computer_use_select_plus_stepped_drag",
+      "note": "Same drag with gVetoDrop True -> TargetBox_BeforeDropOrPaste sets Cancel=True; the target drop is suppressed."
+    }
+  ],
+  "automated_inputs": [],
+  "non_claims": [
+    "Inputs were driven by computer-use vision + background COM; events are live MSForms handler observations. The stepped drag produced multiple MouseDown rows (artifact)."
+  ]
+}

@@ -2264,29 +2264,24 @@ fn reduce_drop_or_paste(
         return;
     };
 
-    // NOTE (oxforms-esq.17 scope): the drag-drop origin inserts SYNCHRONOUSLY here and fires
-    // BeforeDropOrPaste AFTER, so its Cancel is recorded-not-honored -- unlike the keyboard
-    // Ctrl+V path (reduce_clipboard_result), which defers the insert via pending_paste_commit
-    // until the Cancel folds back (a two-stage veto). The two-stage veto is keyboard-only
-    // because the oracle (w008-paste-veto) is a keyboard paste; the drag-drop-origin veto is
-    // uncaptured and tracked by oxforms-4f8. The shared fixture handler InputField_BeforeDropOrPaste
-    // fires for both origins but only takes effect for the keyboard path.
-    insert_text_box_text(state, &control_id, text);
-
+    // Two-stage drop (oxforms-4f8): fire BeforeDropOrPaste FIRST with the target value still
+    // UNCHANGED, and DEFER the text insert + Change until the handler's Cancel readback folds
+    // back as BeforeDropOrPasteCompleted -- the SAME machinery as the keyboard Ctrl+V paste
+    // (reduce_clipboard_result, esq.17). A veto (Cancel=True) drops the pending paste (no insert,
+    // no Change); a pass commits it. Oracle w008-dragdrop-veto-20260629T103500Z: a vetoing
+    // drag-drop BeforeDropOrPaste suppresses the target Change (dragdrop_veto); the baseline
+    // inserts (dragdrop_baseline). NON-CLAIM: the captured intra-form MOVE-drag also emptied the
+    // SOURCE control -- that is the source control's move behavior, not this drop-target path.
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
-    queue_before_drop_or_paste_drag_event(state, context, target.clone(), payload);
-    queue_vba_event(state, context, target.clone(), "Change");
-    let invalidation_id =
-        context.push_invalidation(state, target.clone(), InvalidationReason::TextChanged);
-    context.push_effect(
-        state,
-        target,
-        EffectKind::RequestRepaint {
-            invalidation_ids: vec![invalidation_id],
-            reason: InvalidationReason::TextChanged,
-        },
-        CompletionPolicy::RenderDiagnosticOptional,
+    queue_before_drop_or_paste_drag_event(state, context, target, payload);
+    debug_assert!(
+        state.pending_paste_commit.is_none(),
+        "a paste is already in flight: pending_paste_commit must be drained within the dispatch loop"
     );
+    state.pending_paste_commit = Some(PendingPasteCommit {
+        control_id,
+        text: text.to_string(),
+    });
 }
 
 /// Request the clipboard for a keyboard Ctrl+V paste (oxforms-esq.9). The host folds
@@ -2990,7 +2985,7 @@ fn queue_before_drop_or_paste_event(
                 },
             ],
             cancel_metadata: Some(
-                "Text-only clipboard paste subset: Data is a serializable payload summary; the Ctrl+V Shift modifier is now threaded (oxforms-esq.13). Honoring the BeforeDropOrPaste Cancel=True veto is oxforms-esq.17 (no vetoing capture yet -- the ctrlv oracle is non-vetoing); live MSForms.DataObject, rich formats, and Action mutation remain non-claims; the live OS clipboard read is oxforms-esq.16."
+                "Text-only clipboard paste subset: Data is a serializable payload summary; the Ctrl+V Shift modifier is now threaded (oxforms-esq.13). The BeforeDropOrPaste Cancel=True veto is honored via the two-stage paste (oxforms-esq.17, oracle w008-paste-veto); live MSForms.DataObject, rich formats, and Action mutation remain non-claims; the live OS clipboard read is oxforms-esq.16."
                     .to_string(),
             ),
         },
@@ -5274,7 +5269,9 @@ mod tests {
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
         state.ensure_text_box(ControlId::new("text-1"));
 
-        let output = reduce(
+        // Two-stage drop (oxforms-4f8): the DropOrPaste fires BeforeDropOrPaste FIRST with the
+        // value still UNCHANGED and defers the insert; the non-veto completion then inserts + Change.
+        let before = reduce(
             state,
             UiEvent {
                 target: UiEventTarget::control("form-main", "text-1"),
@@ -5291,30 +5288,23 @@ mod tests {
                 )
             },
         );
-
-        let text_box = output
-            .state
-            .text_boxes
-            .iter()
-            .find(|entry| entry.control_id == ControlId::new("text-1"))
-            .expect("text box state should exist");
-        assert_eq!(text_box.text, "repo_owned_drag_text_seed_v1");
-        assert_eq!(text_box.caret.active, "repo_owned_drag_text_seed_v1".len());
-        assert_eq!(text_box.edit_sequence, 1);
         assert_eq!(
-            effect_names(&output.effects),
-            vec![
-                "fire_vba_event:BeforeDropOrPaste",
-                "fire_vba_event:Change",
-                "request_repaint"
-            ]
+            effect_names(&before.effects),
+            vec!["fire_vba_event:BeforeDropOrPaste"]
         );
+        assert!(
+            text_box_state(&before.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.is_empty())
+                .unwrap_or(true),
+            "the value is unchanged at BeforeDropOrPaste; the drop insert is deferred"
+        );
+        assert!(before.state.pending_paste_commit.is_some());
         let EffectKind::FireVbaEvent {
             event_name,
             arguments,
             cancel_metadata,
             ..
-        } = &output.effects[0].kind
+        } = &before.effects[0].kind
         else {
             panic!("expected BeforeDropOrPaste dispatch effect");
         };
@@ -5334,6 +5324,83 @@ mod tests {
         assert!(cancel_metadata
             .as_ref()
             .is_some_and(|metadata| metadata.contains("Action mutation remains a non-claim")));
+
+        // Non-veto completion commits the drop: insert + Change + repaint.
+        let output = reduce(
+            before.state,
+            before_drop_or_paste_completed_event(UiEventId(195), false),
+        );
+        let text_box = output
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("text-1"))
+            .expect("text box state should exist");
+        assert_eq!(text_box.text, "repo_owned_drag_text_seed_v1");
+        assert_eq!(text_box.caret.active, "repo_owned_drag_text_seed_v1".len());
+        assert_eq!(text_box.edit_sequence, 1);
+        assert_eq!(
+            effect_names(&output.effects),
+            vec!["fire_vba_event:Change", "request_repaint"]
+        );
+        assert!(output.state.pending_paste_commit.is_none());
+    }
+
+    #[test]
+    fn vetoing_drag_drop_before_drop_or_paste_suppresses_the_drop() {
+        // oxforms-4f8 oracle w008-dragdrop-veto-20260629T103500Z (dragdrop_veto): a vetoing
+        // drag-drop BeforeDropOrPaste (Cancel=True) suppresses the target drop -- no Change, value
+        // unchanged -- the same as the keyboard paste veto (esq.17). The DropOrPaste fires
+        // BeforeDropOrPaste first (value unchanged); only a non-veto completion inserts.
+        let mut state = FormState::new("form-main");
+        state.controls = vec![ControlNode::text_box(
+            "text-1",
+            LogicalRect::new(0.0, 0.0, 120.0, 24.0),
+            0,
+            0,
+        )];
+        state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
+        state.ensure_text_box(ControlId::new("text-1"));
+
+        let dropped = reduce(
+            state,
+            UiEvent {
+                target: UiEventTarget::control("form-main", "text-1"),
+                ..UiEvent::new(
+                    UiEventId(98),
+                    UiEventSource::Pal,
+                    UiEventKind::DropOrPaste(drop_or_paste_drag_event(
+                        "drag-veto",
+                        "repo_owned_drag_text_seed_v1",
+                        3,
+                        1,
+                        &["cf_text"],
+                    )),
+                )
+            },
+        );
+        assert_eq!(
+            effect_names(&dropped.effects),
+            vec!["fire_vba_event:BeforeDropOrPaste"]
+        );
+        assert!(dropped.state.pending_paste_commit.is_some());
+
+        // Cancel=True: the drop is suppressed -- no Change, no insert, value stays empty.
+        let vetoed = reduce(
+            dropped.state,
+            before_drop_or_paste_completed_event(UiEventId(198), true),
+        );
+        assert!(
+            effect_names(&vetoed.effects).is_empty(),
+            "a vetoed drag-drop emits nothing (no Change/repaint)"
+        );
+        assert!(
+            text_box_state(&vetoed.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.is_empty())
+                .unwrap_or(true),
+            "the vetoed drop did not insert -- value unchanged"
+        );
+        assert!(vetoed.state.pending_paste_commit.is_none());
     }
 
     #[test]
@@ -5416,7 +5483,9 @@ mod tests {
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
         state.ensure_text_box(ControlId::new("text-1"));
 
-        let output = reduce(
+        // Two-stage drop (oxforms-4f8): BeforeDropOrPaste first (deferred insert), then the
+        // non-veto completion inserts.
+        let before = reduce(
             state,
             UiEvent {
                 target: UiEventTarget::control("form-main", "text-1"),
@@ -5433,7 +5502,14 @@ mod tests {
                 )
             },
         );
-
+        assert_eq!(
+            effect_names(&before.effects),
+            vec!["fire_vba_event:BeforeDropOrPaste"]
+        );
+        let output = reduce(
+            before.state,
+            before_drop_or_paste_completed_event(UiEventId(297), false),
+        );
         let text_box = output
             .state
             .text_boxes
@@ -5444,11 +5520,7 @@ mod tests {
         assert_eq!(text_box.edit_sequence, 1);
         assert_eq!(
             effect_names(&output.effects),
-            vec![
-                "fire_vba_event:BeforeDropOrPaste",
-                "fire_vba_event:Change",
-                "request_repaint"
-            ]
+            vec!["fire_vba_event:Change", "request_repaint"]
         );
     }
 

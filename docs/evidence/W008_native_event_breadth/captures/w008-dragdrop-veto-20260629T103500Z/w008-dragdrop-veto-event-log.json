@@ -1,0 +1,192 @@
+{
+  "schema": "oxforms.office_oracle.w008_dragdrop_veto_event_log.v1",
+  "bead": "oxforms-4f8",
+  "source": {
+    "worksheet": "W008DragDropVetoLog",
+    "columns": [
+      "sequence",
+      "scenario",
+      "control_name",
+      "event_name",
+      "arg_name",
+      "arg_before",
+      "arg_after",
+      "focus_owner_after",
+      "value_after",
+      "notes"
+    ],
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/w008-dragdrop-veto/fixture.json",
+    "note": "Two separate clear -> drive -> export runs (one per scenario); the worksheet sequence restarts at 1 per run. Each run logs 3 empty-scenario setup rows (SourceBox seed Change, Initialize, Enter) then the scenario-tagged rows; observed_facts.row_count counts ALL CSV rows incl. setup, while scenario_summaries enumerate only the scenario-tagged rows (seq >= 4). The repeated SourceBox MouseDown rows per drag are a STEPPED-PRESS computer-use artifact (one physical drag, driven as press -> mouse-move steps -> release), NOT three real presses. The notes column is FIXTURE-CAPTURED (W008DdvLog writes the BeforeDropOrPaste Action/Effect/Shift/data-object details)."
+  },
+  "observed_facts": {
+    "row_count": 18,
+    "scenarios": [
+      "dragdrop_baseline",
+      "dragdrop_veto"
+    ],
+    "scenario_summaries": [
+      {
+        "scenario": "dragdrop_baseline",
+        "row_count": 7,
+        "observed": true,
+        "event_names": [
+          "MouseDown",
+          "MouseDown",
+          "MouseDown",
+          "BeforeDropOrPaste",
+          "Change",
+          "Enter",
+          "Change"
+        ],
+        "rows": [
+          {
+            "sequence": "4",
+            "control_name": "SourceBox",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "drag origin; Shift=0"
+          },
+          {
+            "sequence": "5",
+            "control_name": "SourceBox",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "drag origin; Shift=0"
+          },
+          {
+            "sequence": "6",
+            "control_name": "SourceBox",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "drag origin; Shift=0"
+          },
+          {
+            "sequence": "7",
+            "control_name": "TargetBox",
+            "event_name": "BeforeDropOrPaste",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "Action=3; Effect=3; X=118.35; Y=11.1; Shift=0; data_object=present; public_getformat_1=True"
+          },
+          {
+            "sequence": "8",
+            "control_name": "TargetBox",
+            "event_name": "Change",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "SourceBox",
+            "value_after": "OxFormsDragSeed",
+            "notes": "Change handler; .Value read at handler entry"
+          },
+          {
+            "sequence": "9",
+            "control_name": "TargetBox",
+            "event_name": "Enter",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TargetBox",
+            "value_after": "OxFormsDragSeed",
+            "notes": ""
+          },
+          {
+            "sequence": "10",
+            "control_name": "SourceBox",
+            "event_name": "Change",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TargetBox",
+            "value_after": "",
+            "notes": "SourceBox value="
+          }
+        ]
+      },
+      {
+        "scenario": "dragdrop_veto",
+        "row_count": 5,
+        "observed": true,
+        "event_names": [
+          "MouseDown",
+          "MouseDown",
+          "MouseDown",
+          "BeforeDropOrPaste",
+          "Change"
+        ],
+        "rows": [
+          {
+            "sequence": "4",
+            "control_name": "SourceBox",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "drag origin; Shift=0"
+          },
+          {
+            "sequence": "5",
+            "control_name": "SourceBox",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "drag origin; Shift=0"
+          },
+          {
+            "sequence": "6",
+            "control_name": "SourceBox",
+            "event_name": "MouseDown",
+            "arg_name": "Button",
+            "arg_before": "1",
+            "arg_after": "1",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "drag origin; Shift=0"
+          },
+          {
+            "sequence": "7",
+            "control_name": "TargetBox",
+            "event_name": "BeforeDropOrPaste",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "True",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "Action=3; Effect=3; X=118.35; Y=11.1; Shift=0; data_object=present; public_getformat_1=True"
+          },
+          {
+            "sequence": "8",
+            "control_name": "SourceBox",
+            "event_name": "Change",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "SourceBox",
+            "value_after": "",
+            "notes": "SourceBox value="
+          }
+        ]
+      }
+    ]
+  }
+}

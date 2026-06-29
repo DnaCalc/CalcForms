@@ -832,13 +832,14 @@ impl RuntimeRunner {
                 ))
             }
             "BeforeDropOrPaste" => {
-                // Two-stage paste (oxforms-esq.17): the reducer fired BeforeDropOrPaste with the
-                // target value still unchanged and stashed pending_paste_commit; fold the
-                // post-handler Cancel (ReturnBoolean -> "true"/"false") back as
-                // BeforeDropOrPasteCompleted so a veto (Cancel=True) suppresses the deferred
-                // insert + Change and a pass commits it. Gated on the reducer actually having a
-                // paste in flight (a drag/drop BeforeDropOrPaste with no pending paste folds
-                // nothing).
+                // Two-stage paste/drop (oxforms-esq.17 + oxforms-4f8): the reducer fired
+                // BeforeDropOrPaste with the target value still unchanged and stashed
+                // pending_paste_commit; fold the post-handler Cancel (ReturnBoolean ->
+                // "true"/"false") back as BeforeDropOrPasteCompleted so a veto (Cancel=True)
+                // suppresses the deferred insert + Change and a pass commits it. Gated on the
+                // reducer actually having a paste in flight -- BOTH the keyboard Ctrl+V path
+                // (reduce_clipboard_result, esq.17) and the drag-drop path (reduce_drop_or_paste,
+                // 4f8) now set pending_paste_commit, so both are honored.
                 self.form.state.pending_paste_commit.as_ref()?;
                 let cancelled = record.returned.as_deref() == Some("true");
                 Some(UiEvent::new(

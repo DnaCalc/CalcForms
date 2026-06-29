@@ -1,0 +1,189 @@
+{
+  "schema": "oxforms.office_oracle.w008_dragdrop_veto_run_summary.v1",
+  "bead": "oxforms-4f8",
+  "capture_id": "w008-dragdrop-veto-20260629T103500Z",
+  "status": "captured",
+  "row_count": 18,
+  "scenarios": [
+    "dragdrop_baseline",
+    "dragdrop_veto"
+  ],
+  "scenario_coverage": {
+    "dragdrop_baseline": "observed_rows",
+    "dragdrop_veto": "observed_rows"
+  },
+  "finding": "SETTLED: a vetoing BeforeDropOrPaste (Cancel = True) SUPPRESSES a drag-drop drop, the same way it suppresses a keyboard Ctrl+V paste (esq.17). dragdrop_baseline (gVetoDrop False): SourceBox MouseDown(s) -> TargetBox BeforeDropOrPaste(Cancel False->False; Action=3 [fmActionDragDrop -- distinct from Action=2 for a keyboard paste]; Effect=3; data_object=present) -> TargetBox Change(value=OxFormsDragSeed) -> TargetBox Enter -> SourceBox Change(emptied) i.e. a MOVE. dragdrop_veto (gVetoDrop True): SourceBox MouseDown(s) -> TargetBox BeforeDropOrPaste(Cancel False->True; Action=3) -> SourceBox Change(emptied); NO TargetBox Change -- the target drop is suppressed. CONSUMED FACT (esq.4f8): honor the drag-drop BeforeDropOrPaste Cancel=True veto by suppressing the target insert + Change, deferring the insert until the Cancel readback folds back (the same two-stage path as the keyboard paste, esq.17 -- reduce_drop_or_paste currently inserts synchronously before BeforeDropOrPaste). NON-CLAIM / WRINKLE: the vetoed intra-form MOVE-drag still emptied the SOURCE (SourceBox Change to empty in both scenarios) -- that is the SOURCE control's move behavior, NOT the drop-target path OxForms models (reduce_drop_or_paste only inserts into the target); not consumed.",
+  "driving_method": "Computer-use vision on a background-COM-hosted Excel running the committed w008-dragdrop-veto fixture; SourceBox was seeded with \"OxFormsDragSeed\" + DragBehavior enabled at runtime, its text selected (triple-click), then dragged onto TargetBox via a stepped press -> mouse-move -> release. Each scenario was a separate ClearLog -> Show -> SetW008Scenario* -> drive -> export-worksheet run, so the per-run sequence restarts at 1. The veto is armed by SetW008ScenarioDragDropVeto (gVetoDrop True -> the TargetBox_BeforeDropOrPaste handler sets Cancel.Value = True).",
+  "scenario_summaries": [
+    {
+      "scenario": "dragdrop_baseline",
+      "row_count": 7,
+      "observed": true,
+      "event_names": [
+        "MouseDown",
+        "MouseDown",
+        "MouseDown",
+        "BeforeDropOrPaste",
+        "Change",
+        "Enter",
+        "Change"
+      ],
+      "rows": [
+        {
+          "sequence": "4",
+          "control_name": "SourceBox",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "drag origin; Shift=0"
+        },
+        {
+          "sequence": "5",
+          "control_name": "SourceBox",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "drag origin; Shift=0"
+        },
+        {
+          "sequence": "6",
+          "control_name": "SourceBox",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "drag origin; Shift=0"
+        },
+        {
+          "sequence": "7",
+          "control_name": "TargetBox",
+          "event_name": "BeforeDropOrPaste",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "Action=3; Effect=3; X=118.35; Y=11.1; Shift=0; data_object=present; public_getformat_1=True"
+        },
+        {
+          "sequence": "8",
+          "control_name": "TargetBox",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "SourceBox",
+          "value_after": "OxFormsDragSeed",
+          "notes": "Change handler; .Value read at handler entry"
+        },
+        {
+          "sequence": "9",
+          "control_name": "TargetBox",
+          "event_name": "Enter",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TargetBox",
+          "value_after": "OxFormsDragSeed",
+          "notes": ""
+        },
+        {
+          "sequence": "10",
+          "control_name": "SourceBox",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TargetBox",
+          "value_after": "",
+          "notes": "SourceBox value="
+        }
+      ]
+    },
+    {
+      "scenario": "dragdrop_veto",
+      "row_count": 5,
+      "observed": true,
+      "event_names": [
+        "MouseDown",
+        "MouseDown",
+        "MouseDown",
+        "BeforeDropOrPaste",
+        "Change"
+      ],
+      "rows": [
+        {
+          "sequence": "4",
+          "control_name": "SourceBox",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "drag origin; Shift=0"
+        },
+        {
+          "sequence": "5",
+          "control_name": "SourceBox",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "drag origin; Shift=0"
+        },
+        {
+          "sequence": "6",
+          "control_name": "SourceBox",
+          "event_name": "MouseDown",
+          "arg_name": "Button",
+          "arg_before": "1",
+          "arg_after": "1",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "drag origin; Shift=0"
+        },
+        {
+          "sequence": "7",
+          "control_name": "TargetBox",
+          "event_name": "BeforeDropOrPaste",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "True",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "Action=3; Effect=3; X=118.35; Y=11.1; Shift=0; data_object=present; public_getformat_1=True"
+        },
+        {
+          "sequence": "8",
+          "control_name": "SourceBox",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "SourceBox",
+          "value_after": "",
+          "notes": "SourceBox value="
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "The repeated SourceBox MouseDown rows are a stepped-press computer-use artifact (one physical drag), not three real presses; only the BeforeDropOrPaste + Change facts are consumed.",
+    "The vetoed MOVE-drag still emptied the SOURCE (SourceBox Change to empty) -- the source control's move behavior, NOT the drop-target path OxForms models; not consumed by esq.4f8.",
+    "Action=3 (fmActionDragDrop) and Effect=3 are recorded as observed; only the Cancel veto EFFECT (suppress vs insert) is consumed.",
+    "Absence of a row is not a negative parity fact.",
+    "No OxForms runtime behavior is claimed by the capture (oxforms-4f8 consumes it)."
+  ]
+}

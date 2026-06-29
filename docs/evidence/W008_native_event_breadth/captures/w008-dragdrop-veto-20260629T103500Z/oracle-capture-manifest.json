@@ -1,0 +1,71 @@
+{
+  "schema": "oxforms.office_oracle.w008_dragdrop_veto_capture.v1",
+  "bead": "oxforms-4f8",
+  "capture_id": "w008-dragdrop-veto-20260629T103500Z",
+  "status": "captured",
+  "fixture": {
+    "id": "excel-msforms-w008-dragdrop-veto-v1",
+    "inputs": {
+      "manifest": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-dragdrop-veto/fixture.json",
+        "sha256": "03e4e00605239d415c3cb86ec1758ee04b12b17bf0ca735e977f84b0ea5dc15d"
+      },
+      "form_code_behind": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-dragdrop-veto/form-code-behind.bas",
+        "sha256": "2e925bdd7886451633f6a708df5461cc2f2929787eac06b2d67e4c0364eddc3f"
+      },
+      "standard_module": {
+        "path": "fixtures/office-oracle/excel-msforms/userforms/w008-dragdrop-veto/standard-module.bas",
+        "sha256": "1fbbf2971804aa3a3ab992bcb75af23a8b08c3cab0457766b89d597baaa4c27b"
+      },
+      "capture_tool": {
+        "path": "tools/office-oracle/New-W008OracleWorkbook.ps1",
+        "sha256": "e09da0d0672dd4a58ee21b96ac7116f98b503a984aa428a772e72c86a96c5413"
+      }
+    }
+  },
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.1"
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation"
+  },
+  "artifacts": {
+    "generated_workbook": null,
+    "run_summary": "docs/evidence/W008_native_event_breadth/captures/w008-dragdrop-veto-20260629T103500Z/run-summary.json",
+    "event_log_json": "docs/evidence/W008_native_event_breadth/captures/w008-dragdrop-veto-20260629T103500Z/w008-dragdrop-veto-event-log.json",
+    "event_log_csv": "docs/evidence/W008_native_event_breadth/captures/w008-dragdrop-veto-20260629T103500Z/w008-dragdrop-veto-event-log.csv",
+    "input_actions": "docs/evidence/W008_native_event_breadth/captures/w008-dragdrop-veto-20260629T103500Z/input-actions.json"
+  },
+  "observed_coverage": {
+    "row_count": 18,
+    "scenarios": [
+      "dragdrop_baseline",
+      "dragdrop_veto"
+    ]
+  },
+  "trace_replay_implications": [
+    "docs/specs/FM20_EVENT_FACTS.md: a vetoing BeforeDropOrPaste (Cancel=True) suppresses a DRAG-DROP drop (no target Change), the same as a keyboard Ctrl+V paste; a drop is Action=3 (fmActionDragDrop) vs Action=2 for a keyboard paste. oxforms-4f8 honors the drag-drop veto by deferring the target insert until the Cancel readback folds back (two-stage, like esq.17)."
+  ],
+  "warnings": [
+    "Black-box Excel/MSForms evidence only; no OxForms output was compared.",
+    "Driven by computer-use vision drag (not public-user32 SendInput); events are live MSForms handler observations.",
+    "generated_workbook is null: the throwaway workbook was not retained; the committed fixture sources + New-W008OracleWorkbook.ps1 regenerate it deterministically.",
+    "The two scenarios were captured as two separate ClearLog -> drive -> export runs, so the per-run sequence restarts at 1.",
+    "The repeated SourceBox MouseDown rows are a stepped-press computer-use artifact (one physical drag), not three real presses.",
+    "The vetoed MOVE-drag emptied the SOURCE (source control move behavior), which OxForms does not model; only the target-insert suppression is consumed."
+  ],
+  "clean_room": {
+    "source": "Repo-owned fixture input generated through public Excel/VBIDE automation and driven through public Windows mouse input; no Office internals.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "non_claims": [
+    "No OxForms runtime behavior is claimed by the capture (oxforms-4f8 consumes it).",
+    "Only the Cancel veto EFFECT (suppress vs insert) is consumed; Action/Effect/data-object + the source-move emptying are recorded as observed but not claimed.",
+    "Absence of a row is not a negative parity fact."
+  ]
+}
