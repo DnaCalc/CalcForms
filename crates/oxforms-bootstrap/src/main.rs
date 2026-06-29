@@ -213,6 +213,12 @@ fn run() -> Result<(), BootstrapError> {
     )
     .map_err(|err| BootstrapError::Runtime(format!("attach runtime: {err}")))?;
 
+    // Wire the live OS clipboard read so a keyboard Ctrl+V pastes the real clipboard outside
+    // tests (oxforms-esq.16). The reader is the desktop backend's safe Windows read (None on
+    // other targets / when the clipboard holds no text); headless tests never wire it, so the
+    // deterministic floor performs no clipboard I/O.
+    runner.set_clipboard_reader(oxforms_pal_win::read_clipboard_text);
+
     // 3. Produce the first resident Scene revision (the runtime's Re-render).
     runner
         .render_frame()

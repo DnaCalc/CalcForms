@@ -1088,6 +1088,64 @@ fn runner_honors_paste_veto_end_to_end() {
     );
 }
 
+/// PIN (oxforms-esq.16) — when no host seed is set, a keyboard Ctrl+V reads the LIVE clipboard
+/// via the injected reader; the set_clipboard_text seed still takes precedence. The reader here
+/// is a deterministic test closure (the real desktop wiring is
+/// oxforms_pal_win::read_clipboard_text); headless tests never touch the OS clipboard.
+#[test]
+fn injected_clipboard_reader_supplies_text_when_no_seed_is_set() {
+    fn input_field_text(runner: &RuntimeRunner) -> String {
+        runner
+            .form()
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("InputField"))
+            .map(|entry| entry.text.clone())
+            .unwrap_or_default()
+    }
+
+    // (a) No seed + a wired live reader -> the keyboard paste reads the reader's text.
+    let mut runner = attach_runner();
+    focus_input_field(&mut runner);
+    runner.set_clipboard_reader(|| Some("FromReader".to_string()));
+    for event in ctrl_v_chord() {
+        runner.dispatch(event).expect("dispatch Ctrl+V chord event");
+    }
+    assert_eq!(
+        input_field_text(&runner),
+        "FromReader",
+        "with no seed, the keyboard paste reads the injected live clipboard reader"
+    );
+
+    // (b) A set_clipboard_text seed OVERRIDES the live reader (deterministic host/test override).
+    let mut seeded = attach_runner();
+    focus_input_field(&mut seeded);
+    seeded.set_clipboard_reader(|| Some("FromReader".to_string()));
+    seeded.set_clipboard_text("FromSeed");
+    for event in ctrl_v_chord() {
+        seeded.dispatch(event).expect("dispatch Ctrl+V chord event");
+    }
+    assert_eq!(
+        input_field_text(&seeded),
+        "FromSeed",
+        "the set_clipboard_text seed takes precedence over the live reader"
+    );
+
+    // (c) A reader that returns None (empty/no-text clipboard) is a no-op paste.
+    let mut empty = attach_runner();
+    focus_input_field(&mut empty);
+    empty.set_clipboard_reader(|| None);
+    for event in ctrl_v_chord() {
+        empty.dispatch(event).expect("dispatch Ctrl+V chord event");
+    }
+    assert_eq!(
+        input_field_text(&empty),
+        "",
+        "a reader returning None pastes nothing (no-op)"
+    );
+}
+
 /// PIN — a drag-drop text paste natively dispatches BeforeDropOrPaste -> Change. esq.9
 /// added BeforeDropOrPaste to the native-dispatch allowlist, which also routes the
 /// pre-existing drag-drop paste path (`reduce_drop_or_paste`) through

@@ -199,11 +199,15 @@ pub struct RuntimeRunner {
     control_objects: HashMap<ControlId, ObjectRef>,
     /// The control's `OxControlCore` object (for Dirty/DisplayText/ClearDirty).
     core_objects: HashMap<ControlId, ObjectRef>,
-    /// The clipboard text the host returns for a `ClipboardGet` (keyboard Ctrl+V paste,
-    /// oxforms-esq.9). `None` (the default) means an empty clipboard: a `ClipboardGet`
-    /// folds back nothing and the paste is a traced no-op. Reading the live OS clipboard
-    /// is a later slice (oxforms-esq.13); for now the host seeds this directly.
+    /// A host-seeded clipboard override (oxforms-esq.9). When `Some`, a `ClipboardGet` folds
+    /// back this text REGARDLESS of the live OS clipboard -- the deterministic test seed.
     clipboard_text: Option<String>,
+    /// The live OS clipboard reader (oxforms-esq.16). When no `clipboard_text` seed is set, a
+    /// `ClipboardGet` calls this to read the real clipboard. `None` (the default) means no
+    /// live reader is wired -- a `ClipboardGet` then folds back nothing (a no-op paste), which
+    /// keeps the headless floor deterministic; the desktop bootstrap injects
+    /// `oxforms_pal_win::read_clipboard_text` via [`Self::set_clipboard_reader`].
+    clipboard_reader: Option<Box<dyn Fn() -> Option<String>>>,
     dispatch_seq: u64,
     trace: Vec<RuntimeTraceRow>,
 }
@@ -272,15 +276,26 @@ impl RuntimeRunner {
             control_objects,
             core_objects,
             clipboard_text: None,
+            clipboard_reader: None,
             dispatch_seq: 0,
             trace: Vec::new(),
         })
     }
 
-    /// Seed the clipboard text a keyboard Ctrl+V paste reads (oxforms-esq.9). The host
-    /// owns clipboard provenance; the runner only echoes it back on a `ClipboardGet`.
+    /// Seed the clipboard text a keyboard Ctrl+V paste reads (oxforms-esq.9). A deterministic
+    /// test/host override: when set it takes precedence over any live reader, so the headless
+    /// floor never touches the OS clipboard.
     pub fn set_clipboard_text(&mut self, text: impl Into<String>) {
         self.clipboard_text = Some(text.into());
+    }
+
+    /// Wire a live OS clipboard reader (oxforms-esq.16). When no `set_clipboard_text` seed is
+    /// set, a keyboard Ctrl+V `ClipboardGet` calls this to read the real clipboard; `None`
+    /// (the read returns nothing) is folded back as a no-op paste, which the reducer already
+    /// handles. The desktop bootstrap injects `oxforms_pal_win::read_clipboard_text`; headless
+    /// tests leave it unset so the deterministic floor never performs platform I/O.
+    pub fn set_clipboard_reader(&mut self, reader: impl Fn() -> Option<String> + 'static) {
+        self.clipboard_reader = Some(Box::new(reader));
     }
 
     /// Invoke a no-argument `Sub` on the attached form-document module (the class hosting
@@ -842,13 +857,17 @@ impl RuntimeRunner {
 
     /// Synthesize the `ClipboardResult` that completes a `ClipboardGet` (the keyboard
     /// Ctrl+V paste fold-back, oxforms-esq.9). ALWAYS folds a result so every request is
-    /// answered and the reducer's pending paste is consumed (oxforms-esq.13): a seeded
-    /// clipboard returns its text; an empty one returns a `Success` result with no text
-    /// payload, which the reducer diagnoses as a no-op paste (no `BeforeDropOrPaste`/
-    /// `Change`). Reading the live OS clipboard is deferred (oxforms-esq.16); the host seeds
-    /// [`Self::set_clipboard_text`].
+    /// answered and the reducer's pending paste is consumed (oxforms-esq.13): the
+    /// `set_clipboard_text` seed (if any) wins; otherwise the wired live OS clipboard reader
+    /// (oxforms-esq.16) supplies the text; with neither, the result carries no text payload,
+    /// which the reducer diagnoses as a no-op paste (no `BeforeDropOrPaste`/`Change`). The
+    /// desktop bootstrap wires [`Self::set_clipboard_reader`]; headless tests leave it unset.
     fn clipboard_get_foldback(&self, request_id: &str, formats: &[String]) -> UiEvent {
-        let payload = self.clipboard_text.clone().map(|text| ServicePayload {
+        let text = self
+            .clipboard_text
+            .clone()
+            .or_else(|| self.clipboard_reader.as_ref().and_then(|read| read()));
+        let payload = text.map(|text| ServicePayload {
             content_type: Some("text/plain".to_string()),
             text: Some(text),
             bytes_sha256: None,

@@ -17,15 +17,20 @@
 //! - [`window`] — the winit + softbuffer present loop ([`window::run_scene_window`]).
 //! - [`fixture`] — a raw-primitive greeter scene standing in for VBA self-render output
 //!   until the OxVba integration is wired (oxforms-4pn.7/.8).
+//! - [`clipboard`] — the live OS clipboard read ([`clipboard::read_clipboard_text`]) the
+//!   runtime's keyboard Ctrl+V fold-back injects (oxforms-esq.16); Windows-only, `None`
+//!   elsewhere and when the clipboard holds no text.
 
 #![forbid(unsafe_code)]
 
+pub mod clipboard;
 pub mod fixture;
 pub mod input;
 pub mod raster;
 pub mod text;
 pub mod window;
 
+pub use clipboard::read_clipboard_text;
 pub use raster::{
     render_scene_to_pixmap, render_scene_to_png, render_scene_to_rgba, repaint_scene_damage,
     SkiaSink,
