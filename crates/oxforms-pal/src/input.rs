@@ -202,6 +202,13 @@ pub enum UiEventKind {
     /// suppressed rather than only recorded (oxforms-esq.4). Synthesized by the runtime
     /// after the `KeyDown` native dispatch.
     KeyDownSwallowed(KeyDownSwallowedEvent),
+    /// A `BeforeDropOrPaste` handler's post-dispatch `Cancel` readback, folded back so a
+    /// vetoing paste (`Cancel = True`) suppresses the text insert + `Change` rather than
+    /// only being recorded (oxforms-esq.17). Synthesized by the runtime after the
+    /// `BeforeDropOrPaste` native dispatch; the deferred paste content lives in the
+    /// reducer's pending paste-commit (a two-stage paste, mirroring the esq.11 BeforeUpdate
+    /// veto).
+    BeforeDropOrPasteCompleted(BeforeDropOrPasteCompletedEvent),
     UnloadRequested(UnloadRequestedEvent),
     Unloaded(UnloadedEvent),
     Terminated(TerminatedEvent),
@@ -824,6 +831,19 @@ pub struct FocusValidationCompletedEvent {
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct KeyDownSwallowedEvent {
     pub form_id: FormId,
+    pub dispatch_diagnostics: Vec<RawDiagnostic>,
+}
+
+/// Folds a `BeforeDropOrPaste` handler's post-dispatch `Cancel` readback back into the
+/// reducer so a vetoing paste (`Cancel = True`) suppresses the deferred text insert +
+/// `Change` (oxforms-esq.17). The paste target/text come from the reducer's pending
+/// paste-commit; this carries only the decision.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct BeforeDropOrPasteCompletedEvent {
+    pub form_id: FormId,
+    /// `true` when the handler set `Cancel = True` (vetoing the paste): the reducer drops the
+    /// pending paste -- no text insert, no `Change`.
+    pub cancelled: bool,
     pub dispatch_diagnostics: Vec<RawDiagnostic>,
 }
 

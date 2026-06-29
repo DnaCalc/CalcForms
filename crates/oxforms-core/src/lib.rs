@@ -35,13 +35,14 @@ pub use trace_replay::{
 };
 
 use oxforms_pal::{
-    CharacterInputEvent, ClipboardOperation, ClipboardResultEvent, CloseQueryPolicy, CloseReason,
-    CloseRequestEvent, CloseRequestOrigin, ControlId, DataObjectSnapshot, DragOverEvent,
-    DropOrPasteEvent, DropOrPasteOrigin, FocusValidationCompletedEvent, FormId, HostScopeId,
-    KeyCode, KeyDownSwallowedEvent, KeyEvent, KeyRepeat, KeyboardModifiers, LifecycleReason,
-    LogicalPoint, LogicalRect, MouseButton, MouseButtonEvent, MouseMoveEvent, PointerId,
-    QueryCloseCompletedEvent, RawKeyDiagnostics, ServiceOutcome, ShowMode, ShowRequestedEvent,
-    UiEvent, UiEventId, UiEventKind, UiEventTarget, WindowId, WindowShownEvent,
+    BeforeDropOrPasteCompletedEvent, CharacterInputEvent, ClipboardOperation, ClipboardResultEvent,
+    CloseQueryPolicy, CloseReason, CloseRequestEvent, CloseRequestOrigin, ControlId,
+    DataObjectSnapshot, DragOverEvent, DropOrPasteEvent, DropOrPasteOrigin,
+    FocusValidationCompletedEvent, FormId, HostScopeId, KeyCode, KeyDownSwallowedEvent, KeyEvent,
+    KeyRepeat, KeyboardModifiers, LifecycleReason, LogicalPoint, LogicalRect, MouseButton,
+    MouseButtonEvent, MouseMoveEvent, PointerId, QueryCloseCompletedEvent, RawKeyDiagnostics,
+    ServiceOutcome, ShowMode, ShowRequestedEvent, UiEvent, UiEventId, UiEventKind, UiEventTarget,
+    WindowId, WindowShownEvent,
 };
 
 #[derive(Clone, Copy, Debug, Eq, Hash, PartialEq, Serialize, Deserialize)]
@@ -72,6 +73,10 @@ pub struct FormState {
     /// the originating request (target control + the chord's fm20 `Shift`) instead of
     /// re-resolving current focus (oxforms-esq.13). `None` for a programmatic/menu paste.
     pub pending_clipboard_paste: Option<PendingClipboardPaste>,
+    /// A paste whose `BeforeDropOrPaste` fired but whose text insert + `Change` are held
+    /// pending the handler's `Cancel` readback (oxforms-esq.17). `None` outside the two-stage
+    /// paste window.
+    pub pending_paste_commit: Option<PendingPasteCommit>,
     pub default_button: Option<ControlId>,
     pub cancel_button: Option<ControlId>,
     pub keyboard: KeyboardState,
@@ -106,6 +111,7 @@ impl FormState {
             pressed_state: None,
             pending_mouse_press: None,
             pending_clipboard_paste: None,
+            pending_paste_commit: None,
             default_button: None,
             cancel_button: None,
             keyboard: KeyboardState::default(),
@@ -345,6 +351,18 @@ pub struct PendingClipboardPaste {
     pub request_id: String,
     pub control_id: ControlId,
     pub fm20_shift: i16,
+}
+
+/// A clipboard paste whose `BeforeDropOrPaste` has fired but whose text insert + `Change`
+/// are HELD pending the handler's `Cancel` readback (oxforms-esq.17). The reducer fires
+/// `BeforeDropOrPaste` first (value still unchanged), stashes this, and the runtime folds the
+/// `Cancel` back as [`UiEventKind::BeforeDropOrPasteCompleted`]: a veto drops this (no insert,
+/// no `Change`), a pass commits the `text` into `control_id`. A two-stage paste mirroring the
+/// esq.11 BeforeUpdate veto.
+#[derive(Clone, Debug, Eq, PartialEq, Serialize, Deserialize)]
+pub struct PendingPasteCommit {
+    pub control_id: ControlId,
+    pub text: String,
 }
 
 #[derive(Clone, Debug, Default, Eq, PartialEq, Serialize, Deserialize)]
@@ -1036,6 +1054,9 @@ pub fn reduce(mut state: FormState, event: UiEvent) -> ReducerOutput {
         }
         UiEventKind::KeyDownSwallowed(payload) => {
             reduce_key_down_swallowed(&mut state, payload);
+        }
+        UiEventKind::BeforeDropOrPasteCompleted(payload) => {
+            reduce_before_drop_or_paste_completed(&mut state, &mut context, payload);
         }
         UiEventKind::UnloadRequested(payload) => {
             state.lifecycle = LifecycleState::Unloading;
@@ -2243,6 +2264,13 @@ fn reduce_drop_or_paste(
         return;
     };
 
+    // NOTE (oxforms-esq.17 scope): the drag-drop origin inserts SYNCHRONOUSLY here and fires
+    // BeforeDropOrPaste AFTER, so its Cancel is recorded-not-honored -- unlike the keyboard
+    // Ctrl+V path (reduce_clipboard_result), which defers the insert via pending_paste_commit
+    // until the Cancel folds back (a two-stage veto). The two-stage veto is keyboard-only
+    // because the oracle (w008-paste-veto) is a keyboard paste; the drag-drop-origin veto is
+    // uncaptured and tracked by oxforms-4f8. The shared fixture handler InputField_BeforeDropOrPaste
+    // fires for both origins but only takes effect for the keyboard path.
     insert_text_box_text(state, &control_id, text);
 
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
@@ -2365,10 +2393,61 @@ fn reduce_clipboard_result(
         },
     };
 
-    insert_text_box_text(state, &control_id, text);
-
+    // Two-stage paste (oxforms-esq.17): fire BeforeDropOrPaste FIRST, with the target's value
+    // still UNCHANGED, and DEFER the text insert + Change until the handler's Cancel readback
+    // folds back as BeforeDropOrPasteCompleted (mirrors the esq.11 BeforeUpdate veto).
+    // reduce_before_drop_or_paste_completed then commits the paste (Cancel=False) or drops it
+    // (Cancel=True -> no insert, no Change). Oracle w008-paste-veto-20260629T003400Z: at the
+    // BeforeDropOrPaste row the value is still empty -- paste_baseline inserts only at the
+    // following Change, paste_veto never inserts.
     let target = UiEventTarget::control(state.form_id.0.clone(), control_id.0.clone());
-    queue_before_drop_or_paste_event(state, context, target.clone(), payload, fm20_shift);
+    queue_before_drop_or_paste_event(state, context, target, payload, fm20_shift);
+    // No paste should already be in flight: the runtime drains each BeforeDropOrPaste's completion
+    // within the SAME dispatch_with_foldback loop, and the pending_clipboard_paste correlation
+    // serializes keyboard requests, so a second ClipboardResult never arrives while one is
+    // pending. Guard the invariant so a future reentrancy regression surfaces in tests rather
+    // than silently overwriting an already-fired-but-uncommitted paste.
+    debug_assert!(
+        state.pending_paste_commit.is_none(),
+        "a paste is already in flight: pending_paste_commit must be drained within the dispatch loop"
+    );
+    state.pending_paste_commit = Some(PendingPasteCommit {
+        control_id,
+        text: text.to_string(),
+    });
+}
+
+/// Commit (or veto) a deferred clipboard paste once the `BeforeDropOrPaste` handler's `Cancel`
+/// readback has folded back as [`UiEventKind::BeforeDropOrPasteCompleted`] (oxforms-esq.17).
+/// A veto (`Cancel = True`) drops the pending paste entirely -- no text insert, no `Change`,
+/// the value stays as it was (oracle `w008-paste-veto` `paste_veto`). A pass inserts the
+/// captured text into the captured target and fires `Change` + a repaint (oracle
+/// `paste_baseline`: BeforeDropOrPaste then Change with the inserted value). Mirrors
+/// [`reduce_before_update_completed`] (the two-stage value veto).
+fn reduce_before_drop_or_paste_completed(
+    state: &mut FormState,
+    context: &mut ReducerContext<'_>,
+    payload: &BeforeDropOrPasteCompletedEvent,
+) {
+    if payload.form_id != state.form_id {
+        // Intentionally leaves pending_paste_commit set (mirrors reduce_focus_validation_completed
+        // / reduce_query_close_completed): a single-form runtime makes a foreign-form completion
+        // unreachable, so the pending is always drained by its own form's completion.
+        return;
+    }
+    let Some(pending) = state.pending_paste_commit.take() else {
+        return;
+    };
+    if payload.cancelled {
+        // Veto: suppress the paste -- no insert, no Change, value unchanged.
+        return;
+    }
+    // The captured target may have been removed between BeforeDropOrPaste and this completion.
+    if !is_text_box_control(state, &pending.control_id) {
+        return;
+    }
+    insert_text_box_text(state, &pending.control_id, &pending.text);
+    let target = UiEventTarget::control(state.form_id.0.clone(), pending.control_id.0.clone());
     queue_vba_event(state, context, target.clone(), "Change");
     let invalidation_id =
         context.push_invalidation(state, target.clone(), InvalidationReason::TextChanged);
@@ -4642,11 +4721,28 @@ mod tests {
         state.focus_owner = Some(FocusTarget::Control(ControlId::new("text-1")));
         state.ensure_text_box(ControlId::new("text-1"));
 
-        let output = reduce(
+        // Two-stage paste (oxforms-esq.17): the ClipboardResult fires BeforeDropOrPaste FIRST,
+        // with the value still empty, and defers the insert; only the non-veto completion inserts.
+        let before = reduce(
             state,
             clipboard_get_text_event(UiEventId(91), "clip-1", "PASTE", &["text/plain"]),
         );
+        assert_eq!(
+            effect_names(&before.effects),
+            vec!["fire_vba_event:BeforeDropOrPaste"]
+        );
+        assert!(
+            text_box_state(&before.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.is_empty())
+                .unwrap_or(true),
+            "the value is still unchanged at BeforeDropOrPaste; the insert is deferred"
+        );
+        assert!(before.state.pending_paste_commit.is_some());
 
+        let output = reduce(
+            before.state,
+            before_drop_or_paste_completed_event(UiEventId(191), false),
+        );
         let text_box = output
             .state
             .text_boxes
@@ -4660,16 +4756,13 @@ mod tests {
         assert_eq!(text_box.edit_sequence, 1);
         assert_eq!(
             effect_names(&output.effects),
-            vec![
-                "fire_vba_event:BeforeDropOrPaste",
-                "fire_vba_event:Change",
-                "request_repaint"
-            ]
+            vec!["fire_vba_event:Change", "request_repaint"]
         );
         assert_eq!(
             output.invalidations[0].reason,
             InvalidationReason::TextChanged
         );
+        assert!(output.state.pending_paste_commit.is_none());
     }
 
     #[test]
@@ -4687,11 +4780,27 @@ mod tests {
         text_box.caret.anchor = 1;
         text_box.caret.active = 4;
 
-        let output = reduce(
+        // Two-stage paste (oxforms-esq.17): BeforeDropOrPaste fires first (selection intact,
+        // value still ABCDE); the non-veto completion replaces the selection.
+        let before = reduce(
             state,
             clipboard_get_text_event(UiEventId(92), "clip-2", "xy", &["cf_unicode_text"]),
         );
+        assert_eq!(
+            effect_names(&before.effects),
+            vec!["fire_vba_event:BeforeDropOrPaste"]
+        );
+        assert_eq!(
+            text_box_state(&before.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.as_str()),
+            Some("ABCDE"),
+            "the selection/value is unchanged at BeforeDropOrPaste; the replace is deferred"
+        );
 
+        let output = reduce(
+            before.state,
+            before_drop_or_paste_completed_event(UiEventId(192), false),
+        );
         let text_box = output
             .state
             .text_boxes
@@ -4703,11 +4812,7 @@ mod tests {
         assert_eq!(text_box.caret.active, 3);
         assert_eq!(
             effect_names(&output.effects),
-            vec![
-                "fire_vba_event:BeforeDropOrPaste",
-                "fire_vba_event:Change",
-                "request_repaint"
-            ]
+            vec!["fire_vba_event:Change", "request_repaint"]
         );
     }
 
@@ -4737,6 +4842,18 @@ mod tests {
         )
     }
 
+    fn before_drop_or_paste_completed_event(event_id: UiEventId, cancelled: bool) -> UiEvent {
+        UiEvent::new(
+            event_id,
+            UiEventSource::Service,
+            UiEventKind::BeforeDropOrPasteCompleted(BeforeDropOrPasteCompletedEvent {
+                form_id: FormId::new("form-main"),
+                cancelled,
+                dispatch_diagnostics: Vec::new(),
+            }),
+        )
+    }
+
     #[test]
     fn ctrl_v_keydown_requests_clipboard_then_pastes_on_the_folded_result() {
         // The V KeyDown fires first, then requests the clipboard (ClipboardGet); the
@@ -4760,35 +4877,46 @@ mod tests {
         // The paired KeyPress is suppressed -- a Ctrl chord carries no character.
         assert!(down.state.keyboard.suppress_next_character_input);
 
-        // The request_id encodes the originating event id; the folded-back result paste
-        // inserts the clipboard text and fires BeforeDropOrPaste -> Change.
+        // The request_id encodes the originating event id; the folded-back result fires
+        // BeforeDropOrPaste FIRST with the value still empty (two-stage paste, oxforms-esq.17)
+        // and defers the insert. The chord's FM20 Shift (=2) rides BeforeDropOrPaste (oracle
+        // ctrlv row 4; oxforms-esq.13).
         let pasted = reduce(
             down.state,
             clipboard_get_text_event(UiEventId(71), "keyboard-paste-70", "Seed", &["text/plain"]),
         );
         assert_eq!(
             effect_names(&pasted.effects),
-            vec![
-                "fire_vba_event:BeforeDropOrPaste",
-                "fire_vba_event:Change",
-                "request_repaint"
-            ]
+            vec!["fire_vba_event:BeforeDropOrPaste"]
         );
-        // The originating Ctrl+V chord's FM20 Shift (=2) is threaded through the clipboard
-        // round-trip to BeforeDropOrPaste (oracle ctrlv row 4; oxforms-esq.13).
         assert_eq!(
             before_drop_or_paste_shift(&pasted.effects),
             Some("2".to_string())
         );
-        let text_box = pasted
-            .state
-            .text_boxes
-            .iter()
-            .find(|entry| entry.control_id == ControlId::new("text-1"))
-            .expect("text box state");
-        assert_eq!(text_box.text, "Seed");
-        // The paste consumed the pending request (no stale correlation left behind).
+        assert!(
+            text_box_state(&pasted.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.is_empty())
+                .unwrap_or(true),
+            "the value is unchanged at BeforeDropOrPaste; the insert is deferred"
+        );
+        // The keyboard-paste correlation is consumed at BeforeDropOrPaste time; the deferred
+        // insert is held in pending_paste_commit.
         assert!(pasted.state.pending_clipboard_paste.is_none());
+        assert!(pasted.state.pending_paste_commit.is_some());
+
+        // The non-veto BeforeDropOrPaste completion inserts the clipboard text + fires Change.
+        let committed = reduce(
+            pasted.state,
+            before_drop_or_paste_completed_event(UiEventId(171), false),
+        );
+        assert_eq!(
+            effect_names(&committed.effects),
+            vec!["fire_vba_event:Change", "request_repaint"]
+        );
+        let text_box =
+            text_box_state(&committed.state, &ControlId::new("text-1")).expect("text box state");
+        assert_eq!(text_box.text, "Seed");
+        assert!(committed.state.pending_paste_commit.is_none());
     }
 
     /// The folded-back ClipboardResult is correlated to the originating request by
@@ -4834,7 +4962,9 @@ mod tests {
             .unwrap_or(true));
 
         // Focus moves to text-2 BEFORE the matching result returns; the paste still lands on
-        // the captured target (text-1), not the now-focused text-2.
+        // the captured target (text-1), not the now-focused text-2. The captured target is
+        // carried into pending_paste_commit at BeforeDropOrPaste time, so the deferred insert
+        // (esq.17) lands on text-1 regardless of focus.
         let mut moved = down.state;
         moved.focus_owner = Some(FocusTarget::Control(ControlId::new("text-2")));
         let pasted = reduce(
@@ -4842,15 +4972,29 @@ mod tests {
             clipboard_get_text_event(UiEventId(82), "keyboard-paste-80", "Seed", &["text/plain"]),
         );
         assert_eq!(
-            text_box_state(&pasted.state, &ControlId::new("text-1"))
+            pasted
+                .state
+                .pending_paste_commit
+                .as_ref()
+                .map(|p| &p.control_id),
+            Some(&ControlId::new("text-1")),
+            "the deferred paste captured text-1 as its target"
+        );
+        let committed = reduce(
+            pasted.state,
+            before_drop_or_paste_completed_event(UiEventId(182), false),
+        );
+        assert_eq!(
+            text_box_state(&committed.state, &ControlId::new("text-1"))
                 .map(|entry| entry.text.as_str()),
             Some("Seed"),
             "the paste lands on the captured target (text-1), not current focus (text-2)"
         );
-        assert!(text_box_state(&pasted.state, &ControlId::new("text-2"))
+        assert!(text_box_state(&committed.state, &ControlId::new("text-2"))
             .map(|entry| entry.text.is_empty())
             .unwrap_or(true));
-        assert!(pasted.state.pending_clipboard_paste.is_none());
+        assert!(committed.state.pending_clipboard_paste.is_none());
+        assert!(committed.state.pending_paste_commit.is_none());
     }
 
     #[test]
@@ -4925,8 +5069,8 @@ mod tests {
             .map(|entry| entry.text.is_empty())
             .unwrap_or(true));
 
-        // A later programmatic paste (no pending) is NOT blocked by a stale pending: it
-        // pastes at current focus with Shift=0.
+        // A later programmatic paste (no pending) is NOT blocked by a stale pending: it fires
+        // BeforeDropOrPaste at current focus with Shift=0, then the non-veto completion inserts.
         let programmatic = reduce(
             empty.state,
             clipboard_get_text_event(
@@ -4937,15 +5081,66 @@ mod tests {
             ),
         );
         assert_eq!(
-            text_box_state(&programmatic.state, &ControlId::new("text-1"))
+            before_drop_or_paste_shift(&programmatic.effects),
+            Some("0".to_string()),
+            "a programmatic paste reports Shift=0"
+        );
+        let committed = reduce(
+            programmatic.state,
+            before_drop_or_paste_completed_event(UiEventId(192), false),
+        );
+        assert_eq!(
+            text_box_state(&committed.state, &ControlId::new("text-1"))
                 .map(|entry| entry.text.as_str()),
             Some("Prog"),
             "a programmatic paste is not dropped by a (now-cleared) pending"
         );
+    }
+
+    #[test]
+    fn vetoing_before_drop_or_paste_suppresses_the_paste() {
+        // oxforms-esq.17 oracle w008-paste-veto-20260629T003400Z (paste_veto): a vetoing
+        // BeforeDropOrPaste (Cancel=True) suppresses the keyboard Ctrl+V paste -- no Change,
+        // value unchanged. The reducer fires BeforeDropOrPaste first (value still empty) and
+        // only the non-veto completion inserts; the veto completion drops the deferred paste.
+        let down = reduce(
+            focused_text_box_form(),
+            ctrl_v_key_down(
+                UiEventId(95),
+                KeyboardModifiers {
+                    control: true,
+                    ..KeyboardModifiers::default()
+                },
+            ),
+        );
+        let pasted = reduce(
+            down.state,
+            clipboard_get_text_event(UiEventId(96), "keyboard-paste-95", "Seed", &["text/plain"]),
+        );
         assert_eq!(
-            before_drop_or_paste_shift(&programmatic.effects),
-            Some("0".to_string()),
-            "a programmatic paste reports Shift=0"
+            effect_names(&pasted.effects),
+            vec!["fire_vba_event:BeforeDropOrPaste"]
+        );
+        assert!(pasted.state.pending_paste_commit.is_some());
+
+        // Cancel=True: the paste is suppressed -- no Change, no insert, value stays empty.
+        let vetoed = reduce(
+            pasted.state,
+            before_drop_or_paste_completed_event(UiEventId(196), true),
+        );
+        assert!(
+            effect_names(&vetoed.effects).is_empty(),
+            "a vetoed BeforeDropOrPaste emits nothing (no Change/repaint)"
+        );
+        assert!(
+            text_box_state(&vetoed.state, &ControlId::new("text-1"))
+                .map(|entry| entry.text.is_empty())
+                .unwrap_or(true),
+            "the vetoed paste did not insert -- value unchanged"
+        );
+        assert!(
+            vetoed.state.pending_paste_commit.is_none(),
+            "the pending paste is consumed by the veto completion"
         );
     }
 

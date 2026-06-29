@@ -1494,6 +1494,18 @@ fn normalized_input_json(kind: &UiEventKind) -> Value {
                     .collect::<Vec<_>>()
             }
         }),
+        UiEventKind::BeforeDropOrPasteCompleted(payload) => json!({
+            "kind": "before_drop_or_paste_completed",
+            "payload": {
+                "form_id": payload.form_id.0,
+                "cancelled": payload.cancelled,
+                "dispatch_diagnostics": payload
+                    .dispatch_diagnostics
+                    .iter()
+                    .map(diagnostic_json)
+                    .collect::<Vec<_>>()
+            }
+        }),
         UiEventKind::WindowHidden(payload) => json!({
             "kind": "window_hidden",
             "payload": {

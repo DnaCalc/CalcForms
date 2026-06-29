@@ -1044,6 +1044,50 @@ fn pin_ctrl_v_empty_clipboard_is_a_no_paste() {
     );
 }
 
+/// PIN (oxforms-esq.17) — a VETOING BeforeDropOrPaste suppresses the keyboard Ctrl+V paste
+/// end-to-end through the real runner. With the InputField_BeforeDropOrPaste veto armed
+/// (Cancel=True), the runner folds the readback back as BeforeDropOrPasteCompleted and the
+/// reducer drops the deferred paste: BeforeDropOrPaste still fires but NO Change, and the
+/// pending paste is consumed. Mirrors oracle w008-paste-veto-20260629T003400Z paste_veto.
+#[test]
+fn runner_honors_paste_veto_end_to_end() {
+    let mut runner = attach_runner();
+    focus_input_field(&mut runner);
+    runner.set_clipboard_text("OxFormsClipboardSeed");
+    runner
+        .invoke_form_sub("ArmPasteVeto")
+        .expect("arm the InputField BeforeDropOrPaste veto");
+
+    let mut order = Vec::new();
+    for event in ctrl_v_chord() {
+        order.extend(dispatched_event_names(
+            &runner.dispatch(event).expect("dispatch Ctrl+V chord event"),
+        ));
+    }
+
+    assert_eq!(
+        order,
+        vec!["KeyDown", "KeyDown", "BeforeDropOrPaste", "KeyUp", "KeyUp"],
+        "a vetoing BeforeDropOrPaste suppresses the paste: BeforeDropOrPaste fires but NO Change \
+         (oxforms-esq.17, oracle w008-paste-veto paste_veto)"
+    );
+    assert!(
+        runner.form().state.pending_paste_commit.is_none(),
+        "the veto completion consumes the deferred paste -- no leak"
+    );
+    assert!(
+        runner
+            .form()
+            .state
+            .text_boxes
+            .iter()
+            .find(|entry| entry.control_id == ControlId::new("InputField"))
+            .map(|entry| entry.text.is_empty())
+            .unwrap_or(true),
+        "the vetoed paste inserted nothing -- InputField value unchanged"
+    );
+}
+
 /// PIN — a drag-drop text paste natively dispatches BeforeDropOrPaste -> Change. esq.9
 /// added BeforeDropOrPaste to the native-dispatch allowlist, which also routes the
 /// pre-existing drag-drop paste path (`reduce_drop_or_paste`) through

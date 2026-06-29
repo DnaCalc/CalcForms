@@ -1,0 +1,176 @@
+{
+  "schema": "oxforms.office_oracle.w008_paste_veto_run_summary.v1",
+  "bead": "oxforms-esq.17",
+  "capture_id": "w008-paste-veto-20260629T003400Z",
+  "status": "captured",
+  "row_count": 15,
+  "scenarios": [
+    "paste_veto",
+    "paste_baseline"
+  ],
+  "scenario_coverage": {
+    "paste_veto": "observed_rows",
+    "paste_baseline": "observed_rows"
+  },
+  "finding": "SETTLED: a vetoing BeforeDropOrPaste (Cancel = True) SUPPRESSES a keyboard Ctrl+V paste. paste_veto rows: KeyDown(17=Ctrl, Shift=2) -> KeyDown(86=V, Shift=2) -> BeforeDropOrPaste(Cancel False->True; Action=2; data_object=present) -> KeyUp(86) -> KeyUp(17) -- NO Change fires and TextBox1.Value stays empty (the paste is suppressed). paste_baseline rows (no veto): KeyDown(17) -> KeyDown(86) -> BeforeDropOrPaste(Cancel False->False) -> Change(value=OxFormsPasteSeed) -> KeyUp(86) -> KeyUp(17) -- Change fires and the clipboard text is inserted. CONCLUSION (esq.17): honor the BeforeDropOrPaste Cancel=True veto by suppressing the paste (no text insert, no Change), analogous to the BeforeUpdate veto (esq.11). Because OxForms reduce_clipboard_result currently inserts BEFORE firing BeforeDropOrPaste, honoring the veto needs the insert DEFERRED until after the Cancel readback folds back (a two-stage paste). The Shift=2 (Ctrl) arg fidelity already landed in esq.13. A real Ctrl+V keystroke was used (KeyCode 17/86 are genuine VK codes, not VK_PACKET).",
+  "driving_method": "Computer-use vision on a background-COM-hosted Excel running the committed w008-paste-veto fixture; the public Windows clipboard was seeded with \"OxFormsPasteSeed\", then a real Ctrl+V keystroke was sent. Each scenario was a separate ClearLog -> Show -> SetW008Scenario* -> drive -> export run, so the per-run sequence restarts at 1. The veto is armed by SetW008ScenarioPasteVeto (gVetoPaste True -> the handler sets Cancel.Value = True); the baseline leaves it False.",
+  "scenario_summaries": [
+    {
+      "scenario": "paste_veto",
+      "row_count": 5,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyDown",
+        "BeforeDropOrPaste",
+        "KeyUp",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "17",
+          "arg_after": "17",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Shift=2"
+        },
+        {
+          "sequence": "4",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "86",
+          "arg_after": "86",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Shift=2"
+        },
+        {
+          "sequence": "5",
+          "control_name": "TextBox1",
+          "event_name": "BeforeDropOrPaste",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "True",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Action=2; Effect=0; X=0; Y=0; Shift=2; data_object=present; public_getformat_1=True"
+        },
+        {
+          "sequence": "6",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "86",
+          "arg_after": "86",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Shift=2"
+        },
+        {
+          "sequence": "7",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "17",
+          "arg_after": "17",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Shift=0"
+        }
+      ]
+    },
+    {
+      "scenario": "paste_baseline",
+      "row_count": 6,
+      "observed": true,
+      "event_names": [
+        "KeyDown",
+        "KeyDown",
+        "BeforeDropOrPaste",
+        "Change",
+        "KeyUp",
+        "KeyUp"
+      ],
+      "rows": [
+        {
+          "sequence": "3",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "17",
+          "arg_after": "17",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Shift=2"
+        },
+        {
+          "sequence": "4",
+          "control_name": "TextBox1",
+          "event_name": "KeyDown",
+          "arg_name": "KeyCode",
+          "arg_before": "86",
+          "arg_after": "86",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Shift=2"
+        },
+        {
+          "sequence": "5",
+          "control_name": "TextBox1",
+          "event_name": "BeforeDropOrPaste",
+          "arg_name": "Cancel",
+          "arg_before": "False",
+          "arg_after": "False",
+          "focus_owner_after": "TextBox1",
+          "value_after": "",
+          "notes": "Action=2; Effect=0; X=0; Y=0; Shift=2; data_object=present; public_getformat_1=True"
+        },
+        {
+          "sequence": "6",
+          "control_name": "TextBox1",
+          "event_name": "Change",
+          "arg_name": "",
+          "arg_before": "",
+          "arg_after": "",
+          "focus_owner_after": "TextBox1",
+          "value_after": "OxFormsPasteSeed",
+          "notes": "Change handler; .Value read at handler entry"
+        },
+        {
+          "sequence": "7",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "86",
+          "arg_after": "86",
+          "focus_owner_after": "TextBox1",
+          "value_after": "OxFormsPasteSeed",
+          "notes": "Shift=2"
+        },
+        {
+          "sequence": "8",
+          "control_name": "TextBox1",
+          "event_name": "KeyUp",
+          "arg_name": "KeyCode",
+          "arg_before": "17",
+          "arg_after": "17",
+          "focus_owner_after": "TextBox1",
+          "value_after": "OxFormsPasteSeed",
+          "notes": "Shift=0"
+        }
+      ]
+    }
+  ],
+  "non_claims": [
+    "Scenario coverage reports observed worksheet rows in this run only.",
+    "value_after is TextBox1.Value read at handler entry; the suppressed paste shows the value unchanged (empty) across the BeforeDropOrPaste row and no Change row.",
+    "BeforeDropOrPaste Action/Effect/Shift/data-object details are recorded in the notes column as observed; only the Cancel veto EFFECT (suppress vs insert) is consumed by esq.17.",
+    "Absence of a row is not a negative parity fact.",
+    "No OxForms runtime behavior is claimed by the capture (oxforms-esq.17 consumes it)."
+  ]
+}

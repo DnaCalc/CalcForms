@@ -35,9 +35,9 @@ use oxforms_core::{
     ValidationStage,
 };
 use oxforms_pal::{
-    ClipboardOperation, ClipboardResultEvent, ControlId, FocusValidationCompletedEvent,
-    KeyDownSwallowedEvent, QueryCloseCompletedEvent, ServiceOutcome, ServicePayload,
-    ServiceRequestId, UiEvent, UiEventId, UiEventKind, UiEventSource,
+    BeforeDropOrPasteCompletedEvent, ClipboardOperation, ClipboardResultEvent, ControlId,
+    FocusValidationCompletedEvent, KeyDownSwallowedEvent, QueryCloseCompletedEvent, ServiceOutcome,
+    ServicePayload, ServiceRequestId, UiEvent, UiEventId, UiEventKind, UiEventSource,
 };
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
@@ -624,10 +624,10 @@ impl RuntimeRunner {
             "BeforeDropOrPaste" => {
                 // Fires before a clipboard/drag paste applies; PerformBeforeDropOrPaste
                 // raises BeforeDropOrPaste with a fresh ReturnBoolean Cancel + the Action
-                // (2 = fmActionPaste) and Shift, returning the post-handler Cancel.
-                // Recorded; honoring the cancel is a later slice (oxforms-esq.13). The
-                // Shift arg is whatever the reducer emitted (0 for a keyboard paste today;
-                // the oracle's Shift=2 modifier context is also deferred to esq.13).
+                // (2 = fmActionPaste) and Shift, returning the post-handler Cancel. The Cancel
+                // is folded back as BeforeDropOrPasteCompleted and HONORED (oxforms-esq.17): a
+                // veto suppresses the deferred text insert + Change. The Shift arg carries the
+                // chord's FM20 mask threaded by the reducer (2 for a keyboard Ctrl+V, esq.13).
                 let action = effect_arg_i16(effect, "Action").unwrap_or(2);
                 let shift = effect_arg_i16(effect, "Shift").unwrap_or(0);
                 (
@@ -656,8 +656,8 @@ impl RuntimeRunner {
         // helper (True = vetoed); both are folded back as FocusValidationCompleted and
         // honored by the two-stage focus validation (oxforms-esq.4/esq.11). PerformClick,
         // ApplyUserText, AfterUpdate, and the mouse members return nothing meaningful.
-        // PerformBeforeDropOrPaste returns its Cancel too, but that veto is recorded and not
-        // yet honored (oxforms-esq.13).
+        // PerformBeforeDropOrPaste returns its Cancel too, folded back as
+        // BeforeDropOrPasteCompleted and honored by the two-stage paste (oxforms-esq.17).
         let returned = if matches!(event_name, "KeyDown" | "KeyUp" | "KeyPress") {
             result.as_i16().map(|code| code.to_string())
         } else if matches!(event_name, "Exit" | "BeforeUpdate" | "BeforeDropOrPaste") {
@@ -741,7 +741,10 @@ impl RuntimeRunner {
     ///     suppresses the value commit (AfterUpdate/Exit/Enter) and a vetoing `Exit`
     ///     retains focus instead of committing the deferred transfer (oxforms-esq.11);
     ///   * a swallowed `KeyDown` (`KeyCode -> 0`) re-enters as `KeyDownSwallowed`, so the
-    ///     paired `KeyPress`/`Change` (the following `CharacterInput`) is suppressed.
+    ///     paired `KeyPress`/`Change` (the following `CharacterInput`) is suppressed;
+    ///   * a `BeforeDropOrPaste` `Cancel` re-enters as `BeforeDropOrPasteCompleted` (when a
+    ///     paste is in flight), so a vetoing paste suppresses the deferred text insert +
+    ///     `Change` instead of only being recorded (oxforms-esq.17).
     fn foldback_event(&self, record: &NativeDispatchRecord) -> Option<UiEvent> {
         match record.event_name.as_str() {
             "QueryClose" => {
@@ -809,6 +812,26 @@ impl RuntimeRunner {
                     UiEventSource::Service,
                     UiEventKind::KeyDownSwallowed(KeyDownSwallowedEvent {
                         form_id: self.form.form_id.clone(),
+                        dispatch_diagnostics: Vec::new(),
+                    }),
+                ))
+            }
+            "BeforeDropOrPaste" => {
+                // Two-stage paste (oxforms-esq.17): the reducer fired BeforeDropOrPaste with the
+                // target value still unchanged and stashed pending_paste_commit; fold the
+                // post-handler Cancel (ReturnBoolean -> "true"/"false") back as
+                // BeforeDropOrPasteCompleted so a veto (Cancel=True) suppresses the deferred
+                // insert + Change and a pass commits it. Gated on the reducer actually having a
+                // paste in flight (a drag/drop BeforeDropOrPaste with no pending paste folds
+                // nothing).
+                self.form.state.pending_paste_commit.as_ref()?;
+                let cancelled = record.returned.as_deref() == Some("true");
+                Some(UiEvent::new(
+                    UiEventId(0),
+                    UiEventSource::Service,
+                    UiEventKind::BeforeDropOrPasteCompleted(BeforeDropOrPasteCompletedEvent {
+                        form_id: self.form.form_id.clone(),
+                        cancelled,
                         dispatch_diagnostics: Vec::new(),
                     }),
                 ))

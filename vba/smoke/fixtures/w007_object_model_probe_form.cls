@@ -20,6 +20,10 @@ Private mExitVeto As Boolean
 ' When True, InputField_BeforeUpdate vetoes (Cancel = True). Default False. Armed via
 ' ArmBeforeUpdateVeto to exercise the two-stage BeforeUpdate veto end-to-end (oxforms-esq.11).
 Private mBeforeUpdateVeto As Boolean
+' When True, InputField_BeforeDropOrPaste vetoes (Cancel = True). Default False -- a paste
+' that proceeds. Armed via ArmPasteVeto to exercise the two-stage paste veto end-to-end:
+' a vetoing BeforeDropOrPaste suppresses the keyboard Ctrl+V paste (no Change) (oxforms-esq.17).
+Private mPasteVeto As Boolean
 
 Public Sub Build()
     Set mForm = New UserForm
@@ -131,6 +135,21 @@ End Sub
 ' Called outside the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.11).
 Public Sub ArmBeforeUpdateVeto()
     mBeforeUpdateVeto = True
+End Sub
+
+' Native FM20 BeforeDropOrPaste event (oxforms-esq.9). Fires before a keyboard Ctrl+V paste
+' applies; when the veto is armed it sets the mutable Cancel to suppress the paste (no text
+' insert, no Change), proving the two-stage paste veto round-trip (oxforms-esq.17). Default
+' (unarmed) releases, so the paste proceeds.
+Private Sub InputField_BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)
+    Append "InputField_BeforeDropOrPaste;Action=" & Action & ";Shift=" & Shift
+    Cancel.Value = mPasteVeto
+End Sub
+
+' Arm the InputField_BeforeDropOrPaste veto for the two-stage paste conformance test.
+' Called outside the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.17).
+Public Sub ArmPasteVeto()
+    mPasteVeto = True
 End Sub
 
 Private Sub OkButton_Click()

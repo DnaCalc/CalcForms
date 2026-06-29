@@ -1,0 +1,20 @@
+{
+  "schema": "oxforms.office_oracle.w008_paste_veto_input_actions.v1",
+  "bead": "oxforms-esq.17",
+  "manual_inputs": [
+    {
+      "label": "paste_veto",
+      "method": "computer_use_clipboard_seed_plus_ctrl_v",
+      "note": "Seed clipboard with OxFormsPasteSeed; focus TextBox1; send real Ctrl+V with gVetoPaste armed (Cancel=True)."
+    },
+    {
+      "label": "paste_baseline",
+      "method": "computer_use_clipboard_seed_plus_ctrl_v",
+      "note": "Same, with gVetoPaste False (non-vetoing baseline that inserts the text)."
+    }
+  ],
+  "automated_inputs": [],
+  "non_claims": [
+    "Inputs were driven by computer-use + background COM + the public Windows clipboard; events are live MSForms handler observations."
+  ]
+}

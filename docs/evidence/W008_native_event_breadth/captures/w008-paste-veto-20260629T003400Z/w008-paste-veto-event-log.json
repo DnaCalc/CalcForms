@@ -1,0 +1,180 @@
+{
+  "schema": "oxforms.office_oracle.w008_paste_veto_event_log.v1",
+  "bead": "oxforms-esq.17",
+  "source": {
+    "worksheet": "W008PasteVetoLog",
+    "columns": [
+      "sequence",
+      "scenario",
+      "control_name",
+      "event_name",
+      "arg_name",
+      "arg_before",
+      "arg_after",
+      "focus_owner_after",
+      "value_after",
+      "notes"
+    ],
+    "fixture": "fixtures/office-oracle/excel-msforms/userforms/w008-paste-veto/fixture.json",
+    "note": "Two separate clear -> drive -> export runs (one per scenario); the worksheet sequence restarts at 1 per run. observed_facts.row_count counts ALL CSV rows including the per-run Initialize + TextBox1 Enter setup rows (empty scenario); scenario_summaries enumerate only the scenario-tagged rows (seq >= 3). Unlike the checkbox-update capture, the notes column here is FIXTURE-CAPTURED (W008PvLog writes the BeforeDropOrPaste Action/Effect/Shift/data-object details + the Shift mask), not author annotation."
+  },
+  "observed_facts": {
+    "row_count": 15,
+    "scenarios": [
+      "paste_veto",
+      "paste_baseline"
+    ],
+    "scenario_summaries": [
+      {
+        "scenario": "paste_veto",
+        "row_count": 5,
+        "observed": true,
+        "event_names": [
+          "KeyDown",
+          "KeyDown",
+          "BeforeDropOrPaste",
+          "KeyUp",
+          "KeyUp"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "17",
+            "arg_after": "17",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Shift=2"
+          },
+          {
+            "sequence": "4",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "86",
+            "arg_after": "86",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Shift=2"
+          },
+          {
+            "sequence": "5",
+            "control_name": "TextBox1",
+            "event_name": "BeforeDropOrPaste",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "True",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Action=2; Effect=0; X=0; Y=0; Shift=2; data_object=present; public_getformat_1=True"
+          },
+          {
+            "sequence": "6",
+            "control_name": "TextBox1",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "86",
+            "arg_after": "86",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Shift=2"
+          },
+          {
+            "sequence": "7",
+            "control_name": "TextBox1",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "17",
+            "arg_after": "17",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Shift=0"
+          }
+        ]
+      },
+      {
+        "scenario": "paste_baseline",
+        "row_count": 6,
+        "observed": true,
+        "event_names": [
+          "KeyDown",
+          "KeyDown",
+          "BeforeDropOrPaste",
+          "Change",
+          "KeyUp",
+          "KeyUp"
+        ],
+        "rows": [
+          {
+            "sequence": "3",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "17",
+            "arg_after": "17",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Shift=2"
+          },
+          {
+            "sequence": "4",
+            "control_name": "TextBox1",
+            "event_name": "KeyDown",
+            "arg_name": "KeyCode",
+            "arg_before": "86",
+            "arg_after": "86",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Shift=2"
+          },
+          {
+            "sequence": "5",
+            "control_name": "TextBox1",
+            "event_name": "BeforeDropOrPaste",
+            "arg_name": "Cancel",
+            "arg_before": "False",
+            "arg_after": "False",
+            "focus_owner_after": "TextBox1",
+            "value_after": "",
+            "notes": "Action=2; Effect=0; X=0; Y=0; Shift=2; data_object=present; public_getformat_1=True"
+          },
+          {
+            "sequence": "6",
+            "control_name": "TextBox1",
+            "event_name": "Change",
+            "arg_name": "",
+            "arg_before": "",
+            "arg_after": "",
+            "focus_owner_after": "TextBox1",
+            "value_after": "OxFormsPasteSeed",
+            "notes": "Change handler; .Value read at handler entry"
+          },
+          {
+            "sequence": "7",
+            "control_name": "TextBox1",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "86",
+            "arg_after": "86",
+            "focus_owner_after": "TextBox1",
+            "value_after": "OxFormsPasteSeed",
+            "notes": "Shift=2"
+          },
+          {
+            "sequence": "8",
+            "control_name": "TextBox1",
+            "event_name": "KeyUp",
+            "arg_name": "KeyCode",
+            "arg_before": "17",
+            "arg_after": "17",
+            "focus_owner_after": "TextBox1",
+            "value_after": "OxFormsPasteSeed",
+            "notes": "Shift=0"
+          }
+        ]
+      }
+    ]
+  }
+}
