@@ -1,0 +1,56 @@
+{
+  "id": "excel-msforms-w008-held-cancel-accel-v1",
+  "form": {
+    "name": "OxFormsW008HeldCancelAccel",
+    "caption": "OxForms W008 Held Cancel/Accel Oracle",
+    "widthPt": 260,
+    "heightPt": 120,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "TextBox1",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "CancelButton",
+        "type": "Forms.CommandButton.1",
+        "caption": "Cancel",
+        "leftPt": 12,
+        "topPt": 44,
+        "widthPt": 100,
+        "heightPt": 24
+      },
+      {
+        "name": "AccelButton",
+        "type": "Forms.CommandButton.1",
+        "caption": "&Apply",
+        "leftPt": 132,
+        "topPt": 44,
+        "widthPt": 100,
+        "heightPt": 24
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-held-cancel-accel-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008CancelAccelOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008HeldCancelAccelModeless",
+    "clearLogMacroName": "ClearW008HeldCancelAccelLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "esq.15 settled the held DEFAULT-BUTTON Enter (activates once); oxforms-uvh asks the analogous question for the CANCEL button (held Escape) and an ACCELERATOR button (held Alt+accelerator): does the activation re-fire per OS auto-repeat, or once?",
+    "A TextBox1 focus host, a CancelButton whose Cancel property is set True at RUNTIME in UserForm_Initialize (never a design-time fixture property, mirroring the held-key OkButton.Default gotcha), and an AccelButton whose '&Apply' caption makes Alt+A its accelerator (caption is a plain property, safe design-time).",
+    "Every Enter/Click/KeyDown/KeyUp handler logs one W008HeldCancelAccelLog row recording the count-relevant arg (KeyCode before/after for keys; none for Click/Enter), the post-handler focus owner (so whether Escape/Alt+A TRANSFERS focus to the button, like Enter->Default did, is observable), and TextBox1.Text. A held key yields one row per OS repeat, so the Click count answers uvh.",
+    "No control fonts are declared/applied (a design-time font set hangs the SaveAs dialog). Two scenarios via SetW008Scenario* before each held gesture: held_escape_cancel and held_alt_accelerator."
+  ]
+}

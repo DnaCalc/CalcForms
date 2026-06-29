@@ -1,0 +1,46 @@
+{
+  "id": "excel-msforms-w008-dragdrop-veto-v1",
+  "form": {
+    "name": "OxFormsW008DragDropVeto",
+    "caption": "OxForms W008 Drag-Drop Veto Oracle",
+    "widthPt": 260,
+    "heightPt": 130,
+    "startupPosition": 2,
+    "codeBehindSourcePath": "form-code-behind.bas",
+    "controls": [
+      {
+        "name": "SourceBox",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 12,
+        "widthPt": 230,
+        "heightPt": 20
+      },
+      {
+        "name": "TargetBox",
+        "type": "Forms.TextBox.1",
+        "leftPt": 12,
+        "topPt": 72,
+        "widthPt": 230,
+        "heightPt": 20
+      }
+    ]
+  },
+  "workbook": {
+    "fileName": "w008-dragdrop-veto-oracle.xlsm",
+    "vbaModuleName": "OxFormsW008DragDropVetoOracle",
+    "standardModuleSourcePath": "standard-module.bas",
+    "showMacroName": "ShowW008DragDropVetoModeless",
+    "clearLogMacroName": "ClearW008DragDropVetoLog"
+  },
+  "cleanRoom": {
+    "source": "Repo-owned Excel/MSForms fixture input generated through public Excel/VBIDE automation and driven with public Windows mouse input.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "notes": [
+    "esq.17 settled the KEYBOARD Ctrl+V BeforeDropOrPaste veto (Cancel=True suppresses the paste) and OxForms honors it via a two-stage paste; the DRAG-DROP origin still inserts synchronously (veto recorded-not-honored). oxforms-4f8 asks: does a vetoing BeforeDropOrPaste (Cancel=True) suppress a DRAG-DROP drop the same way a keyboard paste?",
+    "SourceBox holds 'OxFormsDragSeed' and has DragBehavior enabled at RUNTIME (UserForm_Initialize) so its selected text can be dragged; TargetBox is the drop target. TargetBox_BeforeDropOrPaste uses the plain-TextBox MdcTextEvents signature (Cancel, Action, Data, X, Y, Effect, Shift -- NO leading Index), matching the committed paste-veto + ctrlv-keyboard-ordering fixtures. When gVetoDrop is armed it sets Cancel.Value = True.",
+    "Two scenarios: dragdrop_baseline (gVetoDrop False) should drop the text into TargetBox (Change fires); dragdrop_veto (gVetoDrop True) is the load-bearing case -- the rows reveal whether a vetoing BeforeDropOrPaste suppresses the drop (no Change, TargetBox unchanged) AND the Action value for a drag-drop (vs Action=2 for a keyboard paste).",
+    "No control fonts are declared/applied (a design-time font set hangs the SaveAs dialog). value_after is TargetBox.Value at handler entry, so a suppressed drop shows the value unchanged across the BeforeDropOrPaste row; the notes column carries the Action/Effect/Shift/Data details."
+  ]
+}
