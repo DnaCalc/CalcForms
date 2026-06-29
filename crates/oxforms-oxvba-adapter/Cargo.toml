@@ -12,19 +12,21 @@ unsafe_code = "forbid"
 oxforms-core = { path = "../oxforms-core" }
 oxforms-pal = { path = "../oxforms-pal" }
 serde_json = "1.0"
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
-oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
+oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
+oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
 # The runtime effect runner drives an OxVba session (creates instances, invokes
 # native control members), so the host + bundle crates are runtime dependencies.
-oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
+oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
+oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
 
 [dev-dependencies]
 # Desktop backend (shaper + rasterizer) used ONLY by the end-to-end glyph-coverage
 # test, which drives a real VBA self-render through the real AbGlyphShaper and asserts
 # captions rasterize. The production adapter stays backend-independent.
 oxforms-pal-win = { path = "../oxforms-pal-win" }
-oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
-oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
-oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
-oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "807dd215169e10fb28a577f7ffd256538b1212a8" }
+oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
+oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
+oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
+oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }
+# vm3 image pipeline (tests build sessions via oxvba_oxir::elaborate + OxImage).
+oxvba-oxir = { git = "https://github.com/DnaCalc/OxVba.git", rev = "2b817614500df367e7fb655eb77a480b51dc1020" }

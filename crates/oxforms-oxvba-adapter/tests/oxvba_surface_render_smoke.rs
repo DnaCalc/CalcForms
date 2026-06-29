@@ -28,7 +28,7 @@ use oxforms_pal::scene::{
 use oxforms_pal::{Color, SurfaceSize};
 use oxforms_pal_win::{load_ui_font, render_scene_to_rgba, AbGlyphShaper, FontTable};
 
-use oxvba_bundle::{BundlePackage, ProjectMemberKind};
+use oxvba_bundle::ProjectMemberKind;
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig, HostProfileProvider};
@@ -58,7 +58,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::ProjectRuntimeSession {
+fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Vm3RuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "W007SurfaceRender".to_string(),
         project_kind: ProjectKind::Library,
@@ -146,14 +146,15 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
 
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind OxForms render project");
-    let bundle = oxvba_bundle::linearize(&program).expect("linearize OxForms render project");
+    let bundle =
+        oxvba_oxir::elaborate::elaborate(&program).expect("elaborate OxForms render project");
 
     let profile = HostProfileProvider::new()
         .with_portable_com_projection(projection)
         .with_host_policy(HostPolicy::interactive_dev());
     let engine = Engine::new(HostConfig { enable_jit: false }).with_host_profile_provider(profile);
     engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .expect("prepare OxForms render session")
 }
 
@@ -225,7 +226,7 @@ fn expected_demo_framebuffer_hash() -> u64 {
 }
 
 fn get_string(
-    session: &mut oxvba_host::ProjectRuntimeSession,
+    session: &mut oxvba_host::Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
 ) -> String {
@@ -400,7 +401,7 @@ fn autosize_label_bounds_track_metrics_and_grow_with_font_size() {
     let form = session
         .create_class_instance("AutoSizeDemoForm")
         .expect("create autosize demo form");
-    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+    let call = |session: &mut oxvba_host::Vm3RuntimeSession, name: &str| {
         session
             .invoke_member_values(
                 form.clone(),
@@ -483,7 +484,7 @@ fn suspend_resume_dedup_emits_one_incremental_node_per_changed_control() {
     let form = session
         .create_class_instance("InvalidationDemoForm")
         .expect("create invalidation demo form");
-    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+    let call = |session: &mut oxvba_host::Vm3RuntimeSession, name: &str| {
         session
             .invoke_member_values(
                 form.clone(),
@@ -586,7 +587,7 @@ fn controls_add_unsupported_progid_returns_nothing_without_crashing() {
     let form = session
         .create_class_instance("InvalidationDemoForm")
         .expect("create invalidation demo form");
-    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+    let call = |session: &mut oxvba_host::Vm3RuntimeSession, name: &str| {
         session
             .invoke_member_values(
                 form.clone(),
@@ -624,7 +625,7 @@ fn controls_add_unsupported_progid_returns_nothing_without_crashing() {
 fn crossing_budget_session(
     count: i32,
 ) -> (
-    oxvba_host::ProjectRuntimeSession,
+    oxvba_host::Vm3RuntimeSession,
     Arc<SurfaceFactory>,
     ObjectRef,
 ) {
@@ -646,7 +647,7 @@ fn crossing_budget_session(
     (session, surface, form)
 }
 
-fn invoke_no_args(session: &mut oxvba_host::ProjectRuntimeSession, form: &ObjectRef, name: &str) {
+fn invoke_no_args(session: &mut oxvba_host::Vm3RuntimeSession, form: &ObjectRef, name: &str) {
     session
         .invoke_member_values(
             form.clone(),
@@ -734,7 +735,7 @@ fn measure_batch_round_trips_typed_records() {
     let form = session
         .create_class_instance("MeasureBatchProbeForm")
         .expect("create MeasureBatchProbeForm");
-    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| -> Variant {
+    let call = |session: &mut oxvba_host::Vm3RuntimeSession, name: &str| -> Variant {
         session
             .invoke_member_values(
                 form.clone(),
@@ -819,7 +820,7 @@ fn autosize_evidence_pngs() {
     let form = session
         .create_class_instance("AutoSizeDemoForm")
         .expect("create autosize demo form");
-    let call = |session: &mut oxvba_host::ProjectRuntimeSession, name: &str| {
+    let call = |session: &mut oxvba_host::Vm3RuntimeSession, name: &str| {
         session
             .invoke_member_values(
                 form.clone(),

@@ -14,7 +14,7 @@ edition = "2021"
 
 [workspace.metadata.oxforms.oxvba_baseline]
 repo = "https://github.com/DnaCalc/OxVba.git"
-rev = "807dd215169e10fb28a577f7ffd256538b1212a8"
-branch = "oxir-vm3-m2c"
-note = "Pinned to the oxir-vm3-m2c branch HEAD (ahead of master 5bc7246e): adds the same-class Left$ intrinsic-resolution fix (807dd215) + the M2-c vm3 error model. Re-pin when the branch advances or once it merges to master."
-policy = "Committed manifests must use pinned git dependencies when OxVba crates are needed; mutable ../OxVba path overrides are local-only."
+rev = "2b817614500df367e7fb655eb77a480b51dc1020"
+branch = "master"
+note = "Pinned to OxVba master 2b817614 — the current pushed vm3-only build (vm2 retired). The legacy linearize / Bundle / BundlePackage + .oxb path is gone, replaced by the vm3 image pipeline: oxvba_bind::bind_program -> oxvba_oxir::elaborate -> OxImage::new(vec![..]) -> Engine::prepare_image_session, yielding a Vm3RuntimeSession (was ProjectRuntimeSession). Re-pin when master advances."
+policy = "Committed manifests use pinned git dependencies for OxVba crates; mutable ../OxVba path overrides are local-only."

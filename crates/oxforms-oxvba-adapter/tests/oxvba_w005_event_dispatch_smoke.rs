@@ -10,7 +10,7 @@ use oxforms_pal::{
     MouseButton, MouseButtonEvent, MouseButtons, PointerId, RawKeyDiagnostics, UiEvent, UiEventId,
     UiEventKind, UiEventSource,
 };
-use oxvba_bundle::{BundlePackage, ProjectMemberKind};
+use oxvba_bundle::ProjectMemberKind;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig};
 use oxvba_runtime::{ObjectRef, Variant};
@@ -65,16 +65,17 @@ fn event_smoke_manifest() -> SymbolProjectManifest {
     }
 }
 
-fn prepare_event_smoke_session() -> oxvba_host::ProjectRuntimeSession {
+fn prepare_event_smoke_session() -> oxvba_host::Vm3RuntimeSession {
     let manifest = event_smoke_manifest();
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind W005 event smoke fixture");
-    let bundle = oxvba_bundle::linearize(&program).expect("linearize W005 event smoke fixture");
+    let bundle =
+        oxvba_oxir::elaborate::elaborate(&program).expect("elaborate W005 event smoke fixture");
 
     let mut engine = Engine::new(HostConfig { enable_jit: false });
     engine.set_host_policy(HostPolicy::interactive_dev());
     engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .expect("prepare W005 event smoke package session")
 }
 
@@ -188,7 +189,7 @@ fn focus_validation_completed_event(form_id: &oxforms_pal::FormId, cancelled: bo
 }
 
 fn dispatch_effects(
-    session: &mut oxvba_host::ProjectRuntimeSession,
+    session: &mut oxvba_host::Vm3RuntimeSession,
     source: ObjectRef,
     effects: &[oxforms_core::EffectRequest],
     next_dispatch_id: &mut u64,

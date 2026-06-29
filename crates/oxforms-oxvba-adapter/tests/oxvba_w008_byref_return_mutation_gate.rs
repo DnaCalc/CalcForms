@@ -21,7 +21,7 @@
 
 use std::path::{Path, PathBuf};
 
-use oxvba_bundle::{BundlePackage, ProjectMemberKind};
+use oxvba_bundle::ProjectMemberKind;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig};
 use oxvba_runtime::{ObjectRef, Variant};
@@ -56,7 +56,7 @@ fn exposed_class(name: &str, source: String) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
+fn prepare_session() -> oxvba_host::Vm3RuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "W008ByRefReturnMutationGate".to_string(),
         project_kind: ProjectKind::Library,
@@ -77,13 +77,13 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
     };
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind W008 ByRef return mutation gate fixture");
-    let bundle = oxvba_bundle::linearize(&program)
-        .expect("linearize W008 ByRef return mutation gate fixture");
+    let bundle = oxvba_oxir::elaborate::elaborate(&program)
+        .expect("elaborate W008 ByRef return mutation gate fixture");
 
     let mut engine = Engine::new(HostConfig { enable_jit: false });
     engine.set_host_policy(HostPolicy::interactive_dev());
     engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .expect("prepare W008 ByRef return mutation gate session")
 }
 
@@ -113,7 +113,7 @@ fn byref_return_helper_mutation_is_read_back_through_dispatch() {
 
     // Helper: raise an event carrying a fresh Return* helper, then read its
     // .Value back after the handler (if any) has run.
-    let raise_and_read = |session: &mut oxvba_host::ProjectRuntimeSession,
+    let raise_and_read = |session: &mut oxvba_host::Vm3RuntimeSession,
                           raiser: &ObjectRef,
                           member: &str,
                           mut args: Vec<Variant>|

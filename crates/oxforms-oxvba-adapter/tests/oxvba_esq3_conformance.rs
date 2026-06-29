@@ -41,9 +41,8 @@ use oxforms_pal::{
     UiEventId, UiEventKind, UiEventSource,
 };
 
-use oxvba_bundle::BundlePackage;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, ProjectRuntimeSession};
+use oxvba_host::{Engine, HostConfig, Vm3RuntimeSession};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -90,7 +89,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> ProjectRuntimeSession {
+fn prepare_session() -> Vm3RuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsEsq3Conformance".to_string(),
         project_kind: ProjectKind::Library,
@@ -158,12 +157,13 @@ fn prepare_session() -> ProjectRuntimeSession {
 
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind esq3 conformance project");
-    let bundle = oxvba_bundle::linearize(&program).expect("linearize esq3 conformance project");
+    let bundle =
+        oxvba_oxir::elaborate::elaborate(&program).expect("elaborate esq3 conformance project");
 
     let mut engine = Engine::new(HostConfig { enable_jit: false });
     engine.set_host_policy(HostPolicy::interactive_dev());
     engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .expect("prepare esq3 conformance session")
 }
 

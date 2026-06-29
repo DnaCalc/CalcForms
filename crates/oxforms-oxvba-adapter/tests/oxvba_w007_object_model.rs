@@ -13,7 +13,7 @@
 
 use std::path::{Path, PathBuf};
 
-use oxvba_bundle::{BundlePackage, ProjectMemberKind};
+use oxvba_bundle::ProjectMemberKind;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig};
 use oxvba_runtime::{ObjectRef, Variant};
@@ -44,7 +44,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
+fn prepare_session() -> oxvba_host::Vm3RuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "W007ObjectModel".to_string(),
         project_kind: ProjectKind::Library,
@@ -112,17 +112,18 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
 
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind OxForms object-model project");
-    let bundle = oxvba_bundle::linearize(&program).expect("linearize OxForms object-model project");
+    let bundle =
+        oxvba_oxir::elaborate::elaborate(&program).expect("elaborate OxForms object-model project");
 
     let mut engine = Engine::new(HostConfig { enable_jit: false });
     engine.set_host_policy(HostPolicy::interactive_dev());
     engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .expect("prepare OxForms object-model session")
 }
 
 fn call(
-    session: &mut oxvba_host::ProjectRuntimeSession,
+    session: &mut oxvba_host::Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
     kind: ProjectMemberKind,
@@ -134,7 +135,7 @@ fn call(
 }
 
 fn get_string(
-    session: &mut oxvba_host::ProjectRuntimeSession,
+    session: &mut oxvba_host::Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
 ) -> String {
@@ -151,7 +152,7 @@ fn get_string(
 }
 
 fn get_object(
-    session: &mut oxvba_host::ProjectRuntimeSession,
+    session: &mut oxvba_host::Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
     args: Vec<Variant>,

@@ -27,10 +27,9 @@ use oxforms_pal::{
     UiEventSource,
 };
 
-use oxvba_bundle::BundlePackage;
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, HostProfileProvider, ProjectRuntimeSession};
+use oxvba_host::{Engine, HostConfig, HostProfileProvider, Vm3RuntimeSession};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -64,7 +63,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
 /// `HANDOVER_OxVba_multi_form_event_route_collision.md`).
 fn prepare_session_with_surface(
     demo_forms: &[(&str, &str)],
-) -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
+) -> (Vm3RuntimeSession, Arc<SurfaceFactory>) {
     let mut modules = vec![
         module_unit(
             "OxFormsModel",
@@ -132,7 +131,8 @@ fn prepare_session_with_surface(
 
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind W007 render-frame project");
-    let bundle = oxvba_bundle::linearize(&program).expect("linearize W007 render-frame project");
+    let bundle =
+        oxvba_oxir::elaborate::elaborate(&program).expect("elaborate W007 render-frame project");
 
     let projection = Arc::new(PortableComProjection::new());
     // The VBA render now measures text via Surface.MeasureText, so a shaper must be
@@ -146,7 +146,7 @@ fn prepare_session_with_surface(
         .with_host_policy(HostPolicy::interactive_dev());
     let engine = Engine::new(HostConfig { enable_jit: false }).with_host_profile_provider(profile);
     let session = engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .expect("prepare W007 render-frame session");
     (session, surface)
 }

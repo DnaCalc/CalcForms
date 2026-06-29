@@ -49,10 +49,9 @@ use oxforms_pal_win::{
 /// so the run ids VBA emits resolve against the face the window rasterizes with.
 const FONT_ID: FontId = FontId(1);
 
-use oxvba_bundle::BundlePackage;
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, HostProfileProvider, ProjectRuntimeSession};
+use oxvba_host::{Engine, HostConfig, HostProfileProvider, Vm3RuntimeSession};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -151,7 +150,7 @@ impl Demo {
 /// OxForms runtime vs PAL/backend vs normal exit are distinguishable).
 #[derive(Debug)]
 enum BootstrapError {
-    /// OxVba project load / bind / linearize / session prepare (compile-time stage).
+    /// OxVba project load / bind / elaborate / session prepare (compile-time stage).
     Project(String),
     /// OxForms runtime: form materialization (pure Rust) or attaching the runner /
     /// re-rendering the form (the latter two are VBA entry).
@@ -361,7 +360,7 @@ fn is_close(event: &UiEvent) -> bool {
 /// registered. The VBA sources are embedded so the bootstrap runs from anywhere.
 fn build_session(
     demo: &Demo,
-) -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError> {
+) -> Result<(Vm3RuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError> {
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsW007Bootstrap".to_string(),
         project_kind: ProjectKind::Library,
@@ -373,8 +372,8 @@ fn build_session(
 
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .map_err(|err| BootstrapError::Project(format!("bind: {err:?}")))?;
-    let bundle = oxvba_bundle::linearize(&program)
-        .map_err(|err| BootstrapError::Project(format!("linearize: {err:?}")))?;
+    let bundle = oxvba_oxir::elaborate::elaborate(&program)
+        .map_err(|err| BootstrapError::Project(format!("elaborate: {err:?}")))?;
 
     // Load the UI font once: the shaper (Surface-side, shapes captions into the resident
     // scene on MeasureText) and the rasterizer's FontTable (window-side) share the same
@@ -395,7 +394,7 @@ fn build_session(
         .with_host_policy(HostPolicy::interactive_dev());
     let engine = Engine::new(HostConfig { enable_jit: false }).with_host_profile_provider(profile);
     let session = engine
-        .prepare_bundle_package_session(BundlePackage::single(bundle))
+        .prepare_image_session(oxvba_oxir::OxImage::new(vec![bundle]))
         .map_err(|err| BootstrapError::Project(format!("prepare session: {err:?}")))?;
     Ok((session, surface, fonts))
 }

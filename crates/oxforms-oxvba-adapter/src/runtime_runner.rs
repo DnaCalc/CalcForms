@@ -40,7 +40,7 @@ use oxforms_pal::{
     ServicePayload, ServiceRequestId, UiEvent, UiEventId, UiEventKind, UiEventSource,
 };
 use oxvba_bundle::ProjectMemberKind;
-use oxvba_host::ProjectRuntimeSession;
+use oxvba_host::Vm3RuntimeSession;
 use oxvba_runtime::{ObjectRef, Variant};
 
 /// Upper bound on readback fold-back re-entry per dispatch (see
@@ -188,7 +188,7 @@ pub struct RuntimeStep {
 /// The runtime/effect runner: owns the OxVba session + the reducer state and bridges
 /// the two.
 pub struct RuntimeRunner {
-    session: ProjectRuntimeSession,
+    session: Vm3RuntimeSession,
     form: RuntimeForm,
     /// The `UserForm` object — the runtime's Re-render target (`render_frame`).
     user_form: ObjectRef,
@@ -218,7 +218,7 @@ impl RuntimeRunner {
     /// class must build controls whose `Name`s match the materialized `RuntimeForm`
     /// (the binding identity established in oxforms-4pn.4).
     pub fn attach(
-        mut session: ProjectRuntimeSession,
+        mut session: Vm3RuntimeSession,
         form: RuntimeForm,
         form_class_name: &str,
         build_member: &str,
@@ -1016,7 +1016,7 @@ fn effect_arg_f32(effect: &EffectRequest, name: &str) -> Option<f32> {
 }
 
 fn invoke(
-    session: &mut ProjectRuntimeSession,
+    session: &mut Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
     kind: ProjectMemberKind,
@@ -1031,7 +1031,7 @@ fn invoke(
 }
 
 fn invoke_object(
-    session: &mut ProjectRuntimeSession,
+    session: &mut Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
     kind: ProjectMemberKind,
@@ -1046,7 +1046,7 @@ fn invoke_object(
 }
 
 fn invoke_bool(
-    session: &mut ProjectRuntimeSession,
+    session: &mut Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
     kind: ProjectMemberKind,
@@ -1061,7 +1061,7 @@ fn invoke_bool(
 }
 
 fn invoke_string(
-    session: &mut ProjectRuntimeSession,
+    session: &mut Vm3RuntimeSession,
     object: ObjectRef,
     member: &str,
     kind: ProjectMemberKind,
