@@ -78,6 +78,15 @@ Public Sub ShowW008HeldCancelAccelModeless()
     OxFormsW008HeldCancelAccel.Show vbModeless
 End Sub
 
+' Modal show (oxforms-uvh): a MODAL form runs its own MSForms message loop, which
+' pre-processes Escape -> Cancel button and Alt+accelerator BEFORE the host Excel can
+' intercept them (the modeless form could not capture these -- the host grabbed Escape and
+' Alt+key). The capture driver calls this via Application.Run; Show vbModal BLOCKS the COM
+' call until the modal is closed (its X), then the driver exports the worksheet.
+Public Sub ShowW008HeldCancelAccelModal()
+    OxFormsW008HeldCancelAccel.Show vbModal
+End Sub
+
 Public Sub FocusControlW008HeldCancelAccel(ByVal name As String)
     OxFormsW008HeldCancelAccel.Controls(name).SetFocus
 End Sub
