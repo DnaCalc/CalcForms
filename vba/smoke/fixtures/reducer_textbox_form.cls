@@ -14,6 +14,7 @@ Private WithEvents mLbl As Label
 Private mLog As String
 Private mT1ExitVeto As Boolean
 Private mT1BeforeUpdateVeto As Boolean
+Private mT1PasteVeto As Boolean
 
 Public Sub Build()
     Set mForm = New UserForm
@@ -59,6 +60,18 @@ End Function
 Public Function DispatchChar(ByVal Text As String) As String
     DispatchChar = mReducer.DispatchChar(Text)
 End Function
+
+Public Function DispatchDrop(ByVal Text As String) As String
+    DispatchDrop = mReducer.DispatchDrop(Text)
+End Function
+
+Public Sub SetClipboardText(ByVal Text As String)
+    mReducer.SetClipboardText Text
+End Sub
+
+Public Sub ArmT1PasteVeto()
+    mT1PasteVeto = True
+End Sub
 
 Public Property Get FocusName() As String
     FocusName = mReducer.FocusName
@@ -116,6 +129,10 @@ Private Sub mT1_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 End Sub
 Private Sub mT1_KeyPress(ByVal KeyAscii As ReturnInteger)
     Append "T1.KeyPress"
+End Sub
+Private Sub mT1_BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)
+    Append "T1.BeforeDropOrPaste"
+    Cancel.Value = mT1PasteVeto
 End Sub
 
 ' --- T2 event sink (focus target) ---

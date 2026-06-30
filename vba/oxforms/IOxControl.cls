@@ -104,3 +104,11 @@ End Property
 ' BEFORE the reducer raises KeyDown (value-first, oracle CheckBox keyboard order).
 Public Function TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
 End Function
+
+' --- Reducer paste surface (clipboard Ctrl+V or drag-drop) ---
+' Apply a paste of Text to the control: a TextBox raises BeforeDropOrPaste (a handler may veto by
+' setting Cancel=True) and, if not vetoed, inserts the text and raises Change; other controls
+' ignore it. Action is the fmAction (2 = paste); Shift is the modifier state. Returns True if the
+' control consumed the paste (i.e. is a text target), regardless of veto.
+Public Function OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+End Function

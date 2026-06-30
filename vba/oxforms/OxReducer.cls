@@ -25,14 +25,19 @@ Private Const OX_BUTTON_LEFT As Integer = 1
 Private Const OX_KEY_TAB As Integer = 9
 Private Const OX_KEY_ENTER As Integer = 13
 Private Const OX_KEY_ESCAPE As Integer = 27
+Private Const OX_KEY_V As Integer = 86
 ' MSForms Shift-arg bitmask: 1 = Shift, 2 = Ctrl, 4 = Alt.
+Private Const OX_SHIFT_CTRL As Integer = 2
 Private Const OX_SHIFT_ALT As Integer = 4
+' fmAction: 2 = paste (the Action arg of BeforeDropOrPaste).
+Private Const OX_ACTION_PASTE As Integer = 2
 
 Private mForm As UserForm
 Private mCaptureName As String    ' control holding the mouse capture ("" = none)
 Private mPressedName As String    ' control whose pressed visual is armed ("" = none)
 Private mFocusName As String      ' the focused control ("" = form / no control focused)
 Private mSwallowNextChar As Boolean ' a swallowed KeyDown suppresses the following character
+Private mClipboardText As String  ' the current clipboard text (the host pushes it; "" = empty)
 Private mDpiX As Long
 Private mDpiY As Long
 Private mEffects As String        ' ordered '|'-joined effect log for the current Dispatch
@@ -43,8 +48,15 @@ Public Sub Init(ByVal Form As UserForm)
     mPressedName = ""
     mFocusName = ""
     mSwallowNextChar = False
+    mClipboardText = ""
     mDpiX = 96
     mDpiY = 96
+End Sub
+
+' The host pushes the current clipboard text before dispatching a Ctrl+V (the live OS clipboard
+' read is the host's job; the reducer treats it as already-resolved text). "" = empty clipboard.
+Public Sub SetClipboardText(ByVal Text As String)
+    mClipboardText = Text
 End Sub
 
 ' The currently focused control's name ("" = none). Test/diagnostic surface.
@@ -195,6 +207,13 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
         Dim NextName As String
         NextName = TabTarget(mFocusName, Shift)
         If Len(NextName) > 0 Then TransferFocusTo NextName
+    ElseIf (Shift And OX_SHIFT_CTRL) <> 0 And KeyCode = OX_KEY_V Then
+        ' Ctrl+V: paste the host clipboard text into the focused control (BeforeDropOrPaste ->
+        ' Change), AFTER the V KeyDown fired. Empty clipboard is a no-op. No KeyPress for Ctrl+V.
+        If Len(mClipboardText) > 0 Then
+            Focused.OnPaste mClipboardText, OX_ACTION_PASTE, Shift
+            Emit "paste:" & mFocusName
+        End If
     ElseIf (Shift And OX_SHIFT_ALT) <> 0 Then
         ActivateAccelerator KeyCode
     ElseIf KeyCode = OX_KEY_ENTER And Shift = 0 Then
@@ -203,6 +222,19 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
         ActivateCancelButton
     End If
 End Sub
+
+' THE VBA REDUCE for a drag-drop text drop, routed to the focused control: BeforeDropOrPaste ->
+' (if not vetoed) insert + Change -- the same paste path as Ctrl+V, different origin. Returns the
+' ordered effect log.
+Public Function DispatchDrop(ByVal Text As String) As String
+    mEffects = ""
+    If Len(mFocusName) > 0 And Len(Text) > 0 Then
+        mForm.ControlByName(mFocusName).OnPaste Text, OX_ACTION_PASTE, 0
+        Emit "drop:" & mFocusName
+        Repaint
+    End If
+    DispatchDrop = mEffects
+End Function
 
 ' The visible+enabled form default button's name ("" if none).
 Private Function DefaultButtonName() As String

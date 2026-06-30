@@ -244,6 +244,10 @@ Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal 
     End If
 End Function
 
+Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+    IOxControl_OnPaste = False
+End Function
+
 ' --- Runtime-facing input surface ---
 ' Activate the check box: flip the value, then Change, then Click (value-before-Click). This
 ' is both the mouse-click and keyboard Space/Enter activation path.

@@ -269,3 +269,7 @@ End Property
 Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
     IOxControl_TryKeyboardActivate = False
 End Function
+
+Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+    IOxControl_OnPaste = False
+End Function

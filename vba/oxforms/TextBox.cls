@@ -274,6 +274,15 @@ Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal 
     IOxControl_TryKeyboardActivate = False
 End Function
 
+' Clipboard / drag-drop paste: BeforeDropOrPaste fires before the value changes; a veto
+' (Cancel=True) suppresses the insert + Change. Returns True (a TextBox is a text paste target).
+Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+    If Not PerformBeforeDropOrPaste(Action, Shift) Then
+        InsertText Text
+    End If
+    IOxControl_OnPaste = True
+End Function
+
 ' A TextBox neither fires Click nor shows a pressed visual (it takes capture + the caret).
 Private Property Get IOxControl_SupportsClick() As Boolean
     IOxControl_SupportsClick = False

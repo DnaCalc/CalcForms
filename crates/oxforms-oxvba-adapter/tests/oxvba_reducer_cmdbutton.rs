@@ -339,6 +339,29 @@ fn invoke_sub(session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &st
     );
 }
 
+fn set_clipboard_text(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) {
+    call(
+        session,
+        form.clone(),
+        "SetClipboardText",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    );
+}
+
+fn dispatch_drop(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) -> String {
+    call(
+        session,
+        form.clone(),
+        "DispatchDrop",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    )
+    .as_bstr()
+    .unwrap_or_else(|| panic!("DispatchDrop should return the effect log"))
+    .as_str()
+}
+
 /// Focus a TextBox in the textbox fixture via a mouse press + release on it, then clear the log
 /// so a test asserts only the events that follow.
 fn focus_and_clear(session: &mut ProjectRuntimeSession, form: &ObjectRef, x: i32, y: i32) {
@@ -894,4 +917,96 @@ fn space_toggles_the_focused_checkbox_value_first() {
         !bool_get(&mut session, &form, "ChkValue"),
         "Space toggled the value back off"
     );
+}
+
+const KEY_CTRL: i16 = 17;
+const KEY_V: i16 = 86;
+const SHIFT_CTRL: i16 = 2;
+
+#[test]
+fn ctrl_v_pastes_clipboard_into_the_focused_textbox() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    set_clipboard_text(&mut session, &form, "PASTED");
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // Ctrl down, then V down: KeyDown(Ctrl), KeyDown(V), then BeforeDropOrPaste -> Change. No KeyPress.
+    dispatch_key_shift(&mut session, &form, "keydown", KEY_CTRL, SHIFT_CTRL);
+    let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_V, SHIFT_CTRL);
+    assert_eq!(log, "keydown:T1|paste:T1");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "T1.KeyDown",
+            "T1.KeyDown",
+            "T1.BeforeDropOrPaste",
+            "T1.Change"
+        ],
+        "Ctrl+V: KeyDown(Ctrl), KeyDown(V), BeforeDropOrPaste, Change -- no KeyPress"
+    );
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "PASTED");
+}
+
+#[test]
+fn ctrl_v_with_empty_clipboard_is_a_no_op() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    set_clipboard_text(&mut session, &form, "");
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    dispatch_key_shift(&mut session, &form, "keydown", KEY_CTRL, SHIFT_CTRL);
+    let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_V, SHIFT_CTRL);
+    assert_eq!(log, "keydown:T1", "empty clipboard pastes nothing");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown", "T1.KeyDown"],
+        "no BeforeDropOrPaste or Change for an empty clipboard"
+    );
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "");
+}
+
+#[test]
+fn paste_veto_suppresses_the_change() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    invoke_sub(&mut session, &form, "ArmT1PasteVeto");
+    set_clipboard_text(&mut session, &form, "X");
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    dispatch_key_shift(&mut session, &form, "keydown", KEY_CTRL, SHIFT_CTRL);
+    dispatch_key_shift(&mut session, &form, "keydown", KEY_V, SHIFT_CTRL);
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown", "T1.KeyDown", "T1.BeforeDropOrPaste"],
+        "a vetoing BeforeDropOrPaste suppresses the insert + Change"
+    );
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "");
+}
+
+#[test]
+fn drag_drop_pastes_text_into_the_focused_textbox() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // A drop fires the same BeforeDropOrPaste -> Change path as a paste, different origin.
+    let log = dispatch_drop(&mut session, &form, "DROP");
+    assert_eq!(log, "drop:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.BeforeDropOrPaste", "T1.Change"],
+    );
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "DROP");
 }
