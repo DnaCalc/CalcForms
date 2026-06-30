@@ -16,11 +16,11 @@
 //! Run on the vm3 interpreter (enable_jit = false) to match the shape we expect to ship on.
 
 use std::path::{Path, PathBuf};
-use std::time::Instant;
+use std::time::{Duration, Instant};
 
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, Vm3RuntimeSession};
+use oxvba_host::{Engine, HostConfig, ProjectRuntimeSession};
 use oxvba_runtime::{ObjectRef, Variant};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
@@ -45,7 +45,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> Vm3RuntimeSession {
+fn prepare_session() -> ProjectRuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsLexHitTestBench".to_string(),
         project_kind: ProjectKind::Library,
@@ -101,7 +101,12 @@ fn build_rects(n: usize) -> Vec<Rect> {
         .collect()
 }
 
-fn invoke_i32(session: &mut Vm3RuntimeSession, form: &ObjectRef, member: &str, args: Vec<Variant>) {
+fn invoke_i32(
+    session: &mut ProjectRuntimeSession,
+    form: &ObjectRef,
+    member: &str,
+    args: Vec<Variant>,
+) {
     session
         .invoke_member_values(form.clone(), member, Some(ProjectMemberKind::Method), args)
         .unwrap_or_else(|err| panic!("invoke {member}: {err}"));
@@ -190,39 +195,34 @@ fn array_access_isolation_on_vm3() {
         .create_class_instance("LexHitTestBenchForm")
         .expect("create bench form");
 
-    let reps: i32 = 1000;
-    let trials: u32 = 5;
-    eprintln!("oxforms-lex array-access isolation (vm3 interpreter), Reps={reps} fixed, varying array length N");
+    let reps: i32 = 2000;
+    let trials = 9u32;
+    // Noise-robust: report the MIN over trials (a warmup discards cold start), over a wide
+    // array-LENGTH range. If element access is O(1) the per-read stays FLAT across N; if it is
+    // O(N) the per-read fans out ~16x from N=50 to N=800.
     eprintln!(
-        "{:>6} | {:>18} | {:>18} | {:>18}",
-        "N", "ScanPlain (no arr)", "ScanArray (1 read)", "per-read"
+        "oxforms-lex array-access isolation (vm3 interpreter), Reps={reps}, min of {trials} trials"
     );
-    for &n in &[25i32, 50, 100, 200, 400] {
+    eprintln!(
+        "{:>6} | {:>16} | {:>16} | {:>14}",
+        "N", "ScanPlain min", "ScanArray min", "per-read"
+    );
+    let min_of =
+        |session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &str| -> Duration {
+            invoke_i32(session, form, member, vec![Variant::from_i32(reps)]); // warmup
+            let mut best = Duration::MAX;
+            for _ in 0..trials {
+                let t = Instant::now();
+                invoke_i32(session, form, member, vec![Variant::from_i32(reps)]);
+                best = best.min(t.elapsed());
+            }
+            best
+        };
+    for &n in &[50i32, 100, 200, 400, 800] {
         invoke_i32(&mut session, &form, "Setup", vec![Variant::from_i32(n)]);
-
-        let t = Instant::now();
-        for _ in 0..trials {
-            invoke_i32(
-                &mut session,
-                &form,
-                "ScanPlain",
-                vec![Variant::from_i32(reps)],
-            );
-        }
-        let plain = t.elapsed() / trials;
-
-        let t = Instant::now();
-        for _ in 0..trials {
-            invoke_i32(
-                &mut session,
-                &form,
-                "ScanArray",
-                vec![Variant::from_i32(reps)],
-            );
-        }
-        let arr = t.elapsed() / trials;
-
+        let plain = min_of(&mut session, &form, "ScanPlain");
+        let arr = min_of(&mut session, &form, "ScanArray");
         let per_read = arr.saturating_sub(plain) / reps as u32;
-        eprintln!("{n:>6} | {plain:>18?} | {arr:>18?} | {per_read:>18?}");
+        eprintln!("{n:>6} | {plain:>16?} | {arr:>16?} | {per_read:>14?}");
     }
 }

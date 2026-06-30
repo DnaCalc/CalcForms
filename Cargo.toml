@@ -14,7 +14,7 @@ edition = "2021"
 
 [workspace.metadata.oxforms.oxvba_baseline]
 repo = "https://github.com/DnaCalc/OxVba.git"
-rev = "2b817614500df367e7fb655eb77a480b51dc1020"
+rev = "019a39df78bbdab70e155e68dd25a1d168490bc7"
 branch = "master"
-note = "Pinned to OxVba master 2b817614 — the current pushed vm3-only build (vm2 retired). The legacy linearize / Bundle / BundlePackage + .oxb path is gone, replaced by the vm3 image pipeline: oxvba_bind::bind_program -> oxvba_oxir::elaborate -> OxImage::new(vec![..]) -> Engine::prepare_image_session, yielding a Vm3RuntimeSession (was ProjectRuntimeSession). Re-pin when master advances."
+note = "Pinned to OxVba master 019a39df (pushed), vm3-only. Adds the vm3-gap fixes (Seek/Loc 1-based, real Err.Number 429/432, For-counter overflow, Option Compare Text) and a ~5-6x speedup of dynamic-array element access. NOTE: per the OxForms probe (crates/oxforms-oxvba-adapter/tests/oxvba_lex_hittest_bench.rs) element access is STILL O(N) (array loops O(N^2)) after that speedup — the array-perf handover (docs/handovers/HANDOVER_OxVba_vm3_dynamic_array_access_perf.md) remains OPEN and bead oxforms-bqr stays blocked. Re-pin when master advances. The session type renamed Vm3RuntimeSession -> ProjectRuntimeSession in this rev."
 policy = "Committed manifests use pinned git dependencies for OxVba crates; mutable ../OxVba path overrides are local-only."

@@ -29,7 +29,7 @@ use oxforms_pal::{
 
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, HostProfileProvider, Vm3RuntimeSession};
+use oxvba_host::{Engine, HostConfig, HostProfileProvider, ProjectRuntimeSession};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -63,7 +63,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
 /// `HANDOVER_OxVba_multi_form_event_route_collision.md`).
 fn prepare_session_with_surface(
     demo_forms: &[(&str, &str)],
-) -> (Vm3RuntimeSession, Arc<SurfaceFactory>) {
+) -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
     let mut modules = vec![
         module_unit(
             "OxFormsModel",

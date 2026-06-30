@@ -51,7 +51,7 @@ const FONT_ID: FontId = FontId(1);
 
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, HostProfileProvider, Vm3RuntimeSession};
+use oxvba_host::{Engine, HostConfig, HostProfileProvider, ProjectRuntimeSession};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -360,7 +360,7 @@ fn is_close(event: &UiEvent) -> bool {
 /// registered. The VBA sources are embedded so the bootstrap runs from anywhere.
 fn build_session(
     demo: &Demo,
-) -> Result<(Vm3RuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError> {
+) -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError> {
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsW007Bootstrap".to_string(),
         project_kind: ProjectKind::Library,

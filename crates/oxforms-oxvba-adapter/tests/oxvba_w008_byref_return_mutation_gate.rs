@@ -56,7 +56,7 @@ fn exposed_class(name: &str, source: String) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> oxvba_host::Vm3RuntimeSession {
+fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "W008ByRefReturnMutationGate".to_string(),
         project_kind: ProjectKind::Library,
@@ -113,7 +113,7 @@ fn byref_return_helper_mutation_is_read_back_through_dispatch() {
 
     // Helper: raise an event carrying a fresh Return* helper, then read its
     // .Value back after the handler (if any) has run.
-    let raise_and_read = |session: &mut oxvba_host::Vm3RuntimeSession,
+    let raise_and_read = |session: &mut oxvba_host::ProjectRuntimeSession,
                           raiser: &ObjectRef,
                           member: &str,
                           mut args: Vec<Variant>|

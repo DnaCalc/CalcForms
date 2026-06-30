@@ -65,7 +65,7 @@ fn event_smoke_manifest() -> SymbolProjectManifest {
     }
 }
 
-fn prepare_event_smoke_session() -> oxvba_host::Vm3RuntimeSession {
+fn prepare_event_smoke_session() -> oxvba_host::ProjectRuntimeSession {
     let manifest = event_smoke_manifest();
     let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
         .expect("bind W005 event smoke fixture");
@@ -189,7 +189,7 @@ fn focus_validation_completed_event(form_id: &oxforms_pal::FormId, cancelled: bo
 }
 
 fn dispatch_effects(
-    session: &mut oxvba_host::Vm3RuntimeSession,
+    session: &mut oxvba_host::ProjectRuntimeSession,
     source: ObjectRef,
     effects: &[oxforms_core::EffectRequest],
     next_dispatch_id: &mut u64,

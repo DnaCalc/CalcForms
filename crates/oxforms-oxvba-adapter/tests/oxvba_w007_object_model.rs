@@ -44,7 +44,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> oxvba_host::Vm3RuntimeSession {
+fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "W007ObjectModel".to_string(),
         project_kind: ProjectKind::Library,
@@ -123,7 +123,7 @@ fn prepare_session() -> oxvba_host::Vm3RuntimeSession {
 }
 
 fn call(
-    session: &mut oxvba_host::Vm3RuntimeSession,
+    session: &mut oxvba_host::ProjectRuntimeSession,
     object: ObjectRef,
     member: &str,
     kind: ProjectMemberKind,
@@ -135,7 +135,7 @@ fn call(
 }
 
 fn get_string(
-    session: &mut oxvba_host::Vm3RuntimeSession,
+    session: &mut oxvba_host::ProjectRuntimeSession,
     object: ObjectRef,
     member: &str,
 ) -> String {
@@ -152,7 +152,7 @@ fn get_string(
 }
 
 fn get_object(
-    session: &mut oxvba_host::Vm3RuntimeSession,
+    session: &mut oxvba_host::ProjectRuntimeSession,
     object: ObjectRef,
     member: &str,
     args: Vec<Variant>,

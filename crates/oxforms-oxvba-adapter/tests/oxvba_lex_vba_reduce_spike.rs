@@ -29,7 +29,7 @@ use oxforms_pal::scene::{Paint, Prim};
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, HostProfileProvider, Vm3RuntimeSession};
+use oxvba_host::{Engine, HostConfig, HostProfileProvider, ProjectRuntimeSession};
 use oxvba_runtime::{ObjectRef, Variant};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
@@ -58,7 +58,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session(projection: Arc<PortableComProjection>) -> Vm3RuntimeSession {
+fn prepare_session(projection: Arc<PortableComProjection>) -> ProjectRuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "OxFormsLexReduceSpike".to_string(),
         project_kind: ProjectKind::Library,
@@ -121,7 +121,7 @@ fn button_face(factory: &SurfaceFactory) -> u32 {
 
 /// Invoke the VBA `Reduce(x, y)` member (the VBA-side reducer) and return its Long result
 /// (1 = it repainted, 0 = the click missed).
-fn reduce(session: &mut Vm3RuntimeSession, form: &ObjectRef, x: i32, y: i32) -> i32 {
+fn reduce(session: &mut ProjectRuntimeSession, form: &ObjectRef, x: i32, y: i32) -> i32 {
     session
         .invoke_member_values(
             form.clone(),

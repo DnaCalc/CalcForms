@@ -24,7 +24,7 @@ use oxforms_pal::{
 };
 
 use oxvba_hal::model::HostPolicy;
-use oxvba_host::{Engine, HostConfig, Vm3RuntimeSession};
+use oxvba_host::{Engine, HostConfig, ProjectRuntimeSession};
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -50,7 +50,7 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
     }
 }
 
-fn prepare_session() -> Vm3RuntimeSession {
+fn prepare_session() -> ProjectRuntimeSession {
     let manifest = SymbolProjectManifest {
         project_name: "W007RuntimeRunner".to_string(),
         project_kind: ProjectKind::Library,

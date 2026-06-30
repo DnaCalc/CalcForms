@@ -1,6 +1,6 @@
 # HANDOVER → OxVba: vm3 dynamic-array element access is O(N) (array loops are O(N²))
 
-Status: `OPEN` · From: OxForms · To: OxVba · Date: 2026-06-29
+Status: `OPEN — partially addressed by 019a39df (~5-6x faster, still O(N))` · From: OxForms · To: OxVba · Date: 2026-06-29 (re-measured 2026-06-30)
 OxVba baseline exercised: master `2b817614` (vm3-only; pinned by OxForms via git rev).
 Policy: per OxForms memory `oxvba-vm3-handover-policy`, perf pathologies vm3 exhibits under the
 OxForms workload are handed to OxVba to **fix**, not worked around in OxForms — OxForms is the
@@ -13,6 +13,29 @@ inside a loop (`arr(i)`) scales O(N) in the array length N**, so a simple loop t
 **O(N²)**. A 100-element hit-test loop takes **130 ms**; a 400-element one takes **2.2 s**. The
 equivalent native Rust loop is ~1 µs. This is a *general* pathology (it cripples any non-trivial VBA
 loop over arrays), not specific to the hit-test code that surfaced it.
+
+## Update — post-fix re-measurement (OxVba 019a39df, 2026-06-30)
+
+Commit 019a39df ("vm3-perf: O(1) dynamic-array element access; array loops O(N) not O(N^2)")
+**improved the per-access constant ~5-6x but did NOT change the complexity** — the OxForms probe still
+measures element access as **O(N)**. Clean min-of-9-trials isolation (`array_access_isolation_on_vm3`,
+Reps=2000), one array read per iteration:
+
+| N | ScanPlain (no array — flat) | per array read |
+|---|---|---|
+| 50 | 17.2 ms | 25.6 µs |
+| 100 | 17.4 ms | 42.4 µs |
+| 200 | 18.5 ms | 113.5 µs |
+| 400 | 19.6 ms | 173.0 µs |
+| 800 | 17.1 ms | 322.2 µs |
+
+`ScanPlain` (no array) is flat across N; `per-read` grows ~12.6x over a 16x N range (50→800) → still
+~O(N) per access, so array loops remain O(N²). At N=400 per-read fell from ~1107 µs (pre-fix
+2b817614) to ~173 µs — a real ~6x win — but a forms hot path over many controls still degrades
+quadratically. Both `arr(i)` (direct loop var, the scaling probe) and `arr(i Mod n)` (this isolation)
+show it, and the flat `ScanPlain` baseline rules out measurement noise. **Status: OPEN — partially
+addressed.** Possible angle for OxVba: the fix may not cover module-level `Private` dynamic `Long`
+array element access, or a residual O(N) indexing factor remains in this path.
 
 ## Reproduction
 
