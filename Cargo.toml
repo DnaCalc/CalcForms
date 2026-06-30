@@ -1,6 +1,5 @@
 [workspace]
 members = [
-    "crates/oxforms-core",
     "crates/oxforms-pal",
     "crates/oxforms-oxvba-adapter",
     "crates/oxforms-pal-win",

@@ -1093,7 +1093,6 @@ dependencies = [
 name = "oxforms-bootstrap"
 version = "0.0.0"
 dependencies = [
- "oxforms-core",
  "oxforms-oxvba-adapter",
  "oxforms-pal",
  "oxforms-pal-win",
@@ -1107,19 +1106,9 @@ dependencies = [
 ]
 
 [[package]]
-name = "oxforms-core"
-version = "0.0.0"
-dependencies = [
- "oxforms-pal",
- "serde",
- "serde_json",
-]
-
-[[package]]
 name = "oxforms-oxvba-adapter"
 version = "0.0.0"
 dependencies = [
- "oxforms-core",
  "oxforms-pal",
  "oxforms-pal-win",
  "oxvba-bind",

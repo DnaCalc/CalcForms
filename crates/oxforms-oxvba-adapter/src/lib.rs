@@ -9,6 +9,5 @@
 
 #![forbid(unsafe_code)]
 
-pub mod event_dispatch;
-pub mod runtime_runner;
+pub mod runtime;
 pub mod surface;

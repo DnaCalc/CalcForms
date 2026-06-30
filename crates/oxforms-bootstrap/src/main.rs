@@ -1,32 +1,22 @@
-//! W007 thin bootstrap (oxforms-4pn.7).
+//! OxForms thin bootstrap.
 //!
-//! The minimal native assembler for the W007 vertical slice. Per
-//! `docs/specs/RENDERING_ARCHITECTURE.md` §16.3 it is a *thin assembler*: it loads the
-//! OxVba project, configures the `OxForms.Surface` boundary, invokes the VBA startup
-//! (here: construct + build the demo form via the runtime), and runs the platform
-//! loop — wiring the control-blind backend (`oxforms-pal-win`) to the runtime
-//! (`oxforms-oxvba-adapter`). It holds **no** control or demo behavior (that is VBA),
-//! never calls VBA directly (the runtime owns all VBA entry), and never rasterizes
-//! (the backend owns Repaint).
+//! The minimal native assembler for the live OxForms slice. Per
+//! `docs/specs/RENDERING_ARCHITECTURE.md` §16.3 it is a *thin assembler*: it loads the OxVba
+//! project, configures the `OxForms.Surface` boundary, attaches the thin `OxRuntime` to a VBA
+//! form-document, and runs the platform loop — wiring the control-blind backend
+//! (`oxforms-pal-win`) to the runtime (`oxforms-oxvba-adapter`). It holds **no** control or demo
+//! behavior (that is VBA, owned by `OxReducer`), and never rasterizes (the backend owns Repaint).
 //!
-//! Frame model (§16): the runtime owns **Re-render** (`render_frame` → VBA self-render
-//! → `OxForms.Surface` → resident `Scene` revision); the backend owns **Repaint**
-//! (resident `Scene` snapshot → pixels). This bootstrap produces the first resident
-//! revision, hands the snapshot to the window, and runs the loop.
-//!
-//! Scope: the live window shows the VBA-rendered form with **captions** (the text seam,
-//! oxforms-4pn.10–.13) and an **interaction loop** (oxforms-4pn.8e): the callback maps
-//! input to form-logical points, asks the runtime to `dispatch` it, and on a requested
-//! repaint `render_frame`s + refreshes the held snapshot — so clicks drive the VBA handlers
+//! Frame model (§16): the runtime owns **Re-render** (`OxRuntime::render` → VBA self-render →
+//! `OxForms.Surface` → resident `Scene` revision); the backend owns **Repaint** (resident `Scene`
+//! snapshot → pixels). The reducer-pivot design has no Rust reducer: the bootstrap maps a window
+//! event to a normalized input, asks the VBA `OxReducer` (via `OxRuntime`) to handle it, and on a
+//! state change re-renders and refreshes the held snapshot — so clicks/keys drive the VBA handlers
 //! and the form updates live.
 //!
-//! Two demos (see [`Demo`]):
-//! - default — the W007 greeting: type a name, click OK → "Hello, &lt;name&gt;".
-//! - `autosize` — click "Grow font" → the bordered AutoSize label re-fits live (rq5.2
-//!   incremental re-render of just the changed label).
+//! Demo: the W007 greeting — type a name, click OK (or press Enter) → "Hello, <name>".
 //!
-//! Run: `cargo run -p oxforms-bootstrap` (greeting) or
-//! `cargo run -p oxforms-bootstrap -- autosize` (AutoSize demo).
+//! Run: `cargo run -p oxforms-bootstrap`.
 
 #![forbid(unsafe_code)]
 
@@ -34,20 +24,13 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::Arc;
 
-use oxforms_core::{
-    materialize_form_from_frm, materialize_w007_demo_form, FrmLoadError, RuntimeForm,
-};
-use oxforms_oxvba_adapter::runtime_runner::RuntimeRunner;
+use oxforms_oxvba_adapter::runtime::OxRuntime;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::{FontId, Scene};
-use oxforms_pal::{CoordinatePayload, LogicalPoint, UiEvent, UiEventKind};
+use oxforms_pal::{CoordinatePayload, LogicalPoint, MouseButton, UiEvent, UiEventKind};
 use oxforms_pal_win::{
     load_ui_font, run_scene_window, AbGlyphShaper, FontTable, WindowOptions, WindowSignal,
 };
-
-/// The single UI font id the bootstrap registers; matches the VBA `OX_DEFAULT_FONT_ID`
-/// so the run ids VBA emits resolve against the face the window rasterizes with.
-const FONT_ID: FontId = FontId(1);
 
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
@@ -56,104 +39,21 @@ use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
 
-/// Every bundled demo form exposes the same entrypoint shape (Build + a `Form` accessor),
-/// so the runtime attaches to it uniformly; only the class name + reducer `.frm` differ.
+/// The single UI font id the bootstrap registers; matches the VBA `OX_DEFAULT_FONT_ID` so the run
+/// ids VBA emits resolve against the face the window rasterizes with.
+const FONT_ID: FontId = FontId(1);
+
+/// The demo form-document class + its build entrypoint.
+const DEMO_FORM_CLASS: &str = "ReducerGreeterForm";
 const DEMO_BUILD_MEMBER: &str = "Build";
-const DEMO_FORM_ACCESSOR: &str = "Form";
 
-/// The bundled demo to show, selected by the first CLI arg (`autosize`); default is the
-/// W007 greeting. Both demos share the same OxForms library + interaction loop and differ
-/// only in the VBA form class and its reducer-side control tree (the `.frm` used for input
-/// hit-testing). The form controls/handlers are VBA; the bootstrap only names the
-/// entrypoint, never the layout.
-///
-/// Interim: these reuse the `vba/smoke/fixtures` forms (shared with the runtime tests) so
-/// the slice is runnable now; a proper demo project with a real `Sub Main` is later work.
-enum Demo {
-    /// Type a name + click OK → "Hello, &lt;name&gt;" (the W007 text seam + interaction loop).
-    Greeting,
-    /// Click "Grow font" → the bordered AutoSize label re-fits live (rq5.2 incremental
-    /// re-render of just the changed label; the measure → layout → paint pipeline).
-    AutoSize,
-}
-
-impl Demo {
-    fn from_args() -> Self {
-        if std::env::args()
-            .skip(1)
-            .any(|a| a.eq_ignore_ascii_case("autosize"))
-        {
-            Self::AutoSize
-        } else {
-            Self::Greeting
-        }
-    }
-
-    fn form_class(&self) -> &'static str {
-        match self {
-            Self::Greeting => "W007ObjectModelProbeForm",
-            Self::AutoSize => "AutoSizeInteractiveForm",
-        }
-    }
-
-    /// The reducer-side control tree (for input hit-testing), materialized from the demo's
-    /// `.frm`. Its control geometry must match the VBA form so clicks route correctly.
-    fn materialize(&self) -> Result<RuntimeForm, FrmLoadError> {
-        match self {
-            Self::Greeting => materialize_w007_demo_form(),
-            Self::AutoSize => materialize_form_from_frm(include_str!(
-                "../../../fixtures/frm/w007-autosize/autosize-interactive.frm"
-            )),
-        }
-    }
-
-    fn window_title(&self) -> &'static str {
-        match self {
-            Self::Greeting => "OxForms - W007 greeting (bootstrap)",
-            Self::AutoSize => "OxForms - AutoSize demo (bootstrap)",
-        }
-    }
-
-    fn hint(&self) -> &'static str {
-        match self {
-            Self::Greeting => {
-                "oxforms-bootstrap: showing the live VBA-rendered W007 greeting. Type a name, \
-                 click OK to greet; close or press Escape to exit."
-            }
-            Self::AutoSize => {
-                "oxforms-bootstrap: showing the live AutoSize demo. Click \"Grow font\" to \
-                 enlarge the label — the bordered box re-fits to the text (rq5.2 incremental \
-                 re-render). Close or press Escape to exit."
-            }
-        }
-    }
-
-    /// The demo's VBA form fixture module. The bootstrap runs one demo at a time, so it
-    /// bundles just that demo's form (an app bundles the forms it uses; see `oxforms_modules`).
-    fn form_module(&self) -> ModuleUnit {
-        match self {
-            Self::Greeting => unit(
-                "W007ObjectModelProbeForm",
-                ModuleKind::Class,
-                include_str!("../../../vba/smoke/fixtures/w007_object_model_probe_form.cls"),
-            ),
-            Self::AutoSize => unit(
-                "AutoSizeInteractiveForm",
-                ModuleKind::Class,
-                include_str!("../../../vba/smoke/fixtures/autosize_interactive_form.cls"),
-            ),
-        }
-    }
-}
-
-/// A precise, stage-tagged bootstrap failure (acceptance: OxVba load/compile vs
-/// OxForms runtime vs PAL/backend vs normal exit are distinguishable).
+/// A precise, stage-tagged bootstrap failure (OxVba load/compile vs OxForms runtime vs
+/// PAL/backend vs normal exit are distinguishable).
 #[derive(Debug)]
 enum BootstrapError {
     /// OxVba project load / bind / elaborate / session prepare (compile-time stage).
     Project(String),
-    /// OxForms runtime: form materialization (pure Rust) or attaching the runner /
-    /// re-rendering the form (the latter two are VBA entry).
+    /// OxForms runtime: attaching `OxRuntime` / driving the VBA reducer + re-render (VBA entry).
     Runtime(String),
     /// PAL/window backend.
     Window(String),
@@ -191,61 +91,33 @@ fn main() {
 }
 
 fn run() -> Result<(), BootstrapError> {
-    let demo = Demo::from_args();
+    // 1. Load + configure the project: the OxForms VBA library + the OxReducer + the greeter
+    //    form-document, with the OxForms.Surface boundary registered so the form self-renders.
+    let (session, surface, fonts) = build_session()?;
 
-    // 1. Load + configure the project: the OxForms VBA library + the SELECTED demo form
-    //    (the bootstrap runs one demo at a time), with the OxForms.Surface boundary
-    //    registered so the form can self-render.
-    let (session, surface, fonts) = build_session(&demo)?;
-
-    // 2. Invoke the VBA startup (minimal entrypoint): materialize the selected demo form
-    //    into runtime state and attach the runtime, which constructs + builds the VBA form.
-    let runtime_form = demo
-        .materialize()
-        .map_err(|err| BootstrapError::Runtime(format!("materialize demo form: {err}")))?;
-    let mut runner = RuntimeRunner::attach(
-        session,
-        runtime_form,
-        demo.form_class(),
-        DEMO_BUILD_MEMBER,
-        DEMO_FORM_ACCESSOR,
-    )
-    .map_err(|err| BootstrapError::Runtime(format!("attach runtime: {err}")))?;
-
-    // Wire the live OS clipboard read so a keyboard Ctrl+V pastes the real clipboard outside
-    // tests (oxforms-esq.16). The reader is the desktop backend's safe Windows read (None on
-    // other targets / when the clipboard holds no text); headless tests never wire it, so the
-    // deterministic floor performs no clipboard I/O.
-    runner.set_clipboard_reader(oxforms_pal_win::read_clipboard_text);
-
-    // 3. Produce the first resident Scene revision (the runtime's Re-render).
-    runner
-        .render_frame()
-        .map_err(|err| BootstrapError::Runtime(format!("initial render_frame: {err}")))?;
+    // 2. Attach the thin runtime, which constructs + builds the VBA form (and its OxReducer) and
+    //    produces the first resident Scene revision.
+    let mut rt = OxRuntime::attach(session, DEMO_FORM_CLASS, DEMO_BUILD_MEMBER)
+        .map_err(BootstrapError::Runtime)?;
+    rt.render().map_err(BootstrapError::Runtime)?;
     let scene = current_scene(&surface)?;
 
-    println!("{}", demo.hint());
+    println!(
+        "oxforms-bootstrap: showing the live VBA-rendered W007 greeting. Type a name, click OK \
+         (or press Enter) to greet; close or press Escape to exit."
+    );
 
-    // 4. Run the platform loop with the interaction consumer loop (oxforms-4pn.8e). The
-    //    window owns Repaint (resident Scene snapshot -> pixels). The callback is the
-    //    consumer: it maps client pixels -> form-logical points (the uniform device-fit
-    //    scale, mirrored from the rasterizer), asks the runtime to `dispatch` the event
-    //    (a VM entry the runtime owns), and — when the runtime requests a repaint —
-    //    `render_frame`s, refreshes the held Scene from the resident snapshot, and asks
-    //    for a `Redraw`. The bootstrap never calls VBA or rasterizes directly.
-    let options = WindowOptions::new(demo.window_title(), 600.0, 360.0);
+    // 3. Run the platform loop. The window owns Repaint (resident Scene snapshot -> pixels). The
+    //    callback maps client pixels -> form-logical points (the uniform device-fit scale), asks
+    //    the VBA reducer (via OxRuntime) to handle the input, re-renders, refreshes the held Scene
+    //    from the resident snapshot, and asks for a Redraw. The bootstrap never rasterizes.
+    let options = WindowOptions::new("OxForms - W007 greeting (bootstrap)", 600.0, 360.0);
     let (form_w, form_h) = (
         f64::from(scene.surface.width.max(1)),
         f64::from(scene.surface.height.max(1)),
     );
-    // Tracks the PHYSICAL window size for the client->logical scale. Seeded with the
-    // logical option size as a placeholder — winit fires a Resize on window creation
-    // (before any input), which overwrites it with the true physical inner size, so the
-    // logical-vs-physical unit mismatch in this seed is never used to map a real event.
     let mut window_px = (options.logical_width, options.logical_height);
     let surface_cb = surface.clone();
-    // Interaction errors (a VBA dispatch / render failure) propagate to the exit code
-    // rather than silently closing the window as a clean exit.
     let cb_error: Rc<RefCell<Option<String>>> = Rc::new(RefCell::new(None));
     let cb_error_inner = cb_error.clone();
 
@@ -257,86 +129,115 @@ fn run() -> Result<(), BootstrapError> {
             if is_close(event) {
                 return WindowSignal::Close;
             }
-            // Track the physical window size so client->logical uses the live device scale.
             if let UiEventKind::Resize(e) = &event.kind {
                 if let Some(size) = e.client_size {
                     window_px = (size.width, size.height);
                 }
                 return WindowSignal::Ignore;
             }
-            // Only route events the runtime acts on (skip moves/focus/etc. for the demo).
-            let dispatchable = matches!(
-                &event.kind,
-                UiEventKind::MouseDown(_)
-                    | UiEventKind::MouseUp(_)
-                    | UiEventKind::CharacterInput(_)
-                    | UiEventKind::KeyDown(_)
-                    | UiEventKind::KeyUp(_)
-            );
-            if !dispatchable {
-                return WindowSignal::Ignore;
-            }
 
             let scale = (window_px.0 / form_w).min(window_px.1 / form_h);
             let scale = if scale > 0.0 { scale } else { 1.0 };
-            let routed = fill_form_logical(event, scale);
 
-            match runner.dispatch(routed) {
-                Ok(step) => {
-                    if !step.repaint_requested {
-                        return WindowSignal::Ignore;
+            // Route the event to the VBA reducer; a non-empty effect log means state changed and a
+            // repaint is due. An unhandled event kind returns None (Ignore).
+            let outcome = match dispatch_event(&mut rt, event, scale) {
+                Ok(Some(effects)) => effects,
+                Ok(None) => return WindowSignal::Ignore,
+                Err(err) => {
+                    *cb_error_inner.borrow_mut() = Some(err);
+                    return WindowSignal::Close;
+                }
+            };
+            if outcome.is_empty() {
+                return WindowSignal::Ignore;
+            }
+
+            if let Err(err) = rt.render() {
+                *cb_error_inner.borrow_mut() = Some(format!("render: {err}"));
+                return WindowSignal::Close;
+            }
+            match surface_cb.snapshot() {
+                Ok(snap) => {
+                    if let Some(next) = snap.scene {
+                        *scene = next;
                     }
-                    if let Err(err) = runner.render_frame() {
-                        *cb_error_inner.borrow_mut() = Some(format!("render_frame: {err}"));
-                        return WindowSignal::Close;
-                    }
-                    match surface_cb.snapshot() {
-                        Ok(snap) => {
-                            if let Some(next) = snap.scene {
-                                *scene = next;
-                            }
-                            WindowSignal::Redraw
-                        }
-                        Err(err) => {
-                            *cb_error_inner.borrow_mut() = Some(format!("surface snapshot: {err}"));
-                            WindowSignal::Close
-                        }
-                    }
+                    WindowSignal::Redraw
                 }
                 Err(err) => {
-                    *cb_error_inner.borrow_mut() = Some(format!("dispatch: {err}"));
+                    *cb_error_inner.borrow_mut() = Some(format!("surface snapshot: {err}"));
                     WindowSignal::Close
                 }
             }
         },
     );
 
-    // A stored interaction (VBA dispatch/render) error is the more actionable root cause:
-    // surface it BEFORE a window/surface error so a teardown-time window failure cannot
-    // mask the real cause, and the exit stage is correct (Runtime=3, not Window=4).
     if let Some(err) = cb_error.borrow_mut().take() {
         return Err(BootstrapError::Runtime(err));
     }
     window_result.map_err(|err| BootstrapError::Window(err.to_string()))
 }
 
-/// Clone `event`, filling each mouse coordinate payload's `form_logical` from its
-/// `client_pixels` divided by the uniform device-fit `scale` (the same scale the
-/// rasterizer applies), so the reducer routes the event by form-logical points. Non-mouse
-/// events are returned unchanged.
-fn fill_form_logical(event: &UiEvent, scale: f64) -> UiEvent {
-    let mut ev = event.clone();
-    let remap = |coords: &mut CoordinatePayload| {
-        if let Some(px) = coords.client_pixels {
-            coords.form_logical = Some(LogicalPoint::new(px.x / scale, px.y / scale));
-        }
+/// Map a window event to the VBA reducer call. Returns `Ok(Some(effect_log))` for a dispatched
+/// event (empty log = no state change), `Ok(None)` for an event kind the demo ignores.
+fn dispatch_event(
+    rt: &mut OxRuntime,
+    event: &UiEvent,
+    scale: f64,
+) -> Result<Option<String>, String> {
+    let shift = |m: &oxforms_pal::KeyboardModifiers| -> i16 {
+        (if m.shift { 1 } else { 0 })
+            | (if m.control { 2 } else { 0 })
+            | (if m.alt { 4 } else { 0 })
     };
-    match &mut ev.kind {
-        UiEventKind::MouseDown(e) | UiEventKind::MouseUp(e) => remap(&mut e.coordinates),
-        UiEventKind::MouseMove(e) => remap(&mut e.coordinates),
-        _ => {}
+    match &event.kind {
+        UiEventKind::MouseDown(e) | UiEventKind::MouseUp(e) => {
+            let (x, y) = logical_point(&e.coordinates, scale);
+            let kind = if matches!(event.kind, UiEventKind::MouseDown(_)) {
+                "mousedown"
+            } else {
+                "mouseup"
+            };
+            rt.dispatch_mouse(kind, x, y, mouse_button(e.button), shift(&e.modifiers))
+                .map(Some)
+        }
+        UiEventKind::KeyDown(e) | UiEventKind::KeyUp(e) => {
+            let kind = if matches!(event.kind, UiEventKind::KeyDown(_)) {
+                // Push the live OS clipboard so a Ctrl+V pastes the real clipboard contents.
+                let _ = rt.set_clipboard_text(
+                    &oxforms_pal_win::read_clipboard_text().unwrap_or_default(),
+                );
+                "keydown"
+            } else {
+                "keyup"
+            };
+            let vk = e.raw.virtual_key.unwrap_or(0) as i16;
+            rt.dispatch_key(kind, vk, shift(&e.modifiers)).map(Some)
+        }
+        UiEventKind::CharacterInput(e) => rt.dispatch_char(&e.text).map(Some),
+        _ => Ok(None),
     }
-    ev
+}
+
+fn mouse_button(button: MouseButton) -> i16 {
+    match button {
+        MouseButton::Left => 1,
+        MouseButton::Right => 2,
+        MouseButton::Middle => 3,
+        _ => 0,
+    }
+}
+
+/// Client pixels divided by the uniform device-fit `scale` -> form-logical integer point.
+fn logical_point(coords: &CoordinatePayload, scale: f64) -> (i32, i32) {
+    if let Some(form) = coords.form_logical {
+        return (form.x.round() as i32, form.y.round() as i32);
+    }
+    if let Some(px) = coords.client_pixels {
+        let p = LogicalPoint::new(px.x / scale, px.y / scale);
+        return (p.x.round() as i32, p.y.round() as i32);
+    }
+    (0, 0)
 }
 
 /// Read the current resident `Scene` snapshot the runtime produced via `OxForms.Surface`.
@@ -345,7 +246,7 @@ fn current_scene(surface: &Arc<SurfaceFactory>) -> Result<Scene, BootstrapError>
         .snapshot()
         .map_err(|err| BootstrapError::Runtime(format!("surface snapshot: {err}")))?;
     snap.scene
-        .ok_or_else(|| BootstrapError::Runtime("no resident scene after render_frame".to_string()))
+        .ok_or_else(|| BootstrapError::Runtime("no resident scene after render".to_string()))
 }
 
 fn is_close(event: &UiEvent) -> bool {
@@ -356,15 +257,13 @@ fn is_close(event: &UiEvent) -> bool {
         )
 }
 
-/// Build the OxVba session for the OxForms library + demo form, with `OxForms.Surface`
-/// registered. The VBA sources are embedded so the bootstrap runs from anywhere.
-fn build_session(
-    demo: &Demo,
-) -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError> {
+/// Build the OxVba session for the OxForms library + greeter, with `OxForms.Surface` registered.
+fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError>
+{
     let manifest = SymbolProjectManifest {
-        project_name: "OxFormsW007Bootstrap".to_string(),
+        project_name: "OxFormsBootstrap".to_string(),
         project_kind: ProjectKind::Library,
-        modules: oxforms_modules(demo),
+        modules: oxforms_modules(),
         references: Vec::new(),
         reference_projects: Vec::new(),
         conditional_constants: Default::default(),
@@ -375,10 +274,6 @@ fn build_session(
     let bundle = oxvba_oxir::elaborate::elaborate(&program)
         .map_err(|err| BootstrapError::Project(format!("elaborate: {err:?}")))?;
 
-    // Load the UI font once: the shaper (Surface-side, shapes captions into the resident
-    // scene on MeasureText) and the rasterizer's FontTable (window-side) share the same
-    // face under FONT_ID, so VBA-emitted run ids resolve at paint time. VBA now always
-    // measures text, so a shaper is required (no longer chrome-only).
     let font =
         load_ui_font().map_err(|err| BootstrapError::Window(format!("load UI font: {err}")))?;
     let shaper = AbGlyphShaper::new(FONT_ID, font.clone());
@@ -411,8 +306,8 @@ fn unit(name: &str, kind: ModuleKind, source: &str) -> ModuleUnit {
     }
 }
 
-/// The OxForms VBA library modules + the selected demo form, embedded at build time.
-fn oxforms_modules(demo: &Demo) -> Vec<ModuleUnit> {
+/// The OxForms VBA library + OxReducer + the greeter form-document, embedded at build time.
+fn oxforms_modules() -> Vec<ModuleUnit> {
     use ModuleKind::{Class, Procedural};
     vec![
         unit(
@@ -490,11 +385,15 @@ fn oxforms_modules(demo: &Demo) -> Vec<ModuleUnit> {
             Class,
             include_str!("../../../vba/oxforms/OxSceneBuilder.cls"),
         ),
-        // Only the SELECTED demo's form is bundled: the bootstrap runs one demo at a time, and
-        // a real app bundles the forms it uses. Multiple forms — including two with WithEvents
-        // `CommandButton_Click` handlers — may now share a bundle (OxVba `2f0b5058`, adopted at
-        // rev `5bc7246e`); bundling one here is a deliberate app shape, not a workaround. See
-        // docs/handovers/HANDOVER_OxVba_multi_form_event_route_collision.md.
-        demo.form_module(),
+        unit(
+            "OxReducer",
+            Class,
+            include_str!("../../../vba/oxforms/OxReducer.cls"),
+        ),
+        unit(
+            "ReducerGreeterForm",
+            Class,
+            include_str!("../../../vba/smoke/fixtures/reducer_greeter_form.cls"),
+        ),
     ]
 }

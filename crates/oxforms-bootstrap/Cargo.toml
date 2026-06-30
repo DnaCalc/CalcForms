@@ -13,7 +13,6 @@ unsafe_code = "forbid"
 # runtime and the OxVba host. It holds NO control or demo behavior (that is VBA);
 # it only loads the project, invokes the VBA startup, and runs the platform loop.
 oxforms-pal = { path = "../oxforms-pal" }
-oxforms-core = { path = "../oxforms-core" }
 oxforms-oxvba-adapter = { path = "../oxforms-oxvba-adapter" }
 oxforms-pal-win = { path = "../oxforms-pal-win" }
 
