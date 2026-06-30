@@ -21,20 +21,24 @@ Option Explicit
 
 ' MSForms Button arg: the left mouse button.
 Private Const OX_BUTTON_LEFT As Integer = 1
+' Virtual key codes the reducer routes specially.
+Private Const OX_KEY_TAB As Integer = 9
 
 Private mForm As UserForm
-Private mCaptureName As String   ' control holding the mouse capture ("" = none)
-Private mPressedName As String   ' control whose pressed visual is armed ("" = none)
-Private mFocusName As String     ' the focused control ("" = form / no control focused)
+Private mCaptureName As String    ' control holding the mouse capture ("" = none)
+Private mPressedName As String    ' control whose pressed visual is armed ("" = none)
+Private mFocusName As String      ' the focused control ("" = form / no control focused)
+Private mSwallowNextChar As Boolean ' a swallowed KeyDown suppresses the following character
 Private mDpiX As Long
 Private mDpiY As Long
-Private mEffects As String       ' ordered '|'-joined effect log for the current Dispatch
+Private mEffects As String        ' ordered '|'-joined effect log for the current Dispatch
 
 Public Sub Init(ByVal Form As UserForm)
     Set mForm = Form
     mCaptureName = ""
     mPressedName = ""
     mFocusName = ""
+    mSwallowNextChar = False
     mDpiX = 96
     mDpiY = 96
 End Sub
@@ -139,26 +143,56 @@ End Sub
 ' control so it raises KeyDown/KeyUp and performs its default key behavior.)
 Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String
     mEffects = ""
-    If Len(mFocusName) > 0 Then
-        Dim Focused As IOxControl
-        Set Focused = mForm.ControlByName(mFocusName)
-        Select Case Kind
-            Case "keydown"
-                Focused.OnKeyDown KeyCode, Shift
-                Emit "keydown:" & mFocusName
-            Case "keyup"
-                Focused.OnKeyUp KeyCode, Shift
+    Select Case Kind
+        Case "keydown"
+            ReduceKeyDown KeyCode, Shift
+        Case "keyup"
+            If Len(mFocusName) > 0 Then
+                mForm.ControlByName(mFocusName).OnKeyUp KeyCode, Shift
                 Emit "keyup:" & mFocusName
-        End Select
-        Repaint
-    End If
+            End If
+    End Select
     DispatchKey = mEffects
 End Function
 
+Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
+    If Len(mFocusName) = 0 Then
+        ' No control focused: a Tab moves focus to the first/last control in tab order.
+        If KeyCode = OX_KEY_TAB Then FocusFirstTab Shift
+        Exit Sub
+    End If
+
+    Dim Focused As IOxControl
+    Set Focused = mForm.ControlByName(mFocusName)
+    Dim Post As Integer
+    Post = Focused.OnKeyDown(KeyCode, Shift)
+    Emit "keydown:" & mFocusName
+
+    ' Swallow linkage: a KeyDown handler that zeroed the key code suppresses the character that
+    ' would otherwise follow (consumed by the next DispatchChar). A swallowed key also performs
+    ' no navigation.
+    mSwallowNextChar = (Post = 0)
+    If Post = 0 Then Exit Sub
+
+    ' Tab navigation runs AFTER the KeyDown fired (oracle order KeyDown -> [validation] -> Enter).
+    If KeyCode = OX_KEY_TAB Then
+        Dim NextName As String
+        NextName = TabTarget(mFocusName, Shift)
+        If Len(NextName) > 0 Then TransferFocusTo NextName
+    End If
+End Sub
+
 ' THE VBA REDUCE for character input, routed to the focused control: it raises KeyPress and (a
-' TextBox) inserts the text + raises Change. Returns the ordered effect log.
+' TextBox) inserts the text + raises Change. A character whose KeyDown was swallowed is dropped
+' (no KeyPress, no Change), matching the oracle swallow linkage. Returns the ordered effect log.
 Public Function DispatchChar(ByVal Text As String) As String
     mEffects = ""
+    If mSwallowNextChar Then
+        mSwallowNextChar = False
+        Emit "char-swallowed"
+        DispatchChar = mEffects
+        Exit Function
+    End If
     If Len(mFocusName) > 0 Then
         mForm.ControlByName(mFocusName).OnCharacterInput Text
         Emit "char:" & mFocusName
@@ -166,6 +200,82 @@ Public Function DispatchChar(ByVal Text As String) As String
     End If
     DispatchChar = mEffects
 End Function
+
+' Whether a control takes part in Tab navigation: focusable, a tab stop, visible and enabled
+' (ports oxforms-core participates_in_tab_order).
+Private Function Participates(ByVal Control As IOxControl) As Boolean
+    Dim C As OxControlCore
+    Set C = Control.Core
+    Participates = C.Focusable And C.TabStop And C.Visible And C.Enabled
+End Function
+
+' A sortable tab key: TabIndex first, then declaration (add) order as the tie-break -- the same
+' (tab_index, index) ordering the kernel's next_tab_focus_target uses.
+Private Function TabKey(ByVal Control As IOxControl, ByVal DeclIndex As Long) As Long
+    TabKey = Control.Core.TabIndex * 100000 + DeclIndex
+End Function
+
+' The next (or, with Shift, previous) participating control in tab order after CurrentName,
+' wrapping around. Returns "" if there is no other participating control.
+Private Function TabTarget(ByVal CurrentName As String, ByVal Shift As Boolean) As String
+    Dim CurKey As Long, HaveCur As Boolean
+    Dim I As Long, Ctl As IOxControl
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Ctl.Core.Name = CurrentName Then
+            CurKey = TabKey(Ctl, I - 1)
+            HaveCur = True
+            Exit For
+        End If
+    Next I
+    If Not HaveCur Then Exit Function
+
+    Dim BestName As String, BestKey As Long, HaveBest As Boolean
+    Dim WrapName As String, WrapKey As Long, HaveWrap As Boolean
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Participates(Ctl) And Ctl.Core.Name <> CurrentName Then
+            Dim K As Long
+            K = TabKey(Ctl, I - 1)
+            If Not Shift Then
+                If K > CurKey Then
+                    If Not HaveBest Or K < BestKey Then BestName = Ctl.Core.Name: BestKey = K: HaveBest = True
+                End If
+                If Not HaveWrap Or K < WrapKey Then WrapName = Ctl.Core.Name: WrapKey = K: HaveWrap = True
+            Else
+                If K < CurKey Then
+                    If Not HaveBest Or K > BestKey Then BestName = Ctl.Core.Name: BestKey = K: HaveBest = True
+                End If
+                If Not HaveWrap Or K > WrapKey Then WrapName = Ctl.Core.Name: WrapKey = K: HaveWrap = True
+            End If
+        End If
+    Next I
+
+    If HaveBest Then
+        TabTarget = BestName
+    ElseIf HaveWrap Then
+        TabTarget = WrapName
+    End If
+End Function
+
+' Focus the first (or, with Shift, last) participating control when nothing is focused yet.
+Private Sub FocusFirstTab(ByVal Shift As Boolean)
+    Dim BestName As String, BestKey As Long, HaveBest As Boolean
+    Dim I As Long, Ctl As IOxControl
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Participates(Ctl) Then
+            Dim K As Long
+            K = TabKey(Ctl, I - 1)
+            If Not HaveBest _
+                Or (Not Shift And K < BestKey) _
+                Or (Shift And K > BestKey) Then
+                BestName = Ctl.Core.Name: BestKey = K: HaveBest = True
+            End If
+        End If
+    Next I
+    If HaveBest Then TransferFocusTo BestName
+End Sub
 
 ' Transfer focus to NewName, running the losing control's two-stage focus-out validation inline
 ' (the synchronous equivalent of the oracle's validation fold-back). Returns True if the transfer

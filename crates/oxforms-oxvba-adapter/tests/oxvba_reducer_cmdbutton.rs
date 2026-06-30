@@ -254,11 +254,12 @@ fn value(session: &mut ProjectRuntimeSession, form: &ObjectRef) -> bool {
     .unwrap_or_else(|| panic!("Value should return a boolean"))
 }
 
-fn dispatch_key(
+fn dispatch_key_shift(
     session: &mut ProjectRuntimeSession,
     form: &ObjectRef,
     kind: &str,
     key_code: i16,
+    shift: i16,
 ) -> String {
     call(
         session,
@@ -268,12 +269,21 @@ fn dispatch_key(
         vec![
             Variant::from_string(kind),
             Variant::from_i16(key_code),
-            Variant::from_i16(0),
+            Variant::from_i16(shift),
         ],
     )
     .as_bstr()
     .unwrap_or_else(|| panic!("DispatchKey should return the effect log"))
     .as_str()
+}
+
+fn dispatch_key(
+    session: &mut ProjectRuntimeSession,
+    form: &ObjectRef,
+    kind: &str,
+    key_code: i16,
+) -> String {
+    dispatch_key_shift(session, form, kind, key_code, 0)
 }
 
 fn dispatch_char(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) -> String {
@@ -681,4 +691,90 @@ fn before_update_veto_keeps_focus_and_value_dirty() {
     );
     assert_eq!(string_get(&mut session, &form, "FocusName"), "T1");
     assert_eq!(string_get(&mut session, &form, "T1Text"), "x");
+}
+
+const KEY_TAB: i16 = 9;
+const KEY_Q: i16 = 81; // the textbox fixture's T1 KeyDown swallows 'Q'
+const LBL_IN: (i32, i32) = (40, 84);
+
+#[test]
+fn tab_moves_focus_to_the_next_control() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // Tab: KeyDown fires on T1, then (not swallowed) focus transfers T1 -> T2 (clean: Exit/Enter).
+    let log = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
+    assert_eq!(log, "keydown:T1|exit:T1|enter:T2");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown", "T1.Exit", "T2.Enter"],
+        "Tab fires KeyDown then the focus-out validation then Enter on the next control"
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T2");
+}
+
+#[test]
+fn shift_tab_wraps_focus_to_the_previous_control() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    // From T1, Shift+Tab moves backward; with only T1/T2 participating it wraps to T2.
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_TAB, 1);
+    assert_eq!(log, "keydown:T1|exit:T1|enter:T2");
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T2");
+}
+
+#[test]
+fn swallowed_keydown_suppresses_the_following_character() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // 'Q' KeyDown is swallowed by the handler (KeyCode -> 0); the character is then dropped.
+    dispatch_key(&mut session, &form, "keydown", KEY_Q);
+    let chr = dispatch_char(&mut session, &form, "Q");
+    assert_eq!(chr, "char-swallowed");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown"],
+        "a swallowed KeyDown leaves no KeyPress or Change"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "",
+        "the suppressed character is not inserted"
+    );
+}
+
+#[test]
+fn label_click_routes_without_taking_focus() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    // A Label is not focusable: a press takes no focus and arms no pressed visual, but a release
+    // inside still fires Click (Label SupportsClick).
+    let down = dispatch(&mut session, &form, "mousedown", LBL_IN.0, LBL_IN.1);
+    assert_eq!(down, "mousedown:Lbl");
+    let up = dispatch(&mut session, &form, "mouseup", LBL_IN.0, LBL_IN.1);
+    assert_eq!(up, "mouseup:Lbl|click:Lbl|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Lbl.Click"],
+        "the Label fired Click"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "FocusName"),
+        "",
+        "clicking a Label never moves focus"
+    );
 }

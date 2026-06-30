@@ -10,6 +10,7 @@ Private mForm As UserForm
 Private mReducer As OxReducer
 Private WithEvents mT1 As TextBox
 Private WithEvents mT2 As TextBox
+Private WithEvents mLbl As Label
 Private mLog As String
 Private mT1ExitVeto As Boolean
 Private mT1BeforeUpdateVeto As Boolean
@@ -31,6 +32,14 @@ Public Sub Build()
     mT2.Top = 50
     mT2.Width = 100
     mT2.Height = 18
+
+    ' A Label (not focusable, not a tab stop) to pin click routing + that it never takes focus.
+    Set mLbl = mForm.Controls.Add("Forms.Label.1", "Lbl")
+    mLbl.Caption = "L"
+    mLbl.Left = 20
+    mLbl.Top = 75
+    mLbl.Width = 100
+    mLbl.Height = 18
 
     Set mReducer = New OxReducer
     mReducer.Init mForm
@@ -99,6 +108,8 @@ Private Sub mT1_Change()
 End Sub
 Private Sub mT1_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
     Append "T1.KeyDown"
+    ' Swallow the letter 'Q' (81) to prove a swallowed KeyDown suppresses the next character.
+    If KeyCode.Value = 81 Then KeyCode.Value = 0
 End Sub
 Private Sub mT1_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
     Append "T1.KeyUp"
@@ -113,6 +124,11 @@ Private Sub mT2_Enter()
 End Sub
 Private Sub mT2_Exit(ByVal Cancel As ReturnBoolean)
     Append "T2.Exit"
+End Sub
+
+' --- Label sink (display-only; click routes but never focuses) ---
+Private Sub mLbl_Click()
+    Append "Lbl.Click"
 End Sub
 
 Private Sub Append(ByVal Line As String)
