@@ -221,9 +221,11 @@ may differ — but an O(N²) algorithm is a JIT-independent problem.)
    vm3 is interpreted. Gate on the benchmark per §4.6: if an indexed VBA pick is fast enough
    per-frame, stay managed (b); if interpreted cost dominates even indexed, offload to Rust (c). (c)
    reuses geometry the render already produces and *simplifies* the VBA reducer, but per the Avalonia
-   precedent it is the fallback, not the default. **Currently BLOCKED:** the benchmark found `arr(i)`
-   is O(N) on vm3 (O(N²) loops), so neither (a) nor (b) is measurable until that vm3 bug is fixed
-   (handover filed) — re-benchmark, then decide.
+   precedent it is the fallback, not the default. **Decidable on merits (vm3 O(1) access assumed):**
+   with O(1) access the Avalonia default (b — an indexed VBA pick) is viable; (c — the Rust pick)
+   remains the option for move-frequency at very high N where the interpreter's per-op constant
+   dominates. A localized increment-2 choice; re-benchmark to confirm (`oxforms-bqr`). Either way the
+   message-handling pipeline/contract is unchanged.
 3. **Sequencing:** this does **not** block the reducer port. Port control *behavior* to VBA first
    (bead-driven); land the Rust geometric router as a separate kernel slice when the numbers + the
    move-semantics fixture justify it. Per `oxvba-vm3-handover-policy`, any vm3 limitation found while

@@ -12,7 +12,9 @@ before but NOT O(1), so VBA must stay off per-input/per-frame O(N) array loops o
 
 ## Principle
 
-Two separable jobs, split by perf + the architecture principle:
+Two separable jobs, split by the architecture principle (the vm3 perf finding reinforced this but does
+not drive it — the design below is **independent of array-access cost**; assume OxVba makes element
+access O(1)):
 - **Geometric routing** (which control under the pointer; when to bother VBA) is control-agnostic and
   the hot path → **Rust kernel/backend**.
 - **Behavioral reduction** (what a control does) is control-specific → **VBA** (the OxForms library),
@@ -93,13 +95,14 @@ The OxForms VBA library exposes the reducer entry the runtime calls per routed e
   mid-reduce.
 - emits **Effects** (stage 4) and re-renders the changed control(s).
 
-**Perf constraint (load-bearing; from the array-access handover).** A `Dispatch` must be **O(1) in the
-control count** — vm3 array element access is O(N), so the reducer must NOT scan all-controls arrays.
-Required O(1) structures: control lookup by id via a **keyed `Collection`/`Dictionary`** (hashed key,
-not array index); tab traversal via a **prebuilt next/prev link per control**, not a tab-order scan;
-accelerator dispatch via a **form-level accelerator map** (`key=Alt+X → control_id`); default/cancel
-buttons held as **direct references**. Any operation that cannot be made O(1) is called out and
-deferred, not hidden.
+**Perf constraint (good design regardless of the array fix).** A `Dispatch` must be **O(1) in the
+control count** — not because element access is O(N) (assume OxVba makes that O(1)) but because a
+per-input O(N) *iteration* over all controls is wasteful at the interpreter's per-op constant
+(~9 µs/iter, measured even with no array access). So the reducer uses O(1)-lookup structures: control
+lookup by id via a **keyed `Collection`/`Dictionary`** (hashed key, not a linear scan); tab traversal
+via a **prebuilt next/prev link per control**; accelerator dispatch via a **form-level accelerator
+map** (`key=Alt+X → control_id`); default/cancel buttons held as **direct references**. This holds
+whether or not element access is O(1).
 
 ### 4. EFFECTS + UPDATE — VBA → Rust, in two tiers
 The host-effects seam is a new injected `OxForms.Host` object, **modelled on `OxForms.Surface`** —
@@ -202,5 +205,8 @@ workaround (`oxvba-vm3-handover-policy`).
   fields and their ScenePatch encoding (pin against an oracle); the immediate-vs-deferred effect split.
 - **inc. 3 blocked on:** the conformance migration proven; the `.frm` loader / `trace_replay` home.
 - **modal increment blocked on:** the modal-pump reentrancy model (above).
-- Out of scope here: list/selection controls, container nested-coordinate model (W009/W010), pixel-
-  perfect rendering, the array-perf fix itself (OxVba; handover open, `oxforms-bqr`).
+- Assumed: OxVba makes element access O(1) (further fix expected; `oxforms-bqr`). The design is
+  access-cost-independent, so this does not gate it — only the inc-2 hit-test-home choice (Rust pick
+  vs indexed VBA pick) is informed by it, and both leave the pipeline/contract identical.
+- Out of scope here: list/selection controls, container nested-coordinate model (W009/W010),
+  pixel-perfect rendering, the array-perf fix itself (OxVba).
