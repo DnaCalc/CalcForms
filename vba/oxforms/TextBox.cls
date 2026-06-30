@@ -257,6 +257,23 @@ Private Property Get IOxControl_IsDirty() As Boolean
     IOxControl_IsDirty = mEditDirty
 End Property
 
+Private Property Get IOxControl_IsDefault() As Boolean
+    IOxControl_IsDefault = False
+End Property
+
+Private Property Get IOxControl_IsCancel() As Boolean
+    IOxControl_IsCancel = False
+End Property
+
+Private Property Get IOxControl_AcceleratorKey() As String
+    IOxControl_AcceleratorKey = ""
+End Property
+
+' A TextBox never self-activates on Space/Enter; Enter falls through to the form default button.
+Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
+    IOxControl_TryKeyboardActivate = False
+End Function
+
 ' A TextBox neither fires Click nor shows a pressed visual (it takes capture + the caret).
 Private Property Get IOxControl_SupportsClick() As Boolean
     IOxControl_SupportsClick = False

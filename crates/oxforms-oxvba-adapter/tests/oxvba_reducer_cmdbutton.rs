@@ -123,6 +123,11 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_textbox_form.cls",
         ),
+        module_unit(
+            "ReducerButtonsForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_buttons_form.cls",
+        ),
     ];
 
     let manifest = SymbolProjectManifest {
@@ -252,6 +257,18 @@ fn value(session: &mut ProjectRuntimeSession, form: &ObjectRef) -> bool {
     )
     .as_bool()
     .unwrap_or_else(|| panic!("Value should return a boolean"))
+}
+
+fn bool_get(session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &str) -> bool {
+    call(
+        session,
+        form.clone(),
+        member,
+        ProjectMemberKind::PropertyGet,
+        Vec::new(),
+    )
+    .as_bool()
+    .unwrap_or_else(|| panic!("{member} should return a boolean"))
 }
 
 fn dispatch_key_shift(
@@ -776,5 +793,105 @@ fn label_click_routes_without_taking_focus() {
         string_get(&mut session, &form, "FocusName"),
         "",
         "clicking a Label never moves focus"
+    );
+}
+
+// The buttons fixture: Field TextBox at (20,20,100,18); Chk CheckBox at (20,95,100,18).
+const FIELD_IN: (i32, i32) = (40, 28);
+const CHK2_IN: (i32, i32) = (40, 104);
+const KEY_ENTER: i16 = 13;
+const KEY_ESCAPE: i16 = 27;
+const KEY_SPACE: i16 = 32;
+const KEY_G: i16 = 71;
+const SHIFT_ALT: i16 = 4;
+
+#[test]
+fn enter_activates_the_default_button() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+
+    // Enter on the field: KeyDown fires, then focus moves to the default OK button and it clicks.
+    let log = dispatch_key(&mut session, &form, "keydown", KEY_ENTER);
+    assert_eq!(log, "keydown:Field|exit:Field|enter:Ok|click:Ok");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Field.KeyDown", "Field.Exit", "Ok.Enter", "Ok.Click"],
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "Ok");
+}
+
+#[test]
+fn escape_activates_the_cancel_button_in_place() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+
+    // Escape clicks the cancel button without moving focus.
+    let log = dispatch_key(&mut session, &form, "keydown", KEY_ESCAPE);
+    assert_eq!(log, "keydown:Field|click:CancelBtn");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Field.KeyDown", "Cancel.Click"],
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "FocusName"),
+        "Field",
+        "Escape does not move focus"
+    );
+}
+
+#[test]
+fn alt_accelerator_activates_the_matching_button() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+
+    // Alt+G matches the "&Go" button: focus moves to it and it clicks.
+    let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_G, SHIFT_ALT);
+    assert_eq!(log, "keydown:Field|exit:Field|enter:Go|click:Go");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Field.KeyDown", "Field.Exit", "Go.Enter", "Go.Click"],
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "Go");
+}
+
+#[test]
+fn space_toggles_the_focused_checkbox_value_first() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    // Click the CheckBox to focus + check it (value True), then clear the log.
+    dispatch(&mut session, &form, "mousedown", CHK2_IN.0, CHK2_IN.1);
+    dispatch(&mut session, &form, "mouseup", CHK2_IN.0, CHK2_IN.1);
+    assert!(
+        bool_get(&mut session, &form, "ChkValue"),
+        "click checked it"
+    );
+    invoke_sub(&mut session, &form, "ClearLog");
+
+    // Space toggles it back off: Change/Click fire BEFORE KeyDown (value-first keyboard order).
+    let log = dispatch_key(&mut session, &form, "keydown", KEY_SPACE);
+    assert_eq!(log, "activate:Chk|keydown:Chk");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Chk.Change", "Chk.Click", "Chk.KeyDown"],
+        "Space toggles the value (Change/Click) before the KeyDown"
+    );
+    assert!(
+        !bool_get(&mut session, &form, "ChkValue"),
+        "Space toggled the value back off"
     );
 }

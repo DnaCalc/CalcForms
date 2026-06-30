@@ -23,6 +23,10 @@ Option Explicit
 Private Const OX_BUTTON_LEFT As Integer = 1
 ' Virtual key codes the reducer routes specially.
 Private Const OX_KEY_TAB As Integer = 9
+Private Const OX_KEY_ENTER As Integer = 13
+Private Const OX_KEY_ESCAPE As Integer = 27
+' MSForms Shift-arg bitmask: 1 = Shift, 2 = Ctrl, 4 = Alt.
+Private Const OX_SHIFT_ALT As Integer = 4
 
 Private mForm As UserForm
 Private mCaptureName As String    ' control holding the mouse capture ("" = none)
@@ -164,22 +168,109 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
 
     Dim Focused As IOxControl
     Set Focused = mForm.ControlByName(mFocusName)
+
+    ' The focused control gets first refusal on Space/Enter: a CheckBox toggles (Change/Click)
+    ' BEFORE the KeyDown event -- value-first, the oracle keyboard order. If it self-activates,
+    ' raise KeyDown afterwards and stop (no default-button / navigation handling).
+    If Focused.TryKeyboardActivate(KeyCode, Shift, Len(DefaultButtonName()) > 0) Then
+        Emit "activate:" & mFocusName
+        Focused.OnKeyDown KeyCode, Shift
+        Emit "keydown:" & mFocusName
+        Exit Sub
+    End If
+
     Dim Post As Integer
     Post = Focused.OnKeyDown(KeyCode, Shift)
     Emit "keydown:" & mFocusName
 
     ' Swallow linkage: a KeyDown handler that zeroed the key code suppresses the character that
     ' would otherwise follow (consumed by the next DispatchChar). A swallowed key also performs
-    ' no navigation.
+    ' no navigation/activation.
     mSwallowNextChar = (Post = 0)
     If Post = 0 Then Exit Sub
 
-    ' Tab navigation runs AFTER the KeyDown fired (oracle order KeyDown -> [validation] -> Enter).
+    ' After the KeyDown fired (oracle order KeyDown -> [validation/activation]): Tab navigation,
+    ' Alt+accelerator, Enter -> default button, Escape -> cancel button.
     If KeyCode = OX_KEY_TAB Then
         Dim NextName As String
         NextName = TabTarget(mFocusName, Shift)
         If Len(NextName) > 0 Then TransferFocusTo NextName
+    ElseIf (Shift And OX_SHIFT_ALT) <> 0 Then
+        ActivateAccelerator KeyCode
+    ElseIf KeyCode = OX_KEY_ENTER And Shift = 0 Then
+        ActivateDefaultButton
+    ElseIf KeyCode = OX_KEY_ESCAPE And Shift = 0 Then
+        ActivateCancelButton
     End If
+End Sub
+
+' The visible+enabled form default button's name ("" if none).
+Private Function DefaultButtonName() As String
+    Dim I As Long, Ctl As IOxControl
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Ctl.IsDefault And Ctl.Core.Visible And Ctl.Core.Enabled Then
+            DefaultButtonName = Ctl.Core.Name
+            Exit Function
+        End If
+    Next I
+End Function
+
+' The visible+enabled form cancel button's name ("" if none).
+Private Function CancelButtonName() As String
+    Dim I As Long, Ctl As IOxControl
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Ctl.IsCancel And Ctl.Core.Visible And Ctl.Core.Enabled Then
+            CancelButtonName = Ctl.Core.Name
+            Exit Function
+        End If
+    Next I
+End Function
+
+' Enter on a control that did not consume it activates the default button: move focus to it
+' (validation runs on the loser) then fire its Click. A validation veto absorbs the activation.
+Private Sub ActivateDefaultButton()
+    Dim Name As String
+    Name = DefaultButtonName()
+    If Len(Name) = 0 Then Exit Sub
+    If Name <> mFocusName Then
+        If Not TransferFocusTo(Name) Then Exit Sub
+    End If
+    mForm.ControlByName(Name).OnClick
+    Emit "click:" & Name
+End Sub
+
+' Escape fires the cancel button's Click in place (no focus change), matching the oracle.
+Private Sub ActivateCancelButton()
+    Dim Name As String
+    Name = CancelButtonName()
+    If Len(Name) = 0 Then Exit Sub
+    mForm.ControlByName(Name).OnClick
+    Emit "click:" & Name
+End Sub
+
+' Alt+letter focuses then clicks the CommandButton whose caption mnemonic matches.
+Private Sub ActivateAccelerator(ByVal KeyCode As Integer)
+    Dim Want As String
+    Want = UCase$(Chr$(KeyCode))
+    If Len(Want) = 0 Then Exit Sub
+
+    Dim I As Long, Ctl As IOxControl, Name As String
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.AcceleratorKey = Want Then
+            Name = Ctl.Core.Name
+            Exit For
+        End If
+    Next I
+    If Len(Name) = 0 Then Exit Sub
+
+    If Name <> mFocusName Then
+        If Not TransferFocusTo(Name) Then Exit Sub
+    End If
+    mForm.ControlByName(Name).OnClick
+    Emit "click:" & Name
 End Sub
 
 ' THE VBA REDUCE for character input, routed to the focused control: it raises KeyPress and (a

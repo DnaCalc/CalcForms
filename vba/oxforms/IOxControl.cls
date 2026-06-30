@@ -83,3 +83,24 @@ End Sub
 ' a dirty control fires BeforeUpdate/AfterUpdate, a clean one goes straight to Exit.
 Public Property Get IsDirty() As Boolean
 End Property
+
+' --- Reducer default/cancel/accelerator surface ---
+' Whether this control is the form default button (Enter activates it) / cancel button (Escape
+' activates it). Only a CommandButton can be either; everything else returns False.
+Public Property Get IsDefault() As Boolean
+End Property
+
+Public Property Get IsCancel() As Boolean
+End Property
+
+' The control's Alt-accelerator letter (uppercased) parsed from its caption '&X' mnemonic, or
+' "" if none. Used by the reducer to resolve Alt+letter to a CommandButton.
+Public Property Get AcceleratorKey() As String
+End Property
+
+' Give the FOCUSED control first refusal on a Space/Enter key: a CheckBox toggles (and returns
+' True) on Space, or on Enter when no default button exists; other controls return False so the
+' reducer falls through to default-button / accelerator handling. The toggle (Change/Click) fires
+' BEFORE the reducer raises KeyDown (value-first, oracle CheckBox keyboard order).
+Public Function TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
+End Function

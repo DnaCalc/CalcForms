@@ -150,3 +150,19 @@ End Sub
 Private Property Get IOxControl_IsDirty() As Boolean
     IOxControl_IsDirty = False
 End Property
+
+Private Property Get IOxControl_IsDefault() As Boolean
+    IOxControl_IsDefault = False
+End Property
+
+Private Property Get IOxControl_IsCancel() As Boolean
+    IOxControl_IsCancel = False
+End Property
+
+Private Property Get IOxControl_AcceleratorKey() As String
+    IOxControl_AcceleratorKey = ""
+End Property
+
+Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
+    IOxControl_TryKeyboardActivate = False
+End Function

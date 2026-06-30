@@ -24,10 +24,16 @@ Public Event [Exit](ByVal Cancel As ReturnBoolean)
 Public Event Enter()
 
 Private mCore As OxControlCore
+' MSForms Default/Cancel: at most one button per form is the default (Enter activates) and one
+' the cancel (Escape activates). Set at build time; the reducer scans for them.
+Private mDefault As Boolean
+Private mCancel As Boolean
 
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlCommandButton
+    mDefault = False
+    mCancel = False
 End Sub
 
 ' --- IOxControl ---
@@ -98,6 +104,22 @@ Public Property Get Enabled() As Boolean
 End Property
 Public Property Let Enabled(ByVal Value As Boolean)
     mCore.Enabled = Value
+End Property
+
+' The form default button (activated by Enter when no other control consumes it).
+Public Property Get Default() As Boolean
+    Default = mDefault
+End Property
+Public Property Let Default(ByVal Value As Boolean)
+    mDefault = Value
+End Property
+
+' The form cancel button (activated by Escape).
+Public Property Get Cancel() As Boolean
+    Cancel = mCancel
+End Property
+Public Property Let Cancel(ByVal Value As Boolean)
+    mCancel = Value
 End Property
 
 ' --- Runtime-facing input surface (driven by the OxForms runtime, not form code) ---
@@ -210,3 +232,40 @@ End Sub
 Private Property Get IOxControl_IsDirty() As Boolean
     IOxControl_IsDirty = False
 End Property
+
+Private Property Get IOxControl_IsDefault() As Boolean
+    IOxControl_IsDefault = mDefault
+End Property
+
+Private Property Get IOxControl_IsCancel() As Boolean
+    IOxControl_IsCancel = mCancel
+End Property
+
+' Parse the caption's '&X' accelerator mnemonic (uppercased); "" if none. '&&' is a literal
+' ampersand, not a mnemonic.
+Private Property Get IOxControl_AcceleratorKey() As String
+    Dim Caption As String, I As Long, Ch As String
+    Caption = mCore.DisplayText
+    I = 1
+    Do While I < Len(Caption)
+        Ch = Mid$(Caption, I, 1)
+        If Ch = "&" Then
+            Dim NextCh As String
+            NextCh = Mid$(Caption, I + 1, 1)
+            If NextCh = "&" Then
+                I = I + 2   ' escaped '&&' -- skip both
+            Else
+                IOxControl_AcceleratorKey = UCase$(NextCh)
+                Exit Property
+            End If
+        Else
+            I = I + 1
+        End If
+    Loop
+    IOxControl_AcceleratorKey = ""
+End Property
+
+' A focused CommandButton's Enter/Space is handled via the form default-button path, not here.
+Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
+    IOxControl_TryKeyboardActivate = False
+End Function

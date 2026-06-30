@@ -218,6 +218,32 @@ Private Property Get IOxControl_IsDirty() As Boolean
     IOxControl_IsDirty = mEditDirty
 End Property
 
+Private Property Get IOxControl_IsDefault() As Boolean
+    IOxControl_IsDefault = False
+End Property
+
+Private Property Get IOxControl_IsCancel() As Boolean
+    IOxControl_IsCancel = False
+End Property
+
+Private Property Get IOxControl_AcceleratorKey() As String
+    IOxControl_AcceleratorKey = ""
+End Property
+
+' Space toggles the focused CheckBox; Enter toggles it only when there is no default button
+' (otherwise Enter activates the default). No modifiers. The toggle (Change/Click) fires here,
+' BEFORE the reducer raises KeyDown -- the oracle value-first keyboard order.
+Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
+    If Shift <> 0 Then Exit Function
+    If KeyCode = 32 Then
+        Toggle
+        IOxControl_TryKeyboardActivate = True
+    ElseIf KeyCode = 13 And Not HasDefaultButton Then
+        Toggle
+        IOxControl_TryKeyboardActivate = True
+    End If
+End Function
+
 ' --- Runtime-facing input surface ---
 ' Activate the check box: flip the value, then Change, then Click (value-before-Click). This
 ' is both the mouse-click and keyboard Space/Enter activation path.
