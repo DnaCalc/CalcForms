@@ -27,7 +27,7 @@ use std::sync::Arc;
 use oxforms_oxvba_adapter::runtime::OxRuntime;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::{FontId, Scene};
-use oxforms_pal::{CoordinatePayload, LogicalPoint, MouseButton, UiEvent, UiEventKind};
+use oxforms_pal::{CoordinatePayload, KeyCode, LogicalPoint, MouseButton, UiEvent, UiEventKind};
 use oxforms_pal_win::{
     load_ui_font, run_scene_window, AbGlyphShaper, FontTable, WindowOptions, WindowSignal,
 };
@@ -126,8 +126,23 @@ fn run() -> Result<(), BootstrapError> {
         scene,
         fonts,
         move |event: &UiEvent, scene: &mut Scene| {
-            if is_close(event) {
-                return WindowSignal::Close;
+            // A window-manager close request runs the form's QueryClose: a veto (nonzero Cancel)
+            // keeps the window open; otherwise it closes. Escape force-closes the demo regardless.
+            match &event.kind {
+                UiEventKind::CloseRequest(_) => {
+                    return match rt.perform_query_close(0) {
+                        Ok(0) => WindowSignal::Close,
+                        Ok(_) => WindowSignal::Ignore,
+                        Err(err) => {
+                            *cb_error_inner.borrow_mut() = Some(format!("query close: {err}"));
+                            WindowSignal::Close
+                        }
+                    };
+                }
+                UiEventKind::KeyDown(e) if e.key == KeyCode::Escape => {
+                    return WindowSignal::Close;
+                }
+                _ => {}
             }
             if let UiEventKind::Resize(e) = &event.kind {
                 if let Some(size) = e.client_size {
@@ -211,8 +226,8 @@ fn dispatch_event(
             } else {
                 "keyup"
             };
-            let vk = e.raw.virtual_key.unwrap_or(0) as i16;
-            rt.dispatch_key(kind, vk, shift(&e.modifiers)).map(Some)
+            rt.dispatch_key(kind, keycode_to_vk(&e.key), shift(&e.modifiers))
+                .map(Some)
         }
         UiEventKind::CharacterInput(e) => rt.dispatch_char(&e.text).map(Some),
         _ => Ok(None),
@@ -249,12 +264,30 @@ fn current_scene(surface: &Arc<SurfaceFactory>) -> Result<Scene, BootstrapError>
         .ok_or_else(|| BootstrapError::Runtime("no resident scene after render".to_string()))
 }
 
-fn is_close(event: &UiEvent) -> bool {
-    matches!(&event.kind, UiEventKind::CloseRequest(_))
-        || matches!(
-            &event.kind,
-            UiEventKind::KeyDown(e) if e.key == oxforms_pal::KeyCode::Escape
-        )
+/// Map the structured `KeyCode` (the PAL populates this; it does NOT populate the raw virtual-key
+/// diagnostic) to the MSForms/Windows virtual-key number the VBA reducer routes by (Tab=9,
+/// Enter=13, Escape=27, Space=32, edit keys, and a letter/digit's uppercased ASCII byte so
+/// e.g. 'v' -> 86 for Ctrl+V). Unknown keys map to 0 (no special routing).
+fn keycode_to_vk(key: &KeyCode) -> i16 {
+    match key {
+        KeyCode::Backspace => 8,
+        KeyCode::Tab => 9,
+        KeyCode::Enter => 13,
+        KeyCode::Escape => 27,
+        KeyCode::Space => 32,
+        KeyCode::End => 35,
+        KeyCode::Home => 36,
+        KeyCode::ArrowLeft => 37,
+        KeyCode::ArrowUp => 38,
+        KeyCode::ArrowRight => 39,
+        KeyCode::ArrowDown => 40,
+        KeyCode::Delete => 46,
+        KeyCode::Character(s) => s
+            .chars()
+            .next()
+            .map_or(0, |c| i16::from(c.to_ascii_uppercase() as u8)),
+        _ => 0,
+    }
 }
 
 /// Build the OxVba session for the OxForms library + greeter, with `OxForms.Surface` registered.
@@ -396,4 +429,22 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/smoke/fixtures/reducer_greeter_form.cls"),
         ),
     ]
+}
+
+#[cfg(test)]
+mod tests {
+    use super::keycode_to_vk;
+    use oxforms_pal::KeyCode;
+
+    #[test]
+    fn keycode_maps_to_the_reducer_virtual_keys() {
+        assert_eq!(keycode_to_vk(&KeyCode::Tab), 9);
+        assert_eq!(keycode_to_vk(&KeyCode::Enter), 13);
+        assert_eq!(keycode_to_vk(&KeyCode::Escape), 27);
+        assert_eq!(keycode_to_vk(&KeyCode::Space), 32);
+        // A letter maps to its uppercased ASCII byte (so Ctrl+V resolves to V=86 in the reducer).
+        assert_eq!(keycode_to_vk(&KeyCode::Character("v".to_string())), 86);
+        assert_eq!(keycode_to_vk(&KeyCode::Character("A".to_string())), 65);
+        assert_eq!(keycode_to_vk(&KeyCode::Unidentified), 0);
+    }
 }

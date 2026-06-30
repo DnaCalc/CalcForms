@@ -231,9 +231,19 @@ Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Int
 End Function
 
 Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
-    ' KeyPress fires before the value changes; then the character inserts and raises Change.
-    If Len(Text) > 0 Then PerformKeyPress Asc(Left$(Text, 1))
-    InsertText Text
+    ' KeyPress fires before the value changes. A handler may swallow the character by setting
+    ' KeyAscii.Value = 0 (then nothing inserts, no Change) or remap it to another code; otherwise
+    ' the character inserts and raises Change. (Multi-char input bypasses the per-char KeyPress
+    ' remap and inserts verbatim -- KeyPress is a single-character event.)
+    If Len(Text) = 0 Then Exit Sub
+    Dim Post As Integer
+    Post = PerformKeyPress(Asc(Left$(Text, 1)))
+    If Post = 0 Then Exit Sub
+    If Len(Text) = 1 Then
+        InsertText Chr$(Post)
+    Else
+        InsertText Text
+    End If
 End Sub
 
 Private Sub IOxControl_OnEnter()

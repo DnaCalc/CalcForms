@@ -993,6 +993,34 @@ fn paste_veto_suppresses_the_change() {
 }
 
 #[test]
+fn swallowed_keypress_suppresses_the_character_insert() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // 'Z' is swallowed at the KeyPress level (KeyAscii -> 0): the KeyPress fires but the character
+    // is neither inserted nor does Change fire.
+    let chr = dispatch_char(&mut session, &form, "Z");
+    assert_eq!(
+        chr, "char:T1|repaint",
+        "the char dispatched (KeyPress fired) but inserted nothing"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyPress"],
+        "a swallowed KeyPress leaves no Change"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "",
+        "the swallowed character is not inserted"
+    );
+}
+
+#[test]
 fn drag_drop_pastes_text_into_the_focused_textbox() {
     let (mut session, _surface) = prepare_session();
     let form = build_form(&mut session, "ReducerTextBoxForm");

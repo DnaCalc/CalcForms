@@ -129,6 +129,9 @@ Private Sub mT1_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 End Sub
 Private Sub mT1_KeyPress(ByVal KeyAscii As ReturnInteger)
     Append "T1.KeyPress"
+    ' Swallow the character 'Z' (90) at the KeyPress level to prove a zeroed KeyAscii suppresses
+    ' the insert + Change (distinct from the KeyDown swallow above).
+    If KeyAscii.Value = 90 Then KeyAscii.Value = 0
 End Sub
 Private Sub mT1_BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)
     Append "T1.BeforeDropOrPaste"
