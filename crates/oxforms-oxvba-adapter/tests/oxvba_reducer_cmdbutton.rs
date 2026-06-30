@@ -118,6 +118,11 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_checkbox_form.cls",
         ),
+        module_unit(
+            "ReducerTextBoxForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_textbox_form.cls",
+        ),
     ];
 
     let manifest = SymbolProjectManifest {
@@ -249,6 +254,72 @@ fn value(session: &mut ProjectRuntimeSession, form: &ObjectRef) -> bool {
     .unwrap_or_else(|| panic!("Value should return a boolean"))
 }
 
+fn dispatch_key(
+    session: &mut ProjectRuntimeSession,
+    form: &ObjectRef,
+    kind: &str,
+    key_code: i16,
+) -> String {
+    call(
+        session,
+        form.clone(),
+        "DispatchKey",
+        ProjectMemberKind::Method,
+        vec![
+            Variant::from_string(kind),
+            Variant::from_i16(key_code),
+            Variant::from_i16(0),
+        ],
+    )
+    .as_bstr()
+    .unwrap_or_else(|| panic!("DispatchKey should return the effect log"))
+    .as_str()
+}
+
+fn dispatch_char(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) -> String {
+    call(
+        session,
+        form.clone(),
+        "DispatchChar",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    )
+    .as_bstr()
+    .unwrap_or_else(|| panic!("DispatchChar should return the effect log"))
+    .as_str()
+}
+
+fn string_get(session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &str) -> String {
+    call(
+        session,
+        form.clone(),
+        member,
+        ProjectMemberKind::PropertyGet,
+        Vec::new(),
+    )
+    .as_bstr()
+    .unwrap_or_else(|| panic!("{member} should return a string"))
+    .as_str()
+}
+
+fn invoke_sub(session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &str) {
+    call(
+        session,
+        form.clone(),
+        member,
+        ProjectMemberKind::Method,
+        Vec::new(),
+    );
+}
+
+/// Focus a TextBox in the textbox fixture via a mouse press + release on it, then clear the log
+/// so a test asserts only the events that follow.
+fn focus_and_clear(session: &mut ProjectRuntimeSession, form: &ObjectRef, x: i32, y: i32) {
+    dispatch(session, form, "mousedown", x, y);
+    dispatch(session, form, "mouseup", x, y);
+    invoke_sub(session, form, "ClearLog");
+}
+
 fn set_z_order(session: &mut ProjectRuntimeSession, form: &ObjectRef, name: &str, z: i32) {
     call(
         session,
@@ -288,9 +359,9 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
     let rev0 = revision(&surface);
     let hash_idle = framebuffer_hash(&surface);
 
-    // Press inside the button: MouseDown raised, pressed armed, repaint.
+    // Press inside the button: focus arrives (Enter) before MouseDown, then pressed armed, repaint.
     let down = dispatch(&mut session, &form, "mousedown", INSIDE.0, INSIDE.1);
-    assert_eq!(down, "mousedown:Btn1|press:Btn1|repaint");
+    assert_eq!(down, "enter:Btn1|mousedown:Btn1|press:Btn1|repaint");
     assert!(
         pressed(&mut session, &form),
         "press arms the pressed visual"
@@ -386,22 +457,23 @@ fn overlapping_controls_route_by_z_order_then_last_added() {
     let (mut session, _surface) = prepare_session();
     let form = build_form(&mut session, "ReducerHitRoutingForm");
 
-    // Non-overlap regions route to the unique control under the point.
+    // Non-overlap regions route to the unique control under the point. Each focusable control
+    // gains focus (Enter) before its MouseDown; moving focus to a sibling fires Exit on the loser.
     assert_eq!(
         dispatch(&mut session, &form, "mousedown", 25, 30),
-        "mousedown:A|press:A|repaint",
-        "the A-only region routes to A"
+        "enter:A|mousedown:A|press:A|repaint",
+        "the A-only region routes to A and focuses it"
     );
     dispatch(&mut session, &form, "mouseup", 25, 30);
     assert_eq!(
         dispatch(&mut session, &form, "mousedown", 110, 30),
-        "mousedown:B|press:B|repaint",
-        "the B-only region routes to B"
+        "exit:A|enter:B|mousedown:B|press:B|repaint",
+        "the B-only region routes to B; focus transfers A -> B"
     );
     dispatch(&mut session, &form, "mouseup", 110, 30);
 
     // Overlap with equal z: the later-added control (B) wins, matching the kernel's
-    // (z_order, index) tie-break.
+    // (z_order, index) tie-break. Focus is already on B, so no Enter/Exit.
     assert_eq!(
         dispatch(&mut session, &form, "mousedown", 60, 30),
         "mousedown:B|press:B|repaint",
@@ -409,11 +481,12 @@ fn overlapping_controls_route_by_z_order_then_last_added() {
     );
     dispatch(&mut session, &form, "mouseup", 60, 30);
 
-    // Raise A above B: the overlap now routes to A (higher z wins regardless of add order).
+    // Raise A above B: the overlap now routes to A (higher z wins regardless of add order);
+    // focus transfers B -> A.
     set_z_order(&mut session, &form, "A", 5);
     assert_eq!(
         dispatch(&mut session, &form, "mousedown", 60, 30),
-        "mousedown:A|press:A|repaint",
+        "exit:B|enter:A|mousedown:A|press:A|repaint",
         "a higher z wins the overlap"
     );
 }
@@ -447,9 +520,10 @@ fn checkbox_mouse_click_toggles_value_with_change_before_click() {
 
     assert!(!value(&mut session, &form), "check box starts unchecked");
 
-    // Press arms the pressed visual (CheckBox has one) but does NOT toggle the value yet.
+    // Press arms the pressed visual (CheckBox has one) but does NOT toggle the value yet; focus
+    // arrives first (Enter).
     let down = dispatch(&mut session, &form, "mousedown", CHK_INSIDE.0, CHK_INSIDE.1);
-    assert_eq!(down, "mousedown:Chk1|press:Chk1|repaint");
+    assert_eq!(down, "enter:Chk1|mousedown:Chk1|press:Chk1|repaint");
     assert!(
         !value(&mut session, &form),
         "the value flips on click (mouse up), not on mouse down"
@@ -482,4 +556,129 @@ fn checkbox_second_click_toggles_back_off() {
         !value(&mut session, &form),
         "a second click toggles back to unchecked"
     );
+}
+
+// The textbox fixture controls: T1 at (20,20,100,18) -> x in [20,120), y in [20,38);
+// T2 at (20,50,100,18) -> x in [20,120), y in [50,68).
+const T1_IN: (i32, i32) = (40, 28);
+const T2_IN: (i32, i32) = (40, 58);
+const KEY_A: i16 = 65;
+
+#[test]
+fn typing_into_focused_textbox_fires_keydown_keypress_change_keyup() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // Type 'A': KeyDown, then the character (KeyPress -> insert -> Change), then KeyUp.
+    dispatch_key(&mut session, &form, "keydown", KEY_A);
+    dispatch_char(&mut session, &form, "A");
+    dispatch_key(&mut session, &form, "keyup", KEY_A);
+
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown", "T1.KeyPress", "T1.Change", "T1.KeyUp"],
+        "the focused TextBox fires KeyDown -> KeyPress -> Change -> KeyUp"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "A",
+        "the character was inserted"
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T1");
+}
+
+#[test]
+fn clean_focus_change_fires_exit_then_enter() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // Click T2: focus transfers T1 -> T2 BEFORE the MouseDown (no edit, so no BeforeUpdate).
+    let log = dispatch(&mut session, &form, "mousedown", T2_IN.0, T2_IN.1);
+    assert_eq!(log, "exit:T1|enter:T2|mousedown:T2");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.Exit", "T2.Enter"],
+        "a clean focus change fires Exit on the loser then Enter on the gainer"
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T2");
+}
+
+#[test]
+fn dirty_focus_out_fires_two_stage_then_exit_enter() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    // Focus T1 and type (now dirty), then clear the log and change focus.
+    dispatch(&mut session, &form, "mousedown", T1_IN.0, T1_IN.1);
+    dispatch(&mut session, &form, "mouseup", T1_IN.0, T1_IN.1);
+    dispatch_char(&mut session, &form, "x");
+    invoke_sub(&mut session, &form, "ClearLog");
+
+    let log = dispatch(&mut session, &form, "mousedown", T2_IN.0, T2_IN.1);
+    assert_eq!(
+        log, "beforeupdate:T1|afterupdate:T1|exit:T1|enter:T2|mousedown:T2",
+        "a dirty focus-out runs the full two-stage validation before Enter + MouseDown"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.BeforeUpdate", "T1.AfterUpdate", "T1.Exit", "T2.Enter"],
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T2");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "x");
+}
+
+#[test]
+fn exit_veto_keeps_focus() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    invoke_sub(&mut session, &form, "ArmT1ExitVeto");
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    // Clicking T2 fires T1.Exit, which vetoes: focus stays on T1 and no MouseDown reaches T2.
+    let log = dispatch(&mut session, &form, "mousedown", T2_IN.0, T2_IN.1);
+    assert_eq!(log, "exit:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.Exit"],
+        "the vetoing Exit fires; no Enter on T2"
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T1");
+}
+
+#[test]
+fn before_update_veto_keeps_focus_and_value_dirty() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    invoke_sub(&mut session, &form, "ArmT1BeforeUpdateVeto");
+    dispatch(&mut session, &form, "mousedown", T1_IN.0, T1_IN.1);
+    dispatch(&mut session, &form, "mouseup", T1_IN.0, T1_IN.1);
+    dispatch_char(&mut session, &form, "x"); // dirty
+    invoke_sub(&mut session, &form, "ClearLog");
+
+    // BeforeUpdate vetoes: no AfterUpdate/Exit/Enter, focus stays, value stays dirty/uncommitted.
+    let log = dispatch(&mut session, &form, "mousedown", T2_IN.0, T2_IN.1);
+    assert_eq!(log, "beforeupdate:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.BeforeUpdate"],
+        "the vetoing BeforeUpdate fires; no AfterUpdate/Exit/Enter"
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T1");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "x");
 }

@@ -8,13 +8,16 @@ Option Explicit
 ' FM20 events through the IOxControl input surface (OnMouseDown/OnMouseUp/OnClick). No Rust
 ' reducer is in the loop.
 '
-' Increment 1 scope (oxforms-ih6.1): CommandButton mouse activation --
-'   MouseDown inside a pressable control -> raise MouseDown, arm capture + pressed, repaint;
-'   MouseUp                              -> raise MouseUp; if released inside the same armed
-'                                           control and it supports Click, raise Click;
-'                                           release pressed + capture; repaint.
-' Control value behavior (CheckBox toggle, TextBox edit) and the generic focus/tab/two-stage
-' validation/fold-back/default-cancel/accelerator machinery land in later increments.
+' Scope so far (epic oxforms-ih6):
+'   ih6.1 -- CommandButton mouse activation (MouseDown -> capture+press -> MouseUp -> Click);
+'   ih6.2 -- CheckBox mouse toggle (via the control's OnClick);
+'   ih6.3 -- focus + keyboard routing: a focusable control gains focus on mouse-down BEFORE the
+'            MouseDown (synchronous two-stage focus-out validation reproduces the oracle order
+'            Exit/Enter/MouseDown, or BeforeUpdate/AfterUpdate/Exit/Enter/MouseDown when dirty,
+'            with no fold-back); KeyDown/KeyUp/character input route to the focused control.
+' Still to land: Tab navigation, default/cancel buttons, accelerators, the keyboard
+' swallow->character linkage, caret/selection edit keys, clipboard + drag-drop paste,
+' lifecycle + QueryClose.
 
 ' MSForms Button arg: the left mouse button.
 Private Const OX_BUTTON_LEFT As Integer = 1
@@ -22,6 +25,7 @@ Private Const OX_BUTTON_LEFT As Integer = 1
 Private mForm As UserForm
 Private mCaptureName As String   ' control holding the mouse capture ("" = none)
 Private mPressedName As String   ' control whose pressed visual is armed ("" = none)
+Private mFocusName As String     ' the focused control ("" = form / no control focused)
 Private mDpiX As Long
 Private mDpiY As Long
 Private mEffects As String       ' ordered '|'-joined effect log for the current Dispatch
@@ -30,9 +34,15 @@ Public Sub Init(ByVal Form As UserForm)
     Set mForm = Form
     mCaptureName = ""
     mPressedName = ""
+    mFocusName = ""
     mDpiX = 96
     mDpiY = 96
 End Sub
+
+' The currently focused control's name ("" = none). Test/diagnostic surface.
+Public Property Get FocusName() As String
+    FocusName = mFocusName
+End Property
 
 ' THE VBA REDUCE for pointer input. Kind is "mousedown" | "mouseup" (others ignored in
 ' increment 1). X/Y are form-logical points; Button/Shift are the MSForms scalar args. Routes
@@ -58,6 +68,18 @@ Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As In
     Dim Hit As IOxControl
     Set Hit = HitTest(X, Y)
     If Hit Is Nothing Then Exit Sub
+
+    ' Focus moves to a focusable control BEFORE the MouseDown fires. Running the focus-out
+    ' validation synchronously here reproduces the oracle order (Exit -> Enter -> MouseDown, or
+    ' BeforeUpdate -> AfterUpdate -> Exit -> Enter -> MouseDown when the losing control is dirty)
+    ' with no fold-back. If validation vetoes, the click is absorbed: focus stays and no MouseDown
+    ' fires (oracle "veto absorbs the deferred press").
+    If Hit.Core.Focusable And Hit.Core.Name <> mFocusName Then
+        If Not TransferFocusTo(Hit.Core.Name) Then
+            Repaint
+            Exit Sub
+        End If
+    End If
 
     Hit.OnMouseDown Button, Shift, CSng(X - Hit.Core.Left), CSng(Y - Hit.Core.Top)
     Emit "mousedown:" & Hit.Core.Name
@@ -110,6 +132,81 @@ Private Sub ReduceMouseUp(ByVal X As Long, ByVal Y As Long, ByVal Button As Inte
     ReleasePressed
     Repaint
 End Sub
+
+' THE VBA REDUCE for keyboard input, routed to the focused control. Kind is "keydown" |
+' "keyup". Returns the ordered effect log. (Tab navigation, default/cancel buttons, accelerators
+' and the swallow->character linkage land in later increments; this routes a key to the focused
+' control so it raises KeyDown/KeyUp and performs its default key behavior.)
+Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String
+    mEffects = ""
+    If Len(mFocusName) > 0 Then
+        Dim Focused As IOxControl
+        Set Focused = mForm.ControlByName(mFocusName)
+        Select Case Kind
+            Case "keydown"
+                Focused.OnKeyDown KeyCode, Shift
+                Emit "keydown:" & mFocusName
+            Case "keyup"
+                Focused.OnKeyUp KeyCode, Shift
+                Emit "keyup:" & mFocusName
+        End Select
+        Repaint
+    End If
+    DispatchKey = mEffects
+End Function
+
+' THE VBA REDUCE for character input, routed to the focused control: it raises KeyPress and (a
+' TextBox) inserts the text + raises Change. Returns the ordered effect log.
+Public Function DispatchChar(ByVal Text As String) As String
+    mEffects = ""
+    If Len(mFocusName) > 0 Then
+        mForm.ControlByName(mFocusName).OnCharacterInput Text
+        Emit "char:" & mFocusName
+        Repaint
+    End If
+    DispatchChar = mEffects
+End Function
+
+' Transfer focus to NewName, running the losing control's two-stage focus-out validation inline
+' (the synchronous equivalent of the oracle's validation fold-back). Returns True if the transfer
+' committed; False if the losing control's BeforeUpdate or Exit handler vetoed (focus stays).
+' Emits beforeupdate/afterupdate/exit on the losing control then enter on the gaining one -- the
+' exact oracle order -- because each On* raises its FM20 event before the matching Emit.
+Private Function TransferFocusTo(ByVal NewName As String) As Boolean
+    If Len(mFocusName) > 0 Then
+        Dim Losing As IOxControl
+        Set Losing = mForm.ControlByName(mFocusName)
+
+        ' Dirty controls fire the two-stage BeforeUpdate (can veto the commit) then AfterUpdate.
+        If Losing.IsDirty Then
+            Dim BeforeUpdateCancelled As Boolean
+            BeforeUpdateCancelled = Losing.OnBeforeUpdate()
+            Emit "beforeupdate:" & mFocusName
+            If BeforeUpdateCancelled Then
+                TransferFocusTo = False
+                Exit Function
+            End If
+            Losing.OnAfterUpdate
+            Emit "afterupdate:" & mFocusName
+        End If
+
+        ' Exit can veto the focus change (the value, if dirty, was already committed above).
+        Dim ExitCancelled As Boolean
+        ExitCancelled = Losing.OnExit()
+        Emit "exit:" & mFocusName
+        If ExitCancelled Then
+            TransferFocusTo = False
+            Exit Function
+        End If
+    End If
+
+    mFocusName = NewName
+    If Len(NewName) > 0 Then
+        mForm.ControlByName(NewName).OnEnter
+        Emit "enter:" & NewName
+    End If
+    TransferFocusTo = True
+End Function
 
 ' Pure-geometry hit-test over the form's controls (ports oxforms-core hit_test_control_tree):
 ' the visible+enabled control whose half-open bounds contain the point, highest z-order then

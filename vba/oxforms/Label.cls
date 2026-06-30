@@ -119,3 +119,34 @@ End Property
 Private Property Get IOxControl_HasPressedVisual() As Boolean
     IOxControl_HasPressedVisual = False
 End Property
+
+' A Label is not focusable, so the reducer never routes keyboard or focus to it; the interface
+' members are required, so they are inert.
+Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyDown = KeyCode
+End Function
+
+Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyUp = KeyCode
+End Function
+
+Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
+End Sub
+
+Private Sub IOxControl_OnEnter()
+End Sub
+
+Private Function IOxControl_OnExit() As Boolean
+    IOxControl_OnExit = False
+End Function
+
+Private Function IOxControl_OnBeforeUpdate() As Boolean
+    IOxControl_OnBeforeUpdate = False
+End Function
+
+Private Sub IOxControl_OnAfterUpdate()
+End Sub
+
+Private Property Get IOxControl_IsDirty() As Boolean
+    IOxControl_IsDirty = False
+End Property

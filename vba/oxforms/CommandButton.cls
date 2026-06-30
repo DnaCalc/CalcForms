@@ -177,3 +177,36 @@ End Property
 Private Property Get IOxControl_HasPressedVisual() As Boolean
     IOxControl_HasPressedVisual = True
 End Property
+
+' Keyboard + focus surface. A CommandButton fires keys and Enter/Exit but has no editable
+' value, so it is never dirty and never fires BeforeUpdate/AfterUpdate.
+Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyDown = PerformKeyDown(KeyCode, Shift)
+End Function
+
+Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyUp = PerformKeyUp(KeyCode, Shift)
+End Function
+
+Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
+    If Len(Text) > 0 Then PerformKeyPress Asc(Left$(Text, 1))
+End Sub
+
+Private Sub IOxControl_OnEnter()
+    PerformEnter
+End Sub
+
+Private Function IOxControl_OnExit() As Boolean
+    IOxControl_OnExit = PerformExit()
+End Function
+
+Private Function IOxControl_OnBeforeUpdate() As Boolean
+    IOxControl_OnBeforeUpdate = False
+End Function
+
+Private Sub IOxControl_OnAfterUpdate()
+End Sub
+
+Private Property Get IOxControl_IsDirty() As Boolean
+    IOxControl_IsDirty = False
+End Property

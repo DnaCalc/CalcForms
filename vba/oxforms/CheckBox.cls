@@ -25,6 +25,9 @@ Public Event AfterUpdate()
 
 Private mCore As OxControlCore
 Private mValue As Boolean
+' Uncommitted-edit flag for two-stage focus-out validation: set by a user toggle, cleared on
+' AfterUpdate (the value-committed signal). Programmatic .Value assignment does not set it.
+Private mEditDirty As Boolean
 
 ' The check-box glyph: a fixed sunken square at the left, vertically centered; the caption
 ' paints to its right. Points (MSForms units).
@@ -34,6 +37,7 @@ Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlCheckBox
     mValue = False
+    mEditDirty = False
 End Sub
 
 ' --- IOxControl ---
@@ -179,6 +183,41 @@ Private Property Get IOxControl_HasPressedVisual() As Boolean
     IOxControl_HasPressedVisual = True
 End Property
 
+' Keyboard + focus surface. A CheckBox has an editable value, so a toggle marks it dirty and a
+' dirty focus-out fires the two-stage BeforeUpdate/AfterUpdate.
+Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyDown = PerformKeyDown(KeyCode, Shift)
+End Function
+
+Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyUp = PerformKeyUp(KeyCode, Shift)
+End Function
+
+Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
+    If Len(Text) > 0 Then PerformKeyPress Asc(Left$(Text, 1))
+End Sub
+
+Private Sub IOxControl_OnEnter()
+    PerformEnter
+End Sub
+
+Private Function IOxControl_OnExit() As Boolean
+    IOxControl_OnExit = PerformExit()
+End Function
+
+Private Function IOxControl_OnBeforeUpdate() As Boolean
+    IOxControl_OnBeforeUpdate = PerformBeforeUpdate()
+End Function
+
+Private Sub IOxControl_OnAfterUpdate()
+    PerformAfterUpdate
+    mEditDirty = False
+End Sub
+
+Private Property Get IOxControl_IsDirty() As Boolean
+    IOxControl_IsDirty = mEditDirty
+End Property
+
 ' --- Runtime-facing input surface ---
 ' Activate the check box: flip the value, then Change, then Click (value-before-Click). This
 ' is both the mouse-click and keyboard Space/Enter activation path.
@@ -188,6 +227,7 @@ End Sub
 
 Private Sub Toggle()
     mValue = Not mValue
+    mEditDirty = True
     mCore.MarkDirty
     RaiseEvent Change
     RaiseEvent Click

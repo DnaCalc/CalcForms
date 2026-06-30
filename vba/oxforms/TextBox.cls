@@ -35,6 +35,9 @@ Public Event AfterUpdate()
 Public Event BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)
 
 Private mCore As OxControlCore
+' Uncommitted-edit flag for two-stage focus-out validation: set by a user edit (typed text),
+' cleared on AfterUpdate. Programmatic .Text assignment does not set it.
+Private mEditDirty As Boolean
 
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
@@ -117,6 +120,16 @@ End Property
 ' User edit path: set the text from a real keystroke/paste and raise Change.
 Public Sub ApplyUserText(ByVal NewText As String)
     mCore.DisplayText = NewText
+    mEditDirty = True
+    RaiseEvent Change
+End Sub
+
+' Insert typed text at the end of the value (a caret/selection model lands in a later
+' increment) and raise Change; marks the value dirty for two-stage focus-out validation.
+Public Sub InsertText(ByVal NewText As String)
+    If Len(NewText) = 0 Then Exit Sub
+    mCore.DisplayText = mCore.DisplayText & NewText
+    mEditDirty = True
     RaiseEvent Change
 End Sub
 
@@ -204,6 +217,45 @@ End Sub
 ' calls OnClick on a TextBox, but the interface requires the member, so it is a no-op.
 Private Sub IOxControl_OnClick()
 End Sub
+
+' Keyboard + focus surface. A TextBox raises keys, inserts typed characters (KeyPress then
+' Change), and runs the two-stage focus-out validation when a typed edit left it dirty.
+Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    ' Edit keys (Backspace/Delete/arrows/Home/End) land with the caret model in a later
+    ' increment; for now KeyDown only raises the event.
+    IOxControl_OnKeyDown = PerformKeyDown(KeyCode, Shift)
+End Function
+
+Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    IOxControl_OnKeyUp = PerformKeyUp(KeyCode, Shift)
+End Function
+
+Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
+    ' KeyPress fires before the value changes; then the character inserts and raises Change.
+    If Len(Text) > 0 Then PerformKeyPress Asc(Left$(Text, 1))
+    InsertText Text
+End Sub
+
+Private Sub IOxControl_OnEnter()
+    PerformEnter
+End Sub
+
+Private Function IOxControl_OnExit() As Boolean
+    IOxControl_OnExit = PerformExit()
+End Function
+
+Private Function IOxControl_OnBeforeUpdate() As Boolean
+    IOxControl_OnBeforeUpdate = PerformBeforeUpdate()
+End Function
+
+Private Sub IOxControl_OnAfterUpdate()
+    PerformAfterUpdate
+    mEditDirty = False
+End Sub
+
+Private Property Get IOxControl_IsDirty() As Boolean
+    IOxControl_IsDirty = mEditDirty
+End Property
 
 ' A TextBox neither fires Click nor shows a pressed visual (it takes capture + the caret).
 Private Property Get IOxControl_SupportsClick() As Boolean
