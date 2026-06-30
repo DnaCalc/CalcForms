@@ -6,9 +6,10 @@ the conformance/deletion/modal gates below are the review's load-bearing fixes.
 Realizes: the 2026-06-29 decision to move the control reducer/interaction into VBA and delete
 `oxforms-core` (memory `oxforms-reducer-home-decision`), shaped by
 [`HIT_TEST_AND_MESSAGE_LOOP_OFFLOAD.md`](HIT_TEST_AND_MESSAGE_LOOP_OFFLOAD.md), the §16 frame model in
-[`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md), and the measured vm3 perf reality
-(`HANDOVER_OxVba_vm3_dynamic_array_access_perf.md`: array element access is O(N) — ~5–6× faster than
-before but NOT O(1), so VBA must stay off per-input/per-frame O(N) array loops on the hot path).
+[`RENDERING_ARCHITECTURE.md`](RENDERING_ARCHITECTURE.md), and the now-resolved vm3 array-access work
+(`HANDOVER_OxVba_vm3_dynamic_array_access_perf.md`: element access is **O(1)** as of OxVba round 2,
+`30099710`; RESOLVED). The design below is deliberately **independent of array-access cost** — it holds
+whether access is O(1) or not — so this resolution does not change it.
 
 ## Principle
 
@@ -205,8 +206,10 @@ workaround (`oxvba-vm3-handover-policy`).
   fields and their ScenePatch encoding (pin against an oracle); the immediate-vs-deferred effect split.
 - **inc. 3 blocked on:** the conformance migration proven; the `.frm` loader / `trace_replay` home.
 - **modal increment blocked on:** the modal-pump reentrancy model (above).
-- Assumed: OxVba makes element access O(1) (further fix expected; `oxforms-bqr`). The design is
-  access-cost-independent, so this does not gate it — only the inc-2 hit-test-home choice (Rust pick
-  vs indexed VBA pick) is informed by it, and both leave the pipeline/contract identical.
+- vm3 element access is now **O(1)** (OxVba round 2, `30099710`; handover RESOLVED). The design is
+  access-cost-independent, so this does not change it — it only informs the inc-2 hit-test-home choice
+  (Rust pick vs indexed VBA pick), which is **provisional** (planned default = indexed VBA pick,
+  pending an indexed-pick + per-frame benchmark; `oxforms-bqr` open). Both homes leave the
+  pipeline/contract identical.
 - Out of scope here: list/selection controls, container nested-coordinate model (W009/W010),
   pixel-perfect rendering, the array-perf fix itself (OxVba).

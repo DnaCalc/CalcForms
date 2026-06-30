@@ -210,7 +210,37 @@ per `oxvba-vm3-handover-policy`. **Re-benchmark after the vm3 fix**, then choose
 Avalonia default) vs a Rust pick on representative numbers. (These are interpreter numbers; a JIT path
 may differ — but an O(N²) algorithm is a JIT-independent problem.)
 
-## Recommendation (conditional on the numbers)
+### Update — post-fix re-benchmark (OxVba `30099710`, "round 2", 2026-06-30)
+
+The vm3 fix landed in two rounds: round 1 (`019a39df`) made *general* dynamic arrays O(1) but left
+**class-field** arrays — exactly what this bench uses (`Private mX()` in a class) — O(N); the OxForms
+probe caught that, OxVba reopened (bead `bd-us4v`, commit `20225701`) and shipped **round 2
+(`30099710`) = O(1) class-field element access**. Re-run on the same probe (min-of-9 isolation for
+per-read; iters=20 for `HitTestAll`):
+
+| N | per array read — round 2 | per array read — round 1 | `HitTestAll`/op — round 2 | per-element — round 2 |
+|---|---|---|---|---|
+| 50 | 3.75 µs | 25.6 µs | 1.65 ms | 32.8 µs |
+| 100 | 4.04 µs | 42.4 µs | 3.22 ms | 32.1 µs |
+| 200 | 3.88 µs | 113.5 µs | 6.65 ms | 33.2 µs |
+| 400 | 3.95 µs | 173.0 µs | 13.20 ms | 33.0 µs |
+| 800 | 3.94 µs | 322.2 µs | — | — |
+
+per-read is flat ~3.9 µs across a 16× N sweep → **O(1) element access**; `HitTestAll` per-element is
+flat ~33 µs → the loop is now **O(N)** (was O(N²)). **Finding 2 above is superseded and the block on
+the VBA-vs-Rust decision is lifted** (handover RESOLVED). What the numbers now say: the array
+pathology is gone, but the **interpreter per-op constant remains** (~8.5 µs/iter loop overhead +
+~3.9 µs/array read), so a *naïve linear* VBA scan is ~33 µs × N (≈3.2 ms at N=100) — fine for
+click-frequency, too slow for per-move at high N. **What is measured stops here:** only the linear scan
+was benchmarked. The plausible next lever is an **index** (Avalonia's move): a spatial index should cut
+the per-pick candidate set toward O(1) — but this is *not yet measured*, and three costs decide it:
+(i) no indexed pick is implemented in the fixture; (ii) the index *build/maintenance* runs in the same
+interpreter (~8.5 µs/iter), so an O(N) per-frame rebuild over 100–400 controls is itself milliseconds
+unless the index is built once per layout and held static between layouts; (iii) the per-frame budget
+it must fit (≈16.6 ms at 60 Hz, less the render share) has not been measured against. So an indexed-VBA
+pick is **plausible but unproven** — the recommendation below keeps it *provisional*, not settled.
+
+## Recommendation (post array-fix)
 
 1. **Independent of the hit-test numbers:** the backend should own the pump and **not cross into VBA
    on every raw move** — coalesce + deliver only to `wants_move` targets. Crossing per raw move is the
@@ -221,11 +251,17 @@ may differ — but an O(N²) algorithm is a JIT-independent problem.)
    vm3 is interpreted. Gate on the benchmark per §4.6: if an indexed VBA pick is fast enough
    per-frame, stay managed (b); if interpreted cost dominates even indexed, offload to Rust (c). (c)
    reuses geometry the render already produces and *simplifies* the VBA reducer, but per the Avalonia
-   precedent it is the fallback, not the default. **Decidable on merits (vm3 O(1) access assumed):**
-   with O(1) access the Avalonia default (b — an indexed VBA pick) is viable; (c — the Rust pick)
-   remains the option for move-frequency at very high N where the interpreter's per-op constant
-   dominates. A localized increment-2 choice; re-benchmark to confirm (`oxforms-bqr`). Either way the
-   message-handling pipeline/contract is unchanged.
+   precedent it is the fallback, not the default. **PROVISIONAL (post round-2 re-benchmark,
+   `oxforms-bqr`): planned default = (b), an indexed VBA pick — not yet firm.** The re-benchmark removed
+   the blocker (array access O(1); linear scan O(N) at ~33 µs/control) and the Avalonia precedent
+   favours keeping the pick managed, so (b) is the working assumption. It is **not settled**, because
+   the deciding numbers are unmeasured: no indexed pick exists in the fixture, the interpreter index
+   build/maintenance cost is unquantified, and nothing has been measured against a stated per-frame
+   budget (≈16.6 ms at 60 Hz, less render). A firm (b)-vs-(c) decision needs an indexed-pick +
+   per-frame benchmark with intermediate-point move traces (Open question 3) — increment-2 work, for
+   which `oxforms-bqr` stays open. The Rust geometric pick (c) remains the documented fallback.
+   Crucially, **the choice is a localized ROUTE-stage detail: either home leaves the message-handling
+   pipeline/contract (the spec) unchanged**, so it does not gate the reducer port.
 3. **Sequencing:** this does **not** block the reducer port. Port control *behavior* to VBA first
    (bead-driven); land the Rust geometric router as a separate kernel slice when the numbers + the
    move-semantics fixture justify it. Per `oxvba-vm3-handover-policy`, any vm3 limitation found while

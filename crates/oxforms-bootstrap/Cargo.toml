@@ -18,11 +18,11 @@ oxforms-oxvba-adapter = { path = "../oxforms-oxvba-adapter" }
 oxforms-pal-win = { path = "../oxforms-pal-win" }
 
 # OxVba host stack for loading + running the project closure (the bootstrap's job).
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
-oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
-oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
-oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
-oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
+oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }
+oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }
+oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }
+oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }
+oxvba-hal = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }
+oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }
 # vm3 image pipeline: bind -> oxvba_oxir::elaborate -> OxImage -> Engine::prepare_image_session.
-oxvba-oxir = { git = "https://github.com/DnaCalc/OxVba.git", rev = "019a39df78bbdab70e155e68dd25a1d168490bc7" }
+oxvba-oxir = { git = "https://github.com/DnaCalc/OxVba.git", rev = "300997109dcfe359eb6c8fe1c934debb1fce2412" }

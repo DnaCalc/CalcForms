@@ -1,12 +1,15 @@
 # HANDOVER → OxVba: vm3 dynamic-array element access is O(N) (array loops are O(N²))
 
-Status: `OPEN — partially addressed by 019a39df (~5-6x faster, still O(N))` · From: OxForms · To: OxVba · Date: 2026-06-29 (re-measured 2026-06-30)
-OxVba baseline exercised: master `2b817614` (vm3-only; pinned by OxForms via git rev).
+Status: `RESOLVED by 30099710 (round 2 — O(1) class-field element access; array loops O(N))` · From: OxForms · To: OxVba · Date: 2026-06-29 (resolved 2026-06-30)
+OxVba revs: original report exercised `2b817614` (pre-array-fix baseline); round 1 = `019a39df`; **RESOLVED against `30099710` (round 2)** — pinned by OxForms via git rev.
 Policy: per OxForms memory `oxvba-vm3-handover-policy`, perf pathologies vm3 exhibits under the
 OxForms workload are handed to OxVba to **fix**, not worked around in OxForms — OxForms is the
 workload that hardens OxVba. This is such a report.
 
 ## Summary
+
+> **Historical (original report, pre-fix `2b817614`).** This Summary and the Diagnosis / Isolation
+> sections below describe the now-fixed state; see **RESOLVED — round 2** below for the current state.
 
 On the vm3 interpreter (`enable_jit=false`), **reading an element of a module-level dynamic array
 inside a loop (`arr(i)`) scales O(N) in the array length N**, so a simple loop that indexes arrays is
@@ -36,6 +39,35 @@ quadratically. Both `arr(i)` (direct loop var, the scaling probe) and `arr(i Mod
 show it, and the flat `ScanPlain` baseline rules out measurement noise. **Status: OPEN — partially
 addressed.** Possible angle for OxVba: the fix may not cover module-level `Private` dynamic `Long`
 array element access, or a residual O(N) indexing factor remains in this path.
+
+## RESOLVED — round 2 (OxVba 30099710, 2026-06-30)
+
+Round 1 (`019a39df`) fixed *general* dynamic-array element access but, as the OxForms probe caught,
+left **class-field** dynamic arrays (`Private mX()` inside a class — exactly what this bench uses)
+still O(N). OxVba reopened the defect (OxVba bead `bd-us4v`, commit `20225701` "class-field array
+access still O(N)") and shipped **round 2 (commit `30099710`, "O(1) class-field array access")**. The same clean min-of-9-trials isolation
+(`array_access_isolation_on_vm3`, Reps=2000) now measures element access as **O(1)**:
+
+| N | ScanPlain (no array) | per array read — round 2 (`30099710`) | per array read — round 1 (`019a39df`) |
+|---|---|---|---|
+| 50 | 17.7 ms | 3.75 µs | 25.6 µs |
+| 100 | 17.9 ms | 4.04 µs | 42.4 µs |
+| 200 | 18.1 ms | 3.88 µs | 113.5 µs |
+| 400 | 17.4 ms | 3.95 µs | 173.0 µs |
+| 800 | 18.1 ms | 3.94 µs | 322.2 µs |
+
+per-read is **flat ~3.9 µs across a 16× N sweep** (round 1 fanned out ~12.6×) → **O(1) element
+access**. Correspondingly the `HitTestAll` loop is now **O(N)** (per-element flat ~33 µs vs the pre-fix
+(`2b817614`) 0.39 ms→5.57 ms per-element ramp = O(N²); see the "Measurements" table below — round 1
+was not separately benchmarked for `HitTestAll`). The complexity ask below ("make element access O(1)
+so array loops are O(N)") is **fully satisfied**; the constant also dropped ~6–82× vs pre-fix.
+
+Residual (not a defect — interpreter property): the per-op interpreter constant remains (~8.5 µs/iter
+base + ~3.9 µs/read), so a pure-interpreter full scan over many controls is still ~33 µs/control. That
+is a separate matter from the array pathology and is addressed OxForms-side by a spatial index (or the
+JIT), not by OxVba. The VBA-vs-Rust hit-test home is therefore no longer blocked by this defect; the
+firm choice still needs an indexed-pick + per-frame measurement OxForms-side (bead `oxforms-bqr`,
+which stays open for that).
 
 ## Reproduction
 
@@ -121,6 +153,7 @@ This gates OxForms's move of the control reducer/interaction layer into VBA (mem
 `oxforms-reducer-home-decision`) and the hit-test architecture decision
 (`docs/specs/HIT_TEST_AND_MESSAGE_LOOP_OFFLOAD.md`): with O(N²) array loops, *no* VBA-side hit-test
 (even a spatial-index one) is viable, and more broadly any VBA hot path that touches arrays is
-unusable. It almost certainly affects other vm3 workloads too. OxForms will **re-run this benchmark
-after the fix** and report the new curve here; the VBA-vs-Rust hit-test decision is deferred until
-then.
+unusable. It almost certainly affects other vm3 workloads too. **Resolved by round 2 (`30099710`) — see
+the RESOLVED section above for the re-run curve.** With O(1) class-field access the VBA-side reducer
+move (`oxforms-reducer-home-decision`) is unblocked, and the VBA-vs-Rust hit-test home is decidable on
+merits rather than gated on perf (`oxforms-bqr`).
