@@ -190,3 +190,26 @@ Public Function PerformBeforeDropOrPaste(ByVal Action As Integer, ByVal Shift As
     RaiseEvent BeforeDropOrPaste(cancel, Action, Shift)
     PerformBeforeDropOrPaste = cancel.Value
 End Function
+
+' --- IOxControl reducer input surface (delegates to the concrete Perform*) ---
+Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PerformMouseDown Button, Shift, X, Y
+End Sub
+
+Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PerformMouseUp Button, Shift, X, Y
+End Sub
+
+' A TextBox does not fire Click (only CheckBox/Label/CommandButton do); the reducer never
+' calls OnClick on a TextBox, but the interface requires the member, so it is a no-op.
+Private Sub IOxControl_OnClick()
+End Sub
+
+' A TextBox neither fires Click nor shows a pressed visual (it takes capture + the caret).
+Private Property Get IOxControl_SupportsClick() As Boolean
+    IOxControl_SupportsClick = False
+End Property
+
+Private Property Get IOxControl_HasPressedVisual() As Boolean
+    IOxControl_HasPressedVisual = False
+End Property

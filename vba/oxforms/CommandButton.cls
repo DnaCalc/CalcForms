@@ -155,3 +155,25 @@ End Function
 Public Sub PerformEnter()
     RaiseEvent Enter
 End Sub
+
+' --- IOxControl reducer input surface (delegates to the concrete Perform*) ---
+Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PerformMouseDown Button, Shift, X, Y
+End Sub
+
+Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PerformMouseUp Button, Shift, X, Y
+End Sub
+
+Private Sub IOxControl_OnClick()
+    PerformClick
+End Sub
+
+' A CommandButton fires Click and shows a pressed face on mouse-down.
+Private Property Get IOxControl_SupportsClick() As Boolean
+    IOxControl_SupportsClick = True
+End Property
+
+Private Property Get IOxControl_HasPressedVisual() As Boolean
+    IOxControl_HasPressedVisual = True
+End Property

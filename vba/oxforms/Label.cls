@@ -97,3 +97,25 @@ End Sub
 Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     RaiseEvent MouseUp(Button, Shift, X, Y)
 End Sub
+
+' --- IOxControl reducer input surface (delegates to the concrete Perform*) ---
+Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PerformMouseDown Button, Shift, X, Y
+End Sub
+
+Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    PerformMouseUp Button, Shift, X, Y
+End Sub
+
+Private Sub IOxControl_OnClick()
+    PerformClick
+End Sub
+
+' A Label fires Click but has no pressed visual (display-only, no press feedback).
+Private Property Get IOxControl_SupportsClick() As Boolean
+    IOxControl_SupportsClick = True
+End Property
+
+Private Property Get IOxControl_HasPressedVisual() As Boolean
+    IOxControl_HasPressedVisual = False
+End Property

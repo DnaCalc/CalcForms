@@ -54,7 +54,7 @@ End Sub
 ' the classic theme for the role/state.
 Private Function ResolveFace(ByVal Core As OxControlCore) As Long
     If Core.BackColor = oxColorAuto Then
-        ResolveFace = OxThemeFaceColor(Core.Kind, False, Core.Enabled)
+        ResolveFace = OxThemeFaceColor(Core.Kind, Core.Pressed, Core.Enabled)
     Else
         ResolveFace = Core.BackColor
     End If
