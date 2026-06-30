@@ -132,6 +132,7 @@ fn prepare_session() -> ProjectRuntimeSession {
                 ModuleKind::Class,
                 "vba/oxforms/CommandButton.cls",
             ),
+            module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
             module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
             module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
             module_unit(

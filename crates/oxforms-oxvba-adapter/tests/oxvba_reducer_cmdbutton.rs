@@ -89,6 +89,7 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/oxforms/CommandButton.cls",
         ),
+        module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -111,6 +112,11 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "ReducerHitRoutingForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_hit_routing_form.cls",
+        ),
+        module_unit(
+            "ReducerCheckBoxForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_checkbox_form.cls",
         ),
     ];
 
@@ -229,6 +235,18 @@ fn pressed(session: &mut ProjectRuntimeSession, form: &ObjectRef) -> bool {
     )
     .as_bool()
     .unwrap_or_else(|| panic!("Pressed should return a boolean"))
+}
+
+fn value(session: &mut ProjectRuntimeSession, form: &ObjectRef) -> bool {
+    call(
+        session,
+        form.clone(),
+        "Value",
+        ProjectMemberKind::PropertyGet,
+        Vec::new(),
+    )
+    .as_bool()
+    .unwrap_or_else(|| panic!("Value should return a boolean"))
 }
 
 fn set_z_order(session: &mut ProjectRuntimeSession, form: &ObjectRef, name: &str, z: i32) {
@@ -415,5 +433,53 @@ fn capture_routes_mouseup_to_the_pressed_control_across_a_sibling() {
         handler_log(&mut session, &form).lines().collect::<Vec<_>>(),
         vec!["A.Click"],
         "the captured control A fired Click; the sibling B did not"
+    );
+}
+
+// The check box fixture control is at Left=20, Top=20, Width=120, Height=20 -> x in [20,140),
+// y in [20,40).
+const CHK_INSIDE: (i32, i32) = (30, 30);
+
+#[test]
+fn checkbox_mouse_click_toggles_value_with_change_before_click() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerCheckBoxForm");
+
+    assert!(!value(&mut session, &form), "check box starts unchecked");
+
+    // Press arms the pressed visual (CheckBox has one) but does NOT toggle the value yet.
+    let down = dispatch(&mut session, &form, "mousedown", CHK_INSIDE.0, CHK_INSIDE.1);
+    assert_eq!(down, "mousedown:Chk1|press:Chk1|repaint");
+    assert!(
+        !value(&mut session, &form),
+        "the value flips on click (mouse up), not on mouse down"
+    );
+
+    // Release inside toggles: value flips, then Change, then Click (value-before-Click).
+    let up = dispatch(&mut session, &form, "mouseup", CHK_INSIDE.0, CHK_INSIDE.1);
+    assert_eq!(up, "mouseup:Chk1|click:Chk1|release:Chk1|repaint");
+    assert!(value(&mut session, &form), "the click toggled the value on");
+
+    assert_eq!(
+        handler_log(&mut session, &form).lines().collect::<Vec<_>>(),
+        vec!["MouseDown", "MouseUp", "Change=True", "Click=True"],
+        "MSForms order MouseUp -> Change -> Click, value already flipped at both"
+    );
+}
+
+#[test]
+fn checkbox_second_click_toggles_back_off() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerCheckBoxForm");
+
+    dispatch(&mut session, &form, "mousedown", CHK_INSIDE.0, CHK_INSIDE.1);
+    dispatch(&mut session, &form, "mouseup", CHK_INSIDE.0, CHK_INSIDE.1);
+    assert!(value(&mut session, &form), "first click checks");
+
+    dispatch(&mut session, &form, "mousedown", CHK_INSIDE.0, CHK_INSIDE.1);
+    dispatch(&mut session, &form, "mouseup", CHK_INSIDE.0, CHK_INSIDE.1);
+    assert!(
+        !value(&mut session, &form),
+        "a second click toggles back to unchecked"
     );
 }

@@ -96,6 +96,8 @@ Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As
             Set Control = New TextBox
         Case oxControlCommandButton
             Set Control = New CommandButton
+        Case oxControlCheckBox
+            Set Control = New CheckBox
     End Select
 
     If Not Control Is Nothing Then
