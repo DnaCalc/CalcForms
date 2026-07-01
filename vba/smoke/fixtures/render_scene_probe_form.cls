@@ -54,6 +54,30 @@ Public Sub Run()
     mResultToken = Surface.SubmitPatch(PatchJson)
 End Sub
 
+Public Sub RunPrimitiveVocabulary()
+    Dim Surface As Object
+    Set Surface = CreateObject("OxForms.Surface")
+    Dim BaseToken As String
+    BaseToken = Surface.BeginScene(96, 64, 96, 96)
+
+    Dim Builder As OxSceneBuilder
+    Set Builder = New OxSceneBuilder
+    Builder.BeginPatch BaseToken, 96, 64, 96, 96
+    Builder.OpenNode 0, False, 0, 0, 0, 0, 96, 64, True
+    Builder.FillRect 0, 0, 96, 64, &HF0F0F0, 255
+    Builder.StrokeRect 2, 2, 18, 10, &H000000, 255, 1
+    Builder.RoundRect 24, 2, 18, 10, 4, &H2040C0, 255, &H000000, 255, 1
+    Builder.Ellipse 46, 2, 16, 10, &H20A020, 255, &H000000, 255, 1
+    Builder.Line 2, 16, 62, 16, &HC02020, 255, 1
+    Builder.Polygon &HC020C0, 255, 4, 30, 12, 20, 20, 30
+    Builder.Gradient 26, 20, 16, 12, &H000000, &HFFFFFF, 0
+    Builder.DrawImage "42", 0, 0, 16, 16, 66, 20, 18, 12, "stretch"
+    Builder.DrawEdge 2, 44, 20, 12, "bump", &HFFFFFF, &H404040
+    Builder.CloseNode
+
+    mResultToken = Surface.SubmitPatch(Builder.ToPatchJson())
+End Sub
+
 Public Property Get ResultToken() As String
     ResultToken = mResultToken
 End Property

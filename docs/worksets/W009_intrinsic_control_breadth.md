@@ -250,15 +250,14 @@ afterward — a probe that added a 5th `ControlKind` variant to test exhaustiven
    (`OptionButton`/`ToggleButton` can follow CheckBox's shape), but list-data controls
    (`ComboBox`/`ListBox`) need a first-class VBA collection/selection model and dropdown surface.
 
-4. **The primitive vocabulary has a determinism hole for glyph/image controls (verified).** The
-   kernel `Prim` enum defines `RoundRect`, `Ellipse`, `Polygon`, `DrawImage`, but:
-   [`OxSceneBuilder.cls`](../../vba/oxforms/OxSceneBuilder.cls) has recorders for only
-   `FillRect`/`StrokeRect`/`DrawEdge`/`DrawText` (so those prims are not VBA-emittable), and the
-   **headless reference sink** (`render_headless_*`, the golden/determinism oracle) rasterizes only
-   the rect/line/edge subset (with `DrawEdge` an explicit "Placeholder edge") and **drops the rest
-   via `_ => {}`** — so a checkmark (`Polygon`), a radio dot (`Ellipse`), or a picture (`DrawImage`)
-   would hash identically whether drawn or not, voiding the §10 determinism invariant for those
-   controls. → **Both must be closed before any glyph/image control lands** (foundation F2).
+4. **The primitive vocabulary had a determinism hole for glyph/image controls (verified, now
+   closed by `oxforms-zhz.17`).** The original planning finding was that the kernel `Prim` enum
+   defined `RoundRect`, `Ellipse`, `Polygon`, `DrawImage`, and other vocabulary that
+   [`OxSceneBuilder.cls`](../../vba/oxforms/OxSceneBuilder.cls) could not yet emit, while the
+   **headless reference sink** (`render_headless_*`, the golden/determinism oracle) dropped several
+   non-rect primitives from the framebuffer hash. `oxforms-zhz.17` adds the missing builder
+   recorders and deterministic headless/visible placeholder coverage so glyph/image controls cannot
+   pass by silently omitting those prims. Real decoded image pixels remain the later image lane.
 
 ## Foundations And De-Risking Research
 
@@ -274,10 +273,11 @@ Cross-cutting work, each scheduled **just before the batch that needs it** (not 
   pressed visual, toggleable, text-editing, default/cancel, accelerator, dirty/update, and paste
   support through it.
   *Before any new kind.*
-- **F2 — Primitive-vocabulary + determinism closure** (finding 4). Add the missing `OxSceneBuilder`
-  recorders (`Line`/`RoundRect`/`Ellipse`/`Polygon`/`DrawImage`) byte-aligned to the serde `Prim`
-  wire format; make the headless reference sink rasterize the full vocabulary (retire `_ => {}` and
-  the placeholder `DrawEdge`). *Before any glyph/image control.*
+- **F2 — Primitive-vocabulary + determinism closure** (finding 4, landed by `oxforms-zhz.17`). Add
+  the missing `OxSceneBuilder` recorders (`Line`/`RoundRect`/`Ellipse`/`Polygon`/`Gradient`/
+  `DrawImage`) byte-aligned to the serde `Prim` wire format; make the headless reference sink
+  rasterize the full vocabulary and replace the placeholder `DrawEdge`. *Before any glyph/image
+  control.*
 - **F3 — Container / coordinate model** (research + design). The control tree is flat today;
   containers need nested coordinate origins, clipping, hit-test recursion, and tab-scoping. A live
   oracle spike captures the structural facts (child coordinate origin, clip behavior, Enter/Exit
@@ -343,7 +343,7 @@ placeholders until the phase-0 gate rewrites/splits the broad lanes with live be
 |---|---|---|---|---|
 | 0 | `.1` | **Planning/review gate.** Reread the spec P4 + the four findings; ratify control sequence, the seven foundations, per-control non-claims; resolve the [open decisions](#open-decisions); split each control lane into ground+capture + implement; confirm dependency edges (glyph→F2, value→F7, list→F4, container→F3, repeat→F5, Image→F6). | epic parent | graph coherent; foundations + lanes scoped; impl beads blocked behind the gate; `br dep cycles` clean; W009 stays open. **Do not close W009 from the gate.** |
 | F | `.2` | **F1 capability descriptor.** Authoritative per-kind/control capability surface in VBA; route reducer policy predicates through it. | `.1` | one declared capability source; existing 4-control behavior byte/ordering unchanged; adding a dummy kind requires an intentional capability entry; floor green. |
-| F | `.3` | **F2 primitive-vocab + headless-sink closure.** Add the missing `OxSceneBuilder` recorders + make the headless reference sink rasterize the full vocabulary (retire `_ => {}` + placeholder `DrawEdge`). | `.1` | VBA-emitted bytes round-trip to the matching `Prim`; a non-rect prim perturbs `framebuffer_hash`; damage==full and immediate==applied-patch hold for a fixture with each new prim; floor green. |
+| F | `.3` | **F2 primitive-vocab + headless-sink closure.** Historical placeholder now implemented by `oxforms-zhz.17`: missing `OxSceneBuilder` recorders landed, the headless reference sink rasterizes the full representative vocabulary, and placeholder `DrawEdge` is retired. | `.1` | VBA-emitted bytes round-trip to the matching `Prim`; a non-rect prim perturbs `framebuffer_hash`; damage==full and immediate==applied-patch hold for a fixture with each new prim; floor green. |
 | F | `.4` | **F7 uniform value/event helper pattern.** Document and test the CheckBox/TextBox pattern as the required implementation shape for new value controls. | `.1` | TextBox and CheckBox user/programmatic value semantics remain unchanged; the next value-control lane has an explicit recipe for dirty state, `Change`, and mutable helper readback; floor green. |
 | A | `.5` | **ToggleButton lane** (cheapest new kind — boolean value, no grouping; latched pressed-face from CommandButton paint; no new primitive). | `.1`, `.2`, `.4` | oracle confirms `Value`-latched pressed appearance + CheckBox-equivalent ordering (or blocker); reuses the toggle spine; per-lane tests + native-dispatch fixture + floor green. |
 | A | `.6` | **OptionButton lane** (boolean value + group mutual-exclusion via GroupName; radio `Ellipse` glyph). Captures the cross-sibling Change/Click ordering on re-select + arrow-key group nav. | `.1`, `.2`, `.3`, `.4` | mutual-exclusion ordering conforms to the capture; group keyed by GroupName (parentage grouping routes to F3); per-lane tests + native-dispatch fixture + floor green. |

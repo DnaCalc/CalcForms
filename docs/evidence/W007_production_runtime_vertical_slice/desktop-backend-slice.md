@@ -15,15 +15,16 @@ oracle, so this slice is proven by rendering to screen).
   softbuffer 0.4 + tiny-skia 0.11 + ab_glyph 0.2**.
 
 - **A tiny-skia `PrimSink` rasterizer** (`raster.rs`, `SkiaSink`): the visible twin of
-  the text-free `HeadlessSink` golden oracle. Same Scene walk and transform/clip
+  the deterministic `HeadlessSink` golden oracle. Same Scene walk and transform/clip
   semantics, but it actually rasterizes the §6.2 vocabulary — `FillRect`, `StrokeRect`,
   `RoundRect`, `Ellipse`, `Line`, `Polygon`, `Gradient`, `DrawEdge` (3D light/shadow for
   raised/sunken/etched/bump), and `DrawText` (ab_glyph). Geometry is taken to device
   space by the sink (mirroring `HeadlessSink`'s `cur`/`clip` stacks); clips become a
   device-space rect/`Mask`; text composites per-pixel against the device clip. An
   ambient device transform (physical px ÷ logical surface) scales a 200×120-pt form to
-  fill the window crisply. `DrawImage` is the one recorded-but-unused prim (the demo
-  form has none); single-line text only for now (`wrap` is carried but not yet laid out).
+  fill the window crisply. W009 later gave `DrawImage` a deterministic placeholder until
+  real decoded image pixels land; single-line text only for now (`wrap` is carried but
+  not yet laid out).
 
 - **A shaped-run text seam** (`text.rs`, RENDERING_ARCHITECTURE.md §8). The Scene
   `DrawText` prim references a `TextRunId` only — never an inline string — and text is
@@ -33,8 +34,9 @@ oracle, so this slice is proven by rendering to screen).
   paint. `TextResolver`/`SceneTextResolver` resolves a run id → the resident `TextRun`
   and a font id → a face held in a `FontTable`; the platform UI font loads from
   `%WINDIR%\Fonts` (Microsoft Sans Serif / Tahoma / Segoe UI fallback). The golden
-  `HeadlessSink` renders no text and needs none of this, so the framebuffer hash stays
-  font-independent. *(This replaced the earlier per-paint `TextRegistry`/`ResolvedTextRun`
+  `HeadlessSink` uses deterministic text placeholders and needs none of this, so the
+  framebuffer hash stays font-independent while still noticing text primitives. *(This
+  replaced the earlier per-paint `TextRegistry`/`ResolvedTextRun`
   resolver in oxforms-4pn.12.)*
 
 - **Pure winit → `UiEvent` normalization** (`input.rs`): headless-testable functions
@@ -65,7 +67,7 @@ and 24 `oxforms-pal-win` unit tests. These include real pixel assertions on `Ski
 confinement, glyph coverage, accelerator underline, gradient direction + single-stop
 fallback, fractional/degenerate device scale), a **whole-frame golden hash** over a
 geometry showcase (every prim + all five edge effects), a **cross-oracle agreement**
-test (`SkiaSink` matches the text-free `HeadlessSink` pixel-for-pixel for opaque integer
+test (`SkiaSink` matches the deterministic `HeadlessSink` pixel-for-pixel for opaque integer
 fills), an **empty-clip suppression** regression, and the pure input normalizers.
 
 Because a window cannot be checked by the golden oracle, on-screen artifacts in

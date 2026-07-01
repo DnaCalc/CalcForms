@@ -154,7 +154,7 @@ Entry points (all control-blind):
   `Retain` costs nothing. Bounds-checked decode fails deterministically.
 - `render_full(&Scene, &mut dyn PrimSink)` — walks nodes in (parent, z, insert)
   order applying transform/clip, replaying prims; the deterministic golden path
-  (the headless reference sink owns the canonical `framebuffer_hash`).
+  uses `HeadlessSink`, which owns the canonical `framebuffer_hash`.
 - `render_damage(&Scene, &mut dyn PrimSink, &DamageSet)` — clips the walk to nodes
   intersecting coalesced damage rects, z-aware so overlaps/transparent controls
   recomposite correctly.
@@ -163,9 +163,10 @@ Entry points (all control-blind):
 
 Backends implement one trait, `PrimSink` (push/pop clip + transform; fill/stroke
 rect; round_rect; ellipse; line; polygon; gradient; draw_text; draw_image;
-draw_edge). tiny-skia is the headless reference oracle; Direct2D/Canvas2D/WebGPU
-are thin walkers. The scene types live in `oxforms-pal`; the `Variant`↔`ScenePatch`
-marshalling and `NodeId`↔`IOxControl` map live in `oxforms-oxvba-adapter`.
+draw_edge). `HeadlessSink` is the deterministic reference oracle; tiny-skia is
+the first visible CPU rasterizer; Direct2D/Canvas2D/WebGPU are thin walkers. The
+scene types live in `oxforms-pal`; the `Variant`↔`ScenePatch` marshalling and
+`NodeId`↔`IOxControl` map live in `oxforms-oxvba-adapter`.
 
 ## 4. DrawEdge composition
 
@@ -508,8 +509,10 @@ removed from D7. D1, D3, D10, D11 are unchanged.)
 - **NodeId stability** is the single point of failure: keys must derive from
   (form_id, control_id, sub_part), never position; held by a shuffle/show-hide
   determinism golden.
-- **Text raster determinism**: the headless reference text path must be pinned
-  (hinting/AA) before broad text goldens are recorded.
+- **Text raster determinism**: `HeadlessSink` now draws deterministic text
+  placeholders so text primitives affect hashes, but a pinned real-glyph
+  reference path (hinting/AA) is still needed before broad pixel text goldens are
+  recorded.
 - **Patch/base divergence**: `base_hash` + mandatory full-rebuild fallback;
   exercise the `StaleBase` path in CI.
 - **VBA-side encoder cost** per frame is VM work the crossing budget doesn't
@@ -529,9 +532,11 @@ layout (align + basic wrap). Rationale: it is the leanest *capable*, cross-platf
 (D8) path; tiny-skia maps 1:1 to the §6.2 `Prim` vocabulary and is the named
 reference rasterizer; ab_glyph covers the Latin captions a lightweight
 Excel-VBA-forms runtime needs without adopting a full shaping/layout engine. The
-headless reference (`HeadlessSink`) stays text-free and owns the golden
-`framebuffer_hash`; only the visible backend rasterizes text (the §8 tolerance
-layer).
+headless reference (`HeadlessSink`) stays host-resource-free and owns the golden
+`framebuffer_hash`; it draws deterministic text/image placeholders so primitives
+cannot disappear from hashes. The visible backend rasterizes real text via
+ab_glyph and uses an image placeholder until decoded image pixels land behind
+the image service lane (the §8 tolerance layer).
 
 **This is a revisitable decision point, intentionally insulated by existing
 contracts so switching cost stays low:**

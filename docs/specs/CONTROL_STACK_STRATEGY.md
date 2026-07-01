@@ -3,7 +3,8 @@
 Status: `draft_implementation_authority`
 Date: 2026-07-01
 Workset: `W009_intrinsic_control_breadth`
-Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14` and `oxforms-zhz.15`
+Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14`, `oxforms-zhz.15`, and
+`oxforms-zhz.17`
 
 This note records the W009 control-stack reassessment after the first
 TextBox/CheckBox hazard-gym work and the sibling DNA UI stack review. It does
@@ -97,6 +98,21 @@ This is still a representative spine. Cursor application, native timer
 registration, image decoding, and rich DataObject formats can be filled in by
 later beads behind the same API.
 
+`oxforms-zhz.17` closes the first representative RendererBackend contract behind
+the same path:
+
+- `OxSceneBuilder` can emit the current primitive vocabulary used by W009
+  controls: `FillRect`, `StrokeRect`, `RoundRect`, `Ellipse`, `Line`, `Polygon`,
+  `Gradient`, `DrawText`, `DrawImage`, and `DrawEdge`.
+- The headless reference renderer paints every supported `Prim` deterministically
+  instead of silently dropping curves, glyph placeholders, image placeholders, or
+  3D edges from `framebuffer_hash`.
+- The Windows tiny-skia backend also paints a deterministic `DrawImage`
+  placeholder until the image-decode lane supplies real decoded pixels.
+
+Future DOM/WebView or native binders must consume this same Scene vocabulary
+from `OxRuntime`; they do not get a second semantic drawing contract.
+
 ## Initial-Development Rework Doctrine
 
 OxForms is still in initial development. Internal draft APIs, temporary helper
@@ -148,7 +164,7 @@ These are OxForms-owned seams. They are not new alternate object models.
 | `TextService` | PAL/host service behind OxRuntime | Shape text, return caret stops, map hit-test x to character offset, support selection geometry, and leave room for IME/dead keys, multiline, undo/redo, and grapheme-aware editing. VBA TextBox owns value, selection state, MSForms properties, and event order. |
 | `ThemeTokens` / `ThemePainter` | OxForms runtime policy plus PAL drawing primitives | Map MSForms properties (`BackColor`, `ForeColor`, `SpecialEffect`, `BorderStyle`, `Enabled`, focus state, selection state) onto DNA-style tokens and Scene primitives. Tokens are an implementation aid; MSForms properties stay authoritative. |
 | `AccessibilityService` | Runtime exposes roles/states; PAL/backend provides provider integration | Publish control roles, names, values, focus, disabled/hidden state, selection state, table/list patterns, and focus events. It follows `RUNTIME_ACCESSIBILITY_MODEL.md` and can borrow DnaTreeCalc helper patterns. |
-| `RendererBackend` | `oxforms-pal` | Keep Scene as the canonical primitive contract. The Windows backend and headless renderer consume Scene snapshots. Any future DOM/WebView renderer consumes the same semantic output and must not bypass OxRuntime or the VBA reducer. |
+| `RendererBackend` | `oxforms-pal` | Keep Scene as the canonical primitive contract. The Windows backend and headless renderer consume Scene snapshots, including the representative `.17` primitive vocabulary. Any future DOM/WebView renderer consumes the same semantic output and must not bypass OxRuntime or the VBA reducer. |
 | `HostServices` | PAL adapters and headless runner stubs | `HostServices` owns clipboard/DataObject, cursor requests, timers, caret blink, auto-repeat, system colors/metrics, DPI, image-decode handle traces, drag/drop traces, and virtual-clock service behavior behind `OxRuntime`. |
 | `InteractionManager` | VBA reducer plus small cached indexes | Own focus owner, capture owner, hover/cursor target, tab maps, default/cancel buttons, accelerators, validation transfer, invalidation state, and focused-control hide/disable/delete behavior. |
 | `CapabilityDescriptor` | VBA control policy source | Declare control capabilities once per kind/control: focusable, default tab stop, click, pressed visual, text editing, value editing, paste/drop, cursor, default/cancel, accelerator, list/container/image/timer needs. |

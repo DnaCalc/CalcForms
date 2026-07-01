@@ -11,6 +11,7 @@ Control-stack gate: `oxforms-zhz.12`
 Ideal architecture rework graph: `oxforms-zhz.13` through `oxforms-zhz.33`
 Canonical event-turn contract: `oxforms-zhz.14`
 HostServices spine: `oxforms-zhz.15`
+Renderer primitive determinism: `oxforms-zhz.17`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -133,9 +134,27 @@ that proves the strategy before broad FM20 control breadth resumes.
   slots/fires, system metrics/colors, DPI, image decode handle shape, and
   drag/drop.
 
+`oxforms-zhz.17` closes the representative RendererBackend/Scene primitive
+contract:
+
+- `OxSceneBuilder` now records the representative primitive vocabulary emitted by
+  current and near-term controls: rects, rounded rects, ellipses, lines,
+  polygons, gradients, text, images, and edges;
+- the headless reference sink rasterizes every `Prim` variant deterministically,
+  including text/image placeholders and real edge composition, so supported
+  primitives cannot disappear from `framebuffer_hash`;
+- the visible tiny-skia backend paints a deterministic `DrawImage` placeholder
+  until decoded image bytes land behind the HostServices image lane;
+- the OxVba surface smoke proves VBA-emitted primitive bytes round-trip through
+  `ScenePatch` into the matching `Prim` variants, and that a non-rect primitive
+  fixture perturbs the headless framebuffer hash.
+
 Focused acceptance:
 
 ```powershell
+cargo test -p oxforms-pal
+cargo test -p oxforms-pal-win
+cargo test -p oxforms-oxvba-adapter --test oxvba_surface_render_smoke
 cargo test -p oxforms-headless-runner --test headless_runner_showcase
 cargo test -p oxforms-oxvba-adapter host_services
 cargo test -p oxforms-oxvba-adapter --test oxvba_reducer_cmdbutton
@@ -161,6 +180,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Runtime/event-turn contract | Passing | `RuntimeInput`/`RuntimeEventTurn` in `crates/oxforms-oxvba-adapter/src/runtime.rs`; headless and bootstrap both call `OxRuntime::dispatch_event_turn` |
 | Host-service effect trace | Passing first slice | `headless_runner_showcase::runner_records_service_effect_and_same_turn_readback_repaint` proves paste records `clipboard.set_text:<len>`, mutates VBA TextBox state, and advances the Scene revision in the same event turn |
 | HostServices spine | Passing representative spine | `host_services::tests::*`; `headless_runner_showcase::runner_host_services_probe_covers_representative_spine`; `runner_virtual_timer_and_clipboard_pass_through_oxruntime`; `runner_traces_cursor_dpi_image_and_drag_drop_services` |
+| RendererBackend/Scene determinism | Passing representative spine | `scene::tests::headless_reference_rasterizes_every_primitive_variant`; `raster::tests::draw_image_placeholder_is_visible_until_decode_lands`; `oxvba_surface_render_smoke::vba_scene_builder_records_full_primitive_vocabulary`; existing `geometry_showcase_has_a_stable_golden_hash`, `text_draws_glyph_coverage_when_a_font_is_available`, and `incremental_damage_repaint_is_pixel_identical_to_full_repaint` |
 | CheckBox keyboard toggle | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` |
@@ -176,6 +196,9 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   not yet claim native cursor application, control-driven timer behavior, rich
   DataObject format parity, real image decode, `.frm/.frx` materialization, or
   modal/nested pump semantics.
+- `DrawImage` now participates in deterministic headless and visible placeholder
+  rendering so it cannot be silently dropped from hashes, but decoded image
+  pixels and exact MSForms image/text pixel parity remain later claims.
 - The cursor scaffold records built-in mouse-pointer policy, the current routed
   target, and service requests; no custom `MouseIcon` support is claimed.
 - TextBox caret/selection geometry now uses shaped text-run caret stops in the runtime path, and

@@ -8,13 +8,12 @@
 //! - the form serializes one batched `ScenePatch` and crosses the injected
 //!   `OxForms.Surface` exactly once via `BeginScene` + `SubmitPatch`;
 //! - Rust retains the patched primitives as a control-blind `Scene` and renders it
-//!   through the headless reference.
+//!   through the deterministic headless reference.
 //!
 //! The assertion is the rendering-architecture keystone invariant (c) across the
 //! boundary: the framebuffer produced from the VBA-authored, JSON-marshalled,
 //! patch-applied scene is byte-identical (by hash) to the same scene built directly
-//! in Rust from first principles. Text prims are part of the patch but are headless
-//! no-ops, so the expected scene carries only the rasterized prims (fills + edges).
+//! in Rust from first principles.
 
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -23,7 +22,8 @@ use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::input::DpiScale;
 use oxforms_pal::scene::{
     render_headless_hash, text_run_id, EdgeBorder, EdgeEffect, FontId, NodeEdit, NodeId, Paint,
-    Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextKey,
+    Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextAlign, TextFlags, TextKey,
+    TextShaper,
 };
 use oxforms_pal::{Color, SurfaceSize};
 use oxforms_pal_win::{load_ui_font, render_scene_to_rgba, AbGlyphShaper, FontTable};
@@ -159,9 +159,7 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
         .expect("prepare OxForms render session")
 }
 
-/// The demo form rebuilt directly in Rust from first principles. Only the prims the
-/// headless reference rasterizes (fills + edges) are needed for the framebuffer
-/// hash; text prims that the VBA scene also carries are headless no-ops.
+/// The demo form rebuilt directly in Rust from first principles.
 fn expected_demo_framebuffer_hash() -> u64 {
     let white = Color::rgba(0xff, 0xff, 0xff, 0xff);
     let shadow = Color::rgba(0x80, 0x80, 0x80, 0xff);
@@ -189,6 +187,15 @@ fn expected_demo_framebuffer_hash() -> u64 {
             light: white,
             shadow,
         },
+        Prim::DrawText {
+            run: text_run_id(&text_key(8), "Hi"),
+            rect: RectF::new(16.0, 15.0, 112.0, 12.0),
+            align: TextAlign::Left,
+            wrap: false,
+            clip: true,
+            paint: Paint::Solid(Color::rgba(0x00, 0x00, 0x00, 0xff)),
+            flags: TextFlags::default(),
+        },
     ];
 
     let mut button = SceneNode::new(NodeId(2));
@@ -206,15 +213,35 @@ fn expected_demo_framebuffer_hash() -> u64 {
             light: white,
             shadow,
         },
+        Prim::DrawText {
+            run: text_run_id(&text_key(8), "OK"),
+            rect: RectF::new(144.0, 15.0, 40.0, 14.0),
+            align: TextAlign::Center,
+            wrap: false,
+            clip: true,
+            paint: Paint::Solid(Color::rgba(0x00, 0x00, 0x00, 0xff)),
+            flags: TextFlags::default(),
+        },
     ];
 
     let mut label = SceneNode::new(NodeId(3));
     label.parent = Some(NodeId(0));
     label.bounds = RectF::new(12.0, 44.0, 176.0, 18.0);
-    label.prims = vec![Prim::FillRect {
-        rect: RectF::new(12.0, 44.0, 176.0, 18.0),
-        paint: Paint::Solid(Color::rgba(0x20, 0x70, 0xc0, 0xff)),
-    }];
+    label.prims = vec![
+        Prim::FillRect {
+            rect: RectF::new(12.0, 44.0, 176.0, 18.0),
+            paint: Paint::Solid(Color::rgba(0x20, 0x70, 0xc0, 0xff)),
+        },
+        Prim::DrawText {
+            run: text_run_id(&text_key(8), "Ready"),
+            rect: RectF::new(16.0, 47.0, 168.0, 12.0),
+            align: TextAlign::Left,
+            wrap: false,
+            clip: true,
+            paint: Paint::Solid(Color::rgba(0xff, 0xff, 0xff, 0xff)),
+            flags: TextFlags::default(),
+        },
+    ];
 
     let mut scene = Scene::new(
         SurfaceSize::new(200, 120),
@@ -222,8 +249,19 @@ fn expected_demo_framebuffer_hash() -> u64 {
         NodeId(0),
     );
     scene.nodes = vec![root, input, button, label];
+    for caption in ["Hi", "OK", "Ready"] {
+        scene.upsert_text_run(StubShaper.shape(&text_key(8), caption));
+    }
     scene.recompute_frame_hash();
     render_headless_hash(&scene)
+}
+
+fn text_key(size_pt: u32) -> TextKey {
+    TextKey {
+        font: FontId(1),
+        size_milli_pt: size_pt * 1000,
+        wrap_width_milli_pt: None,
+    }
 }
 
 fn get_string(
@@ -248,8 +286,8 @@ fn get_string(
 fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     let projection = Arc::new(PortableComProjection::new());
     // The VBA render measures text via Surface.MeasureText, so a shaper must be present;
-    // StubShaper is deterministic + font-free (the headless framebuffer is text-free, so
-    // the golden hash is unaffected).
+    // StubShaper is deterministic + font-free, and the headless text placeholder is
+    // likewise host-font-free.
     let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
     register_surface(&projection, surface.clone());
 
@@ -310,7 +348,7 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
 
     // 4pn.13: the captions crossed once via MeasureText and landed as resident shaped
     // runs (projected into Scene.text by SubmitPatch), so the VBA self-render now carries
-    // real text — not run id 0. The headless framebuffer above is text-free, so this is
+    // real text — not run id 0. The headless framebuffer is font-independent, so this is
     // an independent assertion on the text seam.
     let scene = snap.scene.expect("resident scene");
     assert_eq!(scene.text.len(), 3, "three captions shaped into Scene.text");
@@ -341,6 +379,98 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         ids,
         vec![0, 1, 2, 3, 1901],
         "form root, three controls, and the TextBox overlay node"
+    );
+}
+
+#[test]
+fn vba_scene_builder_records_full_primitive_vocabulary() {
+    let projection = Arc::new(PortableComProjection::new());
+    let surface = Arc::new(SurfaceFactory::new());
+    register_surface(&projection, surface.clone());
+
+    let mut session = prepare_session(projection);
+    let form = session
+        .create_class_instance("RenderProbeForm")
+        .expect("create render probe form");
+    session
+        .invoke_member_values(
+            form,
+            "RunPrimitiveVocabulary",
+            Some(ProjectMemberKind::Method),
+            Vec::new(),
+        )
+        .unwrap_or_else(|err| panic!("invoke RunPrimitiveVocabulary: {}", err.message()));
+
+    let snap = surface.snapshot().expect("surface snapshot");
+    assert_eq!(
+        snap.calls,
+        ["BeginScene:4", "SubmitPatch:1"],
+        "primitive recorder probe should cross only BeginScene + SubmitPatch"
+    );
+    let report = snap.last_report.expect("render report");
+    assert_eq!(
+        report.command_count, 9,
+        "the probe walks the full primitive vocabulary fixture"
+    );
+
+    let patch_json = snap.last_patch_json.expect("captured patch JSON");
+    let patch: ScenePatch =
+        serde_json::from_str(&patch_json).expect("VBA-encoded patch is valid ScenePatch JSON");
+    let root = patch
+        .edits
+        .iter()
+        .find_map(|edit| match edit {
+            NodeEdit::Upsert(node) if node.id == NodeId(0) => Some(node),
+            _ => None,
+        })
+        .expect("root upsert");
+    assert!(root
+        .prims
+        .iter()
+        .any(|p| matches!(p, Prim::FillRect { .. })));
+    assert!(root
+        .prims
+        .iter()
+        .any(|p| matches!(p, Prim::StrokeRect { .. })));
+    assert!(root
+        .prims
+        .iter()
+        .any(|p| matches!(p, Prim::RoundRect { .. })));
+    assert!(root.prims.iter().any(|p| matches!(p, Prim::Ellipse { .. })));
+    assert!(root.prims.iter().any(|p| matches!(p, Prim::Line { .. })));
+    assert!(root.prims.iter().any(|p| matches!(p, Prim::Polygon { .. })));
+    assert!(root
+        .prims
+        .iter()
+        .any(|p| matches!(p, Prim::Gradient { .. })));
+    assert!(root
+        .prims
+        .iter()
+        .any(|p| matches!(p, Prim::DrawImage { .. })));
+    assert!(root
+        .prims
+        .iter()
+        .any(|p| matches!(p, Prim::DrawEdge { .. })));
+
+    let background_only = {
+        let mut scene = Scene::new(
+            SurfaceSize::new(96, 64),
+            DpiScale::new(96.0, 96.0),
+            NodeId(0),
+        );
+        let mut root = SceneNode::new(NodeId(0));
+        root.bounds = RectF::new(0.0, 0.0, 96.0, 64.0);
+        root.prims = vec![Prim::FillRect {
+            rect: RectF::new(0.0, 0.0, 96.0, 64.0),
+            paint: Paint::Solid(Color::rgba(0xf0, 0xf0, 0xf0, 0xff)),
+        }];
+        scene.nodes.push(root);
+        scene.recompute_frame_hash();
+        render_headless_hash(&scene)
+    };
+    assert_ne!(
+        report.framebuffer_hash, background_only,
+        "the non-rect recorder fixture must perturb the headless framebuffer hash"
     );
 }
 

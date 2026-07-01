@@ -9,7 +9,8 @@
 //!
 //! Layers:
 //! - [`raster`] — a `tiny_skia` [`oxforms_pal::scene::PrimSink`] (the visible twin of
-//!   the text-free `HeadlessSink` golden oracle), plus [`raster::render_scene_to_pixmap`].
+//!   the deterministic `HeadlessSink` golden oracle), plus
+//!   [`raster::render_scene_to_pixmap`].
 //! - [`text`] — the [`text::AbGlyphShaper`] (caption → shaped [`oxforms_pal::scene::TextRun`]),
 //!   the [`text::TextResolver`] contract + [`text::SceneTextResolver`] (run id → resident
 //!   run, font id → face), a [`text::FontTable`], and the platform-font loader.

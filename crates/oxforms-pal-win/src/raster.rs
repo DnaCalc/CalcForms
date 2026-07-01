@@ -3,9 +3,9 @@
 //! [`SkiaSink`] implements [`oxforms_pal::scene::PrimSink`]: the Scene kernel walks
 //! the retained tree, pushing transforms/clips and the §6.2 primitives, and this sink
 //! turns them into pixels in a `tiny_skia::Pixmap`. It is the *visible* counterpart to
-//! the text-free [`oxforms_pal::scene::HeadlessSink`] golden oracle — same walk, same
-//! geometry, but with curved fills, gradients, 3D edges, and ab_glyph text actually
-//! rasterized.
+//! the deterministic [`oxforms_pal::scene::HeadlessSink`] golden oracle: same walk,
+//! same geometry, but with curved fills, gradients, 3D edges, and ab_glyph text
+//! actually rasterized.
 //!
 //! Geometry is transformed to device space by the sink (mirroring `HeadlessSink`'s
 //! `cur`/`clip` stacks) and handed to tiny-skia with an identity transform, so clips —
@@ -16,8 +16,8 @@
 
 use ab_glyph::{point as ab_point, Font, GlyphId, PxScale};
 use oxforms_pal::scene::{
-    render_damage, render_full, Affine, EdgeBorder, EdgeEffect, Paint, Prim, PrimSink, RectF,
-    Scene, Stroke, TextAlign, TextFlags, TextRunId,
+    render_damage, render_full, Affine, EdgeBorder, EdgeEffect, ImageHandle, ImageMode, Paint,
+    Prim, PrimSink, RectF, Scene, Stroke, TextAlign, TextFlags, TextRunId,
 };
 use oxforms_pal::Color;
 use tiny_skia as ts;
@@ -392,6 +392,34 @@ impl<'a> SkiaSink<'a> {
         }
     }
 
+    fn draw_image_placeholder(&mut self, image: ImageHandle, local_dst: RectF, mode: ImageMode) {
+        let dev = self.cur.apply_rect(local_dst);
+        let bytes = image.0.to_le_bytes();
+        let mode_bias = match mode {
+            ImageMode::Stretch => 0x30,
+            ImageMode::Clip => 0x60,
+            ImageMode::Tile => 0x90,
+        };
+        let fill = Color::rgba(
+            bytes[0].wrapping_add(mode_bias),
+            bytes[3].wrapping_add(0x40),
+            bytes[5].wrapping_add(0x80),
+            0xFF,
+        );
+        self.fill_device_rect(dev, &Paint::Solid(fill), false);
+        if let Some(path) = rect_path(dev) {
+            self.fill_and_stroke_path(
+                &path,
+                dev,
+                None,
+                Some(&Stroke {
+                    paint: Paint::Solid(Color::rgba(0x00, 0x00, 0x00, 0xFF)),
+                    width: 1.0,
+                }),
+            );
+        }
+    }
+
     /// Paint one edge frame: `tl` on the top/left edges, `br` on the bottom/right.
     fn edge_pass(&mut self, dev: RectF, border: EdgeBorder, t: f32, tl: Color, br: Color) {
         if dev.w <= 0.0 || dev.h <= 0.0 {
@@ -666,9 +694,9 @@ impl PrimSink for SkiaSink<'_> {
             } => {
                 self.draw_edge(*rect, *effect, *border, *light, *shadow);
             }
-            // Images are part of the contract but unused by the W007 slice; the demo
-            // form carries no DrawImage. Decoding lands when a control needs it.
-            Prim::DrawImage { .. } => {}
+            Prim::DrawImage {
+                image, dst, mode, ..
+            } => self.draw_image_placeholder(*image, *dst, *mode),
         }
     }
 }
@@ -736,6 +764,13 @@ fn round_rect_path(r: RectF, radius: f32) -> Option<ts::Path> {
     pb.line_to(x, y + rad);
     pb.quad_to(x, y, x + rad, y);
     pb.close();
+    pb.finish()
+}
+
+fn rect_path(r: RectF) -> Option<ts::Path> {
+    let mut pb = ts::PathBuilder::new();
+    let rect = ts::Rect::from_xywh(r.x, r.y, r.w, r.h)?;
+    pb.push_rect(rect);
     pb.finish()
 }
 
@@ -1297,7 +1332,7 @@ mod tests {
 
     #[test]
     fn geometry_showcase_has_a_stable_golden_hash() {
-        // Whole-frame golden for the deterministic, text-free geometry path: a shift,
+        // Whole-frame golden for the deterministic geometry path: a shift,
         // recolor, or drop of any primitive across the surface changes this hash even
         // if the handful of spot-checked pixels in other tests stay put.
         let scene = geometry_showcase_scene();
@@ -1332,6 +1367,36 @@ mod tests {
         assert_eq!(
             hash, 0x612a_1114_73b1_1ab3,
             "geometry golden changed (got {hash:#018x}); update only after a deliberate render change"
+        );
+    }
+
+    #[test]
+    fn draw_image_placeholder_is_visible_until_decode_lands() {
+        let mut scene = Scene::new(SurfaceSize::new(32, 24), dpi(), NodeId(0));
+        let mut root = SceneNode::new(NodeId(0));
+        root.bounds = RectF::new(0.0, 0.0, 32.0, 24.0);
+        root.prims = vec![
+            Prim::FillRect {
+                rect: RectF::new(0.0, 0.0, 32.0, 24.0),
+                paint: Paint::Solid(Color::rgba(0xFF, 0xFF, 0xFF, 0xFF)),
+            },
+            Prim::DrawImage {
+                image: ImageHandle(42),
+                src: RectF::new(0.0, 0.0, 16.0, 16.0),
+                dst: RectF::new(8.0, 6.0, 16.0, 12.0),
+                mode: ImageMode::Stretch,
+            },
+        ];
+        scene.nodes.push(root);
+        scene.recompute_frame_hash();
+
+        let mut pixmap = ts::Pixmap::new(32, 24).expect("pixmap");
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
+
+        assert_ne!(
+            pixel(&pixmap, 16, 12),
+            [0xFF, 0xFF, 0xFF, 0xFF],
+            "DrawImage must not be silently dropped by the visible renderer"
         );
     }
 

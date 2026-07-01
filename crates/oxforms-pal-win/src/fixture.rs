@@ -188,7 +188,7 @@ mod tests {
             scene.get(NodeId(0)).expect("root").children,
             vec![NodeId(1), NodeId(2), NodeId(3)]
         );
-        // The text-free golden oracle walks every node without needing a font.
+        // The deterministic golden oracle walks every node without needing a font.
         let report = render_headless_report(&scene);
         assert_eq!(report.width, FORM_W as u32);
         assert_eq!(report.height, FORM_H as u32);

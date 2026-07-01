@@ -141,6 +141,65 @@ Public Sub StrokeRect( _
         ",""width"":" & JsonNum(Width) & "}}"
 End Sub
 
+Public Sub RoundRect( _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
+        ByVal Radius As Single, _
+        ByVal FillRgb As Long, ByVal FillAlpha As Long, _
+        ByVal StrokeRgb As Long, ByVal StrokeAlpha As Long, ByVal StrokeWidth As Single)
+    AppendCsv mCurPrims, _
+        "{""op"":""round_rect"",""rect"":" & JsonRect(X, Y, W, H) & _
+        ",""radius"":" & JsonNum(Radius) & _
+        ",""fill"":" & JsonSolid(FillRgb, FillAlpha) & _
+        ",""stroke"":" & JsonStroke(StrokeRgb, StrokeAlpha, StrokeWidth) & "}"
+End Sub
+
+Public Sub Ellipse( _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
+        ByVal FillRgb As Long, ByVal FillAlpha As Long, _
+        ByVal StrokeRgb As Long, ByVal StrokeAlpha As Long, ByVal StrokeWidth As Single)
+    AppendCsv mCurPrims, _
+        "{""op"":""ellipse"",""rect"":" & JsonRect(X, Y, W, H) & _
+        ",""fill"":" & JsonSolid(FillRgb, FillAlpha) & _
+        ",""stroke"":" & JsonStroke(StrokeRgb, StrokeAlpha, StrokeWidth) & "}"
+End Sub
+
+Public Sub Line( _
+        ByVal X1 As Single, ByVal Y1 As Single, ByVal X2 As Single, ByVal Y2 As Single, _
+        ByVal Rgb As Long, ByVal Alpha As Long, ByVal Width As Single)
+    AppendCsv mCurPrims, _
+        "{""op"":""line"",""a"":" & JsonPoint(X1, Y1) & _
+        ",""b"":" & JsonPoint(X2, Y2) & _
+        ",""stroke"":" & JsonStroke(Rgb, Alpha, Width) & "}"
+End Sub
+
+Public Sub Polygon(ByVal FillRgb As Long, ByVal FillAlpha As Long, ParamArray Coords() As Variant)
+    Dim Count As Long
+    Count = UBound(Coords) - LBound(Coords) + 1
+    If Count < 6 Or (Count Mod 2) <> 0 Then
+        Err.Raise 5, "OxSceneBuilder.Polygon", "Polygon requires at least three x/y pairs"
+    End If
+
+    Dim Points As String
+    Dim I As Long
+    For I = LBound(Coords) To UBound(Coords) Step 2
+        AppendCsv Points, JsonPoint(CSng(Coords(I)), CSng(Coords(I + 1)))
+    Next I
+
+    AppendCsv mCurPrims, _
+        "{""op"":""polygon"",""pts"":[" & Points & "]" & _
+        ",""fill"":" & JsonSolid(FillRgb, FillAlpha) & _
+        ",""stroke"":null}"
+End Sub
+
+Public Sub Gradient( _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
+        ByVal StartRgb As Long, ByVal EndRgb As Long, ByVal Angle As Single)
+    AppendCsv mCurPrims, _
+        "{""op"":""gradient"",""rect"":" & JsonRect(X, Y, W, H) & _
+        ",""stops"":[[0," & JsonColor(StartRgb, 255) & "],[1," & JsonColor(EndRgb, 255) & "]]" & _
+        ",""angle"":" & JsonNum(Angle) & "}"
+End Sub
+
 ' Generic 3D edge; EffectName is the kernel's snake_case edge ("raised"/"sunken"/...).
 Public Sub DrawEdge( _
         ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
@@ -169,6 +228,18 @@ Public Sub DrawText( _
         ",""paint"":" & JsonSolid(Rgb, Alpha) & _
         ",""flags"":{""underline_accelerator"":" & JsonBool(UnderlineAccelerator) & _
         ",""disabled"":" & JsonBool(Disabled) & "}}"
+End Sub
+
+Public Sub DrawImage( _
+        ByVal ImageId As String, _
+        ByVal SrcX As Single, ByVal SrcY As Single, ByVal SrcW As Single, ByVal SrcH As Single, _
+        ByVal DstX As Single, ByVal DstY As Single, ByVal DstW As Single, ByVal DstH As Single, _
+        ByVal Mode As String)
+    AppendCsv mCurPrims, _
+        "{""op"":""draw_image"",""image"":" & ImageId & _
+        ",""src"":" & JsonRect(SrcX, SrcY, SrcW, SrcH) & _
+        ",""dst"":" & JsonRect(DstX, DstY, DstW, DstH) & _
+        ",""mode"":""" & Mode & """}"
 End Sub
 
 ' Finish the open node and add it to the patch as an Upsert.
@@ -255,6 +326,10 @@ Private Function JsonRect( _
         ",""w"":" & JsonNum(W) & ",""h"":" & JsonNum(H) & "}"
 End Function
 
+Private Function JsonPoint(ByVal X As Single, ByVal Y As Single) As String
+    JsonPoint = "{""x"":" & JsonNum(X) & ",""y"":" & JsonNum(Y) & "}"
+End Function
+
 ' A scene Color object from a 0xRRGGBB Long + alpha byte.
 Private Function JsonColor(ByVal Rgb As Long, ByVal Alpha As Long) As String
     Dim R As Long, G As Long, B As Long
@@ -268,4 +343,9 @@ End Function
 ' A Paint::Solid (externally tagged enum -> {"Solid": <color>}).
 Private Function JsonSolid(ByVal Rgb As Long, ByVal Alpha As Long) As String
     JsonSolid = "{""Solid"":" & JsonColor(Rgb, Alpha) & "}"
+End Function
+
+Private Function JsonStroke(ByVal Rgb As Long, ByVal Alpha As Long, ByVal Width As Single) As String
+    JsonStroke = "{""paint"":" & JsonSolid(Rgb, Alpha) & _
+        ",""width"":" & JsonNum(Width) & "}"
 End Function

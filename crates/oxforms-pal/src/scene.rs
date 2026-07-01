@@ -946,10 +946,11 @@ fn rect_to_device(r: RectF) -> Option<Rect> {
     ))
 }
 
-/// Deterministic headless rasterizer (the reference oracle). Rasterizes the
-/// geometric subset needed today (FillRect fully; StrokeRect/Line/DrawEdge as thin
-/// fills); text/image/curved fills are recorded by the contract and rasterized by
-/// the visible backend / a later reference-rasterizer step.
+/// Deterministic headless rasterizer (the reference oracle). It rasterizes every
+/// primitive in the Scene vocabulary. Curves, text, gradients, and images use small
+/// deterministic reference approximations rather than platform font/image engines,
+/// so every supported primitive perturbs the framebuffer hash without making the
+/// headless oracle depend on host resources.
 pub struct HeadlessSink {
     surface: SurfaceSize,
     pixels: Vec<u8>,
@@ -1033,6 +1034,150 @@ impl HeadlessSink {
         self.fill_solid(RectF::new(rect.x, rect.y, t, rect.h), color);
         self.fill_solid(RectF::new(rect.x + rect.w - t, rect.y, t, rect.h), color);
     }
+
+    fn fill_device_solid(&mut self, rect: RectF, color: Color) {
+        let device = rect.intersect(self.clip);
+        let Some(device) = rect_to_device(device) else {
+            return;
+        };
+        let left = device.x.max(0);
+        let top = device.y.max(0);
+        let right = (device.x + device.width).min(self.surface.width as i32);
+        let bottom = (device.y + device.height).min(self.surface.height as i32);
+        if left >= right || top >= bottom {
+            return;
+        }
+        let stride = self.surface.width as usize;
+        let rgba = color.to_rgba8();
+        for y in top..bottom {
+            for x in left..right {
+                let offset = ((y as usize * stride) + x as usize) * BYTES_PER_PIXEL;
+                self.pixels[offset..offset + BYTES_PER_PIXEL].copy_from_slice(&rgba);
+            }
+        }
+    }
+
+    fn scalar_scale(&self) -> f32 {
+        ((self.cur.sx.abs() + self.cur.sy.abs()) * 0.5).max(1.0)
+    }
+
+    fn stroke_line(&mut self, a: PointF, b: PointF, stroke: &Stroke) {
+        let Some(color) = Self::solid_of(&stroke.paint) else {
+            return;
+        };
+        let (ax, ay) = (
+            a.x * self.cur.sx + self.cur.tx,
+            a.y * self.cur.sy + self.cur.ty,
+        );
+        let (bx, by) = (
+            b.x * self.cur.sx + self.cur.tx,
+            b.y * self.cur.sy + self.cur.ty,
+        );
+        let steps = ((bx - ax).abs().max((by - ay).abs()).ceil() as u32).max(1);
+        let t = (stroke.width * self.scalar_scale()).max(1.0);
+        for step in 0..=steps {
+            let f = step as f32 / steps as f32;
+            let x = ax + (bx - ax) * f;
+            let y = ay + (by - ay) * f;
+            self.fill_device_solid(RectF::new(x - t * 0.5, y - t * 0.5, t, t), color);
+        }
+    }
+
+    fn polygon_bounds(&self, pts: &[PointF]) -> Option<RectF> {
+        let first = pts.first()?;
+        let (mut min_x, mut min_y, mut max_x, mut max_y) = (first.x, first.y, first.x, first.y);
+        for p in &pts[1..] {
+            min_x = min_x.min(p.x);
+            min_y = min_y.min(p.y);
+            max_x = max_x.max(p.x);
+            max_y = max_y.max(p.y);
+        }
+        Some(RectF::new(min_x, min_y, max_x - min_x, max_y - min_y))
+    }
+
+    fn draw_text_placeholder(&mut self, rect: RectF, paint: &Paint, flags: TextFlags) {
+        let Some(color) = Self::solid_of(paint) else {
+            return;
+        };
+        let band_h = 1.0_f32.max(rect.h.min(3.0));
+        let y = rect.y + ((rect.h - band_h) * 0.5).max(0.0);
+        self.fill_solid(RectF::new(rect.x, y, rect.w, band_h), color);
+        if flags.underline_accelerator {
+            self.fill_solid(
+                RectF::new(rect.x, rect.y + rect.h - 2.0, rect.w.min(12.0), 1.0),
+                color,
+            );
+        }
+        if flags.disabled {
+            let shadow = Color::rgba(0x80, 0x80, 0x80, color.alpha);
+            self.fill_solid(RectF::new(rect.x, y + band_h + 1.0, rect.w, 1.0), shadow);
+        }
+    }
+
+    fn draw_image_placeholder(&mut self, image: ImageHandle, dst: RectF, mode: ImageMode) {
+        let bytes = image.0.to_le_bytes();
+        let mode_bias = match mode {
+            ImageMode::Stretch => 0x30,
+            ImageMode::Clip => 0x60,
+            ImageMode::Tile => 0x90,
+        };
+        let fill = Color::rgba(
+            bytes[0].wrapping_add(mode_bias),
+            bytes[3].wrapping_add(0x40),
+            bytes[5].wrapping_add(0x80),
+            0xff,
+        );
+        self.fill_solid(dst, fill);
+        self.stroke_border(
+            dst,
+            &Stroke {
+                paint: Paint::Solid(Color::rgba(0x00, 0x00, 0x00, 0xff)),
+                width: 1.0,
+            },
+        );
+    }
+
+    fn draw_edge(
+        &mut self,
+        rect: RectF,
+        effect: EdgeEffect,
+        border: EdgeBorder,
+        light: Color,
+        shadow: Color,
+    ) {
+        match effect {
+            EdgeEffect::Flat => self.edge_pass(rect, border, shadow, shadow),
+            EdgeEffect::Raised => self.edge_pass(rect, border, light, shadow),
+            EdgeEffect::Sunken => self.edge_pass(rect, border, shadow, light),
+            EdgeEffect::Etched => {
+                self.edge_pass(rect, border, shadow, light);
+                self.edge_pass(inset_rect(rect, 1.0), border, light, shadow);
+            }
+            EdgeEffect::Bump => {
+                self.edge_pass(rect, border, light, shadow);
+                self.edge_pass(inset_rect(rect, 1.0), border, shadow, light);
+            }
+        }
+    }
+
+    fn edge_pass(&mut self, rect: RectF, border: EdgeBorder, tl: Color, br: Color) {
+        let t = 1.0;
+        if rect.w <= 0.0 || rect.h <= 0.0 {
+            return;
+        }
+        if border.top {
+            self.fill_solid(RectF::new(rect.x, rect.y, rect.w, t), tl);
+        }
+        if border.left {
+            self.fill_solid(RectF::new(rect.x, rect.y, t, rect.h), tl);
+        }
+        if border.bottom {
+            self.fill_solid(RectF::new(rect.x, rect.y + rect.h - t, rect.w, t), br);
+        }
+        if border.right {
+            self.fill_solid(RectF::new(rect.x + rect.w - t, rect.y, t, rect.h), br);
+        }
+    }
 }
 
 impl PrimSink for HeadlessSink {
@@ -1067,32 +1212,66 @@ impl PrimSink for HeadlessSink {
                 }
             }
             Prim::StrokeRect { rect, stroke } => self.stroke_border(*rect, stroke),
+            Prim::RoundRect {
+                rect, fill, stroke, ..
+            }
+            | Prim::Ellipse { rect, fill, stroke } => {
+                if let Some(fill) = fill {
+                    if let Some(color) = Self::solid_of(fill) {
+                        self.fill_solid(*rect, color);
+                    }
+                }
+                if let Some(stroke) = stroke {
+                    self.stroke_border(*rect, stroke);
+                }
+            }
+            Prim::Line { a, b, stroke } => self.stroke_line(*a, *b, stroke),
+            Prim::Polygon { pts, fill, stroke } => {
+                if let Some(fill) = fill {
+                    if let (Some(color), Some(bounds)) =
+                        (Self::solid_of(fill), self.polygon_bounds(pts))
+                    {
+                        self.fill_solid(bounds, color);
+                    }
+                }
+                if let Some(stroke) = stroke {
+                    for pair in pts.windows(2) {
+                        self.stroke_line(pair[0], pair[1], stroke);
+                    }
+                    if let (Some(first), Some(last)) = (pts.first(), pts.last()) {
+                        self.stroke_line(*last, *first, stroke);
+                    }
+                }
+            }
+            Prim::Gradient { rect, stops, .. } => {
+                if let Some((_, color)) = stops.first() {
+                    self.fill_solid(*rect, *color);
+                }
+            }
+            Prim::DrawText {
+                rect, paint, flags, ..
+            } => self.draw_text_placeholder(*rect, paint, *flags),
+            Prim::DrawImage {
+                image, dst, mode, ..
+            } => self.draw_image_placeholder(*image, *dst, *mode),
             Prim::DrawEdge {
                 rect,
                 effect,
+                border,
                 shadow,
                 light,
-                ..
-            } => {
-                // Placeholder edge: a single-color outline. The exact raised/sunken
-                // light/shadow composition lands with the control parity gate.
-                let color = match effect {
-                    EdgeEffect::Flat => *shadow,
-                    _ => *light,
-                };
-                self.stroke_border(
-                    *rect,
-                    &Stroke {
-                        paint: Paint::Solid(color),
-                        width: 1.0,
-                    },
-                );
-            }
-            // Lines, curved fills, text, and images are part of the contract and
-            // content hash; the headless reference rasterizes them in a later step.
-            _ => {}
+            } => self.draw_edge(*rect, *effect, *border, *light, *shadow),
         }
     }
+}
+
+fn inset_rect(r: RectF, by: f32) -> RectF {
+    RectF::new(
+        r.x + by,
+        r.y + by,
+        (r.w - 2.0 * by).max(0.0),
+        (r.h - 2.0 * by).max(0.0),
+    )
 }
 
 /// Stable diagnostics from rendering a [`Scene`] through the headless reference.
@@ -1346,6 +1525,126 @@ mod tests {
         scene.nodes.push(root);
         scene.recompute_frame_hash();
         scene
+    }
+
+    fn single_prim_scene(prim: Prim) -> Scene {
+        let mut scene = Scene::new(SurfaceSize::new(40, 32), dpi(), NodeId(0));
+        let mut root = SceneNode::new(NodeId(0));
+        root.bounds = RectF::new(0.0, 0.0, 40.0, 32.0);
+        root.prims = vec![
+            Prim::FillRect {
+                rect: RectF::new(0.0, 0.0, 40.0, 32.0),
+                paint: Paint::Solid(Color::rgba(0xf0, 0xf0, 0xf0, 0xff)),
+            },
+            prim,
+        ];
+        scene.nodes.push(root);
+        scene.recompute_frame_hash();
+        scene
+    }
+
+    #[test]
+    fn headless_reference_rasterizes_every_primitive_variant() {
+        let black = Color::rgba(0x00, 0x00, 0x00, 0xff);
+        let red = Color::rgba(0xc0, 0x20, 0x20, 0xff);
+        let blue = Color::rgba(0x20, 0x40, 0xc0, 0xff);
+        let green = Color::rgba(0x20, 0xa0, 0x20, 0xff);
+        let magenta = Color::rgba(0xc0, 0x20, 0xc0, 0xff);
+        let stroke = |color| Stroke {
+            paint: Paint::Solid(color),
+            width: 1.0,
+        };
+        let base = render_headless_hash(&single_prim_scene(Prim::FillRect {
+            rect: RectF::new(8.0, 8.0, 10.0, 8.0),
+            paint: Paint::Solid(Color::rgba(0xf0, 0xf0, 0xf0, 0xff)),
+        }));
+        let prims = [
+            Prim::StrokeRect {
+                rect: RectF::new(2.0, 2.0, 18.0, 10.0),
+                stroke: stroke(black),
+            },
+            Prim::RoundRect {
+                rect: RectF::new(4.0, 4.0, 18.0, 10.0),
+                radius: 4.0,
+                fill: Some(Paint::Solid(blue)),
+                stroke: Some(stroke(black)),
+            },
+            Prim::Ellipse {
+                rect: RectF::new(6.0, 6.0, 16.0, 10.0),
+                fill: Some(Paint::Solid(green)),
+                stroke: Some(stroke(black)),
+            },
+            Prim::Line {
+                a: PointF::new(2.0, 16.0),
+                b: PointF::new(30.0, 16.0),
+                stroke: stroke(red),
+            },
+            Prim::Polygon {
+                pts: vec![
+                    PointF::new(4.0, 28.0),
+                    PointF::new(12.0, 18.0),
+                    PointF::new(20.0, 28.0),
+                ],
+                fill: Some(Paint::Solid(magenta)),
+                stroke: Some(stroke(black)),
+            },
+            Prim::Gradient {
+                rect: RectF::new(2.0, 2.0, 16.0, 12.0),
+                stops: vec![(0.0, black), (1.0, Color::rgba(0xff, 0xff, 0xff, 0xff))],
+                angle: 0.0,
+            },
+            Prim::DrawText {
+                run: TextRunId(123),
+                rect: RectF::new(3.0, 10.0, 30.0, 10.0),
+                align: TextAlign::Left,
+                wrap: false,
+                clip: true,
+                paint: Paint::Solid(black),
+                flags: TextFlags {
+                    underline_accelerator: true,
+                    disabled: false,
+                },
+            },
+            Prim::DrawImage {
+                image: ImageHandle(42),
+                src: RectF::new(0.0, 0.0, 16.0, 16.0),
+                dst: RectF::new(8.0, 8.0, 16.0, 12.0),
+                mode: ImageMode::Stretch,
+            },
+            Prim::DrawEdge {
+                rect: RectF::new(2.0, 2.0, 20.0, 12.0),
+                effect: EdgeEffect::Bump,
+                border: EdgeBorder::ALL,
+                light: Color::rgba(0xff, 0xff, 0xff, 0xff),
+                shadow: Color::rgba(0x40, 0x40, 0x40, 0xff),
+            },
+        ];
+
+        for prim in prims {
+            let scene = single_prim_scene(prim.clone());
+            let hash = render_headless_hash(&scene);
+            assert_ne!(
+                hash, base,
+                "headless rasterizer must not silently drop {prim:?}"
+            );
+
+            let full = {
+                let mut sink = HeadlessSink::new(scene.surface);
+                render_full(&scene, &mut sink);
+                sink.into_pixels()
+            };
+            let damaged = {
+                let mut damage = DamageSet::default();
+                damage.add(NodeId(0), RectF::new(0.0, 0.0, 40.0, 32.0));
+                let mut sink = HeadlessSink::new(scene.surface);
+                render_damage(&scene, &mut sink, &damage);
+                sink.into_pixels()
+            };
+            assert_eq!(
+                full, damaged,
+                "damage==full must hold for primitive {prim:?}"
+            );
+        }
     }
 
     #[test]
