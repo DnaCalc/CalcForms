@@ -59,14 +59,14 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     BoxX = mCore.Left
     BoxY = mCore.Top + (mCore.Height - OX_BOX_SIZE) / 2
 
-    Surface.FillRect BoxX, BoxY, OX_BOX_SIZE, OX_BOX_SIZE, BoxFace(), 255
+    Surface.FillRect BoxX, BoxY, OX_BOX_SIZE, OX_BOX_SIZE, OxThemeResolveFace(mCore), 255
     Surface.DrawEdge BoxX, BoxY, OX_BOX_SIZE, OX_BOX_SIZE, _
         "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
     If mValue Then
         ' Check mark approximated by a filled inner square (a deterministic primitive; a
         ' true glyph is a later rendering refinement, not behavior).
         Surface.FillRect BoxX + 3, BoxY + 3, OX_BOX_SIZE - 6, OX_BOX_SIZE - 6, _
-            OxThemeTextColor(oxControlCheckBox, mCore.Enabled), 255
+            OxThemeResolveText(mCore), 255
     End If
 
     If Len(mCore.DisplayText) > 0 Then
@@ -80,20 +80,11 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         Dim RunId As String
         RunId = mCore.RunId
         If Len(RunId) = 0 Then RunId = "0"
-        Surface.DrawText Tx, Ty, Tw, Th, RunId, "left", False, True, _
-            OxThemeTextColor(oxControlCheckBox, mCore.Enabled), 255, False, Not mCore.Enabled
+        OxThemePaintTextRun mCore, Surface, Tx, Ty, Tw, Th, RunId, "left", False, True, False
     End If
 
     Surface.CloseNode
 End Sub
-
-Private Function BoxFace() As Long
-    If mCore.BackColor = oxColorAuto Then
-        BoxFace = OxThemeFaceColor(oxControlCheckBox, mCore.Pressed, mCore.Enabled)
-    Else
-        BoxFace = mCore.BackColor
-    End If
-End Function
 
 ' --- User-facing properties ---
 ' The checked state. Programmatic assignment updates + repaints but raises no Change.

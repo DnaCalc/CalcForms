@@ -14,7 +14,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::{FontId, NodeId, Paint, Prim, RectF, StubShaper, TextRunId};
+use oxforms_pal::scene::{EdgeEffect, FontId, NodeId, Paint, Prim, RectF, StubShaper, TextRunId};
 use oxforms_pal::Color;
 use oxforms_pal_win::{load_ui_font, AbGlyphShaper};
 
@@ -470,6 +470,11 @@ fn fill_rect_count(surface: &Arc<SurfaceFactory>, node: NodeId) -> usize {
 
 const TEXT_SELECTION_COLOR: Color = Color::rgba(0x0a, 0x24, 0x6a, 0xff);
 const TEXT_SELECTION_FORE_COLOR: Color = Color::rgba(0xff, 0xff, 0xff, 0xff);
+const TEXT_CARET_COLOR: Color = Color::rgba(0x00, 0x00, 0x00, 0xff);
+const THEME_COMMAND_FACE: Color = Color::rgba(0xdc, 0xdc, 0xdc, 0xff);
+const THEME_COMMAND_PRESSED: Color = Color::rgba(0xb8, 0xc7, 0xdd, 0xff);
+const THEME_TEXT: Color = Color::rgba(0x00, 0x00, 0x00, 0xff);
+const THEME_DISABLED_TEXT: Color = Color::rgba(0x80, 0x80, 0x80, 0xff);
 
 fn solid_color(paint: &Paint) -> Option<Color> {
     match paint {
@@ -494,9 +499,25 @@ fn draw_text_with_color(prims: &[Prim], color: Color) -> Option<(TextRunId, Rect
     })
 }
 
+fn draw_text_style(prims: &[Prim]) -> Option<(Color, bool)> {
+    prims.iter().find_map(|prim| match prim {
+        Prim::DrawText { paint, flags, .. } => {
+            solid_color(paint).map(|color| (color, flags.disabled))
+        }
+        _ => None,
+    })
+}
+
 fn draw_text_prim(prims: &[Prim]) -> Option<(TextRunId, RectF)> {
     prims.iter().find_map(|prim| match prim {
         Prim::DrawText { run, rect, .. } => Some((*run, *rect)),
+        _ => None,
+    })
+}
+
+fn draw_edge_effect(prims: &[Prim]) -> Option<EdgeEffect> {
+    prims.iter().find_map(|prim| match prim {
+        Prim::DrawEdge { effect, .. } => Some(*effect),
         _ => None,
     })
 }
@@ -525,6 +546,20 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
 
     let rev0 = revision(&surface);
     let hash_idle = framebuffer_hash(&surface);
+    {
+        let snapshot = surface.snapshot().expect("surface snapshot");
+        let scene = snapshot.scene.expect("scene snapshot");
+        let button = scene.get(NodeId(1)).expect("button scene node");
+        assert!(
+            fill_rect_with_color(&button.prims, THEME_COMMAND_FACE).is_some(),
+            "ThemePainter should resolve the idle CommandButton face"
+        );
+        assert_eq!(
+            draw_edge_effect(&button.prims),
+            Some(EdgeEffect::Raised),
+            "ThemePainter should map the CommandButton raised edge"
+        );
+    }
 
     // Press inside the button: focus arrives (Enter) before MouseDown, then pressed armed, repaint.
     let down = dispatch(&mut session, &form, "mousedown", INSIDE.0, INSIDE.1);
@@ -544,6 +579,20 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
         hash_pressed, hash_idle,
         "the pressed face renders different pixels"
     );
+    {
+        let snapshot = surface.snapshot().expect("surface snapshot");
+        let scene = snapshot.scene.expect("scene snapshot");
+        let button = scene.get(NodeId(1)).expect("button scene node");
+        assert!(
+            fill_rect_with_color(&button.prims, THEME_COMMAND_PRESSED).is_some(),
+            "ThemePainter should resolve the pressed CommandButton face"
+        );
+        assert_eq!(
+            draw_edge_effect(&button.prims),
+            Some(EdgeEffect::Raised),
+            "pressing changes the face token, not the edge contract"
+        );
+    }
 
     // Release inside: MouseUp then Click then release, repaint.
     let up = dispatch(&mut session, &form, "mouseup", INSIDE.0, INSIDE.1);
@@ -902,6 +951,15 @@ fn textbox_scene_emits_caret_and_selection_fill_primitives() {
         fill_rect_count(&surface, NodeId(1)) >= 2,
         "focused TextBox emits a caret FillRect in addition to the field face"
     );
+    {
+        let snapshot = surface.snapshot().expect("surface snapshot");
+        let scene = snapshot.scene.expect("scene snapshot");
+        let text_box = scene.get(NodeId(1)).expect("T1 scene node");
+        assert!(
+            fill_rect_with_color(&text_box.prims, TEXT_CARET_COLOR).is_some(),
+            "ThemePainter should resolve the TextBox caret color"
+        );
+    }
 
     set_t1_text(&mut session, &form, "abcd");
     set_t1_selection(&mut session, &form, 1, 2);
@@ -1379,6 +1437,37 @@ fn interaction_index_caches_tab_default_cancel_and_accelerator_maps() {
         2,
         "the next interaction-index read rebuilds after the revision changes"
     );
+}
+
+#[test]
+fn theme_painter_maps_disabled_text_and_edges_for_standard_controls() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let ok = scene.get(NodeId(2)).expect("Ok button scene node");
+    assert_eq!(
+        draw_edge_effect(&ok.prims),
+        Some(EdgeEffect::Raised),
+        "standard controls should emit their themed edge effect"
+    );
+    let (color, disabled) = draw_text_style(&ok.prims).expect("Ok DrawText style");
+    assert_eq!(color, THEME_TEXT);
+    assert!(!disabled, "enabled text should not carry the disabled flag");
+
+    invoke_sub(&mut session, &form, "DisableDefaultButton");
+    invoke_sub(&mut session, &form, "Render");
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let ok = scene.get(NodeId(2)).expect("Ok button scene node");
+    let (color, disabled) = draw_text_style(&ok.prims).expect("disabled Ok DrawText style");
+    assert_eq!(
+        color, THEME_DISABLED_TEXT,
+        "ThemePainter should resolve disabled standard text"
+    );
+    assert!(disabled, "disabled text should carry the Scene text flag");
 }
 
 #[test]

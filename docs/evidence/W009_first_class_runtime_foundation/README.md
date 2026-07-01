@@ -13,6 +13,7 @@ Canonical event-turn contract: `oxforms-zhz.14`
 HostServices spine: `oxforms-zhz.15`
 Renderer primitive determinism: `oxforms-zhz.17`
 TextService seam: `oxforms-zhz.16`
+ThemePainter seam: `oxforms-zhz.18`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -165,6 +166,18 @@ contract:
 - deferred TextService v2 hazards are filed as `oxforms-zhz.34`: IME/dead keys, multiline,
   undo/redo, and grapheme-cluster-aware editing.
 
+`oxforms-zhz.18` adds the representative internal `ThemeTokens`/`ThemePainter` seam:
+
+- `OxTheme` now resolves common MSForms appearance bands (`BackColor`, `ForeColor`,
+  `BorderColor`, `SpecialEffect`, `Enabled`, and pressed state) through named
+  ThemePainter helpers instead of per-control shortcuts;
+- standard controls paint their face, border/edge, and text through `OxThemePaintControlFrame`
+  and `OxThemePaintTextRun`;
+- TextBox and CheckBox keep their bespoke parts but consume the same token resolvers for
+  frames, text, selection background/foreground, caret, checkbox face, and check mark;
+- adapter tests inspect the resident Scene to prove selected text/background, disabled text,
+  pressed face, caret color, and edge effects are emitted deterministically.
+
 Focused acceptance:
 
 ```powershell
@@ -198,6 +211,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Host-service effect trace | Passing first slice | `headless_runner_showcase::runner_records_service_effect_and_same_turn_readback_repaint` proves paste records `clipboard.set_text:<len>`, mutates VBA TextBox state, and advances the Scene revision in the same event turn |
 | HostServices spine | Passing representative spine | `host_services::tests::*`; `headless_runner_showcase::runner_host_services_probe_covers_representative_spine`; `runner_virtual_timer_and_clipboard_pass_through_oxruntime`; `runner_traces_cursor_dpi_image_and_drag_drop_services` |
 | RendererBackend/Scene determinism | Passing representative spine | `scene::tests::headless_reference_rasterizes_every_primitive_variant`; `raster::tests::draw_image_placeholder_is_visible_until_decode_lands`; `oxvba_surface_render_smoke::vba_scene_builder_records_full_primitive_vocabulary`; existing `geometry_showcase_has_a_stable_golden_hash`, `text_draws_glyph_coverage_when_a_font_is_available`, and `incremental_damage_repaint_is_pixel_identical_to_full_repaint` |
+| ThemePainter tokens | Passing representative seam | `vba/oxforms/OxTheme.bas`; `oxvba_reducer_cmdbutton::command_button_mouse_click_runs_the_vba_reducer`; `theme_painter_maps_disabled_text_and_edges_for_standard_controls`; `textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
 | CheckBox keyboard toggle | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` |
@@ -222,6 +236,9 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   caret stops through `OxTextService`; selected foreground recolor and clipped/scrolled normal
   text are represented in Scene. Pixel-level MSForms parity is still not claimed without a live
   oracle capture.
+- Theme tokens are internal implementation vocabulary only. MSForms properties and runtime state
+  remain authoritative, and `.18` does not claim alternate skin/theme product behavior or
+  pixel-perfect MSForms rendering.
 - TextBox is still a visible single-line slice. `oxforms-zhz.9` continues to own
   `SelStart`/`SelLength`/`SelText` setter oracle details and burst/post oracle behavior.
   IME/dead keys, multiline, undo/redo, and grapheme-cluster editing are tracked as

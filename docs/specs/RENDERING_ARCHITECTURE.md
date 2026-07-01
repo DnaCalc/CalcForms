@@ -206,20 +206,24 @@ Surface.CloseNode
 ```
 
 Theming (relocated from `probe.rs`'s `probe_face_color`/`ProbeDisplayRole`/
-`build_probe_display_list`): an **`OxTheme`** data table maps
-(logical role × SpecialEffect × BorderStyle × state {normal,pressed,disabled,focused})
-→ resolved Paint/Stroke/EdgeEffect/light+shadow colors. "Classic MSForms" is the
-default table; alternate themes are just different data, touching no kernel and no
-control code. `OLE_COLOR` with the `0x80000000` high bit resolves through a PAL
-service `Surface.ResolveSysColor(oleColor) -> RGBA`: VBA decides *which* system
-color; the platform resolves the *value*.
+`build_probe_display_list`): an **`OxTheme`** ThemePainter seam maps
+(logical role × SpecialEffect × BorderStyle × MSForms color bands × state
+{normal,pressed,disabled,focused,selected})
+→ resolved Paint/Stroke/EdgeEffect/light+shadow colors and common Scene primitives.
+As of `oxforms-zhz.18`, `OxTheme.bas` owns representative v1 helpers for frames,
+text, selection, and caret color; the tokens are internal vocabulary, while
+MSForms properties remain authoritative. "Classic MSForms" is the default table;
+alternate themes are just different data, touching no kernel and no control code.
+`OLE_COLOR` with the `0x80000000` high bit resolves through a PAL service
+`Surface.ResolveSysColor(oleColor) -> RGBA`: VBA decides *which* system color;
+the platform resolves the *value*.
 
 ### The "add a control" recipe
 
 1. New `Foo.cls` (the Forms 2.0 control name, no `Ox` prefix) `Implements IOxControl`,
    holding an `OxControlCore` for geometry/flags/appearance/NodeId.
 2. Set its default `fmSpecialEffect`/`fmBorderStyle` in `Class_Initialize`.
-3. Implement `Render`: open node → ask `OxTheme` for the role's resolved
+3. Implement `Render`: open node → ask `OxTheme`/ThemePainter for the role's resolved
    primitives → emit them → close node. Give any high-frequency / independently
    damaged element (caret, focus rect, checkbox glyph) its **own sub-part NodeId**
    so a caret blink re-emits one tiny node.

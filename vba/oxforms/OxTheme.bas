@@ -94,3 +94,72 @@ Public Function OxThemeEdgeName(ByVal Effect As fmSpecialEffect) As String
             OxThemeEdgeName = ""
     End Select
 End Function
+
+' --- ThemePainter seam -------------------------------------------------------
+'
+' These helpers are the representative ThemeTokens/ThemePainter v1 surface. They
+' resolve MSForms property bands + runtime state into concrete classic tokens and
+' emit common Scene primitives. Tokens are internal implementation vocabulary; the
+' controls still own MSForms properties, state, and event behavior.
+
+Public Function OxThemeResolveFace(ByVal Core As OxControlCore) As Long
+    If Core.BackColor = oxColorAuto Then
+        OxThemeResolveFace = OxThemeFaceColor(Core.Kind, Core.Pressed, Core.Enabled)
+    Else
+        OxThemeResolveFace = Core.BackColor
+    End If
+End Function
+
+Public Function OxThemeResolveText(ByVal Core As OxControlCore) As Long
+    If Core.ForeColor = oxColorAuto Then
+        OxThemeResolveText = OxThemeTextColor(Core.Kind, Core.Enabled)
+    Else
+        OxThemeResolveText = Core.ForeColor
+    End If
+End Function
+
+Public Function OxThemeResolveBorder(ByVal Core As OxControlCore) As Long
+    If Core.BorderColor = oxColorAuto Then
+        OxThemeResolveBorder = OxThemeBorderColor()
+    Else
+        OxThemeResolveBorder = Core.BorderColor
+    End If
+End Function
+
+Public Function OxThemeSelectionBackColor() As Long
+    OxThemeSelectionBackColor = &H0A246A
+End Function
+
+Public Function OxThemeSelectionTextColor() As Long
+    OxThemeSelectionTextColor = &HFFFFFF
+End Function
+
+Public Function OxThemeCaretColor() As Long
+    OxThemeCaretColor = &H0
+End Function
+
+Public Sub OxThemePaintControlFrame( _
+        ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder)
+    Surface.FillRect Core.Left, Core.Top, Core.Width, Core.Height, _
+        OxThemeResolveFace(Core), 255
+
+    Dim EdgeName As String
+    EdgeName = OxThemeEdgeName(Core.SpecialEffect)
+    If Len(EdgeName) > 0 Then
+        Surface.DrawEdge Core.Left, Core.Top, Core.Width, Core.Height, _
+            EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
+    ElseIf Core.BorderStyle = fmBorderStyleSingle Then
+        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+            OxThemeResolveBorder(Core), 255, 1
+    End If
+End Sub
+
+Public Sub OxThemePaintTextRun( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
+        ByVal RunId As String, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, _
+        ByVal UnderlineAccelerator As Boolean)
+    Surface.DrawText X, Y, W, H, RunId, Align, Wrap, Clip, _
+        OxThemeResolveText(Core), 255, UnderlineAccelerator, Not Core.Enabled
+End Sub

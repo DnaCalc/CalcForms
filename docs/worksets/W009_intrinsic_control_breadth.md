@@ -103,7 +103,7 @@ these detailed beads where applicable.
 | `oxforms-zhz.15` | Build `HostServices` for clipboard/DataObject, cursor, timers, metrics/colors, DPI, image decode, drag/drop, and traces. | Depends on `.14`; landed representative headless + Windows service spine behind `OxRuntime`. |
 | `oxforms-zhz.16` | Extract `TextService` for shaping, caret stops, hit testing, selection geometry, clipping, and horizontal scroll. | Depends on `.15` and `.17`; landed v1 single-line `OxTextService` plus clipped TextBox text viewport. |
 | `oxforms-zhz.17` | Close `RendererBackend`/Scene determinism: primitive emitters, headless raster coverage, no silent primitive drops. | Depends on `.14`. |
-| `oxforms-zhz.18` | Add representative `ThemeTokens`/`ThemePainter` for MSForms properties and control states. | Depends on `.17`. |
+| `oxforms-zhz.18` | Add representative `ThemeTokens`/`ThemePainter` for MSForms properties and control states. | Depends on `.17`; landed v1 in `OxTheme.bas` with Scene assertions for selected text/background, disabled text, pressed face, caret color, and edge effects. |
 | `oxforms-zhz.19` | Rebuild `InteractionManager` for focus, tab, capture, hover/cursor, validation, mutation, wheel/double-click, and invalidation. | Depends on `.14`. |
 | `oxforms-zhz.20` | Unify capability descriptors and object-model property side effects. | Depends on `.14`. |
 | `oxforms-zhz.21` | Add representative `AccessibilityService` snapshots/traces. | Depends on `.19` and `.20`. |

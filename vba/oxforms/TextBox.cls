@@ -58,9 +58,6 @@ Private Const OX_KEY_A As Integer = 65
 Private Const OX_BUTTON_LEFT As Integer = 1
 Private Const OX_TEXT_INSET_X As Single = 4
 Private Const OX_TEXT_INSET_Y As Single = 3
-Private Const OX_TEXT_SELECTION As Long = &H0A246A
-Private Const OX_TEXT_SELECTION_FORE As Long = &HFFFFFF
-Private Const OX_TEXT_CARET As Long = &H0
 
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
@@ -95,18 +92,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     Surface.AddChild TextNodeId()
     Surface.AddChild SelectionOverlayNodeId()
 
-    Surface.FillRect mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
-        ResolveTextBoxFace(), 255
-
-    Dim EdgeName As String
-    EdgeName = OxThemeEdgeName(mCore.SpecialEffect)
-    If Len(EdgeName) > 0 Then
-        Surface.DrawEdge mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
-            EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
-    ElseIf mCore.BorderStyle = fmBorderStyleSingle Then
-        Surface.StrokeRect mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
-            ResolveTextBoxBorder(), 255, 1
-    End If
+    OxThemePaintControlFrame mCore, Surface
 
     Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
     Tx = mCore.Left + OX_TEXT_INSET_X
@@ -130,7 +116,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         Sw = RawEx - Sx
         If Sw > 0 Then
             If Sw < 1 Then Sw = 1
-            Surface.FillRect Sx, Ty, Sw, Th, OX_TEXT_SELECTION, 255
+            Surface.FillRect Sx, Ty, Sw, Th, OxThemeSelectionBackColor(), 255
         End If
     End If
 
@@ -138,7 +124,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         Dim Cx As Single
         Cx = Tx + CaretX(mCaret) - mScrollX
         If Cx >= Tx And Cx <= Tx + Tw Then
-            Surface.FillRect Cx, Ty + 1, 1, Th - 2, OX_TEXT_CARET, 255
+            Surface.FillRect Cx, Ty + 1, 1, Th - 2, OxThemeCaretColor(), 255
         End If
     End If
 
@@ -155,8 +141,8 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         Dim RunId As String
         RunId = mCore.RunId
         If Len(RunId) = 0 Then RunId = "0"
-        Surface.DrawText Tx - mScrollX, Ty, TextW, Th, RunId, "left", False, False, _
-            ResolveTextBoxText(), 255, False, Not mCore.Enabled
+        OxThemePaintTextRun mCore, Surface, _
+            Tx - mScrollX, Ty, TextW, Th, RunId, "left", False, False, False
     End If
     Surface.CloseNode
 
@@ -168,7 +154,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         OverlayRunId = mCore.RunId
         If Len(OverlayRunId) = 0 Then OverlayRunId = "0"
         Surface.DrawText Tx - mScrollX, Ty, TextW, Th, OverlayRunId, "left", False, False, _
-            OX_TEXT_SELECTION_FORE, 255, False, Not mCore.Enabled
+            OxThemeSelectionTextColor(), 255, False, Not mCore.Enabled
     End If
     Surface.CloseNode
 End Sub
@@ -443,30 +429,6 @@ Private Sub EnsureCaretVisible(Optional ByVal MarkDirty As Boolean = True)
     If Abs(NewScroll - mScrollX) > 0.01 Then
         mScrollX = NewScroll
         If MarkDirty Then mCore.MarkDirty
-    End If
-End Function
-
-Private Function ResolveTextBoxFace() As Long
-    If mCore.BackColor = oxColorAuto Then
-        ResolveTextBoxFace = OxThemeFaceColor(mCore.Kind, mCore.Pressed, mCore.Enabled)
-    Else
-        ResolveTextBoxFace = mCore.BackColor
-    End If
-End Function
-
-Private Function ResolveTextBoxText() As Long
-    If mCore.ForeColor = oxColorAuto Then
-        ResolveTextBoxText = OxThemeTextColor(mCore.Kind, mCore.Enabled)
-    Else
-        ResolveTextBoxText = mCore.ForeColor
-    End If
-End Function
-
-Private Function ResolveTextBoxBorder() As Long
-    If mCore.BorderColor = oxColorAuto Then
-        ResolveTextBoxBorder = OxThemeBorderColor()
-    Else
-        ResolveTextBoxBorder = mCore.BorderColor
     End If
 End Function
 

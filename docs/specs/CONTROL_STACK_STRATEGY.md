@@ -3,8 +3,8 @@
 Status: `draft_implementation_authority`
 Date: 2026-07-01
 Workset: `W009_intrinsic_control_breadth`
-Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14`, `oxforms-zhz.15`, and
-`oxforms-zhz.17`
+Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14`, `oxforms-zhz.15`,
+`oxforms-zhz.17`, and `oxforms-zhz.18`
 
 This note records the W009 control-stack reassessment after the first
 TextBox/CheckBox hazard-gym work and the sibling DNA UI stack review. It does
@@ -162,7 +162,7 @@ These are OxForms-owned seams. They are not new alternate object models.
 | Seam | Owner | Contract |
 |---|---|---|
 | `TextService` | PAL/host service behind OxRuntime, consumed by VBA `OxTextService` v1 | Shape text, return caret stops, map hit-test x to character offset, support selection geometry and horizontal single-line scroll/clipped draw, and leave room for IME/dead keys, multiline, undo/redo, and grapheme-aware editing. VBA TextBox owns value, selection state, MSForms properties, and event order. |
-| `ThemeTokens` / `ThemePainter` | OxForms runtime policy plus PAL drawing primitives | Map MSForms properties (`BackColor`, `ForeColor`, `SpecialEffect`, `BorderStyle`, `Enabled`, focus state, selection state) onto DNA-style tokens and Scene primitives. Tokens are an implementation aid; MSForms properties stay authoritative. |
+| `ThemeTokens` / `ThemePainter` | VBA `OxTheme` plus Scene primitive emission | Map MSForms properties (`BackColor`, `ForeColor`, `BorderColor`, `SpecialEffect`, `BorderStyle`, `Enabled`, pressed state, and TextBox selection/caret state) onto internal classic tokens and Scene primitives. `oxforms-zhz.18` implements the representative v1 helpers in `OxTheme.bas`; tokens are an implementation aid only, and MSForms properties stay authoritative. |
 | `AccessibilityService` | Runtime exposes roles/states; PAL/backend provides provider integration | Publish control roles, names, values, focus, disabled/hidden state, selection state, table/list patterns, and focus events. It follows `RUNTIME_ACCESSIBILITY_MODEL.md` and can borrow DnaTreeCalc helper patterns. |
 | `RendererBackend` | `oxforms-pal` | Keep Scene as the canonical primitive contract. The Windows backend and headless renderer consume Scene snapshots, including the representative `.17` primitive vocabulary. Any future DOM/WebView renderer consumes the same semantic output and must not bypass OxRuntime or the VBA reducer. |
 | `HostServices` | PAL adapters and headless runner stubs | `HostServices` owns clipboard/DataObject, cursor requests, timers, caret blink, auto-repeat, system colors/metrics, DPI, image-decode handle traces, drag/drop traces, and virtual-clock service behavior behind `OxRuntime`. |

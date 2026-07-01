@@ -110,6 +110,10 @@ Public Sub DisableDefaultButton()
     mOk.Enabled = False
 End Sub
 
+Public Sub Render()
+    mForm.Render 96, 96
+End Sub
+
 ' --- Event sinks ---
 Private Sub mField_Enter()
     Append "Field.Enter"
