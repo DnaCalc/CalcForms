@@ -71,6 +71,11 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/ReturnBoolean.cls",
         ),
         module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
+        module_unit(
+            "OxTextService",
+            ModuleKind::Class,
+            "vba/oxforms/OxTextService.cls",
+        ),
         module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
         module_unit(
             "CommandButton",
@@ -221,8 +226,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 15,
-        "root node plus 13 current showcase controls plus the TextBox selection overlay should be resident"
+        snap.node_count, 16,
+        "root node plus 13 current showcase controls plus the TextBox text and selection overlay nodes should be resident"
     );
 }
 

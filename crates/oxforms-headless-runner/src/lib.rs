@@ -543,6 +543,7 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
         ("ReturnInteger", Class, "vba/oxforms/ReturnInteger.cls"),
         ("ReturnBoolean", Class, "vba/oxforms/ReturnBoolean.cls"),
         ("Label", Class, "vba/oxforms/Label.cls"),
+        ("OxTextService", Class, "vba/oxforms/OxTextService.cls"),
         ("TextBox", Class, "vba/oxforms/TextBox.cls"),
         ("CommandButton", Class, "vba/oxforms/CommandButton.cls"),
         ("CheckBox", Class, "vba/oxforms/CheckBox.cls"),

@@ -252,8 +252,9 @@ The crossings (flat Variants, serde-shaped payload):
   needs (oxforms-98v): typed `SAFEARRAY`s of `OxMeasureRequest`/`OxMeasureResult` records, so
   captions cross as native `String` fields (no packing/escaping) and metrics return as typed
   `Long`s (no VBA-side parsing). As of `oxforms-zhz.11`, results also carry the shaped run's
-  caret stops as a milli-point CSV field so VBA TextBox caret placement, selection geometry, and
-  hit-testing use the same shaped text run that the Scene paints. The single-run
+  caret stops as a milli-point CSV field; as of `oxforms-zhz.16`, VBA `OxTextService`
+  consumes those results for TextBox caret placement, selection geometry, x-to-index
+  hit-testing, and horizontal scroll/clipped single-line draw. The single-run
   `MeasureText(fontId, sizeMilliPt, caption)` remains for one-off measures. Cached both sides,
   so steady-state frames need zero new-text crossings.
 - `SubmitPatch(payload) -> RenderDiagnostics` — **the** per-frame crossing (folds
@@ -328,9 +329,11 @@ over the projection boundary would be the worst crossing-storm).
   load-bearing rather than merely plumbed (proven by the AutoSize-hug demo, oxforms-4pn.14).
 - Paint: `Prim::DrawText` references `TextRunId` — a color/position change
   re-emits the same run id → zero re-measure, zero re-marshal.
-- Caret/selection: TextBox consumes the shaped run's caret-stop table returned by
-  `MeasureBatch`; the PAL-side source of truth remains `caret_x(run, index)` /
-  `index_at_x(run, x)` cached on the run.
+- Caret/selection/scroll: `OxTextService` consumes the shaped run's caret-stop table
+  returned by `MeasureBatch`; the PAL-side source of truth remains `caret_x(run, index)` /
+  `index_at_x(run, x)` cached on the run. TextBox uses the same service for caret
+  placement, drag/mouse hit-testing, selection rectangles, max-scroll calculation, and
+  clipped horizontal single-line draw through a text child Scene node.
 - **Determinism strategy (the crux):** enforce determinism at the **metrics**
   layer (layout goldens = measured metrics + scene rects, exact across all
   backends) and confine tolerance to the **raster** layer (pinned, hinting-free,

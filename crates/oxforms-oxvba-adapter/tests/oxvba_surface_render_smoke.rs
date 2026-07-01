@@ -95,6 +95,11 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 "vba/oxforms/ReturnBoolean.cls",
             ),
             module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
+            module_unit(
+                "OxTextService",
+                ModuleKind::Class,
+                "vba/oxforms/OxTextService.cls",
+            ),
             module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
             module_unit(
                 "CommandButton",
@@ -175,6 +180,7 @@ fn expected_demo_framebuffer_hash() -> u64 {
     let mut input = SceneNode::new(NodeId(1));
     input.parent = Some(NodeId(0));
     input.bounds = RectF::new(12.0, 12.0, 120.0, 18.0);
+    input.children = vec![NodeId(1900), NodeId(1901)];
     input.prims = vec![
         Prim::FillRect {
             rect: RectF::new(12.0, 12.0, 120.0, 18.0),
@@ -187,16 +193,28 @@ fn expected_demo_framebuffer_hash() -> u64 {
             light: white,
             shadow,
         },
-        Prim::DrawText {
-            run: text_run_id(&text_key(8), "Hi"),
-            rect: RectF::new(16.0, 15.0, 112.0, 12.0),
-            align: TextAlign::Left,
-            wrap: false,
-            clip: true,
-            paint: Paint::Solid(Color::rgba(0x00, 0x00, 0x00, 0xff)),
-            flags: TextFlags::default(),
-        },
     ];
+
+    let mut input_text = SceneNode::new(NodeId(1900));
+    input_text.parent = Some(NodeId(1));
+    input_text.bounds = RectF::new(12.0, 12.0, 120.0, 18.0);
+    input_text.clip = Some(RectF::new(16.0, 15.0, 112.0, 12.0));
+    input_text.prims = vec![Prim::DrawText {
+        run: text_run_id(&text_key(8), "Hi"),
+        rect: RectF::new(16.0, 15.0, 112.0, 12.0),
+        align: TextAlign::Left,
+        wrap: false,
+        clip: false,
+        paint: Paint::Solid(Color::rgba(0x00, 0x00, 0x00, 0xff)),
+        flags: TextFlags::default(),
+    }];
+
+    let mut input_selection = SceneNode::new(NodeId(1901));
+    input_selection.parent = Some(NodeId(1));
+    input_selection.z = 1;
+    input_selection.bounds = RectF::new(12.0, 12.0, 120.0, 18.0);
+    input_selection.visible = false;
+    input_selection.clip = Some(RectF::new(16.0, 15.0, 0.0, 12.0));
 
     let mut button = SceneNode::new(NodeId(2));
     button.parent = Some(NodeId(0));
@@ -248,7 +266,7 @@ fn expected_demo_framebuffer_hash() -> u64 {
         DpiScale::new(96.0, 96.0),
         NodeId(0),
     );
-    scene.nodes = vec![root, input, button, label];
+    scene.nodes = vec![root, input, button, label, input_text, input_selection];
     for caption in ["Hi", "OK", "Ready"] {
         scene.upsert_text_run(StubShaper.shape(&text_key(8), caption));
     }
@@ -285,7 +303,7 @@ fn get_string(
 #[test]
 fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     let projection = Arc::new(PortableComProjection::new());
-    // The VBA render measures text via Surface.MeasureText, so a shaper must be present;
+    // The VBA render measures text via Surface.MeasureBatch, so a shaper must be present;
     // StubShaper is deterministic + font-free, and the headless text placeholder is
     // likewise host-font-free.
     let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
@@ -323,8 +341,8 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         "the patch base must match BeginScene"
     );
     assert_eq!(
-        snap.node_count, 5,
-        "the form root plus three controls plus the TextBox overlay become five retained nodes"
+        snap.node_count, 6,
+        "the form root plus three controls plus the TextBox text and overlay nodes become six retained nodes"
     );
     assert_eq!(
         result_token.parse::<u64>().ok(),
@@ -361,11 +379,11 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     );
 
     // The patch the VBA encoder produced is well-formed: one full-node upsert per retained
-    // node, including the TextBox selection overlay child.
+    // node, including the TextBox text and selection overlay children.
     let patch_json = snap.last_patch_json.expect("captured patch JSON");
     let patch: ScenePatch =
         serde_json::from_str(&patch_json).expect("VBA-encoded patch is valid ScenePatch JSON");
-    assert_eq!(patch.edits.len(), 5, "one upsert per node");
+    assert_eq!(patch.edits.len(), 6, "one upsert per node");
     let mut ids: Vec<u64> = patch
         .edits
         .iter()
@@ -377,8 +395,8 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
     ids.sort_unstable();
     assert_eq!(
         ids,
-        vec![0, 1, 2, 3, 1901],
-        "form root, three controls, and the TextBox overlay node"
+        vec![0, 1, 2, 3, 1900, 1901],
+        "form root, three controls, and the TextBox text/overlay nodes"
     );
 }
 

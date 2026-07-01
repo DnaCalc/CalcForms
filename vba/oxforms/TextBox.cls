@@ -43,6 +43,8 @@ Private mAnchor As Long
 Private mCaret As Long
 Private mHideSelection As Boolean
 Private mFocused As Boolean
+Private mTextService As OxTextService
+Private mScrollX As Single
 
 Private Const OX_SHIFT_MASK As Integer = 1
 Private Const OX_CTRL_MASK As Integer = 2
@@ -63,10 +65,12 @@ Private Const OX_TEXT_CARET As Long = &H0
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlTextBox
+    Set mTextService = New OxTextService
     mAnchor = 0
     mCaret = 0
     mHideSelection = True
     mFocused = False
+    mScrollX = 0
 End Sub
 
 ' --- IOxControl ---
@@ -80,12 +84,15 @@ Public Property Get Core() As OxControlCore
     Set Core = mCore
 End Property
 
-' Sunken white field + left-aligned text plus first-class editing adorners. Caret and
-' selection geometry is driven by the shaped text-run caret stops returned from the
-' Surface text service; the measured-average path below is only an unmeasured-run fallback.
+' Sunken white field + left-aligned text plus first-class editing adorners. Caret,
+' selection, hit-test, and horizontal-scroll geometry are driven through OxTextService
+' from the shaped text-run caret stops returned by the Surface text service.
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
+    EnsureCaretVisible False
+
     Surface.OpenNode mCore.NodeId, True, 0, mCore.ZOrder, _
         mCore.Left, mCore.Top, mCore.Width, mCore.Height, mCore.Visible
+    Surface.AddChild TextNodeId()
     Surface.AddChild SelectionOverlayNodeId()
 
     Surface.FillRect mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
@@ -110,41 +117,57 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     If Th < 1 Then Th = 1
 
     Dim SelectionVisible As Boolean
-    Dim Sx As Single, Sw As Single
+    Dim Sx As Single, Sw As Single, RawSx As Single, RawEx As Single
     Sx = Tx
     Sw = 0
     SelectionVisible = (SelectionLength() > 0 And (mFocused Or Not mHideSelection))
     If SelectionVisible Then
-        Sx = Tx + CaretX(SelectionStart())
-        Sw = CaretX(SelectionStart() + SelectionLength()) - CaretX(SelectionStart())
-        If Sw < 1 Then Sw = 1
-        Surface.FillRect Sx, Ty, Sw, Th, OX_TEXT_SELECTION, 255
-    End If
-
-    If Len(mCore.DisplayText) > 0 Then
-        Dim RunId As String
-        RunId = mCore.RunId
-        If Len(RunId) = 0 Then RunId = "0"
-        Surface.DrawText Tx, Ty, Tw, Th, RunId, "left", False, True, _
-            ResolveTextBoxText(), 255, False, Not mCore.Enabled
+        RawSx = Tx + SelectionX() - mScrollX
+        RawEx = RawSx + SelectionWidth()
+        Sx = RawSx
+        If Sx < Tx Then Sx = Tx
+        If RawEx > Tx + Tw Then RawEx = Tx + Tw
+        Sw = RawEx - Sx
+        If Sw > 0 Then
+            If Sw < 1 Then Sw = 1
+            Surface.FillRect Sx, Ty, Sw, Th, OX_TEXT_SELECTION, 255
+        End If
     End If
 
     If mFocused And mCore.Enabled And SelectionLength() = 0 Then
         Dim Cx As Single
-        Cx = Tx + CaretX(mCaret)
-        Surface.FillRect Cx, Ty + 1, 1, Th - 2, OX_TEXT_CARET, 255
+        Cx = Tx + CaretX(mCaret) - mScrollX
+        If Cx >= Tx And Cx <= Tx + Tw Then
+            Surface.FillRect Cx, Ty + 1, 1, Th - 2, OX_TEXT_CARET, 255
+        End If
     End If
 
     Surface.CloseNode
 
+    Dim TextW As Single
+    TextW = mTextService.TextWidth(mCore, TextLength())
+    If TextW < Tw Then TextW = Tw
+
+    Surface.OpenNodeClipped TextNodeId(), True, mCore.NodeId, 0, _
+        mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
+        Len(mCore.DisplayText) > 0, Tx, Ty, Tw, Th
+    If Len(mCore.DisplayText) > 0 Then
+        Dim RunId As String
+        RunId = mCore.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        Surface.DrawText Tx - mScrollX, Ty, TextW, Th, RunId, "left", False, False, _
+            ResolveTextBoxText(), 255, False, Not mCore.Enabled
+    End If
+    Surface.CloseNode
+
     Surface.OpenNodeClipped SelectionOverlayNodeId(), True, mCore.NodeId, 1, _
-        mCore.Left, mCore.Top, mCore.Width, mCore.Height, SelectionVisible, _
+        mCore.Left, mCore.Top, mCore.Width, mCore.Height, SelectionVisible And Sw > 0, _
         Sx, Ty, Sw, Th
-    If SelectionVisible And Len(mCore.DisplayText) > 0 Then
+    If SelectionVisible And Sw > 0 And Len(mCore.DisplayText) > 0 Then
         Dim OverlayRunId As String
         OverlayRunId = mCore.RunId
         If Len(OverlayRunId) = 0 Then OverlayRunId = "0"
-        Surface.DrawText Tx, Ty, Tw, Th, OverlayRunId, "left", False, True, _
+        Surface.DrawText Tx - mScrollX, Ty, TextW, Th, OverlayRunId, "left", False, False, _
             OX_TEXT_SELECTION_FORE, 255, False, Not mCore.Enabled
     End If
     Surface.CloseNode
@@ -159,6 +182,7 @@ End Property
 Public Property Let Text(ByVal Value As String)
     mCore.DisplayText = Value
     ClampSelectionToText
+    EnsureCaretVisible
 End Property
 
 Public Property Get SelStart() As Long
@@ -305,6 +329,7 @@ Private Sub SetSelection(ByVal Start As Long, ByVal Length As Long)
         mAnchor = NewStart
         mCaret = NewStart + NewLength
         mCore.MarkDirty
+        EnsureCaretVisible
     End If
 End Sub
 
@@ -315,6 +340,7 @@ Private Sub CollapseSelection(ByVal Index As Long)
         mAnchor = NewIndex
         mCaret = NewIndex
         mCore.MarkDirty
+        EnsureCaretVisible
     End If
 End Sub
 
@@ -370,6 +396,7 @@ Private Sub MoveCaretTo(ByVal Index As Long, ByVal ExtendSelection As Boolean)
         If mCaret <> NewIndex Then
             mCaret = NewIndex
             mCore.MarkDirty
+            EnsureCaretVisible
         End If
     Else
         CollapseSelection NewIndex
@@ -380,21 +407,17 @@ Private Sub SelectAll()
     SetSelection 0, TextLength()
 End Sub
 
-Private Function ApproxCharWidth() As Single
-    If TextLength() > 0 And mCore.MeasuredWidth > 0 Then
-        ApproxCharWidth = mCore.MeasuredWidth / TextLength()
-    Else
-        ApproxCharWidth = mCore.FontSize * 0.5
-    End If
-    If ApproxCharWidth < 1 Then ApproxCharWidth = 1
-End Function
-
-Private Function ApproxTextX(ByVal Index As Long) As Single
-    ApproxTextX = ClampIndex(Index) * ApproxCharWidth()
-End Function
-
 Private Function IndexFromPoint(ByVal X As Single) As Long
-    IndexFromPoint = CaretIndexFromX(X)
+    IndexFromPoint = mTextService.IndexFromX(mCore, X - OX_TEXT_INSET_X + mScrollX, TextLength())
+End Function
+
+Private Function TextViewportWidth() As Single
+    TextViewportWidth = mCore.Width - (OX_TEXT_INSET_X * 2)
+    If TextViewportWidth < 1 Then TextViewportWidth = 1
+End Function
+
+Private Function TextNodeId() As Long
+    TextNodeId = (mCore.NodeId * 1000) + 900
 End Function
 
 Private Function SelectionOverlayNodeId() As Long
@@ -402,83 +425,25 @@ Private Function SelectionOverlayNodeId() As Long
 End Function
 
 Private Function CaretX(ByVal Index As Long) As Single
-    Dim Found As Boolean
-    CaretX = CaretStopFromCsv(Index, Found)
-    If Not Found Then CaretX = ApproxTextX(Index)
+    CaretX = mTextService.CaretX(mCore, Index, TextLength())
 End Function
 
-Private Function CaretIndexFromX(ByVal X As Single) As Long
-    Dim LocalX As Single
-    LocalX = X - OX_TEXT_INSET_X
-    If LocalX <= 0 Then
-        CaretIndexFromX = 0
-        Exit Function
-    End If
-
-    If TextLength() = 0 Then
-        CaretIndexFromX = 0
-        Exit Function
-    End If
-
-    Dim Found As Boolean
-    Dim PrevStop As Single
-    PrevStop = CaretStopFromCsv(0, Found)
-    If Not Found Then
-        CaretIndexFromX = ClampIndex(CLng(Fix((LocalX / ApproxCharWidth()) + 0.5)))
-        Exit Function
-    End If
-
-    Dim I As Long, StopX As Single, MidPoint As Single
-    For I = 1 To TextLength()
-        StopX = CaretStopFromCsv(I, Found)
-        If Not Found Then Exit For
-        MidPoint = (PrevStop + StopX) / 2
-        If LocalX < MidPoint Then
-            CaretIndexFromX = I - 1
-            Exit Function
-        End If
-        PrevStop = StopX
-    Next I
-
-    If Found Then
-        CaretIndexFromX = TextLength()
-    Else
-        CaretIndexFromX = ClampIndex(CLng(Fix((LocalX / ApproxCharWidth()) + 0.5)))
-    End If
+Private Function SelectionX() As Single
+    SelectionX = mTextService.SelectionX(mCore, SelectionStart(), TextLength())
 End Function
 
-Private Function CaretStopFromCsv(ByVal Index As Long, ByRef Found As Boolean) As Single
-    Dim Target As Long
-    Target = ClampIndex(Index)
-    Found = False
+Private Function SelectionWidth() As Single
+    SelectionWidth = mTextService.SelectionWidth(mCore, SelectionStart(), SelectionLength(), TextLength())
+End Function
 
-    Dim Csv As String
-    Csv = mCore.CaretStopsMilliPtCsv
-    If Len(Csv) = 0 Then Exit Function
-
-    Dim Pos As Long, Current As Long, Token As String, Ch As String
-    Token = ""
-    For Pos = 1 To Len(Csv) + 1
-        If Pos <= Len(Csv) Then
-            Ch = Mid$(Csv, Pos, 1)
-        Else
-            Ch = ","
-        End If
-
-        If Ch = "," Then
-            If Current = Target Then
-                If Len(Token) > 0 Then
-                    CaretStopFromCsv = CSng(CLng(Token)) / 1000
-                    Found = True
-                End If
-                Exit Function
-            End If
-            Current = Current + 1
-            Token = ""
-        Else
-            Token = Token & Ch
-        End If
-    Next Pos
+Private Sub EnsureCaretVisible(Optional ByVal MarkDirty As Boolean = True)
+    Dim NewScroll As Single
+    NewScroll = mTextService.ScrollForCaret( _
+        mCore, mScrollX, TextViewportWidth(), mCaret, TextLength())
+    If Abs(NewScroll - mScrollX) > 0.01 Then
+        mScrollX = NewScroll
+        If MarkDirty Then mCore.MarkDirty
+    End If
 End Function
 
 Private Function ResolveTextBoxFace() As Long

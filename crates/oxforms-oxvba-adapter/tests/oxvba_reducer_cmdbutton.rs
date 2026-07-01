@@ -91,6 +91,11 @@ fn prepare_session_with_surface(
             "vba/oxforms/ReturnBoolean.cls",
         ),
         module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
+        module_unit(
+            "OxTextService",
+            ModuleKind::Class,
+            "vba/oxforms/OxTextService.cls",
+        ),
         module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
         module_unit(
             "CommandButton",
@@ -485,6 +490,13 @@ fn draw_text_with_color(prims: &[Prim], color: Color) -> Option<(TextRunId, Rect
         Prim::DrawText {
             run, rect, paint, ..
         } if solid_color(paint) == Some(color) => Some((*run, *rect)),
+        _ => None,
+    })
+}
+
+fn draw_text_prim(prims: &[Prim]) -> Option<(TextRunId, RectF)> {
+    prims.iter().find_map(|prim| match prim {
+        Prim::DrawText { run, rect, .. } => Some((*run, *rect)),
         _ => None,
     })
 }
@@ -921,22 +933,18 @@ fn textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text() {
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
     let parent = scene.get(NodeId(1)).expect("T1 scene node");
+    let text_id = NodeId(1900);
     let overlay_id = NodeId(1901);
     assert!(
-        parent.children.contains(&overlay_id),
-        "TextBox parent should paint the selected-text recolor overlay as a child"
+        parent.children.contains(&text_id) && parent.children.contains(&overlay_id),
+        "TextBox parent should paint the normal text and selected-text recolor overlay as children"
     );
 
     let selection_rect = fill_rect_with_color(&parent.prims, TEXT_SELECTION_COLOR)
         .expect("selection background fill");
-    let (run_id, text_rect) = parent
-        .prims
-        .iter()
-        .find_map(|prim| match prim {
-            Prim::DrawText { run, rect, .. } => Some((*run, *rect)),
-            _ => None,
-        })
-        .expect("parent DrawText prim");
+    let text_node = scene.get(text_id).expect("normal TextBox text node");
+    assert!(text_node.visible, "normal text node should be visible");
+    let (run_id, text_rect) = draw_text_prim(&text_node.prims).expect("normal DrawText prim");
     let run = scene.text_run(run_id).expect("projected shaped text run");
     assert_eq!(&*run.source, "iiiiWW");
 
@@ -976,6 +984,50 @@ fn textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text() {
         overlay_rect,
         text_rect,
         "overlay text rect must match the normal text rect exactly",
+    );
+}
+
+#[test]
+fn textbox_textservice_scrolls_and_clips_long_text_to_caret() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "abcdefghijklmnopqrstuvwxyz");
+    invoke_sub(&mut session, &form, "Render");
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let text_node = scene.get(NodeId(1900)).expect("normal TextBox text node");
+    let clip = text_node.clip.expect("TextBox text viewport clip");
+    assert_rect_close(
+        clip,
+        RectF::new(24.0, 23.0, 92.0, 12.0),
+        "TextBox viewport clip",
+    );
+    let (_run_id, text_rect) = draw_text_prim(&text_node.prims).expect("long text DrawText");
+    assert!(
+        text_rect.x < clip.x,
+        "long text should scroll left under the clipped viewport: text={text_rect:?}, clip={clip:?}"
+    );
+    assert!(
+        text_rect.w >= clip.w,
+        "text draw width should cover the viewport after scrolling"
+    );
+
+    let log = dispatch_key(&mut session, &form, "keydown", KEY_HOME);
+    assert_eq!(log, "keydown:T1|repaint");
+    let snapshot = surface.snapshot().expect("surface snapshot after Home");
+    let scene = snapshot.scene.expect("scene snapshot after Home");
+    let text_node = scene.get(NodeId(1900)).expect("normal TextBox text node");
+    let clip = text_node
+        .clip
+        .expect("TextBox text viewport clip after Home");
+    let (_run_id, text_rect) = draw_text_prim(&text_node.prims).expect("long text DrawText");
+    assert_rect_close(
+        RectF::new(text_rect.x, text_rect.y, clip.w, text_rect.h),
+        RectF::new(clip.x, clip.y, clip.w, clip.h),
+        "Home returns the scrolled text origin to the viewport",
     );
 }
 

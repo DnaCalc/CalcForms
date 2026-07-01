@@ -12,6 +12,7 @@ Ideal architecture rework graph: `oxforms-zhz.13` through `oxforms-zhz.33`
 Canonical event-turn contract: `oxforms-zhz.14`
 HostServices spine: `oxforms-zhz.15`
 Renderer primitive determinism: `oxforms-zhz.17`
+TextService seam: `oxforms-zhz.16`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -149,6 +150,21 @@ contract:
   `ScenePatch` into the matching `Prim` variants, and that a non-rect primitive
   fixture perturbs the headless framebuffer hash.
 
+`oxforms-zhz.16` adds the first-class single-line `TextService` seam for TextBox:
+
+- `OxTextService` consumes `MeasureBatch` metrics/caret-stop responses for caret
+  placement, x-to-index hit testing, selection geometry, max-scroll, and caret-visible
+  horizontal scroll;
+- `TextBox` keeps MSForms-owned value, selection, focus, validation, and event order in VBA,
+  while delegating text geometry to the service instead of local ad hoc parsing/measurement;
+- TextBox text now paints through a clipped text child node, with the existing selected-text
+  recolor overlay using the same scrolled text rect and shaped run;
+- headless/OxVba tests cover long single-line scroll/clipped draw, Home reset to origin,
+  proportional shaped selection geometry, drag selection, repeated delete/backspace, and
+  the full showcase/runtime path;
+- deferred TextService v2 hazards are filed as `oxforms-zhz.34`: IME/dead keys, multiline,
+  undo/redo, and grapheme-cluster-aware editing.
+
 Focused acceptance:
 
 ```powershell
@@ -175,6 +191,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox rapid selection/delete state | Passing | `oxvba_reducer_cmdbutton::textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful` |
 | TextBox caret/selection visuals | Passing shaped-scene proof | `oxvba_reducer_cmdbutton::textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
+| TextBox TextService + horizontal scroll | Passing single-line v1 | `vba/oxforms/OxTextService.cls`; `oxvba_reducer_cmdbutton::textbox_textservice_scrolls_and_clips_long_text_to_caret`; render-smoke canonical scene covers the clipped TextBox text child node |
 | TextBox mouse drag selection | Passing headless path | `oxvba_reducer_cmdbutton::textbox_mouse_drag_extends_selection_through_mousemove_capture`; `headless_runner_showcase::runner_mouse_drag_selects_textbox_text_through_mousemove` |
 | Rapid TextBox key sequences | Passing scaffold | `headless_runner_showcase::runner_handles_rapid_letter_sequence_and_backspace_repeat` |
 | Runtime/event-turn contract | Passing | `RuntimeInput`/`RuntimeEventTurn` in `crates/oxforms-oxvba-adapter/src/runtime.rs`; headless and bootstrap both call `OxRuntime::dispatch_event_turn` |
@@ -201,13 +218,14 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   pixels and exact MSForms image/text pixel parity remain later claims.
 - The cursor scaffold records built-in mouse-pointer policy, the current routed
   target, and service requests; no custom `MouseIcon` support is claimed.
-- TextBox caret/selection geometry now uses shaped text-run caret stops in the runtime path, and
-  the selected foreground recolor is represented in Scene. Pixel-level MSForms parity is still not
-  claimed without a live oracle capture.
-- TextBox is still a visible single-line first slice without horizontal scrolling. `oxforms-zhz.9`
-  continues to own long-text horizontal scroll/clipped draw plus `SelStart`/`SelLength`/`SelText`
-  setter oracle details. IME/dead keys, multiline, undo/redo, and grapheme-cluster editing remain
-  explicit follow-up hazards.
+- TextBox caret/selection geometry and single-line horizontal scroll now use shaped text-run
+  caret stops through `OxTextService`; selected foreground recolor and clipped/scrolled normal
+  text are represented in Scene. Pixel-level MSForms parity is still not claimed without a live
+  oracle capture.
+- TextBox is still a visible single-line slice. `oxforms-zhz.9` continues to own
+  `SelStart`/`SelLength`/`SelText` setter oracle details and burst/post oracle behavior.
+  IME/dead keys, multiline, undo/redo, and grapheme-cluster editing are tracked as
+  `oxforms-zhz.34`.
 - CheckBox Space activation is locally covered through the headless runner. Focus adornment,
   disabled/hidden/tab-stop mutations, cursor application, and live MSForms oracle capture remain
   `oxforms-zhz.5` scope before a broader parity claim.

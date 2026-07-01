@@ -72,6 +72,11 @@ fn build_session() -> ProjectRuntimeSession {
             "vba/oxforms/ReturnBoolean.cls",
         ),
         module_unit("Label", ModuleKind::Class, "vba/oxforms/Label.cls"),
+        module_unit(
+            "OxTextService",
+            ModuleKind::Class,
+            "vba/oxforms/OxTextService.cls",
+        ),
         module_unit("TextBox", ModuleKind::Class, "vba/oxforms/TextBox.cls"),
         module_unit(
             "CommandButton",

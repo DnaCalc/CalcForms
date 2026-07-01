@@ -27,8 +27,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 15,
-        "root plus 13 showcase controls plus the TextBox selection overlay"
+        snap.node_count, 16,
+        "root plus 13 showcase controls plus the TextBox text and selection overlay nodes"
     );
 
     let capabilities = runner

@@ -12,6 +12,7 @@
     <ClassModule Include="ReturnInteger.cls" />
     <ClassModule Include="ReturnBoolean.cls" />
     <ClassModule Include="Label.cls" />
+    <ClassModule Include="OxTextService.cls" />
     <ClassModule Include="TextBox.cls" />
     <ClassModule Include="CommandButton.cls" />
     <ClassModule Include="CheckBox.cls" />
