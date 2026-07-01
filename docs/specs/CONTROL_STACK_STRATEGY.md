@@ -3,7 +3,7 @@
 Status: `draft_implementation_authority`
 Date: 2026-07-01
 Workset: `W009_intrinsic_control_breadth`
-Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14`
+Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14` and `oxforms-zhz.15`
 
 This note records the W009 control-stack reassessment after the first
 TextBox/CheckBox hazard-gym work and the sibling DNA UI stack review. It does
@@ -81,6 +81,22 @@ backend/test-runner API.
 shape for cursor, timers, metrics/colors, DPI, image decode, and drag/drop
 without bypassing `OxRuntime`.
 
+`oxforms-zhz.15` promotes that trace into a real runtime service object:
+
+- `HostServices::headless()` provides deterministic service stubs for tests and
+  profiling.
+- `HostServices::windows(reader)` is the visible/bootstrap implementation shape;
+  the Windows bootstrap injects the live clipboard reader into this seam.
+- Runtime service turns cover clipboard reads/sets, DataObject text snapshots,
+  cursor requests, virtual `caret_blink` and `auto_repeat` timer slots, system
+  metrics/colors, DPI changes, image-decode handle traces, and drag/drop text.
+- Virtual timer ticks (`RuntimeInput::AdvanceTime`) pass through `OxRuntime`,
+  not the headless runner alone.
+
+This is still a representative spine. Cursor application, native timer
+registration, image decoding, and rich DataObject formats can be filled in by
+later beads behind the same API.
+
 ## Initial-Development Rework Doctrine
 
 OxForms is still in initial development. Internal draft APIs, temporary helper
@@ -133,7 +149,7 @@ These are OxForms-owned seams. They are not new alternate object models.
 | `ThemeTokens` / `ThemePainter` | OxForms runtime policy plus PAL drawing primitives | Map MSForms properties (`BackColor`, `ForeColor`, `SpecialEffect`, `BorderStyle`, `Enabled`, focus state, selection state) onto DNA-style tokens and Scene primitives. Tokens are an implementation aid; MSForms properties stay authoritative. |
 | `AccessibilityService` | Runtime exposes roles/states; PAL/backend provides provider integration | Publish control roles, names, values, focus, disabled/hidden state, selection state, table/list patterns, and focus events. It follows `RUNTIME_ACCESSIBILITY_MODEL.md` and can borrow DnaTreeCalc helper patterns. |
 | `RendererBackend` | `oxforms-pal` | Keep Scene as the canonical primitive contract. The Windows backend and headless renderer consume Scene snapshots. Any future DOM/WebView renderer consumes the same semantic output and must not bypass OxRuntime or the VBA reducer. |
-| `HostServices` | PAL adapters and headless runner stubs | Clipboard/DataObject, cursor application, timers, caret blink, auto-repeat, system colors/metrics, DPI, image decode, drag/drop, traces, and virtual-clock service behavior. |
+| `HostServices` | PAL adapters and headless runner stubs | `HostServices` owns clipboard/DataObject, cursor requests, timers, caret blink, auto-repeat, system colors/metrics, DPI, image-decode handle traces, drag/drop traces, and virtual-clock service behavior behind `OxRuntime`. |
 | `InteractionManager` | VBA reducer plus small cached indexes | Own focus owner, capture owner, hover/cursor target, tab maps, default/cancel buttons, accelerators, validation transfer, invalidation state, and focused-control hide/disable/delete behavior. |
 | `CapabilityDescriptor` | VBA control policy source | Declare control capabilities once per kind/control: focusable, default tab stop, click, pressed visual, text editing, value editing, paste/drop, cursor, default/cancel, accelerator, list/container/image/timer needs. |
 

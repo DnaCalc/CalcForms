@@ -17,6 +17,7 @@
 //! explicit host-service effect, and returns [`RuntimeEventTurn`] so callers can render/read back
 //! state in the same turn.
 
+use crate::host_services::{HostCursor, HostServices, HostTimerRequest, HostTimerSlot};
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
 use oxvba_runtime::{ObjectRef, Variant};
@@ -90,7 +91,23 @@ pub enum RuntimeInput {
     },
     CharacterInput(String),
     PasteText(String),
+    PasteFromClipboard,
     DropText(String),
+    ServiceProbe,
+    SetCursor(HostCursor),
+    ArmTimer(HostTimerRequest),
+    CancelTimer(HostTimerSlot),
+    AdvanceTime {
+        advance_ms: u64,
+    },
+    DpiChanged {
+        dpi_x: u32,
+        dpi_y: u32,
+    },
+    DecodeImage {
+        image_id: String,
+        bytes_sha256: String,
+    },
 }
 
 impl RuntimeInput {
@@ -106,7 +123,19 @@ impl RuntimeInput {
             } => format!("{}:{key_code}:{shift}", kind.label_name()),
             Self::CharacterInput(text) => format!("char:{}", escape_label(text)),
             Self::PasteText(text) => format!("paste:{}", escape_label(text)),
+            Self::PasteFromClipboard => "paste:clipboard".to_string(),
             Self::DropText(text) => format!("drop:{}", escape_label(text)),
+            Self::ServiceProbe => "host_services:probe".to_string(),
+            Self::SetCursor(cursor) => format!("cursor:{}", cursor.label()),
+            Self::ArmTimer(request) => {
+                format!("timer_arm:{}:{}", request.slot.label(), request.interval_ms)
+            }
+            Self::CancelTimer(slot) => format!("timer_cancel:{}", slot.label()),
+            Self::AdvanceTime { advance_ms } => format!("tick:{advance_ms}"),
+            Self::DpiChanged { dpi_x, dpi_y } => format!("dpi:{dpi_x}x{dpi_y}"),
+            Self::DecodeImage { image_id, .. } => {
+                format!("decode_image:{}", escape_label(image_id))
+            }
         }
     }
 }
@@ -124,15 +153,25 @@ pub struct RuntimeEventTurn {
 pub struct OxRuntime {
     session: ProjectRuntimeSession,
     form: ObjectRef,
+    host_services: HostServices,
 }
 
 impl OxRuntime {
     /// Create the form-document `form_class` and invoke its `build_member` (e.g. `"Build"`), which
     /// constructs the form + controls + the `OxReducer` and establishes the first frame.
     pub fn attach(
+        session: ProjectRuntimeSession,
+        form_class: &str,
+        build_member: &str,
+    ) -> Result<Self, String> {
+        Self::attach_with_host_services(session, form_class, build_member, HostServices::headless())
+    }
+
+    pub fn attach_with_host_services(
         mut session: ProjectRuntimeSession,
         form_class: &str,
         build_member: &str,
+        host_services: HostServices,
     ) -> Result<Self, String> {
         let form = session
             .create_class_instance(form_class)
@@ -145,7 +184,11 @@ impl OxRuntime {
                 Vec::new(),
             )
             .map_err(|err| format!("invoke {build_member}: {}", err.message()))?;
-        Ok(Self { session, form })
+        Ok(Self {
+            session,
+            form,
+            host_services,
+        })
     }
 
     fn invoke(
@@ -195,11 +238,52 @@ impl OxRuntime {
             } => self.dispatch_key(kind.facade_name(), key_code, shift)?,
             RuntimeInput::CharacterInput(text) => self.dispatch_char(&text)?,
             RuntimeInput::PasteText(text) => {
-                self.set_clipboard_text(&text)?;
-                host_service_effects.push(format!("clipboard.set_text:{}", text.len()));
+                host_service_effects.extend(self.host_services.set_clipboard_text(&text));
+                self.push_clipboard_text_to_vba(&text)?;
                 self.dispatch_key("keydown", VK_V, SHIFT_CTRL)?
             }
-            RuntimeInput::DropText(text) => self.dispatch_drop(&text)?,
+            RuntimeInput::PasteFromClipboard => {
+                let (text, effects) = self.host_services.read_clipboard_text();
+                host_service_effects.extend(effects);
+                self.push_clipboard_text_to_vba(&text)?;
+                self.dispatch_key("keydown", VK_V, SHIFT_CTRL)?
+            }
+            RuntimeInput::DropText(text) => {
+                host_service_effects.extend(self.host_services.trace_drop_text(&text));
+                self.dispatch_drop(&text)?
+            }
+            RuntimeInput::ServiceProbe => {
+                host_service_effects.extend(self.host_services.service_probe_trace());
+                String::new()
+            }
+            RuntimeInput::SetCursor(cursor) => {
+                host_service_effects.extend(self.host_services.set_cursor(cursor));
+                String::new()
+            }
+            RuntimeInput::ArmTimer(request) => {
+                host_service_effects.extend(self.host_services.arm_timer(request));
+                String::new()
+            }
+            RuntimeInput::CancelTimer(slot) => {
+                host_service_effects.extend(self.host_services.cancel_timer(slot));
+                String::new()
+            }
+            RuntimeInput::AdvanceTime { advance_ms } => {
+                host_service_effects.extend(self.host_services.advance_time(advance_ms));
+                String::new()
+            }
+            RuntimeInput::DpiChanged { dpi_x, dpi_y } => {
+                host_service_effects.extend(self.host_services.set_dpi(dpi_x, dpi_y));
+                String::new()
+            }
+            RuntimeInput::DecodeImage {
+                image_id,
+                bytes_sha256,
+            } => {
+                host_service_effects
+                    .extend(self.host_services.decode_image(&image_id, &bytes_sha256));
+                String::new()
+            }
         };
         let repainted = effect_log_contains_repaint(&effect_log);
         Ok(RuntimeEventTurn {
@@ -265,7 +349,7 @@ impl OxRuntime {
     }
 
     /// Push the current host clipboard text (read before a Ctrl+V is dispatched).
-    fn set_clipboard_text(&mut self, text: &str) -> Result<(), String> {
+    fn push_clipboard_text_to_vba(&mut self, text: &str) -> Result<(), String> {
         self.invoke(
             "SetClipboardText",
             ProjectMemberKind::Method,
@@ -309,6 +393,15 @@ impl OxRuntime {
     /// Mutable access to the underlying session (for reading back form-document properties).
     pub fn session_mut(&mut self) -> &mut ProjectRuntimeSession {
         &mut self.session
+    }
+
+    #[must_use]
+    pub fn host_services(&self) -> &HostServices {
+        &self.host_services
+    }
+
+    pub fn host_services_mut(&mut self) -> &mut HostServices {
+        &mut self.host_services
     }
 }
 

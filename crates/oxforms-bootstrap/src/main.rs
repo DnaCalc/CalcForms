@@ -25,6 +25,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::Arc;
 
+use oxforms_oxvba_adapter::host_services::HostServices;
 use oxforms_oxvba_adapter::runtime::{
     OxRuntime, RuntimeEventTurn, RuntimeInput, RuntimeKeyKind, RuntimeMouseKind,
 };
@@ -153,8 +154,13 @@ fn run() -> Result<(), BootstrapError> {
 
     // 2. Attach the thin runtime, which constructs + builds the VBA form (and its OxReducer) and
     //    produces the first resident Scene revision.
-    let mut rt = OxRuntime::attach(session, demo.form_class, demo.build_member)
-        .map_err(BootstrapError::Runtime)?;
+    let mut rt = OxRuntime::attach_with_host_services(
+        session,
+        demo.form_class,
+        demo.build_member,
+        HostServices::windows(oxforms_pal_win::read_clipboard_text),
+    )
+    .map_err(BootstrapError::Runtime)?;
     rt.render().map_err(BootstrapError::Runtime)?;
     let scene = current_scene(&surface)?;
 
@@ -296,25 +302,23 @@ fn dispatch_event(
         UiEventKind::KeyDown(e) | UiEventKind::KeyUp(e) => {
             let vk = keycode_to_vk(&e.key);
             let shift_bits = shift(&e.modifiers);
-            let input = if matches!(event.kind, UiEventKind::KeyDown(_))
-                && is_ctrl_v(vk, shift_bits)
-            {
-                // Push the live OS clipboard only for Ctrl+V. Reading it for every key press adds
-                // avoidable latency to quick typing, and the service trace stays attached to this
-                // event turn.
-                RuntimeInput::PasteText(oxforms_pal_win::read_clipboard_text().unwrap_or_default())
-            } else {
-                let kind = if matches!(event.kind, UiEventKind::KeyDown(_)) {
-                    RuntimeKeyKind::Down
+            let input =
+                if matches!(event.kind, UiEventKind::KeyDown(_)) && is_ctrl_v(vk, shift_bits) {
+                    // Read the live OS clipboard only for Ctrl+V. The HostServices trace stays
+                    // attached to this event turn.
+                    RuntimeInput::PasteFromClipboard
                 } else {
-                    RuntimeKeyKind::Up
+                    let kind = if matches!(event.kind, UiEventKind::KeyDown(_)) {
+                        RuntimeKeyKind::Down
+                    } else {
+                        RuntimeKeyKind::Up
+                    };
+                    RuntimeInput::Key {
+                        kind,
+                        key_code: vk,
+                        shift: shift_bits,
+                    }
                 };
-                RuntimeInput::Key {
-                    kind,
-                    key_code: vk,
-                    shift: shift_bits,
-                }
-            };
             rt.dispatch_event_turn(input).map(Some)
         }
         UiEventKind::CharacterInput(e) => rt

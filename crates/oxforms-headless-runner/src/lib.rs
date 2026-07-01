@@ -10,6 +10,9 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::Instant;
 
+use oxforms_oxvba_adapter::host_services::{
+    HostCursor, HostServices, HostTimerRequest, HostTimerSlot,
+};
 use oxforms_oxvba_adapter::runtime::{OxRuntime, RuntimeInput, RuntimeKeyKind, RuntimeMouseKind};
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory, SurfaceSnapshot};
 use oxforms_pal::scene::StubShaper;
@@ -146,6 +149,18 @@ pub enum InputAction {
     CharacterInput(String),
     PasteText(String),
     DropText(String),
+    HostServiceProbe,
+    SetCursor(HostCursor),
+    ArmTimer(HostTimerRequest),
+    CancelTimer(HostTimerSlot),
+    DecodeImage {
+        image_id: String,
+        bytes_sha256: String,
+    },
+    DpiChanged {
+        dpi_x: u32,
+        dpi_y: u32,
+    },
     Tick {
         advance_ms: u64,
     },
@@ -218,7 +233,12 @@ impl HeadlessRunner {
         options: RunnerOptions,
     ) -> Result<Self, String> {
         let (session, surface) = build_session(repo_root, spec, &options)?;
-        let rt = OxRuntime::attach(session, &spec.form_class, &spec.build_member)?;
+        let rt = OxRuntime::attach_with_host_services(
+            session,
+            &spec.form_class,
+            &spec.build_member,
+            HostServices::headless(),
+        )?;
         Ok(Self {
             rt,
             surface,
@@ -231,6 +251,9 @@ impl HeadlessRunner {
 
     pub fn dispatch(&mut self, action: InputAction) -> Result<DispatchReport, String> {
         let dispatch_start = Instant::now();
+        if let InputAction::Tick { advance_ms } = &action {
+            self.clock_ms = self.clock_ms.saturating_add(*advance_ms);
+        }
         let runtime_input = runtime_input_for_action(&action);
         let (action_label, effects, service_effects, repainted_in_dispatch) = match runtime_input {
             Some(input) => {
@@ -243,15 +266,6 @@ impl HeadlessRunner {
                 )
             }
             None => match action {
-                InputAction::Tick { advance_ms } => {
-                    self.clock_ms = self.clock_ms.saturating_add(advance_ms);
-                    (
-                        format!("tick:{advance_ms}"),
-                        String::new(),
-                        Vec::new(),
-                        false,
-                    )
-                }
                 InputAction::Render => ("render".to_string(), String::new(), Vec::new(), false),
                 _ => unreachable!("runtime_input_for_action covers dispatched input"),
             },
@@ -449,7 +463,25 @@ fn runtime_input_for_action(action: &InputAction) -> Option<RuntimeInput> {
         InputAction::CharacterInput(text) => Some(RuntimeInput::CharacterInput(text.clone())),
         InputAction::PasteText(text) => Some(RuntimeInput::PasteText(text.clone())),
         InputAction::DropText(text) => Some(RuntimeInput::DropText(text.clone())),
-        InputAction::Tick { .. } | InputAction::Render => None,
+        InputAction::HostServiceProbe => Some(RuntimeInput::ServiceProbe),
+        InputAction::SetCursor(cursor) => Some(RuntimeInput::SetCursor(*cursor)),
+        InputAction::ArmTimer(request) => Some(RuntimeInput::ArmTimer(request.clone())),
+        InputAction::CancelTimer(slot) => Some(RuntimeInput::CancelTimer(slot.clone())),
+        InputAction::DecodeImage {
+            image_id,
+            bytes_sha256,
+        } => Some(RuntimeInput::DecodeImage {
+            image_id: image_id.clone(),
+            bytes_sha256: bytes_sha256.clone(),
+        }),
+        InputAction::DpiChanged { dpi_x, dpi_y } => Some(RuntimeInput::DpiChanged {
+            dpi_x: *dpi_x,
+            dpi_y: *dpi_y,
+        }),
+        InputAction::Tick { advance_ms } => Some(RuntimeInput::AdvanceTime {
+            advance_ms: *advance_ms,
+        }),
+        InputAction::Render => None,
     }
 }
 

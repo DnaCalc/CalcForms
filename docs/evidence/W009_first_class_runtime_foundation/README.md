@@ -10,6 +10,7 @@ CheckBox hardening slice: `oxforms-zhz.5`
 Control-stack gate: `oxforms-zhz.12`
 Ideal architecture rework graph: `oxforms-zhz.13` through `oxforms-zhz.33`
 Canonical event-turn contract: `oxforms-zhz.14`
+HostServices spine: `oxforms-zhz.15`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -117,10 +118,26 @@ that proves the strategy before broad FM20 control breadth resumes.
 - the bootstrap maps PAL events, including Ctrl+V clipboard reads, into the same
   contract before asking the backend to repaint.
 
+`oxforms-zhz.15` adds the representative HostServices spine behind that contract:
+
+- `HostServices` is owned by `OxRuntime`, with `headless()` and `windows(reader)`
+  constructors;
+- the Windows bootstrap injects `oxforms_pal_win::read_clipboard_text` into
+  `HostServices::windows`, so live Ctrl+V reads are part of the runtime turn;
+- `RuntimeInput` now has service turns for `PasteFromClipboard`, service probe,
+  cursor requests, timer arm/cancel/advance, DPI changes, image-decode handle
+  traces, and drop/DataObject text traces;
+- `HeadlessRunner::Tick` now advances virtual time through `OxRuntime` instead
+  of remaining runner-local bookkeeping;
+- deterministic headless traces cover clipboard, DataObject, cursor, timer
+  slots/fires, system metrics/colors, DPI, image decode handle shape, and
+  drag/drop.
+
 Focused acceptance:
 
 ```powershell
 cargo test -p oxforms-headless-runner --test headless_runner_showcase
+cargo test -p oxforms-oxvba-adapter host_services
 cargo test -p oxforms-oxvba-adapter --test oxvba_reducer_cmdbutton
 cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 ```
@@ -143,20 +160,24 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Rapid TextBox key sequences | Passing scaffold | `headless_runner_showcase::runner_handles_rapid_letter_sequence_and_backspace_repeat` |
 | Runtime/event-turn contract | Passing | `RuntimeInput`/`RuntimeEventTurn` in `crates/oxforms-oxvba-adapter/src/runtime.rs`; headless and bootstrap both call `OxRuntime::dispatch_event_turn` |
 | Host-service effect trace | Passing first slice | `headless_runner_showcase::runner_records_service_effect_and_same_turn_readback_repaint` proves paste records `clipboard.set_text:<len>`, mutates VBA TextBox state, and advances the Scene revision in the same event turn |
+| HostServices spine | Passing representative spine | `host_services::tests::*`; `headless_runner_showcase::runner_host_services_probe_covers_representative_spine`; `runner_virtual_timer_and_clipboard_pass_through_oxruntime`; `runner_traces_cursor_dpi_image_and_drag_drop_services` |
 | CheckBox keyboard toggle | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` |
-| Cursor, timers, DataObject, system metrics/colors, image decode | Not implemented | Future `oxforms-zhz.*` lanes |
+| Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; later representative control beads apply native cursor hooks, control timers, richer DataObject formats, and real image decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | Perf budgets | Scaffold only | Future `oxforms-zhz.8` |
 
 ## Known Non-Claims
 
 - The runner is infrastructure, not an alternate backend.
-- It does not yet implement cursor application, timer firing, DataObject formats,
-  image decode, `.frm/.frx` materialization, or modal/nested pump semantics.
-- The cursor scaffold records built-in mouse-pointer policy and the current routed
-  target; no host cursor application or custom `MouseIcon` support is claimed.
+- HostServices now provides API stubs and deterministic traces for cursor, timers,
+  DataObject, metrics/colors, DPI, image-decode handles, and drag/drop. It does
+  not yet claim native cursor application, control-driven timer behavior, rich
+  DataObject format parity, real image decode, `.frm/.frx` materialization, or
+  modal/nested pump semantics.
+- The cursor scaffold records built-in mouse-pointer policy, the current routed
+  target, and service requests; no custom `MouseIcon` support is claimed.
 - TextBox caret/selection geometry now uses shaped text-run caret stops in the runtime path, and
   the selected foreground recolor is represented in Scene. Pixel-level MSForms parity is still not
   claimed without a live oracle capture.

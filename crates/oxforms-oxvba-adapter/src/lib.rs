@@ -9,5 +9,6 @@
 
 #![forbid(unsafe_code)]
 
+pub mod host_services;
 pub mod runtime;
 pub mod surface;

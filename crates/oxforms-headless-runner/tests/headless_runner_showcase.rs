@@ -2,6 +2,7 @@ use oxforms_headless_runner::{
     repo_root_from_crate, DrainPolicy, FixtureModule, FormSpec, HeadlessRunner, InputAction,
     RepaintPolicy, RunnerOptions, VK_BACKSPACE, VK_SPACE, VK_TAB,
 };
+use oxforms_oxvba_adapter::host_services::{HostCursor, HostTimerRequest, HostTimerSlot};
 use oxvba_bundle::ProjectMemberKind;
 
 const VK_A: i16 = 65;
@@ -122,6 +123,143 @@ fn runner_records_service_effect_and_same_turn_readback_repaint() {
         jsonl.contains("\"action\":\"paste:svc\"")
             && jsonl.contains("\"host_service_effects\":[\"clipboard.set_text:3\"]"),
         "service effect trace should stay attached to the paste turn: {jsonl}"
+    );
+}
+
+#[test]
+fn runner_host_services_probe_covers_representative_spine() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+
+    let report = runner
+        .dispatch(InputAction::HostServiceProbe)
+        .expect("host service probe");
+    assert!(
+        report.effects.is_empty(),
+        "service probe must not reduce VBA"
+    );
+    assert!(
+        !report.rendered,
+        "service probe should not render the Scene"
+    );
+
+    let joined = report.service_effects.join("|");
+    for expected in [
+        "host_services.backend:headless",
+        "clipboard.formats:text",
+        "data_object.skeleton:text",
+        "cursor.current:default",
+        "timer.slot:caret_blink",
+        "timer.slot:auto_repeat",
+        "metrics.system:",
+        "colors.system:",
+        "dpi.current:96x96",
+        "image.decode:stub",
+        "drag_drop.trace:",
+    ] {
+        assert!(
+            joined.contains(expected),
+            "probe trace should contain {expected}: {joined}"
+        );
+    }
+}
+
+#[test]
+fn runner_virtual_timer_and_clipboard_pass_through_oxruntime() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+    runner.render().expect("initial render");
+
+    let armed = runner
+        .dispatch(InputAction::ArmTimer(HostTimerRequest::new(
+            HostTimerSlot::CaretBlink,
+            25,
+            true,
+        )))
+        .expect("arm timer");
+    assert_eq!(
+        armed.service_effects,
+        vec!["timer.arm:caret_blink:25:repeat=true"]
+    );
+
+    let early = runner
+        .dispatch(InputAction::Tick { advance_ms: 24 })
+        .expect("advance before due");
+    assert_eq!(early.service_effects, vec!["time.advance:24:now=24"]);
+
+    let fired = runner
+        .dispatch(InputAction::Tick { advance_ms: 1 })
+        .expect("advance to due");
+    assert_eq!(
+        fired.service_effects,
+        vec!["time.advance:1:now=25", "timer.fire:caret_blink:1:at=25"]
+    );
+    assert_eq!(
+        runner.trace().last().expect("timer trace row").at_ms,
+        25,
+        "virtual clock should advance through the OxRuntime turn"
+    );
+
+    let pasted = runner
+        .dispatch(InputAction::PasteText("timer".to_string()))
+        .expect("paste after timer");
+    assert_eq!(pasted.service_effects, vec!["clipboard.set_text:5"]);
+    assert_eq!(
+        runner.read_string("InputText").expect("InputText"),
+        "timer",
+        "clipboard paste should still mutate VBA through OxRuntime"
+    );
+}
+
+#[test]
+fn runner_traces_cursor_dpi_image_and_drag_drop_services() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+    runner.render().expect("initial render");
+
+    assert_eq!(
+        runner
+            .dispatch(InputAction::SetCursor(HostCursor::IBeam))
+            .expect("set cursor")
+            .service_effects,
+        vec!["cursor.set:ibeam"]
+    );
+    assert_eq!(
+        runner
+            .dispatch(InputAction::DpiChanged {
+                dpi_x: 120,
+                dpi_y: 144,
+            })
+            .expect("dpi")
+            .service_effects,
+        vec!["dpi.set:120x144"]
+    );
+    let decoded = runner
+        .dispatch(InputAction::DecodeImage {
+            image_id: "fixture-image".to_string(),
+            bytes_sha256: "abc123".to_string(),
+        })
+        .expect("decode image");
+    assert!(
+        decoded
+            .service_effects
+            .iter()
+            .any(|effect| effect.contains("image.decode:fixture-image:sha256=abc123")),
+        "image decode handle shape should be traced: {:?}",
+        decoded.service_effects
+    );
+
+    let dropped = runner
+        .dispatch(InputAction::DropText("DROP".to_string()))
+        .expect("drop text");
+    assert_eq!(
+        dropped.service_effects,
+        vec!["data_object.snapshot:text:4", "drag_drop.drop_text:4"]
+    );
+    assert!(
+        dropped.effects.contains("drop:InputField"),
+        "drop should still reduce through the focused TextBox: {}",
+        dropped.effects
     );
 }
 
