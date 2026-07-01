@@ -169,6 +169,9 @@ Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer
     PerformMouseUp Button, Shift, X, Y
 End Sub
 
+Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+End Sub
+
 ' A CheckBox click flips the value first, then Change, then Click (oracle order).
 Private Sub IOxControl_OnClick()
     Toggle
@@ -176,11 +179,11 @@ End Sub
 
 ' A CheckBox fires Click and shows a pressed face on mouse-down (oracle has_pressed_visual).
 Private Property Get IOxControl_SupportsClick() As Boolean
-    IOxControl_SupportsClick = True
+    IOxControl_SupportsClick = mCore.SupportsClick
 End Property
 
 Private Property Get IOxControl_HasPressedVisual() As Boolean
-    IOxControl_HasPressedVisual = True
+    IOxControl_HasPressedVisual = mCore.HasPressedVisual
 End Property
 
 ' Keyboard + focus surface. A CheckBox has an editable value, so a toggle marks it dirty and a
@@ -246,6 +249,14 @@ End Function
 
 Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
     IOxControl_OnPaste = False
+End Function
+
+Private Function IOxControl_OnCopy() As String
+    IOxControl_OnCopy = ""
+End Function
+
+Private Function IOxControl_OnCut() As String
+    IOxControl_OnCut = ""
 End Function
 
 ' --- Runtime-facing input surface ---

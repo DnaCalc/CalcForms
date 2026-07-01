@@ -31,6 +31,11 @@ Private mCurBy As Single
 Private mCurBw As Single
 Private mCurBh As Single
 Private mCurVisible As Boolean
+Private mCurHasClip As Boolean
+Private mCurClipX As Single
+Private mCurClipY As Single
+Private mCurClipW As Single
+Private mCurClipH As Single
 Private mCurPrims As String
 Private mCurChildren As String
 
@@ -75,6 +80,40 @@ Public Sub OpenNode( _
     mCurBw = BoundsW
     mCurBh = BoundsH
     mCurVisible = Visible
+    mCurHasClip = False
+    mCurPrims = ""
+    mCurChildren = ""
+    mOpen = True
+End Sub
+
+Public Sub OpenNodeClipped( _
+        ByVal Id As Long, _
+        ByVal HasParent As Boolean, _
+        ByVal ParentId As Long, _
+        ByVal Z As Long, _
+        ByVal BoundsX As Single, _
+        ByVal BoundsY As Single, _
+        ByVal BoundsW As Single, _
+        ByVal BoundsH As Single, _
+        ByVal Visible As Boolean, _
+        ByVal ClipX As Single, _
+        ByVal ClipY As Single, _
+        ByVal ClipW As Single, _
+        ByVal ClipH As Single)
+    mCurId = Id
+    mCurHasParent = HasParent
+    mCurParent = ParentId
+    mCurZ = Z
+    mCurBx = BoundsX
+    mCurBy = BoundsY
+    mCurBw = BoundsW
+    mCurBh = BoundsH
+    mCurVisible = Visible
+    mCurHasClip = True
+    mCurClipX = ClipX
+    mCurClipY = ClipY
+    mCurClipW = ClipW
+    mCurClipH = ClipH
     mCurPrims = ""
     mCurChildren = ""
     mOpen = True
@@ -141,12 +180,19 @@ Public Sub CloseNode()
         ParentJson = "null"
     End If
 
+    Dim ClipJson As String
+    If mCurHasClip Then
+        ClipJson = JsonRect(mCurClipX, mCurClipY, mCurClipW, mCurClipH)
+    Else
+        ClipJson = "null"
+    End If
+
     Dim Node As String
     Node = "{""id"":" & JsonNum(mCurId) & _
         ",""parent"":" & ParentJson & _
         ",""z"":" & JsonNum(mCurZ) & _
         ",""transform"":{""sx"":1,""sy"":1,""tx"":0,""ty"":0}" & _
-        ",""clip"":null" & _
+        ",""clip"":" & ClipJson & _
         ",""bounds"":" & JsonRect(mCurBx, mCurBy, mCurBw, mCurBh) & _
         ",""visible"":" & JsonBool(mCurVisible) & _
         ",""prims"":[" & mCurPrims & "]" & _

@@ -65,9 +65,17 @@ Public Function DispatchDrop(ByVal Text As String) As String
     DispatchDrop = mReducer.DispatchDrop(Text)
 End Function
 
+Public Sub Render()
+    mForm.Render 96, 96
+End Sub
+
 Public Sub SetClipboardText(ByVal Text As String)
     mReducer.SetClipboardText Text
 End Sub
+
+Public Property Get ClipboardText() As String
+    ClipboardText = mReducer.ClipboardText
+End Property
 
 Public Sub ArmT1PasteVeto()
     mT1PasteVeto = True
@@ -88,6 +96,29 @@ End Sub
 Public Property Get T1Text() As String
     T1Text = mT1.Text
 End Property
+
+Public Property Get T1SelStart() As Long
+    T1SelStart = mT1.SelStart
+End Property
+
+Public Property Get T1SelLength() As Long
+    T1SelLength = mT1.SelLength
+End Property
+
+Public Property Get T1SelText() As String
+    T1SelText = mT1.SelText
+End Property
+
+Public Sub SetT1Text(ByVal Value As String)
+    mT1.Text = Value
+    mT1.SelStart = Len(Value)
+    mT1.SelLength = 0
+End Sub
+
+Public Sub SetT1Selection(ByVal Start As Long, ByVal Length As Long)
+    mT1.SelStart = Start
+    mT1.SelLength = Length
+End Sub
 
 Public Property Get T2Text() As String
     T2Text = mT2.Text
@@ -123,6 +154,9 @@ Private Sub mT1_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
     Append "T1.KeyDown"
     ' Swallow the letter 'Q' (81) to prove a swallowed KeyDown suppresses the next character.
     If KeyCode.Value = 81 Then KeyCode.Value = 0
+    ' Swallow Escape too: unlike Q, it has no paired CharacterInput, so the next real character
+    ' must not be eaten by stale swallow state.
+    If KeyCode.Value = 27 Then KeyCode.Value = 0
 End Sub
 Private Sub mT1_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
     Append "T1.KeyUp"

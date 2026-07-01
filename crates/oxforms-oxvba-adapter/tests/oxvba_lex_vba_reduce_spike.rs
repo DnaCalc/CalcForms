@@ -11,9 +11,9 @@
 //!
 //! What this proves: the reduce decision (hit-test + state transition + repaint) can run in VBA
 //! on vm3. The harness never imports or invokes `oxforms-core`'s reducer (`reduce`/`FormState`)
-//! nor the adapter's Rust-reducer-driven `RuntimeRunner` — it drives the VBA reduce directly via
-//! the session + Surface. (`oxforms-core` stays a transitive dep of the adapter crate this test
-//! lives in — the adapter's existing runtime uses it — it is simply not in the spike's path.)
+//! nor the adapter's historical Rust-reducer-driven `RuntimeRunner` — it drives the VBA reduce
+//! directly via the session + Surface. (`oxforms-core` was later deleted in `oxforms-ih6`; this
+//! spike remains useful provenance for why the reducer now lives in VBA.)
 //!
 //! What this does NOT prove (the porting bead's scope): multi-control reduce, the full event
 //! spine (keyboard/focus/validation/dispatch ordering), error handling, or per-frame perf — this

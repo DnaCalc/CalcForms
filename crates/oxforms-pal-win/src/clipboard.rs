@@ -1,8 +1,7 @@
 //! Live OS clipboard read for the keyboard Ctrl+V paste (oxforms-esq.16).
 //!
-//! The runtime's clipboard fold-back uses a host-injected reader (see
-//! `RuntimeRunner::set_clipboard_reader`); the desktop bootstrap wires this Windows
-//! implementation. Reading goes through the `clipboard-win` crate's safe wrappers, so this
+//! The desktop bootstrap passes this reader into the thin OxVba runtime before dispatching
+//! Ctrl+V paste. Reading goes through the `clipboard-win` crate's safe wrappers, so this
 //! backend keeps its `forbid(unsafe_code)` stance -- the unsafe Win32 calls are encapsulated
 //! in the dependency. Non-Windows targets have no desktop clipboard backend yet and return
 //! `None`.

@@ -27,10 +27,9 @@ End Sub
 Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     Dim Control As IOxControl
     Set Control = OxCreateControl(ProgId, Name)
-    ' Unknown ProgID, or one recognized but not yet implemented (e.g. "Forms.CheckBox.1"
-    ' until CheckBox.cls lands), yields Nothing: return it cleanly rather than registering /
-    ' tracking a Nothing (which would crash in RegisterControl). (Real MSForms raises on a
-    ' bad ProgID; a precise Err.Raise is future work once OxVba error handling is proven.)
+    ' Unknown ProgID yields Nothing: return it cleanly rather than registering / tracking a
+    ' Nothing (which would crash in RegisterControl). (Real MSForms raises on a bad ProgID;
+    ' a precise Err.Raise is future work once OxVba error handling is proven.)
     If Control Is Nothing Then Exit Function
     mForm.RegisterControl Control
     mItems.Add Control, Name

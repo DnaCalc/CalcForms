@@ -8,16 +8,11 @@ Option Explicit
 ' FM20 events through the IOxControl input surface (OnMouseDown/OnMouseUp/OnClick). No Rust
 ' reducer is in the loop.
 '
-' Scope so far (epic oxforms-ih6):
-'   ih6.1 -- CommandButton mouse activation (MouseDown -> capture+press -> MouseUp -> Click);
-'   ih6.2 -- CheckBox mouse toggle (via the control's OnClick);
-'   ih6.3 -- focus + keyboard routing: a focusable control gains focus on mouse-down BEFORE the
-'            MouseDown (synchronous two-stage focus-out validation reproduces the oracle order
-'            Exit/Enter/MouseDown, or BeforeUpdate/AfterUpdate/Exit/Enter/MouseDown when dirty,
-'            with no fold-back); KeyDown/KeyUp/character input route to the focused control.
-' Still to land: Tab navigation, default/cancel buttons, accelerators, the keyboard
-' swallow->character linkage, caret/selection edit keys, clipboard + drag-drop paste,
-' lifecycle + QueryClose.
+' Scope so far (epic oxforms-ih6): CommandButton/Label/TextBox/CheckBox route through this
+' VBA reducer for mouse, focus, keyboard, two-stage validation, Tab traversal, default/cancel
+' buttons, accelerators, KeyDown swallow linkage, clipboard paste/copy/cut, text drop, and
+' the single-line TextBox caret/selection path. Still out of scope: IME/dead keys, full
+' multiline TextBox parity, and broad control coverage.
 
 ' MSForms Button arg: the left mouse button.
 Private Const OX_BUTTON_LEFT As Integer = 1
@@ -25,8 +20,11 @@ Private Const OX_BUTTON_LEFT As Integer = 1
 Private Const OX_KEY_TAB As Integer = 9
 Private Const OX_KEY_ENTER As Integer = 13
 Private Const OX_KEY_ESCAPE As Integer = 27
+Private Const OX_KEY_C As Integer = 67
 Private Const OX_KEY_V As Integer = 86
+Private Const OX_KEY_X As Integer = 88
 ' MSForms Shift-arg bitmask: 1 = Shift, 2 = Ctrl, 4 = Alt.
+Private Const OX_SHIFT_SHIFT As Integer = 1
 Private Const OX_SHIFT_CTRL As Integer = 2
 Private Const OX_SHIFT_ALT As Integer = 4
 ' fmAction: 2 = paste (the Action arg of BeforeDropOrPaste).
@@ -41,6 +39,44 @@ Private mClipboardText As String  ' the current clipboard text (the host pushes 
 Private mDpiX As Long
 Private mDpiY As Long
 Private mEffects As String        ' ordered '|'-joined effect log for the current Dispatch
+Private mInteractionIndexDirty As Boolean
+Private mIndexedInteractionRevision As Long
+Private mInteractionIndexBuildCount As Long
+Private mTabNextByName As Collection
+Private mTabPrevByName As Collection
+Private mFirstTabName As String
+Private mLastTabName As String
+Private mDefaultButtonName As String
+Private mCancelButtonName As String
+Private mHoverName As String
+Private mCursorTargetName As String
+Private mCursorPointer As Long
+Private mAccelA As String
+Private mAccelB As String
+Private mAccelC As String
+Private mAccelD As String
+Private mAccelE As String
+Private mAccelF As String
+Private mAccelG As String
+Private mAccelH As String
+Private mAccelI As String
+Private mAccelJ As String
+Private mAccelK As String
+Private mAccelL As String
+Private mAccelM As String
+Private mAccelN As String
+Private mAccelO As String
+Private mAccelP As String
+Private mAccelQ As String
+Private mAccelR As String
+Private mAccelS As String
+Private mAccelT As String
+Private mAccelU As String
+Private mAccelV As String
+Private mAccelW As String
+Private mAccelX As String
+Private mAccelY As String
+Private mAccelZ As String
 
 Public Sub Init(ByVal Form As UserForm)
     Set mForm = Form
@@ -51,6 +87,18 @@ Public Sub Init(ByVal Form As UserForm)
     mClipboardText = ""
     mDpiX = 96
     mDpiY = 96
+    mInteractionIndexDirty = True
+    mIndexedInteractionRevision = -1
+    mInteractionIndexBuildCount = 0
+    Set mTabNextByName = New Collection
+    Set mTabPrevByName = New Collection
+    mFirstTabName = ""
+    mLastTabName = ""
+    mDefaultButtonName = ""
+    mCancelButtonName = ""
+    mHoverName = ""
+    mCursorTargetName = ""
+    mCursorPointer = 0
 End Sub
 
 ' The host pushes the current clipboard text before dispatching a Ctrl+V (the live OS clipboard
@@ -59,13 +107,60 @@ Public Sub SetClipboardText(ByVal Text As String)
     mClipboardText = Text
 End Sub
 
+Public Property Get ClipboardText() As String
+    ClipboardText = mClipboardText
+End Property
+
 ' The currently focused control's name ("" = none). Test/diagnostic surface.
 Public Property Get FocusName() As String
     FocusName = mFocusName
 End Property
 
-' THE VBA REDUCE for pointer input. Kind is "mousedown" | "mouseup" (others ignored in
-' increment 1). X/Y are form-logical points; Button/Shift are the MSForms scalar args. Routes
+Public Property Get HoverName() As String
+    HoverName = mHoverName
+End Property
+
+Public Property Get CursorTargetName() As String
+    CursorTargetName = mCursorTargetName
+End Property
+
+Public Property Get CursorPointer() As Long
+    CursorPointer = mCursorPointer
+End Property
+
+Public Property Get InteractionIndexBuildCount() As Long
+    InteractionIndexBuildCount = mInteractionIndexBuildCount
+End Property
+
+Public Sub InvalidateInteractionIndex()
+    mInteractionIndexDirty = True
+End Sub
+
+Public Property Get InteractionIndexSummary() As String
+    EnsureInteractionIndex
+
+    Dim Text As String
+    Text = "revision=" & CStr(mIndexedInteractionRevision) & _
+        ";builds=" & CStr(mInteractionIndexBuildCount) & _
+        ";first=" & mFirstTabName & _
+        ";last=" & mLastTabName & _
+        ";default=" & mDefaultButtonName & _
+        ";cancel=" & mCancelButtonName & _
+        ";hover=" & mHoverName & _
+        ";cursor_target=" & mCursorTargetName & _
+        ";cursor=" & CStr(mCursorPointer)
+
+    Dim I As Long
+    For I = 0 To 25
+        If Len(AcceleratorName(I)) > 0 Then
+            Text = Text & ";alt+" & Chr$(65 + I) & "=" & AcceleratorName(I)
+        End If
+    Next I
+    InteractionIndexSummary = Text
+End Property
+
+' THE VBA REDUCE for pointer input. Kind is "mousedown" | "mousemove" | "mouseup".
+' X/Y are form-logical points; Button/Shift are the MSForms scalar args. Routes
 ' geometrically, mutates interaction state, raises the control's FM20 events in order, and
 ' repaints. Returns the ordered effect log: a '|'-joined sequence such as
 '   "mousedown:Btn1|press:Btn1|repaint"  then  "mouseup:Btn1|click:Btn1|release:Btn1|repaint".
@@ -73,9 +168,12 @@ Public Function Dispatch( _
         ByVal Kind As String, ByVal X As Long, ByVal Y As Long, _
         ByVal Button As Integer, ByVal Shift As Integer) As String
     mEffects = ""
+    EnsureInteractionIndex
     Select Case Kind
         Case "mousedown"
             ReduceMouseDown X, Y, Button, Shift
+        Case "mousemove"
+            ReduceMouseMove X, Y, Button, Shift
         Case "mouseup"
             ReduceMouseUp X, Y, Button, Shift
     End Select
@@ -87,7 +185,11 @@ Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As In
 
     Dim Hit As IOxControl
     Set Hit = HitTest(X, Y)
-    If Hit Is Nothing Then Exit Sub
+    If Hit Is Nothing Then
+        ResolvePointerTarget Nothing
+        Exit Sub
+    End If
+    ResolvePointerTarget Hit
 
     ' Focus moves to a focusable control BEFORE the MouseDown fires. Running the focus-out
     ' validation synchronously here reproduces the oracle order (Exit -> Enter -> MouseDown, or
@@ -115,7 +217,28 @@ Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As In
         Hit.Core.Pressed = True
         Emit "press:" & Hit.Core.Name
         Repaint
+    ElseIf Hit.Core.Dirty Then
+        Repaint
     End If
+End Sub
+
+Private Sub ReduceMouseMove(ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer)
+    Dim Target As IOxControl
+    If Len(mCaptureName) > 0 Then
+        Set Target = mForm.ControlByName(mCaptureName)
+    Else
+        Set Target = HitTest(X, Y)
+    End If
+
+    If Target Is Nothing Then
+        ResolvePointerTarget Nothing
+        Exit Sub
+    End If
+
+    ResolvePointerTarget Target
+    Target.OnMouseMove Button, Shift, CSng(X - Target.Core.Left), CSng(Y - Target.Core.Top)
+    Emit "mousemove:" & Target.Core.Name
+    If Target.Core.Dirty Then Repaint
 End Sub
 
 Private Sub ReduceMouseUp(ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer)
@@ -130,6 +253,7 @@ Private Sub ReduceMouseUp(ByVal X As Long, ByVal Y As Long, ByVal Button As Inte
         Set Target = HitTest(X, Y)
     End If
     If Target Is Nothing Then Exit Sub
+    ResolvePointerTarget Target
 
     Target.OnMouseUp Button, Shift, CSng(X - Target.Core.Left), CSng(Y - Target.Core.Top)
     Emit "mouseup:" & Target.Core.Name
@@ -154,11 +278,12 @@ Private Sub ReduceMouseUp(ByVal X As Long, ByVal Y As Long, ByVal Button As Inte
 End Sub
 
 ' THE VBA REDUCE for keyboard input, routed to the focused control. Kind is "keydown" |
-' "keyup". Returns the ordered effect log. (Tab navigation, default/cancel buttons, accelerators
-' and the swallow->character linkage land in later increments; this routes a key to the focused
-' control so it raises KeyDown/KeyUp and performs its default key behavior.)
+' "keyup". Returns the ordered effect log. Routes key events, tab navigation, default/cancel
+' buttons, accelerators, clipboard shortcuts, and the swallow->character linkage through the
+' focused control's IOxControl surface.
 Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String
     mEffects = ""
+    EnsureInteractionIndex
     Select Case Kind
         Case "keydown"
             ReduceKeyDown KeyCode, Shift
@@ -174,7 +299,7 @@ End Function
 Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     If Len(mFocusName) = 0 Then
         ' No control focused: a Tab moves focus to the first/last control in tab order.
-        If KeyCode = OX_KEY_TAB Then FocusFirstTab Shift
+        If IsTabNavigation(KeyCode, Shift) Then FocusFirstTab IsShiftPressed(Shift)
         Exit Sub
     End If
 
@@ -188,6 +313,7 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
         Emit "activate:" & mFocusName
         Focused.OnKeyDown KeyCode, Shift
         Emit "keydown:" & mFocusName
+        If Focused.Core.Dirty Then Repaint
         Exit Sub
     End If
 
@@ -198,28 +324,371 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     ' Swallow linkage: a KeyDown handler that zeroed the key code suppresses the character that
     ' would otherwise follow (consumed by the next DispatchChar). A swallowed key also performs
     ' no navigation/activation.
-    mSwallowNextChar = (Post = 0)
+    mSwallowNextChar = (Post = 0) And KeyMayProduceCharacter(KeyCode, Shift)
     If Post = 0 Then Exit Sub
 
     ' After the KeyDown fired (oracle order KeyDown -> [validation/activation]): Tab navigation,
     ' Alt+accelerator, Enter -> default button, Escape -> cancel button.
-    If KeyCode = OX_KEY_TAB Then
+    If IsTabNavigation(KeyCode, Shift) Then
         Dim NextName As String
-        NextName = TabTarget(mFocusName, Shift)
+        NextName = TabTarget(mFocusName, IsShiftPressed(Shift))
         If Len(NextName) > 0 Then TransferFocusTo NextName
-    ElseIf (Shift And OX_SHIFT_CTRL) <> 0 And KeyCode = OX_KEY_V Then
-        ' Ctrl+V: paste the host clipboard text into the focused control (BeforeDropOrPaste ->
-        ' Change), AFTER the V KeyDown fired. Empty clipboard is a no-op. No KeyPress for Ctrl+V.
-        If Len(mClipboardText) > 0 Then
-            Focused.OnPaste mClipboardText, OX_ACTION_PASTE, Shift
-            Emit "paste:" & mFocusName
-        End If
+    ElseIf (Shift And OX_SHIFT_CTRL) <> 0 Then
+        HandleClipboardShortcut Focused, KeyCode, Shift
     ElseIf (Shift And OX_SHIFT_ALT) <> 0 Then
         ActivateAccelerator KeyCode
     ElseIf KeyCode = OX_KEY_ENTER And Shift = 0 Then
         ActivateDefaultButton
     ElseIf KeyCode = OX_KEY_ESCAPE And Shift = 0 Then
         ActivateCancelButton
+    End If
+
+    If Focused.Core.Dirty Then Repaint
+End Sub
+
+Private Sub HandleClipboardShortcut(ByVal Focused As IOxControl, ByVal KeyCode As Integer, ByVal Shift As Integer)
+    Select Case KeyCode
+        Case OX_KEY_C
+            Dim Copied As String
+            Copied = Focused.OnCopy()
+            If Len(Copied) > 0 Then
+                mClipboardText = Copied
+                Emit "copy:" & mFocusName
+            End If
+        Case OX_KEY_X
+            Dim CutText As String
+            CutText = Focused.OnCut()
+            If Len(CutText) > 0 Then
+                mClipboardText = CutText
+                Emit "cut:" & mFocusName
+            End If
+        Case OX_KEY_V
+            ' Ctrl+V: paste the host clipboard text into the focused control
+            ' (BeforeDropOrPaste -> Change), AFTER the V KeyDown fired. Empty clipboard is
+            ' a no-op. No KeyPress for Ctrl+V.
+            If Len(mClipboardText) > 0 Then
+                If Focused.OnPaste(mClipboardText, OX_ACTION_PASTE, Shift) Then
+                    Emit "paste:" & mFocusName
+                End If
+            End If
+    End Select
+End Sub
+
+Private Function IsShiftPressed(ByVal Shift As Integer) As Boolean
+    IsShiftPressed = ((Shift And OX_SHIFT_SHIFT) <> 0)
+End Function
+
+' Plain Tab and Shift+Tab traverse controls. Ctrl+Tab / Alt+Tab must not be misread as
+' Shift+Tab just because the MSForms Shift bitmask is nonzero.
+Private Function IsTabNavigation(ByVal KeyCode As Integer, ByVal Shift As Integer) As Boolean
+    If KeyCode <> OX_KEY_TAB Then Exit Function
+    IsTabNavigation = ((Shift And (OX_SHIFT_CTRL Or OX_SHIFT_ALT)) = 0)
+End Function
+
+' Only a swallowed KeyDown that belongs to a printable key suppresses the paired CharacterInput.
+' Swallowing Escape/Tab/Delete/arrows must not make the next ordinary typed character disappear.
+Private Function KeyMayProduceCharacter(ByVal KeyCode As Integer, ByVal Shift As Integer) As Boolean
+    If (Shift And (OX_SHIFT_CTRL Or OX_SHIFT_ALT)) <> 0 Then Exit Function
+    KeyMayProduceCharacter = _
+        (KeyCode = 32) _
+        Or (KeyCode >= 48 And KeyCode <= 57) _
+        Or (KeyCode >= 65 And KeyCode <= 90) _
+        Or (KeyCode >= 186 And KeyCode <= 192) _
+        Or (KeyCode >= 219 And KeyCode <= 222)
+End Function
+
+Private Sub EnsureInteractionIndex()
+    If Not mInteractionIndexDirty _
+        And mIndexedInteractionRevision = mForm.InteractionRevision Then Exit Sub
+
+    BuildInteractionIndex
+End Sub
+
+Private Sub BuildInteractionIndex()
+    Set mTabNextByName = New Collection
+    Set mTabPrevByName = New Collection
+    mFirstTabName = ""
+    mLastTabName = ""
+    mDefaultButtonName = ""
+    mCancelButtonName = ""
+
+    Dim I As Long
+    ClearAccelerators
+
+    Dim TabNames As Collection
+    Dim TabKeys As Collection
+    Set TabNames = New Collection
+    Set TabKeys = New Collection
+
+    Dim Ctl As IOxControl
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+
+        If Participates(Ctl) Then
+            AddSortedTabParticipant TabNames, TabKeys, Ctl.Core.Name, TabKey(Ctl, I - 1)
+        End If
+
+        If Len(mDefaultButtonName) = 0 _
+            And Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.IsDefault Then
+            mDefaultButtonName = Ctl.Core.Name
+        End If
+        If Len(mCancelButtonName) = 0 _
+            And Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.IsCancel Then
+            mCancelButtonName = Ctl.Core.Name
+        End If
+
+        If Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.Core.AcceleratorEligible Then
+            RegisterAccelerator Ctl
+        End If
+    Next I
+
+    If TabNames.Count > 0 Then
+        mFirstTabName = TabNames.Item(1)
+        mLastTabName = TabNames.Item(TabNames.Count)
+    End If
+
+    For I = 1 To mForm.Controls.Count
+        Set Ctl = mForm.Controls.Item(I)
+        If Participates(Ctl) Then
+            mTabNextByName.Add TabNeighbor(TabNames, Ctl.Core.Name, False), Ctl.Core.Name
+            mTabPrevByName.Add TabNeighbor(TabNames, Ctl.Core.Name, True), Ctl.Core.Name
+        Else
+            mTabNextByName.Add "", Ctl.Core.Name
+            mTabPrevByName.Add "", Ctl.Core.Name
+        End If
+    Next I
+
+    mIndexedInteractionRevision = mForm.InteractionRevision
+    mInteractionIndexDirty = False
+    mInteractionIndexBuildCount = mInteractionIndexBuildCount + 1
+End Sub
+
+Private Sub AddSortedTabParticipant( _
+        ByVal Names As Collection, ByVal Keys As Collection, _
+        ByVal Name As String, ByVal Key As Long)
+    Dim Pos As Long
+    For Pos = 1 To Keys.Count
+        If Key < CLng(Keys.Item(Pos)) Then
+            Keys.Add Key, , Pos
+            Names.Add Name, , Pos
+            Exit Sub
+        End If
+    Next Pos
+
+    Keys.Add Key
+    Names.Add Name
+End Sub
+
+Private Function TabNeighbor( _
+        ByVal Names As Collection, ByVal CurrentName As String, ByVal Shift As Boolean) As String
+    If Names.Count <= 1 Then Exit Function
+
+    Dim Pos As Long
+    Pos = TabPosition(Names, CurrentName)
+    If Pos = 0 Then Exit Function
+
+    If Shift Then
+        If Pos = 1 Then
+            TabNeighbor = Names.Item(Names.Count)
+        Else
+            TabNeighbor = Names.Item(Pos - 1)
+        End If
+    Else
+        If Pos = Names.Count Then
+            TabNeighbor = Names.Item(1)
+        Else
+            TabNeighbor = Names.Item(Pos + 1)
+        End If
+    End If
+End Function
+
+Private Function TabPosition(ByVal Names As Collection, ByVal CurrentName As String) As Long
+    Dim I As Long
+    For I = 1 To Names.Count
+        If Names.Item(I) = CurrentName Then
+            TabPosition = I
+            Exit Function
+        End If
+    Next I
+End Function
+
+Private Sub RegisterAccelerator(ByVal Ctl As IOxControl)
+    Dim Accel As String
+    Accel = Ctl.AcceleratorKey
+    If Len(Accel) = 0 Then Exit Sub
+
+    Dim Slot As Long
+    Slot = AcceleratorSlot(Asc(UCase$(Left$(Accel, 1))))
+    If Slot < 0 Then Exit Sub
+
+    ' First enabled/visible control in declaration order wins for duplicate mnemonics.
+    If Len(AcceleratorName(Slot)) = 0 Then SetAcceleratorName Slot, Ctl.Core.Name
+End Sub
+
+Private Function AcceleratorSlot(ByVal KeyCode As Integer) As Long
+    Dim Code As Long
+    Code = KeyCode
+    If Code >= 97 And Code <= 122 Then Code = Code - 32
+
+    If Code < 65 Or Code > 90 Then
+        AcceleratorSlot = -1
+    Else
+        AcceleratorSlot = Code - 65
+    End If
+End Function
+
+Private Sub ClearAccelerators()
+    mAccelA = ""
+    mAccelB = ""
+    mAccelC = ""
+    mAccelD = ""
+    mAccelE = ""
+    mAccelF = ""
+    mAccelG = ""
+    mAccelH = ""
+    mAccelI = ""
+    mAccelJ = ""
+    mAccelK = ""
+    mAccelL = ""
+    mAccelM = ""
+    mAccelN = ""
+    mAccelO = ""
+    mAccelP = ""
+    mAccelQ = ""
+    mAccelR = ""
+    mAccelS = ""
+    mAccelT = ""
+    mAccelU = ""
+    mAccelV = ""
+    mAccelW = ""
+    mAccelX = ""
+    mAccelY = ""
+    mAccelZ = ""
+End Sub
+
+Private Function AcceleratorName(ByVal Slot As Long) As String
+    Select Case Slot
+        Case 0
+            AcceleratorName = mAccelA
+        Case 1
+            AcceleratorName = mAccelB
+        Case 2
+            AcceleratorName = mAccelC
+        Case 3
+            AcceleratorName = mAccelD
+        Case 4
+            AcceleratorName = mAccelE
+        Case 5
+            AcceleratorName = mAccelF
+        Case 6
+            AcceleratorName = mAccelG
+        Case 7
+            AcceleratorName = mAccelH
+        Case 8
+            AcceleratorName = mAccelI
+        Case 9
+            AcceleratorName = mAccelJ
+        Case 10
+            AcceleratorName = mAccelK
+        Case 11
+            AcceleratorName = mAccelL
+        Case 12
+            AcceleratorName = mAccelM
+        Case 13
+            AcceleratorName = mAccelN
+        Case 14
+            AcceleratorName = mAccelO
+        Case 15
+            AcceleratorName = mAccelP
+        Case 16
+            AcceleratorName = mAccelQ
+        Case 17
+            AcceleratorName = mAccelR
+        Case 18
+            AcceleratorName = mAccelS
+        Case 19
+            AcceleratorName = mAccelT
+        Case 20
+            AcceleratorName = mAccelU
+        Case 21
+            AcceleratorName = mAccelV
+        Case 22
+            AcceleratorName = mAccelW
+        Case 23
+            AcceleratorName = mAccelX
+        Case 24
+            AcceleratorName = mAccelY
+        Case 25
+            AcceleratorName = mAccelZ
+    End Select
+End Function
+
+Private Sub SetAcceleratorName(ByVal Slot As Long, ByVal Name As String)
+    Select Case Slot
+        Case 0
+            mAccelA = Name
+        Case 1
+            mAccelB = Name
+        Case 2
+            mAccelC = Name
+        Case 3
+            mAccelD = Name
+        Case 4
+            mAccelE = Name
+        Case 5
+            mAccelF = Name
+        Case 6
+            mAccelG = Name
+        Case 7
+            mAccelH = Name
+        Case 8
+            mAccelI = Name
+        Case 9
+            mAccelJ = Name
+        Case 10
+            mAccelK = Name
+        Case 11
+            mAccelL = Name
+        Case 12
+            mAccelM = Name
+        Case 13
+            mAccelN = Name
+        Case 14
+            mAccelO = Name
+        Case 15
+            mAccelP = Name
+        Case 16
+            mAccelQ = Name
+        Case 17
+            mAccelR = Name
+        Case 18
+            mAccelS = Name
+        Case 19
+            mAccelT = Name
+        Case 20
+            mAccelU = Name
+        Case 21
+            mAccelV = Name
+        Case 22
+            mAccelW = Name
+        Case 23
+            mAccelX = Name
+        Case 24
+            mAccelY = Name
+        Case 25
+            mAccelZ = Name
+    End Select
+End Sub
+
+Private Sub ResolvePointerTarget(ByVal Control As IOxControl)
+    If Control Is Nothing Then
+        mHoverName = ""
+        mCursorTargetName = ""
+        mCursorPointer = 0
+    Else
+        mHoverName = Control.Core.Name
+        mCursorTargetName = Control.Core.Name
+        mCursorPointer = Control.Core.MousePointer
     End If
 End Sub
 
@@ -228,6 +697,7 @@ End Sub
 ' ordered effect log.
 Public Function DispatchDrop(ByVal Text As String) As String
     mEffects = ""
+    EnsureInteractionIndex
     If Len(mFocusName) > 0 And Len(Text) > 0 Then
         mForm.ControlByName(mFocusName).OnPaste Text, OX_ACTION_PASTE, 0
         Emit "drop:" & mFocusName
@@ -238,26 +708,14 @@ End Function
 
 ' The visible+enabled form default button's name ("" if none).
 Private Function DefaultButtonName() As String
-    Dim I As Long, Ctl As IOxControl
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Ctl.IsDefault And Ctl.Core.Visible And Ctl.Core.Enabled Then
-            DefaultButtonName = Ctl.Core.Name
-            Exit Function
-        End If
-    Next I
+    EnsureInteractionIndex
+    DefaultButtonName = mDefaultButtonName
 End Function
 
 ' The visible+enabled form cancel button's name ("" if none).
 Private Function CancelButtonName() As String
-    Dim I As Long, Ctl As IOxControl
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Ctl.IsCancel And Ctl.Core.Visible And Ctl.Core.Enabled Then
-            CancelButtonName = Ctl.Core.Name
-            Exit Function
-        End If
-    Next I
+    EnsureInteractionIndex
+    CancelButtonName = mCancelButtonName
 End Function
 
 ' Enter on a control that did not consume it activates the default button: move focus to it
@@ -284,18 +742,14 @@ End Sub
 
 ' Alt+letter focuses then clicks the CommandButton whose caption mnemonic matches.
 Private Sub ActivateAccelerator(ByVal KeyCode As Integer)
-    Dim Want As String
-    Want = UCase$(Chr$(KeyCode))
-    If Len(Want) = 0 Then Exit Sub
+    EnsureInteractionIndex
 
-    Dim I As Long, Ctl As IOxControl, Name As String
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.AcceleratorKey = Want Then
-            Name = Ctl.Core.Name
-            Exit For
-        End If
-    Next I
+    Dim Slot As Long
+    Slot = AcceleratorSlot(KeyCode)
+    If Slot < 0 Then Exit Sub
+
+    Dim Name As String
+    Name = AcceleratorName(Slot)
     If Len(Name) = 0 Then Exit Sub
 
     If Name <> mFocusName Then
@@ -341,63 +795,22 @@ End Function
 ' The next (or, with Shift, previous) participating control in tab order after CurrentName,
 ' wrapping around. Returns "" if there is no other participating control.
 Private Function TabTarget(ByVal CurrentName As String, ByVal Shift As Boolean) As String
-    Dim CurKey As Long, HaveCur As Boolean
-    Dim I As Long, Ctl As IOxControl
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Ctl.Core.Name = CurrentName Then
-            CurKey = TabKey(Ctl, I - 1)
-            HaveCur = True
-            Exit For
-        End If
-    Next I
-    If Not HaveCur Then Exit Function
-
-    Dim BestName As String, BestKey As Long, HaveBest As Boolean
-    Dim WrapName As String, WrapKey As Long, HaveWrap As Boolean
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Participates(Ctl) And Ctl.Core.Name <> CurrentName Then
-            Dim K As Long
-            K = TabKey(Ctl, I - 1)
-            If Not Shift Then
-                If K > CurKey Then
-                    If Not HaveBest Or K < BestKey Then BestName = Ctl.Core.Name: BestKey = K: HaveBest = True
-                End If
-                If Not HaveWrap Or K < WrapKey Then WrapName = Ctl.Core.Name: WrapKey = K: HaveWrap = True
-            Else
-                If K < CurKey Then
-                    If Not HaveBest Or K > BestKey Then BestName = Ctl.Core.Name: BestKey = K: HaveBest = True
-                End If
-                If Not HaveWrap Or K > WrapKey Then WrapName = Ctl.Core.Name: WrapKey = K: HaveWrap = True
-            End If
-        End If
-    Next I
-
-    If HaveBest Then
-        TabTarget = BestName
-    ElseIf HaveWrap Then
-        TabTarget = WrapName
+    EnsureInteractionIndex
+    If Shift Then
+        TabTarget = mTabPrevByName.Item(CurrentName)
+    Else
+        TabTarget = mTabNextByName.Item(CurrentName)
     End If
 End Function
 
 ' Focus the first (or, with Shift, last) participating control when nothing is focused yet.
 Private Sub FocusFirstTab(ByVal Shift As Boolean)
-    Dim BestName As String, BestKey As Long, HaveBest As Boolean
-    Dim I As Long, Ctl As IOxControl
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Participates(Ctl) Then
-            Dim K As Long
-            K = TabKey(Ctl, I - 1)
-            If Not HaveBest _
-                Or (Not Shift And K < BestKey) _
-                Or (Shift And K > BestKey) Then
-                BestName = Ctl.Core.Name: BestKey = K: HaveBest = True
-            End If
-        End If
-    Next I
-    If HaveBest Then TransferFocusTo BestName
+    EnsureInteractionIndex
+    If Shift Then
+        If Len(mLastTabName) > 0 Then TransferFocusTo mLastTabName
+    Else
+        If Len(mFirstTabName) > 0 Then TransferFocusTo mFirstTabName
+    End If
 End Sub
 
 ' Transfer focus to NewName, running the losing control's two-stage focus-out validation inline

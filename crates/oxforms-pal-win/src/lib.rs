@@ -3,8 +3,8 @@
 //! The first *visible* backend for the W007 vertical slice. It turns a control-blind
 //! [`oxforms_pal::scene::Scene`] into pixels in a real window and OS events into
 //! normalized [`oxforms_pal::UiEvent`]s — nothing more. Control behavior, routing, and
-//! the form object model stay in `oxforms-core`/runtime; this crate deliberately does
-//! not depend on them (see `Cargo.toml`). See `docs/specs/RENDERING_ARCHITECTURE.md`
+//! the form object model stay in the OxVba adapter/runtime; this crate deliberately does
+//! not depend on it (see `Cargo.toml`). See `docs/specs/RENDERING_ARCHITECTURE.md`
 //! §15 for the (revisitable) stack decision: winit + softbuffer + tiny-skia + ab_glyph.
 //!
 //! Layers:
@@ -18,7 +18,7 @@
 //! - [`fixture`] — a raw-primitive greeter scene standing in for VBA self-render output
 //!   until the OxVba integration is wired (oxforms-4pn.7/.8).
 //! - [`clipboard`] — the live OS clipboard read ([`clipboard::read_clipboard_text`]) the
-//!   runtime's keyboard Ctrl+V fold-back injects (oxforms-esq.16); Windows-only, `None`
+//!   desktop bootstrap gives the runtime for keyboard Ctrl+V paste; Windows-only, `None`
 //!   elsewhere and when the clipboard holds no text.
 
 #![forbid(unsafe_code)]

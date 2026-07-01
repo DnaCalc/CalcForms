@@ -193,21 +193,17 @@ pub enum UiEventKind {
     HideRequested(HideRequestedEvent),
     WindowHidden(WindowHiddenEvent),
     QueryCloseCompleted(QueryCloseCompletedEvent),
-    /// A focus-leaving `Exit` handler's post-dispatch `Cancel` readback, folded back so
-    /// a vetoed focus change is honored (focus retained) rather than only recorded
-    /// (oxforms-esq.4). Synthesized by the runtime after the `Exit` native dispatch.
+    /// Historical fold-back row for the pre-pivot Rust reducer: a focus-leaving `Exit`
+    /// handler's post-dispatch `Cancel` readback. The current OxVba runtime handles this
+    /// veto inline in VBA; the variant remains for trace-schema compatibility.
     FocusValidationCompleted(FocusValidationCompletedEvent),
-    /// A `KeyDown` handler's post-dispatch `KeyCode -> 0` swallow readback, folded back
-    /// so the paired `KeyPress`/`Change` (carried by the following `CharacterInput`) is
-    /// suppressed rather than only recorded (oxforms-esq.4). Synthesized by the runtime
-    /// after the `KeyDown` native dispatch.
+    /// Historical fold-back row for a `KeyDown` handler's post-dispatch `KeyCode -> 0`
+    /// swallow readback. The current OxVba runtime links printable-key swallows inline
+    /// in VBA and suppresses the paired `CharacterInput` without synthesizing this event.
     KeyDownSwallowed(KeyDownSwallowedEvent),
-    /// A `BeforeDropOrPaste` handler's post-dispatch `Cancel` readback, folded back so a
-    /// vetoing paste (`Cancel = True`) suppresses the text insert + `Change` rather than
-    /// only being recorded (oxforms-esq.17). Synthesized by the runtime after the
-    /// `BeforeDropOrPaste` native dispatch; the deferred paste content lives in the
-    /// reducer's pending paste-commit (a two-stage paste, mirroring the esq.11 BeforeUpdate
-    /// veto).
+    /// Historical fold-back row for a `BeforeDropOrPaste` handler's post-dispatch
+    /// `Cancel` readback. The current OxVba runtime reads the helper inline and suppresses
+    /// the insert + `Change` immediately when the handler vetoes the paste.
     BeforeDropOrPasteCompleted(BeforeDropOrPasteCompletedEvent),
     UnloadRequested(UnloadRequestedEvent),
     Unloaded(UnloadedEvent),

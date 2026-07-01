@@ -8,8 +8,8 @@
 //! The PAL core deliberately has no dependency on any host runtime. Sibling
 //! adapter crates own runtime-specific marshalling and project host values into
 //! these typed display-list and input contracts. It also deliberately does not
-//! own control behavior; W005 reducer/effects reference code lives in
-//! `oxforms-core`.
+//! own control behavior; the current reducer/object model lives in the OxForms
+//! VBA library and is driven by the OxVba adapter runtime.
 
 #![forbid(unsafe_code)]
 

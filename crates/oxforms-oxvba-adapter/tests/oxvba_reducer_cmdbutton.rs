@@ -14,7 +14,9 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::StubShaper;
+use oxforms_pal::scene::{FontId, NodeId, Paint, Prim, RectF, StubShaper, TextRunId};
+use oxforms_pal::Color;
+use oxforms_pal_win::{load_ui_font, AbGlyphShaper};
 
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_com::PortableComProjection;
@@ -50,6 +52,12 @@ fn module_unit(name: &str, kind: ModuleKind, relative: &str) -> ModuleUnit {
 /// `OxForms.Surface` boundary registered so the reducer's `UserForm.Render` self-renders.
 /// Returns the surface so a test can read back the resident-scene revision + framebuffer hash.
 fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
+    prepare_session_with_surface(Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper))))
+}
+
+fn prepare_session_with_surface(
+    surface: Arc<SurfaceFactory>,
+) -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
     let modules = vec![
         module_unit(
             "OxFormsModel",
@@ -145,7 +153,6 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         oxvba_oxir::elaborate::elaborate(&program).expect("elaborate reducer cmd-button project");
 
     let projection = Arc::new(PortableComProjection::new());
-    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(StubShaper)));
     register_surface(&projection, surface.clone());
 
     let profile = HostProfileProvider::new()
@@ -193,6 +200,18 @@ fn dispatch_btn(
     y: i32,
     button: i16,
 ) -> String {
+    dispatch_mouse(session, form, kind, x, y, button, 0)
+}
+
+fn dispatch_mouse(
+    session: &mut ProjectRuntimeSession,
+    form: &ObjectRef,
+    kind: &str,
+    x: i32,
+    y: i32,
+    button: i16,
+    shift: i16,
+) -> String {
     call(
         session,
         form.clone(),
@@ -203,7 +222,7 @@ fn dispatch_btn(
             Variant::from_i32(x),
             Variant::from_i32(y),
             Variant::from_i16(button),
-            Variant::from_i16(0), // Shift
+            Variant::from_i16(shift),
         ],
     )
     .as_bstr()
@@ -269,6 +288,18 @@ fn bool_get(session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &str)
     )
     .as_bool()
     .unwrap_or_else(|| panic!("{member} should return a boolean"))
+}
+
+fn i32_get(session: &mut ProjectRuntimeSession, form: &ObjectRef, member: &str) -> i32 {
+    call(
+        session,
+        form.clone(),
+        member,
+        ProjectMemberKind::PropertyGet,
+        Vec::new(),
+    )
+    .as_i32()
+    .unwrap_or_else(|| panic!("{member} should return a Long-compatible integer"))
 }
 
 fn dispatch_key_shift(
@@ -349,6 +380,31 @@ fn set_clipboard_text(session: &mut ProjectRuntimeSession, form: &ObjectRef, tex
     );
 }
 
+fn set_t1_text(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) {
+    call(
+        session,
+        form.clone(),
+        "SetT1Text",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    );
+}
+
+fn set_t1_selection(
+    session: &mut ProjectRuntimeSession,
+    form: &ObjectRef,
+    start: i32,
+    length: i32,
+) {
+    call(
+        session,
+        form.clone(),
+        "SetT1Selection",
+        ProjectMemberKind::Method,
+        vec![Variant::from_i32(start), Variant::from_i32(length)],
+    );
+}
+
 fn dispatch_drop(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) -> String {
     call(
         session,
@@ -393,6 +449,55 @@ fn framebuffer_hash(surface: &Arc<SurfaceFactory>) -> u64 {
         .last_report
         .expect("a render report")
         .framebuffer_hash
+}
+
+fn fill_rect_count(surface: &Arc<SurfaceFactory>, node: NodeId) -> usize {
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    scene
+        .get(node)
+        .unwrap_or_else(|| panic!("node {node:?} should exist"))
+        .prims
+        .iter()
+        .filter(|prim| matches!(prim, Prim::FillRect { .. }))
+        .count()
+}
+
+const TEXT_SELECTION_COLOR: Color = Color::rgba(0x0a, 0x24, 0x6a, 0xff);
+const TEXT_SELECTION_FORE_COLOR: Color = Color::rgba(0xff, 0xff, 0xff, 0xff);
+
+fn solid_color(paint: &Paint) -> Option<Color> {
+    match paint {
+        Paint::Solid(color) => Some(*color),
+        Paint::LinearGradient { .. } => None,
+    }
+}
+
+fn fill_rect_with_color(prims: &[Prim], color: Color) -> Option<RectF> {
+    prims.iter().find_map(|prim| match prim {
+        Prim::FillRect { rect, paint } if solid_color(paint) == Some(color) => Some(*rect),
+        _ => None,
+    })
+}
+
+fn draw_text_with_color(prims: &[Prim], color: Color) -> Option<(TextRunId, RectF)> {
+    prims.iter().find_map(|prim| match prim {
+        Prim::DrawText {
+            run, rect, paint, ..
+        } if solid_color(paint) == Some(color) => Some((*run, *rect)),
+        _ => None,
+    })
+}
+
+fn assert_rect_close(actual: RectF, expected: RectF, label: &str) {
+    let close = |a: f32, b: f32| (a - b).abs() < 0.01;
+    assert!(
+        close(actual.x, expected.x)
+            && close(actual.y, expected.y)
+            && close(actual.w, expected.w)
+            && close(actual.h, expected.h),
+        "{label}: actual {actual:?}, expected {expected:?}"
+    );
 }
 
 // The cmd-button fixture button is at Left=20, Top=20, Width=80, Height=30 -> x in [20,100),
@@ -613,6 +718,14 @@ fn checkbox_second_click_toggles_back_off() {
 const T1_IN: (i32, i32) = (40, 28);
 const T2_IN: (i32, i32) = (40, 58);
 const KEY_A: i16 = 65;
+const KEY_C: i16 = 67;
+const KEY_X: i16 = 88;
+const KEY_BACKSPACE: i16 = 8;
+const KEY_HOME: i16 = 36;
+const KEY_END: i16 = 35;
+const KEY_LEFT: i16 = 37;
+const KEY_DELETE: i16 = 46;
+const SHIFT_SHIFT: i16 = 1;
 
 #[test]
 fn typing_into_focused_textbox_fires_keydown_keypress_change_keyup() {
@@ -642,6 +755,278 @@ fn typing_into_focused_textbox_fires_keydown_keypress_change_keyup() {
 }
 
 #[test]
+fn textbox_character_input_replaces_selection_and_moves_caret() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "abc");
+    set_t1_selection(&mut session, &form, 1, 1);
+
+    let log = dispatch_char(&mut session, &form, "X");
+    assert_eq!(log, "char:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "aXc");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 2);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyPress", "T1.Change"],
+        "user character input fires KeyPress before the replacement Change"
+    );
+}
+
+#[test]
+fn textbox_backspace_delete_and_navigation_edit_at_the_caret() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "abc");
+
+    let backspace = dispatch_key(&mut session, &form, "keydown", KEY_BACKSPACE);
+    assert_eq!(backspace, "keydown:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "ab");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 2);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    let home = dispatch_key(&mut session, &form, "keydown", KEY_HOME);
+    assert_eq!(home, "keydown:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 0);
+
+    let delete = dispatch_key(&mut session, &form, "keydown", KEY_DELETE);
+    assert_eq!(delete, "keydown:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "b");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 0);
+
+    let end = dispatch_key(&mut session, &form, "keydown", KEY_END);
+    assert_eq!(end, "keydown:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
+
+    let left = dispatch_key(&mut session, &form, "keydown", KEY_LEFT);
+    assert_eq!(left, "keydown:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 0);
+}
+
+#[test]
+fn textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "abcdef");
+
+    for expected_start in [5, 4, 3] {
+        let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_LEFT, SHIFT_SHIFT);
+        assert_eq!(log, "keydown:T1|repaint");
+        assert_eq!(i32_get(&mut session, &form, "T1SelStart"), expected_start);
+    }
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 3);
+    assert_eq!(string_get(&mut session, &form, "T1SelText"), "def");
+
+    let backspace = dispatch_key(&mut session, &form, "keydown", KEY_BACKSPACE);
+    assert_eq!(backspace, "keydown:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "abc");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 3);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
+
+    let repeat = dispatch_key(&mut session, &form, "keydown", KEY_BACKSPACE);
+    assert_eq!(repeat, "keydown:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "ab",
+        "a held Backspace repeat must mutate immediately, not wait for another key"
+    );
+}
+
+#[test]
+fn textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "abcd");
+
+    let select_all = dispatch_key_shift(&mut session, &form, "keydown", KEY_A, SHIFT_CTRL);
+    assert_eq!(select_all, "keydown:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 0);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 4);
+    assert_eq!(string_get(&mut session, &form, "T1SelText"), "abcd");
+
+    let copy = dispatch_key_shift(&mut session, &form, "keydown", KEY_C, SHIFT_CTRL);
+    assert_eq!(copy, "keydown:T1|copy:T1");
+    assert_eq!(string_get(&mut session, &form, "ClipboardText"), "abcd");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "abcd");
+
+    let cut = dispatch_key_shift(&mut session, &form, "keydown", KEY_X, SHIFT_CTRL);
+    assert_eq!(cut, "keydown:T1|cut:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "ClipboardText"), "abcd");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 0);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
+
+    set_clipboard_text(&mut session, &form, "X");
+    let paste = dispatch_key_shift(&mut session, &form, "keydown", KEY_V, SHIFT_CTRL);
+    assert_eq!(paste, "keydown:T1|paste:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "X");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
+}
+
+#[test]
+fn textbox_scene_emits_caret_and_selection_fill_primitives() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    assert_eq!(
+        fill_rect_count(&surface, NodeId(1)),
+        1,
+        "unfocused empty TextBox starts with only the field face fill"
+    );
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    assert!(
+        fill_rect_count(&surface, NodeId(1)) >= 2,
+        "focused TextBox emits a caret FillRect in addition to the field face"
+    );
+
+    set_t1_text(&mut session, &form, "abcd");
+    set_t1_selection(&mut session, &form, 1, 2);
+    dispatch_key_shift(&mut session, &form, "keydown", KEY_C, SHIFT_CTRL);
+    assert!(
+        fill_rect_count(&surface, NodeId(1)) >= 2,
+        "selected TextBox emits a selection FillRect in addition to the field face"
+    );
+}
+
+#[test]
+fn textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text() {
+    let Ok(font) = load_ui_font() else {
+        eprintln!("skipping proportional TextBox geometry test: no UI font available");
+        return;
+    };
+    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(AbGlyphShaper::new(
+        FontId(1),
+        font,
+    ))));
+    let (mut session, surface) = prepare_session_with_surface(surface);
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "iiiiWW");
+    set_t1_selection(&mut session, &form, 1, 4);
+    invoke_sub(&mut session, &form, "Render");
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let parent = scene.get(NodeId(1)).expect("T1 scene node");
+    let overlay_id = NodeId(1901);
+    assert!(
+        parent.children.contains(&overlay_id),
+        "TextBox parent should paint the selected-text recolor overlay as a child"
+    );
+
+    let selection_rect = fill_rect_with_color(&parent.prims, TEXT_SELECTION_COLOR)
+        .expect("selection background fill");
+    let (run_id, text_rect) = parent
+        .prims
+        .iter()
+        .find_map(|prim| match prim {
+            Prim::DrawText { run, rect, .. } => Some((*run, *rect)),
+            _ => None,
+        })
+        .expect("parent DrawText prim");
+    let run = scene.text_run(run_id).expect("projected shaped text run");
+    assert_eq!(&*run.source, "iiiiWW");
+
+    let widths: Vec<f32> = run.caret.stops.windows(2).map(|w| w[1] - w[0]).collect();
+    if (widths[0] - widths[4]).abs() <= 0.1 {
+        eprintln!("skipping proportional TextBox geometry assertion: UI font appears monospaced");
+        return;
+    }
+
+    let expected = RectF::new(
+        text_rect.x + run.caret.stops[1],
+        text_rect.y,
+        run.caret.stops[5] - run.caret.stops[1],
+        text_rect.h,
+    );
+    assert_rect_close(
+        selection_rect,
+        expected,
+        "selection fill from shaped caret stops",
+    );
+
+    let overlay = scene.get(overlay_id).expect("selection overlay node");
+    assert!(
+        overlay.visible,
+        "selection overlay should be visible while selecting"
+    );
+    assert_rect_close(
+        overlay.clip.expect("selection overlay clip"),
+        expected,
+        "selection overlay clip",
+    );
+    let (overlay_run, overlay_rect) =
+        draw_text_with_color(&overlay.prims, TEXT_SELECTION_FORE_COLOR)
+            .expect("selected text recolor DrawText");
+    assert_eq!(overlay_run, run_id, "overlay redraws the same shaped run");
+    assert_rect_close(
+        overlay_rect,
+        text_rect,
+        "overlay text rect must match the normal text rect exactly",
+    );
+}
+
+#[test]
+fn textbox_mouse_down_places_caret_from_control_local_x() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "abcd");
+    dispatch_key(&mut session, &form, "keydown", KEY_END);
+    invoke_sub(&mut session, &form, "ClearLog");
+
+    let log = dispatch(&mut session, &form, "mousedown", 32, T1_IN.1);
+    assert_eq!(log, "mousedown:T1|repaint");
+    assert_eq!(
+        i32_get(&mut session, &form, "T1SelStart"),
+        2,
+        "caret hit testing must use reducer-provided control-local X, not subtract Left twice"
+    );
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
+}
+
+#[test]
+fn textbox_mouse_drag_extends_selection_through_mousemove_capture() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    set_t1_text(&mut session, &form, "abcdef");
+    invoke_sub(&mut session, &form, "Render");
+
+    let down = dispatch(&mut session, &form, "mousedown", 28, T1_IN.1);
+    assert_eq!(down, "enter:T1|mousedown:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
+
+    let drag = dispatch_mouse(&mut session, &form, "mousemove", 39, T1_IN.1, 1, 0);
+    assert_eq!(drag, "mousemove:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 3);
+    assert_eq!(string_get(&mut session, &form, "T1SelText"), "bcd");
+
+    let up = dispatch(&mut session, &form, "mouseup", 39, T1_IN.1);
+    assert_eq!(up, "mouseup:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "T1SelText"),
+        "bcd",
+        "selection survives the release"
+    );
+}
+
+#[test]
 fn clean_focus_change_fires_exit_then_enter() {
     let (mut session, _surface) = prepare_session();
     let form = build_form(&mut session, "ReducerTextBoxForm");
@@ -650,7 +1035,7 @@ fn clean_focus_change_fires_exit_then_enter() {
 
     // Click T2: focus transfers T1 -> T2 BEFORE the MouseDown (no edit, so no BeforeUpdate).
     let log = dispatch(&mut session, &form, "mousedown", T2_IN.0, T2_IN.1);
-    assert_eq!(log, "exit:T1|enter:T2|mousedown:T2");
+    assert_eq!(log, "exit:T1|enter:T2|mousedown:T2|repaint");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()
@@ -674,7 +1059,7 @@ fn dirty_focus_out_fires_two_stage_then_exit_enter() {
 
     let log = dispatch(&mut session, &form, "mousedown", T2_IN.0, T2_IN.1);
     assert_eq!(
-        log, "beforeupdate:T1|afterupdate:T1|exit:T1|enter:T2|mousedown:T2",
+        log, "beforeupdate:T1|afterupdate:T1|exit:T1|enter:T2|mousedown:T2|repaint",
         "a dirty focus-out runs the full two-stage validation before Enter + MouseDown"
     );
     assert_eq!(
@@ -746,7 +1131,7 @@ fn tab_moves_focus_to_the_next_control() {
 
     // Tab: KeyDown fires on T1, then (not swallowed) focus transfers T1 -> T2 (clean: Exit/Enter).
     let log = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
-    assert_eq!(log, "keydown:T1|exit:T1|enter:T2");
+    assert_eq!(log, "keydown:T1|exit:T1|enter:T2|repaint");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()
@@ -765,8 +1150,28 @@ fn shift_tab_wraps_focus_to_the_previous_control() {
     // From T1, Shift+Tab moves backward; with only T1/T2 participating it wraps to T2.
     focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
     let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_TAB, 1);
-    assert_eq!(log, "keydown:T1|exit:T1|enter:T2");
+    assert_eq!(log, "keydown:T1|exit:T1|enter:T2|repaint");
     assert_eq!(string_get(&mut session, &form, "FocusName"), "T2");
+}
+
+#[test]
+fn ctrl_tab_does_not_reverse_tab_order() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_TAB, SHIFT_CTRL);
+    assert_eq!(
+        log, "keydown:T1",
+        "Ctrl+Tab is not Shift+Tab just because the MSForms Shift bitmask is nonzero"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown"]
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "T1");
 }
 
 #[test]
@@ -792,6 +1197,29 @@ fn swallowed_keydown_suppresses_the_following_character() {
         "",
         "the suppressed character is not inserted"
     );
+}
+
+#[test]
+fn swallowed_non_character_key_does_not_eat_the_next_character() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+
+    let esc = dispatch_key(&mut session, &form, "keydown", KEY_ESCAPE);
+    assert_eq!(esc, "keydown:T1");
+    let chr = dispatch_char(&mut session, &form, "A");
+    assert_eq!(
+        chr, "char:T1|repaint",
+        "Escape has no paired CharacterInput, so it cannot poison the next typed character"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["T1.KeyDown", "T1.KeyPress", "T1.Change"]
+    );
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "A");
 }
 
 #[test]
@@ -829,6 +1257,79 @@ const KEY_G: i16 = 71;
 const SHIFT_ALT: i16 = 4;
 
 #[test]
+fn capability_catalog_is_the_single_policy_source_for_current_controls() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    let catalog = string_get(&mut session, &form, "CapabilityCatalog");
+    assert!(
+        catalog.contains("Field:kind=TextBox;focusable=True;tabstop=True;click=False;pressed=False;text=True;paste=True;value=True;toggle=False;accelerator=False;default=False;cancel=False;cursor=3"),
+        "TextBox descriptor missing expected edit/paste policy:\n{catalog}"
+    );
+    assert!(
+        catalog.contains("Ok:kind=CommandButton;focusable=True;tabstop=True;click=True;pressed=True;text=False;paste=False;value=False;toggle=False;accelerator=True;default=True;cancel=True;cursor=0"),
+        "CommandButton descriptor missing click/default/accelerator policy:\n{catalog}"
+    );
+    assert!(
+        catalog.contains("Chk:kind=CheckBox;focusable=True;tabstop=True;click=True;pressed=True;text=False;paste=False;value=True;toggle=True;accelerator=False;default=False;cancel=False;cursor=0"),
+        "CheckBox descriptor missing toggle/value policy:\n{catalog}"
+    );
+}
+
+#[test]
+fn interaction_index_caches_tab_default_cancel_and_accelerator_maps() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        0,
+        "the reducer should build the interaction index lazily"
+    );
+
+    let summary = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        summary.contains(";first=Field;last=Chk;default=Ok;cancel=CancelBtn;"),
+        "summary should cache tab/default/cancel choices: {summary}"
+    );
+    assert!(
+        summary.contains(";alt+G=Go"),
+        "summary should cache the &Go accelerator: {summary}"
+    );
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        1,
+        "reading the summary builds the index exactly once"
+    );
+
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+    let log = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
+    assert_eq!(log, "keydown:Field|exit:Field|enter:Ok|repaint");
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        1,
+        "dispatch reuses the warm index while the form interaction revision is stable"
+    );
+
+    invoke_sub(&mut session, &form, "DisableDefaultButton");
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        1,
+        "a routing-affecting property change marks the cache stale without rebuilding immediately"
+    );
+    let after_disable = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        after_disable.contains(";first=Field;last=Chk;default=;cancel=CancelBtn;"),
+        "disabling the default button should rebuild without Ok as default: {after_disable}"
+    );
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        2,
+        "the next interaction-index read rebuilds after the revision changes"
+    );
+}
+
+#[test]
 fn enter_activates_the_default_button() {
     let (mut session, _surface) = prepare_session();
     let form = build_form(&mut session, "ReducerButtonsForm");
@@ -837,7 +1338,7 @@ fn enter_activates_the_default_button() {
 
     // Enter on the field: KeyDown fires, then focus moves to the default OK button and it clicks.
     let log = dispatch_key(&mut session, &form, "keydown", KEY_ENTER);
-    assert_eq!(log, "keydown:Field|exit:Field|enter:Ok|click:Ok");
+    assert_eq!(log, "keydown:Field|exit:Field|enter:Ok|click:Ok|repaint");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()
@@ -879,7 +1380,7 @@ fn alt_accelerator_activates_the_matching_button() {
 
     // Alt+G matches the "&Go" button: focus moves to it and it clicks.
     let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_G, SHIFT_ALT);
-    assert_eq!(log, "keydown:Field|exit:Field|enter:Go|click:Go");
+    assert_eq!(log, "keydown:Field|exit:Field|enter:Go|click:Go|repaint");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()
@@ -905,7 +1406,7 @@ fn space_toggles_the_focused_checkbox_value_first() {
 
     // Space toggles it back off: Change/Click fire BEFORE KeyDown (value-first keyboard order).
     let log = dispatch_key(&mut session, &form, "keydown", KEY_SPACE);
-    assert_eq!(log, "activate:Chk|keydown:Chk");
+    assert_eq!(log, "activate:Chk|keydown:Chk|repaint");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()
@@ -934,7 +1435,7 @@ fn ctrl_v_pastes_clipboard_into_the_focused_textbox() {
     // Ctrl down, then V down: KeyDown(Ctrl), KeyDown(V), then BeforeDropOrPaste -> Change. No KeyPress.
     dispatch_key_shift(&mut session, &form, "keydown", KEY_CTRL, SHIFT_CTRL);
     let log = dispatch_key_shift(&mut session, &form, "keydown", KEY_V, SHIFT_CTRL);
-    assert_eq!(log, "keydown:T1|paste:T1");
+    assert_eq!(log, "keydown:T1|paste:T1|repaint");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()

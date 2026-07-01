@@ -20,6 +20,26 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_rectangle_smoke -- --nocapture
 The smoke API in this directory is temporary proof plumbing. It is not the final
 MSForms compatibility surface.
 
+`fixtures/full_surface_showcase_form.cls` is the living full-surface showcase.
+It is a production-shaped VBA form-document driven by `OxRuntime`/`OxReducer`,
+not a low-level smoke bridge: it renders every currently implemented intrinsic
+control (`Label`, `TextBox`, `CommandButton`, `CheckBox`), lists the future FM20
+intrinsics as pending rows, and exposes `RunSelfTest` so the current method and
+event surface can be proven headlessly.
+
+Run it visibly:
+
+```powershell
+cargo run -p oxforms-bootstrap -- showcase
+```
+
+The bootstrap launches the showcase by default; the older W007 greeter remains
+available with:
+
+```powershell
+cargo run -p oxforms-bootstrap -- greeter
+```
+
 `fixtures/w005_probe_event_source.cls` and
 `fixtures/w005_probe_event_harness.cls` are W005 event-dispatch smoke fixtures.
 They prove reducer event effects can reach VBA handler code through OxVba

@@ -9,6 +9,7 @@ Implements IOxControl
 Public Event Change()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 ' KeyPress carries a mutable KeyAscii (ReturnInteger); a handler sets KeyAscii.Value
@@ -38,10 +39,34 @@ Private mCore As OxControlCore
 ' Uncommitted-edit flag for two-stage focus-out validation: set by a user edit (typed text),
 ' cleared on AfterUpdate. Programmatic .Text assignment does not set it.
 Private mEditDirty As Boolean
+Private mAnchor As Long
+Private mCaret As Long
+Private mHideSelection As Boolean
+Private mFocused As Boolean
+
+Private Const OX_SHIFT_MASK As Integer = 1
+Private Const OX_CTRL_MASK As Integer = 2
+Private Const OX_KEY_BACKSPACE As Integer = 8
+Private Const OX_KEY_HOME As Integer = 36
+Private Const OX_KEY_END As Integer = 35
+Private Const OX_KEY_LEFT As Integer = 37
+Private Const OX_KEY_RIGHT As Integer = 39
+Private Const OX_KEY_DELETE As Integer = 46
+Private Const OX_KEY_A As Integer = 65
+Private Const OX_BUTTON_LEFT As Integer = 1
+Private Const OX_TEXT_INSET_X As Single = 4
+Private Const OX_TEXT_INSET_Y As Single = 3
+Private Const OX_TEXT_SELECTION As Long = &H0A246A
+Private Const OX_TEXT_SELECTION_FORE As Long = &HFFFFFF
+Private Const OX_TEXT_CARET As Long = &H0
 
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlTextBox
+    mAnchor = 0
+    mCaret = 0
+    mHideSelection = True
+    mFocused = False
 End Sub
 
 ' --- IOxControl ---
@@ -55,9 +80,74 @@ Public Property Get Core() As OxControlCore
     Set Core = mCore
 End Property
 
-' Sunken white field + left-aligned text (caret is a later sub-part node).
+' Sunken white field + left-aligned text plus first-class editing adorners. Caret and
+' selection geometry is driven by the shaped text-run caret stops returned from the
+' Surface text service; the measured-average path below is only an unmeasured-run fallback.
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxPaintStandardControl mCore, Surface, "left"
+    Surface.OpenNode mCore.NodeId, True, 0, mCore.ZOrder, _
+        mCore.Left, mCore.Top, mCore.Width, mCore.Height, mCore.Visible
+    Surface.AddChild SelectionOverlayNodeId()
+
+    Surface.FillRect mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
+        ResolveTextBoxFace(), 255
+
+    Dim EdgeName As String
+    EdgeName = OxThemeEdgeName(mCore.SpecialEffect)
+    If Len(EdgeName) > 0 Then
+        Surface.DrawEdge mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
+            EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
+    ElseIf mCore.BorderStyle = fmBorderStyleSingle Then
+        Surface.StrokeRect mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
+            ResolveTextBoxBorder(), 255, 1
+    End If
+
+    Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
+    Tx = mCore.Left + OX_TEXT_INSET_X
+    Ty = mCore.Top + OX_TEXT_INSET_Y
+    Tw = mCore.Width - (OX_TEXT_INSET_X * 2)
+    If Tw < 1 Then Tw = 1
+    Th = mCore.Height - (OX_TEXT_INSET_Y * 2)
+    If Th < 1 Then Th = 1
+
+    Dim SelectionVisible As Boolean
+    Dim Sx As Single, Sw As Single
+    Sx = Tx
+    Sw = 0
+    SelectionVisible = (SelectionLength() > 0 And (mFocused Or Not mHideSelection))
+    If SelectionVisible Then
+        Sx = Tx + CaretX(SelectionStart())
+        Sw = CaretX(SelectionStart() + SelectionLength()) - CaretX(SelectionStart())
+        If Sw < 1 Then Sw = 1
+        Surface.FillRect Sx, Ty, Sw, Th, OX_TEXT_SELECTION, 255
+    End If
+
+    If Len(mCore.DisplayText) > 0 Then
+        Dim RunId As String
+        RunId = mCore.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        Surface.DrawText Tx, Ty, Tw, Th, RunId, "left", False, True, _
+            ResolveTextBoxText(), 255, False, Not mCore.Enabled
+    End If
+
+    If mFocused And mCore.Enabled And SelectionLength() = 0 Then
+        Dim Cx As Single
+        Cx = Tx + CaretX(mCaret)
+        Surface.FillRect Cx, Ty + 1, 1, Th - 2, OX_TEXT_CARET, 255
+    End If
+
+    Surface.CloseNode
+
+    Surface.OpenNodeClipped SelectionOverlayNodeId(), True, mCore.NodeId, 1, _
+        mCore.Left, mCore.Top, mCore.Width, mCore.Height, SelectionVisible, _
+        Sx, Ty, Sw, Th
+    If SelectionVisible And Len(mCore.DisplayText) > 0 Then
+        Dim OverlayRunId As String
+        OverlayRunId = mCore.RunId
+        If Len(OverlayRunId) = 0 Then OverlayRunId = "0"
+        Surface.DrawText Tx, Ty, Tw, Th, OverlayRunId, "left", False, True, _
+            OX_TEXT_SELECTION_FORE, 255, False, Not mCore.Enabled
+    End If
+    Surface.CloseNode
 End Sub
 
 ' --- User-facing properties ---
@@ -68,6 +158,45 @@ Public Property Get Text() As String
 End Property
 Public Property Let Text(ByVal Value As String)
     mCore.DisplayText = Value
+    ClampSelectionToText
+End Property
+
+Public Property Get SelStart() As Long
+    SelStart = SelectionStart()
+End Property
+Public Property Let SelStart(ByVal Value As Long)
+    SetSelection Value, SelectionLength()
+End Property
+
+Public Property Get SelLength() As Long
+    SelLength = SelectionLength()
+End Property
+Public Property Let SelLength(ByVal Value As Long)
+    SetSelection SelectionStart(), Value
+End Property
+
+Public Property Get SelText() As String
+    Dim Start As Long, Length As Long
+    Start = SelectionStart()
+    Length = SelectionLength()
+    If Length <= 0 Then
+        SelText = ""
+    Else
+        SelText = Mid$(mCore.DisplayText, Start + 1, Length)
+    End If
+End Property
+Public Property Let SelText(ByVal Value As String)
+    ReplaceSelection Value, False
+End Property
+
+Public Property Get HideSelection() As Boolean
+    HideSelection = mHideSelection
+End Property
+Public Property Let HideSelection(ByVal Value As Boolean)
+    If mHideSelection <> Value Then
+        mHideSelection = Value
+        mCore.MarkDirty
+    End If
 End Property
 
 Public Property Get Name() As String
@@ -120,18 +249,261 @@ End Property
 ' User edit path: set the text from a real keystroke/paste and raise Change.
 Public Sub ApplyUserText(ByVal NewText As String)
     mCore.DisplayText = NewText
+    CollapseSelection Len(NewText)
     mEditDirty = True
     RaiseEvent Change
 End Sub
 
-' Insert typed text at the end of the value (a caret/selection model lands in a later
-' increment) and raise Change; marks the value dirty for two-stage focus-out validation.
+' Insert typed text at the current selection/caret and raise Change; marks the value dirty
+' for two-stage focus-out validation.
 Public Sub InsertText(ByVal NewText As String)
     If Len(NewText) = 0 Then Exit Sub
-    mCore.DisplayText = mCore.DisplayText & NewText
-    mEditDirty = True
-    RaiseEvent Change
+    ReplaceSelection NewText, True
 End Sub
+
+Private Function TextLength() As Long
+    TextLength = Len(mCore.DisplayText)
+End Function
+
+Private Function ClampIndex(ByVal Value As Long) As Long
+    If Value < 0 Then
+        ClampIndex = 0
+    ElseIf Value > TextLength() Then
+        ClampIndex = TextLength()
+    Else
+        ClampIndex = Value
+    End If
+End Function
+
+Private Function ClampLength(ByVal Start As Long, ByVal Value As Long) As Long
+    If Value < 0 Then
+        ClampLength = 0
+    ElseIf Start + Value > TextLength() Then
+        ClampLength = TextLength() - Start
+    Else
+        ClampLength = Value
+    End If
+End Function
+
+Private Function SelectionStart() As Long
+    If mAnchor < mCaret Then
+        SelectionStart = mAnchor
+    Else
+        SelectionStart = mCaret
+    End If
+End Function
+
+Private Function SelectionLength() As Long
+    SelectionLength = Abs(mCaret - mAnchor)
+End Function
+
+Private Sub SetSelection(ByVal Start As Long, ByVal Length As Long)
+    Dim NewStart As Long, NewLength As Long
+    NewStart = ClampIndex(Start)
+    NewLength = ClampLength(NewStart, Length)
+    If mAnchor <> NewStart Or mCaret <> NewStart + NewLength Then
+        mAnchor = NewStart
+        mCaret = NewStart + NewLength
+        mCore.MarkDirty
+    End If
+End Sub
+
+Private Sub CollapseSelection(ByVal Index As Long)
+    Dim NewIndex As Long
+    NewIndex = ClampIndex(Index)
+    If mAnchor <> NewIndex Or mCaret <> NewIndex Then
+        mAnchor = NewIndex
+        mCaret = NewIndex
+        mCore.MarkDirty
+    End If
+End Sub
+
+Private Sub ClampSelectionToText()
+    Dim Start As Long, Length As Long
+    Start = SelectionStart()
+    Length = SelectionLength()
+    If Start > TextLength() Then
+        CollapseSelection TextLength()
+    ElseIf Start + Length > TextLength() Then
+        SetSelection Start, TextLength() - Start
+    End If
+End Sub
+
+Private Sub ReplaceSelection(ByVal NewText As String, ByVal IsUserEdit As Boolean)
+    Dim Start As Long, Length As Long
+    Dim OldText As String, NextText As String
+    Start = SelectionStart()
+    Length = SelectionLength()
+    OldText = mCore.DisplayText
+    NextText = Left$(OldText, Start) & NewText & Mid$(OldText, Start + Length + 1)
+    If NextText = OldText And Length = 0 And Len(NewText) = 0 Then Exit Sub
+    mCore.DisplayText = NextText
+    CollapseSelection Start + Len(NewText)
+    If IsUserEdit Then
+        mEditDirty = True
+        RaiseEvent Change
+    End If
+End Sub
+
+Private Sub DeleteBack()
+    If SelectionLength() > 0 Then
+        ReplaceSelection "", True
+    ElseIf mCaret > 0 Then
+        mAnchor = mCaret - 1
+        ReplaceSelection "", True
+    End If
+End Sub
+
+Private Sub DeleteForward()
+    If SelectionLength() > 0 Then
+        ReplaceSelection "", True
+    ElseIf mCaret < TextLength() Then
+        mAnchor = mCaret + 1
+        ReplaceSelection "", True
+    End If
+End Sub
+
+Private Sub MoveCaretTo(ByVal Index As Long, ByVal ExtendSelection As Boolean)
+    Dim NewIndex As Long
+    NewIndex = ClampIndex(Index)
+    If ExtendSelection Then
+        If mCaret <> NewIndex Then
+            mCaret = NewIndex
+            mCore.MarkDirty
+        End If
+    Else
+        CollapseSelection NewIndex
+    End If
+End Sub
+
+Private Sub SelectAll()
+    SetSelection 0, TextLength()
+End Sub
+
+Private Function ApproxCharWidth() As Single
+    If TextLength() > 0 And mCore.MeasuredWidth > 0 Then
+        ApproxCharWidth = mCore.MeasuredWidth / TextLength()
+    Else
+        ApproxCharWidth = mCore.FontSize * 0.5
+    End If
+    If ApproxCharWidth < 1 Then ApproxCharWidth = 1
+End Function
+
+Private Function ApproxTextX(ByVal Index As Long) As Single
+    ApproxTextX = ClampIndex(Index) * ApproxCharWidth()
+End Function
+
+Private Function IndexFromPoint(ByVal X As Single) As Long
+    IndexFromPoint = CaretIndexFromX(X)
+End Function
+
+Private Function SelectionOverlayNodeId() As Long
+    SelectionOverlayNodeId = (mCore.NodeId * 1000) + 901
+End Function
+
+Private Function CaretX(ByVal Index As Long) As Single
+    Dim Found As Boolean
+    CaretX = CaretStopFromCsv(Index, Found)
+    If Not Found Then CaretX = ApproxTextX(Index)
+End Function
+
+Private Function CaretIndexFromX(ByVal X As Single) As Long
+    Dim LocalX As Single
+    LocalX = X - OX_TEXT_INSET_X
+    If LocalX <= 0 Then
+        CaretIndexFromX = 0
+        Exit Function
+    End If
+
+    If TextLength() = 0 Then
+        CaretIndexFromX = 0
+        Exit Function
+    End If
+
+    Dim Found As Boolean
+    Dim PrevStop As Single
+    PrevStop = CaretStopFromCsv(0, Found)
+    If Not Found Then
+        CaretIndexFromX = ClampIndex(CLng(Fix((LocalX / ApproxCharWidth()) + 0.5)))
+        Exit Function
+    End If
+
+    Dim I As Long, StopX As Single, MidPoint As Single
+    For I = 1 To TextLength()
+        StopX = CaretStopFromCsv(I, Found)
+        If Not Found Then Exit For
+        MidPoint = (PrevStop + StopX) / 2
+        If LocalX < MidPoint Then
+            CaretIndexFromX = I - 1
+            Exit Function
+        End If
+        PrevStop = StopX
+    Next I
+
+    If Found Then
+        CaretIndexFromX = TextLength()
+    Else
+        CaretIndexFromX = ClampIndex(CLng(Fix((LocalX / ApproxCharWidth()) + 0.5)))
+    End If
+End Function
+
+Private Function CaretStopFromCsv(ByVal Index As Long, ByRef Found As Boolean) As Single
+    Dim Target As Long
+    Target = ClampIndex(Index)
+    Found = False
+
+    Dim Csv As String
+    Csv = mCore.CaretStopsMilliPtCsv
+    If Len(Csv) = 0 Then Exit Function
+
+    Dim Pos As Long, Current As Long, Token As String, Ch As String
+    Token = ""
+    For Pos = 1 To Len(Csv) + 1
+        If Pos <= Len(Csv) Then
+            Ch = Mid$(Csv, Pos, 1)
+        Else
+            Ch = ","
+        End If
+
+        If Ch = "," Then
+            If Current = Target Then
+                If Len(Token) > 0 Then
+                    CaretStopFromCsv = CSng(CLng(Token)) / 1000
+                    Found = True
+                End If
+                Exit Function
+            End If
+            Current = Current + 1
+            Token = ""
+        Else
+            Token = Token & Ch
+        End If
+    Next Pos
+End Function
+
+Private Function ResolveTextBoxFace() As Long
+    If mCore.BackColor = oxColorAuto Then
+        ResolveTextBoxFace = OxThemeFaceColor(mCore.Kind, mCore.Pressed, mCore.Enabled)
+    Else
+        ResolveTextBoxFace = mCore.BackColor
+    End If
+End Function
+
+Private Function ResolveTextBoxText() As Long
+    If mCore.ForeColor = oxColorAuto Then
+        ResolveTextBoxText = OxThemeTextColor(mCore.Kind, mCore.Enabled)
+    Else
+        ResolveTextBoxText = mCore.ForeColor
+    End If
+End Function
+
+Private Function ResolveTextBoxBorder() As Long
+    If mCore.BorderColor = oxColorAuto Then
+        ResolveTextBoxBorder = OxThemeBorderColor()
+    Else
+        ResolveTextBoxBorder = mCore.BorderColor
+    End If
+End Function
 
 Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     RaiseEvent MouseDown(Button, Shift, X, Y)
@@ -139,6 +511,10 @@ End Sub
 
 Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     RaiseEvent MouseUp(Button, Shift, X, Y)
+End Sub
+
+Public Sub PerformMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    RaiseEvent MouseMove(Button, Shift, X, Y)
 End Sub
 
 Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
@@ -195,8 +571,8 @@ Public Sub PerformAfterUpdate()
 End Sub
 
 ' Raises BeforeDropOrPaste with a mutable Cancel helper and returns whether the handler
-' cancelled the paste (True = cancel). Action 2 = fmActionPaste; the Cancel readback is
-' recorded, not yet honored (oxforms-esq.9).
+' cancelled the paste (True = cancel). Action 2 = fmActionPaste; IOxControl_OnPaste
+' honors the returned veto before inserting text.
 Public Function PerformBeforeDropOrPaste(ByVal Action As Integer, ByVal Shift As Integer) As Boolean
     Dim cancel As ReturnBoolean
     Set cancel = New ReturnBoolean
@@ -206,11 +582,23 @@ End Function
 
 ' --- IOxControl reducer input surface (delegates to the concrete Perform*) ---
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If (Shift And OX_SHIFT_MASK) <> 0 Then
+        MoveCaretTo IndexFromPoint(X), True
+    Else
+        CollapseSelection IndexFromPoint(X)
+    End If
     PerformMouseDown Button, Shift, X, Y
 End Sub
 
 Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     PerformMouseUp Button, Shift, X, Y
+End Sub
+
+Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If (Button And OX_BUTTON_LEFT) <> 0 Then
+        MoveCaretTo IndexFromPoint(X), True
+    End If
+    PerformMouseMove Button, Shift, X, Y
 End Sub
 
 ' A TextBox does not fire Click (only CheckBox/Label/CommandButton do); the reducer never
@@ -221,9 +609,38 @@ End Sub
 ' Keyboard + focus surface. A TextBox raises keys, inserts typed characters (KeyPress then
 ' Change), and runs the two-stage focus-out validation when a typed edit left it dirty.
 Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
-    ' Edit keys (Backspace/Delete/arrows/Home/End) land with the caret model in a later
-    ' increment; for now KeyDown only raises the event.
-    IOxControl_OnKeyDown = PerformKeyDown(KeyCode, Shift)
+    Dim Post As Integer
+    Post = PerformKeyDown(KeyCode, Shift)
+    IOxControl_OnKeyDown = Post
+    If Post = 0 Then Exit Function
+
+    Dim ExtendSelection As Boolean
+    ExtendSelection = ((Shift And OX_SHIFT_MASK) <> 0)
+
+    Select Case Post
+        Case OX_KEY_BACKSPACE
+            DeleteBack
+        Case OX_KEY_DELETE
+            DeleteForward
+        Case OX_KEY_LEFT
+            If SelectionLength() > 0 And Not ExtendSelection Then
+                MoveCaretTo SelectionStart(), False
+            Else
+                MoveCaretTo mCaret - 1, ExtendSelection
+            End If
+        Case OX_KEY_RIGHT
+            If SelectionLength() > 0 And Not ExtendSelection Then
+                MoveCaretTo SelectionStart() + SelectionLength(), False
+            Else
+                MoveCaretTo mCaret + 1, ExtendSelection
+            End If
+        Case OX_KEY_HOME
+            MoveCaretTo 0, ExtendSelection
+        Case OX_KEY_END
+            MoveCaretTo TextLength(), ExtendSelection
+        Case OX_KEY_A
+            If (Shift And OX_CTRL_MASK) <> 0 Then SelectAll
+    End Select
 End Function
 
 Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
@@ -247,11 +664,21 @@ Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
 End Sub
 
 Private Sub IOxControl_OnEnter()
+    If Not mFocused Then
+        mFocused = True
+        mCore.MarkDirty
+    End If
     PerformEnter
 End Sub
 
 Private Function IOxControl_OnExit() As Boolean
     IOxControl_OnExit = PerformExit()
+    If Not IOxControl_OnExit Then
+        If mFocused Then
+            mFocused = False
+            mCore.MarkDirty
+        End If
+    End If
 End Function
 
 Private Function IOxControl_OnBeforeUpdate() As Boolean
@@ -287,17 +714,30 @@ End Function
 ' Clipboard / drag-drop paste: BeforeDropOrPaste fires before the value changes; a veto
 ' (Cancel=True) suppresses the insert + Change. Returns True (a TextBox is a text paste target).
 Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+    If Not mCore.AcceptsPaste Then
+        IOxControl_OnPaste = False
+        Exit Function
+    End If
     If Not PerformBeforeDropOrPaste(Action, Shift) Then
         InsertText Text
     End If
     IOxControl_OnPaste = True
 End Function
 
+Private Function IOxControl_OnCopy() As String
+    IOxControl_OnCopy = SelText
+End Function
+
+Private Function IOxControl_OnCut() As String
+    IOxControl_OnCut = SelText
+    If Len(IOxControl_OnCut) > 0 Then ReplaceSelection "", True
+End Function
+
 ' A TextBox neither fires Click nor shows a pressed visual (it takes capture + the caret).
 Private Property Get IOxControl_SupportsClick() As Boolean
-    IOxControl_SupportsClick = False
+    IOxControl_SupportsClick = mCore.SupportsClick
 End Property
 
 Private Property Get IOxControl_HasPressedVisual() As Boolean
-    IOxControl_HasPressedVisual = False
+    IOxControl_HasPressedVisual = mCore.HasPressedVisual
 End Property

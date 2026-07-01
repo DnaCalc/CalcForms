@@ -308,9 +308,11 @@ impl SurfaceDispatch {
     /// (RENDERING_ARCHITECTURE.md §6/§8). One crossing measures EVERY run a frame needs:
     /// `requests` is a `SAFEARRAY` of `OxMeasureRequest` records `(FontId, SizeMilliPt,
     /// Caption)`; the return is an index-aligned `SAFEARRAY` of `OxMeasureResult` records
-    /// `(RunId, AdvanceMilliPt, AscentMilliPt, DescentMilliPt, LineGapMilliPt)`. Captions
-    /// ride as native `String` record fields (never packed/escaped); metrics return as
-    /// typed `Long`s, so there is no VBA-side string parsing. Each run is shaped once and
+    /// `(RunId, AdvanceMilliPt, AscentMilliPt, DescentMilliPt, LineGapMilliPt,
+    /// CaretStopsMilliPtCsv)`. Captions ride as native `String` record fields
+    /// (never packed/escaped); metrics return as typed `Long`s, and caret stops return as
+    /// a comma-separated milli-point string for VBA-side selection/caret geometry. Each run is
+    /// shaped once and
     /// stored exactly as the single-run [`Self::measure_text`] does (shared [`shape_run`] +
     /// [`store_run`]), so a content-hash id is identical whichever path measured it. This
     /// replaces the per-control `MeasureText` fan-out: first paint of N text controls
@@ -368,6 +370,10 @@ impl SurfaceDispatch {
             rec.write_field_variant(
                 RES_LINE_GAP,
                 &Variant::from_i32(milli_pt_i32(run.metrics.line_gap)?),
+            )?;
+            rec.write_field_variant(
+                RES_CARET_STOPS,
+                &Variant::from_string(format_caret_stops(run)),
             )?;
             results.push(rec);
         }
@@ -448,6 +454,7 @@ const RES_ADVANCE: usize = 1;
 const RES_ASCENT: usize = 2;
 const RES_DESCENT: usize = 3;
 const RES_LINE_GAP: usize = 4;
+const RES_CARET_STOPS: usize = 5;
 
 /// Shape one run via the injected shaper (pure — no store mutation). Shared by the single
 /// `MeasureText` and the batched `MeasureBatch` so a content-hash id never depends on which
@@ -487,7 +494,19 @@ fn format_measure(run: &TextRun) -> String {
     )
 }
 
-/// The shared `OxMeasureResult` record layout (RunId: String, then four milli-pt Longs).
+fn format_caret_stops(run: &TextRun) -> String {
+    let mut out = String::new();
+    for (i, stop) in run.caret.stops.iter().enumerate() {
+        if i > 0 {
+            out.push(',');
+        }
+        out.push_str(&milli_pt(*stop).to_string());
+    }
+    out
+}
+
+/// The shared `OxMeasureResult` record layout (RunId: String, four milli-pt Longs,
+/// then caret stops as a milli-pt CSV String).
 /// Built per call (cheap); its field kinds + order mirror the VBA `OxMeasureResult` `Type`.
 fn measure_result_layout() -> Arc<VbaRecordLayout> {
     let layout = VbaRecordLayout::new(vec![
@@ -496,6 +515,7 @@ fn measure_result_layout() -> Arc<VbaRecordLayout> {
         VbaRecordFieldSpec::named("AscentMilliPt", VbaRecordFieldKind::Long),
         VbaRecordFieldSpec::named("DescentMilliPt", VbaRecordFieldKind::Long),
         VbaRecordFieldSpec::named("LineGapMilliPt", VbaRecordFieldKind::Long),
+        VbaRecordFieldSpec::named("CaretStopsMilliPtCsv", VbaRecordFieldKind::String),
     ])
     .expect("OxMeasureResult layout is statically valid");
     Arc::new(layout)

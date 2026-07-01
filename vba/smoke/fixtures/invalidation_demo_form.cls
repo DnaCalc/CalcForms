@@ -64,13 +64,10 @@ Public Sub BulkUpdateUnsuspendedLabel1()
     mLabel1.Core.Top = 70
 End Sub
 
-' Forms 2.0 robustness probe: Controls.Add of an UNKNOWN ProgID, and of a recognized-but-
-' unimplemented one ("Forms.CheckBox.1" has no class yet), must return Nothing WITHOUT
+' Forms 2.0 robustness probe: Controls.Add of an UNKNOWN ProgID must return Nothing WITHOUT
 ' crashing and must NOT register a phantom control. (Guards the rq5-fek Nothing-handling in
-' Controls.Add.) The returned controls are intentionally ignored.
+' Controls.Add.) The returned control is intentionally ignored.
 Public Sub TryAddUnsupportedControls()
     Dim Bogus As IOxControl
     Set Bogus = mForm.Controls.Add("Forms.Bogus.1", "bogus")
-    Dim Chk As IOxControl
-    Set Chk = mForm.Controls.Add("Forms.CheckBox.1", "chk")
 End Sub

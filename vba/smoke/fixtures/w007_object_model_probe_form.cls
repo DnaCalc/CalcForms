@@ -118,7 +118,7 @@ Private Sub InputField_Exit(ByVal Cancel As ReturnBoolean)
 End Sub
 
 ' Arm the InputField_Exit veto for the focus-validation conformance tests. Called outside
-' the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.11).
+' the event pipeline via the historical RuntimeRunner.invoke_form_sub path (oxforms-esq.11).
 Public Sub ArmExitVeto()
     mExitVeto = True
 End Sub
@@ -132,7 +132,7 @@ Private Sub InputField_BeforeUpdate(ByVal Cancel As ReturnBoolean)
 End Sub
 
 ' Arm the InputField_BeforeUpdate veto for the two-stage validation conformance test.
-' Called outside the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.11).
+' Called outside the event pipeline via the historical RuntimeRunner.invoke_form_sub path (oxforms-esq.11).
 Public Sub ArmBeforeUpdateVeto()
     mBeforeUpdateVeto = True
 End Sub
@@ -147,7 +147,7 @@ Private Sub InputField_BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Ac
 End Sub
 
 ' Arm the InputField_BeforeDropOrPaste veto for the two-stage paste conformance test.
-' Called outside the event pipeline via RuntimeRunner.invoke_form_sub (oxforms-esq.17).
+' Called outside the event pipeline via the historical RuntimeRunner.invoke_form_sub path (oxforms-esq.17).
 Public Sub ArmPasteVeto()
     mPasteVeto = True
 End Sub

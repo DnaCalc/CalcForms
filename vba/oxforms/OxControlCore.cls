@@ -8,8 +8,8 @@ Option Explicit
 ' dirty tracking, and the host-invalidation seam all live here once, so each
 ' concrete control stays thin (typed sugar properties + native events only).
 '
-' Geometry is in points (MSForms units). The runtime maps this core 1:1 onto the
-' oxforms-core ControlNode during materialization.
+' Geometry is in points (MSForms units). Controls render this core directly into
+' stable Scene nodes; no Rust control model materializes or owns the control state.
 
 Private mName As String
 Private mKind As OxControlKind
@@ -23,6 +23,19 @@ Private mEnabled As Boolean
 Private mFocusable As Boolean
 Private mTabStop As Boolean
 Private mTabIndex As Long
+' Intrinsic capability descriptor. These are the control-policy facts OxReducer reads
+' for routing/activation decisions; concrete controls may still carry dynamic state
+' such as CommandButton.Default, but the kind-level axes live here once.
+Private mSupportsClick As Boolean
+Private mHasPressedVisual As Boolean
+Private mAcceptsTextEditing As Boolean
+Private mAcceptsPaste As Boolean
+Private mValueEditable As Boolean
+Private mToggleable As Boolean
+Private mAcceleratorEligible As Boolean
+Private mDefaultButtonEligible As Boolean
+Private mCancelButtonEligible As Boolean
+Private mMousePointer As Long
 Private mDisplayText As String
 Private mDirty As Boolean
 ' Transient interaction visual: True while a press is armed on this control (mouse-down
@@ -49,6 +62,7 @@ Private mRunId As String
 ' these to shrink-wrap an AutoSize control before it paints.
 Private mMeasuredWidth As Single
 Private mMeasuredHeight As Single
+Private mCaretStopsMilliPtCsv As String
 
 ' Called by the concrete control's Class_Initialize with its intrinsic kind. Sets
 ' the per-kind appearance defaults from [MS-OFORMS] s5.6: morph controls (TextBox)
@@ -61,6 +75,16 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mEnabled = True
     mZOrder = 0
     mTabIndex = 0
+    mSupportsClick = False
+    mHasPressedVisual = False
+    mAcceptsTextEditing = False
+    mAcceptsPaste = False
+    mValueEditable = False
+    mToggleable = False
+    mAcceleratorEligible = False
+    mDefaultButtonEligible = False
+    mCancelButtonEligible = False
+    mMousePointer = 0
     mDisplayText = ""
     mNodeId = 0
     mBackColor = oxColorAuto
@@ -74,23 +98,40 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mRunId = ""
     mMeasuredWidth = 0
     mMeasuredHeight = 0
+    mCaretStopsMilliPtCsv = ""
 
     Select Case Kind
         Case oxControlLabel
             mFocusable = False
             mTabStop = False
+            mSupportsClick = True
             mSpecialEffect = fmSpecialEffectFlat
         Case oxControlCommandButton
             mFocusable = True
             mTabStop = True
+            mSupportsClick = True
+            mHasPressedVisual = True
+            mAcceleratorEligible = True
+            mDefaultButtonEligible = True
+            mCancelButtonEligible = True
             mSpecialEffect = fmSpecialEffectRaised
         Case oxControlTextBox
             mFocusable = True
             mTabStop = True
+            mAcceptsTextEditing = True
+            mAcceptsPaste = True
+            mValueEditable = True
+            mMousePointer = 3
             mSpecialEffect = fmSpecialEffectSunken
         Case Else
             mFocusable = True
             mTabStop = True
+            If Kind = oxControlCheckBox Then
+                mSupportsClick = True
+                mHasPressedVisual = True
+                mValueEditable = True
+                mToggleable = True
+            End If
             mSpecialEffect = fmSpecialEffectSunken
     End Select
 End Sub
@@ -109,63 +150,87 @@ Public Property Get Name() As String
     Name = mName
 End Property
 Public Property Let Name(ByVal Value As String)
-    mName = Value
+    If mName <> Value Then
+        mName = Value
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Left() As Single
     Left = mLeft
 End Property
 Public Property Let Left(ByVal Value As Single)
-    mLeft = Value
-    MarkDirty
+    If mLeft <> Value Then
+        mLeft = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Top() As Single
     Top = mTop
 End Property
 Public Property Let Top(ByVal Value As Single)
-    mTop = Value
-    MarkDirty
+    If mTop <> Value Then
+        mTop = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Width() As Single
     Width = mWidth
 End Property
 Public Property Let Width(ByVal Value As Single)
-    mWidth = Value
-    MarkDirty
+    If mWidth <> Value Then
+        mWidth = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Height() As Single
     Height = mHeight
 End Property
 Public Property Let Height(ByVal Value As Single)
-    mHeight = Value
-    MarkDirty
+    If mHeight <> Value Then
+        mHeight = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get ZOrder() As Long
     ZOrder = mZOrder
 End Property
 Public Property Let ZOrder(ByVal Value As Long)
-    mZOrder = Value
-    MarkDirty
+    If mZOrder <> Value Then
+        mZOrder = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Visible() As Boolean
     Visible = mVisible
 End Property
 Public Property Let Visible(ByVal Value As Boolean)
-    mVisible = Value
-    MarkDirty
+    If mVisible <> Value Then
+        mVisible = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Enabled() As Boolean
     Enabled = mEnabled
 End Property
 Public Property Let Enabled(ByVal Value As Boolean)
-    mEnabled = Value
-    MarkDirty
+    If mEnabled <> Value Then
+        mEnabled = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get Focusable() As Boolean
@@ -176,15 +241,93 @@ Public Property Get TabStop() As Boolean
     TabStop = mTabStop
 End Property
 Public Property Let TabStop(ByVal Value As Boolean)
-    mTabStop = Value
+    If mTabStop <> Value Then
+        mTabStop = Value
+        MarkInteractionDirty
+    End If
 End Property
 
 Public Property Get TabIndex() As Long
     TabIndex = mTabIndex
 End Property
 Public Property Let TabIndex(ByVal Value As Long)
-    mTabIndex = Value
+    If mTabIndex <> Value Then
+        mTabIndex = Value
+        MarkInteractionDirty
+    End If
 End Property
+
+Public Property Get SupportsClick() As Boolean
+    SupportsClick = mSupportsClick
+End Property
+
+Public Property Get HasPressedVisual() As Boolean
+    HasPressedVisual = mHasPressedVisual
+End Property
+
+Public Property Get AcceptsTextEditing() As Boolean
+    AcceptsTextEditing = mAcceptsTextEditing
+End Property
+
+Public Property Get AcceptsPaste() As Boolean
+    AcceptsPaste = mAcceptsPaste
+End Property
+
+Public Property Get ValueEditable() As Boolean
+    ValueEditable = mValueEditable
+End Property
+
+Public Property Get Toggleable() As Boolean
+    Toggleable = mToggleable
+End Property
+
+Public Property Get AcceleratorEligible() As Boolean
+    AcceleratorEligible = mAcceleratorEligible
+End Property
+
+Public Property Get DefaultButtonEligible() As Boolean
+    DefaultButtonEligible = mDefaultButtonEligible
+End Property
+
+Public Property Get CancelButtonEligible() As Boolean
+    CancelButtonEligible = mCancelButtonEligible
+End Property
+
+Public Property Get MousePointer() As Long
+    MousePointer = mMousePointer
+End Property
+
+Public Function CapabilityDescriptor() As String
+    CapabilityDescriptor = _
+        "kind=" & KindName() & _
+        ";focusable=" & CStr(mFocusable) & _
+        ";tabstop=" & CStr(mTabStop) & _
+        ";click=" & CStr(mSupportsClick) & _
+        ";pressed=" & CStr(mHasPressedVisual) & _
+        ";text=" & CStr(mAcceptsTextEditing) & _
+        ";paste=" & CStr(mAcceptsPaste) & _
+        ";value=" & CStr(mValueEditable) & _
+        ";toggle=" & CStr(mToggleable) & _
+        ";accelerator=" & CStr(mAcceleratorEligible) & _
+        ";default=" & CStr(mDefaultButtonEligible) & _
+        ";cancel=" & CStr(mCancelButtonEligible) & _
+        ";cursor=" & CStr(mMousePointer)
+End Function
+
+Private Function KindName() As String
+    Select Case mKind
+        Case oxControlLabel
+            KindName = "Label"
+        Case oxControlTextBox
+            KindName = "TextBox"
+        Case oxControlCommandButton
+            KindName = "CommandButton"
+        Case oxControlCheckBox
+            KindName = "CheckBox"
+        Case Else
+            KindName = "Unknown"
+    End Select
+End Function
 
 ' Generic render text projected by each control (Label/CommandButton Caption,
 ' TextBox Text). Keeping it on the core lets the runtime read display text
@@ -193,8 +336,11 @@ Public Property Get DisplayText() As String
     DisplayText = mDisplayText
 End Property
 Public Property Let DisplayText(ByVal Value As String)
-    mDisplayText = Value
-    MarkDirty
+    If mDisplayText <> Value Then
+        mDisplayText = Value
+        MarkDirty
+        If mAcceleratorEligible Or mAutoSize Then MarkInteractionDirty
+    End If
 End Property
 
 ' Font size in points (MSForms units; default 8). Part of the text-run identity, so a
@@ -203,8 +349,11 @@ Public Property Get FontSize() As Single
     FontSize = mFontSize
 End Property
 Public Property Let FontSize(ByVal Value As Single)
-    mFontSize = Value
-    MarkDirty
+    If mFontSize <> Value Then
+        mFontSize = Value
+        MarkDirty
+        If mAutoSize Then MarkInteractionDirty
+    End If
 End Property
 
 ' AutoSize (MSForms): when True, the control shrink-wraps its caption — the layout pass
@@ -214,8 +363,11 @@ Public Property Get AutoSize() As Boolean
     AutoSize = mAutoSize
 End Property
 Public Property Let AutoSize(ByVal Value As Boolean)
-    mAutoSize = Value
-    MarkDirty
+    If mAutoSize <> Value Then
+        mAutoSize = Value
+        MarkDirty
+        MarkInteractionDirty
+    End If
 End Property
 
 ' Transient render scratch (see the field comment): the text-run id string the measure
@@ -233,8 +385,11 @@ End Property
 ' so the runtime's sync_properties would see a phantom dirty for an untouched AutoSize
 ' control. (Mirrors how RunId is set — render output, not tracked state.)
 Public Sub SetAutoSizeBounds(ByVal NewWidth As Single, ByVal NewHeight As Single)
-    mWidth = NewWidth
-    mHeight = NewHeight
+    If mWidth <> NewWidth Or mHeight <> NewHeight Then
+        mWidth = NewWidth
+        mHeight = NewHeight
+        MarkInteractionDirty
+    End If
 End Sub
 
 ' Transient render scratch: the caption's measured size (points), set by the measure
@@ -250,6 +405,13 @@ Public Property Get MeasuredHeight() As Single
 End Property
 Public Property Let MeasuredHeight(ByVal Value As Single)
     mMeasuredHeight = Value
+End Property
+
+Public Property Get CaretStopsMilliPtCsv() As String
+    CaretStopsMilliPtCsv = mCaretStopsMilliPtCsv
+End Property
+Public Property Let CaretStopsMilliPtCsv(ByVal Value As String)
+    mCaretStopsMilliPtCsv = Value
 End Property
 
 ' Stable, control-derived scene identity (the kernel's NodeId). Assigned once by
@@ -270,40 +432,50 @@ Public Property Get BackColor() As Long
     BackColor = mBackColor
 End Property
 Public Property Let BackColor(ByVal Value As Long)
-    mBackColor = Value
-    MarkDirty
+    If mBackColor <> Value Then
+        mBackColor = Value
+        MarkDirty
+    End If
 End Property
 
 Public Property Get ForeColor() As Long
     ForeColor = mForeColor
 End Property
 Public Property Let ForeColor(ByVal Value As Long)
-    mForeColor = Value
-    MarkDirty
+    If mForeColor <> Value Then
+        mForeColor = Value
+        MarkDirty
+    End If
 End Property
 
 Public Property Get BorderColor() As Long
     BorderColor = mBorderColor
 End Property
 Public Property Let BorderColor(ByVal Value As Long)
-    mBorderColor = Value
-    MarkDirty
+    If mBorderColor <> Value Then
+        mBorderColor = Value
+        MarkDirty
+    End If
 End Property
 
 Public Property Get SpecialEffect() As fmSpecialEffect
     SpecialEffect = mSpecialEffect
 End Property
 Public Property Let SpecialEffect(ByVal Value As fmSpecialEffect)
-    mSpecialEffect = Value
-    MarkDirty
+    If mSpecialEffect <> Value Then
+        mSpecialEffect = Value
+        MarkDirty
+    End If
 End Property
 
 Public Property Get BorderStyle() As fmBorderStyle
     BorderStyle = mBorderStyle
 End Property
 Public Property Let BorderStyle(ByVal Value As fmBorderStyle)
-    mBorderStyle = Value
-    MarkDirty
+    If mBorderStyle <> Value Then
+        mBorderStyle = Value
+        MarkDirty
+    End If
 End Property
 
 ' Transient pressed visual (see the field comment). Set by OxReducer on mouse-down inside a
@@ -333,5 +505,12 @@ Public Sub MarkDirty()
     mDirty = True
     If Not mHost Is Nothing Then
         mHost.OnControlInvalidated mOwner
+    End If
+End Sub
+
+' Flag routing/tab/cursor/activation caches as stale without implying the pixels changed.
+Public Sub MarkInteractionDirty()
+    If Not mHost Is Nothing Then
+        mHost.OnInteractionInvalidated mOwner
     End If
 End Sub

@@ -107,17 +107,20 @@ Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer
     PerformMouseUp Button, Shift, X, Y
 End Sub
 
+Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+End Sub
+
 Private Sub IOxControl_OnClick()
     PerformClick
 End Sub
 
 ' A Label fires Click but has no pressed visual (display-only, no press feedback).
 Private Property Get IOxControl_SupportsClick() As Boolean
-    IOxControl_SupportsClick = True
+    IOxControl_SupportsClick = mCore.SupportsClick
 End Property
 
 Private Property Get IOxControl_HasPressedVisual() As Boolean
-    IOxControl_HasPressedVisual = False
+    IOxControl_HasPressedVisual = mCore.HasPressedVisual
 End Property
 
 ' A Label is not focusable, so the reducer never routes keyboard or focus to it; the interface
@@ -169,4 +172,12 @@ End Function
 
 Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
     IOxControl_OnPaste = False
+End Function
+
+Private Function IOxControl_OnCopy() As String
+    IOxControl_OnCopy = ""
+End Function
+
+Private Function IOxControl_OnCut() As String
+    IOxControl_OnCut = ""
 End Function

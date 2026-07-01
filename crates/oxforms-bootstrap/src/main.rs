@@ -14,7 +14,8 @@
 //! state change re-renders and refreshes the held snapshot — so clicks/keys drive the VBA handlers
 //! and the form updates live.
 //!
-//! Demo: the W007 greeting — type a name, click OK (or press Enter) → "Hello, <name>".
+//! Default demo: the living full-surface showcase — current controls, methods, and events.
+//! Greeter remains available with `cargo run -p oxforms-bootstrap -- greeter`.
 //!
 //! Run: `cargo run -p oxforms-bootstrap`.
 
@@ -27,7 +28,9 @@ use std::sync::Arc;
 use oxforms_oxvba_adapter::runtime::OxRuntime;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::{FontId, Scene};
-use oxforms_pal::{CoordinatePayload, KeyCode, LogicalPoint, MouseButton, UiEvent, UiEventKind};
+use oxforms_pal::{
+    CoordinatePayload, KeyCode, LogicalPoint, MouseButton, MouseButtons, UiEvent, UiEventKind,
+};
 use oxforms_pal_win::{
     load_ui_font, run_scene_window, AbGlyphShaper, FontTable, WindowOptions, WindowSignal,
 };
@@ -43,9 +46,58 @@ use oxvba_symbol::manifest::{
 /// ids VBA emits resolve against the face the window rasterizes with.
 const FONT_ID: FontId = FontId(1);
 
-/// The demo form-document class + its build entrypoint.
-const DEMO_FORM_CLASS: &str = "ReducerGreeterForm";
-const DEMO_BUILD_MEMBER: &str = "Build";
+/// The selected VBA form-document class + its build entrypoint.
+#[derive(Clone, Copy)]
+struct DemoSpec {
+    form_class: &'static str,
+    build_member: &'static str,
+    window_title: &'static str,
+    window_width: f64,
+    window_height: f64,
+    intro: &'static str,
+    escape_closes: bool,
+}
+
+const SHOWCASE_DEMO: DemoSpec = DemoSpec {
+    form_class: "FullSurfaceShowcaseForm",
+    build_member: "Build",
+    window_title: "OxForms - full surface showcase",
+    window_width: 960.0,
+    window_height: 640.0,
+    intro: "showing the living VBA-rendered full-surface showcase. Interact with the current \
+            controls, or close the window to exit.",
+    escape_closes: false,
+};
+
+const GREETER_DEMO: DemoSpec = DemoSpec {
+    form_class: "ReducerGreeterForm",
+    build_member: "Build",
+    window_title: "OxForms - W007 greeting (bootstrap)",
+    window_width: 600.0,
+    window_height: 360.0,
+    intro: "showing the W007 greeting. Type a name, click OK (or press Enter) to greet; close or \
+            press Escape to exit.",
+    escape_closes: true,
+};
+
+fn selected_demo() -> Result<DemoSpec, String> {
+    let Some(arg) = std::env::args().nth(1) else {
+        return Ok(SHOWCASE_DEMO);
+    };
+    let key = arg.trim_start_matches('-').to_ascii_lowercase();
+    match key.as_str() {
+        "showcase" | "full-surface" | "surface" => Ok(SHOWCASE_DEMO),
+        "greeter" | "w007" => Ok(GREETER_DEMO),
+        "help" | "h" => Err(
+            "usage: cargo run -p oxforms-bootstrap -- [showcase|greeter]\n\
+             default: showcase"
+                .to_string(),
+        ),
+        other => Err(format!(
+            "unknown demo {other:?}; expected showcase or greeter"
+        )),
+    }
+}
 
 /// A precise, stage-tagged bootstrap failure (OxVba load/compile vs OxForms runtime vs
 /// PAL/backend vs normal exit are distinguishable).
@@ -91,27 +143,26 @@ fn main() {
 }
 
 fn run() -> Result<(), BootstrapError> {
-    // 1. Load + configure the project: the OxForms VBA library + the OxReducer + the greeter
+    let demo = selected_demo().map_err(BootstrapError::Project)?;
+
+    // 1. Load + configure the project: the OxForms VBA library + the OxReducer + the selected
     //    form-document, with the OxForms.Surface boundary registered so the form self-renders.
     let (session, surface, fonts) = build_session()?;
 
     // 2. Attach the thin runtime, which constructs + builds the VBA form (and its OxReducer) and
     //    produces the first resident Scene revision.
-    let mut rt = OxRuntime::attach(session, DEMO_FORM_CLASS, DEMO_BUILD_MEMBER)
+    let mut rt = OxRuntime::attach(session, demo.form_class, demo.build_member)
         .map_err(BootstrapError::Runtime)?;
     rt.render().map_err(BootstrapError::Runtime)?;
     let scene = current_scene(&surface)?;
 
-    println!(
-        "oxforms-bootstrap: showing the live VBA-rendered W007 greeting. Type a name, click OK \
-         (or press Enter) to greet; close or press Escape to exit."
-    );
+    println!("oxforms-bootstrap: {}", demo.intro);
 
     // 3. Run the platform loop. The window owns Repaint (resident Scene snapshot -> pixels). The
     //    callback maps client pixels -> form-logical points (the uniform device-fit scale), asks
     //    the VBA reducer (via OxRuntime) to handle the input, re-renders, refreshes the held Scene
     //    from the resident snapshot, and asks for a Redraw. The bootstrap never rasterizes.
-    let options = WindowOptions::new("OxForms - W007 greeting (bootstrap)", 600.0, 360.0);
+    let options = WindowOptions::new(demo.window_title, demo.window_width, demo.window_height);
     let (form_w, form_h) = (
         f64::from(scene.surface.width.max(1)),
         f64::from(scene.surface.height.max(1)),
@@ -139,7 +190,7 @@ fn run() -> Result<(), BootstrapError> {
                         }
                     };
                 }
-                UiEventKind::KeyDown(e) if e.key == KeyCode::Escape => {
+                UiEventKind::KeyDown(e) if demo.escape_closes && e.key == KeyCode::Escape => {
                     return WindowSignal::Close;
                 }
                 _ => {}
@@ -168,9 +219,16 @@ fn run() -> Result<(), BootstrapError> {
                 return WindowSignal::Ignore;
             }
 
-            if let Err(err) = rt.render() {
-                *cb_error_inner.borrow_mut() = Some(format!("render: {err}"));
-                return WindowSignal::Close;
+            let already_rendered = effect_log_requested_repaint(&outcome);
+            if !already_rendered && is_deferred_plain_text_key(event) {
+                return WindowSignal::Ignore;
+            }
+
+            if !already_rendered {
+                if let Err(err) = rt.render() {
+                    *cb_error_inner.borrow_mut() = Some(format!("render: {err}"));
+                    return WindowSignal::Close;
+                }
             }
             match surface_cb.snapshot() {
                 Ok(snap) => {
@@ -216,21 +274,55 @@ fn dispatch_event(
             rt.dispatch_mouse(kind, x, y, mouse_button(e.button), shift(&e.modifiers))
                 .map(Some)
         }
+        UiEventKind::MouseMove(e) => {
+            let (x, y) = logical_point(&e.coordinates, scale);
+            rt.dispatch_mouse(
+                "mousemove",
+                x,
+                y,
+                mouse_buttons(&e.buttons_down),
+                shift(&e.modifiers),
+            )
+            .map(Some)
+        }
         UiEventKind::KeyDown(e) | UiEventKind::KeyUp(e) => {
+            let vk = keycode_to_vk(&e.key);
+            let shift_bits = shift(&e.modifiers);
             let kind = if matches!(event.kind, UiEventKind::KeyDown(_)) {
-                // Push the live OS clipboard so a Ctrl+V pastes the real clipboard contents.
-                let _ = rt.set_clipboard_text(
-                    &oxforms_pal_win::read_clipboard_text().unwrap_or_default(),
-                );
+                if is_ctrl_v(vk, shift_bits) {
+                    // Push the live OS clipboard only for Ctrl+V. Reading it for every key press
+                    // adds avoidable latency to quick typing.
+                    let _ = rt.set_clipboard_text(
+                        &oxforms_pal_win::read_clipboard_text().unwrap_or_default(),
+                    );
+                }
                 "keydown"
             } else {
                 "keyup"
             };
-            rt.dispatch_key(kind, keycode_to_vk(&e.key), shift(&e.modifiers))
-                .map(Some)
+            rt.dispatch_key(kind, vk, shift_bits).map(Some)
         }
         UiEventKind::CharacterInput(e) => rt.dispatch_char(&e.text).map(Some),
         _ => Ok(None),
+    }
+}
+
+fn effect_log_requested_repaint(effects: &str) -> bool {
+    effects.split('|').any(|effect| effect == "repaint")
+}
+
+fn is_ctrl_v(vk: i16, shift: i16) -> bool {
+    (shift & 2) != 0 && vk == 86
+}
+
+fn is_deferred_plain_text_key(event: &UiEvent) -> bool {
+    match &event.kind {
+        UiEventKind::KeyDown(e) | UiEventKind::KeyUp(e) => {
+            !e.modifiers.control
+                && !e.modifiers.alt
+                && matches!(e.key, KeyCode::Character(_) | KeyCode::Space)
+        }
+        _ => false,
     }
 }
 
@@ -240,6 +332,18 @@ fn mouse_button(button: MouseButton) -> i16 {
         MouseButton::Right => 2,
         MouseButton::Middle => 3,
         _ => 0,
+    }
+}
+
+fn mouse_buttons(buttons: &MouseButtons) -> i16 {
+    if buttons.left {
+        1
+    } else if buttons.right {
+        2
+    } else if buttons.middle {
+        3
+    } else {
+        0
     }
 }
 
@@ -282,15 +386,32 @@ fn keycode_to_vk(key: &KeyCode) -> i16 {
         KeyCode::ArrowRight => 39,
         KeyCode::ArrowDown => 40,
         KeyCode::Delete => 46,
-        KeyCode::Character(s) => s
-            .chars()
-            .next()
-            .map_or(0, |c| i16::from(c.to_ascii_uppercase() as u8)),
+        KeyCode::Character(s) => s.chars().next().map_or(0, char_to_vk),
         _ => 0,
     }
 }
 
-/// Build the OxVba session for the OxForms library + greeter, with `OxForms.Surface` registered.
+fn char_to_vk(c: char) -> i16 {
+    match c.to_ascii_uppercase() {
+        'A'..='Z' | '0'..='9' => i16::from(c.to_ascii_uppercase() as u8),
+        ' ' => 32,
+        ';' | ':' => 0xBA,
+        '=' | '+' => 0xBB,
+        ',' | '<' => 0xBC,
+        '-' | '_' => 0xBD,
+        '.' | '>' => 0xBE,
+        '/' | '?' => 0xBF,
+        '`' | '~' => 0xC0,
+        '[' | '{' => 0xDB,
+        '\\' | '|' => 0xDC,
+        ']' | '}' => 0xDD,
+        '\'' | '"' => 0xDE,
+        _ => 0,
+    }
+}
+
+/// Build the OxVba session for the OxForms library + selectable demos, with `OxForms.Surface`
+/// registered.
 fn build_session() -> Result<(ProjectRuntimeSession, Arc<SurfaceFactory>, FontTable), BootstrapError>
 {
     let manifest = SymbolProjectManifest {
@@ -339,7 +460,7 @@ fn unit(name: &str, kind: ModuleKind, source: &str) -> ModuleUnit {
     }
 }
 
-/// The OxForms VBA library + OxReducer + the greeter form-document, embedded at build time.
+/// The OxForms VBA library + OxReducer + selectable form-documents, embedded at build time.
 fn oxforms_modules() -> Vec<ModuleUnit> {
     use ModuleKind::{Class, Procedural};
     vec![
@@ -428,13 +549,23 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             Class,
             include_str!("../../../vba/smoke/fixtures/reducer_greeter_form.cls"),
         ),
+        unit(
+            "FullSurfaceShowcaseForm",
+            Class,
+            include_str!("../../../vba/smoke/fixtures/full_surface_showcase_form.cls"),
+        ),
     ]
 }
 
 #[cfg(test)]
 mod tests {
-    use super::keycode_to_vk;
-    use oxforms_pal::KeyCode;
+    use super::{
+        effect_log_requested_repaint, is_ctrl_v, is_deferred_plain_text_key, keycode_to_vk,
+    };
+    use oxforms_pal::{
+        KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, RawKeyDiagnostics, UiEvent, UiEventId,
+        UiEventKind, UiEventSource,
+    };
 
     #[test]
     fn keycode_maps_to_the_reducer_virtual_keys() {
@@ -445,6 +576,47 @@ mod tests {
         // A letter maps to its uppercased ASCII byte (so Ctrl+V resolves to V=86 in the reducer).
         assert_eq!(keycode_to_vk(&KeyCode::Character("v".to_string())), 86);
         assert_eq!(keycode_to_vk(&KeyCode::Character("A".to_string())), 65);
+        assert_eq!(keycode_to_vk(&KeyCode::Character(".".to_string())), 0xBE);
+        assert_eq!(keycode_to_vk(&KeyCode::Character("?".to_string())), 0xBF);
         assert_eq!(keycode_to_vk(&KeyCode::Unidentified), 0);
+    }
+
+    #[test]
+    fn quick_typing_render_filters_identify_repaint_and_plain_text_keys() {
+        assert!(effect_log_requested_repaint("keydown:InputField|repaint"));
+        assert!(!effect_log_requested_repaint("keydown:InputField"));
+        assert!(is_ctrl_v(86, 2));
+        assert!(!is_ctrl_v(65, 2));
+
+        let plain = key_event(
+            KeyCode::Character("a".to_string()),
+            KeyboardModifiers::default(),
+        );
+        assert!(is_deferred_plain_text_key(&plain));
+
+        let ctrl = key_event(
+            KeyCode::Character("v".to_string()),
+            KeyboardModifiers {
+                control: true,
+                ..KeyboardModifiers::default()
+            },
+        );
+        assert!(!is_deferred_plain_text_key(&ctrl));
+    }
+
+    fn key_event(key: KeyCode, modifiers: KeyboardModifiers) -> UiEvent {
+        UiEvent::new(
+            UiEventId(1),
+            UiEventSource::Pal,
+            UiEventKind::KeyDown(KeyEvent {
+                key,
+                modifiers,
+                repeat: KeyRepeat {
+                    is_repeat: false,
+                    repeat_count: None,
+                },
+                raw: RawKeyDiagnostics::default(),
+            }),
+        )
     }
 }

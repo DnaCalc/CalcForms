@@ -111,7 +111,10 @@ Public Property Get Default() As Boolean
     Default = mDefault
 End Property
 Public Property Let Default(ByVal Value As Boolean)
-    mDefault = Value
+    If mDefault <> Value Then
+        mDefault = Value
+        mCore.MarkInteractionDirty
+    End If
 End Property
 
 ' The form cancel button (activated by Escape).
@@ -119,7 +122,10 @@ Public Property Get Cancel() As Boolean
     Cancel = mCancel
 End Property
 Public Property Let Cancel(ByVal Value As Boolean)
-    mCancel = Value
+    If mCancel <> Value Then
+        mCancel = Value
+        mCore.MarkInteractionDirty
+    End If
 End Property
 
 ' --- Runtime-facing input surface (driven by the OxForms runtime, not form code) ---
@@ -187,17 +193,20 @@ Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer
     PerformMouseUp Button, Shift, X, Y
 End Sub
 
+Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+End Sub
+
 Private Sub IOxControl_OnClick()
     PerformClick
 End Sub
 
 ' A CommandButton fires Click and shows a pressed face on mouse-down.
 Private Property Get IOxControl_SupportsClick() As Boolean
-    IOxControl_SupportsClick = True
+    IOxControl_SupportsClick = mCore.SupportsClick
 End Property
 
 Private Property Get IOxControl_HasPressedVisual() As Boolean
-    IOxControl_HasPressedVisual = True
+    IOxControl_HasPressedVisual = mCore.HasPressedVisual
 End Property
 
 ' Keyboard + focus surface. A CommandButton fires keys and Enter/Exit but has no editable
@@ -234,16 +243,18 @@ Private Property Get IOxControl_IsDirty() As Boolean
 End Property
 
 Private Property Get IOxControl_IsDefault() As Boolean
-    IOxControl_IsDefault = mDefault
+    IOxControl_IsDefault = mCore.DefaultButtonEligible And mDefault
 End Property
 
 Private Property Get IOxControl_IsCancel() As Boolean
-    IOxControl_IsCancel = mCancel
+    IOxControl_IsCancel = mCore.CancelButtonEligible And mCancel
 End Property
 
 ' Parse the caption's '&X' accelerator mnemonic (uppercased); "" if none. '&&' is a literal
 ' ampersand, not a mnemonic.
 Private Property Get IOxControl_AcceleratorKey() As String
+    If Not mCore.AcceleratorEligible Then Exit Property
+
     Dim Caption As String, I As Long, Ch As String
     Caption = mCore.DisplayText
     I = 1
@@ -272,4 +283,12 @@ End Function
 
 Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
     IOxControl_OnPaste = False
+End Function
+
+Private Function IOxControl_OnCopy() As String
+    IOxControl_OnCopy = ""
+End Function
+
+Private Function IOxControl_OnCut() As String
+    IOxControl_OnCut = ""
 End Function

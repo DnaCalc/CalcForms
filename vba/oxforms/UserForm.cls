@@ -17,6 +17,7 @@ Private mControls As Controls
 Private mInvalidated As Collection
 Private mNextNodeId As Long
 Private mLastSceneToken As String
+Private mInteractionRevision As Long
 ' Incremental render state (oxforms-rq5.2): once a resident scene exists, Render emits an
 ' incremental patch (Upsert only the invalidated controls; the kernel retains the rest)
 ' against mLastSceneToken instead of a full rebuild. mSuspendDepth gates the
@@ -54,6 +55,7 @@ Public Sub RegisterControl(ByVal Control As IOxControl)
     Control.Core.Bind Me, Control
     Control.Core.NodeId = mNextNodeId
     mNextNodeId = mNextNodeId + 1
+    RecordInteractionInvalidated Control
 End Sub
 
 ' The Forms 2.0 Controls collection: callers create controls with
@@ -176,6 +178,7 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
             Control.Core.RunId = ""
             Control.Core.MeasuredWidth = 0
             Control.Core.MeasuredHeight = 0
+            Control.Core.CaretStopsMilliPtCsv = ""
         End If
     Next I
     If TextCount = 0 Then Exit Sub
@@ -204,6 +207,7 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
         Control.Core.RunId = Res(J).RunId
         Control.Core.MeasuredWidth = Res(J).AdvanceMilliPt / 1000
         Control.Core.MeasuredHeight = (Res(J).AscentMilliPt + Res(J).DescentMilliPt) / 1000
+        Control.Core.CaretStopsMilliPtCsv = Res(J).CaretStopsMilliPtCsv
     Next J
 End Sub
 
@@ -298,6 +302,13 @@ Public Property Get LastSceneToken() As String
     LastSceneToken = mLastSceneToken
 End Property
 
+' Monotonic routing-policy revision. OxReducer compares this before using cached
+' tab/default/cancel/accelerator/cursor maps, so property-side effects and runtime
+' add/remove work through the same host seam as rendering invalidation.
+Public Property Get InteractionRevision() As Long
+    InteractionRevision = mInteractionRevision
+End Property
+
 Public Property Get Name() As String
     Name = mName
 End Property
@@ -346,4 +357,12 @@ End Property
 ' up); otherwise it is recorded once (deduped by NodeId).
 Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)
     If mSuspendDepth = 0 Then RecordInvalidated Control
+End Sub
+
+Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
+    RecordInteractionInvalidated Control
+End Sub
+
+Private Sub RecordInteractionInvalidated(ByVal Control As IOxControl)
+    mInteractionRevision = mInteractionRevision + 1
 End Sub

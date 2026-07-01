@@ -89,6 +89,27 @@ Public Property Get ChkValue() As Boolean
     ChkValue = mChk.Value
 End Property
 
+Public Property Get InteractionIndexBuildCount() As Long
+    InteractionIndexBuildCount = mReducer.InteractionIndexBuildCount
+End Property
+
+Public Property Get InteractionIndexSummary() As String
+    InteractionIndexSummary = mReducer.InteractionIndexSummary
+End Property
+
+Public Property Get CapabilityCatalog() As String
+    CapabilityCatalog = _
+        "Field:" & mField.Core.CapabilityDescriptor & vbLf & _
+        "Ok:" & mOk.Core.CapabilityDescriptor & vbLf & _
+        "CancelBtn:" & mCancelBtn.Core.CapabilityDescriptor & vbLf & _
+        "Go:" & mGo.Core.CapabilityDescriptor & vbLf & _
+        "Chk:" & mChk.Core.CapabilityDescriptor
+End Property
+
+Public Sub DisableDefaultButton()
+    mOk.Enabled = False
+End Sub
+
 ' --- Event sinks ---
 Private Sub mField_Enter()
     Append "Field.Enter"

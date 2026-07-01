@@ -4,9 +4,10 @@ Option Explicit
 ' controls polymorphically (materialization, property sync, hit-testing,
 ' invalidation) without knowing each concrete control type.
 '
-' Concrete controls do: Implements IOxControl, then return their composed
-' OxControlCore from IOxControl_Core. All shared control state lives on
-' OxControlCore, so this interface stays a single member as the control set grows.
+' Concrete controls do: Implements IOxControl, return their composed
+' OxControlCore from IOxControl_Core, render themselves, and expose the small
+' reducer-facing input/policy surface below. All shared control state lives on
+' OxControlCore; concrete classes keep the type-specific event/property behavior.
 
 Public Property Get Core() As OxControlCore
 End Property
@@ -30,6 +31,9 @@ Public Sub OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X 
 End Sub
 
 Public Sub OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+End Sub
+
+Public Sub OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 End Sub
 
 Public Sub OnClick()
@@ -111,4 +115,12 @@ End Function
 ' ignore it. Action is the fmAction (2 = paste); Shift is the modifier state. Returns True if the
 ' control consumed the paste (i.e. is a text target), regardless of veto.
 Public Function OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean
+End Function
+
+' Copy/cut selected control text for host clipboard shortcuts. TextBox returns the current
+' selection; Cut also deletes it and raises Change. Non-text controls return "".
+Public Function OnCopy() As String
+End Function
+
+Public Function OnCut() As String
 End Function

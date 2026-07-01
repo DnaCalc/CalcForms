@@ -285,8 +285,8 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         "the patch base must match BeginScene"
     );
     assert_eq!(
-        snap.node_count, 4,
-        "the form root plus three controls become four retained nodes"
+        snap.node_count, 5,
+        "the form root plus three controls plus the TextBox overlay become five retained nodes"
     );
     assert_eq!(
         result_token.parse::<u64>().ok(),
@@ -322,12 +322,12 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         "Scene.text holds the control captions (InputField/OkButton/OutputLabel)"
     );
 
-    // The patch the VBA encoder produced is well-formed: four full-node upserts with
-    // the expected ids (form root 0 plus controls 1..=3).
+    // The patch the VBA encoder produced is well-formed: one full-node upsert per retained
+    // node, including the TextBox selection overlay child.
     let patch_json = snap.last_patch_json.expect("captured patch JSON");
     let patch: ScenePatch =
         serde_json::from_str(&patch_json).expect("VBA-encoded patch is valid ScenePatch JSON");
-    assert_eq!(patch.edits.len(), 4, "one upsert per node");
+    assert_eq!(patch.edits.len(), 5, "one upsert per node");
     let mut ids: Vec<u64> = patch
         .edits
         .iter()
@@ -337,7 +337,11 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
         })
         .collect();
     ids.sort_unstable();
-    assert_eq!(ids, vec![0, 1, 2, 3], "form root plus three control nodes");
+    assert_eq!(
+        ids,
+        vec![0, 1, 2, 3, 1901],
+        "form root, three controls, and the TextBox overlay node"
+    );
 }
 
 /// End-to-end glyph coverage (oxforms-4pn.13 acceptance): a real VBA self-render,
@@ -574,10 +578,9 @@ fn suspend_resume_dedup_emits_one_incremental_node_per_changed_control() {
     );
 }
 
-/// oxforms-fek: Forms 2.0 `Controls.Add` of an unknown ProgID, and of a recognized-but-
-/// unimplemented one ("Forms.CheckBox.1" has no class module yet), must return Nothing
-/// WITHOUT crashing and must register no phantom control. The VBA probe call succeeding
-/// (no invoke error) proves no crash; the unchanged node count proves nothing was added.
+/// oxforms-fek: Forms 2.0 `Controls.Add` of an unknown ProgID must return Nothing WITHOUT
+/// crashing and must register no phantom control. The VBA probe call succeeding (no invoke
+/// error) proves no crash; the unchanged node count proves nothing was added.
 #[test]
 fn controls_add_unsupported_progid_returns_nothing_without_crashing() {
     let projection = Arc::new(PortableComProjection::new());
@@ -610,8 +613,8 @@ fn controls_add_unsupported_progid_returns_nothing_without_crashing() {
         "InvalidationDemoForm renders a root + two labels"
     );
 
-    // An unknown ProgID + the unimplemented "Forms.CheckBox.1": this call must NOT error
-    // (a Nothing dereference in RegisterControl would surface as an invoke failure here).
+    // An unknown ProgID: this call must NOT error (a Nothing dereference in RegisterControl
+    // would surface as an invoke failure here).
     call(&mut session, "TryAddUnsupportedControls");
     call(&mut session, "RenderOnce");
     assert_eq!(

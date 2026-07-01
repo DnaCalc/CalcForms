@@ -62,12 +62,12 @@ Public Type OxMeasureResult
     AscentMilliPt As Long
     DescentMilliPt As Long
     LineGapMilliPt As Long
+    CaretStopsMilliPtCsv As String
 End Type
 
 ' Map a Forms 2.0 control ProgID ("Forms.Label.1") to the internal kind. Unknown -> -1.
-' Case-insensitive, like real MSForms Controls.Add. "Forms.CheckBox.1" is a recognized kind
-' but has no class module yet, so OxCreateControl returns Nothing for it and Controls.Add
-' degrades cleanly (see Controls.Add) until CheckBox.cls lands.
+' Case-insensitive, like real MSForms Controls.Add. The currently implemented intrinsic
+' subset is Label, TextBox, CommandButton, and CheckBox.
 Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
     Select Case LCase$(ProgId)
         Case "forms.label.1"
@@ -84,8 +84,7 @@ Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
 End Function
 
 ' Create an unparented control for a Forms 2.0 ProgID with its Name assigned. The caller
-' (Controls.Add) registers it on the form afterwards. Returns Nothing for an unknown ProgID
-' or a kind that has no class module yet.
+' (Controls.Add) registers it on the form afterwards. Returns Nothing for an unknown ProgID.
 Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As IOxControl
     Dim Control As IOxControl
 
