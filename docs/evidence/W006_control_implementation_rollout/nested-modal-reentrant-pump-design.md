@@ -303,12 +303,15 @@ Oracle/evidence blockers:
 
 - Trace:
   `docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json`.
-- Generator/check CLI:
+- Historical generator/check CLI (deleted with `oxforms-core` in `oxforms-ih6`):
   `cargo run -p oxforms-core --example w006_modal_frame_trace -- --check`.
-- Focused Rust pin:
+- Historical focused Rust pin (also deleted with `oxforms-core`):
   `cargo test -p oxforms-core w006_modal_frame_trace_subset_matches_committed_artifact`.
 - Schema validation:
   `tools/trace-replay/Test-TraceReplaySchema.ps1 -TracePath docs/evidence/W006_control_implementation_rollout/trace-replay/modal-frame-subset.synthetic.v1.json`.
+
+The committed trace is now a frozen historical artifact. The schema validator remains the current
+check unless a future bead re-homes the modal-frame replay runner.
 
 The trace records `ShowFormModal`, `EnterModalFrame`, a synthetic click while
 the modal frame is active, `PumpFrameExited`, `ExitModalFrame`,

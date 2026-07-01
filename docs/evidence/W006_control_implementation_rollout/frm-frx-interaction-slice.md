@@ -68,9 +68,9 @@ blocked by `oxforms-0a0.2`.
 
 ## Checks
 
-Run for this bead:
+Historical checks run for this bead:
 
-- `cargo test -p oxforms-core`
+- `cargo test -p oxforms-core` (historical; the crate was deleted in `oxforms-ih6`)
 - `cargo fmt --check`
 - `cargo clippy --workspace -- -D warnings`
 - `cargo test --workspace`

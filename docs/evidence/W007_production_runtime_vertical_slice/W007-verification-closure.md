@@ -1,5 +1,10 @@
 # W007 — verification & closure (oxforms-4pn.9)
 
+Current-code note: W007 closed with the then-current `RuntimeRunner`/`oxforms-core` shape. The
+later `oxforms-ih6` pivot deleted `oxforms-core` and replaced `RuntimeRunner` with the thin
+`OxRuntime` driver over the VBA `OxReducer`; the end-to-end live-window claim remains, but the
+ownership names below are historical where they say `RuntimeRunner`.
+
 The W007 "production runtime vertical slice" is complete: **real VBA form code, running
 on OxVba, self-renders across the `OxForms.Surface` boundary into a control-blind
 retained `Scene`, the desktop backend rasterizes it to a live window, and live OS input
@@ -36,9 +41,10 @@ A holistic review confirmed the §16 invariants hold across the shipped code:
 - **Kernel + backend stay control-blind.** `oxforms-pal` / `oxforms-pal-win` carry only
   geometry/scene/pixels/text-shaping/OS-event normalization; `pal-win` depends only on
   `oxforms-pal`. No control vocabulary leaks into non-test code.
-- **Ownership topology (§16.3).** The runtime (`RuntimeRunner`) owns all VBA entry
+- **Ownership topology (§16.3).** Historically, the runtime (`RuntimeRunner`) owned all VBA entry
   (`dispatch` + `render_frame`); the backend owns Repaint + the OS pump and never enters
-  VBA; the bootstrap is a thin assembler that neither calls VBA directly nor rasterizes.
+  VBA; the bootstrap is a thin assembler that neither rasterizes nor owns control behavior. In the
+  current code, `OxRuntime` owns the corresponding VBA entry (`Dispatch*`, lifecycle, and `Render`).
 - **Test infra did not become the runtime path.** `oxforms-pal-win` is a *test-only*
   dev-dependency of the adapter; quarantine boundaries (SmokeCanvas/W002, `controls.rs`)
   are intact. The one interim is the bootstrap reusing a `vba/smoke/fixtures` form as its

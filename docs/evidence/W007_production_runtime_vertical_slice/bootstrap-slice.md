@@ -10,13 +10,13 @@ OxVba, self-renders across the `OxForms.Surface` boundary into a Rust-side retai
 - **The render_frame Re-render seam** (the runtime half of `RENDERING_ARCHITECTURE.md`
   §16). `UserForm.Render(DpiX, DpiY)` is the form's self-render: it `CreateObject`s
   `OxForms.Surface`, `BeginScene`s at its own size, builds one batched `ScenePatch`, and
-  `SubmitPatch`es it — then clears the reconciled invalidation set. `RuntimeRunner::render_frame()`
-  invokes it; the runtime is the **sole owner of all VBA entry** (both `dispatch` and
-  `render_frame`), so VM re-entrancy stays safe. Full-rebuild v1 (`BeginScene` each
-  frame); incremental patching is `oxforms-rq5.2`. Proven headlessly by
-  `crates/oxforms-oxvba-adapter/tests/oxvba_w007_render_frame.rs` (render_frame drives
-  VBA self-render into a resident 4-node 200×120 scene; deterministic token; the
-  monotonic revision advances; the runtime drives both dispatch and render).
+  `SubmitPatch`es it — then clears the reconciled invalidation set. Historically,
+  `RuntimeRunner::render_frame()` invoked it; after `oxforms-ih6`, `OxRuntime::render()` invokes the
+  form-document's VBA `Render` member. The runtime remains the **sole owner of all VBA entry** (input
+  dispatch/lifecycle/render), so VM re-entrancy stays safe. Full-rebuild v1 (`BeginScene` each
+  frame); incremental patching is `oxforms-rq5.2`. The original headless proof was
+  `crates/oxforms-oxvba-adapter/tests/oxvba_w007_render_frame.rs`; current runtime wiring is covered
+  by `oxvba_runtime_greeter.rs` plus the surface render smoke tests.
 
 - **The thin bootstrap** (`crates/oxforms-bootstrap`). Per §16.3 it is a *thin
   assembler*: it loads the OxVba project (the OxForms VBA library + the demo form,

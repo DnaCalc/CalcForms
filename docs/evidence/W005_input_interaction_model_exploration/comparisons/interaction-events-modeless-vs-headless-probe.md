@@ -195,8 +195,11 @@ Run from the repository root:
 ```powershell
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\evidence\Test-W005InteractionComparison.ps1 -ManifestPath docs\evidence\W005_input_interaction_model_exploration\comparisons\interaction-events-modeless-vs-headless-probe.json
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\trace-replay\Test-TraceReplaySchema.ps1 -TracePath docs\evidence\W005_input_interaction_model_exploration\trace-replay\w005-headless-probe-replay.golden.v1.json
-cargo run -p oxforms-core --example w005_trace_replay -- --check
 ```
+
+The original `cargo run -p oxforms-core --example w005_trace_replay -- --check` regeneration
+command no longer exists because `oxforms-core` was deleted in the VBA-reducer pivot. Validate the
+committed artifact shape with the schema command above unless a future bead re-homes the runner.
 
 ## Clean-Room Note
 

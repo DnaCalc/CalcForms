@@ -250,9 +250,11 @@ The crossings (flat Variants, serde-shaped payload):
 - `MeasureBatch(requests) -> results[]` — one batched call measuring every run a frame
   needs (oxforms-98v): typed `SAFEARRAY`s of `OxMeasureRequest`/`OxMeasureResult` records, so
   captions cross as native `String` fields (no packing/escaping) and metrics return as typed
-  `Long`s (no VBA-side parsing). The single-run `MeasureText(fontId, sizeMilliPt, caption)`
-  remains for one-off measures. Cached both sides, so steady-state frames need zero new-text
-  crossings.
+  `Long`s (no VBA-side parsing). As of `oxforms-zhz.11`, results also carry the shaped run's
+  caret stops as a milli-point CSV field so VBA TextBox caret placement, selection geometry, and
+  hit-testing use the same shaped text run that the Scene paints. The single-run
+  `MeasureText(fontId, sizeMilliPt, caption)` remains for one-off measures. Cached both sides,
+  so steady-state frames need zero new-text crossings.
 - `SubmitPatch(payload) -> RenderDiagnostics` — **the** per-frame crossing (folds
   Render in via a flag). Returns `command_count` + `framebuffer_hash`. Carries
   `base_hash`; on `StaleBase` the runtime resubmits a full rebuild.
@@ -325,8 +327,9 @@ over the projection boundary would be the worst crossing-storm).
   load-bearing rather than merely plumbed (proven by the AutoSize-hug demo, oxforms-4pn.14).
 - Paint: `Prim::DrawText` references `TextRunId` — a color/position change
   re-emits the same run id → zero re-measure, zero re-marshal.
-- Caret/selection: replace `probe.rs`'s approximate `6.0`px cell with PAL
-  `caret_x(run, index)` / `index_at_x(run, x)` cached on the run.
+- Caret/selection: TextBox consumes the shaped run's caret-stop table returned by
+  `MeasureBatch`; the PAL-side source of truth remains `caret_x(run, index)` /
+  `index_at_x(run, x)` cached on the run.
 - **Determinism strategy (the crux):** enforce determinism at the **metrics**
   layer (layout goldens = measured metrics + scene rects, exact across all
   backends) and confine tolerance to the **raster** layer (pinned, hinting-free,
@@ -343,8 +346,9 @@ than a flat control list for scrolled Frames); authoritative routing — capture
 focus/tab, default/cancel, accelerators, the Enter→BeforeUpdate→AfterUpdate→Exit
 chain, MultiPage/Frame nesting — stays in the reducer/VBA L1 and raises native
 events via `Perform*`/`RaiseEvent` + `OxReturn*`. Hit geometry is structurally
-separate from paint. `ControlNode`/`ControlKind`/`hit_test_control_tree` remain
-legitimate reducer **policy** state — they are not rendering.
+separate from paint. Current reducer **policy** state is the VBA object model
+(`OxControlCore`/`OxControlKind`) plus `OxReducer` routing helpers; the Scene remains
+the retained render/hit-geometry contract, not the owner of control behavior.
 
 ## 10. Determinism and trace/replay
 
@@ -421,9 +425,11 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    path was then deleted directly (delete-first) behind the green floor rather than gated.
 6. **DONE (oxforms-rq5.1).** Superseded the probe renderer: deleted
    `build_probe_display_list`/`build_probe_pal_smoke_display_list`/`ProbeDisplayList`/
-   `ProbeDisplayCommand`/`ProbeDisplayRole`/`ProbeColor`/`probe_face_color`. **Kept**
-   `ControlNode`/`ControlKind` as reducer policy and `hit_test_control_tree` as routing
-   policy; the W005/W006 trace-replay goldens were regenerated without the render rows.
+   `ProbeDisplayCommand`/`ProbeDisplayRole`/`ProbeColor`/`probe_face_color`. **At this
+   rq5 step, kept** `ControlNode`/`ControlKind` as reducer policy and
+   `hit_test_control_tree` as routing policy; those later moved into the VBA reducer
+   model with the `oxforms-core` deletion. The W005/W006 trace-replay goldens were
+   regenerated without the render rows.
 7. **DONE (oxforms-rq5.2).** Wired incremental invalidation. `UserForm` dedups the
    invalidation set by NodeId and adds a reentrant `SuspendLayout`/`ResumeLayout` band that
    coalesces a bulk multi-setter update into one node per changed control. `Render` now
@@ -454,8 +460,9 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
    rect), full-rendering only on first frame / resize. Pixel-identical to a full repaint
    (invariant (b)), proven headlessly.
 
-Kept: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs` UiEvent, and
-the shared value types above. Relocated: appearance → VBA theme. Deleted (no
+Kept at the rq5 step: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs`
+UiEvent, and the shared value types above. Later, the reducer policy moved into
+VBA (`OxControlCore`/`OxReducer`) with the `oxforms-core` deletion. Relocated: appearance → VBA theme. Deleted (no
 fallback/compat path survives initial development): the probe render code and the whole
 W002 immediate display-list path incl. `SmokeCanvas` and `flatten` (both removed in
 oxforms-rq5.1). Incremental invalidation landed in rq5.2; incremental-by-default repaint +
@@ -689,13 +696,15 @@ VBA or the Scene model. (v1 is single-threaded; the seam is designed not to requ
   holds on each `RedrawRequested` (§15). Under this model the `Scene` it holds is a
   *consumed snapshot*; the smoke binary's direct scene mutation is a stand-in for
   "the runtime produced a new revision" (no VBA in that smoke).
-- Re-render is the new seam: the runtime (`RuntimeRunner`, owner of the session) gains
-  `render_frame()` — the coalesced VBA self-render → `SubmitPatch` → resident-revision
-  advance. This is the home of rq5.2's per-frame `SubmitPatch` + `MarkDirty` dedup +
-  `Suspend`/`Resume` band; `4pn.7` lands the seam (against a minimal entrypoint), and
-  rq5.2 fills in the incremental-invalidation body. `4pn.7` introduces **nothing
-  eager/push**; even where the first cut coalesces trivially, Repaint and Re-render
-  stay distinct.
+- Re-render is the new seam: the runtime (`OxRuntime`, owner of the session, in
+  `crates/oxforms-oxvba-adapter/src/runtime.rs`) drives the VBA self-render through its
+  `render()` entrypoint — the coalesced VBA self-render → `SubmitPatch` → resident-revision
+  advance. (`4pn.7`/rq5.2 are the historical beads that landed the seam against the then
+  `RuntimeRunner`; in the VBA-reducer pivot the Rust reducer was deleted and the runtime is
+  now the thin `OxRuntime`, whose `render()` invokes the form-document's VBA `Render` over
+  `OxForms.Surface`.) This is the home of rq5.2's per-frame `SubmitPatch` + `MarkDirty` dedup +
+  `Suspend`/`Resume` band. Re-render introduces **nothing eager/push**; even where the first
+  cut coalesces trivially, Repaint and Re-render stay distinct.
 - `OxForms.Surface` (the adapter resident-Scene holder, §6) gains a monotonic
   **revision** + a cheap read-only **snapshot** accessor so the backend consumes a
   stable revision rather than a live-mutating scene.

@@ -4,9 +4,13 @@ Status: implemented-subset with shared-runtime blocker.
 Bead: `oxforms-0a0.3`
 Date: 2026-06-23
 
+Current-code note: this document records the W006 historical `oxforms-core` slice. The Rust
+`oxforms-core` reducer was later deleted in `oxforms-ih6`; current modeless close dispatch is driven
+by the VBA reducer/form-document path (`OxRuntime.perform_query_close` and `PerformQueryClose`).
+
 ## Implemented Subset
 
-`crates/oxforms-core` now models the first modeless close tail through the
+At the time of this bead, `crates/oxforms-core` modeled the first modeless close tail through the
 shared W005 interaction path:
 
 ```text

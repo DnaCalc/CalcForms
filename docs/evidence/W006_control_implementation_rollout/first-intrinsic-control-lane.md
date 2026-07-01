@@ -263,6 +263,7 @@ For this selected lane:
 Checks run by the splitter bead are recorded in the parent close reason and
 commit. The child beads must run their own targeted checks. At minimum, the
 readiness bead should validate public fact/fixture paths and the implementation
-bead should run `cargo test -p oxforms-core`, relevant trace/replay validation
-if touched, `git diff --check`, `br dep cycles`, `br ready --json`, and
-`br list --json`, or record exact blockers.
+bead originally ran `cargo test -p oxforms-core` plus relevant trace/replay validation
+if touched. After `oxforms-ih6`, `oxforms-core` is deleted; new control work should run the
+adapter/VBA-reducer tests that cover the touched lane, `git diff --check`, `br dep cycles`,
+`br ready --json`, and `br list --json`, or record exact blockers.

@@ -38,20 +38,23 @@ contract is [`../../../specs/TRACE_REPLAY_SCHEMA.md`](../../../specs/TRACE_REPLA
 - [`checksums.sha256`](checksums.sha256) records SHA-256 hashes for committed
   trace-replay evidence files in this directory.
 
-`oxforms-xvx.8` extends the reducer test surface, not this historical JSON
-sample. Keyboard assertions in `crates/oxforms-core` now cover serialized
+`oxforms-xvx.8` extended the reducer test surface, not this historical JSON
+sample. Keyboard assertions then in `crates/oxforms-core` covered serialized
 `KeyDown`/`KeyUp` effect diagnostics, printable `CharacterInput` TextBox
 mutation, `KeyPress`/`Change` effects, Enter default routing, Escape cancel
-routing, and `Alt+Character` caption accelerators. The full replay-runner
-golden trace remains scoped to `oxforms-xvx.12`.
+routing, and `Alt+Character` caption accelerators. (Historical: `oxforms-core`
+was later deleted; the equivalent coverage now lives in the adapter's VBA-reducer
+tests under `crates/oxforms-oxvba-adapter/tests/`.) The full replay-runner
+golden trace remained scoped to `oxforms-xvx.12`.
 
-`oxforms-xvx.9` also extends the reducer test surface rather than this
-historical JSON sample. Probe assertions in `crates/oxforms-core` now cover
+`oxforms-xvx.9` also extended the reducer test surface rather than this
+historical JSON sample. Probe assertions then in `crates/oxforms-core` covered
 Label mouse click routing, TextBox focus and committed character input,
 CommandButton activation, render invalidation, a serializable core-owned probe
 display reference with text/focus/caret placeholders, and a PAL `FillRect`
-smoke projection. The full replay-runner golden trace remains scoped to
-`oxforms-xvx.12`.
+smoke projection. (Historical: see the note above — that coverage now lives in
+the adapter's VBA-reducer tests.) The full replay-runner golden trace remained
+scoped to `oxforms-xvx.12`.
 
 `oxforms-0a0.1` intentionally updates the replay-runner golden for the first
 reviewable TextBox editing slice. The evidence covers committed single-line
@@ -99,25 +102,15 @@ Validate the `oxforms-xvx.12` golden trace:
 powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools\trace-replay\Test-TraceReplaySchema.ps1 -TracePath docs\evidence\W005_input_interaction_model_exploration\trace-replay\w005-headless-probe-replay.golden.v1.json
 ```
 
-Check that the runner still emits the committed golden artifacts:
-
-```powershell
-cargo run -p oxforms-core --example w005_trace_replay -- --check
-```
-
-The focused Rust regression check is:
-
-```powershell
-cargo test -p oxforms-core w005_trace_replay_golden_matches_committed_artifacts
-```
-
-Regenerate into a review directory when an intentional behavior change updates
-the golden:
-
-```powershell
-cargo run -p oxforms-core --example w005_trace_replay -- --write-dir docs\evidence\W005_input_interaction_model_exploration\trace-replay
-git diff -- docs\evidence\W005_input_interaction_model_exploration\trace-replay
-```
+These goldens are now FROZEN artifacts. The `oxforms-core` crate (and its
+`w005_trace_replay` example/test) that once regenerated and re-checked them was
+deleted when control behavior moved into VBA (the `vba/oxforms/OxReducer.cls`
+reducer driven by the thin `OxRuntime` in
+`crates/oxforms-oxvba-adapter/src/runtime.rs`); the historical Rust runner no
+longer exists. The committed JSON is validated only by the PowerShell schema
+validator above. Live interaction coverage now lives in the adapter's reducer
+tests (`crates/oxforms-oxvba-adapter/tests/oxvba_reducer_cmdbutton.rs` and
+`oxvba_runtime_greeter.rs`).
 
 Validate the committed checksum file from the repository root:
 

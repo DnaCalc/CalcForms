@@ -3,6 +3,11 @@
 Records how the W007 demo form/control tree becomes first-class runtime state, and
 the scaffold-classification decision taken in this bead.
 
+Current-code note: this is historical W007 evidence. The `oxforms-core` `.frm` materialization path
+described here was deleted in `oxforms-ih6`; there is no current `.frm` ingestion runtime. Current
+sample/runtime forms are VBA form-document fixtures built through `UserForm.Controls.Add` and driven
+by `OxRuntime`.
+
 ## What this slice delivers
 
 - **Canonical demo form as a `.frm`.** `fixtures/frm/w007-demo/w007-greeter.frm`

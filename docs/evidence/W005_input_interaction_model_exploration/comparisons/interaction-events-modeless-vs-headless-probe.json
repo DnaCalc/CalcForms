@@ -87,7 +87,7 @@
     {
       "role": "oxforms_trace_replay_checksums",
       "path": "docs/evidence/W005_input_interaction_model_exploration/trace-replay/checksums.sha256",
-      "sha256": "2718bb9559be9f8210e1d9c2fc2b4112a0dd54654d5c2c6ad2b4342ac36e739b"
+      "sha256": "dad97cd87bb24d997dd6e4fed22a8da76e7f34d227094cbedc9a316e4b64789b"
     },
     {
       "role": "oxforms_visible_smoke_manifest",
@@ -368,7 +368,7 @@
   "validation": {
     "comparison_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/evidence/Test-W005InteractionComparison.ps1 -ManifestPath docs/evidence/W005_input_interaction_model_exploration/comparisons/interaction-events-modeless-vs-headless-probe.json",
     "trace_schema_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/trace-replay/Test-TraceReplaySchema.ps1 -TracePath docs/evidence/W005_input_interaction_model_exploration/trace-replay/w005-headless-probe-replay.golden.v1.json",
-    "trace_replay_check": "cargo run -p oxforms-core --example w005_trace_replay -- --check",
+    "trace_replay_check": "frozen artifact; validate shape with tools/trace-replay/Test-TraceReplaySchema.ps1 (oxforms-core runner deleted in oxforms-ih6)",
     "msforms_checksum_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/evidence/Test-ChecksumManifest.ps1 -Directory docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-20260623T004914Z -GitTrackedOnly",
     "oxforms_trace_checksum_validator": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File tools/evidence/Test-ChecksumManifest.ps1 -Directory docs/evidence/W005_input_interaction_model_exploration/trace-replay -GitTrackedOnly"
   },

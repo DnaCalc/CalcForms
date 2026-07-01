@@ -10,6 +10,15 @@ implementation and it does not claim final MSForms event-order parity. Unknowns
 must remain explicit until public metadata, repo-owned fixtures, or black-box
 Office/MSForms observations settle them.
 
+Post-`oxforms-ih6` status: the W005 vocabulary remains the architectural language, but the
+implementation home changed. The Rust `oxforms-core` reducer/model (`FormState`, `ControlNode`,
+`reduce()`, trace-replay generators) was deleted when control behavior moved into VBA. Current
+runtime behavior lives in `vba/oxforms/OxReducer.cls`, the concrete `IOxControl` classes
+(`Label`, `TextBox`, `CommandButton`, `CheckBox`), and the thin `OxRuntime` driver in
+`crates/oxforms-oxvba-adapter/src/runtime.rs`. Historical sections below that name
+`oxforms-core` describe W005/W006 evidence provenance or superseded implementation slices, not
+callable code in the current tree.
+
 ## 1. Source Anchors
 
 This spec refines the top-level architecture rather than replacing it:
@@ -73,17 +82,17 @@ All input enters the same conceptual loop:
 platform input, host input, or service completion
   -> normalize to UiEvent
   -> route by capture, focus, hit-test, lifecycle, and host scope
-  -> reduce: FormState + UiEvent -> FormState + Effects + RenderInvalidation
-  -> execute effects through PAL, host capabilities, and OxVba event dispatch
-  -> feed effect completions and reentrant input back as UiEvent
+  -> reduce in VBA (current runtime) or historical FormState model (W005 artifacts)
+  -> raise native FM20-shaped events / perform PAL or host work as needed
+  -> read mutable Return* helpers inline in VBA, or record historical completion rows
   -> record trace/replay evidence
 ```
 
-The reducer is pure with respect to platform APIs and VBA calls. It computes the
-next state, requested effects, and render invalidation. Platform operations,
-host-extension requests, timers, clipboard operations, and VBA event dispatch are
-effects performed by the adapter/effect runner. Any result that can affect
-state returns as a later `UiEvent` or effect completion.
+The durable invariant is that platform APIs and host objects stay out of portable input/state
+contracts. Historically the Rust reducer was pure and requested effects. In the current VBA-reducer
+runtime, event dispatch and mutable helper readback happen inline inside the VBA control/reducer
+surface, while the PAL remains host-neutral and the Rust side remains a thin driver over normalized
+input, clipboard text, lifecycle calls, and self-render.
 
 ## 4. Common Identifiers And Metadata
 

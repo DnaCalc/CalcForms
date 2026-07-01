@@ -50,12 +50,15 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
   ByRef-SCALAR copyback and the real `MSForms.ReturnInteger`/`ReturnBoolean` COM
   types crossing the foreign-COM boundary (vs the repo-owned `W008ReturnValue`
   stand-in) are not exercised. `oxforms-esq.2` (B) is unblocked.
-- **`oxforms-esq.2` (B): COMPLETE** — every targeted FM20 event is wired through
-  `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
+- **`oxforms-esq.2` (B): COMPLETE** — every targeted FM20 event was wired through
+  the then-current `crates/oxforms-oxvba-adapter/src/runtime_runner.rs`
   `dispatch_fire_vba_event`, each reaching a real `WithEvents` handler via the
   control's `Perform*` member (never the W005 `RaiseDispatch` carrier), proven by
-  RuntimeRunner tests in
-  [`oxvba_w007_runtime_runner.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_w007_runtime_runner.rs):
+  the historical RuntimeRunner tests in
+  `oxvba_w007_runtime_runner.rs`. Current-code note: `runtime_runner.rs` and that test file were
+  deleted in `oxforms-ih6`; equivalent coverage now lives in the VBA-reducer adapter tests such as
+  [`oxvba_reducer_cmdbutton.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_reducer_cmdbutton.rs)
+  and [`oxvba_runtime_greeter.rs`](../../crates/oxforms-oxvba-adapter/tests/oxvba_runtime_greeter.rs):
   - `Click` → `PerformClick`, `Change` → `ApplyUserText` (W007, prior).
   - `KeyDown` → `PerformKeyDown`, `KeyUp` → `PerformKeyUp`, `KeyPress` →
     `PerformKeyPress` — each reading back the post-handler `KeyCode`/`KeyAscii`

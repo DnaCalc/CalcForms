@@ -11,6 +11,34 @@ Realizes: the 2026-06-29 decision to move the control reducer/interaction into V
 `30099710`; RESOLVED). The design below is deliberately **independent of array-access cost** — it holds
 whether access is O(1) or not — so this resolution does not change it.
 
+> **STATUS — LADDER COMPLETED, `oxforms-core` DELETED (epic `oxforms-ih6`, delete commit `17785f2`;
+> epic closed `08084fc`).** The migration ladder below ran to completion. Control behavior now lives
+> ENTIRELY in VBA: the reducer is [`vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls) plus
+> the four control classes implementing the expanded `IOxControl` contract. The Rust side is the thin
+> driver `OxRuntime` in
+> [`crates/oxforms-oxvba-adapter/src/runtime.rs`](../../crates/oxforms-oxvba-adapter/src/runtime.rs):
+> it holds the OxVba session + form-document, calls the VBA reducer facade
+> (`Dispatch`/`DispatchKey`/`DispatchChar`/`DispatchDrop`), drives lifecycle (`Perform*` /
+> `PerformQueryClose`), pushes the clipboard (`SetClipboardText`), and drives the VBA self-render
+> (`Render`). There is **no Rust reducer** in the loop — `reduce()`/`FormState`/`ReducerOutput`/
+> `RuntimeRunner` are gone with the crate. The fold-back machinery and the `*Completed` UiEvent
+> variants are retired; vetoes/Return\* are handled INLINE in VBA, as the design predicted. Conformance
+> coverage of the FM20 orderings was re-homed onto the VBA reducer:
+> `crates/oxforms-oxvba-adapter/tests/oxvba_reducer_cmdbutton.rs` (28 tests) +
+> `oxvba_runtime_greeter.rs`.
+>
+> **GATE NOT SATISFIED — `.frm` loader / `trace_replay` home was DROPPED, not settled.** The ladder's
+> step-3 gate "settle the `.frm`/`trace_replay` home" (and the "What happens to `oxforms-core`" open
+> item below) was **not** met by re-homing those capabilities — they were **dropped** with the crate.
+> The `.frm` loader (`materialize_form_from_frm`) and `trace_replay.rs` are gone; the `fixtures/frm/*`
+> files remain on disk but nothing in Rust reads them. The committed trace-replay goldens under
+> `docs/evidence/W00{5,6}_*/trace-replay/` are now **frozen**: there is **no regeneration path**, since
+> the code that produced them was deleted. Treat them as historical artifacts.
+>
+> Everything below this banner is the original DESIGN SPEC, preserved as-is for the contract and the
+> historical ladder; where it speaks of `oxforms-core`/`RuntimeRunner`/`reduce()` as present or of the
+> deletion as a future gated step, read it against this banner.
+
 ## Principle
 
 Two separable jobs, split by the architecture principle (the vm3 perf finding reinforced this but does
@@ -84,7 +112,9 @@ The OxForms VBA library exposes the reducer entry the runtime calls per routed e
   ```vba
   ' inside OxRuntime.Dispatch for a KeyDown:
   newCode = ctl.PerformKeyDown(code, shift)   ' raises KeyDown; handler may set KeyCode.Value = 0
-  If newCode = 0 Then mState.SwallowNextChar = True   ' VBA state; no round-trip
+  If newCode = 0 And KeyMayProduceCharacter(code, shift) Then
+      mState.SwallowNextChar = True           ' VBA state; no round-trip
+  End If
   ' ... a later Dispatch(CharacterInput):
   If mState.SwallowNextChar Then mState.SwallowNextChar = False : Exit Sub   ' suppressed inline
   ```
