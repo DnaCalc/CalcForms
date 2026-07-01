@@ -43,6 +43,11 @@ planning truth.
    (§15), and the render-invocation/frame model (§16) — the Repaint-vs-Re-render
    split, runtime/backend/bootstrap ownership, the pull/lazy frame loop, and the
    resident-Scene seam.
+8. [`specs/CONTROL_STACK_STRATEGY.md`](specs/CONTROL_STACK_STRATEGY.md) -
+   W009 control-stack reassessment: OxForms keeps `OxRuntime` + OxVba + Scene/PAL
+   as the canonical MSForms runtime, borrows sibling DNA UI stack concepts only
+   through explicit service seams, and gates any future DOM/WebView binder behind
+   the same runtime contract.
 
 ## Source References
 

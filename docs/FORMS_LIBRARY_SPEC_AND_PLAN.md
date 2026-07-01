@@ -1,6 +1,6 @@
 # OxForms — VBA-Compatible Forms Library: Spec, Architecture & Work Plan
 
-Status: draft v2 · Owner: OxForms · Last updated: 2026-06-21
+Status: draft v2 · Owner: OxForms · Last updated: 2026-07-01
 
 A from-scratch, cross-platform reimplementation of the Microsoft Forms 2.0 object
 library (`FM20.dll`, "MSForms") — the `UserForm` and its controls — with the main
@@ -90,8 +90,9 @@ These are settled and are treated as load-bearing assumptions, not open question
 | D10 | **VBA-first implementation, Rust primitive kernel.** Controls, object model, layout, interaction, theme logic, and most rendering decisions live in VBA; Rust owns only primitive platform services and proven hot-path migrations. | This maximizes OxVba compiler/runtime learning while preserving an escape hatch for measured bottlenecks. |
 | D11 | **Trace/replay is a first-class architecture constraint.** Normalized input events, reducer effects, invalidation decisions, display lists, and fired VBA events must be serializable enough for golden tests and differential comparison. | Makes compatibility bugs reproducible, turns OxForms into a benchmark corpus, and gives future JIT work realistic traces. |
 | D12 | **Host extension controls are supported without polluting FM20 parity.** `RefEdit` is the motivating early extension: Excel-hosted, range-selection-aware, and outside the FM20 intrinsic set. | DNA Calc will need it early, but core OxForms must still keep a clean distinction between MSForms compatibility and host-specific controls. |
+| D13 (added 2026-07-01) | **Hybrid control engine, not a Leptos/Tauri runtime migration.** OxForms keeps `OxRuntime` + OxVba + retained Scene + PAL as the canonical MSForms runtime. Sibling DNA Leptos/Tauri app stacks may inform theme tokens, skin/manifest vocabulary, accessibility helpers, host-shell patterns, and future binder concepts only through explicit OxForms service seams. | DnaOneCalc and DnaTreeCalc prove a useful DNA product-shell direction, but OxForms has a different compatibility job: exact MSForms object model, event ordering, `.frm/.frx`, and VBA execution. The detailed gate is [`specs/CONTROL_STACK_STRATEGY.md`](specs/CONTROL_STACK_STRATEGY.md). |
 
-Everything below follows from D1–D12.
+Everything below follows from D1–D13.
 
 ---
 
@@ -150,12 +151,17 @@ revisions and the backend consumes read-only snapshots.
   convenience; if it is not the best long-term architecture, it must not stay in the
   implementation path. Everything else is VBA unless profiling and evidence justify
   a later Rust migration.
-- **`oxforms-core`** (Rust) — host-neutral reducer/model reference and test-spine
-  contracts used by W005 and future replay/golden checks. This crate may consume
-  `oxforms-pal` value types such as normalized input and coordinates, but it is not
-  the primary VBA runtime implementation and does not make the PAL responsible for
-  control behavior. Any future Rust hot-path migration must still satisfy the
-  VBA-first migration rule in section 4.6.
+- **`oxforms-core`** (Rust) — **retired.** Through W005–W007 this crate held a
+  host-neutral Rust reducer/model reference (the `reduce()` spine, `RuntimeForm`/
+  effect interpreter, `.frm` projection) used as a test spine. Per the
+  reducer-home decision (memory `oxforms-reducer-home-decision`) all control
+  behavior was moved into VBA and the crate was DELETED. The reducer now lives in
+  `vba/oxforms/OxReducer.cls` (the interaction reducer) plus the four control
+  classes implementing `IOxControl`; the Rust runtime is the thin
+  `OxRuntime` shell in `crates/oxforms-oxvba-adapter/src/runtime.rs`, which drives
+  the VBA reducer facade (`Dispatch`/`DispatchKey`/`DispatchChar`/`DispatchDrop`)
+  and form lifecycle (`Perform*`). Any future Rust hot-path migration must still
+  satisfy the VBA-first migration rule in section 4.6.
 - **`oxforms-pal`** (Rust) — the host/runtime-independent PAL core: contract types,
   the retained-Scene renderer, reference/headless renderer, shared backend traits, and any
   future first-class native surface derived from the same canonical contract. It must
@@ -484,15 +490,17 @@ OxForms first, then plugs into OxVba project loading beside `.vbp`/`.bas`/`.cls`
 The `.frx` *structure* (offsets/records) is parsed in VBA/Rust per D6; the *image
 bytes* are handed to the PAL to decode.
 
-Current W006 implementation subset: `oxforms-0a0.4` adds a host-neutral
-`oxforms-core` loader/projection for a selected `.frm` slice containing a
-UserForm plus `MSForms.Label`, `MSForms.TextBox`, and `MSForms.CommandButton`
-controls. The slice maps `.frm` twip geometry into point-based `form_logical`
-state per [`specs/COORDINATE_MODEL.md`](specs/COORDINATE_MODEL.md), carries
-caption/text, tab/focus, default/cancel, accelerator, enabled/visible, and
-event-effect metadata into the W005 `FormState` path, and records `.frx`
-references without decoding binary resources. It is not the full persistence
-codec or OxVba form-module ingestion surface.
+Historical note (superseded): W006 (`oxforms-0a0.4`) added a host-neutral Rust
+`.frm` loader/projection in `oxforms-core` for a selected `.frm` slice containing
+a UserForm plus `MSForms.Label`, `MSForms.TextBox`, and `MSForms.CommandButton`
+controls — mapping `.frm` twip geometry into point-based logical state per
+[`specs/COORDINATE_MODEL.md`](specs/COORDINATE_MODEL.md) and carrying caption/text,
+tab/focus, default/cancel, accelerator, enabled/visible, and event-effect metadata.
+That Rust loader was **removed with `oxforms-core`** (reducer-home decision). There
+is no current `.frm` ingestion path: it is future VBA-side work, to materialize the
+form + controls directly into the VBA object model (`UserForm` + the `IOxControl`
+classes the VBA `OxReducer` drives) and to plug into OxVba project loading beside
+`.vbp`/`.bas`/`.cls` (see P3 in §11). It is not the full persistence codec.
 
 ### 7.2 In-document binary: MS-OFORMS (OxDoc)
 Inside `.xlsm`, forms live in `vbaProject.bin` (a CFBF compound file, **[MS-OVBA]**) as
