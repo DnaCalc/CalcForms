@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 use std::time::Instant;
 
-use oxforms_oxvba_adapter::runtime::OxRuntime;
+use oxforms_oxvba_adapter::runtime::{OxRuntime, RuntimeInput, RuntimeKeyKind, RuntimeMouseKind};
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory, SurfaceSnapshot};
 use oxforms_pal::scene::StubShaper;
 use oxvba_bundle::ProjectMemberKind;
@@ -180,6 +180,7 @@ pub struct TraceRow {
     pub at_ms: u64,
     pub action: String,
     pub effect_log: String,
+    pub host_service_effects: Vec<String>,
     pub render_revision: u64,
     pub frame_token: Option<u64>,
     pub node_count: usize,
@@ -190,6 +191,7 @@ pub struct TraceRow {
 #[derive(Clone, Debug, Default)]
 pub struct DispatchReport {
     pub effects: String,
+    pub service_effects: Vec<String>,
     pub rendered: bool,
     pub revision: u64,
     pub frame_token: Option<u64>,
@@ -228,60 +230,48 @@ impl HeadlessRunner {
     }
 
     pub fn dispatch(&mut self, action: InputAction) -> Result<DispatchReport, String> {
-        let action_label = action_label(&action);
         let dispatch_start = Instant::now();
-        let effects = match action {
-            InputAction::MouseDown {
-                x,
-                y,
-                button,
-                shift,
-            } => self.rt.dispatch_mouse("mousedown", x, y, button, shift)?,
-            InputAction::MouseMove {
-                x,
-                y,
-                button,
-                shift,
-            } => self.rt.dispatch_mouse("mousemove", x, y, button, shift)?,
-            InputAction::MouseUp {
-                x,
-                y,
-                button,
-                shift,
-            } => self.rt.dispatch_mouse("mouseup", x, y, button, shift)?,
-            InputAction::KeyDown { key_code, shift } => {
-                self.rt.dispatch_key("keydown", key_code, shift)?
+        let runtime_input = runtime_input_for_action(&action);
+        let (action_label, effects, service_effects, repainted_in_dispatch) = match runtime_input {
+            Some(input) => {
+                let turn = self.rt.dispatch_event_turn(input)?;
+                (
+                    turn.action,
+                    turn.effect_log,
+                    turn.host_service_effects,
+                    turn.repainted,
+                )
             }
-            InputAction::KeyUp { key_code, shift } => {
-                self.rt.dispatch_key("keyup", key_code, shift)?
-            }
-            InputAction::CharacterInput(text) => self.rt.dispatch_char(&text)?,
-            InputAction::PasteText(text) => {
-                self.rt.set_clipboard_text(&text)?;
-                self.rt.dispatch_key("keydown", VK_V, SHIFT_CTRL)?
-            }
-            InputAction::DropText(text) => self.rt.dispatch_drop(&text)?,
-            InputAction::Tick { advance_ms } => {
-                self.clock_ms = self.clock_ms.saturating_add(advance_ms);
-                String::new()
-            }
-            InputAction::Render => String::new(),
+            None => match action {
+                InputAction::Tick { advance_ms } => {
+                    self.clock_ms = self.clock_ms.saturating_add(advance_ms);
+                    (
+                        format!("tick:{advance_ms}"),
+                        String::new(),
+                        Vec::new(),
+                        false,
+                    )
+                }
+                InputAction::Render => ("render".to_string(), String::new(), Vec::new(), false),
+                _ => unreachable!("runtime_input_for_action covers dispatched input"),
+            },
         };
         let dispatch_us = dispatch_start.elapsed().as_micros();
 
-        let should_render = match self.options.repaint_policy {
-            RepaintPolicy::Manual => matches!(action_label.as_str(), "render"),
-            RepaintPolicy::AfterEachDispatch => true,
+        let needs_runner_render = match self.options.repaint_policy {
+            RepaintPolicy::Manual => action_label == "render",
+            RepaintPolicy::AfterEachDispatch => !repainted_in_dispatch,
             RepaintPolicy::AfterNonEmptyEffect => {
-                !effects.is_empty() || matches!(action_label.as_str(), "render")
+                !repainted_in_dispatch && (!effects.is_empty() || action_label == "render")
             }
         };
+        let rendered = repainted_in_dispatch || needs_runner_render;
 
         let render_start = Instant::now();
-        if should_render {
+        if needs_runner_render {
             self.rt.render()?;
         }
-        let render_us = if should_render {
+        let render_us = if needs_runner_render {
             render_start.elapsed().as_micros()
         } else {
             0
@@ -290,12 +280,20 @@ impl HeadlessRunner {
         let snap = self.surface.snapshot()?;
         let report = DispatchReport {
             effects: effects.clone(),
-            rendered: should_render,
+            service_effects: service_effects.clone(),
+            rendered,
             revision: snap.revision,
             frame_token: snap.frame_token,
             node_count: snap.node_count,
         };
-        self.push_trace(action_label, effects, dispatch_us, render_us, &snap);
+        self.push_trace(
+            action_label,
+            effects,
+            service_effects,
+            dispatch_us,
+            render_us,
+            &snap,
+        );
         Ok(report)
     }
 
@@ -379,6 +377,7 @@ impl HeadlessRunner {
         &mut self,
         action: String,
         effect_log: String,
+        host_service_effects: Vec<String>,
         dispatch_us: u128,
         render_us: u128,
         snap: &SurfaceSnapshot,
@@ -389,12 +388,68 @@ impl HeadlessRunner {
             at_ms: self.clock_ms,
             action,
             effect_log,
+            host_service_effects,
             render_revision: snap.revision,
             frame_token: snap.frame_token,
             node_count: snap.node_count,
             dispatch_us,
             render_us,
         });
+    }
+}
+
+fn runtime_input_for_action(action: &InputAction) -> Option<RuntimeInput> {
+    match action {
+        InputAction::MouseDown {
+            x,
+            y,
+            button,
+            shift,
+        } => Some(RuntimeInput::Mouse {
+            kind: RuntimeMouseKind::Down,
+            x: *x,
+            y: *y,
+            button: *button,
+            shift: *shift,
+        }),
+        InputAction::MouseMove {
+            x,
+            y,
+            button,
+            shift,
+        } => Some(RuntimeInput::Mouse {
+            kind: RuntimeMouseKind::Move,
+            x: *x,
+            y: *y,
+            button: *button,
+            shift: *shift,
+        }),
+        InputAction::MouseUp {
+            x,
+            y,
+            button,
+            shift,
+        } => Some(RuntimeInput::Mouse {
+            kind: RuntimeMouseKind::Up,
+            x: *x,
+            y: *y,
+            button: *button,
+            shift: *shift,
+        }),
+        InputAction::KeyDown { key_code, shift } => Some(RuntimeInput::Key {
+            kind: RuntimeKeyKind::Down,
+            key_code: *key_code,
+            shift: *shift,
+        }),
+        InputAction::KeyUp { key_code, shift } => Some(RuntimeInput::Key {
+            kind: RuntimeKeyKind::Up,
+            key_code: *key_code,
+            shift: *shift,
+        }),
+        InputAction::CharacterInput(text) => Some(RuntimeInput::CharacterInput(text.clone())),
+        InputAction::PasteText(text) => Some(RuntimeInput::PasteText(text.clone())),
+        InputAction::DropText(text) => Some(RuntimeInput::DropText(text.clone())),
+        InputAction::Tick { .. } | InputAction::Render => None,
     }
 }
 
@@ -493,25 +548,4 @@ fn module_unit(
         attributes,
         source,
     })
-}
-
-fn action_label(action: &InputAction) -> String {
-    match action {
-        InputAction::MouseDown { x, y, .. } => format!("mouse_down:{x},{y}"),
-        InputAction::MouseMove { x, y, .. } => format!("mouse_move:{x},{y}"),
-        InputAction::MouseUp { x, y, .. } => format!("mouse_up:{x},{y}"),
-        InputAction::KeyDown { key_code, shift } => format!("key_down:{key_code}:{shift}"),
-        InputAction::KeyUp { key_code, shift } => format!("key_up:{key_code}:{shift}"),
-        InputAction::CharacterInput(text) => format!("char:{}", escape_label(text)),
-        InputAction::PasteText(text) => format!("paste:{}", escape_label(text)),
-        InputAction::DropText(text) => format!("drop:{}", escape_label(text)),
-        InputAction::Tick { advance_ms } => format!("tick:{advance_ms}"),
-        InputAction::Render => "render".to_string(),
-    }
-}
-
-fn escape_label(text: &str) -> String {
-    text.chars()
-        .flat_map(char::escape_default)
-        .collect::<String>()
 }

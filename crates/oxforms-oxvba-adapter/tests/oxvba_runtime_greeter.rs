@@ -7,7 +7,7 @@
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
-use oxforms_oxvba_adapter::runtime::OxRuntime;
+use oxforms_oxvba_adapter::runtime::{OxRuntime, RuntimeInput, RuntimeMouseKind};
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::StubShaper;
 
@@ -146,15 +146,49 @@ fn oxruntime_drives_the_w007_greeter_demo_through_the_vba_reducer() {
         OxRuntime::attach(build_session(), "ReducerGreeterForm", "Build").expect("attach greeter");
 
     // Focus the input (click) and type "World" (a user edit -> dirty).
-    rt.dispatch_mouse("mousedown", 40, 20, 1, 0).unwrap();
-    rt.dispatch_mouse("mouseup", 40, 20, 1, 0).unwrap();
-    rt.dispatch_char("World").unwrap();
+    rt.dispatch_event_turn(RuntimeInput::Mouse {
+        kind: RuntimeMouseKind::Down,
+        x: 40,
+        y: 20,
+        button: 1,
+        shift: 0,
+    })
+    .unwrap();
+    rt.dispatch_event_turn(RuntimeInput::Mouse {
+        kind: RuntimeMouseKind::Up,
+        x: 40,
+        y: 20,
+        button: 1,
+        shift: 0,
+    })
+    .unwrap();
+    let typed = rt
+        .dispatch_event_turn(RuntimeInput::CharacterInput("World".to_string()))
+        .unwrap();
+    assert!(
+        typed.repainted,
+        "character input should repaint in the same turn"
+    );
     assert_eq!(read_string(&mut rt, "InputText"), "World");
 
     // Click OK: focus leaves the dirty input (validation commits), then OkButton_Click reads the
     // text and sets the label -- the W007 demo flow, all in VBA.
-    rt.dispatch_mouse("mousedown", 170, 20, 1, 0).unwrap();
-    rt.dispatch_mouse("mouseup", 170, 20, 1, 0).unwrap();
+    rt.dispatch_event_turn(RuntimeInput::Mouse {
+        kind: RuntimeMouseKind::Down,
+        x: 170,
+        y: 20,
+        button: 1,
+        shift: 0,
+    })
+    .unwrap();
+    rt.dispatch_event_turn(RuntimeInput::Mouse {
+        kind: RuntimeMouseKind::Up,
+        x: 170,
+        y: 20,
+        button: 1,
+        shift: 0,
+    })
+    .unwrap();
     assert_eq!(
         read_string(&mut rt, "OutputCaption"),
         "Hello, World",

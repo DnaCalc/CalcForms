@@ -11,10 +11,114 @@
 //! The form-document is any VBA class that exposes that facade (the `reducer_*` fixtures and the
 //! W007 greeter do). Each input call returns the reducer's ordered effect log (a `'|'`-joined
 //! string) for diagnostics/assertions.
+//!
+//! The named W009 contract is [`OxRuntime::dispatch_event_turn`]: host/backend code normalizes one
+//! input turn into [`RuntimeInput`], `OxRuntime` dispatches it to the VBA facade, records any
+//! explicit host-service effect, and returns [`RuntimeEventTurn`] so callers can render/read back
+//! state in the same turn.
 
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
 use oxvba_runtime::{ObjectRef, Variant};
+
+const SHIFT_CTRL: i16 = 2;
+const VK_V: i16 = 86;
+
+/// Mouse event kind in the canonical W009 runtime/event-turn contract.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RuntimeMouseKind {
+    Down,
+    Move,
+    Up,
+}
+
+impl RuntimeMouseKind {
+    fn facade_name(self) -> &'static str {
+        match self {
+            Self::Down => "mousedown",
+            Self::Move => "mousemove",
+            Self::Up => "mouseup",
+        }
+    }
+
+    fn label_name(self) -> &'static str {
+        match self {
+            Self::Down => "mouse_down",
+            Self::Move => "mouse_move",
+            Self::Up => "mouse_up",
+        }
+    }
+}
+
+/// Key event kind in the canonical W009 runtime/event-turn contract.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+pub enum RuntimeKeyKind {
+    Down,
+    Up,
+}
+
+impl RuntimeKeyKind {
+    fn facade_name(self) -> &'static str {
+        match self {
+            Self::Down => "keydown",
+            Self::Up => "keyup",
+        }
+    }
+
+    fn label_name(self) -> &'static str {
+        match self {
+            Self::Down => "key_down",
+            Self::Up => "key_up",
+        }
+    }
+}
+
+/// One normalized host input turn entering `OxRuntime`.
+#[derive(Clone, Debug, Eq, PartialEq)]
+pub enum RuntimeInput {
+    Mouse {
+        kind: RuntimeMouseKind,
+        x: i32,
+        y: i32,
+        button: i16,
+        shift: i16,
+    },
+    Key {
+        kind: RuntimeKeyKind,
+        key_code: i16,
+        shift: i16,
+    },
+    CharacterInput(String),
+    PasteText(String),
+    DropText(String),
+}
+
+impl RuntimeInput {
+    /// Stable action label used by headless JSONL traces and diagnostics.
+    #[must_use]
+    pub fn label(&self) -> String {
+        match self {
+            Self::Mouse { kind, x, y, .. } => format!("{}:{x},{y}", kind.label_name()),
+            Self::Key {
+                kind,
+                key_code,
+                shift,
+            } => format!("{}:{key_code}:{shift}", kind.label_name()),
+            Self::CharacterInput(text) => format!("char:{}", escape_label(text)),
+            Self::PasteText(text) => format!("paste:{}", escape_label(text)),
+            Self::DropText(text) => format!("drop:{}", escape_label(text)),
+        }
+    }
+}
+
+/// Result of one canonical W009 runtime/event turn.
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct RuntimeEventTurn {
+    pub action: String,
+    pub effect_log: String,
+    pub host_service_effects: Vec<String>,
+    pub repainted: bool,
+}
 
 /// A thin driver over a VBA form-document that owns an `OxReducer`.
 pub struct OxRuntime {
@@ -68,9 +172,47 @@ impl OxRuntime {
             .unwrap_or_default())
     }
 
+    /// Run one canonical W009 input turn through the VBA form-document facade.
+    ///
+    /// This is the shared dispatch surface for both deterministic headless tests and the Windows
+    /// bootstrap. It does not rasterize pixels: callers render/repaint from the returned effect log
+    /// and can read back VBA state immediately after the call.
+    pub fn dispatch_event_turn(&mut self, input: RuntimeInput) -> Result<RuntimeEventTurn, String> {
+        let action = input.label();
+        let mut host_service_effects = Vec::new();
+        let effect_log = match input {
+            RuntimeInput::Mouse {
+                kind,
+                x,
+                y,
+                button,
+                shift,
+            } => self.dispatch_mouse(kind.facade_name(), x, y, button, shift)?,
+            RuntimeInput::Key {
+                kind,
+                key_code,
+                shift,
+            } => self.dispatch_key(kind.facade_name(), key_code, shift)?,
+            RuntimeInput::CharacterInput(text) => self.dispatch_char(&text)?,
+            RuntimeInput::PasteText(text) => {
+                self.set_clipboard_text(&text)?;
+                host_service_effects.push(format!("clipboard.set_text:{}", text.len()));
+                self.dispatch_key("keydown", VK_V, SHIFT_CTRL)?
+            }
+            RuntimeInput::DropText(text) => self.dispatch_drop(&text)?,
+        };
+        let repainted = effect_log_contains_repaint(&effect_log);
+        Ok(RuntimeEventTurn {
+            action,
+            effect_log,
+            host_service_effects,
+            repainted,
+        })
+    }
+
     /// Route a normalized pointer event to the VBA reducer (`"mousedown"`/`"mouseup"`); returns the
     /// ordered effect log.
-    pub fn dispatch_mouse(
+    fn dispatch_mouse(
         &mut self,
         kind: &str,
         x: i32,
@@ -92,12 +234,7 @@ impl OxRuntime {
     }
 
     /// Route a key event (`"keydown"`/`"keyup"`) to the focused control via the VBA reducer.
-    pub fn dispatch_key(
-        &mut self,
-        kind: &str,
-        key_code: i16,
-        shift: i16,
-    ) -> Result<String, String> {
+    fn dispatch_key(&mut self, kind: &str, key_code: i16, shift: i16) -> Result<String, String> {
         self.invoke_string(
             "DispatchKey",
             ProjectMemberKind::Method,
@@ -110,7 +247,7 @@ impl OxRuntime {
     }
 
     /// Route character input to the focused control via the VBA reducer.
-    pub fn dispatch_char(&mut self, text: &str) -> Result<String, String> {
+    fn dispatch_char(&mut self, text: &str) -> Result<String, String> {
         self.invoke_string(
             "DispatchChar",
             ProjectMemberKind::Method,
@@ -119,7 +256,7 @@ impl OxRuntime {
     }
 
     /// Route a drag-drop text drop to the focused control via the VBA reducer.
-    pub fn dispatch_drop(&mut self, text: &str) -> Result<String, String> {
+    fn dispatch_drop(&mut self, text: &str) -> Result<String, String> {
         self.invoke_string(
             "DispatchDrop",
             ProjectMemberKind::Method,
@@ -128,7 +265,7 @@ impl OxRuntime {
     }
 
     /// Push the current host clipboard text (read before a Ctrl+V is dispatched).
-    pub fn set_clipboard_text(&mut self, text: &str) -> Result<(), String> {
+    fn set_clipboard_text(&mut self, text: &str) -> Result<(), String> {
         self.invoke(
             "SetClipboardText",
             ProjectMemberKind::Method,
@@ -173,4 +310,16 @@ impl OxRuntime {
     pub fn session_mut(&mut self) -> &mut ProjectRuntimeSession {
         &mut self.session
     }
+}
+
+/// True when the VBA reducer's ordered effect log says the turn already performed a re-render.
+#[must_use]
+pub fn effect_log_contains_repaint(effects: &str) -> bool {
+    effects.split('|').any(|effect| effect == "repaint")
+}
+
+fn escape_label(text: &str) -> String {
+    text.chars()
+        .flat_map(char::escape_default)
+        .collect::<String>()
 }

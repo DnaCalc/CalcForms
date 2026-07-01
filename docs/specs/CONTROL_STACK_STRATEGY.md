@@ -3,7 +3,7 @@
 Status: `draft_implementation_authority`
 Date: 2026-07-01
 Workset: `W009_intrinsic_control_breadth`
-Bead: `oxforms-zhz.12`
+Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14`
 
 This note records the W009 control-stack reassessment after the first
 TextBox/CheckBox hazard-gym work and the sibling DNA UI stack review. It does
@@ -42,6 +42,44 @@ The chosen direction is a hybrid control engine:
 - A subsystem may move from VBA to Rust only behind the same canonical contract,
   after profiling or correctness evidence shows that migration is the best
   long-term architecture.
+
+## Canonical Runtime/Event-Turn Contract
+
+The concrete W009 contract is named in code as:
+
+- `RuntimeInput` — one normalized host input turn entering `OxRuntime`;
+- `OxRuntime::dispatch_event_turn` — the only Rust-side semantic dispatch entry
+  for headless and Windows/bootstrap paths;
+- `RuntimeEventTurn` — the ordered reducer effect log, explicit host-service
+  effect trace, stable action label, and same-turn repaint/readback marker for
+  that turn.
+
+One event turn is complete only after this order is preserved:
+
+1. The host/backend queues or receives one input and maps it to `RuntimeInput`.
+2. `OxRuntime` dispatches to the OxVba form-document facade
+   (`Dispatch`, `DispatchKey`, `DispatchChar`, or `DispatchDrop`).
+3. VBA `OxReducer` and the concrete control object model mutate state and raise
+   events; any host-service interaction is recorded as a named trace effect.
+4. The returned `RuntimeEventTurn` tells the caller whether the reducer already
+   repainted in the same turn. If not, and the caller's repaint policy requires a
+   fresh frame, the caller drives `OxRuntime::render`, which causes VBA
+   self-rendering through `OxForms.Surface` and applies retained `Scene` patches.
+5. The caller may read back VBA object-model state and resident `Scene`
+   revision/token in the same turn, before accepting the next input.
+
+The deterministic headless runner and the Windows bootstrap both use this same
+contract. The headless path adds queue draining, a virtual clock, and JSONL rows;
+the Windows path adds PAL event normalization, live clipboard reads for Ctrl+V,
+and backend repaint. Neither path owns control state, event ordering, or an
+alternate renderer. The lower-level `Dispatch*` facade helpers inside
+`OxRuntime` are private implementation details of this contract, not a public
+backend/test-runner API.
+
+`HostServices` starts here as an explicit effect trace attached to the turn
+(`clipboard.set_text:<len>` for paste). Later service beads extend that trace
+shape for cursor, timers, metrics/colors, DPI, image decode, and drag/drop
+without bypassing `OxRuntime`.
 
 ## Initial-Development Rework Doctrine
 

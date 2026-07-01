@@ -25,7 +25,9 @@ use std::cell::RefCell;
 use std::rc::Rc;
 use std::sync::Arc;
 
-use oxforms_oxvba_adapter::runtime::OxRuntime;
+use oxforms_oxvba_adapter::runtime::{
+    OxRuntime, RuntimeEventTurn, RuntimeInput, RuntimeKeyKind, RuntimeMouseKind,
+};
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::scene::{FontId, Scene};
 use oxforms_pal::{
@@ -207,19 +209,19 @@ fn run() -> Result<(), BootstrapError> {
 
             // Route the event to the VBA reducer; a non-empty effect log means state changed and a
             // repaint is due. An unhandled event kind returns None (Ignore).
-            let outcome = match dispatch_event(&mut rt, event, scale) {
-                Ok(Some(effects)) => effects,
+            let turn = match dispatch_event(&mut rt, event, scale) {
+                Ok(Some(turn)) => turn,
                 Ok(None) => return WindowSignal::Ignore,
                 Err(err) => {
                     *cb_error_inner.borrow_mut() = Some(err);
                     return WindowSignal::Close;
                 }
             };
-            if outcome.is_empty() {
+            if turn.effect_log.is_empty() {
                 return WindowSignal::Ignore;
             }
 
-            let already_rendered = effect_log_requested_repaint(&outcome);
+            let already_rendered = turn.repainted;
             if !already_rendered && is_deferred_plain_text_key(event) {
                 return WindowSignal::Ignore;
             }
@@ -257,7 +259,7 @@ fn dispatch_event(
     rt: &mut OxRuntime,
     event: &UiEvent,
     scale: f64,
-) -> Result<Option<String>, String> {
+) -> Result<Option<RuntimeEventTurn>, String> {
     let shift = |m: &oxforms_pal::KeyboardModifiers| -> i16 {
         (if m.shift { 1 } else { 0 })
             | (if m.control { 2 } else { 0 })
@@ -267,48 +269,59 @@ fn dispatch_event(
         UiEventKind::MouseDown(e) | UiEventKind::MouseUp(e) => {
             let (x, y) = logical_point(&e.coordinates, scale);
             let kind = if matches!(event.kind, UiEventKind::MouseDown(_)) {
-                "mousedown"
+                RuntimeMouseKind::Down
             } else {
-                "mouseup"
+                RuntimeMouseKind::Up
             };
-            rt.dispatch_mouse(kind, x, y, mouse_button(e.button), shift(&e.modifiers))
-                .map(Some)
+            rt.dispatch_event_turn(RuntimeInput::Mouse {
+                kind,
+                x,
+                y,
+                button: mouse_button(e.button),
+                shift: shift(&e.modifiers),
+            })
+            .map(Some)
         }
         UiEventKind::MouseMove(e) => {
             let (x, y) = logical_point(&e.coordinates, scale);
-            rt.dispatch_mouse(
-                "mousemove",
+            rt.dispatch_event_turn(RuntimeInput::Mouse {
+                kind: RuntimeMouseKind::Move,
                 x,
                 y,
-                mouse_buttons(&e.buttons_down),
-                shift(&e.modifiers),
-            )
+                button: mouse_buttons(&e.buttons_down),
+                shift: shift(&e.modifiers),
+            })
             .map(Some)
         }
         UiEventKind::KeyDown(e) | UiEventKind::KeyUp(e) => {
             let vk = keycode_to_vk(&e.key);
             let shift_bits = shift(&e.modifiers);
-            let kind = if matches!(event.kind, UiEventKind::KeyDown(_)) {
-                if is_ctrl_v(vk, shift_bits) {
-                    // Push the live OS clipboard only for Ctrl+V. Reading it for every key press
-                    // adds avoidable latency to quick typing.
-                    let _ = rt.set_clipboard_text(
-                        &oxforms_pal_win::read_clipboard_text().unwrap_or_default(),
-                    );
-                }
-                "keydown"
+            let input = if matches!(event.kind, UiEventKind::KeyDown(_))
+                && is_ctrl_v(vk, shift_bits)
+            {
+                // Push the live OS clipboard only for Ctrl+V. Reading it for every key press adds
+                // avoidable latency to quick typing, and the service trace stays attached to this
+                // event turn.
+                RuntimeInput::PasteText(oxforms_pal_win::read_clipboard_text().unwrap_or_default())
             } else {
-                "keyup"
+                let kind = if matches!(event.kind, UiEventKind::KeyDown(_)) {
+                    RuntimeKeyKind::Down
+                } else {
+                    RuntimeKeyKind::Up
+                };
+                RuntimeInput::Key {
+                    kind,
+                    key_code: vk,
+                    shift: shift_bits,
+                }
             };
-            rt.dispatch_key(kind, vk, shift_bits).map(Some)
+            rt.dispatch_event_turn(input).map(Some)
         }
-        UiEventKind::CharacterInput(e) => rt.dispatch_char(&e.text).map(Some),
+        UiEventKind::CharacterInput(e) => rt
+            .dispatch_event_turn(RuntimeInput::CharacterInput(e.text.clone()))
+            .map(Some),
         _ => Ok(None),
     }
-}
-
-fn effect_log_requested_repaint(effects: &str) -> bool {
-    effects.split('|').any(|effect| effect == "repaint")
 }
 
 fn is_ctrl_v(vk: i16, shift: i16) -> bool {
@@ -559,9 +572,8 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
 
 #[cfg(test)]
 mod tests {
-    use super::{
-        effect_log_requested_repaint, is_ctrl_v, is_deferred_plain_text_key, keycode_to_vk,
-    };
+    use super::{is_ctrl_v, is_deferred_plain_text_key, keycode_to_vk};
+    use oxforms_oxvba_adapter::runtime::effect_log_contains_repaint;
     use oxforms_pal::{
         KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, RawKeyDiagnostics, UiEvent, UiEventId,
         UiEventKind, UiEventSource,
@@ -583,8 +595,8 @@ mod tests {
 
     #[test]
     fn quick_typing_render_filters_identify_repaint_and_plain_text_keys() {
-        assert!(effect_log_requested_repaint("keydown:InputField|repaint"));
-        assert!(!effect_log_requested_repaint("keydown:InputField"));
+        assert!(effect_log_contains_repaint("keydown:InputField|repaint"));
+        assert!(!effect_log_contains_repaint("keydown:InputField"));
         assert!(is_ctrl_v(86, 2));
         assert!(!is_ctrl_v(65, 2));
 

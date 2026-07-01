@@ -9,6 +9,7 @@ Geometry/drag slice: `oxforms-zhz.11`
 CheckBox hardening slice: `oxforms-zhz.5`
 Control-stack gate: `oxforms-zhz.12`
 Ideal architecture rework graph: `oxforms-zhz.13` through `oxforms-zhz.33`
+Canonical event-turn contract: `oxforms-zhz.14`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -102,6 +103,20 @@ fixture formats, and tests may be deleted, renamed, replaced, or quarantined whe
 the representative `OxRuntime`/OxVba/Scene/PAL design. The goal is a representative implementation
 that proves the strategy before broad FM20 control breadth resumes.
 
+`oxforms-zhz.14` names and wires the canonical runtime/event-turn contract:
+
+- `RuntimeInput` is the normalized input turn entering `OxRuntime`;
+- `OxRuntime::dispatch_event_turn` is now the shared semantic dispatch entry for
+  the headless runner and Windows/bootstrap path;
+- `RuntimeEventTurn` returns the stable action label, ordered reducer effect log,
+  explicit host-service effects, and same-turn repaint marker;
+- the headless JSONL trace now records `host_service_effects`, while
+  `HeadlessRunner::dispatch` still reads VBA state and observes the resident
+  `Scene` revision in the same turn without issuing a second explicit render when
+  the reducer already repainted;
+- the bootstrap maps PAL events, including Ctrl+V clipboard reads, into the same
+  contract before asking the backend to repaint.
+
 Focused acceptance:
 
 ```powershell
@@ -126,6 +141,8 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | TextBox caret/selection visuals | Passing shaped-scene proof | `oxvba_reducer_cmdbutton::textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
 | TextBox mouse drag selection | Passing headless path | `oxvba_reducer_cmdbutton::textbox_mouse_drag_extends_selection_through_mousemove_capture`; `headless_runner_showcase::runner_mouse_drag_selects_textbox_text_through_mousemove` |
 | Rapid TextBox key sequences | Passing scaffold | `headless_runner_showcase::runner_handles_rapid_letter_sequence_and_backspace_repeat` |
+| Runtime/event-turn contract | Passing | `RuntimeInput`/`RuntimeEventTurn` in `crates/oxforms-oxvba-adapter/src/runtime.rs`; headless and bootstrap both call `OxRuntime::dispatch_event_turn` |
+| Host-service effect trace | Passing first slice | `headless_runner_showcase::runner_records_service_effect_and_same_turn_readback_repaint` proves paste records `clipboard.set_text:<len>`, mutates VBA TextBox state, and advances the Scene revision in the same event turn |
 | CheckBox keyboard toggle | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` |

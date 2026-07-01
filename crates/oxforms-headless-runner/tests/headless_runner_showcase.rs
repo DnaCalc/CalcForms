@@ -86,6 +86,46 @@ fn runner_drains_key_turns_against_the_current_vba_state() {
 }
 
 #[test]
+fn runner_records_service_effect_and_same_turn_readback_repaint() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+    runner.render().expect("initial render");
+    let before_revision = runner.snapshot().expect("snapshot").revision;
+
+    let report = runner
+        .dispatch(InputAction::PasteText("svc".to_string()))
+        .expect("paste text");
+
+    assert_eq!(report.service_effects, vec!["clipboard.set_text:3"]);
+    assert!(
+        report.effects.contains("paste:InputField") && report.effects.contains("repaint"),
+        "paste should flow through clipboard service, reducer paste, and repaint: {}",
+        report.effects
+    );
+    assert_eq!(
+        runner.read_string("InputText").expect("InputText"),
+        "svc",
+        "VBA object-model readback should observe the paste in the same event turn"
+    );
+    assert!(
+        report.rendered && report.revision > before_revision,
+        "the same event turn should render a newer Scene revision"
+    );
+    assert_eq!(
+        runner.trace().last().expect("paste trace row").render_us,
+        0,
+        "the reducer already repainted; the runner must not issue a second render"
+    );
+
+    let jsonl = runner.trace_jsonl().expect("trace jsonl");
+    assert!(
+        jsonl.contains("\"action\":\"paste:svc\"")
+            && jsonl.contains("\"host_service_effects\":[\"clipboard.set_text:3\"]"),
+        "service effect trace should stay attached to the paste turn: {jsonl}"
+    );
+}
+
+#[test]
 fn runner_can_step_a_burst_one_action_at_a_time() {
     let repo = repo_root_from_crate();
     let options = RunnerOptions {

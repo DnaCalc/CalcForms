@@ -99,7 +99,7 @@ these detailed beads where applicable.
 | Bead | Purpose | Main dependencies / role |
 |---|---|---|
 | `oxforms-zhz.13` | Make the no-legacy-preservation doctrine explicit and reconcile older placeholders with the new graph. | First ready architecture-rework bead after `oxforms-zhz.12`. |
-| `oxforms-zhz.14` | Define and implement the canonical runtime/event-turn contract for headless and Windows paths. | Depends on `.13`; later seams depend on this. |
+| `oxforms-zhz.14` | Define and implement the canonical runtime/event-turn contract for headless and Windows paths: `RuntimeInput`, `OxRuntime::dispatch_event_turn`, and `RuntimeEventTurn`. | Depends on `.13`; later seams depend on this. |
 | `oxforms-zhz.15` | Build `HostServices` for clipboard/DataObject, cursor, timers, metrics/colors, DPI, image decode, drag/drop, and traces. | Depends on `.14`. |
 | `oxforms-zhz.16` | Extract `TextService` for shaping, caret stops, hit testing, selection geometry, clipping, and horizontal scroll. | Depends on `.15` and `.17`. |
 | `oxforms-zhz.17` | Close `RendererBackend`/Scene determinism: primitive emitters, headless raster coverage, no silent primitive drops. | Depends on `.14`. |
