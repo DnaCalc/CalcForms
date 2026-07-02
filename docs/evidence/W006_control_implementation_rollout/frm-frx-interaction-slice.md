@@ -1,7 +1,10 @@
 # W006 `.frm` Interaction Slice
 
-Status: implemented-subset for `oxforms-0a0.4`, extended by `oxforms-0a0.12`
-for the narrow CheckBox boolean-value fixture.
+Status: historical implemented-subset for `oxforms-0a0.4`, extended by `oxforms-0a0.12`
+for the narrow CheckBox boolean-value fixture. The old `oxforms-core` loader and
+`ControlNode` projection were later deleted. W009's current selected `.frm/.frx` path is
+`vba/oxforms/OxFrmMaterializer.cls`, which materializes directly into the live VBA
+`UserForm.Controls.Add` object model.
 
 ## Scope
 
@@ -50,15 +53,13 @@ pixel parity.
 
 ## Probe Scaffold Status
 
-`ControlNode` remains the host-neutral reference state shape for this selected
-implementation subset. The W005-specific `ProbeControlKind` name has been
-replaced with the more general `ControlKind` before adding CheckBox, so the new
-control does not masquerade as another W005 probe. Hand-built W005 fixture
-trees remain test and smoke infrastructure; for `.frm` scenarios they are
-intentionally replaced by `load_selected_frm_interaction_state`, which produces
-the logical tree from canonical `.frm` input. The `ControlNode::label`,
-`ControlNode::text_box`, `ControlNode::command_button`, and
-`ControlNode::check_box` constructors remain local helper constructors, not a
+`ControlNode` was the host-neutral reference state shape for this selected
+implementation subset. That scaffold is now historical: `oxforms-core` and the
+`load_selected_frm_interaction_state` projection were deleted, and W009 uses
+`OxFrmMaterializer` to build the live VBA object model instead. Hand-built W005
+fixture trees remain historical test/evidence provenance only. The
+`ControlNode::label`, `ControlNode::text_box`, `ControlNode::command_button`, and
+`ControlNode::check_box` constructors were local helper constructors, not a
 canonical persistence API.
 
 The W005 generic `Dispatched` carrier remains smoke/test infrastructure only.

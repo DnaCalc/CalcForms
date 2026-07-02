@@ -4,9 +4,11 @@ Records how the W007 demo form/control tree becomes first-class runtime state, a
 the scaffold-classification decision taken in this bead.
 
 Current-code note: this is historical W007 evidence. The `oxforms-core` `.frm` materialization path
-described here was deleted in `oxforms-ih6`; there is no current `.frm` ingestion runtime. Current
-sample/runtime forms are VBA form-document fixtures built through `UserForm.Controls.Add` and driven
-by `OxRuntime`.
+described here was deleted in `oxforms-ih6`. W009 replaced the direction with a selected-slice VBA
+materializer, `OxFrmMaterializer`, which builds the live `UserForm.Controls.Add` object model for
+current controls and records `.frx` image-reference metadata. It is still not the full persistence
+codec. Current sample/runtime forms remain VBA form-document fixtures driven by `OxRuntime` unless a
+test explicitly exercises `OxFrmMaterializer`.
 
 ## What this slice delivers
 

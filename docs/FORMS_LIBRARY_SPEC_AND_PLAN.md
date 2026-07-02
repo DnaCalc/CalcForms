@@ -174,7 +174,9 @@ revisions and the backend consumes read-only snapshots.
 - **`oxforms-pal-*`** (Rust, feature-gated or per-crate) — platform backends (win, x11/
   wayland, wasm, mac).
 - `.frm`/`.frx` parsing is owned by OxForms and exposed to OxVba project loading through
-  an explicit integration seam (beside `.vbp`/`.bas`/`.cls`).
+  an explicit integration seam (beside `.vbp`/`.bas`/`.cls`). W009 currently has a selected-slice
+  VBA materializer (`OxFrmMaterializer`) for the live `UserForm` object model and current controls;
+  it is not the full persistence codec or a revival of the retired Rust projection.
 
 Designer components are added later as a parallel VBA bundle + (if needed) a designer
 PAL extension; no runtime decision blocks them.

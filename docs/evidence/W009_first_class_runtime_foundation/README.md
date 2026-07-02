@@ -17,6 +17,7 @@ ThemePainter seam: `oxforms-zhz.18`
 InteractionManager seam: `oxforms-zhz.19`
 Object-model side-effect seam: `oxforms-zhz.20`
 AccessibilityService seam: `oxforms-zhz.21`
+Form materialization seam: `oxforms-zhz.22`
 Oracle matrix refresh: `oxforms-zhz.23`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
@@ -222,6 +223,19 @@ contract:
 - Windows UIA/MSAA provider wiring is intentionally not claimed by this bead and is tracked as
   `oxforms-zhz.35`.
 
+`oxforms-zhz.22` adds a representative selected-slice `.frm/.frx` materialization path:
+
+- `OxFrmMaterializer` parses the current `.frm` subset in VBA and builds the live object model with
+  `New UserForm` plus `Controls.Add`, not a Rust-side form/control projection;
+- the representative fixture covers form caption/client size; `Label`, `TextBox`, `CommandButton`,
+  and `CheckBox` controls; twip-to-point geometry; captions/text/value; tab order; colors; border
+  style; enabled/visible state; and default/cancel flags;
+- the unsupported `MSForms.Image` block is recorded as image metadata with its `.frx` `Picture`
+  reference, so the Image lane can consume real binary indirection without faking Image support in
+  this bead;
+- `frm_materialization_probe_form` proves the materialized form renders through
+  `UserForm.Render`/`OxForms.Surface` and projects accessibility rows from the live controls.
+
 Focused acceptance:
 
 ```powershell
@@ -231,6 +245,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_surface_render_smoke
 cargo test -p oxforms-headless-runner --test headless_runner_showcase
 cargo test -p oxforms-oxvba-adapter host_services
 cargo test -p oxforms-oxvba-adapter --test oxvba_reducer_cmdbutton
+cargo test -p oxforms-oxvba-adapter --test oxvba_frm_materialization
 cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 ```
 
@@ -246,6 +261,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | InteractionManager state | Passing representative seam | `vba/oxforms/OxInteractionManager.cls`; `oxvba_reducer_cmdbutton::capture_routes_mouseup_to_the_pressed_control_across_a_sibling`; `interaction_manager_tracks_hover_and_cursor_without_capture`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` |
+| `.frm/.frx` materialization | Passing selected-slice seam | `vba/oxforms/OxFrmMaterializer.cls`; `fixtures/frm/w009-materialization/w009-representative.frm`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
 | Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, `InteractionStateSummary`, and `AccessibilitySnapshot` through `OxRuntime` |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
@@ -276,8 +292,11 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 - HostServices now provides API stubs and deterministic traces for cursor, timers,
   DataObject, metrics/colors, DPI, image-decode handles, and drag/drop. It does
   not yet claim native cursor application, control-driven timer behavior, rich
-  DataObject format parity, real image decode, `.frm/.frx` materialization, or
+  DataObject format parity, real image decode, full `.frm/.frx` persistence, or
   modal/nested pump semantics.
+- The `.frm/.frx` path is a selected-slice materializer for current controls and representative
+  image-reference metadata. It is not a full MS-OFORMS codec, broad MorphData parser, save/roundtrip
+  implementation, designer loader, or real Image control decode.
 - `DrawImage` now participates in deterministic headless and visible placeholder
   rendering so it cannot be silently dropped from hashes, but decoded image
   pixels and exact MSForms image/text pixel parity remain later claims.

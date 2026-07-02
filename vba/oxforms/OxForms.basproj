@@ -18,6 +18,7 @@
     <ClassModule Include="CheckBox.cls" />
     <ClassModule Include="UserForm.cls" />
     <ClassModule Include="OxAccessibilityService.cls" />
+    <ClassModule Include="OxFrmMaterializer.cls" />
     <ClassModule Include="OxInteractionManager.cls" />
     <ClassModule Include="OxReducer.cls" />
   </ItemGroup>
