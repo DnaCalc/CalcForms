@@ -228,6 +228,7 @@ End Property
 ' (otherwise Enter activates the default). No modifiers. The toggle (Change/Click) fires here,
 ' BEFORE the reducer raises KeyDown -- the oracle value-first keyboard order.
 Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
+    If Not mCore.Toggleable Then Exit Function
     If Shift <> 0 Then Exit Function
     If KeyCode = 32 Then
         Toggle

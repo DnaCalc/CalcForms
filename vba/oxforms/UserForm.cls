@@ -18,6 +18,7 @@ Private mInvalidated As Collection
 Private mNextNodeId As Long
 Private mLastSceneToken As String
 Private mInteractionRevision As Long
+Private mStructureDirty As Boolean
 ' Incremental render state (oxforms-rq5.2): once a resident scene exists, Render emits an
 ' incremental patch (Upsert only the invalidated controls; the kernel retains the rest)
 ' against mLastSceneToken instead of a full rebuild. mSuspendDepth gates the
@@ -55,6 +56,16 @@ Public Sub RegisterControl(ByVal Control As IOxControl)
     Control.Core.Bind Me, Control
     Control.Core.NodeId = mNextNodeId
     mNextNodeId = mNextNodeId + 1
+    mStructureDirty = True
+    RecordInteractionInvalidated Control
+End Sub
+
+' Called by Controls.Remove. The removed control keeps its stable NodeId as historical identity
+' but loses its host binding, so later writes through a stale user reference cannot dirty this
+' form. The next render is a full rebuild because the root child list changed.
+Public Sub UnregisterControl(ByVal Control As IOxControl)
+    Control.Core.Unbind
+    mStructureDirty = True
     RecordInteractionInvalidated Control
 End Sub
 
@@ -65,7 +76,11 @@ Public Property Get Controls() As Controls
 End Property
 
 Public Function ControlByName(ByVal Name As String) As IOxControl
-    Set ControlByName = mControls.Item(Name)
+    Set ControlByName = mControls.ItemByName(Name)
+End Function
+
+Public Function HasControl(ByVal Name As String) As Boolean
+    HasControl = mControls.Contains(Name)
 End Function
 
 Public Property Get Count() As Long
@@ -244,16 +259,14 @@ End Sub
 ' crossing at all. A stale base self-heals to a full rebuild.
 '
 ' Scope note: the incremental path covers per-CONTROL changes (every render-affecting
-' OxControlCore setter calls MarkDirty -> the control is invalidated -> re-emitted). The
-' ROOT/form node (background, size, child list) is emitted only by a full rebuild, so a
-' runtime form-size/background change or a control Add/Remove after the first frame is not
-' yet reflected incrementally. That is dormant in W007 (form geometry + the control set are
-' fixed at Build, before the first render); structural re-emit is future work.
+' OxControlCore setter calls MarkDirty -> the control is invalidated -> re-emitted). A
+' structural change (control Add/Remove or render-derived AutoSize root membership effects)
+' forces a full rebuild so the root/form node's child list and the retained Scene agree.
 Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
     Dim Surface As Object
     Set Surface = CreateObject("OxForms.Surface")
 
-    If Not mHasResident Then
+    If Not mHasResident Or mStructureDirty Then
         RenderFull Surface, DpiX, DpiY
     ElseIf mInvalidated.Count > 0 Then
         If RenderIncremental(Surface, DpiX, DpiY) = OX_STALE_SENTINEL Then
@@ -279,6 +292,7 @@ Private Sub RenderFull(ByVal Surface As Object, ByVal DpiX As Long, ByVal DpiY A
     mLastSceneToken = Surface.SubmitPatch( _
         BuildScenePatch(BaseToken, Builder, Surface, DpiX, DpiY))
     mHasResident = True
+    mStructureDirty = False
 End Sub
 
 ' Incremental patch against the resident token: Upsert only the invalidated controls. The

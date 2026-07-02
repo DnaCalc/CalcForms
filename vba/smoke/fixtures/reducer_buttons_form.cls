@@ -73,6 +73,10 @@ Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVa
     DispatchKey = mReducer.DispatchKey(Kind, KeyCode, Shift)
 End Function
 
+Public Function DispatchChar(ByVal Text As String) As String
+    DispatchChar = mReducer.DispatchChar(Text)
+End Function
+
 Public Property Get FocusName() As String
     FocusName = mReducer.FocusName
 End Property
@@ -91,6 +95,10 @@ End Sub
 
 Public Property Get ChkValue() As Boolean
     ChkValue = mChk.Value
+End Property
+
+Public Property Get ControlCount() As Long
+    ControlCount = mForm.Controls.Count
 End Property
 
 Public Property Get InteractionIndexBuildCount() As Long
@@ -118,6 +126,14 @@ Public Sub HideCheckBox()
     mChk.Visible = False
 End Sub
 
+Public Sub HideFocusedField()
+    mField.Visible = False
+End Sub
+
+Public Sub DisableFocusedField()
+    mField.Enabled = False
+End Sub
+
 Public Sub DisableFieldTabStop()
     mField.Core.TabStop = False
 End Sub
@@ -131,6 +147,35 @@ Public Sub AddLateTextBox()
     LateBox.Height = 18
     LateBox.Core.TabIndex = 99
 End Sub
+
+Public Sub RemoveLateTextBox()
+    mForm.Controls.Remove "Late"
+End Sub
+
+Public Sub RemoveFocusedField()
+    mForm.Controls.Remove "Field"
+    Set mField = Nothing
+End Sub
+
+Public Property Get HasField() As Boolean
+    HasField = mForm.HasControl("Field")
+End Property
+
+Public Property Get HasLate() As Boolean
+    HasLate = mForm.HasControl("Late")
+End Property
+
+Public Sub RenameFieldToRenamed()
+    mField.Core.Name = "RenamedField"
+End Sub
+
+Public Property Get RenamedFieldLookupName() As String
+    RenamedFieldLookupName = mForm.ControlByName("RenamedField").Core.Name
+End Property
+
+Public Property Get RenamedFieldItemName() As String
+    RenamedFieldItemName = mForm.Controls.Item("RenamedField").Core.Name
+End Property
 
 Public Sub Render()
     mForm.Render 96, 96

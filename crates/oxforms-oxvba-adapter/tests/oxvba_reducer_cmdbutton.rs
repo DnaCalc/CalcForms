@@ -473,6 +473,12 @@ fn fill_rect_count(surface: &Arc<SurfaceFactory>, node: NodeId) -> usize {
         .count()
 }
 
+fn scene_has_node(surface: &Arc<SurfaceFactory>, node: NodeId) -> bool {
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    scene.get(node).is_some()
+}
+
 const TEXT_SELECTION_COLOR: Color = Color::rgba(0x0a, 0x24, 0x6a, 0xff);
 const TEXT_SELECTION_FORE_COLOR: Color = Color::rgba(0xff, 0xff, 0xff, 0xff);
 const TEXT_CARET_COLOR: Color = Color::rgba(0x00, 0x00, 0x00, 0xff);
@@ -1532,6 +1538,106 @@ fn interaction_manager_rebuilds_tab_maps_after_mutations() {
     assert_eq!(
         i32_get(&mut session, &form, "InteractionIndexBuildCount"),
         4
+    );
+}
+
+#[test]
+fn object_model_add_remove_and_name_lookup_drive_structural_state() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    assert_eq!(i32_get(&mut session, &form, "ControlCount"), 5);
+    assert!(
+        !bool_get(&mut session, &form, "HasLate"),
+        "Late does not exist before runtime add"
+    );
+
+    invoke_sub(&mut session, &form, "AddLateTextBox");
+    assert_eq!(i32_get(&mut session, &form, "ControlCount"), 6);
+    assert!(
+        bool_get(&mut session, &form, "HasLate"),
+        "runtime Controls.Add should update name lookup"
+    );
+    invoke_sub(&mut session, &form, "Render");
+    assert!(
+        scene_has_node(&surface, NodeId(6)),
+        "a post-first-render Controls.Add should force a structural render that includes the new node"
+    );
+
+    invoke_sub(&mut session, &form, "RemoveLateTextBox");
+    assert_eq!(i32_get(&mut session, &form, "ControlCount"), 5);
+    assert!(
+        !bool_get(&mut session, &form, "HasLate"),
+        "Controls.Remove should update name lookup"
+    );
+    invoke_sub(&mut session, &form, "Render");
+    assert!(
+        !scene_has_node(&surface, NodeId(6)),
+        "Controls.Remove should force a structural render that drops the retained node"
+    );
+
+    invoke_sub(&mut session, &form, "RenameFieldToRenamed");
+    assert_eq!(
+        string_get(&mut session, &form, "RenamedFieldLookupName"),
+        "RenamedField",
+        "runtime ControlByName lookup should use the live Core.Name, not only the original Add key"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "RenamedFieldItemName"),
+        "RenamedField",
+        "public Controls.Item(name) lookup should use the live Core.Name too"
+    );
+}
+
+#[test]
+fn focused_hide_disable_and_remove_clear_stale_interaction_state() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "Field");
+    invoke_sub(&mut session, &form, "HideFocusedField");
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=;capture=;pressed=;hover=;cursor_target=;cursor=0"),
+        "hiding the focused field should clear stale focus and pointer state: {state}"
+    );
+    assert_eq!(
+        dispatch_char(&mut session, &form, "x"),
+        "",
+        "typing after focused hide should not dispatch to the hidden control"
+    );
+
+    let form = build_form(&mut session, "ReducerButtonsForm");
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+    invoke_sub(&mut session, &form, "DisableFocusedField");
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=;capture=;pressed=;hover=;cursor_target=;cursor=0"),
+        "disabling the focused field should clear stale focus and pointer state: {state}"
+    );
+    assert_eq!(
+        dispatch_key(&mut session, &form, "keydown", KEY_SPACE),
+        "",
+        "keyboard dispatch after focused disable should not reach the disabled control"
+    );
+
+    let form = build_form(&mut session, "ReducerButtonsForm");
+    focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
+    invoke_sub(&mut session, &form, "RemoveFocusedField");
+    assert!(
+        !bool_get(&mut session, &form, "HasField"),
+        "Controls.Remove should remove the focused control from name lookup"
+    );
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=;capture=;pressed=;hover=;cursor_target=;cursor=0"),
+        "removing the focused field should clear stale focus and pointer state: {state}"
+    );
+    let summary = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        summary.contains(";first=Ok;last=Chk;default=Ok;cancel=CancelBtn;"),
+        "the tab map should rebuild without the removed field: {summary}"
     );
 }
 

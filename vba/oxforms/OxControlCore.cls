@@ -142,6 +142,13 @@ Public Sub Bind(ByVal Host As IOxControlHost, ByVal Owner As IOxControl)
     Set mOwner = Owner
 End Sub
 
+' Called when a control is structurally removed from its form. Held references may still exist,
+' but they no longer invalidate the removed form or its interaction indexes.
+Public Sub Unbind()
+    Set mHost = Nothing
+    Set mOwner = Nothing
+End Sub
+
 Public Property Get Kind() As OxControlKind
     Kind = mKind
 End Property

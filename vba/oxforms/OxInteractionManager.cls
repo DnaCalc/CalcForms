@@ -141,6 +141,7 @@ Public Property Get InteractionIndexBuildCount() As Long
 End Property
 
 Public Property Get InteractionStateSummary() As String
+    EnsureInteractionIndex
     InteractionStateSummary = _
         "focus=" & mFocusName & _
         ";capture=" & mCaptureName & _
@@ -419,9 +420,13 @@ End Function
 
 Private Sub EnsureInteractionIndex()
     If Not mInteractionIndexDirty _
-        And mIndexedInteractionRevision = mForm.InteractionRevision Then Exit Sub
+        And mIndexedInteractionRevision = mForm.InteractionRevision Then
+        ReconcileInteractionState
+        Exit Sub
+    End If
 
     BuildInteractionIndex
+    ReconcileInteractionState
 End Sub
 
 Private Sub BuildInteractionIndex()
@@ -481,6 +486,54 @@ Private Sub BuildInteractionIndex()
     mIndexedInteractionRevision = mForm.InteractionRevision
     mInteractionIndexDirty = False
     mInteractionIndexBuildCount = mInteractionIndexBuildCount + 1
+End Sub
+
+' Keep transient interaction owners coherent after object-model mutations. Exact MSForms event
+' ordering for hide/disable/remove while focused is an oracle lane; this representative seam
+' guarantees stale names do not keep receiving keyboard, capture, hover, or pressed state.
+Private Sub ReconcileInteractionState()
+    If Len(mFocusName) > 0 Then
+        If Not CanHoldFocus(mFocusName) Then
+            mFocusName = ""
+            mSwallowNextChar = False
+        End If
+    End If
+
+    If Len(mCaptureName) > 0 Then
+        If Not CanReceivePointer(mCaptureName) Then mCaptureName = ""
+    End If
+
+    If Len(mPressedName) > 0 Then
+        If Not CanReceivePointer(mPressedName) Then ClearPressedVisual
+    End If
+
+    If Len(mHoverName) > 0 Then
+        If Not CanReceivePointer(mHoverName) Then ResolvePointerTarget Nothing
+    ElseIf Len(mCursorTargetName) > 0 Then
+        If Not CanReceivePointer(mCursorTargetName) Then ResolvePointerTarget Nothing
+    End If
+End Sub
+
+Private Function CanReceivePointer(ByVal Name As String) As Boolean
+    If Not mForm.HasControl(Name) Then Exit Function
+    Dim Control As IOxControl
+    Set Control = mForm.ControlByName(Name)
+    CanReceivePointer = Control.Core.Visible And Control.Core.Enabled
+End Function
+
+Private Function CanHoldFocus(ByVal Name As String) As Boolean
+    If Not mForm.HasControl(Name) Then Exit Function
+    Dim Control As IOxControl
+    Set Control = mForm.ControlByName(Name)
+    CanHoldFocus = Control.Core.Focusable And Control.Core.Visible And Control.Core.Enabled
+End Function
+
+Private Sub ClearPressedVisual()
+    If Len(mPressedName) = 0 Then Exit Sub
+    If mForm.HasControl(mPressedName) Then
+        mForm.ControlByName(mPressedName).Core.Pressed = False
+    End If
+    mPressedName = ""
 End Sub
 
 Private Sub AddSortedTabParticipant( _
@@ -784,6 +837,7 @@ End Sub
 ' (no KeyPress, no Change), matching the oracle swallow linkage. Returns the ordered effect log.
 Public Function DispatchChar(ByVal Text As String) As String
     mEffects = ""
+    EnsureInteractionIndex
     If mSwallowNextChar Then
         mSwallowNextChar = False
         Emit "char-swallowed"

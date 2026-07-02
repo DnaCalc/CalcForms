@@ -6,9 +6,11 @@ Option Explicit
 '     form.Controls.Add "Forms.Label.1", "Caption1"
 '
 ' Add creates the control for the ProgID, asks the owning form to register it (bind the
-' invalidation host + assign the stable NodeId), tracks it by Name, and returns it. The
-' form's render loop iterates this collection (Count / Item). This is the MSForms-shaped
-' public surface; the ProgID->class factory (OxCreateControl) is OxForms-internal machinery.
+' invalidation host + assign the stable NodeId), tracks it by Name, and returns it. Remove
+' detaches the control and marks the form's structure dirty so the next render rebuilds the
+' root child list. The form's render loop iterates this collection (Count / Item). This is the
+' MSForms-shaped public surface; the ProgID->class factory (OxCreateControl) is OxForms-internal
+' machinery.
 
 Private mForm As UserForm
 Private mItems As Collection
@@ -36,11 +38,57 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     Set Add = Control
 End Function
 
+' Forms 2.0 Controls.Remove by control name. The current representative slice removes by name;
+' index removal and exact Err.Raise behavior for missing keys land with broader object-model
+' parity. This method is deliberately structural: the owning UserForm detaches the control,
+' invalidates interaction caches, and forces the next render to rebuild the retained root.
+Public Sub Remove(ByVal Name As String)
+    Dim I As Long
+    Dim Control As IOxControl
+    For I = 1 To mItems.Count
+        Set Control = mItems.Item(I)
+        If Control.Core.Name = Name Then
+            mForm.UnregisterControl Control
+            mItems.Remove I
+            Exit Sub
+        End If
+    Next I
+End Sub
+
 Public Property Get Count() As Long
     Count = mItems.Count
 End Property
 
-' Item by 1-based index or by control Name (MSForms Controls supports both).
+' Item by 1-based index or by control Name (MSForms Controls supports both). Name lookup resolves
+' against live Core.Name values first, then falls back to the original Collection key/index path.
 Public Function Item(ByVal IndexOrName As Variant) As IOxControl
+    Dim ByName As IOxControl
+    Set ByName = ItemByName(CStr(IndexOrName))
+    If Not ByName Is Nothing Then
+        Set Item = ByName
+        Exit Function
+    End If
+
     Set Item = mItems.Item(IndexOrName)
+End Function
+
+' Name lookup scans live Core.Name values instead of the collection's original Add key, so a
+' representative runtime name mutation updates lookup and removal policy through the same
+' object-model truth.
+Public Function ItemByName(ByVal Name As String) As IOxControl
+    Dim I As Long
+    Dim Control As IOxControl
+    For I = 1 To mItems.Count
+        Set Control = mItems.Item(I)
+        If Control.Core.Name = Name Then
+            Set ItemByName = Control
+            Exit Function
+        End If
+    Next I
+End Function
+
+Public Function Contains(ByVal Name As String) As Boolean
+    Dim Found As IOxControl
+    Set Found = ItemByName(Name)
+    Contains = Not Found Is Nothing
 End Function

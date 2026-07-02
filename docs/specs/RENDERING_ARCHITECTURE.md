@@ -470,7 +470,7 @@ Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
 
 Kept at the rq5 step: reducer policy (`ControlNode`/`ControlKind`/routing), `input.rs`
 UiEvent, and the shared value types above. Later, the reducer policy moved into
-VBA (`OxControlCore`/`OxReducer`) with the `oxforms-core` deletion. Relocated: appearance → VBA theme. Deleted (no
+VBA (`OxControlCore`/`OxInteractionManager` behind the `OxReducer` facade) with the `oxforms-core` deletion. Relocated: appearance → VBA theme. Deleted (no
 fallback/compat path survives initial development): the probe render code and the whole
 W002 immediate display-list path incl. `SmokeCanvas` and `flatten` (both removed in
 oxforms-rq5.1). Incremental invalidation landed in rq5.2; incremental-by-default repaint +

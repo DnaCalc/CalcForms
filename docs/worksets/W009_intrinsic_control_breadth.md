@@ -105,7 +105,7 @@ these detailed beads where applicable.
 | `oxforms-zhz.17` | Close `RendererBackend`/Scene determinism: primitive emitters, headless raster coverage, no silent primitive drops. | Depends on `.14`. |
 | `oxforms-zhz.18` | Add representative `ThemeTokens`/`ThemePainter` for MSForms properties and control states. | Depends on `.17`; landed v1 in `OxTheme.bas` with Scene assertions for selected text/background, disabled text, pressed face, caret color, and edge effects. |
 | `oxforms-zhz.19` | Rebuild `InteractionManager` for focus, tab, capture, hover/cursor, validation, mutation, wheel/double-click, and invalidation. | Depends on `.14`; landed `OxInteractionManager` as the state owner behind the stable `OxReducer` facade, with representative focus/capture/hover/cursor/tab/default/cancel/accelerator/mutation coverage. |
-| `oxforms-zhz.20` | Unify capability descriptors and object-model property side effects. | Depends on `.14`. |
+| `oxforms-zhz.20` | Unify capability descriptors and object-model property side effects. | Depends on `.14`; landed flat `Controls.Remove`, live-name lookup, structural Scene rebuilds after add/remove, capability-driven toggle policy, and stale focus/capture/hover clearing for hide/disable/remove. |
 | `oxforms-zhz.21` | Add representative `AccessibilityService` snapshots/traces. | Depends on `.19` and `.20`. |
 | `oxforms-zhz.22` | Implement representative `.frm/.frx` materialization directly into the VBA object model. | Depends on `.15`, `.17`, and `.20`. |
 | `oxforms-zhz.23` | Refresh the W009 oracle matrix around the ideal seams and representative controls. | Depends on `.13`; representative controls consume it. |
