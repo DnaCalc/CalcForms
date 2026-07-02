@@ -1,79 +1,105 @@
 # W009 Foundation Oracle Matrix
 
-Status: `phase-0 coverage pass; zhz.4/zhz.10/zhz.11 implementation notes appended`
-Bead: `oxforms-zhz.3` baseline, updated by `oxforms-zhz.4`, `oxforms-zhz.10`, `oxforms-zhz.11`
-Date: 2026-07-01
+Status: `phase-0 ideal-seam refresh`
+Bead: `oxforms-zhz.23`
+Date: 2026-07-02
 
-This matrix is the first W009 oracle pass for the runtime foundation. It does
-not create new compatibility claims from OxForms output. It classifies public
-MSForms facts and repo-owned Excel/MSForms captures that W009 may consume, and
-it marks the remaining foundation hazards as explicit blockers or follow-up
-capture requirements before implementation lanes rely on them.
+This matrix is the W009 oracle routing surface for the first-class runtime
+foundation. It does not create compatibility claims from OxForms output. It
+separates:
 
-## Consumed Facts
+- **MSForms oracle facts**: repo-owned Excel/MSForms captures or public facts
+  that implementation beads may consume as compatibility evidence.
+- **Local OxForms proofs**: tests/evidence that prove the current ideal seams
+  carry behavior through `OxRuntime`, the VBA object model, `OxInteractionManager`,
+  services, and retained Scene snapshots.
+- **Unknowns/blockers**: facts that must become live captures, precise blockers,
+  or explicit non-claims before representative control beads use them for parity.
 
-| Hazard area | Status | Evidence | W009 consumption |
+## Consumed MSForms Oracle Facts
+
+| Hazard area | Oracle status | Evidence | W009 consumption |
 |---|---|---|---|
-| TextBox typed key turn | Captured | `w008-focus-validation-20260627T223020Z`: `KeyDown -> KeyPress -> Change -> KeyUp` for printable text before Tab transfer. | Current reducer key/char ordering remains the baseline. |
-| Dirty TextBox focus-out via Tab | Captured | `w008-focus-validation-20260627T223020Z`: `KeyDown(Tab) -> BeforeUpdate -> AfterUpdate -> Exit -> Enter -> KeyUp(Tab on new control)`. | Focus transfer remains synchronous in the reducer; KeyUp may route to the new focus owner. |
-| Exit veto | Captured | `w008-focus-validation-20260627T223020Z`: `Exit(Cancel=True)` keeps focus and no `Enter` on the candidate target. | Validation vetoes must absorb the attempted transfer/input turn. |
+| Printable TextBox key turn | Captured | `docs/evidence/W008_native_event_breadth/captures/w008-focus-validation-20260627T223020Z`: `KeyDown -> KeyPress -> Change -> KeyUp` for printable text before Tab transfer. | TextBox key/char order and same-turn value mutation use this ordering. |
+| Dirty TextBox focus-out by Tab | Captured | `w008-focus-validation-20260627T223020Z`: `KeyDown(Tab) -> BeforeUpdate -> AfterUpdate -> Exit -> Enter -> KeyUp(Tab on new control)`. | Focus transfer remains synchronous in the interaction manager; `KeyUp` may route to the new focus owner. |
+| Exit veto | Captured | `w008-focus-validation-20260627T223020Z`: `Exit(Cancel=True)` keeps focus and suppresses candidate `Enter`. | Validation vetoes absorb attempted focus transfer/input turns. |
 | BeforeUpdate veto | Captured | `w008-focus-validation-20260627T223020Z`: `BeforeUpdate(Cancel=True)` keeps focus; no `AfterUpdate`, `Exit`, or target `Enter`. | Dirty value validation is a two-stage gate. |
-| Sticky dirty after edit-revert | Captured | `w008-checkbox-update-20260629T003700Z`: type then Backspace to the original text still fires `BeforeUpdate -> AfterUpdate`. | OxForms must keep an edited-since flag, not a net-value baseline gate. |
-| CheckBox mouse toggle order | Captured | `checkbox-click-change-20260627T162407Z`. | Mouse click toggles value before `Change`/`Click`. |
-| CheckBox discrete keyboard toggle | Captured | `checkbox-keyboard-toggle-20260627T220935Z`. | Space/Enter keyboard activation uses the value-first discrete ordering already in the reducer. |
+| Sticky dirty after edit-revert | Captured | `docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z`: type then Backspace to original text still fires `BeforeUpdate -> AfterUpdate`. | Value controls use an edited-since flag, not only a net-value comparison. |
+| CheckBox mouse toggle order | Captured | `docs/evidence/W006_control_implementation_rollout/captures/checkbox-click-change-20260627T162407Z`. | Mouse click toggles value before `Change` and `Click`. |
+| CheckBox discrete keyboard toggle | Captured | `docs/evidence/W006_control_implementation_rollout/captures/checkbox-keyboard-toggle-20260627T220935Z`. | Space/Enter keyboard activation uses value-first discrete ordering. |
 | CheckBox dirty focus-out | Captured | `w008-checkbox-update-20260629T003700Z`: dirty CheckBox fires `BeforeUpdate -> AfterUpdate -> Exit`. | CheckBox participates in the same dirty focus-out model as TextBox. |
-| Held Space on CheckBox | Captured | `w008-held-key-20260628T213500Z`: held Space toggles exactly once. | Auto-repeat must not multiply CheckBox activation. |
-| Held Enter on default button | Captured | `w008-held-enter-20260629T004000Z`: held Enter activates the default button exactly once. | Default-button Enter activation must be repeat-gated. |
-| Paste veto | Captured | `w008-paste-veto-20260629T003400Z`. | Text paste must defer mutation until `BeforeDropOrPaste` cancel readback. |
-| Drag-drop veto | Captured | `w008-dragdrop-veto-20260629T103500Z`. | Drop and paste share the same target veto path; broad `DataObject` parity remains later. |
-| `.frm` selected materialization | Implemented subset evidence | `docs/evidence/W006_control_implementation_rollout/frm-frx-interaction-slice.md`. | W009 may consume the small `.frm` geometry/property subset for current controls only. |
+| Held Space on CheckBox | Captured | `docs/evidence/W008_native_event_breadth/captures/w008-held-key-20260628T213500Z`: held Space toggles exactly once. | Auto-repeat must not multiply CheckBox activation. |
+| Held Enter on default button | Captured | `docs/evidence/W008_native_event_breadth/captures/w008-held-enter-20260629T004000Z`: held Enter activates default once. | Default-button Enter activation must be repeat-gated. |
+| Paste veto | Captured | `docs/evidence/W008_native_event_breadth/captures/w008-paste-veto-20260629T003400Z`. | Clipboard paste mutates only after `BeforeDropOrPaste` cancel readback. |
+| Drag-drop veto | Captured | `docs/evidence/W008_native_event_breadth/captures/w008-dragdrop-veto-20260629T103500Z`. | Drop and paste share the same target veto path; richer `DataObject` parity remains later. |
+| Text service transfer/OLE transfer surface | Captured | `docs/evidence/W006_control_implementation_rollout/captures/text-service-transfer-*` and `ole-drag-drop-transfer-20260623T093507Z`. | HostServices/DataObject lanes can consume the text-only transfer shape; binary/rich formats are not covered. |
+| Modeless/modal lifecycle and DoEvents reentrancy | Captured | `nested-modal-lifecycle-20260627T141239Z`, `doevents-yield-20260627T161225Z`, `terminate-lifetime-20260627T144316Z`. | `.30` may consume these for lifecycle/reentrancy ordering; they do not decide focused control deletion. |
+| Selected `.frm` materialization subset | Implemented evidence, not broad parity | `docs/evidence/W006_control_implementation_rollout/frm-frx-interaction-slice.md`. | `.22` may consume the small current-control `.frm` geometry/property subset only. |
 
-## Local Implementation Proofs Added After The Oracle Pass
+## Local OxForms Proofs
 
-These rows are OxForms conformance evidence, not new MSForms oracle facts. They prove that the
-phase-0 runtime path now carries the corresponding hazard through `OxRuntime`, the VBA reducer,
-host services, Scene patches, and snapshots.
+These rows are conformance evidence for the current implementation seams, not
+new MSForms facts.
 
-| Hazard area | Status | Evidence | Remaining oracle need |
+| Ideal seam / hazard | Local status | Evidence | Remaining oracle need |
 |---|---|---|---|
-| TextBox selection replacement and edit commands | Implemented first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`, `textbox_backspace_delete_and_navigation_edit_at_the_caret`, `textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful`, `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`, `textbox_mouse_down_places_caret_from_control_local_x`. | Capture/confirm MSForms edge details for `SelStart`/`SelLength` setters and burst/post behavior before claiming parity beyond the current single-line slice. |
-| TextBox same-turn repaint for dirty key/focus turns | Implemented first slice | Existing focus/default/accelerator tests now assert repaint when a TextBox caret/focus visual changes; edit-command tests assert `keydown:...|repaint`; headless rapid typing/backspace proves queued turns mutate in order. | Burst/key-repeat drain policy still needs an oracle note. |
-| TextBox caret/selection visuals | Implemented shaped-scene proof | `oxvba_reducer_cmdbutton::textbox_scene_emits_caret_and_selection_fill_primitives`, `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text`. | Pixel-level MSForms selection/caret parity still needs live oracle evidence. |
-| TextBox mouse drag selection | Implemented local path | `oxvba_reducer_cmdbutton::textbox_mouse_drag_extends_selection_through_mousemove_capture`, `headless_runner_showcase::runner_mouse_drag_selects_textbox_text_through_mousemove`. | Capture exact MSForms drag-selection edge behavior before claiming full parity. |
+| Canonical runtime/event turn | Passing | `RuntimeInput`/`RuntimeEventTurn`; `headless_runner_showcase::*`; bootstrap dispatch through `OxRuntime::dispatch_event_turn`. | None for seam existence; per-control parity still needs oracle rows. |
+| HostServices spine | Passing representative seam | `host_services::tests::*`; `runner_host_services_probe_covers_representative_spine`; timer/clipboard/cursor/DPI/image/drop service traces. | Native cursor application, real timers, rich DataObject formats, and real image decode remain control-lane claims. |
+| RendererBackend/Scene vocabulary | Passing representative seam | `scene::tests::headless_reference_rasterizes_every_primitive_variant`; `vba_scene_builder_records_full_primitive_vocabulary`; image placeholder raster tests. | Exact image pixels wait for `.28`; pixel-perfect MSForms rendering remains non-claim. |
+| TextService v1 | Passing single-line seam | `OxTextService`; `textbox_textservice_scrolls_and_clips_long_text_to_caret`; shaped caret/selection tests. | Multiline, IME/dead keys, undo/redo, grapheme editing: `oxforms-zhz.34`. |
+| ThemePainter tokens | Passing representative seam | `OxTheme`; disabled text, edge, pressed face, selection/caret Scene assertions. | Theme tokens are internal; no alternate skin or pixel-perfect claim. |
+| InteractionManager state/maps | Passing representative seam | `OxInteractionManager`; capture/hover/cursor/tab/default/cancel/accelerator tests. | Wheel, double-click, drag threshold, native cursor application, and nested tab scopes remain unknown. |
+| Object-model side effects | Passing representative seam | `Controls.Remove`, live-name lookup, structural add/remove full render, stale focus/capture/hover clearing. Tests: `object_model_add_remove_and_name_lookup_drive_structural_state`, `focused_hide_disable_and_remove_clear_stale_interaction_state`. | Exact MSForms event ordering for focused hide/disable/delete and error behavior remains unknown. |
+| TextBox edit commands | Passing local slice | selection replace, Backspace/Delete/Home/End/Left, Ctrl+A/C/X/V, paste/drop, drag selection, long-text horizontal scroll tests. | Setter side effects and burst/post oracle behavior remain `.24`/`.9` inputs; pixel parity remains unknown. |
+| CheckBox keyboard path | Passing local/headless path | `runner_keyboard_space_toggles_focused_checkbox`; reducer CheckBox mouse/keyboard tests. | Focus adorner, disabled/hidden/tab-stop behavior, cursor, and live oracle notes remain before broader CheckBox parity. |
+
+## Representative Bead Routing
+
+| Bead | May consume now | Must not claim yet / required blocker |
+|---|---|---|
+| `oxforms-zhz.21` AccessibilityService | Local object model exposes role-like kind/name/value/enabled/visible/focused/selected state; focus/value/selection transitions are observable headlessly. | Full Windows UIA/MSAA provider parity is not required for `.21`; file provider wiring as a follow-up if omitted. |
+| `oxforms-zhz.22` `.frm/.frx` materialization | W006 `.frm` subset, current VBA factory/object model, `.20` structural add/name/tab/default/cancel side effects, and HostServices image-handle stubs. | Full MS-OFORMS codec, broad MorphData, and real binary image decode are not proven; `.frx` may materialize enough indirection/metadata for the Image lane and record exact residual blockers. |
+| `oxforms-zhz.24` representative TextBox | W008 key/change/focus/paste/drop facts; local TextService, ThemePainter, HostServices clipboard/drop, InteractionManager, object-model side effects, and future `.21` snapshots. | Multiline/IME/undo/grapheme are `oxforms-zhz.34`; pixel-level caret/selection parity, exact setter side effects, and burst/post behavior must be explicit non-claims or newly captured. |
+| `oxforms-zhz.25` representative CheckBox | W006/W008 value-first mouse/keyboard/dirty-focus facts; local ThemePainter/InteractionManager/object-model side effects. | Focus rectangle/adorners, disabled/hidden/TabStop mutation ordering, cursor, and precise focused-delete behavior need capture or explicit blockers. |
+| `oxforms-zhz.26` ListBox/list data | HostServices/DataObject text trace shape and RendererBackend vocabulary. | Selection matrix, multi-select modes, type-ahead, list storage, and keyboard Escape/type-ahead reachability need capture/blocker rows. |
+| `oxforms-zhz.27` Frame/container | RendererBackend clipping primitives and object-model structural rebuild. | Nested coordinate origin, clipping, hit-test recursion, tab scopes, and Enter/Exit boundary ordering need a container capture/model. |
+| `oxforms-zhz.28` Image/`.frx` | HostServices image-decode handle trace and `DrawImage` placeholder determinism. | Real image decode, binary wire decision, `.frx` bytes, `PictureSizeMode`, and alignment need implementation evidence and/or oracle rows. |
+| `oxforms-zhz.29` SpinButton/ScrollBar timer repeat | HostServices timer slots/traces and held-key single-activation facts. | Button hold repeat rate is still a documented oracle limitation; single-step value/event facts need capture before parity. |
+| `oxforms-zhz.30` reentrancy/lifecycle | W006 modal, DoEvents, terminate captures; `.20` stale-owner clearing. | Handler-driven mutation ordering for add/remove/hide/disable during active dispatch still needs representative proof and explicit MSForms unknowns. |
 
 ## Blockers And Unknowns
 
-| Hazard area | Status | Exact blocker / follow-up |
+| Hazard area | Current state | Exact blocker / follow-up |
 |---|---|---|
-| TextBox precise parity after the first slice | Partially implemented locally; oracle details still open. | `oxforms-zhz.4` implements a deterministic single-line caret/selection/edit-command slice; `oxforms-zhz.10` covers rapid key sequencing; `oxforms-zhz.11` wires shaped caret geometry, selected-text recolor overlay, and mouse-drag selection through headless tests; `oxforms-zhz.16` adds the TextService v1 seam plus horizontal scroll/clipped long-text proof. `oxforms-zhz.9` remains for setter side effects and burst/post oracle behavior. Remaining blockers also include multiline/IME/dead keys/undo/grapheme editing (`oxforms-zhz.34`) and pixel-level caret/selection parity. |
-| TextBox burst/post behavior | Unknown. | The headless runner can drain queued turns, but MSForms burst behavior under OS key-repeat or posted input still needs an oracle note before the reducer's drain policy is finalized. |
-| CheckBox focus adorners/disabled/tab-stop side effects | Unknown. | `oxforms-zhz.5` must capture focus rectangle visibility, Space/Enter when disabled or `TabStop=False`, and what happens when a focused CheckBox is hidden or disabled by a handler/property setter. |
-| MouseMove/capture routing | Implemented local TextBox drag path; oracle capture still needed. | `oxforms-zhz.11` routes MouseMove through bootstrap/headless/reducer capture and proves TextBox drag selection. Before broad pointer-heavy controls, capture MSForms MouseMove with and without capture, including move outside the control after MouseDown. |
-| Double-click | Event signature known; ordering/cancel effect not captured for W009. | Capture `MouseDown -> MouseUp -> Click -> DblClick` ordering per supported control and whether `Cancel=True` changes the second click handling. |
-| Wheel | No committed MSForms foundation fact. | First determine whether the target FM20 source interfaces expose a wheel event or whether wheel is only host/PAL input for controls such as ListBox/ScrollBar; capture or record a precise non-claim before list/scroll lanes. |
-| Cursor application | Descriptor scaffold only. | `OxControlCore.MousePointer` records built-in cursor policy for routing, but no Windows host cursor application, custom `MouseIcon`, or visual cursor capture is claimed. Host cursor service proof belongs to the cursor/timer/service lanes. |
-| Cancel button held repeat and Alt accelerator held repeat | Open follow-up. | `oxforms-uvh` remains the capture bead for held Escape/cancel and held Alt+accelerator repeat gating. |
-| Runtime add/remove and focused-control deletion | Local OxForms representative seam exists; MSForms ordering still unknown. | `oxforms-zhz.20` implements flat `Controls.Remove`, live-name lookup, retained-Scene structural rebuild, and stale focus/capture/hover clearing for hide/disable/remove. No live oracle fact yet decides whether MSForms transfers focus, fires `Exit`, or clears focus silently; `.23`/reentrancy-lifecycle work must keep that as an explicit parity unknown. |
-| `.frx` binary/image materialization | Not implemented. | W006 selected `.frm` fixture intentionally has no `.frx` binary references. Image/binary `.frx` materialization is a W009 representative spike, not a current foundation claim. |
-| Frame/container coordinate origin and clipping | Unknown for implementation. | Container coordinate/hit-test/tab-scope facts belong to the list/container/image/timer representative spike before any container lane consumes them. |
+| TextBox setter side effects | Local setters clamp selection and repaint; no fresh oracle row. | `.24` must either capture `SelStart`/`SelLength`/`SelText` setter ordering/Change semantics or mark the remaining details as non-claims. |
+| TextBox burst/post behavior | Headless drain is deterministic; MSForms posted-input behavior unknown. | `.24`/`.9` must record whether current drain policy is a local implementation choice or backed by a capture. |
+| TextBox pixel caret/selection parity | Scene proof exists. | Needs live pixel oracle before any pixel-perfect claim. |
+| CheckBox focus/disabled/hidden/tab-stop | Local object model clears stale state safely. | Need live oracle or explicit blocker for focus rectangle visibility and event ordering when a focused CheckBox is hidden, disabled, removed, or has `TabStop=False`. |
+| MouseMove/capture routing | Local TextBox drag selection path exists. | Capture MSForms MouseMove with and without capture, including move outside the control after MouseDown, before pointer-heavy controls claim parity. |
+| Double-click | Signature known; ordering not captured for W009. | Capture `MouseDown -> MouseUp -> Click -> DblClick` ordering per representative control and any cancellation effect. |
+| Wheel | No committed FM20 foundation fact. | Determine whether the target source exposes wheel events or whether wheel is host/PAL-only for list/scroll controls; capture or record non-claim before list/scroll lanes. |
+| Cursor application | Descriptor and HostServices trace only. | Native cursor setting, custom `MouseIcon`, and visual cursor capture are later HostServices/control claims. |
+| Held Escape/cancel and Alt accelerator repeat | Open follow-up. | `oxforms-uvh` remains the capture bead for held Escape/cancel and held Alt+accelerator repeat gating. |
+| Runtime add/remove and focused-control deletion | Local flat seam exists. | MSForms ordering is unknown: whether focused hide/disable/remove transfers focus, fires `Exit`, or clears silently must remain a blocker until captured. |
+| `.frx` binary/image materialization | Not implemented. | `.22`/`.28` must create a representative path or record exact wire/codec blockers. |
+| Frame/container coordinates | Unknown. | Container coordinate, clipping, hit-test, tab-scope, and boundary-event facts belong to `.27` before container lanes consume them. |
+| Accessibility provider parity | Runtime snapshots not yet implemented. | `.21` defines the data model; Windows UIA/MSAA provider wiring may be a follow-up unless implemented there. |
 
 ## Immediate Implementation Guidance
 
-- `oxforms-zhz.4` consumed the existing TextBox key/change/focus-out facts and added
-  local conformance evidence for the first single-line caret/selection/edit-command slice.
-  It still must not claim precise MSForms TextBox parity for the remaining blockers above.
-- `oxforms-zhz.5` may consume the CheckBox mouse/keyboard/dirty-focus facts, but
-  it must add focus adorner, disabled, tab-stop, and cursor facts before closing.
-- `oxforms-zhz.6` must not rely on `.frx` images, nested coordinates, list
-  selection, or timer repeat rates from W006/W008; those are still explicit
-  phase-0 spike facts.
-- The current reducer interaction index may consume focus/tab/default/accelerator
-  routing facts for existing controls, but spatial hit-test indexing and focused
-  control deletion/hiding semantics are still open hazards.
+- `.21` should build snapshots/traces from the current object model and interaction state, then
+  file provider follow-ups if Windows UIA/MSAA is not wired.
+- `.22` should materialize directly into `UserForm.Controls.Add` and concrete `IOxControl`
+  objects. It must not recreate a Rust-side form/control projection.
+- `.24` may use the local single-line TextBox implementation as the representative control, but
+  its parity claims must stay bounded by the consumed facts above.
+- `.25` and later controls must add live oracle rows or exact blockers before claiming behavior
+  beyond the facts already consumed here.
+- No row may use OxForms output as an MSForms oracle. OxForms tests prove seam behavior only.
 
 ## Clean-Room Note
 
 All consumed evidence above comes from repo-owned fixture source, public
-Excel/VBIDE automation, public Windows input, and worksheet exports already
-committed under `docs/evidence`. No private Office internals or OxForms output
-comparison are used as oracle evidence.
+Excel/VBIDE automation, public Windows input, public specifications, and worksheet
+exports already committed under `docs/evidence`. No private Office internals or
+OxForms-output comparisons are used as oracle evidence.

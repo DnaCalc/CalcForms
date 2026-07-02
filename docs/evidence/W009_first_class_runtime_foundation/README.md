@@ -16,6 +16,7 @@ TextService seam: `oxforms-zhz.16`
 ThemePainter seam: `oxforms-zhz.18`
 InteractionManager seam: `oxforms-zhz.19`
 Object-model side-effect seam: `oxforms-zhz.20`
+Oracle matrix refresh: `oxforms-zhz.23`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -230,7 +231,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | InteractionManager state | Passing representative seam | `vba/oxforms/OxInteractionManager.cls`; `oxvba_reducer_cmdbutton::capture_routes_mouseup_to_the_pressed_control_across_a_sibling`; `interaction_manager_tracks_hover_and_cursor_without_capture`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, and `InteractionStateSummary` through `OxRuntime` |
-| Foundation oracle matrix | Coverage pass | `oracle-foundation-matrix.md` classifies consumed W006/W008 facts and phase-0 blockers |
+| Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox rapid selection/delete state | Passing | `oxvba_reducer_cmdbutton::textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful` |
 | TextBox caret/selection visuals | Passing shaped-scene proof | `oxvba_reducer_cmdbutton::textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
