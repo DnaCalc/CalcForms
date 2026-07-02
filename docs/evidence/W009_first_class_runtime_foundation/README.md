@@ -14,6 +14,7 @@ HostServices spine: `oxforms-zhz.15`
 Renderer primitive determinism: `oxforms-zhz.17`
 TextService seam: `oxforms-zhz.16`
 ThemePainter seam: `oxforms-zhz.18`
+InteractionManager seam: `oxforms-zhz.19`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -178,6 +179,18 @@ contract:
 - adapter tests inspect the resident Scene to prove selected text/background, disabled text,
   pressed face, caret color, and edge effects are emitted deterministically.
 
+`oxforms-zhz.19` promotes the interaction manager to a first-class VBA subsystem:
+
+- `OxInteractionManager` owns focus, capture, pressed state, hover/cursor target, tab maps,
+  default/cancel buttons, accelerators, validation transfer, and interaction-index rebuilds;
+- `OxReducer` remains as the stable runtime/form facade and delegates every dispatch and
+  diagnostic property to the manager;
+- representative reducer tests prove capture/pressed/hover/cursor state, z-order hit routing,
+  validation vetoes, tab/default/cancel/accelerator maps, disabled/hidden/tab-stop mutation, and
+  runtime `Controls.Add` index invalidation;
+- the full-surface showcase exposes `InteractionStateSummary` alongside
+  `InteractionIndexSummary`.
+
 Focused acceptance:
 
 ```powershell
@@ -198,8 +211,9 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Queued keyboard input order | Passing subset | `headless_runner_showcase::runner_drains_key_turns_against_the_current_vba_state` proves each key turn mutates TextBox state before the next turn is reduced |
 | Burst draining | Passing scaffold | `headless_runner_showcase::runner_can_step_a_burst_one_action_at_a_time` |
 | Capability descriptor | Passing scaffold | `oxvba_reducer_cmdbutton::capability_catalog_is_the_single_policy_source_for_current_controls` |
-| Interaction maps + invalidation | Passing scaffold | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps` |
-| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog` and `InteractionIndexSummary` through `OxRuntime` |
+| InteractionManager state | Passing representative seam | `vba/oxforms/OxInteractionManager.cls`; `oxvba_reducer_cmdbutton::capture_routes_mouseup_to_the_pressed_control_across_a_sibling`; `interaction_manager_tracks_hover_and_cursor_without_capture`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
+| Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
+| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, and `InteractionStateSummary` through `OxRuntime` |
 | Foundation oracle matrix | Coverage pass | `oracle-foundation-matrix.md` classifies consumed W006/W008 facts and phase-0 blockers |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox rapid selection/delete state | Passing | `oxvba_reducer_cmdbutton::textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful` |
@@ -232,6 +246,10 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   pixels and exact MSForms image/text pixel parity remain later claims.
 - The cursor scaffold records built-in mouse-pointer policy, the current routed
   target, and service requests; no custom `MouseIcon` support is claimed.
+- `OxInteractionManager` owns current focus/capture/pointer/tab/default/cancel/accelerator
+  state for the flat control collection. Full structural remove/reparent semantics, nested
+  container tab scopes, wheel routing, double-click, drag threshold, and native cursor
+  application remain later representative-control work.
 - TextBox caret/selection geometry and single-line horizontal scroll now use shaped text-run
   caret stops through `OxTextService`; selected foreground recolor and clipped/scrolled normal
   text are represented in Scene. Pixel-level MSForms parity is still not claimed without a live

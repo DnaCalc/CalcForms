@@ -555,6 +555,11 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
             "vba/oxforms/OxControlPaint.bas",
         ),
         ("OxSceneBuilder", Class, "vba/oxforms/OxSceneBuilder.cls"),
+        (
+            "OxInteractionManager",
+            Class,
+            "vba/oxforms/OxInteractionManager.cls",
+        ),
         ("OxReducer", Class, "vba/oxforms/OxReducer.cls"),
     ];
     modules

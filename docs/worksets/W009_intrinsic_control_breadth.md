@@ -104,7 +104,7 @@ these detailed beads where applicable.
 | `oxforms-zhz.16` | Extract `TextService` for shaping, caret stops, hit testing, selection geometry, clipping, and horizontal scroll. | Depends on `.15` and `.17`; landed v1 single-line `OxTextService` plus clipped TextBox text viewport. |
 | `oxforms-zhz.17` | Close `RendererBackend`/Scene determinism: primitive emitters, headless raster coverage, no silent primitive drops. | Depends on `.14`. |
 | `oxforms-zhz.18` | Add representative `ThemeTokens`/`ThemePainter` for MSForms properties and control states. | Depends on `.17`; landed v1 in `OxTheme.bas` with Scene assertions for selected text/background, disabled text, pressed face, caret color, and edge effects. |
-| `oxforms-zhz.19` | Rebuild `InteractionManager` for focus, tab, capture, hover/cursor, validation, mutation, wheel/double-click, and invalidation. | Depends on `.14`. |
+| `oxforms-zhz.19` | Rebuild `InteractionManager` for focus, tab, capture, hover/cursor, validation, mutation, wheel/double-click, and invalidation. | Depends on `.14`; landed `OxInteractionManager` as the state owner behind the stable `OxReducer` facade, with representative focus/capture/hover/cursor/tab/default/cancel/accelerator/mutation coverage. |
 | `oxforms-zhz.20` | Unify capability descriptors and object-model property side effects. | Depends on `.14`. |
 | `oxforms-zhz.21` | Add representative `AccessibilityService` snapshots/traces. | Depends on `.19` and `.20`. |
 | `oxforms-zhz.22` | Implement representative `.frm/.frx` materialization directly into the VBA object model. | Depends on `.15`, `.17`, and `.20`. |
@@ -181,7 +181,8 @@ is batched first.
   toggle, the two-stage `BeforeUpdate`/`AfterUpdate` dirty path, the bespoke box-glyph `Render`) in
   [`../../vba/oxforms/CheckBox.cls`](../../vba/oxforms/CheckBox.cls); the interaction routing
   (mouse capture + pressed-visual arming, the Space/Enter keyboard activation via
-  `TryKeyboardActivate`) in [`../../vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls);
+  `TryKeyboardActivate`) in [`../../vba/oxforms/OxInteractionManager.cls`](../../vba/oxforms/OxInteractionManager.cls)
+  behind the stable [`../../vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls) facade;
   the VBA factory in [`../../vba/oxforms/OxFormsModel.bas`](../../vba/oxforms/OxFormsModel.bas); the
   recorder set in [`../../vba/oxforms/OxSceneBuilder.cls`](../../vba/oxforms/OxSceneBuilder.cls); the
   `Prim` enum + headless reference sink in

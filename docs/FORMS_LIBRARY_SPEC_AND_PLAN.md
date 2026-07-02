@@ -155,8 +155,9 @@ revisions and the backend consumes read-only snapshots.
   host-neutral Rust reducer/model reference (the `reduce()` spine, `RuntimeForm`/
   effect interpreter, `.frm` projection) used as a test spine. Per the
   reducer-home decision (memory `oxforms-reducer-home-decision`) all control
-  behavior was moved into VBA and the crate was DELETED. The reducer now lives in
-  `vba/oxforms/OxReducer.cls` (the interaction reducer) plus the four control
+  behavior was moved into VBA and the crate was DELETED. Interaction state/routing now lives in
+  `vba/oxforms/OxInteractionManager.cls` behind the stable
+  `vba/oxforms/OxReducer.cls` facade, plus the four control
   classes implementing `IOxControl`; the Rust runtime is the thin
   `OxRuntime` shell in `crates/oxforms-oxvba-adapter/src/runtime.rs`, which drives
   the VBA reducer facade (`Dispatch`/`DispatchKey`/`DispatchChar`/`DispatchDrop`)

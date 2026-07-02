@@ -13,7 +13,8 @@ Office/MSForms observations settle them.
 Post-`oxforms-ih6` status: the W005 vocabulary remains the architectural language, but the
 implementation home changed. The Rust `oxforms-core` reducer/model (`FormState`, `ControlNode`,
 `reduce()`, trace-replay generators) was deleted when control behavior moved into VBA. Current
-runtime behavior lives in `vba/oxforms/OxReducer.cls`, the concrete `IOxControl` classes
+runtime behavior lives in `vba/oxforms/OxInteractionManager.cls` behind the stable
+`vba/oxforms/OxReducer.cls` facade, the concrete `IOxControl` classes
 (`Label`, `TextBox`, `CommandButton`, `CheckBox`), and the thin `OxRuntime` driver in
 `crates/oxforms-oxvba-adapter/src/runtime.rs`. Historical sections below that name
 `oxforms-core` describe W005/W006 evidence provenance or superseded implementation slices, not

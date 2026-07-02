@@ -4,7 +4,7 @@ Status: `draft_implementation_authority`
 Date: 2026-07-01
 Workset: `W009_intrinsic_control_breadth`
 Bead: `oxforms-zhz.12`; amended by `oxforms-zhz.14`, `oxforms-zhz.15`,
-`oxforms-zhz.17`, and `oxforms-zhz.18`
+`oxforms-zhz.17`, `oxforms-zhz.18`, and `oxforms-zhz.19`
 
 This note records the W009 control-stack reassessment after the first
 TextBox/CheckBox hazard-gym work and the sibling DNA UI stack review. It does
@@ -166,7 +166,7 @@ These are OxForms-owned seams. They are not new alternate object models.
 | `AccessibilityService` | Runtime exposes roles/states; PAL/backend provides provider integration | Publish control roles, names, values, focus, disabled/hidden state, selection state, table/list patterns, and focus events. It follows `RUNTIME_ACCESSIBILITY_MODEL.md` and can borrow DnaTreeCalc helper patterns. |
 | `RendererBackend` | `oxforms-pal` | Keep Scene as the canonical primitive contract. The Windows backend and headless renderer consume Scene snapshots, including the representative `.17` primitive vocabulary. Any future DOM/WebView renderer consumes the same semantic output and must not bypass OxRuntime or the VBA reducer. |
 | `HostServices` | PAL adapters and headless runner stubs | `HostServices` owns clipboard/DataObject, cursor requests, timers, caret blink, auto-repeat, system colors/metrics, DPI, image-decode handle traces, drag/drop traces, and virtual-clock service behavior behind `OxRuntime`. |
-| `InteractionManager` | VBA reducer plus small cached indexes | Own focus owner, capture owner, hover/cursor target, tab maps, default/cancel buttons, accelerators, validation transfer, invalidation state, and focused-control hide/disable/delete behavior. |
+| `InteractionManager` | VBA `OxInteractionManager`; `OxReducer` facade | Own focus owner, capture owner, pressed state, hover/cursor target, tab maps, default/cancel buttons, accelerators, validation transfer, and interaction invalidation. `oxforms-zhz.19` moves the stateful manager behind the stable reducer facade and proves hidden/tab-stop/add/default/cancel/accelerator rebuilds through the canonical runtime path. |
 | `CapabilityDescriptor` | VBA control policy source | Declare control capabilities once per kind/control: focusable, default tab stop, click, pressed visual, text editing, value editing, paste/drop, cursor, default/cancel, accelerator, list/container/image/timer needs. |
 
 The headless runner and Windows backend must both drive these seams through

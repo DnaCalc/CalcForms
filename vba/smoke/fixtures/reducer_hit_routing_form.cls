@@ -56,6 +56,10 @@ Public Property Get HandlerLog() As String
     HandlerLog = mLog
 End Property
 
+Public Property Get InteractionStateSummary() As String
+    InteractionStateSummary = mReducer.InteractionStateSummary
+End Property
+
 Private Sub mA_Click()
     Append "A.Click"
 End Sub

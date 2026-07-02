@@ -47,6 +47,15 @@ fn runner_attaches_renders_and_records_trace_rows() {
             && index.contains(";default=OkButton;cancel=CancelButton;"),
         "showcase should expose the reducer interaction index: {index}"
     );
+    let state = runner
+        .read_string("InteractionStateSummary")
+        .expect("InteractionStateSummary");
+    assert!(
+        state.contains(
+            "focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3"
+        ),
+        "showcase should expose first-class InteractionManager state: {state}"
+    );
 
     let jsonl = runner.trace_jsonl().expect("trace jsonl");
     assert!(

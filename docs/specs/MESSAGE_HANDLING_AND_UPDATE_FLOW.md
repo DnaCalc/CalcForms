@@ -13,8 +13,9 @@ whether access is O(1) or not — so this resolution does not change it.
 
 > **STATUS — LADDER COMPLETED, `oxforms-core` DELETED (epic `oxforms-ih6`, delete commit `17785f2`;
 > epic closed `08084fc`).** The migration ladder below ran to completion. Control behavior now lives
-> ENTIRELY in VBA: the reducer is [`vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls) plus
-> the four control classes implementing the expanded `IOxControl` contract. The Rust side is the thin
+> ENTIRELY in VBA: `OxInteractionManager` owns interaction state/routing behind the stable
+> [`vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls) facade, plus the four control
+> classes implementing the expanded `IOxControl` contract. The Rust side is the thin
 > driver `OxRuntime` in
 > [`crates/oxforms-oxvba-adapter/src/runtime.rs`](../../crates/oxforms-oxvba-adapter/src/runtime.rs):
 > it holds the OxVba session + form-document, calls the VBA reducer facade

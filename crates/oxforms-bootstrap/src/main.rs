@@ -5,7 +5,8 @@
 //! project, configures the `OxForms.Surface` boundary, attaches the thin `OxRuntime` to a VBA
 //! form-document, and runs the platform loop — wiring the control-blind backend
 //! (`oxforms-pal-win`) to the runtime (`oxforms-oxvba-adapter`). It holds **no** control or demo
-//! behavior (that is VBA, owned by `OxReducer`), and never rasterizes (the backend owns Repaint).
+//! behavior (that is VBA, owned by `OxInteractionManager` behind the `OxReducer` facade), and never
+//! rasterizes (the backend owns Repaint).
 //!
 //! Frame model (§16): the runtime owns **Re-render** (`OxRuntime::render` → VBA self-render →
 //! `OxForms.Surface` → resident `Scene` revision); the backend owns **Repaint** (resident `Scene`
@@ -555,6 +556,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             "OxSceneBuilder",
             Class,
             include_str!("../../../vba/oxforms/OxSceneBuilder.cls"),
+        ),
+        unit(
+            "OxInteractionManager",
+            Class,
+            include_str!("../../../vba/oxforms/OxInteractionManager.cls"),
         ),
         unit(
             "OxReducer",

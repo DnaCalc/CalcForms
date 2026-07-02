@@ -95,6 +95,11 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/oxforms/OxSceneBuilder.cls",
         ),
+        module_unit(
+            "OxInteractionManager",
+            ModuleKind::Class,
+            "vba/oxforms/OxInteractionManager.cls",
+        ),
         module_unit("OxReducer", ModuleKind::Class, "vba/oxforms/OxReducer.cls"),
         module_unit(
             "FullSurfaceShowcaseForm",
@@ -210,6 +215,10 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             "catalog should include {live:?}; catalog was:\n{catalog}"
         );
     }
+    assert!(
+        catalog.contains("first-class InteractionManager diagnostics"),
+        "catalog should name the InteractionManager diagnostic surface"
+    );
     for pending in [
         "OptionButton",
         "ToggleButton",

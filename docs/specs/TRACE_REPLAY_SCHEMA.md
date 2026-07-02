@@ -40,8 +40,9 @@ does not define final pass/fail tolerances for MSForms parity.
   host-extension event rows, and lifecycle event families.
 - Reducer/effects behavior (historical note): the W005 reducer/effects reference
   skeleton lived in the since-deleted Rust crate `oxforms-core`. That crate was
-  removed when control behavior moved entirely into VBA; the reducer now lives in
-  [`vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls), driven by the
+  removed when control behavior moved entirely into VBA; interaction state/routing now lives in
+  [`vba/oxforms/OxInteractionManager.cls`](../../vba/oxforms/OxInteractionManager.cls) behind the
+  stable [`vba/oxforms/OxReducer.cls`](../../vba/oxforms/OxReducer.cls) facade, driven by the
   thin Rust runtime
   [`crates/oxforms-oxvba-adapter/src/runtime.rs`](../../crates/oxforms-oxvba-adapter/src/runtime.rs)
   (`OxRuntime`). The PAL still owns input normalization without owning control
@@ -470,7 +471,8 @@ longer a Rust regeneration command for it.
 
 - `oxforms-xvx.6` reducer/effects work originally lived in the host-neutral
   `oxforms-core` model/reference crate. That crate has since been deleted and the
-  reducer now lives in `vba/oxforms/OxReducer.cls` (driven by the thin `OxRuntime`
+  interaction manager now lives in `vba/oxforms/OxInteractionManager.cls` behind
+  the stable `vba/oxforms/OxReducer.cls` facade (driven by the thin `OxRuntime`
   in `crates/oxforms-oxvba-adapter/src/runtime.rs`). Reducer/effects coverage that
   exercises transition/effect orderings now lives in the adapter tests
   `crates/oxforms-oxvba-adapter/tests/oxvba_reducer_cmdbutton.rs` and

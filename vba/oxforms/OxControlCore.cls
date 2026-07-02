@@ -23,9 +23,9 @@ Private mEnabled As Boolean
 Private mFocusable As Boolean
 Private mTabStop As Boolean
 Private mTabIndex As Long
-' Intrinsic capability descriptor. These are the control-policy facts OxReducer reads
-' for routing/activation decisions; concrete controls may still carry dynamic state
-' such as CommandButton.Default, but the kind-level axes live here once.
+' Intrinsic capability descriptor. These are the control-policy facts OxInteractionManager reads
+' through the OxReducer facade for routing/activation decisions; concrete controls may still carry
+' dynamic state such as CommandButton.Default, but the kind-level axes live here once.
 Private mSupportsClick As Boolean
 Private mHasPressedVisual As Boolean
 Private mAcceptsTextEditing As Boolean
@@ -41,7 +41,7 @@ Private mDirty As Boolean
 ' Transient interaction visual: True while a press is armed on this control (mouse-down
 ' inside a pressable control until the matching up). Render-affecting (the classic theme
 ' paints a pressed CommandButton/CheckBox face), so a change marks the control dirty. Owned
-' by the interaction reducer (OxReducer), never by user code; not persisted form state.
+' by OxInteractionManager through the OxReducer facade, never by user code; not persisted form state.
 Private mPressed As Boolean
 Private mHost As IOxControlHost
 Private mOwner As IOxControl
@@ -478,9 +478,9 @@ Public Property Let BorderStyle(ByVal Value As fmBorderStyle)
     End If
 End Property
 
-' Transient pressed visual (see the field comment). Set by OxReducer on mouse-down inside a
-' pressable control and cleared on the matching up. A change is render-affecting, so it marks
-' the control dirty (guarded so a no-op write does not invalidate).
+' Transient pressed visual (see the field comment). Set by OxInteractionManager on mouse-down
+' inside a pressable control and cleared on the matching up. A change is render-affecting, so it
+' marks the control dirty (guarded so a no-op write does not invalidate).
 Public Property Get Pressed() As Boolean
     Pressed = mPressed
 End Property

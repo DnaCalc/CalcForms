@@ -17,6 +17,8 @@
     <ClassModule Include="CommandButton.cls" />
     <ClassModule Include="CheckBox.cls" />
     <ClassModule Include="UserForm.cls" />
+    <ClassModule Include="OxInteractionManager.cls" />
+    <ClassModule Include="OxReducer.cls" />
   </ItemGroup>
   <ItemGroup Label="Rendering (Scene self-render)">
     <Module Include="OxTheme.bas" />

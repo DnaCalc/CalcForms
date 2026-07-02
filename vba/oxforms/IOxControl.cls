@@ -21,8 +21,8 @@ Public Sub Render(ByVal Surface As OxSceneBuilder)
 End Sub
 
 ' --- Reducer input surface ---
-' The VBA interaction reducer (OxReducer) does the geometric routing (hit-test, capture,
-' pressed) control-type-agnostically, then delivers the routed input here so the CONTROL
+' The VBA InteractionManager (through the OxReducer facade) does the geometric routing
+' (hit-test, capture, pressed) control-type-agnostically, then delivers the routed input here so the CONTROL
 ' raises its own ordered FM20 events. Polymorphic interface dispatch (like Render) — the
 ' reducer never switches on or late-binds a concrete control type. Each control delegates to
 ' its concrete Perform* surface; a control that does not fire an event implements an empty
@@ -39,7 +39,7 @@ End Sub
 Public Sub OnClick()
 End Sub
 
-' --- Reducer interaction policy (control self-knowledge, read by OxReducer) ---
+' --- Reducer interaction policy (control self-knowledge, read by OxInteractionManager) ---
 ' Whether this control fires a Click event when a captured press releases inside it
 ' (CommandButton/Label/CheckBox do; TextBox does not). Declared by the control so the reducer
 ' decides Click without switching on a control-type enum.

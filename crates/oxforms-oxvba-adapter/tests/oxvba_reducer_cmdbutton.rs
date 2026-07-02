@@ -1,6 +1,6 @@
-//! Reducer-pivot increment 1 (oxforms-ih6.1): the VBA interaction reducer (OxReducer) routes
-//! pointer input and raises controls' ordered FM20 events, with NO Rust reducer (oxforms-core)
-//! in the loop. This is the spine of the reducer pivot
+//! Reducer-pivot increment 1 (oxforms-ih6.1): the VBA InteractionManager, reached through
+//! the stable OxReducer facade, routes pointer input and raises controls' ordered FM20 events,
+//! with NO Rust reducer (oxforms-core) in the loop. This is the spine of the reducer pivot
 //! (docs/specs/MESSAGE_HANDLING_AND_UPDATE_FLOW.md): geometric routing + interaction state
 //! (capture, pressed) + ordered event raising + a real surface repaint, all in VBA.
 //!
@@ -114,6 +114,11 @@ fn prepare_session_with_surface(
             "OxSceneBuilder",
             ModuleKind::Class,
             "vba/oxforms/OxSceneBuilder.cls",
+        ),
+        module_unit(
+            "OxInteractionManager",
+            ModuleKind::Class,
+            "vba/oxforms/OxInteractionManager.cls",
         ),
         module_unit("OxReducer", ModuleKind::Class, "vba/oxforms/OxReducer.cls"),
         module_unit(
@@ -714,10 +719,30 @@ fn capture_routes_mouseup_to_the_pressed_control_across_a_sibling() {
 
     // Press in the A-only region (captures A), then release in the overlap (over B too).
     dispatch(&mut session, &form, "mousedown", 25, 30);
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=A;capture=A;pressed=A;hover=A;cursor_target=A;cursor=0"),
+        "InteractionManager should own focus/capture/pressed/hover state after press: {state}"
+    );
+    assert_eq!(
+        dispatch_btn(&mut session, &form, "mousemove", 110, 30, 0),
+        "mousemove:A",
+        "capture should keep drag motion routed to A even over B/outside A"
+    );
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=A;capture=A;pressed=A;hover=A;cursor_target=A;cursor=0"),
+        "captured motion should keep the pointer target on A: {state}"
+    );
     let up = dispatch(&mut session, &form, "mouseup", 60, 30);
     // Capture keeps the up on A; the release is still inside A's bounds, so A fires Click --
     // B never sees the event despite being under the release point.
     assert_eq!(up, "mouseup:A|click:A|release:A|repaint");
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=A;capture=;pressed=;hover=A;cursor_target=A;cursor=0"),
+        "release should clear capture/pressed while preserving the last pointer target: {state}"
+    );
     assert_eq!(
         handler_log(&mut session, &form).lines().collect::<Vec<_>>(),
         vec!["A.Click"],
@@ -1436,6 +1461,77 @@ fn interaction_index_caches_tab_default_cancel_and_accelerator_maps() {
         i32_get(&mut session, &form, "InteractionIndexBuildCount"),
         2,
         "the next interaction-index read rebuilds after the revision changes"
+    );
+}
+
+#[test]
+fn interaction_manager_tracks_hover_and_cursor_without_capture() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    let log = dispatch_btn(&mut session, &form, "mousemove", FIELD_IN.0, FIELD_IN.1, 0);
+    assert_eq!(log, "mousemove:Field");
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=;capture=;pressed=;hover=Field;cursor_target=Field;cursor=3"),
+        "TextBox hover should own the I-beam cursor target: {state}"
+    );
+
+    let miss = dispatch_btn(&mut session, &form, "mousemove", 170, 120, 0);
+    assert_eq!(miss, "");
+    let state = string_get(&mut session, &form, "InteractionStateSummary");
+    assert!(
+        state.contains("focus=;capture=;pressed=;hover=;cursor_target=;cursor=0"),
+        "a miss should clear hover/cursor target: {state}"
+    );
+}
+
+#[test]
+fn interaction_manager_rebuilds_tab_maps_after_mutations() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerButtonsForm");
+
+    let summary = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        summary.contains(";first=Field;last=Chk;default=Ok;cancel=CancelBtn;"),
+        "initial tab/default maps should include every live participant: {summary}"
+    );
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        1
+    );
+
+    invoke_sub(&mut session, &form, "HideCheckBox");
+    let summary = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        summary.contains(";first=Field;last=Go;default=Ok;cancel=CancelBtn;"),
+        "hidden controls should leave the tab map: {summary}"
+    );
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        2
+    );
+
+    invoke_sub(&mut session, &form, "DisableFieldTabStop");
+    let summary = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        summary.contains(";first=Ok;last=Go;default=Ok;cancel=CancelBtn;"),
+        "TabStop=False should leave the tab map without affecting default/cancel: {summary}"
+    );
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        3
+    );
+
+    invoke_sub(&mut session, &form, "AddLateTextBox");
+    let summary = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        summary.contains(";first=Ok;last=Late;default=Ok;cancel=CancelBtn;"),
+        "runtime Controls.Add should invalidate and rebuild the tab map: {summary}"
+    );
+    assert_eq!(
+        i32_get(&mut session, &form, "InteractionIndexBuildCount"),
+        4
     );
 }
 

@@ -302,7 +302,7 @@ Public Property Get LastSceneToken() As String
     LastSceneToken = mLastSceneToken
 End Property
 
-' Monotonic routing-policy revision. OxReducer compares this before using cached
+' Monotonic routing-policy revision. OxInteractionManager compares this before using cached
 ' tab/default/cancel/accelerator/cursor maps, so property-side effects and runtime
 ' add/remove work through the same host seam as rendering invalidation.
 Public Property Get InteractionRevision() As Long

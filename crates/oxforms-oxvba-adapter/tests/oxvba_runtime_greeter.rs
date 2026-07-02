@@ -96,6 +96,11 @@ fn build_session() -> ProjectRuntimeSession {
             ModuleKind::Class,
             "vba/oxforms/OxSceneBuilder.cls",
         ),
+        module_unit(
+            "OxInteractionManager",
+            ModuleKind::Class,
+            "vba/oxforms/OxInteractionManager.cls",
+        ),
         module_unit("OxReducer", ModuleKind::Class, "vba/oxforms/OxReducer.cls"),
         module_unit(
             "ReducerGreeterForm",

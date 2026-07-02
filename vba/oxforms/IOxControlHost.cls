@@ -7,8 +7,8 @@ Option Explicit
 '
 ' The separate interaction invalidation lets controls report routing-affecting
 ' changes (bounds, tab order, enabled/visible, accelerator/default/cancel state)
-' without forcing a repaint. OxReducer compares this monotonic revision before
-' using its cached interaction maps.
+' without forcing a repaint. OxInteractionManager compares this monotonic revision
+' before using its cached interaction maps.
 
 Public Sub OnControlInvalidated(ByVal Control As IOxControl)
 End Sub

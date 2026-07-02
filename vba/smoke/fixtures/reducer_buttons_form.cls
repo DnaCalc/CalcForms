@@ -77,6 +77,10 @@ Public Property Get FocusName() As String
     FocusName = mReducer.FocusName
 End Property
 
+Public Property Get InteractionStateSummary() As String
+    InteractionStateSummary = mReducer.InteractionStateSummary
+End Property
+
 Public Property Get HandlerLog() As String
     HandlerLog = mLog
 End Property
@@ -108,6 +112,24 @@ End Property
 
 Public Sub DisableDefaultButton()
     mOk.Enabled = False
+End Sub
+
+Public Sub HideCheckBox()
+    mChk.Visible = False
+End Sub
+
+Public Sub DisableFieldTabStop()
+    mField.Core.TabStop = False
+End Sub
+
+Public Sub AddLateTextBox()
+    Dim LateBox As TextBox
+    Set LateBox = mForm.Controls.Add("Forms.TextBox.1", "Late")
+    LateBox.Left = 130
+    LateBox.Top = 20
+    LateBox.Width = 40
+    LateBox.Height = 18
+    LateBox.Core.TabIndex = 99
 End Sub
 
 Public Sub Render()
