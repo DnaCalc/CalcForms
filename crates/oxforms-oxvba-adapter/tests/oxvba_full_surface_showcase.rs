@@ -225,6 +225,19 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && catalog.contains("accessibility snapshots"),
         "catalog should name the InteractionManager and accessibility diagnostic surfaces"
     );
+    assert!(
+        catalog.contains("LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection")
+            && catalog.contains("TextBoxDiagnostics"),
+        "catalog should expose the representative TextBox property/diagnostic surface"
+    );
+    let textbox_diagnostics = read_string(&mut rt, "TextBoxDiagnostics");
+    assert!(
+        textbox_diagnostics.contains("text=;value=;sel_start=0;sel_length=0")
+            && textbox_diagnostics.contains("capabilities=kind=TextBox")
+            && textbox_diagnostics.contains(";text=True;paste=True;value=True")
+            && textbox_diagnostics.contains(";accessibility=textbox/text,value,selection"),
+        "TextBox diagnostics should carry value, selection, capability, and accessibility shape: {textbox_diagnostics}"
+    );
     let accessibility = read_string(&mut rt, "AccessibilitySnapshot");
     assert!(
         accessibility.contains("role=form;name=full_surface_showcase")

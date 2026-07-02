@@ -236,6 +236,18 @@ contract:
 - `frm_materialization_probe_form` proves the materialized form renders through
   `UserForm.Render`/`OxForms.Surface` and projects accessibility rows from the live controls.
 
+`oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
+
+- `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms
+  form sources can use either property without taking a parallel object-model path;
+- the `.frm` fixture now uses `Value = "seed"` for its `TextBox`, and `OxFrmMaterializer` routes
+  `Value` by control type so `TextBox.Value` and `CheckBox.Value` both materialize correctly;
+- reducer fixture diagnostics prove programmatic `Value`, `SelStart`, `SelLength`, `SelText`, and
+  `HideSelection` mutations update the live control, clamp selection to the current text, avoid
+  user `Change` dispatch in the covered local path, and expose the capability descriptor;
+- the full-surface showcase exposes `InputValue` and `TextBoxDiagnostics`, including value,
+  selection, capability, and accessibility projection data through `OxRuntime`.
+
 Focused acceptance:
 
 ```powershell
@@ -262,9 +274,10 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` |
 | `.frm/.frx` materialization | Passing selected-slice seam | `vba/oxforms/OxFrmMaterializer.cls`; `fixtures/frm/w009-materialization/w009-representative.frm`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
-| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, `InteractionStateSummary`, and `AccessibilitySnapshot` through `OxRuntime` |
+| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, `InteractionStateSummary`, and `AccessibilitySnapshot` through `OxRuntime`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` reads `TextBoxDiagnostics` |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
+| TextBox value/property setters | Passing local representative slice | `vba/oxforms/TextBox.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `oxvba_reducer_cmdbutton::textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
 | TextBox rapid selection/delete state | Passing | `oxvba_reducer_cmdbutton::textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful` |
 | TextBox caret/selection visuals | Passing shaped-scene proof | `oxvba_reducer_cmdbutton::textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
 | TextBox TextService + horizontal scroll | Passing single-line v1 | `vba/oxforms/OxTextService.cls`; `oxvba_reducer_cmdbutton::textbox_textservice_scrolls_and_clips_long_text_to_caret`; render-smoke canonical scene covers the clipped TextBox text child node |
@@ -277,7 +290,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | ThemePainter tokens | Passing representative seam | `vba/oxforms/OxTheme.bas`; `oxvba_reducer_cmdbutton::command_button_mouse_click_runs_the_vba_reducer`; `theme_painter_maps_disabled_text_and_edges_for_standard_controls`; `textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
 | CheckBox keyboard toggle | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
-| Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` |
+| Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; later representative control beads apply native cursor hooks, control timers, richer DataObject formats, and real image decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | Perf budgets | Scaffold only | Future `oxforms-zhz.8` |
@@ -316,10 +329,12 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 - Theme tokens are internal implementation vocabulary only. MSForms properties and runtime state
   remain authoritative, and `.18` does not claim alternate skin/theme product behavior or
   pixel-perfect MSForms rendering.
-- TextBox is still a visible single-line slice. `oxforms-zhz.9` continues to own
-  `SelStart`/`SelLength`/`SelText` setter oracle details and burst/post oracle behavior.
-  IME/dead keys, multiline, undo/redo, and grapheme-cluster editing are tracked as
-  `oxforms-zhz.34`.
+- TextBox is still a visible single-line representative slice. Local `Value`,
+  `SelStart`/`SelLength`/`SelText`, `HideSelection`, diagnostics, selection/caret editing,
+  paste/drop, drag selection, and horizontal scroll/clipping are covered, but exact MSForms setter
+  event ordering, coercion/error cases, burst/post behavior, and pixel-level caret/selection parity
+  remain non-claims without a live oracle capture. IME/dead keys, multiline, undo/redo, and
+  grapheme-cluster editing are tracked as `oxforms-zhz.34`.
 - CheckBox Space activation is locally covered through the headless runner. Focus adornment,
   disabled/hidden/tab-stop mutations, cursor application, and live MSForms oracle capture remain
   `oxforms-zhz.5` scope before a broader parity claim.

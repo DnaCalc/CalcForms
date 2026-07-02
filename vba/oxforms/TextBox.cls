@@ -160,8 +160,8 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
 End Sub
 
 ' --- User-facing properties ---
-' Programmatic assignment: updates the value and requests repaint, but does not
-' raise Change (MSForms semantics).
+' Programmatic assignment updates the value and requests repaint; user Change
+' dispatch remains owned by reducer input paths in the current local model.
 Public Property Get Text() As String
     Text = mCore.DisplayText
 End Property
@@ -169,6 +169,13 @@ Public Property Let Text(ByVal Value As String)
     mCore.DisplayText = Value
     ClampSelectionToText
     EnsureCaretVisible
+End Property
+
+Public Property Get Value() As String
+    Value = mCore.DisplayText
+End Property
+Public Property Let Value(ByVal NewValue As String)
+    Text = NewValue
 End Property
 
 Public Property Get SelStart() As Long

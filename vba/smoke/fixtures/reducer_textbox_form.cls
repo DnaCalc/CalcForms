@@ -97,6 +97,10 @@ Public Property Get T1Text() As String
     T1Text = mT1.Text
 End Property
 
+Public Property Get T1Value() As String
+    T1Value = mT1.Value
+End Property
+
 Public Property Get T1SelStart() As Long
     T1SelStart = mT1.SelStart
 End Property
@@ -109,15 +113,42 @@ Public Property Get T1SelText() As String
     T1SelText = mT1.SelText
 End Property
 
+Public Property Get T1HideSelection() As Boolean
+    T1HideSelection = mT1.HideSelection
+End Property
+
+Public Property Get T1Diagnostics() As String
+    T1Diagnostics = _
+        "text=" & mT1.Text & _
+        ";value=" & mT1.Value & _
+        ";sel_start=" & CStr(mT1.SelStart) & _
+        ";sel_length=" & CStr(mT1.SelLength) & _
+        ";sel_text=" & mT1.SelText & _
+        ";hide_selection=" & CStr(mT1.HideSelection) & _
+        ";capabilities=" & mT1.Core.CapabilityDescriptor
+End Property
+
 Public Sub SetT1Text(ByVal Value As String)
     mT1.Text = Value
     mT1.SelStart = Len(Value)
     mT1.SelLength = 0
 End Sub
 
+Public Sub SetT1Value(ByVal Value As String)
+    mT1.Value = Value
+End Sub
+
 Public Sub SetT1Selection(ByVal Start As Long, ByVal Length As Long)
     mT1.SelStart = Start
     mT1.SelLength = Length
+End Sub
+
+Public Sub SetT1SelText(ByVal Value As String)
+    mT1.SelText = Value
+End Sub
+
+Public Sub SetT1HideSelection(ByVal Value As Boolean)
+    mT1.HideSelection = Value
 End Sub
 
 Public Property Get T2Text() As String

@@ -209,6 +209,10 @@ Public Property Get InputText() As String
     InputText = mInput.Text
 End Property
 
+Public Property Get InputValue() As String
+    InputValue = mInput.Value
+End Property
+
 Public Property Get InputSelStart() As Long
     InputSelStart = mInput.SelStart
 End Property
@@ -219,6 +223,20 @@ End Property
 
 Public Property Get InputSelText() As String
     InputSelText = mInput.SelText
+End Property
+
+Public Property Get TextBoxDiagnostics() As String
+    Dim Control As IOxControl
+    Set Control = mInput
+    TextBoxDiagnostics = _
+        "text=" & mInput.Text & _
+        ";value=" & mInput.Value & _
+        ";sel_start=" & CStr(mInput.SelStart) & _
+        ";sel_length=" & CStr(mInput.SelLength) & _
+        ";sel_text=" & mInput.SelText & _
+        ";hide_selection=" & CStr(mInput.HideSelection) & _
+        ";capabilities=" & mInput.Core.CapabilityDescriptor & _
+        ";accessibility=" & Control.AccessibilityRole & "/" & Control.AccessibilityPatterns
 End Property
 
 Public Property Get CheckValue() As Boolean
@@ -258,7 +276,7 @@ Public Function SurfaceCatalog() As String
         "LIVE Controls: Add, Item(index), Item(name), Count" & vbLf & _
         "LIVE Runtime foundation: capability descriptors, first-class InteractionManager diagnostics, accessibility snapshots, focus/tab/default/cancel/accelerator maps, hover/cursor/capture state, clipboard shortcuts" & vbLf & _
         "LIVE Label: Caption, geometry, Visible, Enabled; MouseDown, MouseUp, Click" & vbLf & _
-        "LIVE TextBox: Text, SelStart, SelLength, SelText, HideSelection, caret, selection, copy/cut/paste/drop, geometry, Visible, Enabled; Change, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste" & vbLf & _
+        "LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection, caret, selection, copy/cut/paste/drop, geometry, Visible, Enabled, TextBoxDiagnostics; Change, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste" & vbLf & _
         "LIVE CommandButton: Caption, Default, Cancel, geometry, Visible, Enabled; Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit" & vbLf & _
         "LIVE CheckBox: Caption, Value, geometry, Visible, Enabled; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
         "PENDING OptionButton, ToggleButton, ComboBox, ListBox, Image, ScrollBar, SpinButton, Frame, TabStrip, MultiPage/Page"

@@ -405,6 +405,16 @@ fn set_t1_text(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str
     );
 }
 
+fn set_t1_value(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) {
+    call(
+        session,
+        form.clone(),
+        "SetT1Value",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    );
+}
+
 fn set_t1_selection(
     session: &mut ProjectRuntimeSession,
     form: &ObjectRef,
@@ -417,6 +427,26 @@ fn set_t1_selection(
         "SetT1Selection",
         ProjectMemberKind::Method,
         vec![Variant::from_i32(start), Variant::from_i32(length)],
+    );
+}
+
+fn set_t1_sel_text(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) {
+    call(
+        session,
+        form.clone(),
+        "SetT1SelText",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    );
+}
+
+fn set_t1_hide_selection(session: &mut ProjectRuntimeSession, form: &ObjectRef, value: bool) {
+    call(
+        session,
+        form.clone(),
+        "SetT1HideSelection",
+        ProjectMemberKind::Method,
+        vec![Variant::from_bool(value)],
     );
 }
 
@@ -871,6 +901,52 @@ fn textbox_character_input_replaces_selection_and_moves_caret() {
             .collect::<Vec<_>>(),
         vec!["T1.KeyPress", "T1.Change"],
         "user character input fires KeyPress before the replacement Change"
+    );
+}
+
+#[test]
+fn textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_value(&mut session, &form, "abcdef");
+    assert_eq!(string_get(&mut session, &form, "HandlerLog"), "");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "abcdef");
+    assert_eq!(string_get(&mut session, &form, "T1Value"), "abcdef");
+
+    set_t1_selection(&mut session, &form, 2, 99);
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 2);
+    assert_eq!(
+        i32_get(&mut session, &form, "T1SelLength"),
+        4,
+        "SelLength setter should clamp to the end of the current text"
+    );
+    assert_eq!(string_get(&mut session, &form, "T1SelText"), "cdef");
+
+    set_t1_sel_text(&mut session, &form, "XY");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "abXY");
+    assert_eq!(string_get(&mut session, &form, "T1Value"), "abXY");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 4);
+    assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog"),
+        "",
+        "programmatic Value/SelText/selection setters should not raise Change"
+    );
+
+    set_t1_hide_selection(&mut session, &form, false);
+    assert!(
+        !bool_get(&mut session, &form, "T1HideSelection"),
+        "HideSelection setter should update the live TextBox property"
+    );
+    let diagnostics = string_get(&mut session, &form, "T1Diagnostics");
+    assert!(
+        diagnostics.contains("text=abXY;value=abXY;sel_start=4;sel_length=0")
+            && diagnostics.contains(";hide_selection=False;")
+            && diagnostics.contains("capabilities=kind=TextBox")
+            && diagnostics.contains(";text=True;paste=True;value=True"),
+        "TextBox diagnostics should expose the representative property/capability surface: {diagnostics}"
     );
 }
 

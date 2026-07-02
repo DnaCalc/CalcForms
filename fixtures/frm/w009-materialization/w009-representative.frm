@@ -18,7 +18,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       TabStop         =   0
    End
    Begin MSForms.TextBox InputField
-      Text            =   "seed"
+      Value           =   "seed"
       Left            =   240
       Top             =   760
       Width           =   2200

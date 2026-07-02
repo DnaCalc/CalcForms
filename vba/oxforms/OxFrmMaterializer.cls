@@ -224,7 +224,7 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
         Case "cancel"
             ApplyCommandCancel BoolValue(Raw)
         Case "value"
-            ApplyCheckValue BoolValue(Raw)
+            ApplyValue Raw
         Case "picture", "mouseicon"
             RecordFrxReference mCurrentName, Key, Raw
     End Select
@@ -266,6 +266,17 @@ Private Sub ApplyCheckValue(ByVal Value As Boolean)
     Dim Box As CheckBox
     Set Box = mCurrent
     Box.Value = Value
+End Sub
+
+Private Sub ApplyValue(ByVal Raw As String)
+    Select Case LCase$(mCurrentType)
+        Case "msforms.checkbox"
+            ApplyCheckValue BoolValue(Raw)
+        Case "msforms.textbox"
+            Dim Box As TextBox
+            Set Box = mCurrent
+            Box.Value = Unquote(Raw)
+    End Select
 End Sub
 
 Private Function ControlCatalogRow(ByVal Control As IOxControl) As String
