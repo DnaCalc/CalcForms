@@ -180,6 +180,14 @@ Public Property Get InteractionIndexSummary() As String
     InteractionIndexSummary = Text
 End Property
 
+Public Property Get AccessibilitySnapshot() As String
+    EnsureInteractionIndex
+
+    Dim Service As OxAccessibilityService
+    Set Service = New OxAccessibilityService
+    AccessibilitySnapshot = Service.Snapshot(mForm, mFocusName)
+End Property
+
 ' THE VBA REDUCE for pointer input. Kind is "mousedown" | "mousemove" | "mouseup".
 ' X/Y are form-logical points; Button/Shift are the MSForms scalar args. Routes
 ' geometrically, mutates interaction state, raises the control's FM20 events in order, and

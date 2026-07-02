@@ -97,6 +97,11 @@ fn build_session() -> ProjectRuntimeSession {
             "vba/oxforms/OxSceneBuilder.cls",
         ),
         module_unit(
+            "OxAccessibilityService",
+            ModuleKind::Class,
+            "vba/oxforms/OxAccessibilityService.cls",
+        ),
+        module_unit(
             "OxInteractionManager",
             ModuleKind::Class,
             "vba/oxforms/OxInteractionManager.cls",

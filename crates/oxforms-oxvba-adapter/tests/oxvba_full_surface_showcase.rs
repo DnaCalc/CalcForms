@@ -96,6 +96,11 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/OxSceneBuilder.cls",
         ),
         module_unit(
+            "OxAccessibilityService",
+            ModuleKind::Class,
+            "vba/oxforms/OxAccessibilityService.cls",
+        ),
+        module_unit(
             "OxInteractionManager",
             ModuleKind::Class,
             "vba/oxforms/OxInteractionManager.cls",
@@ -216,8 +221,19 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         );
     }
     assert!(
-        catalog.contains("first-class InteractionManager diagnostics"),
-        "catalog should name the InteractionManager diagnostic surface"
+        catalog.contains("first-class InteractionManager diagnostics")
+            && catalog.contains("accessibility snapshots"),
+        "catalog should name the InteractionManager and accessibility diagnostic surfaces"
+    );
+    let accessibility = read_string(&mut rt, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=form;name=full_surface_showcase")
+            && accessibility.contains(
+                "role=textbox;name=InputField;value=;enabled=True;visible=True;focused=True"
+            )
+            && accessibility
+                .contains("role=checkbox;name=CheckBox;value=True;enabled=True;visible=True"),
+        "showcase should expose representative accessibility rows: {accessibility}"
     );
     for pending in [
         "OptionButton",

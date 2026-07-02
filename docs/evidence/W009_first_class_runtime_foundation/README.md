@@ -16,6 +16,7 @@ TextService seam: `oxforms-zhz.16`
 ThemePainter seam: `oxforms-zhz.18`
 InteractionManager seam: `oxforms-zhz.19`
 Object-model side-effect seam: `oxforms-zhz.20`
+AccessibilityService seam: `oxforms-zhz.21`
 Oracle matrix refresh: `oxforms-zhz.23`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
@@ -207,6 +208,20 @@ contract:
 - representative reducer tests prove add/remove/name lookup, structural retained-Scene rebuild,
   focused hide/disable/remove state clearing, z-order hit routing, and capability-driven policy.
 
+`oxforms-zhz.21` adds the representative `AccessibilityService` semantic snapshot:
+
+- `IOxControl` now exposes host-neutral accessibility projection members for role, name, value,
+  selected state, selection range/text, and supported patterns;
+- `OxAccessibilityService` builds deterministic form/control rows from the live VBA object model
+  plus `OxInteractionManager` focus state, including role/name/value/enabled/visible/focused/
+  selected/selection/pattern fields;
+- `OxReducer.AccessibilitySnapshot` keeps the runtime facade stable, and the full-surface showcase
+  exposes the snapshot alongside its capability and interaction diagnostics;
+- headless trace rows now carry `accessibility_snapshot`, so each `OxRuntime` input turn can prove
+  focus, value, and selection changes without consulting pixels or a platform provider echo;
+- Windows UIA/MSAA provider wiring is intentionally not claimed by this bead and is tracked as
+  `oxforms-zhz.35`.
+
 Focused acceptance:
 
 ```powershell
@@ -230,7 +245,8 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Object model side effects | Passing representative seam | `vba/oxforms/Controls.cls`; `vba/oxforms/UserForm.cls`; `oxvba_reducer_cmdbutton::object_model_add_remove_and_name_lookup_drive_structural_state`; `focused_hide_disable_and_remove_clear_stale_interaction_state`; `overlapping_controls_route_by_z_order_then_last_added` |
 | InteractionManager state | Passing representative seam | `vba/oxforms/OxInteractionManager.cls`; `oxvba_reducer_cmdbutton::capture_routes_mouseup_to_the_pressed_control_across_a_sibling`; `interaction_manager_tracks_hover_and_cursor_without_capture`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
-| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, and `InteractionStateSummary` through `OxRuntime` |
+| AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` |
+| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, `InteractionStateSummary`, and `AccessibilitySnapshot` through `OxRuntime` |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox rapid selection/delete state | Passing | `oxvba_reducer_cmdbutton::textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful` |
@@ -253,6 +269,10 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 ## Known Non-Claims
 
 - The runner is infrastructure, not an alternate backend.
+- Accessibility snapshots are a host-neutral runtime data model only. They do not implement or
+  claim Windows UIA/MSAA provider behavior, assistive-technology compatibility, provider event
+  notifications, bounding-rectangle parity, or MSForms accessibility parity. Provider wiring is
+  tracked by `oxforms-zhz.35`.
 - HostServices now provides API stubs and deterministic traces for cursor, timers,
   DataObject, metrics/colors, DPI, image-decode handles, and drag/drop. It does
   not yet claim native cursor application, control-driven timer behavior, rich

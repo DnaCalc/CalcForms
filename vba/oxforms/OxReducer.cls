@@ -60,6 +60,10 @@ Public Property Get InteractionIndexSummary() As String
     InteractionIndexSummary = mInteraction.InteractionIndexSummary
 End Property
 
+Public Property Get AccessibilitySnapshot() As String
+    AccessibilitySnapshot = mInteraction.AccessibilitySnapshot
+End Property
+
 Public Function Dispatch( _
         ByVal Kind As String, ByVal X As Long, ByVal Y As Long, _
         ByVal Button As Integer, ByVal Shift As Integer) As String

@@ -292,3 +292,35 @@ End Function
 Private Function IOxControl_OnCut() As String
     IOxControl_OnCut = ""
 End Function
+
+Private Property Get IOxControl_AccessibilityRole() As String
+    IOxControl_AccessibilityRole = "button"
+End Property
+
+Private Property Get IOxControl_AccessibilityName() As String
+    IOxControl_AccessibilityName = mCore.Name
+End Property
+
+Private Property Get IOxControl_AccessibilityValue() As String
+    IOxControl_AccessibilityValue = mCore.DisplayText
+End Property
+
+Private Property Get IOxControl_AccessibilitySelected() As Boolean
+    IOxControl_AccessibilitySelected = False
+End Property
+
+Private Property Get IOxControl_AccessibilitySelectionStart() As Long
+    IOxControl_AccessibilitySelectionStart = 0
+End Property
+
+Private Property Get IOxControl_AccessibilitySelectionLength() As Long
+    IOxControl_AccessibilitySelectionLength = 0
+End Property
+
+Private Property Get IOxControl_AccessibilitySelectionText() As String
+    IOxControl_AccessibilitySelectionText = ""
+End Property
+
+Private Property Get IOxControl_AccessibilityPatterns() As String
+    IOxControl_AccessibilityPatterns = "invoke"
+End Property

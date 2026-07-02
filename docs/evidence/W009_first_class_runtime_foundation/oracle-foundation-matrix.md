@@ -50,6 +50,7 @@ new MSForms facts.
 | ThemePainter tokens | Passing representative seam | `OxTheme`; disabled text, edge, pressed face, selection/caret Scene assertions. | Theme tokens are internal; no alternate skin or pixel-perfect claim. |
 | InteractionManager state/maps | Passing representative seam | `OxInteractionManager`; capture/hover/cursor/tab/default/cancel/accelerator tests. | Wheel, double-click, drag threshold, native cursor application, and nested tab scopes remain unknown. |
 | Object-model side effects | Passing representative seam | `Controls.Remove`, live-name lookup, structural add/remove full render, stale focus/capture/hover clearing. Tests: `object_model_add_remove_and_name_lookup_drive_structural_state`, `focused_hide_disable_and_remove_clear_stale_interaction_state`. | Exact MSForms event ordering for focused hide/disable/delete and error behavior remains unknown. |
+| AccessibilityService semantic snapshot | Passing representative seam | `OxAccessibilityService`; `IOxControl` accessibility projection members; `runner_accessibility_snapshot_tracks_focus_value_and_selection`; showcase `AccessibilitySnapshot`. | Windows UIA/MSAA provider adapter, provider notifications, platform client tests, and MSForms accessibility parity remain follow-up work in `oxforms-zhz.35`. |
 | TextBox edit commands | Passing local slice | selection replace, Backspace/Delete/Home/End/Left, Ctrl+A/C/X/V, paste/drop, drag selection, long-text horizontal scroll tests. | Setter side effects and burst/post oracle behavior remain `.24`/`.9` inputs; pixel parity remains unknown. |
 | CheckBox keyboard path | Passing local/headless path | `runner_keyboard_space_toggles_focused_checkbox`; reducer CheckBox mouse/keyboard tests. | Focus adorner, disabled/hidden/tab-stop behavior, cursor, and live oracle notes remain before broader CheckBox parity. |
 
@@ -83,7 +84,7 @@ new MSForms facts.
 | Runtime add/remove and focused-control deletion | Local flat seam exists. | MSForms ordering is unknown: whether focused hide/disable/remove transfers focus, fires `Exit`, or clears silently must remain a blocker until captured. |
 | `.frx` binary/image materialization | Not implemented. | `.22`/`.28` must create a representative path or record exact wire/codec blockers. |
 | Frame/container coordinates | Unknown. | Container coordinate, clipping, hit-test, tab-scope, and boundary-event facts belong to `.27` before container lanes consume them. |
-| Accessibility provider parity | Runtime snapshots not yet implemented. | `.21` defines the data model; Windows UIA/MSAA provider wiring may be a follow-up unless implemented there. |
+| Accessibility provider parity | Runtime snapshots exist as local OxForms proof; no platform provider is wired. | `.21` defines the data model; Windows UIA/MSAA provider wiring is tracked by `oxforms-zhz.35`. |
 
 ## Immediate Implementation Guidance
 

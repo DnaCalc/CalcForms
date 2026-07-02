@@ -56,11 +56,123 @@ fn runner_attaches_renders_and_records_trace_rows() {
         ),
         "showcase should expose first-class InteractionManager state: {state}"
     );
+    let accessibility = runner
+        .read_string("AccessibilitySnapshot")
+        .expect("AccessibilitySnapshot");
+    assert!(
+        accessibility.contains(
+            "role=form;name=full_surface_showcase;value=OxForms Full Surface Showcase"
+        ) && accessibility.contains(
+            "role=textbox;name=InputField;value=;enabled=True;visible=True;focused=True;selected=False"
+        ) && accessibility.contains(
+            "role=checkbox;name=CheckBox;value=True;enabled=True;visible=True;focused=False"
+        ),
+        "showcase should expose a representative accessibility snapshot: {accessibility}"
+    );
 
     let jsonl = runner.trace_jsonl().expect("trace jsonl");
     assert!(
-        jsonl.contains("\"action\":\"render\""),
-        "trace should include the explicit render row: {jsonl}"
+        jsonl.contains("\"action\":\"render\"")
+            && jsonl.contains("\"accessibility_snapshot\"")
+            && jsonl.contains("role=textbox;name=InputField"),
+        "trace should include the explicit render row and accessibility snapshot: {jsonl}"
+    );
+}
+
+#[test]
+fn runner_accessibility_snapshot_tracks_focus_value_and_selection() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+    runner.render().expect("initial render");
+
+    let mut script = Vec::new();
+    for (vk, text) in [
+        (VK_A, "a"),
+        (VK_B, "b"),
+        (VK_C, "c"),
+        (VK_D, "d"),
+        (VK_E, "e"),
+        (VK_F, "f"),
+    ] {
+        script.extend(InputAction::key_turn(vk, text));
+    }
+    runner
+        .drain(&mut script, DrainPolicy::All)
+        .expect("type text");
+
+    runner
+        .dispatch(InputAction::MouseDown {
+            x: 24,
+            y: 98,
+            button: 1,
+            shift: 0,
+        })
+        .expect("mouse down");
+    runner
+        .dispatch(InputAction::MouseMove {
+            x: 35,
+            y: 98,
+            button: 1,
+            shift: 0,
+        })
+        .expect("mouse move");
+
+    let selected = runner
+        .read_string("AccessibilitySnapshot")
+        .expect("AccessibilitySnapshot after selection");
+    assert!(
+        selected.contains(
+            "role=textbox;name=InputField;value=abcdef;enabled=True;visible=True;focused=True;selected=True;sel_start=1;sel_length=3;sel_text=bcd;patterns=text,value,selection"
+        ),
+        "TextBox accessibility row should expose value, focus, and selection: {selected}"
+    );
+
+    runner
+        .dispatch(InputAction::MouseUp {
+            x: 35,
+            y: 98,
+            button: 1,
+            shift: 0,
+        })
+        .expect("mouse up");
+
+    let mut tab_to_checkbox = Vec::new();
+    for _ in 0..4 {
+        tab_to_checkbox.push(InputAction::KeyDown {
+            key_code: VK_TAB,
+            shift: 0,
+        });
+        tab_to_checkbox.push(InputAction::KeyUp {
+            key_code: VK_TAB,
+            shift: 0,
+        });
+    }
+    runner
+        .drain(&mut tab_to_checkbox, DrainPolicy::All)
+        .expect("tab to checkbox");
+    runner
+        .dispatch(InputAction::KeyDown {
+            key_code: VK_SPACE,
+            shift: 0,
+        })
+        .expect("space down");
+
+    let toggled = runner
+        .read_string("AccessibilitySnapshot")
+        .expect("AccessibilitySnapshot after checkbox toggle");
+    assert!(
+        toggled.contains(
+            "role=checkbox;name=CheckBox;value=False;enabled=True;visible=True;focused=True;selected=False;sel_start=0;sel_length=0;sel_text=;patterns=toggle,value"
+        ),
+        "CheckBox accessibility row should expose focus and value changes: {toggled}"
+    );
+
+    let jsonl = runner.trace_jsonl().expect("trace jsonl");
+    assert!(
+        jsonl.contains("role=textbox;name=InputField;value=abcdef")
+            && jsonl.contains("focused=True;selected=True;sel_start=1;sel_length=3;sel_text=bcd")
+            && jsonl.contains("role=checkbox;name=CheckBox;value=False;enabled=True;visible=True;focused=True"),
+        "headless trace rows should carry accessibility snapshots for value/focus/selection changes: {jsonl}"
     );
 }
 

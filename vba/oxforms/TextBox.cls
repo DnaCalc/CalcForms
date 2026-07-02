@@ -668,3 +668,35 @@ End Property
 Private Property Get IOxControl_HasPressedVisual() As Boolean
     IOxControl_HasPressedVisual = mCore.HasPressedVisual
 End Property
+
+Private Property Get IOxControl_AccessibilityRole() As String
+    IOxControl_AccessibilityRole = "textbox"
+End Property
+
+Private Property Get IOxControl_AccessibilityName() As String
+    IOxControl_AccessibilityName = mCore.Name
+End Property
+
+Private Property Get IOxControl_AccessibilityValue() As String
+    IOxControl_AccessibilityValue = mCore.DisplayText
+End Property
+
+Private Property Get IOxControl_AccessibilitySelected() As Boolean
+    IOxControl_AccessibilitySelected = (SelectionLength() > 0)
+End Property
+
+Private Property Get IOxControl_AccessibilitySelectionStart() As Long
+    IOxControl_AccessibilitySelectionStart = SelectionStart()
+End Property
+
+Private Property Get IOxControl_AccessibilitySelectionLength() As Long
+    IOxControl_AccessibilitySelectionLength = SelectionLength()
+End Property
+
+Private Property Get IOxControl_AccessibilitySelectionText() As String
+    IOxControl_AccessibilitySelectionText = SelText
+End Property
+
+Private Property Get IOxControl_AccessibilityPatterns() As String
+    IOxControl_AccessibilityPatterns = "text,value,selection"
+End Property

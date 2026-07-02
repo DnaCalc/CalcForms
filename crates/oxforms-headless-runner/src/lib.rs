@@ -196,6 +196,7 @@ pub struct TraceRow {
     pub action: String,
     pub effect_log: String,
     pub host_service_effects: Vec<String>,
+    pub accessibility_snapshot: String,
     pub render_revision: u64,
     pub frame_token: Option<u64>,
     pub node_count: usize,
@@ -300,14 +301,21 @@ impl HeadlessRunner {
             frame_token: snap.frame_token,
             node_count: snap.node_count,
         };
-        self.push_trace(
-            action_label,
-            effects,
-            service_effects,
+        let accessibility_snapshot = self.try_read_accessibility_snapshot();
+        self.seq += 1;
+        self.trace.push(TraceRow {
+            seq: self.seq,
+            at_ms: self.clock_ms,
+            action: action_label,
+            effect_log: effects,
+            host_service_effects: service_effects,
+            accessibility_snapshot,
+            render_revision: snap.revision,
+            frame_token: snap.frame_token,
+            node_count: snap.node_count,
             dispatch_us,
             render_us,
-            &snap,
-        );
+        });
         Ok(report)
     }
 
@@ -387,28 +395,9 @@ impl HeadlessRunner {
             .map_err(|err| format!("invoke {member}: {}", err.message()))
     }
 
-    fn push_trace(
-        &mut self,
-        action: String,
-        effect_log: String,
-        host_service_effects: Vec<String>,
-        dispatch_us: u128,
-        render_us: u128,
-        snap: &SurfaceSnapshot,
-    ) {
-        self.seq += 1;
-        self.trace.push(TraceRow {
-            seq: self.seq,
-            at_ms: self.clock_ms,
-            action,
-            effect_log,
-            host_service_effects,
-            render_revision: snap.revision,
-            frame_token: snap.frame_token,
-            node_count: snap.node_count,
-            dispatch_us,
-            render_us,
-        });
+    fn try_read_accessibility_snapshot(&mut self) -> String {
+        self.invoke_string("AccessibilitySnapshot", ProjectMemberKind::PropertyGet)
+            .unwrap_or_default()
     }
 }
 
@@ -555,6 +544,11 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
             "vba/oxforms/OxControlPaint.bas",
         ),
         ("OxSceneBuilder", Class, "vba/oxforms/OxSceneBuilder.cls"),
+        (
+            "OxAccessibilityService",
+            Class,
+            "vba/oxforms/OxAccessibilityService.cls",
+        ),
         (
             "OxInteractionManager",
             Class,

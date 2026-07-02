@@ -233,6 +233,10 @@ Public Property Get InteractionIndexSummary() As String
     InteractionIndexSummary = mReducer.InteractionIndexSummary
 End Property
 
+Public Property Get AccessibilitySnapshot() As String
+    AccessibilitySnapshot = mReducer.AccessibilitySnapshot
+End Property
+
 Public Property Get CapabilityCatalog() As String
     CapabilityCatalog = _
         "TitleLabel:" & mTitle.Core.CapabilityDescriptor & vbLf & _
@@ -252,7 +256,7 @@ Public Function SurfaceCatalog() As String
     SurfaceCatalog = _
         "LIVE UserForm: Controls, Count, ControlByName, SuspendLayout, ResumeLayout, Render, lifecycle" & vbLf & _
         "LIVE Controls: Add, Item(index), Item(name), Count" & vbLf & _
-        "LIVE Runtime foundation: capability descriptors, first-class InteractionManager diagnostics, focus/tab/default/cancel/accelerator maps, hover/cursor/capture state, clipboard shortcuts" & vbLf & _
+        "LIVE Runtime foundation: capability descriptors, first-class InteractionManager diagnostics, accessibility snapshots, focus/tab/default/cancel/accelerator maps, hover/cursor/capture state, clipboard shortcuts" & vbLf & _
         "LIVE Label: Caption, geometry, Visible, Enabled; MouseDown, MouseUp, Click" & vbLf & _
         "LIVE TextBox: Text, SelStart, SelLength, SelText, HideSelection, caret, selection, copy/cut/paste/drop, geometry, Visible, Enabled; Change, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste" & vbLf & _
         "LIVE CommandButton: Caption, Default, Cancel, geometry, Visible, Enabled; Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit" & vbLf & _

@@ -1,6 +1,6 @@
 # OxForms Runtime Accessibility Model
 
-Status: W006 design-only surface for `oxforms-0a0.7`.
+Status: W006 design-only surface, updated by W009 semantic snapshot seam `oxforms-zhz.21`.
 Owning workset:
 [`W006_control_implementation_rollout`](../worksets/W006_control_implementation_rollout.md).
 
@@ -149,3 +149,34 @@ diagnostics infrastructure only and has no committed output artifacts in
 The next accessibility bead, if one becomes product-required, should start from
 this document and create a scoped runtime/evidence plan before touching control
 behavior.
+
+## 7. W009 Semantic Snapshot Update
+
+`oxforms-zhz.21` implements step 2 of the path above: a host-neutral semantic
+snapshot derived from canonical OxForms state.
+
+Implemented scope:
+
+- `IOxControl` projection members for role, name, value, selected state,
+  selection start/length/text, and supported patterns;
+- `OxAccessibilityService` rows for the current `UserForm`, `Label`,
+  `TextBox`, `CommandButton`, and `CheckBox` subset;
+- focus state from `OxInteractionManager`, not from platform focus APIs;
+- TextBox value and selection state from the VBA control's authoritative
+  object model;
+- headless JSONL trace rows carrying the current accessibility snapshot after
+  each runtime input turn.
+
+Still out of scope:
+
+- Windows UIA provider implementation;
+- MSAA provider implementation;
+- provider focus/value/selection notifications;
+- platform client tests through public UIA/MSAA APIs;
+- MSForms accessibility parity claims or oracle captures.
+
+The current snapshot is therefore valid evidence that OxForms has a serializable
+runtime accessibility data model for representative controls. It is not evidence
+that the runtime is visible to assistive technology or compatible with any
+specific platform accessibility API. Windows UIA/MSAA provider wiring is tracked
+as `oxforms-zhz.35`.

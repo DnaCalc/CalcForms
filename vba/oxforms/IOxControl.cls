@@ -124,3 +124,30 @@ End Function
 
 Public Function OnCut() As String
 End Function
+
+' --- Accessibility semantic projection ---
+' Host-neutral accessibility rows are derived from each control's object-model state and the
+' reducer's current focus/selection state, never from rendered pixels or platform provider echoes.
+Public Property Get AccessibilityRole() As String
+End Property
+
+Public Property Get AccessibilityName() As String
+End Property
+
+Public Property Get AccessibilityValue() As String
+End Property
+
+Public Property Get AccessibilitySelected() As Boolean
+End Property
+
+Public Property Get AccessibilitySelectionStart() As Long
+End Property
+
+Public Property Get AccessibilitySelectionLength() As Long
+End Property
+
+Public Property Get AccessibilitySelectionText() As String
+End Property
+
+Public Property Get AccessibilityPatterns() As String
+End Property

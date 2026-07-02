@@ -558,6 +558,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/OxSceneBuilder.cls"),
         ),
         unit(
+            "OxAccessibilityService",
+            Class,
+            include_str!("../../../vba/oxforms/OxAccessibilityService.cls"),
+        ),
+        unit(
             "OxInteractionManager",
             Class,
             include_str!("../../../vba/oxforms/OxInteractionManager.cls"),
