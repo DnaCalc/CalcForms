@@ -42,6 +42,7 @@
 
 use std::collections::BTreeMap;
 use std::sync::{Arc, Mutex};
+use std::time::Instant;
 
 use oxvba_com::{
     platform::portable::{PortableDispatch, PortableObjectFactory},
@@ -103,6 +104,7 @@ impl SurfaceFactory {
         let state = self.lock()?;
         Ok(SurfaceSnapshot {
             calls: state.calls.clone(),
+            call_timings: state.call_timings.clone(),
             frame_token: state.scene.as_ref().map(|s| s.frame_hash),
             revision: state.revision,
             last_report: state.last_report,
@@ -111,6 +113,14 @@ impl SurfaceFactory {
             scene: state.scene.clone(),
             last_patch_json: state.last_patch_json.clone(),
         })
+    }
+
+    /// Number of surface calls recorded so far. The headless perf runner uses this
+    /// as a lightweight marker so each input turn can report only the crossings it
+    /// caused without cloning the resident scene before dispatch.
+    pub fn call_timing_count(&self) -> Result<usize, String> {
+        let state = self.lock()?;
+        Ok(state.call_timings.len())
     }
 
     fn lock(&self) -> Result<std::sync::MutexGuard<'_, SurfaceState>, String> {
@@ -138,6 +148,7 @@ pub fn register_surface(projection: &PortableComProjection, factory: Arc<Surface
 #[derive(Clone, Debug, Default)]
 pub struct SurfaceSnapshot {
     pub calls: Vec<String>,
+    pub call_timings: Vec<SurfaceCallTiming>,
     /// Current resident frame token (the `base_hash` the next patch must carry).
     pub frame_token: Option<u64>,
     /// Monotonic resident-Scene revision (the §16.4 producer/consumer seam): bumped
@@ -152,6 +163,24 @@ pub struct SurfaceSnapshot {
     pub last_patch_json: Option<String>,
 }
 
+/// Timing for one `OxForms.Surface` method invocation. This is profiling evidence
+/// only: the stable functional surface remains the method name, arguments, and
+/// return value.
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct SurfaceCallTiming {
+    pub member: String,
+    pub arg_count: usize,
+    pub elapsed_us: u128,
+    pub ok: bool,
+}
+
+impl SurfaceCallTiming {
+    #[must_use]
+    pub fn label(&self) -> String {
+        format!("{}:{}", self.member, self.arg_count)
+    }
+}
+
 #[derive(Debug, Default)]
 struct SurfaceState {
     scene: Option<Scene>,
@@ -161,6 +190,7 @@ struct SurfaceState {
     last_stale_base: bool,
     last_patch_json: Option<String>,
     calls: Vec<String>,
+    call_timings: Vec<SurfaceCallTiming>,
     /// The persistent shaped-run store (the kernel-side interning cache), keyed by
     /// [`oxforms_pal::scene::TextRunId`]`.0`. Populated by `MeasureText`; it **survives
     /// `BeginScene`** (a cache, not per-frame content). `SubmitPatch` projects the runs
@@ -177,15 +207,22 @@ impl PortableDispatch for SurfaceDispatch {
     fn invoke(&self, member: &str, args: &[Variant]) -> Result<Variant, String> {
         let member = canonical_member(member)
             .ok_or_else(|| format!("unexpected {SURFACE_PROG_ID} method `{member}`"))?;
-        self.record_call(member, args.len())?;
+        let call_start = profiling_timings_enabled().then(Instant::now);
 
-        match member {
+        let result = match member {
             "BeginScene" => self.begin_scene(args),
             "SubmitPatch" => self.submit_patch(args),
             "MeasureText" => self.measure_text(args),
             "MeasureBatch" => self.measure_batch(args),
             _ => unreachable!("canonical_member filters methods"),
-        }
+        };
+        self.record_call(
+            member,
+            args.len(),
+            call_start.map(|start| start.elapsed().as_micros()),
+            result.is_ok(),
+        )?;
+        result
     }
 
     fn get(&self, member: &str) -> Result<Variant, String> {
@@ -389,9 +426,23 @@ impl SurfaceDispatch {
         Ok(Variant::from_safearray(array))
     }
 
-    fn record_call(&self, member: &str, arg_count: usize) -> Result<(), String> {
+    fn record_call(
+        &self,
+        member: &str,
+        arg_count: usize,
+        elapsed_us: Option<u128>,
+        ok: bool,
+    ) -> Result<(), String> {
         let mut state = self.lock()?;
         state.calls.push(format!("{member}:{arg_count}"));
+        if let Some(elapsed_us) = elapsed_us {
+            state.call_timings.push(SurfaceCallTiming {
+                member: member.to_string(),
+                arg_count,
+                elapsed_us,
+                ok,
+            });
+        }
         Ok(())
     }
 
@@ -400,6 +451,10 @@ impl SurfaceDispatch {
             .lock()
             .map_err(|_| "OxForms.Surface state lock poisoned".to_string())
     }
+}
+
+fn profiling_timings_enabled() -> bool {
+    std::env::var_os("OXFORMS_PROFILE_TIMINGS").is_some()
 }
 
 /// Rebuild `Scene.text` to exactly the runs the resident scene's `DrawText` prims

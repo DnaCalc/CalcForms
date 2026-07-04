@@ -21,6 +21,7 @@ use crate::host_services::{HostCursor, HostServices, HostTimerRequest, HostTimer
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_host::ProjectRuntimeSession;
 use oxvba_runtime::{ObjectRef, Variant};
+use std::time::Instant;
 
 const SHIFT_CTRL: i16 = 2;
 const VK_V: i16 = 86;
@@ -147,6 +148,17 @@ pub struct RuntimeEventTurn {
     pub effect_log: String,
     pub host_service_effects: Vec<String>,
     pub repainted: bool,
+    pub phase_timings: Vec<RuntimePhaseTiming>,
+}
+
+/// Timing for one named phase inside [`OxRuntime::dispatch_event_turn`].
+///
+/// This is diagnostic/profiling data only. It intentionally does not change the
+/// reducer contract: the VBA form still owns behavior and returns the effect log.
+#[derive(Clone, Debug, Default, Eq, PartialEq)]
+pub struct RuntimePhaseTiming {
+    pub name: String,
+    pub elapsed_us: u128,
 }
 
 /// A thin driver over a VBA form-document that owns an `OxReducer`.
@@ -239,6 +251,8 @@ impl OxRuntime {
     pub fn dispatch_event_turn(&mut self, input: RuntimeInput) -> Result<RuntimeEventTurn, String> {
         let action = input.label();
         let mut host_service_effects = Vec::new();
+        let mut phase_timings = Vec::new();
+        let collect_timings = profiling_timings_enabled();
         let effect_log = match input {
             RuntimeInput::Mouse {
                 kind,
@@ -246,58 +260,143 @@ impl OxRuntime {
                 y,
                 button,
                 shift,
-            } => self.dispatch_mouse(kind.facade_name(), x, y, button, shift)?,
+            } => timed_phase(
+                collect_timings,
+                &mut phase_timings,
+                &format!("Dispatch:{}", kind.facade_name()),
+                || self.dispatch_mouse(kind.facade_name(), x, y, button, shift),
+            )?,
             RuntimeInput::Key {
                 kind,
                 key_code,
                 shift,
-            } => self.dispatch_key(kind.facade_name(), key_code, shift)?,
-            RuntimeInput::CharacterInput(text) => self.dispatch_char(&text)?,
+            } => timed_phase(
+                collect_timings,
+                &mut phase_timings,
+                &format!("DispatchKey:{}", kind.facade_name()),
+                || self.dispatch_key(kind.facade_name(), key_code, shift),
+            )?,
+            RuntimeInput::CharacterInput(text) => {
+                timed_phase(collect_timings, &mut phase_timings, "DispatchChar", || {
+                    self.dispatch_char(&text)
+                })?
+            }
             RuntimeInput::PasteText(text) => {
-                host_service_effects.extend(self.host_services.set_clipboard_text(&text));
-                self.push_clipboard_text_to_vba(&text)?;
-                self.dispatch_key("keydown", VK_V, SHIFT_CTRL)?
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.SetClipboardText",
+                    || self.host_services.set_clipboard_text(&text),
+                ));
+                timed_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "SetClipboardText",
+                    || self.push_clipboard_text_to_vba(&text),
+                )?;
+                timed_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "DispatchKey:keydown:Ctrl+V",
+                    || self.dispatch_key("keydown", VK_V, SHIFT_CTRL),
+                )?
             }
             RuntimeInput::PasteFromClipboard => {
-                let (text, effects) = self.host_services.read_clipboard_text();
+                let (text, effects) = timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.ReadClipboardText",
+                    || self.host_services.read_clipboard_text(),
+                );
                 host_service_effects.extend(effects);
-                self.push_clipboard_text_to_vba(&text)?;
-                self.dispatch_key("keydown", VK_V, SHIFT_CTRL)?
+                timed_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "SetClipboardText",
+                    || self.push_clipboard_text_to_vba(&text),
+                )?;
+                timed_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "DispatchKey:keydown:Ctrl+V",
+                    || self.dispatch_key("keydown", VK_V, SHIFT_CTRL),
+                )?
             }
             RuntimeInput::DropText(text) => {
-                host_service_effects.extend(self.host_services.trace_drop_text(&text));
-                self.dispatch_drop(&text)?
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.TraceDropText",
+                    || self.host_services.trace_drop_text(&text),
+                ));
+                timed_phase(collect_timings, &mut phase_timings, "DispatchDrop", || {
+                    self.dispatch_drop(&text)
+                })?
             }
             RuntimeInput::ServiceProbe => {
-                host_service_effects.extend(self.host_services.service_probe_trace());
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.ServiceProbe",
+                    || self.host_services.service_probe_trace(),
+                ));
                 String::new()
             }
             RuntimeInput::SetCursor(cursor) => {
-                host_service_effects.extend(self.host_services.set_cursor(cursor));
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.SetCursor",
+                    || self.host_services.set_cursor(cursor),
+                ));
                 String::new()
             }
             RuntimeInput::ArmTimer(request) => {
-                host_service_effects.extend(self.host_services.arm_timer(request));
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.ArmTimer",
+                    || self.host_services.arm_timer(request),
+                ));
                 String::new()
             }
             RuntimeInput::CancelTimer(slot) => {
-                host_service_effects.extend(self.host_services.cancel_timer(slot));
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.CancelTimer",
+                    || self.host_services.cancel_timer(slot),
+                ));
                 String::new()
             }
             RuntimeInput::AdvanceTime { advance_ms } => {
-                host_service_effects.extend(self.host_services.advance_time(advance_ms));
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.AdvanceTime",
+                    || self.host_services.advance_time(advance_ms),
+                ));
                 String::new()
             }
             RuntimeInput::DpiChanged { dpi_x, dpi_y } => {
-                host_service_effects.extend(self.host_services.set_dpi(dpi_x, dpi_y));
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.SetDpi",
+                    || self.host_services.set_dpi(dpi_x, dpi_y),
+                ));
                 String::new()
             }
             RuntimeInput::DecodeImage {
                 image_id,
                 bytes_sha256,
             } => {
-                host_service_effects
-                    .extend(self.host_services.decode_image(&image_id, &bytes_sha256));
+                host_service_effects.extend(timed_value_phase(
+                    collect_timings,
+                    &mut phase_timings,
+                    "HostServices.DecodeImage",
+                    || self.host_services.decode_image(&image_id, &bytes_sha256),
+                ));
                 String::new()
             }
         };
@@ -307,6 +406,7 @@ impl OxRuntime {
             effect_log,
             host_service_effects,
             repainted,
+            phase_timings,
         })
     }
 
@@ -424,6 +524,46 @@ impl OxRuntime {
     pub fn host_services_mut(&mut self) -> &mut HostServices {
         &mut self.host_services
     }
+}
+
+fn timed_phase<T>(
+    collect_timings: bool,
+    phase_timings: &mut Vec<RuntimePhaseTiming>,
+    name: &str,
+    f: impl FnOnce() -> Result<T, String>,
+) -> Result<T, String> {
+    if !collect_timings {
+        return f();
+    }
+    let start = Instant::now();
+    let result = f();
+    phase_timings.push(RuntimePhaseTiming {
+        name: name.to_string(),
+        elapsed_us: start.elapsed().as_micros(),
+    });
+    result
+}
+
+fn timed_value_phase<T>(
+    collect_timings: bool,
+    phase_timings: &mut Vec<RuntimePhaseTiming>,
+    name: &str,
+    f: impl FnOnce() -> T,
+) -> T {
+    if !collect_timings {
+        return f();
+    }
+    let start = Instant::now();
+    let value = f();
+    phase_timings.push(RuntimePhaseTiming {
+        name: name.to_string(),
+        elapsed_us: start.elapsed().as_micros(),
+    });
+    value
+}
+
+fn profiling_timings_enabled() -> bool {
+    std::env::var_os("OXFORMS_PROFILE_TIMINGS").is_some()
 }
 
 /// True when the VBA reducer's ordered effect log says the turn already performed a re-render.

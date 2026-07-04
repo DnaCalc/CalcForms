@@ -1,0 +1,1350 @@
+{
+  "run_id": "w009-textbox-paste-dispatch-attribution",
+  "bead": "oxforms-zhz.36",
+  "baseline_bead": "oxforms-aghp",
+  "git_rev": "a5c81ca",
+  "git_status_short": "M ../../.beads/issues.jsonl\n M src/lib.rs\n M tests/headless_textbox_perf.rs\n M ../oxforms-oxvba-adapter/src/runtime.rs\n M ../oxforms-oxvba-adapter/src/surface.rs\n M ../../docs/evidence/W009_first_class_runtime_foundation/README.md\n M ../../docs/evidence/W009_first_class_runtime_foundation/perf/README.md\n?? ../../docs/evidence/W009_first_class_runtime_foundation/perf/w009-textbox-paste-dispatch-attribution-20260704.json",
+  "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+  "host": {
+    "os": "windows",
+    "arch": "x86_64",
+    "logical_cpus": 16
+  },
+  "notes": [
+    "Attribution-only follow-up over the same OxRuntime + VBA OxReducer + SurfaceFactory path.",
+    "Runtime phase timings split HostServices clipboard, VBA SetClipboardText, and DispatchKey Ctrl+V.",
+    "Surface call timings cover Rust-side BeginScene/MeasureBatch/SubmitPatch work only.",
+    "DispatchKey minus surface remains a combined VBA/VM bucket: TextBox paste mutation, events, UserForm.Render scene building, and COM marshalling.",
+    "No optimization or repaint-policy change is made by this report."
+  ],
+  "hotspot_table": [
+    {
+      "rank": 1,
+      "area": "DispatchKey Ctrl+V inclusive",
+      "metric": "p95_us",
+      "value_us": 204129,
+      "evidence": "runtime_phase_summaries.DispatchKey:keydown:Ctrl+V",
+      "interpretation": "The Ctrl+V reducer turn remains the top inclusive bucket."
+    },
+    {
+      "rank": 2,
+      "area": "DispatchKey minus Rust surface",
+      "metric": "p95_us",
+      "value_us": 177450,
+      "evidence": "scenario.dispatch_key_minus_surface_us",
+      "interpretation": "Current seams leave TextBox paste mutation, events, VBA UserForm.Render scene building, and VM/COM marshalling combined here."
+    },
+    {
+      "rank": 3,
+      "area": "Rust surface crossings",
+      "metric": "p95_us",
+      "value_us": 37705,
+      "evidence": "surface_call_summaries",
+      "interpretation": "Rust MeasureBatch/SubmitPatch work is measured separately from the VBA dispatch bucket."
+    },
+    {
+      "rank": 4,
+      "area": "VBA SetClipboardText",
+      "metric": "p95_us",
+      "value_us": 190,
+      "evidence": "runtime_phase_summaries.SetClipboardText",
+      "interpretation": "Clipboard text push into the reducer is isolated from the Ctrl+V dispatch."
+    },
+    {
+      "rank": 5,
+      "area": "HostServices clipboard write",
+      "metric": "p95_us",
+      "value_us": 8,
+      "evidence": "runtime_phase_summaries.HostServices.SetClipboardText",
+      "interpretation": "The headless host clipboard write is isolated from VBA work."
+    }
+  ],
+  "hypothesis_ledger": [
+    {
+      "name": "Host clipboard write dominates paste",
+      "verdict": "rejects",
+      "evidence": "host p95 8 us vs total dispatch p95 204225 us"
+    },
+    {
+      "name": "VBA SetClipboardText dominates paste",
+      "verdict": "rejects",
+      "evidence": "SetClipboardText p95 190 us vs total dispatch p95 204225 us"
+    },
+    {
+      "name": "Rust surface implementation dominates paste",
+      "verdict": "rejects",
+      "evidence": "surface p95 37705 us vs total dispatch p95 204225 us"
+    },
+    {
+      "name": "Remaining Ctrl+V dispatch/VBA render bucket dominates paste",
+      "verdict": "supports",
+      "evidence": "DispatchKey minus surface p95 177450 us vs total dispatch p95 204225 us"
+    }
+  ],
+  "scenario": {
+    "name": "paste_fragment_repeat_20",
+    "turn_count": 20,
+    "final_text_len": 80,
+    "final_text": "fragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfrag",
+    "total_dispatch_us": {
+      "count": 20,
+      "sum": 2551891,
+      "p50": 128858,
+      "p95": 204225,
+      "p99": 204225,
+      "max": 204225
+    },
+    "dispatch_key_ctrl_v_us": {
+      "count": 20,
+      "sum": 2549268,
+      "p50": 128763,
+      "p95": 204129,
+      "p99": 204129,
+      "max": 204129
+    },
+    "dispatch_key_minus_surface_us": {
+      "count": 20,
+      "sum": 1937655,
+      "p50": 94702,
+      "p95": 177450,
+      "p99": 177450,
+      "max": 177450
+    },
+    "host_set_clipboard_us": {
+      "count": 20,
+      "sum": 103,
+      "p50": 5,
+      "p95": 8,
+      "p99": 8,
+      "max": 8
+    },
+    "vba_set_clipboard_us": {
+      "count": 20,
+      "sum": 1587,
+      "p50": 68,
+      "p95": 190,
+      "p99": 190,
+      "max": 190
+    },
+    "surface_rust_us": {
+      "count": 20,
+      "sum": 611613,
+      "p50": 30032,
+      "p95": 37705,
+      "p99": 37705,
+      "max": 37705
+    },
+    "measure_batch_us": {
+      "count": 20,
+      "sum": 4567,
+      "p50": 201,
+      "p95": 553,
+      "p99": 553,
+      "max": 553
+    },
+    "submit_patch_us": {
+      "count": 20,
+      "sum": 607046,
+      "p50": 29814,
+      "p95": 37443,
+      "p99": 37443,
+      "max": 37443
+    },
+    "snapshot_us": {
+      "count": 20,
+      "sum": 1748,
+      "p50": 75,
+      "p95": 322,
+      "p99": 322,
+      "max": 322
+    },
+    "runtime_phase_summaries": [
+      {
+        "name": "DispatchKey:keydown:Ctrl+V",
+        "summary": {
+          "count": 20,
+          "sum": 2549268,
+          "p50": 128763,
+          "p95": 204129,
+          "p99": 204129,
+          "max": 204129
+        }
+      },
+      {
+        "name": "HostServices.SetClipboardText",
+        "summary": {
+          "count": 20,
+          "sum": 103,
+          "p50": 5,
+          "p95": 8,
+          "p99": 8,
+          "max": 8
+        }
+      },
+      {
+        "name": "SetClipboardText",
+        "summary": {
+          "count": 20,
+          "sum": 1587,
+          "p50": 68,
+          "p95": 190,
+          "p99": 190,
+          "max": 190
+        }
+      }
+    ],
+    "surface_call_summaries": [
+      {
+        "name": "MeasureBatch",
+        "summary": {
+          "count": 20,
+          "sum": 4567,
+          "p50": 201,
+          "p95": 553,
+          "p99": 553,
+          "max": 553
+        }
+      },
+      {
+        "name": "SubmitPatch",
+        "summary": {
+          "count": 20,
+          "sum": 607046,
+          "p50": 29814,
+          "p95": 37443,
+          "p99": 37443,
+          "max": 37443
+        }
+      }
+    ],
+    "worst_turns": [
+      {
+        "seq": 21,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 204225,
+        "dispatch_minus_surface_us": 177546,
+        "render_us": 0,
+        "snapshot_us": 64,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 50
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 204129
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 226,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 26453,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 26679
+      },
+      {
+        "seq": 19,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 194035,
+        "dispatch_minus_surface_us": 164973,
+        "render_us": 0,
+        "snapshot_us": 96,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 3
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 54
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 193936
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 247,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 28815,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 29062
+      },
+      {
+        "seq": 17,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 189065,
+        "dispatch_minus_surface_us": 152521,
+        "render_us": 0,
+        "snapshot_us": 60,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 94
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 188920
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 553,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 35991,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 36544
+      },
+      {
+        "seq": 16,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 188362,
+        "dispatch_minus_surface_us": 152688,
+        "render_us": 0,
+        "snapshot_us": 103,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 57
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 188251
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 277,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 35397,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 35674
+      },
+      {
+        "seq": 20,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 186702,
+        "dispatch_minus_surface_us": 159950,
+        "render_us": 0,
+        "snapshot_us": 69,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 81
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 186552
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 150,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 26602,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 26752
+      }
+    ],
+    "turns": [
+      {
+        "seq": 2,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 53197,
+        "dispatch_minus_surface_us": 25732,
+        "render_us": 0,
+        "snapshot_us": 73,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 52
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 53052
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 152,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 27313,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 27465
+      },
+      {
+        "seq": 3,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 84237,
+        "dispatch_minus_surface_us": 46532,
+        "render_us": 0,
+        "snapshot_us": 88,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 8
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 133
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 84042
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 262,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 37443,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 37705
+      },
+      {
+        "seq": 4,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 66969,
+        "dispatch_minus_surface_us": 39246,
+        "render_us": 0,
+        "snapshot_us": 50,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 68
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 66857
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 201,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 27522,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 27723
+      },
+      {
+        "seq": 5,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 58207,
+        "dispatch_minus_surface_us": 32174,
+        "render_us": 0,
+        "snapshot_us": 75,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 41
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 58127
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 113,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 25920,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 26033
+      },
+      {
+        "seq": 6,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 82390,
+        "dispatch_minus_surface_us": 51921,
+        "render_us": 0,
+        "snapshot_us": 80,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 190
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 82139
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 147,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 30322,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 30469
+      },
+      {
+        "seq": 7,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 85680,
+        "dispatch_minus_surface_us": 54605,
+        "render_us": 0,
+        "snapshot_us": 84,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 61
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 85571
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 190,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 30885,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 31075
+      },
+      {
+        "seq": 8,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 102697,
+        "dispatch_minus_surface_us": 65255,
+        "render_us": 0,
+        "snapshot_us": 75,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 120
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 102523
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 193,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 37249,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 37442
+      },
+      {
+        "seq": 9,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 98264,
+        "dispatch_minus_surface_us": 69201,
+        "render_us": 0,
+        "snapshot_us": 56,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 85
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 98120
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 165,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 28898,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 29063
+      },
+      {
+        "seq": 10,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 103645,
+        "dispatch_minus_surface_us": 73562,
+        "render_us": 0,
+        "snapshot_us": 89,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 49
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 103554
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 191,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 29892,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 30083
+      },
+      {
+        "seq": 11,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 128858,
+        "dispatch_minus_surface_us": 92865,
+        "render_us": 0,
+        "snapshot_us": 98,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 47
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 128763
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 272,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 35721,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 35993
+      },
+      {
+        "seq": 12,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 122234,
+        "dispatch_minus_surface_us": 94812,
+        "render_us": 0,
+        "snapshot_us": 82,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 64
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 122124
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 190,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 27232,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 27422
+      },
+      {
+        "seq": 13,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 141137,
+        "dispatch_minus_surface_us": 111173,
+        "render_us": 0,
+        "snapshot_us": 64,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 130
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 140952
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 393,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 29571,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 29964
+      },
+      {
+        "seq": 14,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 149939,
+        "dispatch_minus_surface_us": 119327,
+        "render_us": 0,
+        "snapshot_us": 322,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 32
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 149872
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 237,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 30375,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 30612
+      },
+      {
+        "seq": 15,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 153207,
+        "dispatch_minus_surface_us": 123175,
+        "render_us": 0,
+        "snapshot_us": 74,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 86
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 153080
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 218,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 29814,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 30032
+      },
+      {
+        "seq": 16,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 188362,
+        "dispatch_minus_surface_us": 152688,
+        "render_us": 0,
+        "snapshot_us": 103,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 57
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 188251
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 277,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 35397,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 35674
+      },
+      {
+        "seq": 17,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 189065,
+        "dispatch_minus_surface_us": 152521,
+        "render_us": 0,
+        "snapshot_us": 60,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 94
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 188920
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 553,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 35991,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 36544
+      },
+      {
+        "seq": 18,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 158841,
+        "dispatch_minus_surface_us": 133020,
+        "render_us": 0,
+        "snapshot_us": 46,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 93
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 158704
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 190,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 25631,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 25821
+      },
+      {
+        "seq": 19,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 194035,
+        "dispatch_minus_surface_us": 164973,
+        "render_us": 0,
+        "snapshot_us": 96,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 3
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 54
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 193936
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 247,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 28815,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 29062
+      },
+      {
+        "seq": 20,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 186702,
+        "dispatch_minus_surface_us": 159950,
+        "render_us": 0,
+        "snapshot_us": 69,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 81
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 186552
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 150,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 26602,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 26752
+      },
+      {
+        "seq": 21,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 204225,
+        "dispatch_minus_surface_us": 177546,
+        "render_us": 0,
+        "snapshot_us": 64,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 50
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 204129
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 226,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 26453,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 26679
+      }
+    ]
+  }
+}

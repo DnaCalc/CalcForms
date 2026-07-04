@@ -293,7 +293,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; later representative control beads apply native cursor hooks, control timers, richer DataObject formats, and real image decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
-| TextBox repeat/paste responsiveness | Baseline captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report` |
+| TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
 | Perf budgets | Scaffold only | Broad budget report remains future `oxforms-zhz.31` |
 
 ## Known Non-Claims

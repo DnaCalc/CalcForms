@@ -1,16 +1,24 @@
-# W009 TextBox Repeat/Paste Responsiveness Baseline
+# W009 TextBox Repeat/Paste Responsiveness
 
-Bead: `oxforms-aghp`
+Beads: `oxforms-aghp`, `oxforms-zhz.36`
 
 This directory records a host-specific baseline for TextBox repeat and repeated
 paste behavior after the visible W009 TextBox smoke proved that both the
 showcase and materialized `.frm` routes are live.
 
-Generate the JSON report with:
+Generate the baseline JSON report with:
 
 ```powershell
 $env:OXFORMS_TEXTBOX_PERF_OUT = "$PWD\docs\evidence\W009_first_class_runtime_foundation\perf\w009-textbox-repeat-paste-baseline-20260704.json"
-cargo test -p oxforms-headless-runner --test headless_textbox_perf -- --ignored --nocapture
+cargo test -p oxforms-headless-runner --test headless_textbox_perf textbox_repeat_paste_baseline_writes_json_report -- --ignored --nocapture
+```
+
+Generate the paste attribution JSON report with:
+
+```powershell
+$env:OXFORMS_PROFILE_TIMINGS = "1"
+$env:OXFORMS_TEXTBOX_ATTRIBUTION_OUT = "$PWD\docs\evidence\W009_first_class_runtime_foundation\perf\w009-textbox-paste-dispatch-attribution-20260704.json"
+cargo test -p oxforms-headless-runner --test headless_textbox_perf textbox_paste_dispatch_attribution_writes_json_report -- --ignored --nocapture
 ```
 
 The harness runs headlessly over the same `OxRuntime` + VBA `OxReducer` +
@@ -45,7 +53,41 @@ Ranked finding:
 | 3 | Surface crossing volume | Paste uses 49 total surface calls versus 89 for burst typing | Raw `MeasureBatch`/`SubmitPatch` count alone does not explain paste slowness. |
 | 4 | Repeat-key rendering | Backspace repeat rows repaint and mutate state; held character rows repaint on character turns | Correctness is present headlessly, but high p95 dispatch spikes can still make visible repeat feel uneven. |
 
-Next instrumentation should split the paste dispatch bucket into
-`SetClipboardText`, `DispatchKey`, TextBox paste mutation/event handlers,
-`UserForm.Render`, and surface measurement/submission. Do not optimize clipboard
-or rendering policy until that split is available.
+## Paste Attribution
+
+Artifact:
+`w009-textbox-paste-dispatch-attribution-20260704.json`
+
+`oxforms-zhz.36` split the repeated paste path into host clipboard, VBA
+`SetClipboardText`, inclusive `DispatchKey` Ctrl+V, Rust-side surface crossings,
+and snapshot cost. The remaining `DispatchKey minus Rust surface` bucket is
+still deliberately combined: current seams do not separate TextBox paste
+mutation, event handlers, `UserForm.Render` scene building, and VM/COM
+marshalling.
+
+| Bucket | p50 us | p95 us | Interpretation |
+|---|---:|---:|---|
+| Total paste turn dispatch | 128858 | 204225 | The repeated paste turn is still visibly large. |
+| `DispatchKey:keydown:Ctrl+V` inclusive | 128763 | 204129 | Almost all paste cost is inside the Ctrl+V reducer turn. |
+| `DispatchKey` minus Rust surface | 94702 | 177450 | Dominant remaining bucket; contains VBA paste mutation/events/render scene-building/VM marshalling. |
+| Rust surface crossings | 30032 | 37705 | Real cost, mostly `SubmitPatch`, but not the dominant source. |
+| `SubmitPatch` | 29912 | 37443 | Surface implementation cost inside repaint. |
+| `MeasureBatch` | 251 | 553 | Text measurement is not the slow paste source in this harness. |
+| VBA `SetClipboardText` | 51 | 190 | Clipboard push into the reducer is negligible. |
+| HostServices clipboard write | 3 | 8 | Headless host clipboard write is negligible. |
+| Resident Scene snapshot | 120 | 322 | Snapshot extraction remains negligible. |
+
+Hypothesis ledger:
+
+| Hypothesis | Verdict | Evidence |
+|---|---|---|
+| Host clipboard write dominates paste | Rejects | host p95 8 us vs total dispatch p95 204225 us |
+| VBA `SetClipboardText` dominates paste | Rejects | `SetClipboardText` p95 190 us vs total dispatch p95 204225 us |
+| Rust surface implementation dominates paste | Rejects | surface p95 37705 us vs total dispatch p95 204225 us |
+| Remaining Ctrl+V dispatch/VBA render bucket dominates paste | Supports | dispatch-minus-surface p95 177450 us vs total dispatch p95 204225 us |
+
+Next instrumentation should split the remaining Ctrl+V/VBA bucket into TextBox
+paste mutation/events versus `UserForm.Render` scene-building/VM marshalling
+before any optimization. Do not optimize clipboard or surface policy from these
+numbers: both have now been ruled out as the primary repeated-paste source for
+this harness.

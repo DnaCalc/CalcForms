@@ -13,7 +13,9 @@ use std::time::Instant;
 use oxforms_oxvba_adapter::host_services::{
     HostCursor, HostServices, HostTimerRequest, HostTimerSlot,
 };
-use oxforms_oxvba_adapter::runtime::{OxRuntime, RuntimeInput, RuntimeKeyKind, RuntimeMouseKind};
+use oxforms_oxvba_adapter::runtime::{
+    OxRuntime, RuntimeInput, RuntimeKeyKind, RuntimeMouseKind, RuntimePhaseTiming,
+};
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory, SurfaceSnapshot};
 use oxforms_pal::scene::StubShaper;
 use oxvba_bundle::ProjectMemberKind;
@@ -204,6 +206,24 @@ pub struct TraceRow {
     pub dispatch_us: u128,
     pub render_us: u128,
     pub snapshot_us: u128,
+    pub runtime_phase_timings: Vec<RuntimePhaseTrace>,
+    pub surface_call_timings: Vec<SurfaceCallTrace>,
+    pub surface_rust_us: u128,
+}
+
+#[derive(Clone, Debug, Default, Serialize)]
+pub struct RuntimePhaseTrace {
+    pub name: String,
+    pub elapsed_us: u128,
+}
+
+#[derive(Clone, Debug, Default, Serialize)]
+pub struct SurfaceCallTrace {
+    pub call: String,
+    pub member: String,
+    pub arg_count: usize,
+    pub elapsed_us: u128,
+    pub ok: bool,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -215,6 +235,9 @@ pub struct DispatchReport {
     pub frame_token: Option<u64>,
     pub node_count: usize,
     pub snapshot_us: u128,
+    pub runtime_phase_timings: Vec<RuntimePhaseTrace>,
+    pub surface_call_timings: Vec<SurfaceCallTrace>,
+    pub surface_rust_us: u128,
 }
 
 pub struct HeadlessRunner {
@@ -254,26 +277,35 @@ impl HeadlessRunner {
     }
 
     pub fn dispatch(&mut self, action: InputAction) -> Result<DispatchReport, String> {
+        let surface_timing_start = self.surface.call_timing_count()?;
         let dispatch_start = Instant::now();
         if let InputAction::Tick { advance_ms } = &action {
             self.clock_ms = self.clock_ms.saturating_add(*advance_ms);
         }
         let runtime_input = runtime_input_for_action(&action);
-        let (action_label, effects, service_effects, repainted_in_dispatch) = match runtime_input {
-            Some(input) => {
-                let turn = self.rt.dispatch_event_turn(input)?;
-                (
-                    turn.action,
-                    turn.effect_log,
-                    turn.host_service_effects,
-                    turn.repainted,
-                )
-            }
-            None => match action {
-                InputAction::Render => ("render".to_string(), String::new(), Vec::new(), false),
-                _ => unreachable!("runtime_input_for_action covers dispatched input"),
-            },
-        };
+        let (action_label, effects, service_effects, repainted_in_dispatch, runtime_phase_timings) =
+            match runtime_input {
+                Some(input) => {
+                    let turn = self.rt.dispatch_event_turn(input)?;
+                    (
+                        turn.action,
+                        turn.effect_log,
+                        turn.host_service_effects,
+                        turn.repainted,
+                        runtime_phase_trace(turn.phase_timings),
+                    )
+                }
+                None => match &action {
+                    InputAction::Render => (
+                        "render".to_string(),
+                        String::new(),
+                        Vec::new(),
+                        false,
+                        Vec::new(),
+                    ),
+                    _ => unreachable!("runtime_input_for_action covers dispatched input"),
+                },
+            };
         let dispatch_us = dispatch_start.elapsed().as_micros();
 
         let needs_runner_render = match self.options.repaint_policy {
@@ -303,6 +335,16 @@ impl HeadlessRunner {
         let snapshot_start = Instant::now();
         let snap = self.surface.snapshot()?;
         let snapshot_us = snapshot_start.elapsed().as_micros();
+        let surface_call_timings: Vec<SurfaceCallTrace> = snap
+            .call_timings
+            .iter()
+            .skip(surface_timing_start)
+            .map(surface_call_trace)
+            .collect();
+        let surface_rust_us = surface_call_timings
+            .iter()
+            .map(|call| call.elapsed_us)
+            .sum();
         let report = DispatchReport {
             effects: effects.clone(),
             service_effects: service_effects.clone(),
@@ -311,6 +353,9 @@ impl HeadlessRunner {
             frame_token: snap.frame_token,
             node_count: snap.node_count,
             snapshot_us,
+            runtime_phase_timings: runtime_phase_timings.clone(),
+            surface_call_timings: surface_call_timings.clone(),
+            surface_rust_us,
         };
         let accessibility_snapshot = self.try_read_accessibility_snapshot();
         self.seq += 1;
@@ -327,6 +372,9 @@ impl HeadlessRunner {
             dispatch_us,
             render_us,
             snapshot_us,
+            runtime_phase_timings,
+            surface_call_timings,
+            surface_rust_us,
         });
         Ok(report)
     }
@@ -410,6 +458,28 @@ impl HeadlessRunner {
     fn try_read_accessibility_snapshot(&mut self) -> String {
         self.invoke_string("AccessibilitySnapshot", ProjectMemberKind::PropertyGet)
             .unwrap_or_default()
+    }
+}
+
+fn runtime_phase_trace(phases: Vec<RuntimePhaseTiming>) -> Vec<RuntimePhaseTrace> {
+    phases
+        .into_iter()
+        .map(|phase| RuntimePhaseTrace {
+            name: phase.name,
+            elapsed_us: phase.elapsed_us,
+        })
+        .collect()
+}
+
+fn surface_call_trace(
+    call: &oxforms_oxvba_adapter::surface::SurfaceCallTiming,
+) -> SurfaceCallTrace {
+    SurfaceCallTrace {
+        call: call.label(),
+        member: call.member.clone(),
+        arg_count: call.arg_count,
+        elapsed_us: call.elapsed_us,
+        ok: call.ok,
     }
 }
 
