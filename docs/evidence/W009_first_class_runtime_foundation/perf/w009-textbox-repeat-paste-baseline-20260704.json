@@ -1,0 +1,381 @@
+{
+  "run_id": "w009-textbox-repeat-paste-baseline",
+  "bead": "oxforms-aghp",
+  "git_rev": "8725f85",
+  "git_status_short": "M ../../.beads/issues.jsonl\n M src/lib.rs\n M ../../docs/evidence/W009_first_class_runtime_foundation/README.md\n?? tests/headless_textbox_perf.rs\n?? ../../docs/evidence/W009_first_class_runtime_foundation/perf/",
+  "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+  "host": {
+    "os": "windows",
+    "arch": "x86_64",
+    "logical_cpus": 16
+  },
+  "notes": [
+    "Headless baseline over OxRuntime + VBA OxReducer + SurfaceFactory using RepaintPolicy::VisibleBootstrap.",
+    "dispatch_us includes the VBA reducer call and any reducer-owned repaint.",
+    "render_us is only nonzero when the runner issues an additional Render call.",
+    "snapshot_us measures resident Scene snapshot extraction after dispatch/render.",
+    "paste_fragment_repeat_20 uses RuntimeInput::PasteText with headless HostServices, not the Windows OS clipboard."
+  ],
+  "scenarios": [
+    {
+      "name": "burst_typing_40_chars",
+      "action_rows": 120,
+      "effect_rows": 120,
+      "repaint_rows": 40,
+      "service_effect_rows": 0,
+      "total_surface_calls": 89,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 44
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 44
+        }
+      ],
+      "final_text_len": 40,
+      "final_text": "visibletextboxbaselinevisibletextboxbase",
+      "dispatch_us": {
+        "count": 120,
+        "sum": 3290695,
+        "p50": 3873,
+        "p95": 97633,
+        "p99": 115111,
+        "max": 130664
+      },
+      "render_us": {
+        "count": 120,
+        "sum": 0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "max": 0
+      },
+      "snapshot_us": {
+        "count": 120,
+        "sum": 9916,
+        "p50": 67,
+        "p95": 188,
+        "p99": 294,
+        "max": 798
+      },
+      "worst_dispatch": [
+        {
+          "seq": 120,
+          "action": "char:e",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 130664,
+          "render_us": 0,
+          "snapshot_us": 98
+        },
+        {
+          "seq": 117,
+          "action": "char:s",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 115111,
+          "render_us": 0,
+          "snapshot_us": 70
+        },
+        {
+          "seq": 105,
+          "action": "char:o",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 106963,
+          "render_us": 0,
+          "snapshot_us": 71
+        },
+        {
+          "seq": 96,
+          "action": "char:x",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 99110,
+          "render_us": 0,
+          "snapshot_us": 51
+        },
+        {
+          "seq": 102,
+          "action": "char:b",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 98877,
+          "render_us": 0,
+          "snapshot_us": 88
+        }
+      ]
+    },
+    {
+      "name": "held_char_repeat_30",
+      "action_rows": 61,
+      "effect_rows": 61,
+      "repaint_rows": 30,
+      "service_effect_rows": 0,
+      "total_surface_calls": 69,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 34
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 34
+        }
+      ],
+      "final_text_len": 30,
+      "final_text": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "dispatch_us": {
+        "count": 61,
+        "sum": 2009229,
+        "p50": 6783,
+        "p95": 76915,
+        "p99": 85366,
+        "max": 85366
+      },
+      "render_us": {
+        "count": 61,
+        "sum": 0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "max": 0
+      },
+      "snapshot_us": {
+        "count": 61,
+        "sum": 3722,
+        "p50": 59,
+        "p95": 90,
+        "p99": 131,
+        "max": 131
+      },
+      "worst_dispatch": [
+        {
+          "seq": 59,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 85366,
+          "render_us": 0,
+          "snapshot_us": 116
+        },
+        {
+          "seq": 53,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 80780,
+          "render_us": 0,
+          "snapshot_us": 51
+        },
+        {
+          "seq": 61,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 79383,
+          "render_us": 0,
+          "snapshot_us": 50
+        },
+        {
+          "seq": 57,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 76915,
+          "render_us": 0,
+          "snapshot_us": 46
+        },
+        {
+          "seq": 27,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 76806,
+          "render_us": 0,
+          "snapshot_us": 52
+        }
+      ]
+    },
+    {
+      "name": "backspace_repeat_20",
+      "action_rows": 81,
+      "effect_rows": 81,
+      "repaint_rows": 40,
+      "service_effect_rows": 0,
+      "total_surface_calls": 91,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 45
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 45
+        }
+      ],
+      "final_text_len": 0,
+      "final_text": "",
+      "dispatch_us": {
+        "count": 81,
+        "sum": 2395003,
+        "p50": 4503,
+        "p95": 69098,
+        "p99": 77949,
+        "max": 77949
+      },
+      "render_us": {
+        "count": 81,
+        "sum": 28861,
+        "p50": 0,
+        "p95": 0,
+        "p99": 28861,
+        "max": 28861
+      },
+      "snapshot_us": {
+        "count": 81,
+        "sum": 5452,
+        "p50": 61,
+        "p95": 123,
+        "p99": 161,
+        "max": 161
+      },
+      "worst_dispatch": [
+        {
+          "seq": 54,
+          "action": "char:r",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 77949,
+          "render_us": 0,
+          "snapshot_us": 74
+        },
+        {
+          "seq": 62,
+          "action": "key_down:8:0",
+          "effect_log": "keydown:InputField|repaint",
+          "dispatch_us": 72369,
+          "render_us": 0,
+          "snapshot_us": 62
+        },
+        {
+          "seq": 63,
+          "action": "key_down:8:0",
+          "effect_log": "keydown:InputField|repaint",
+          "dispatch_us": 72112,
+          "render_us": 0,
+          "snapshot_us": 74
+        },
+        {
+          "seq": 45,
+          "action": "char:o",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 69706,
+          "render_us": 0,
+          "snapshot_us": 64
+        },
+        {
+          "seq": 68,
+          "action": "key_down:8:0",
+          "effect_log": "keydown:InputField|repaint",
+          "dispatch_us": 69098,
+          "render_us": 0,
+          "snapshot_us": 150
+        }
+      ]
+    },
+    {
+      "name": "paste_fragment_repeat_20",
+      "action_rows": 20,
+      "effect_rows": 20,
+      "repaint_rows": 20,
+      "service_effect_rows": 20,
+      "total_surface_calls": 49,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 24
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 24
+        }
+      ],
+      "final_text_len": 80,
+      "final_text": "fragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfrag",
+      "dispatch_us": {
+        "count": 20,
+        "sum": 2270104,
+        "p50": 116483,
+        "p95": 195100,
+        "p99": 195100,
+        "max": 195100
+      },
+      "render_us": {
+        "count": 20,
+        "sum": 0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "max": 0
+      },
+      "snapshot_us": {
+        "count": 20,
+        "sum": 1390,
+        "p50": 60,
+        "p95": 135,
+        "p99": 135,
+        "max": 135
+      },
+      "worst_dispatch": [
+        {
+          "seq": 20,
+          "action": "paste:frag",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 195100,
+          "render_us": 0,
+          "snapshot_us": 95
+        },
+        {
+          "seq": 21,
+          "action": "paste:frag",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 193714,
+          "render_us": 0,
+          "snapshot_us": 58
+        },
+        {
+          "seq": 19,
+          "action": "paste:frag",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 180725,
+          "render_us": 0,
+          "snapshot_us": 60
+        },
+        {
+          "seq": 17,
+          "action": "paste:frag",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 163429,
+          "render_us": 0,
+          "snapshot_us": 111
+        },
+        {
+          "seq": 18,
+          "action": "paste:frag",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 158136,
+          "render_us": 0,
+          "snapshot_us": 46
+        }
+      ]
+    }
+  ]
+}

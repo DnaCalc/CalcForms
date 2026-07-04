@@ -50,6 +50,7 @@ pub enum RepaintPolicy {
     AfterEachDispatch,
     #[default]
     AfterNonEmptyEffect,
+    VisibleBootstrap,
 }
 
 #[derive(Clone, Debug)]
@@ -202,6 +203,7 @@ pub struct TraceRow {
     pub node_count: usize,
     pub dispatch_us: u128,
     pub render_us: u128,
+    pub snapshot_us: u128,
 }
 
 #[derive(Clone, Debug, Default)]
@@ -212,6 +214,7 @@ pub struct DispatchReport {
     pub revision: u64,
     pub frame_token: Option<u64>,
     pub node_count: usize,
+    pub snapshot_us: u128,
 }
 
 pub struct HeadlessRunner {
@@ -279,6 +282,11 @@ impl HeadlessRunner {
             RepaintPolicy::AfterNonEmptyEffect => {
                 !repainted_in_dispatch && (!effects.is_empty() || action_label == "render")
             }
+            RepaintPolicy::VisibleBootstrap => {
+                !repainted_in_dispatch
+                    && (action_label == "render"
+                        || (!effects.is_empty() && !is_deferred_plain_text_key_action(&action)))
+            }
         };
         let rendered = repainted_in_dispatch || needs_runner_render;
 
@@ -292,7 +300,9 @@ impl HeadlessRunner {
             0
         };
 
+        let snapshot_start = Instant::now();
         let snap = self.surface.snapshot()?;
+        let snapshot_us = snapshot_start.elapsed().as_micros();
         let report = DispatchReport {
             effects: effects.clone(),
             service_effects: service_effects.clone(),
@@ -300,6 +310,7 @@ impl HeadlessRunner {
             revision: snap.revision,
             frame_token: snap.frame_token,
             node_count: snap.node_count,
+            snapshot_us,
         };
         let accessibility_snapshot = self.try_read_accessibility_snapshot();
         self.seq += 1;
@@ -315,6 +326,7 @@ impl HeadlessRunner {
             node_count: snap.node_count,
             dispatch_us,
             render_us,
+            snapshot_us,
         });
         Ok(report)
     }
@@ -471,6 +483,18 @@ fn runtime_input_for_action(action: &InputAction) -> Option<RuntimeInput> {
             advance_ms: *advance_ms,
         }),
         InputAction::Render => None,
+    }
+}
+
+fn is_deferred_plain_text_key_action(action: &InputAction) -> bool {
+    match action {
+        InputAction::KeyDown { key_code, shift } | InputAction::KeyUp { key_code, shift } => {
+            (*shift & (SHIFT_CTRL | SHIFT_ALT)) == 0
+                && (matches!(*key_code, VK_SPACE)
+                    || (48..=57).contains(key_code)
+                    || (65..=90).contains(key_code))
+        }
+        _ => false,
     }
 }
 
