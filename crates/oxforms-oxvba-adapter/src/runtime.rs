@@ -168,9 +168,25 @@ impl OxRuntime {
     }
 
     pub fn attach_with_host_services(
+        session: ProjectRuntimeSession,
+        form_class: &str,
+        build_member: &str,
+        host_services: HostServices,
+    ) -> Result<Self, String> {
+        Self::attach_with_host_services_and_args(
+            session,
+            form_class,
+            build_member,
+            Vec::new(),
+            host_services,
+        )
+    }
+
+    pub fn attach_with_host_services_and_args(
         mut session: ProjectRuntimeSession,
         form_class: &str,
         build_member: &str,
+        build_args: Vec<Variant>,
         host_services: HostServices,
     ) -> Result<Self, String> {
         let form = session
@@ -181,7 +197,7 @@ impl OxRuntime {
                 form.clone(),
                 build_member,
                 Some(ProjectMemberKind::Method),
-                Vec::new(),
+                build_args,
             )
             .map_err(|err| format!("invoke {build_member}: {}", err.message()))?;
         Ok(Self {
@@ -382,6 +398,11 @@ impl OxRuntime {
     pub fn render(&mut self) -> Result<(), String> {
         self.invoke("Render", ProjectMemberKind::Method, Vec::new())?;
         Ok(())
+    }
+
+    /// Read a string-valued property from the form-document for visible/headless diagnostics.
+    pub fn read_string(&mut self, member: &str) -> Result<String, String> {
+        self.invoke_string(member, ProjectMemberKind::PropertyGet, Vec::new())
     }
 
     /// The form-document object (for reading back control state in tests).

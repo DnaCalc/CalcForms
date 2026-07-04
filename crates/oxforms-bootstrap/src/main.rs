@@ -42,6 +42,7 @@ use oxforms_pal_win::{
 use oxvba_com::PortableComProjection;
 use oxvba_hal::model::HostPolicy;
 use oxvba_host::{Engine, HostConfig, HostProfileProvider, ProjectRuntimeSession};
+use oxvba_runtime::Variant;
 use oxvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
@@ -53,8 +54,10 @@ const FONT_ID: FontId = FontId(1);
 /// The selected VBA form-document class + its build entrypoint.
 #[derive(Clone, Copy)]
 struct DemoSpec {
+    marker_name: &'static str,
     form_class: &'static str,
     build_member: &'static str,
+    build_arg: Option<&'static str>,
     window_title: &'static str,
     window_width: f64,
     window_height: f64,
@@ -63,8 +66,10 @@ struct DemoSpec {
 }
 
 const SHOWCASE_DEMO: DemoSpec = DemoSpec {
+    marker_name: "showcase",
     form_class: "FullSurfaceShowcaseForm",
     build_member: "Build",
+    build_arg: None,
     window_title: "OxForms - full surface showcase",
     window_width: 960.0,
     window_height: 640.0,
@@ -73,9 +78,26 @@ const SHOWCASE_DEMO: DemoSpec = DemoSpec {
     escape_closes: false,
 };
 
+const MATERIALIZED_W009_DEMO: DemoSpec = DemoSpec {
+    marker_name: "materialized-w009",
+    form_class: "FrmMaterializationProbeForm",
+    build_member: "BuildFromText",
+    build_arg: Some(include_str!(
+        "../../../fixtures/frm/w009-materialization/w009-representative.frm"
+    )),
+    window_title: "OxForms - W009 materialized frm",
+    window_width: 760.0,
+    window_height: 560.0,
+    intro: "showing the W009 materialized .frm fixture through OxFrmMaterializer, OxRuntime, \
+            and the live TextBox reducer path.",
+    escape_closes: false,
+};
+
 const GREETER_DEMO: DemoSpec = DemoSpec {
+    marker_name: "greeter",
     form_class: "ReducerGreeterForm",
     build_member: "Build",
+    build_arg: None,
     window_title: "OxForms - W007 greeting (bootstrap)",
     window_width: 600.0,
     window_height: 360.0,
@@ -88,17 +110,27 @@ fn selected_demo() -> Result<DemoSpec, String> {
     let Some(arg) = std::env::args().nth(1) else {
         return Ok(SHOWCASE_DEMO);
     };
+    demo_from_arg(Some(arg.as_str()))
+}
+
+fn demo_from_arg(arg: Option<&str>) -> Result<DemoSpec, String> {
+    let Some(arg) = arg else {
+        return Ok(SHOWCASE_DEMO);
+    };
     let key = arg.trim_start_matches('-').to_ascii_lowercase();
     match key.as_str() {
         "showcase" | "full-surface" | "surface" => Ok(SHOWCASE_DEMO),
+        "materialized-w009" | "w009-materialized" | "w009-frm" | "frm" => {
+            Ok(MATERIALIZED_W009_DEMO)
+        }
         "greeter" | "w007" => Ok(GREETER_DEMO),
         "help" | "h" => Err(
-            "usage: cargo run -p oxforms-bootstrap -- [showcase|greeter]\n\
+            "usage: cargo run -p oxforms-bootstrap -- [showcase|materialized-w009|greeter]\n\
              default: showcase"
                 .to_string(),
         ),
         other => Err(format!(
-            "unknown demo {other:?}; expected showcase or greeter"
+            "unknown demo {other:?}; expected showcase, materialized-w009, or greeter"
         )),
     }
 }
@@ -155,10 +187,15 @@ fn run() -> Result<(), BootstrapError> {
 
     // 2. Attach the thin runtime, which constructs + builds the VBA form (and its OxReducer) and
     //    produces the first resident Scene revision.
-    let mut rt = OxRuntime::attach_with_host_services(
+    let build_args = demo
+        .build_arg
+        .map(|arg| vec![Variant::from_string(arg)])
+        .unwrap_or_default();
+    let mut rt = OxRuntime::attach_with_host_services_and_args(
         session,
         demo.form_class,
         demo.build_member,
+        build_args,
         HostServices::windows(oxforms_pal_win::read_clipboard_text),
     )
     .map_err(BootstrapError::Runtime)?;
@@ -166,6 +203,7 @@ fn run() -> Result<(), BootstrapError> {
     let scene = current_scene(&surface)?;
 
     println!("oxforms-bootstrap: {}", demo.intro);
+    print_visible_ready_marker(demo, &surface, &mut rt);
 
     // 3. Run the platform loop. The window owns Repaint (resident Scene snapshot -> pixels). The
     //    callback maps client pixels -> form-logical points (the uniform device-fit scale), asks
@@ -241,9 +279,12 @@ fn run() -> Result<(), BootstrapError> {
             }
             match surface_cb.snapshot() {
                 Ok(snap) => {
+                    let revision = snap.revision;
+                    let node_count = snap.node_count;
                     if let Some(next) = snap.scene {
                         *scene = next;
                     }
+                    print_visible_turn_marker(demo, &mut rt, &turn, revision, node_count);
                     WindowSignal::Redraw
                 }
                 Err(err) => {
@@ -255,9 +296,79 @@ fn run() -> Result<(), BootstrapError> {
     );
 
     if let Some(err) = cb_error.borrow_mut().take() {
+        eprintln!(
+            "OXFORMS_VISIBLE_CLOSE demo={};status=runtime_error;error={}",
+            demo.marker_name,
+            marker_escape(&err)
+        );
         return Err(BootstrapError::Runtime(err));
     }
-    window_result.map_err(|err| BootstrapError::Window(err.to_string()))
+    match window_result {
+        Ok(()) => {
+            println!(
+                "OXFORMS_VISIBLE_CLOSE demo={};status=clean",
+                demo.marker_name
+            );
+            Ok(())
+        }
+        Err(err) => {
+            eprintln!(
+                "OXFORMS_VISIBLE_CLOSE demo={};status=window_error;error={}",
+                demo.marker_name,
+                marker_escape(&err.to_string())
+            );
+            Err(BootstrapError::Window(err.to_string()))
+        }
+    }
+}
+
+fn print_visible_ready_marker(demo: DemoSpec, surface: &Arc<SurfaceFactory>, rt: &mut OxRuntime) {
+    let (revision, node_count) = match surface.snapshot() {
+        Ok(snap) => (snap.revision, snap.node_count),
+        Err(_) => (0, 0),
+    };
+    println!(
+        "OXFORMS_VISIBLE_READY demo={};window={};revision={};nodes={};textbox={}",
+        demo.marker_name,
+        marker_escape(demo.window_title),
+        revision,
+        node_count,
+        textbox_marker(rt)
+    );
+}
+
+fn print_visible_turn_marker(
+    demo: DemoSpec,
+    rt: &mut OxRuntime,
+    turn: &RuntimeEventTurn,
+    revision: u64,
+    node_count: usize,
+) {
+    println!(
+        "OXFORMS_VISIBLE_TURN demo={};action={};effects={};host={};repainted={};revision={};nodes={};textbox={}",
+        demo.marker_name,
+        marker_escape(&turn.action),
+        marker_escape(&turn.effect_log),
+        marker_escape(&turn.host_service_effects.join("|")),
+        turn.repainted,
+        revision,
+        node_count,
+        textbox_marker(rt)
+    );
+}
+
+fn textbox_marker(rt: &mut OxRuntime) -> String {
+    rt.read_string("TextBoxDiagnostics")
+        .unwrap_or_else(|err| format!("unavailable={}", marker_escape(&err)))
+        .replace('\r', "\\r")
+        .replace('\n', "\\n")
+}
+
+fn marker_escape(value: &str) -> String {
+    value
+        .replace('\r', "\\r")
+        .replace('\n', "\\n")
+        .replace('\t', "\\t")
 }
 
 /// Map a window event to the VBA reducer call. Returns `Ok(Some(effect_log))` for a dispatched
@@ -523,6 +634,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/Label.cls"),
         ),
         unit(
+            "OxTextService",
+            Class,
+            include_str!("../../../vba/oxforms/OxTextService.cls"),
+        ),
+        unit(
             "TextBox",
             Class,
             include_str!("../../../vba/oxforms/TextBox.cls"),
@@ -573,6 +689,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/OxReducer.cls"),
         ),
         unit(
+            "OxFrmMaterializer",
+            Class,
+            include_str!("../../../vba/oxforms/OxFrmMaterializer.cls"),
+        ),
+        unit(
             "ReducerGreeterForm",
             Class,
             include_str!("../../../vba/smoke/fixtures/reducer_greeter_form.cls"),
@@ -582,12 +703,19 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             Class,
             include_str!("../../../vba/smoke/fixtures/full_surface_showcase_form.cls"),
         ),
+        unit(
+            "FrmMaterializationProbeForm",
+            Class,
+            include_str!("../../../vba/smoke/fixtures/frm_materialization_probe_form.cls"),
+        ),
     ]
 }
 
 #[cfg(test)]
 mod tests {
-    use super::{is_ctrl_v, is_deferred_plain_text_key, keycode_to_vk};
+    use super::{
+        demo_from_arg, is_ctrl_v, is_deferred_plain_text_key, keycode_to_vk, marker_escape,
+    };
     use oxforms_oxvba_adapter::runtime::effect_log_contains_repaint;
     use oxforms_pal::{
         KeyCode, KeyEvent, KeyRepeat, KeyboardModifiers, RawKeyDiagnostics, UiEvent, UiEventId,
@@ -645,5 +773,24 @@ mod tests {
                 raw: RawKeyDiagnostics::default(),
             }),
         )
+    }
+
+    #[test]
+    fn demo_selector_includes_materialized_w009() {
+        let demo = demo_from_arg(Some("materialized-w009")).expect("materialized demo");
+        assert_eq!(demo.marker_name, "materialized-w009");
+        assert_eq!(demo.form_class, "FrmMaterializationProbeForm");
+        assert_eq!(demo.build_member, "BuildFromText");
+        assert!(
+            demo.build_arg
+                .expect("representative .frm text")
+                .contains("W009MaterializationForm"),
+            "materialized demo should embed the representative .frm text"
+        );
+    }
+
+    #[test]
+    fn visible_marker_escape_keeps_markers_single_line() {
+        assert_eq!(marker_escape("a\r\nb\tc"), "a\\r\\nb\\tc");
     }
 }

@@ -1102,6 +1102,7 @@ dependencies = [
  "oxvba-hal",
  "oxvba-host",
  "oxvba-oxir",
+ "oxvba-runtime",
  "oxvba-symbol",
 ]
 

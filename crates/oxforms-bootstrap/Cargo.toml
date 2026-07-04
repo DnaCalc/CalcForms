@@ -18,6 +18,7 @@ oxforms-pal-win = { path = "../oxforms-pal-win" }
 
 # OxVba host stack for loading + running the project closure (the bootstrap's job).
 oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
 oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
 oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
 oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }

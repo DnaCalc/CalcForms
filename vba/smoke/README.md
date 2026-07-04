@@ -33,6 +33,19 @@ Run it visibly:
 cargo run -p oxforms-bootstrap -- showcase
 ```
 
+The bootstrap also exposes the W009 representative `.frm` materialization path
+through the same visible runtime/TextBox reducer surface:
+
+```powershell
+cargo run -p oxforms-bootstrap -- materialized-w009
+```
+
+Both visible demos print stable marker lines to stdout:
+`OXFORMS_VISIBLE_READY`, `OXFORMS_VISIBLE_TURN`, and `OXFORMS_VISIBLE_CLOSE`.
+The markers include the demo selector, window title, surface revision/node
+counts, reducer effects, and `TextBoxDiagnostics` so an ad hoc desktop smoke can
+pair a screenshot with machine-readable TextBox state.
+
 The bootstrap launches the showcase by default; the older W007 greeter remains
 available with:
 

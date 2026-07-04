@@ -104,6 +104,12 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/OxAccessibilityService.cls",
         ),
         module_unit(
+            "OxInteractionManager",
+            ModuleKind::Class,
+            "vba/oxforms/OxInteractionManager.cls",
+        ),
+        module_unit("OxReducer", ModuleKind::Class, "vba/oxforms/OxReducer.cls"),
+        module_unit(
             "OxFrmMaterializer",
             ModuleKind::Class,
             "vba/oxforms/OxFrmMaterializer.cls",
@@ -242,6 +248,15 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         &catalog,
         "control;name=AcceptCheck;role=checkbox;value=True;left=12;top=70;width=110;height=21;enabled=True;visible=True;tabindex=3;tabstop=True;backcolor=16777215;forecolor=0",
     );
+    assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
+    assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
+    let textbox_diagnostics = read_string(&mut session, &form, "TextBoxDiagnostics");
+    assert!(
+        textbox_diagnostics.contains("text=seed;value=seed")
+            && textbox_diagnostics.contains("capabilities=kind=TextBox")
+            && textbox_diagnostics.contains("accessibility=textbox/text,value,selection"),
+        "materialized TextBox diagnostics should expose the live Value/capability/accessibility surface:\n{textbox_diagnostics}"
+    );
 
     let frx_refs = read_string(&mut session, &form, "FrxReferences");
     assert_line_contains(
@@ -284,5 +299,22 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && accessibility.contains("role=textbox;name=InputField;value=seed")
             && accessibility.contains("role=checkbox;name=AcceptCheck;value=True"),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
+    );
+
+    call(
+        &mut session,
+        form.clone(),
+        "DispatchChar",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string("!")],
+    );
+    assert_eq!(
+        read_string(&mut session, &form, "InputValue"),
+        "seed!",
+        "materialized .frm TextBox should accept reducer-driven character input"
+    );
+    assert!(
+        read_string(&mut session, &form, "TextBoxDiagnostics").contains("text=seed!;value=seed!"),
+        "updated materialized TextBox diagnostics should reflect typed input"
     );
 }
