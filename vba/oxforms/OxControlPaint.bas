@@ -15,7 +15,8 @@ Option Explicit
 Public Sub OxPaintStandardControl( _
         ByVal Core As OxControlCore, _
         ByVal Surface As OxSceneBuilder, _
-        ByVal Align As String)
+        ByVal Align As String, _
+        Optional ByVal Focused As Boolean = False)
     Surface.OpenNode Core.NodeId, True, 0, Core.ZOrder, _
         Core.Left, Core.Top, Core.Width, Core.Height, Core.Visible
 
@@ -33,6 +34,11 @@ Public Sub OxPaintStandardControl( _
         RunId = Core.RunId
         If Len(RunId) = 0 Then RunId = "0"
         OxThemePaintTextRun Core, Surface, Tx, Ty, Tw, Th, RunId, Align, False, True, False
+    End If
+
+    If Focused And Core.Enabled Then
+        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+            OxThemeFocusAdornerColor(), 255, 1
     End If
 
     Surface.CloseNode

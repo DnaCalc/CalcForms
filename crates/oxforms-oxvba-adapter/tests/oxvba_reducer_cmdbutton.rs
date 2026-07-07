@@ -566,6 +566,15 @@ fn draw_edge_effect(prims: &[Prim]) -> Option<EdgeEffect> {
     })
 }
 
+fn stroke_rect_with_color(prims: &[Prim], color: Color) -> Option<RectF> {
+    prims.iter().find_map(|prim| match prim {
+        Prim::StrokeRect { rect, stroke } if solid_color(&stroke.paint) == Some(color) => {
+            Some(*rect)
+        }
+        _ => None,
+    })
+}
+
 fn assert_rect_close(actual: RectF, expected: RectF, label: &str) {
     let close = |a: f32, b: f32| (a - b).abs() < 0.01;
     assert!(
@@ -636,6 +645,12 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
             Some(EdgeEffect::Raised),
             "pressing changes the face token, not the edge contract"
         );
+        assert_rect_close(
+            stroke_rect_with_color(&button.prims, Color::rgba(0, 0, 0, 0xff))
+                .expect("focused CommandButton should emit a focus adorner stroke"),
+            RectF::new(20.0, 20.0, 80.0, 30.0),
+            "CommandButton focus adorner",
+        );
     }
 
     // Release inside: MouseUp then Click then release, repaint.
@@ -645,12 +660,27 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
         !pressed(&mut session, &form),
         "the press releases on mouse up"
     );
-    // The release reverted the face to the idle pixels.
-    assert_eq!(
+    // The release reverts the face to idle while preserving focused-state pixels.
+    assert_ne!(
         framebuffer_hash(&surface),
-        hash_idle,
-        "releasing the press reverts the rendered face"
+        hash_pressed,
+        "releasing the press changes the rendered face"
     );
+    {
+        let snapshot = surface.snapshot().expect("surface snapshot");
+        let scene = snapshot.scene.expect("scene snapshot");
+        let button = scene.get(NodeId(1)).expect("button scene node");
+        assert!(
+            fill_rect_with_color(&button.prims, THEME_COMMAND_FACE).is_some(),
+            "release should restore the idle CommandButton face"
+        );
+        assert_rect_close(
+            stroke_rect_with_color(&button.prims, Color::rgba(0, 0, 0, 0xff))
+                .expect("focused CommandButton should keep its focus adorner after release"),
+            RectF::new(20.0, 20.0, 80.0, 30.0),
+            "CommandButton focused release adorner",
+        );
+    }
 
     // The REAL FM20 events fired, in MSForms order (MouseDown, MouseUp, Click).
     assert_eq!(
@@ -795,7 +825,7 @@ const CHK_INSIDE: (i32, i32) = (30, 30);
 
 #[test]
 fn checkbox_mouse_click_toggles_value_with_change_before_click() {
-    let (mut session, _surface) = prepare_session();
+    let (mut session, surface) = prepare_session();
     let form = build_form(&mut session, "ReducerCheckBoxForm");
 
     assert!(!value(&mut session, &form), "check box starts unchecked");
@@ -807,6 +837,15 @@ fn checkbox_mouse_click_toggles_value_with_change_before_click() {
     assert!(
         !value(&mut session, &form),
         "the value flips on click (mouse up), not on mouse down"
+    );
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let checkbox = scene.get(NodeId(1)).expect("CheckBox node");
+    assert_rect_close(
+        stroke_rect_with_color(&checkbox.prims, Color::rgba(0, 0, 0, 0xff))
+            .expect("focused CheckBox should emit a focus adorner stroke"),
+        RectF::new(20.0, 20.0, 120.0, 20.0),
+        "CheckBox focus adorner",
     );
 
     // Release inside toggles: value flips, then Change, then Click (value-before-Click).

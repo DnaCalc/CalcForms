@@ -138,6 +138,10 @@ Public Function OxThemeCaretColor() As Long
     OxThemeCaretColor = &H0
 End Function
 
+Public Function OxThemeFocusAdornerColor() As Long
+    OxThemeFocusAdornerColor = &H0
+End Function
+
 Public Sub OxThemePaintControlFrame( _
         ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder)
     Surface.FillRect Core.Left, Core.Top, Core.Width, Core.Height, _
@@ -162,4 +166,48 @@ Public Sub OxThemePaintTextRun( _
         ByVal UnderlineAccelerator As Boolean)
     Surface.DrawText X, Y, W, H, RunId, Align, Wrap, Clip, _
         OxThemeResolveText(Core), 255, UnderlineAccelerator, Not Core.Enabled
+End Sub
+
+Public Sub OxThemePaintCheckBox( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal Checked As Boolean, _
+        ByVal Focused As Boolean)
+    Const BoxSize As Single = 12
+
+    Surface.OpenNode Core.NodeId, True, 0, Core.ZOrder, _
+        Core.Left, Core.Top, Core.Width, Core.Height, Core.Visible
+
+    Dim BoxX As Single, BoxY As Single
+    BoxX = Core.Left
+    BoxY = Core.Top + (Core.Height - BoxSize) / 2
+
+    Surface.FillRect BoxX, BoxY, BoxSize, BoxSize, OxThemeResolveFace(Core), 255
+    Surface.DrawEdge BoxX, BoxY, BoxSize, BoxSize, _
+        "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    If Checked Then
+        Surface.FillRect BoxX + 3, BoxY + 3, BoxSize - 6, BoxSize - 6, _
+            OxThemeResolveText(Core), 255
+    End If
+
+    If Len(Core.DisplayText) > 0 Then
+        Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
+        Tx = Core.Left + BoxSize + 4
+        Ty = Core.Top + 3
+        Tw = Core.Width - BoxSize - 8
+        If Tw < 1 Then Tw = 1
+        Th = Core.Height - 6
+        If Th < 1 Then Th = 1
+        Dim RunId As String
+        RunId = Core.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        OxThemePaintTextRun Core, Surface, Tx, Ty, Tw, Th, RunId, "left", False, True, False
+    End If
+
+    If Focused And Core.Enabled Then
+        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+            OxThemeFocusAdornerColor(), 255, 1
+    End If
+
+    Surface.CloseNode
 End Sub

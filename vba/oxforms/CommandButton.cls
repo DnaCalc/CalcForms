@@ -28,12 +28,14 @@ Private mCore As OxControlCore
 ' the cancel (Escape activates). Set at build time; the reducer scans for them.
 Private mDefault As Boolean
 Private mCancel As Boolean
+Private mFocused As Boolean
 
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlCommandButton
     mDefault = False
     mCancel = False
+    mFocused = False
 End Sub
 
 ' --- IOxControl ---
@@ -49,7 +51,7 @@ End Property
 
 ' Raised button face + centered caption.
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxPaintStandardControl mCore, Surface, "center"
+    OxPaintStandardControl mCore, Surface, "center", mFocused
 End Sub
 
 ' --- User-facing properties ---
@@ -224,11 +226,21 @@ Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
 End Sub
 
 Private Sub IOxControl_OnEnter()
+    If Not mFocused Then
+        mFocused = True
+        mCore.MarkDirty
+    End If
     PerformEnter
 End Sub
 
 Private Function IOxControl_OnExit() As Boolean
     IOxControl_OnExit = PerformExit()
+    If Not IOxControl_OnExit Then
+        If mFocused Then
+            mFocused = False
+            mCore.MarkDirty
+        End If
+    End If
 End Function
 
 Private Function IOxControl_OnBeforeUpdate() As Boolean

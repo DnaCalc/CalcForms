@@ -28,16 +28,14 @@ Private mValue As Boolean
 ' Uncommitted-edit flag for two-stage focus-out validation: set by a user toggle, cleared on
 ' AfterUpdate (the value-committed signal). Programmatic .Value assignment does not set it.
 Private mEditDirty As Boolean
-
-' The check-box glyph: a fixed sunken square at the left, vertically centered; the caption
-' paints to its right. Points (MSForms units).
-Private Const OX_BOX_SIZE As Single = 12
+Private mFocused As Boolean
 
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlCheckBox
     mValue = False
     mEditDirty = False
+    mFocused = False
 End Sub
 
 ' --- IOxControl ---
@@ -49,41 +47,10 @@ Public Property Get Core() As OxControlCore
     Set Core = mCore
 End Property
 
-' Bespoke render: the box glyph (sunken square, filled when checked) + the caption to its
-' right. The pressed visual tints the box face (OxThemeFaceColor IsPressed).
+' Bespoke state, shared theme paint: the control owns Value/focus/event semantics;
+' OxTheme maps that state to generic Scene primitives.
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    Surface.OpenNode mCore.NodeId, True, 0, mCore.ZOrder, _
-        mCore.Left, mCore.Top, mCore.Width, mCore.Height, mCore.Visible
-
-    Dim BoxX As Single, BoxY As Single
-    BoxX = mCore.Left
-    BoxY = mCore.Top + (mCore.Height - OX_BOX_SIZE) / 2
-
-    Surface.FillRect BoxX, BoxY, OX_BOX_SIZE, OX_BOX_SIZE, OxThemeResolveFace(mCore), 255
-    Surface.DrawEdge BoxX, BoxY, OX_BOX_SIZE, OX_BOX_SIZE, _
-        "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
-    If mValue Then
-        ' Check mark approximated by a filled inner square (a deterministic primitive; a
-        ' true glyph is a later rendering refinement, not behavior).
-        Surface.FillRect BoxX + 3, BoxY + 3, OX_BOX_SIZE - 6, OX_BOX_SIZE - 6, _
-            OxThemeResolveText(mCore), 255
-    End If
-
-    If Len(mCore.DisplayText) > 0 Then
-        Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-        Tx = mCore.Left + OX_BOX_SIZE + 4
-        Ty = mCore.Top + 3
-        Tw = mCore.Width - OX_BOX_SIZE - 8
-        If Tw < 1 Then Tw = 1
-        Th = mCore.Height - 6
-        If Th < 1 Then Th = 1
-        Dim RunId As String
-        RunId = mCore.RunId
-        If Len(RunId) = 0 Then RunId = "0"
-        OxThemePaintTextRun mCore, Surface, Tx, Ty, Tw, Th, RunId, "left", False, True, False
-    End If
-
-    Surface.CloseNode
+    OxThemePaintCheckBox mCore, Surface, mValue, mFocused
 End Sub
 
 ' --- User-facing properties ---
@@ -192,11 +159,21 @@ Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
 End Sub
 
 Private Sub IOxControl_OnEnter()
+    If Not mFocused Then
+        mFocused = True
+        mCore.MarkDirty
+    End If
     PerformEnter
 End Sub
 
 Private Function IOxControl_OnExit() As Boolean
     IOxControl_OnExit = PerformExit()
+    If Not IOxControl_OnExit Then
+        If mFocused Then
+            mFocused = False
+            mCore.MarkDirty
+        End If
+    End If
 End Function
 
 Private Function IOxControl_OnBeforeUpdate() As Boolean
