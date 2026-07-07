@@ -23,9 +23,11 @@ MSForms compatibility surface.
 `fixtures/full_surface_showcase_form.cls` is the living full-surface showcase.
 It is a production-shaped VBA form-document driven by `OxRuntime`/`OxReducer`,
 not a low-level smoke bridge: it renders every currently implemented intrinsic
-control (`Label`, `TextBox`, `CommandButton`, `CheckBox`), lists the future FM20
-intrinsics as pending rows, and exposes `RunSelfTest` so the current method and
-event surface can be proven headlessly.
+control (`Label`, `TextBox`, `CommandButton`, `CheckBox`, `ListBox`, `Frame`,
+`Image`, and `SpinButton`), lists the future FM20 intrinsics as pending rows, and
+exposes `RunSelfTest` plus dashboard diagnostics so the current method,
+property, event, focus, service, accessibility, and perf surfaces can be proven
+headlessly.
 
 Run it visibly:
 

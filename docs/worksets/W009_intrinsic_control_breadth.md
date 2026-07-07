@@ -134,16 +134,16 @@ every row below.
 | `CommandButton` | simple | done | — |
 | `TextBox` | morph / data | implemented subset plus phase-0 single-line caret/selection/editing slice (`oxforms-zhz.4`), quick typing fix (`oxforms-zhz.10`), shaped caret/drag repair (`oxforms-zhz.11`), TextService/horizontal-scroll seam (`oxforms-zhz.16`), and representative `Value`/property diagnostics slice (`oxforms-zhz.24`) | remaining hardening is oracle-level: exact setter event ordering/coercion/error behavior, burst/post behavior, and pixel-level selection parity; `oxforms-zhz.34` owns multiline/IME/undo/grapheme follow-ups |
 | `CheckBox` | morph / data | implemented subset (`oxforms-ih6.2`/`.5`/`.7`; VBA class, render, mouse/keyboard toggle, native events); W009 headless runner now covers tab-to-CheckBox plus Space toggle/value-first event order | remaining phase-0 hardening: focus visibility/adorners, disabled/hidden/tab-stop mutations, cursor behavior, validation edge cases, and live oracle notes |
-| `OptionButton` | morph / data | none | full lane |
-| `ToggleButton` | morph / data | none | full lane |
-| `ComboBox` | morph / data | none | full lane (list-data + dropdown) |
-| `ListBox` | morph / data | representative single-select spike (`oxforms-zhz.26`) | remaining lane depth: multi-select, columns/bound-column, type-ahead, wheel/scroll, virtualization, and richer row accessibility |
-| `Image` | simple | representative binary/`.frx` spike (`oxforms-zhz.28`) | remaining lane depth: real decoded image pixels, full Picture object parity, exact MSForms size/alignment oracle, and full `.frx`/MS-OFORMS persistence codec |
-| `ScrollBar` | simple | none | full lane (value + auto-repeat), borrowing the `.29` repeat timer seam |
-| `SpinButton` | simple | representative timer/value spike (`oxforms-zhz.29`) | remaining lane depth: exact MSForms single-step oracle facts, native Windows timer wake-up for visible held repeat, richer keyboard/range edge behavior, and full parity rendering |
-| `Frame` | container | representative coordinate/container spike (`oxforms-zhz.27`) | remaining lane depth: exact border/caption rendering, nested focus edge-order oracle, richer clipping cases, and broad child mutation/error parity |
-| `MultiPage` (+ `Page`, `Pages`) | container | none | full lane (paged children) |
-| `TabStrip` (+ `Tab`, `Tabs`) | container | none | full lane (tab re-skin) |
+| `ToggleButton` | morph / data | pending post-foundation lane | `oxforms-zhz.39` implements the CheckBox-shaped boolean/value lane with latched pressed visual, events, materialization, accessibility, and dashboard proof |
+| `OptionButton` | morph / data | pending post-foundation lane | `oxforms-zhz.40` implements GroupName mutual exclusion, radio glyph, grouping/order facts or blockers, materialization, accessibility, and dashboard proof |
+| `ListBox` | morph / data | representative single-select spike (`oxforms-zhz.26`) | `oxforms-zhz.41` extends to multi-select, columns/bound-column where scoped, type-ahead/wheel blockers or implementation, richer row accessibility, and oracle-backed selection order |
+| `ComboBox` | morph / data | pending post-foundation lane | `oxforms-zhz.42` builds on ListBox/TextBox seams for edit value, list collection, dropdown lifecycle, `DropButtonClick`, keyboard reachability, materialization, accessibility, and dashboard proof |
+| `Image` | simple | representative binary/`.frx` spike (`oxforms-zhz.28`) | `oxforms-zhz.43` owns real decoded-pixel/Picture parity depth, size/alignment facts or blockers, `.frx` binary ownership, and dashboard proof |
+| `SpinButton` | simple | representative timer/value spike (`oxforms-zhz.29`) | `oxforms-zhz.44` owns exact range/keyboard/repeat edge behavior, native timer wake-up or blocker, materialization, accessibility, and dashboard proof |
+| `ScrollBar` | simple | pending post-foundation lane | `oxforms-zhz.45` implements value/range/page/thumb behavior, `Scroll` versus `Change`, held repeat via HostServices or blocker, materialization, accessibility, and dashboard proof |
+| `Frame` | container | representative coordinate/container spike (`oxforms-zhz.27`) | `oxforms-zhz.46` extends to exact caption/border blockers or proof, clipping edges, nested focus boundary, child mutation/reparent/index semantics, and dashboard proof |
+| `TabStrip` (+ `Tab`, `Tabs`) | container | pending post-foundation lane | `oxforms-zhz.47` implements tab collections, selected tab value, shared client-area re-skinning, `Change` order, accessibility, materialization, and dashboard proof |
+| `MultiPage` (+ `Page`, `Pages`) | container | pending post-foundation lane | `oxforms-zhz.48` implements page collections, per-page child ownership, page-switch show/hide and `Change` order, focus scopes, accessibility, materialization, and dashboard proof |
 
 Supporting objects already exist or were delivered earlier: the `Controls` collection, the current
 `IOxControl` contract, and the by-ref event-arg objects currently used by the runtime
@@ -340,8 +340,25 @@ Live phase-0 beads, created 2026-07-01:
 | `oxforms-zhz.7` | Reentrancy lifecycle hazard lane. | Handler mutation, nested reducer dispatch, focus veto, close/query-close, hide/unload, modal/nested pump blocker, and queued input keep reducer state coherent. |
 | `oxforms-zhz.8` | Perf + showcase conformance gate. | Runner emits perf reports (`oxforms-zhz.31`) and the full-surface showcase acts as a conformance dashboard for supported surface, known gaps, perf follow-ups, and deterministic self-tests (`oxforms-zhz.32`). |
 
-The older broad-control plan below remains the roadmap after phase 0. Its suffixes are historical
-placeholders until the phase-0 gate rewrites/splits the broad lanes with live bead IDs.
+`oxforms-zhz.33` rewrote the broad-control plan into live post-foundation beads. These are the
+execution lanes after the phase-0 ideal architecture gate:
+
+| Bead | Purpose | Depends on | Acceptance summary |
+|---|---|---|---|
+| `oxforms-zhz.39` | ToggleButton intrinsic lane on ideal architecture. | `.33`, `oxforms-bqr` | `Forms.ToggleButton.1` follows the VBA-owned boolean/value pattern with latched pressed visual, methods/properties/events, materialization, accessibility, showcase dashboard update, native-dispatch fixture, and oracle-backed or blocked ordering. |
+| `oxforms-zhz.40` | OptionButton intrinsic lane with grouping. | `.39` | `Forms.OptionButton.1` implements `Value`/`GroupName`, mutual exclusion, radio glyph rendering, focus/keyboard/group behavior, materialization, accessibility, dashboard update, and oracle-backed or blocked order facts. |
+| `oxforms-zhz.41` | ListBox full selection and columns lane. | `.40` | Existing ListBox spike grows to multi-select, richer selection/navigation, column/bound-column depth where scoped, type-ahead/wheel blockers or implementation, row accessibility, dashboard update, and oracle-backed or blocked selection events. |
+| `oxforms-zhz.42` | ComboBox intrinsic lane with dropdown. | `.41` | `Forms.ComboBox.1` uses the ListBox/TextBox seams for edit value, list collection, dropdown open/close, `DropButtonClick`, selection `Change`, keyboard blockers or implementation, materialization, accessibility, and dashboard update. |
+| `oxforms-zhz.43` | Image full Picture and decoded-pixel lane. | `.42` | Representative Image grows into decoded-pixel/Picture depth or precise blockers, exact size/alignment facts or blockers, `.frx` binary ownership, accessibility, and dashboard update while preserving `DrawImage` Scene determinism. |
+| `oxforms-zhz.44` | SpinButton full range and repeat lane. | `.43` | Representative SpinButton covers exact range/keyboard/repeat behavior, native timer wake-up or blocker, materialization, accessibility, and dashboard update through HostServices timer turns. |
+| `oxforms-zhz.45` | ScrollBar intrinsic lane. | `.44` | `Forms.ScrollBar.1` implements range/value, thumb/page regions, `Scroll` versus `Change`, held repeat or blocker, materialization, accessibility, and dashboard update. |
+| `oxforms-zhz.46` | Frame full container parity lane. | `.45` | Representative Frame covers border/caption facts or blockers, clipping edges, nested focus boundary, child mutation/reparent/index behavior, accessibility, and dashboard update. |
+| `oxforms-zhz.47` | TabStrip intrinsic lane. | `.46` | `Forms.TabStrip.1`, `Tabs`, and `Tab` expose collection/selection behavior, shared-area re-skinning, `Change` order, accessibility, materialization, and dashboard update. |
+| `oxforms-zhz.48` | MultiPage/Page intrinsic lane. | `.47` | `Forms.MultiPage.1`, `Pages`, and `Page` expose per-page child ownership, page switching, focus scopes, accessibility, materialization, and dashboard update. |
+| `oxforms-zhz.49` | Intrinsic completeness and fact-pack closure. | `.39`-`.48` | Cross-control FM20/MS-OFORMS fact-pack and dashboard reconciliation; every intrinsic ProgID has an implemented lane or precise blocker; full floor/evidence checks pass before W009 close. |
+
+The older broad-control suffix plan below is retained as historical planning context only. Its
+generic `.5`-`.19` rows are superseded by the live bead IDs above.
 
 | Phase | Bead | Purpose | Depends on | Acceptance summary |
 |---|---|---|---|---|

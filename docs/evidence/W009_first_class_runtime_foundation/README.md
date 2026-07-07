@@ -9,6 +9,7 @@ Geometry/drag slice: `oxforms-zhz.11`
 CheckBox hardening slice: `oxforms-zhz.5`
 Control-stack gate: `oxforms-zhz.12`
 Ideal architecture rework graph: `oxforms-zhz.13` through `oxforms-zhz.33`
+Post-foundation control graph: `oxforms-zhz.39` through `oxforms-zhz.49`
 Canonical event-turn contract: `oxforms-zhz.14`
 HostServices spine: `oxforms-zhz.15`
 Renderer primitive determinism: `oxforms-zhz.17`
@@ -314,6 +315,17 @@ contract:
   `GetCursorPos failed: Access is denied. (0x80070005)`, so `.32` records this as the precise
   visible-inspection blocker rather than claiming a screenshot smoke.
 
+`oxforms-zhz.33` completes the final ideal-architecture review and broad-lane rewrite:
+
+- `final-architecture-review.md` records the canonical path audit, scaffold classification, and
+  remaining blockers;
+- the review confirms the live runtime has one control path through `OxRuntime`, the VBA reducer,
+  concrete `IOxControl` objects, `OxForms.Surface`, and retained Scene snapshots;
+- the old suffix broad-control rows are historical planning context only; live implementation
+  beads are now `oxforms-zhz.39` through `oxforms-zhz.49`;
+- scaled hit-test settlement (`oxforms-bqr`) blocks the broad implementation lanes because `.31`
+  ranked it as the top phase-0 performance follow-up.
+
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
 - `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms
@@ -373,6 +385,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | SpinButton timer/repeat spike | Passing representative headless seam | `vba/oxforms/SpinButton.cls`; showcase `RepeatSpin`/`SpinButtonDiagnostics`; `OxRuntime::dispatch_event_turn` auto-repeat timer dispatch; `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer`; `oxvba_full_surface_showcase::showcase_selftest_drives_current_methods_and_events` |
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
+| Final architecture review and broad-lane rewrite | Passing doc/graph gate | `final-architecture-review.md`; `docs/worksets/W009_intrinsic_control_breadth.md`; live beads `oxforms-zhz.39` through `.49`; `br dep cycles` |
 | Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, and `SpinButtonDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
