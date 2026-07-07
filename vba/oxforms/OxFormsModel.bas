@@ -19,6 +19,7 @@ Public Enum OxControlKind
     oxControlCheckBox = 3
     oxControlListBox = 4
     oxControlFrame = 5
+    oxControlImage = 6
 End Enum
 
 ' MSForms 3D appearance, values from [MS-OFORMS] fmSpecialEffect (see spec s5.6).
@@ -73,7 +74,7 @@ Private gOxProfileSurface As Object
 
 ' Map a Forms 2.0 control ProgID ("Forms.Label.1") to the internal kind. Unknown -> -1.
 ' Case-insensitive, like real MSForms Controls.Add. The currently implemented intrinsic
-' subset is Label, TextBox, CommandButton, CheckBox, and ListBox.
+' subset is Label, TextBox, CommandButton, CheckBox, ListBox, Frame, and Image.
 Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
     Select Case LCase$(ProgId)
         Case "forms.label.1"
@@ -88,6 +89,8 @@ Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
             OxKindFromProgId = oxControlListBox
         Case "forms.frame.1"
             OxKindFromProgId = oxControlFrame
+        Case "forms.image.1"
+            OxKindFromProgId = oxControlImage
         Case Else
             OxKindFromProgId = -1
     End Select
@@ -111,6 +114,8 @@ Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As
             Set Control = New ListBox
         Case oxControlFrame
             Set Control = New Frame
+        Case oxControlImage
+            Set Control = New Image
     End Select
 
     If Not Control Is Nothing Then

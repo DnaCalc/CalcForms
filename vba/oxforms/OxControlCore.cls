@@ -139,6 +139,11 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mFocusable = False
             mTabStop = False
             mSpecialEffect = fmSpecialEffectFlat
+        Case oxControlImage
+            mFocusable = False
+            mTabStop = False
+            mSupportsClick = True
+            mSpecialEffect = fmSpecialEffectFlat
         Case Else
             mFocusable = True
             mTabStop = True
@@ -372,6 +377,8 @@ Private Function KindName() As String
             KindName = "ListBox"
         Case oxControlFrame
             KindName = "Frame"
+        Case oxControlImage
+            KindName = "Image"
         Case Else
             KindName = "Unknown"
     End Select

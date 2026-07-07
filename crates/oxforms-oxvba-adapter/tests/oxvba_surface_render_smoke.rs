@@ -114,6 +114,7 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
             module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
             module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
             module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
+            module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
             module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
             module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
             module_unit(

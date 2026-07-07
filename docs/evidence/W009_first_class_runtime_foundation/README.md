@@ -19,6 +19,7 @@ Object-model side-effect seam: `oxforms-zhz.20`
 AccessibilityService seam: `oxforms-zhz.21`
 Form materialization seam: `oxforms-zhz.22`
 Oracle matrix refresh: `oxforms-zhz.23`
+Image/FRX representative seam: `oxforms-zhz.28`
 
 This directory accumulates evidence for the phase-0 hazard gym that must pass before
 broad W009 control breadth resumes. The first committed slice creates the reusable
@@ -230,11 +231,24 @@ contract:
 - the representative fixture covers form caption/client size; `Label`, `TextBox`, `CommandButton`,
   and `CheckBox` controls; twip-to-point geometry; captions/text/value; tab order; colors; border
   style; enabled/visible state; and default/cancel flags;
-- the unsupported `MSForms.Image` block is recorded as image metadata with its `.frx` `Picture`
-  reference, so the Image lane can consume real binary indirection without faking Image support in
-  this bead;
+- the initial unsupported `MSForms.Image` block was recorded as image metadata with its `.frx`
+  `Picture` reference, so the Image lane could consume real binary indirection without reviving a
+  Rust-side form projection;
 - `frm_materialization_probe_form` proves the materialized form renders through
   `UserForm.Render`/`OxForms.Surface` and projects accessibility rows from the live controls.
+
+`oxforms-zhz.28` consumes that image lane through the same live object-model path:
+
+- `Forms.Image.1` now creates a non-focusable click-capable `Image` control with `Picture`,
+  `PictureOffset`, `PictureSha256`, `PictureHandle`, `PictureSizeMode`, and `ImageDiagnostics`;
+- `OxFrmMaterializer` now materializes the W009 fixture's `MSForms.Image` block into that live
+  control, preserving the `.frx` path/offset and assigning a deterministic opaque handle;
+- the materialized form and full-surface showcase both emit `DrawImage` Scene primitives, and the
+  headless/visible renderers paint deterministic image placeholders so the primitive cannot be
+  silently dropped;
+- HostServices image-decode turns prove the handle-trace shape for representative bytes. Real
+  decoded image pixels, exact MSForms size/alignment oracle behavior, and full Picture object
+  parity remain explicit non-claims.
 
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
@@ -274,6 +288,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` |
 | `.frm/.frx` materialization | Passing selected-slice seam | `vba/oxforms/OxFrmMaterializer.cls`; `fixtures/frm/w009-materialization/w009-representative.frm`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
+| Image/FRX representative spike | Passing representative seam | `vba/oxforms/Image.cls`; materialized `LogoImage`; showcase `ImageDiagnostics`; `DrawImage` Scene assertions in `oxvba_frm_materialization` and `oxvba_full_surface_showcase`; HostServices decode traces |
 | Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, `InteractionStateSummary`, and `AccessibilitySnapshot` through `OxRuntime`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` reads `TextBoxDiagnostics` |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
@@ -293,7 +308,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Frame/container coordinate spike | Passing representative seam | `vba/oxforms/Frame.cls`; `IOxControlContainer`; recursive `OxInteractionManager` and `OxAccessibilityService` traversal; `reducer_frame_form.cls`; `oxvba_reducer_cmdbutton::frame_owns_nested_controls_and_renders_a_parented_scene_subtree`; `frame_routes_hit_testing_tab_focus_and_accessibility_recursively`; showcase `FrameDiagnostics` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
-| Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; later representative control beads apply native cursor hooks, control timers, richer DataObject formats, and real image decode |
+| Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; later depth applies native cursor hooks, control timers, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
 | Perf budgets | Scaffold only | Broad budget report remains future `oxforms-zhz.31` |
@@ -310,9 +325,10 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   not yet claim native cursor application, control-driven timer behavior, rich
   DataObject format parity, real image decode, full `.frm/.frx` persistence, or
   modal/nested pump semantics.
-- The `.frm/.frx` path is a selected-slice materializer for current controls and representative
-  image-reference metadata. It is not a full MS-OFORMS codec, broad MorphData parser, save/roundtrip
-  implementation, designer loader, or real Image control decode.
+- The `.frm/.frx` path is a selected-slice materializer for current controls and a representative
+  Image `.frx` reference-to-handle-to-Scene path. It is not a full MS-OFORMS codec, broad MorphData
+  parser, save/roundtrip implementation, designer loader, full Picture object model, or real image
+  pixel decode.
 - `DrawImage` now participates in deterministic headless and visible placeholder
   rendering so it cannot be silently dropped from hashes, but decoded image
   pixels and exact MSForms image/text pixel parity remain later claims.

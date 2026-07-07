@@ -16,6 +16,7 @@ Private WithEvents mGo As CommandButton
 Private WithEvents mCheck As CheckBox
 Private WithEvents mChoices As ListBox
 Private mFrame As Frame
+Private WithEvents mLogo As Image
 Private mStatus As Label
 Private mPending1 As Label
 Private mPending2 As Label
@@ -133,6 +134,14 @@ Public Sub Build()
     FrameLabel.Width = 120
     FrameLabel.Height = 18
 
+    Set mLogo = mForm.Controls.Add("Forms.Image.1", "LogoImage")
+    mLogo.Left = 452
+    mLogo.Top = 164
+    mLogo.Width = 64
+    mLogo.Height = 58
+    mLogo.Core.BorderStyle = fmBorderStyleSingle
+    mLogo.SetPictureReference "showcase-inline", 0, "showcase-demo-bytes", "4242"
+
     Set mStatus = mForm.Controls.Add("Forms.Label.1", "StatusLabel")
     mStatus.Caption = "Ready. Run RunSelfTest, or interact with the controls."
     mStatus.Left = 16
@@ -151,7 +160,7 @@ Public Sub Build()
     mPending1.Height = 18
 
     Set mPending2 = mForm.Controls.Add("Forms.Label.1", "PendingSimpleLabel")
-    mPending2.Caption = "Pending simple controls: Image, ScrollBar, SpinButton"
+    mPending2.Caption = "Pending simple controls: ScrollBar, SpinButton"
     mPending2.Left = 16
     mPending2.Top = 300
     mPending2.Width = 600
@@ -278,6 +287,10 @@ Public Property Get FrameDiagnostics() As String
     FrameDiagnostics = mFrame.Diagnostics
 End Property
 
+Public Property Get ImageDiagnostics() As String
+    ImageDiagnostics = mLogo.Diagnostics
+End Property
+
 Public Property Get InteractionIndexBuildCount() As Long
     InteractionIndexBuildCount = mReducer.InteractionIndexBuildCount
 End Property
@@ -299,7 +312,8 @@ Public Property Get CapabilityCatalog() As String
         "GoButton:" & mGo.Core.CapabilityDescriptor & vbLf & _
         "CheckBox:" & mCheck.Core.CapabilityDescriptor & vbLf & _
         "ChoicesList:" & mChoices.Core.CapabilityDescriptor & vbLf & _
-        "FrameGroup:" & mFrame.Core.CapabilityDescriptor
+        "FrameGroup:" & mFrame.Core.CapabilityDescriptor & vbLf & _
+        "LogoImage:" & mLogo.Core.CapabilityDescriptor
 End Property
 
 Public Sub ClearLog()
@@ -318,7 +332,8 @@ Public Function SurfaceCatalog() As String
         "LIVE CheckBox: Caption, Value, geometry, Visible, Enabled; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
         "LIVE ListBox: AddItem, List(index), ListCount, ListIndex, Value, geometry, Visible, Enabled, ListBoxDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate; single-select rows" & vbLf & _
         "LIVE Frame: Caption, Controls.Add, child ownership, nested coordinates, clipped child Scene subtree, FrameDiagnostics" & vbLf & _
-        "PENDING OptionButton, ToggleButton, ComboBox, Image, ScrollBar, SpinButton, TabStrip, MultiPage/Page"
+        "LIVE Image: Picture, PictureHandle, PictureSizeMode, geometry, Visible, Enabled, ImageDiagnostics; DrawImage placeholder render; MouseDown, MouseUp, Click" & vbLf & _
+        "PENDING OptionButton, ToggleButton, ComboBox, ScrollBar, SpinButton, TabStrip, MultiPage/Page"
 End Function
 
 Public Function RunSelfTest() As String
@@ -334,6 +349,7 @@ Public Function RunSelfTest() As String
     PerformActivate
 
     DriveMouse 20, 16        ' Title Label: MouseDown/MouseUp/Click.
+    DriveMouse 462, 184      ' Image: click-only, non-focusable DrawImage lane.
     DriveMouse 40, 98        ' TextBox: Enter/MouseDown/MouseUp.
     DriveKey OX_KEY_A, 0, "a"
 
@@ -566,6 +582,17 @@ Private Sub mChoices_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Intege
 End Sub
 Private Sub mChoices_KeyPress(ByVal KeyAscii As ReturnInteger)
     Append "ListBox.KeyPress:" & CStr(KeyAscii.Value)
+End Sub
+
+' --- Event sinks: Image ---
+Private Sub mLogo_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "Image.MouseDown"
+End Sub
+Private Sub mLogo_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "Image.MouseUp"
+End Sub
+Private Sub mLogo_Click()
+    Append "Image.Click"
 End Sub
 
 ' --- Form event handlers exposed through Perform* ---

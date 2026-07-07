@@ -7,8 +7,9 @@
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
+use oxforms_oxvba_adapter::host_services::HostServices;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::StubShaper;
+use oxforms_pal::scene::{render_headless_report, ImageHandle, Prim, StubShaper};
 
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_com::PortableComProjection;
@@ -93,6 +94,7 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
+        module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -218,14 +220,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        5,
-        "Image is intentionally recorded as .frx metadata until the Image lane lands"
+        6,
+        "Image now materializes as a live VBA control"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=5"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=6"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -255,6 +257,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         &catalog,
         "control;name=AcceptCheck;role=checkbox;value=True;left=12;top=70;width=110;height=21;enabled=True;visible=True;tabindex=3;tabstop=True;backcolor=16777215;forecolor=0",
     );
+    assert_line_contains(
+        &catalog,
+        "control;name=LogoImage;role=image;value=w009-representative.frx;left=160;top=122;width=32;height=24;enabled=True;visible=True;tabindex=0;tabstop=False",
+    );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
     assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
     let textbox_diagnostics = read_string(&mut session, &form, "TextBoxDiagnostics");
@@ -271,11 +277,23 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         "control=LogoImage;property=Picture;path=w009-representative.frx;offset=0",
     );
     let unsupported = read_string(&mut session, &form, "UnsupportedControls");
-    assert_line_contains(&unsupported, "control=LogoImage;type=MSForms.Image");
+    assert!(
+        unsupported.is_empty(),
+        "Image should no longer materialize through the unsupported-control path: {unsupported}"
+    );
     let image_metadata = read_string(&mut session, &form, "ImageMetadata");
     assert_line_contains(
         &image_metadata,
-        "image;name=LogoImage;left=160;top=122;width=32;height=24;picture_path=w009-representative.frx;picture_offset=0",
+        "image;name=LogoImage;left=160;top=122;width=32;height=24;picture_path=w009-representative.frx;picture_offset=0;handle=9006",
+    );
+    let image_diagnostics = read_string(&mut session, &form, "ImageDiagnostics");
+    assert!(
+        image_diagnostics.contains("picture=w009-representative.frx;offset=0")
+            && image_diagnostics.contains(";handle=9006;")
+            && image_diagnostics.contains("draw_mode=stretch")
+            && image_diagnostics.contains("capabilities=kind=Image")
+            && image_diagnostics.contains(";focusable=False;tabstop=False;click=True"),
+        "Image diagnostics should expose the live picture handle and capability shape:\n{image_diagnostics}"
     );
 
     let frx = std::fs::read(
@@ -285,6 +303,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     assert!(
         frx.starts_with(b"OXFORMS-W009-FRX-STUB"),
         ".frx fixture should carry non-empty representative binary bytes"
+    );
+    let bytes_label = format!("fixture-len-{}", frx.len());
+    let decode_effects = HostServices::headless().decode_image("LogoImage", &bytes_label);
+    assert!(
+        decode_effects
+            .iter()
+            .any(|effect| effect.contains("image.decode:LogoImage:sha256=fixture-len-")),
+        "representative .frx bytes should drive the HostServices decode-handle trace: {decode_effects:?}"
     );
 
     call(
@@ -296,15 +322,34 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 8,
-        "root plus five materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 9,
+        "root plus six materialized controls plus TextBox text/selection nodes should be resident"
+    );
+    let scene = snap.scene.as_ref().expect("resident scene");
+    assert!(
+        scene.nodes.iter().flat_map(|node| &node.prims).any(|prim| {
+            matches!(
+                prim,
+                Prim::DrawImage {
+                    image: ImageHandle(9006),
+                    ..
+                }
+            )
+        }),
+        "materialized Image should emit a DrawImage primitive with the opaque handle"
+    );
+    let report = render_headless_report(scene);
+    assert!(
+        report.command_count > 0 && report.framebuffer_hash != 0,
+        "headless renderer should produce deterministic output for the Image placeholder"
     );
 
     let accessibility = read_string(&mut session, &form, "AccessibilitySnapshot");
     assert!(
         accessibility.contains("role=form;name=W009MaterializationForm")
             && accessibility.contains("role=textbox;name=InputField;value=seed")
-            && accessibility.contains("role=checkbox;name=AcceptCheck;value=True"),
+            && accessibility.contains("role=checkbox;name=AcceptCheck;value=True")
+            && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx"),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );
 

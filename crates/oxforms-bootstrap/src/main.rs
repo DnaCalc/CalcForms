@@ -669,6 +669,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/Frame.cls"),
         ),
         unit(
+            "Image",
+            Class,
+            include_str!("../../../vba/oxforms/Image.cls"),
+        ),
+        unit(
             "UserForm",
             Class,
             include_str!("../../../vba/oxforms/UserForm.cls"),

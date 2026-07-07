@@ -137,14 +137,7 @@ End Sub
 Private Sub ParseEnd()
     If mInControl Then
         If LCase$(mCurrentType) = "msforms.image" Then
-            AppendLine mImageMetadata, _
-                "image;name=" & mCurrentName & _
-                ";left=" & CStr(mImageLeft) & _
-                ";top=" & CStr(mImageTop) & _
-                ";width=" & CStr(mImageWidth) & _
-                ";height=" & CStr(mImageHeight) & _
-                ";picture_path=" & mImagePicturePath & _
-                ";picture_offset=" & CStr(mImagePictureOffset)
+            AppendLine mImageMetadata, ImageMetadataRow()
         End If
         Set mCurrent = Nothing
         mCurrentType = ""
@@ -227,6 +220,9 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
             ApplyValue Raw
         Case "picture", "mouseicon"
             RecordFrxReference mCurrentName, Key, Raw
+            ApplyImagePicture Key, Raw
+        Case "picturesizemode"
+            ApplyImageSizeMode CLng(Raw)
     End Select
 End Sub
 
@@ -309,7 +305,58 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.CommandButton.1"
         Case "msforms.checkbox"
             ProgIdForType = "Forms.CheckBox.1"
+        Case "msforms.image"
+            ProgIdForType = "Forms.Image.1"
     End Select
+End Function
+
+Private Sub ApplyImagePicture(ByVal Key As String, ByVal Raw As String)
+    If LCase$(mCurrentType) <> "msforms.image" Then Exit Sub
+    If LCase$(Key) <> "picture" Then Exit Sub
+
+    Dim Img As Image
+    Set Img = mCurrent
+    mImagePicturePath = FrxPath(Raw)
+    mImagePictureOffset = FrxOffset(Raw)
+    Img.SetPictureReference _
+        mImagePicturePath, _
+        mImagePictureOffset, _
+        "", _
+        CStr(9000 + Img.Core.NodeId)
+End Sub
+
+Private Sub ApplyImageSizeMode(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.image" Then Exit Sub
+    Dim Img As Image
+    Set Img = mCurrent
+    Img.PictureSizeMode = Value
+End Sub
+
+Private Function ImageMetadataRow() As String
+    If Not mCurrent Is Nothing Then
+        Dim Img As Image
+        Set Img = mCurrent
+        ImageMetadataRow = _
+            "image;name=" & Img.Core.Name & _
+            ";left=" & CStr(Img.Core.Left) & _
+            ";top=" & CStr(Img.Core.Top) & _
+            ";width=" & CStr(Img.Core.Width) & _
+            ";height=" & CStr(Img.Core.Height) & _
+            ";picture_path=" & Img.Picture & _
+            ";picture_offset=" & CStr(Img.PictureOffset) & _
+            ";handle=" & Img.PictureHandle
+        Exit Function
+    End If
+
+    ImageMetadataRow = _
+        "image;name=" & mCurrentName & _
+        ";left=" & CStr(mImageLeft) & _
+        ";top=" & CStr(mImageTop) & _
+        ";width=" & CStr(mImageWidth) & _
+        ";height=" & CStr(mImageHeight) & _
+        ";picture_path=" & mImagePicturePath & _
+        ";picture_offset=" & CStr(mImagePictureOffset) & _
+        ";handle="
 End Function
 
 Private Function TwipsToPoints(ByVal Raw As String) As Single

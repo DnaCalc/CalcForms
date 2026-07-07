@@ -28,6 +28,8 @@ Public Function OxThemeFaceColor( _
             OxThemeFaceColor = &HFFFFFF
         Case oxControlListBox
             OxThemeFaceColor = &HFFFFFF
+        Case oxControlImage
+            OxThemeFaceColor = &HFFFFFF
         Case oxControlCommandButton
             If IsPressed Then
                 OxThemeFaceColor = &HB8C7DD

@@ -107,13 +107,13 @@ these detailed beads where applicable.
 | `oxforms-zhz.19` | Rebuild `InteractionManager` for focus, tab, capture, hover/cursor, validation, mutation, wheel/double-click, and invalidation. | Depends on `.14`; landed `OxInteractionManager` as the state owner behind the stable `OxReducer` facade, with representative focus/capture/hover/cursor/tab/default/cancel/accelerator/mutation coverage. |
 | `oxforms-zhz.20` | Unify capability descriptors and object-model property side effects. | Depends on `.14`; landed flat `Controls.Remove`, live-name lookup, structural Scene rebuilds after add/remove, capability-driven toggle policy, and stale focus/capture/hover clearing for hide/disable/remove. |
 | `oxforms-zhz.21` | Add representative `AccessibilityService` snapshots/traces. | Depends on `.19` and `.20`; landed `IOxControl` accessibility projection members, `OxAccessibilityService`, showcase `AccessibilitySnapshot`, and headless trace rows that prove value/focus/selection changes. Windows UIA/MSAA provider wiring is tracked by `oxforms-zhz.35`. |
-| `oxforms-zhz.22` | Implement representative `.frm/.frx` materialization directly into the VBA object model. | Depends on `.15`, `.17`, and `.20`; landed selected-slice `OxFrmMaterializer` that builds live `UserForm.Controls.Add` controls for Label/TextBox/CommandButton/CheckBox and records Image `.frx` metadata without reviving the Rust projection. |
+| `oxforms-zhz.22` | Implement representative `.frm/.frx` materialization directly into the VBA object model. | Depends on `.15`, `.17`, and `.20`; landed selected-slice `OxFrmMaterializer` that builds live `UserForm.Controls.Add` controls for Label/TextBox/CommandButton/CheckBox and initially recorded Image `.frx` metadata without reviving the Rust projection. `oxforms-zhz.28` consumes that metadata path into a live Image control. |
 | `oxforms-zhz.23` | Refresh the W009 oracle matrix around the ideal seams and representative controls. | Depends on `.13`; refreshed `oracle-foundation-matrix.md` to split MSForms oracle facts, local OxForms proofs, per-representative-bead consumption rules, and blockers before `.24`/later control claims. |
 | `oxforms-zhz.24` | Rebuild TextBox as the first representative complex control on all ideal seams. | Depends on `.15`-`.21` and `.23`; landed `Value` alias/materialization, local property/selection setter diagnostics, and showcase `TextBoxDiagnostics` over the existing single-line TextService, interaction, host-service, theme, render, object-model, and accessibility seams. |
 | `oxforms-zhz.25` | Rebuild CheckBox as the representative boolean/value control on ideal seams. | Depends on `.15`, `.17`-`.21`, and `.23`; landed CheckBox-owned `Value`/focus/event/dirty state, ThemePainter glyph/focus rendering, and reducer Scene assertions. |
 | `oxforms-zhz.26` | Implement a representative ListBox/list-data spike. | Depends on `.15`-`.21` and `.23`; landed a single-select ListBox with VBA-owned `AddItem`/`List`/`ListCount`/`ListIndex`/`Value`, reducer click/keyboard/focus validation, Scene selection rendering, accessibility row counts, and showcase diagnostics. Multi-select, columns, type-ahead, wheel/scroll, and virtualization remain explicit follow-up depth. |
 | `oxforms-zhz.27` | Implement a representative Frame/container coordinate spike. | Depends on `.15`, `.17`-`.21`, and `.23`; landed `Frame` as a control/container owner with nested `Controls.Add`, relative child coordinates, recursive hit-test/tab/accessibility traversal, parented Scene nodes, child invalidation bubbling, and showcase `FrameDiagnostics`. Full MultiPage/TabStrip and exact MSForms container edge ordering remain later claims. |
-| `oxforms-zhz.28` | Implement a representative Image binary/`.frx` spike. | Depends on `.15`, `.17`-`.23`; roll-up `oxforms-zhz.6` depends on this. |
+| `oxforms-zhz.28` | Implement a representative Image binary/`.frx` spike. | Depends on `.15`, `.17`-`.23`; landed `Image` as a non-focusable click-capable live control with `Picture`/`PictureHandle`/`PictureSizeMode` diagnostics, `.frm` Image materialization, `DrawImage` Scene output, HostServices decode-handle evidence for fixture bytes, and headless/visible placeholder rendering. Real decoded pixels and full Picture object parity remain later claims. |
 | `oxforms-zhz.29` | Implement a representative SpinButton/ScrollBar timer-repeat spike. | Depends on `.15`, `.17`-`.21`, and `.23`; roll-up `oxforms-zhz.6` depends on this. |
 | `oxforms-zhz.30` | Prove reentrancy, modal/lifecycle, handler mutation, queued input, and repaint coherence. | Depends on `.15`, `.17`-`.23`; roll-up `oxforms-zhz.7` depends on this. |
 | `oxforms-zhz.31` | Emit performance reports and budget bands for the ideal architecture. | Depends on representative controls/spikes `.24`-`.30`; roll-up `oxforms-zhz.8` depends on this. |
@@ -137,7 +137,7 @@ every row below.
 | `ToggleButton` | morph / data | none | full lane |
 | `ComboBox` | morph / data | none | full lane (list-data + dropdown) |
 | `ListBox` | morph / data | representative single-select spike (`oxforms-zhz.26`) | remaining lane depth: multi-select, columns/bound-column, type-ahead, wheel/scroll, virtualization, and richer row accessibility |
-| `Image` | simple | none | full lane (image decode + `.frx`) |
+| `Image` | simple | representative binary/`.frx` spike (`oxforms-zhz.28`) | remaining lane depth: real decoded image pixels, full Picture object parity, exact MSForms size/alignment oracle, and full `.frx`/MS-OFORMS persistence codec |
 | `ScrollBar` | simple | none | full lane (value + auto-repeat) |
 | `SpinButton` | simple | none | full lane (value + auto-repeat) |
 | `Frame` | container | representative coordinate/container spike (`oxforms-zhz.27`) | remaining lane depth: exact border/caption rendering, nested focus edge-order oracle, richer clipping cases, and broad child mutation/error parity |
@@ -209,8 +209,9 @@ four controls. W009 starts with the next missing intrinsic control, not by re-cl
 value + render + native dispatch, oracle-backed). Advanced per-control behavior is implemented as
 **named sub-lanes**, each oracle-backed or carrying a precise blocker — never a silent omission.
 W009 does **not** claim: pixel-perfect rendering parity; the full `.frm`/`.frx` persistence codec or
-MS-OFORMS round-trip (that is P3 / OxDoc — W009 extends the subset loader per control and does a
-*minimal* `.frx` image decode where `Image` needs it); the designer (P8); `RefEdit`/host controls
+MS-OFORMS round-trip (that is P3 / OxDoc — W009 extends the subset loader per control and has a
+representative `.frx` indirection/opaque-handle/`DrawImage` path for `Image`, while real decoded
+pixels remain a later claim); the designer (P8); `RefEdit`/host controls
 (extension track); held-button **auto-repeat rate** capture (uvh-class oracle-unreachable — Excel
 intercepts held-key repeat before the form; see
 [`../evidence/W008_native_event_breadth/FOLLOWUP_CAPTURE_PLAN.md`](../evidence/W008_native_event_breadth/FOLLOWUP_CAPTURE_PLAN.md));
@@ -296,13 +297,14 @@ Cross-cutting work, each scheduled **just before the batch that needs it** (not 
   once-gate pattern (esq.12/esq.15). The single-step value+event facts are oracle-reachable; the
   **repeat rate** is uvh-class unreachable (documented non-claim, probed once). *Before
   `ScrollBar`/`SpinButton`.*
-- **F6 — Binary/image interop + minimal `.frx` decode** (research + spike). Image bytes (and
+- **F6 — Binary/image interop + `.frx` indirection** (research + spike). Image bytes (and
   list-data blobs) do not fit the current JSON-string VBA↔Rust channel
   ([`OxSceneBuilder.cls`](../../vba/oxforms/OxSceneBuilder.cls) `ToPatchJson` is the wire format).
   This is the standing wire-format concern surfacing under load. The spike evaluates the channel for
-  binary payloads (extend JSON minimally vs. a typed/binary path), implements the
-  `DecodeImage(bytes) -> opaque handle` PAL service (image decode is Rust per D6) and a minimal
-  `.frx` picture decode for the fixture. *Before `Image`.*
+  binary payloads (extend JSON minimally vs. a typed/binary path), proves the
+  `DecodeImage(bytes) -> opaque handle` PAL service trace, and connects the representative `.frx`
+  `Picture` reference to a live Image control and `DrawImage` Scene primitive. Real decoded pixels
+  and the final binary wire decision remain explicit follow-up depth. *Before `Image`.*
 - **F7 — Uniform value/event helper pattern.** The old Rust runner value-push seam is gone. For new
   value controls, keep the CheckBox/TextBox pattern explicit in VBA: programmatic property set
   updates state without a user `Change`; user interaction mutates the value, marks dirty where
@@ -351,8 +353,8 @@ placeholders until the phase-0 gate rewrites/splits the broad lanes with live be
 | B | `.7` | **F4 list-data + selection model** (design + research spike). Collection state + selection matrix + dropdown popup surface; probe the type-ahead/Escape key-interception risk once; design the list-data shape kept out of the kernel. | `.1` | facts/assumptions/blockers separated (W006 `0a0.10` style); dropdown-keyboard reachability recorded; ComboBox/ListBox impl lanes split with named captures; no reducer code yet. |
 | B | `.8` | **ListBox lane** (list-data + single & multi-select modes `fmMultiSelect*`; Ctrl/Shift/Space selection; arrow/Shift-arrow nav). | `.1`, `.2`, `.3`, `.4`, `.7` | selection matrix conforms to the capture; multi-select state modeled per F4; per-lane tests + native-dispatch fixture + floor green; column/bound-column advanced bands as named sub-claims. |
 | B | `.9` | **ComboBox lane** (ListBox list-data + edit field + dropdown popup; `DropButtonClick`, open/close, selection Change). | `.1`, `.2`, `.3`, `.4`, `.7`, `.8` | dropdown lifecycle + selection ordering conform to the capture (or precise blocker for key-intercepted parts); per-lane tests + native-dispatch fixture + floor green. |
-| C | `.10` | **F6 image interop + `.frx` spike** (research). Evaluate the VBA↔Rust channel for binary image bytes ([[oxforms-wire-format-concern]]); implement `DecodeImage` PAL service + minimal `.frx` picture decode. | `.1`, `.3` | a binary image payload crosses the channel and decodes to an opaque handle; the channel decision is recorded with rationale; minimal `.frx` decode works for the fixture or carries an exact blocker. |
-| C | `.11` | **Image lane** (`DrawImage` render + `PictureSizeMode`/alignment; static, non-focusable, click-only). | `.1`, `.2`, `.3`, `.10` | `Controls.Add "Forms.Image.1"` blits a decoded image; size modes oracle-confirmed; headless sink rasterizes `DrawImage`; floor green. |
+| C | `.10` | **F6 image interop + `.frx` spike** (research). Evaluate the VBA↔Rust channel for binary image bytes ([[oxforms-wire-format-concern]]); implement `DecodeImage` PAL service trace + representative `.frx` indirection. | `.1`, `.3` | representative fixture bytes produce an opaque decode-handle trace; the materialized Image carries the `.frx` reference/handle to `DrawImage`; final binary wire decision and real pixel decode are recorded as follow-up depth rather than silently claimed. |
+| C | `.11` | **Image lane** (`DrawImage` render + `PictureSizeMode`/alignment; static, non-focusable, click-only). | `.1`, `.2`, `.3`, `.10` | `Controls.Add "Forms.Image.1"` renders a deterministic placeholder from an opaque handle; size/alignment oracle and real decoded pixels remain later claims; headless sink rasterizes `DrawImage`; floor green. |
 | C | `.12` | **F5 auto-repeat timer service.** Wire the held-button repeat path (PAL timer §6.2) reusing the held-key gate; single-step reachable, repeat-rate a documented uvh-class non-claim. | `.1` | a held-button single-step fires the value+event once per step deterministically; repeat-rate recorded as captured-once-or-blocked; floor green. |
 | C | `.13` | **SpinButton lane** (value clamp Min/Max/SmallChange; SpinUp/SpinDown/Change; two-zone hit-test). | `.1`, `.2`, `.4`, `.12` | single-step value+event subset conforms to the capture; held-repeat is the documented non-claim; per-lane tests + native-dispatch fixture + floor green. |
 | C | `.14` | **ScrollBar lane** (thumb-drag Scroll vs Change distinction; LargeChange page region; Min/Max clamp). | `.1`, `.2`, `.4`, `.12`, `.13` | thumb/page value subset + Scroll/Change distinction conform to the capture; held page-repeat the documented non-claim; floor green. |

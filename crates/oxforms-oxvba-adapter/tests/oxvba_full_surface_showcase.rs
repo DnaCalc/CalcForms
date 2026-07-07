@@ -8,7 +8,7 @@ use std::sync::Arc;
 
 use oxforms_oxvba_adapter::runtime::OxRuntime;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::StubShaper;
+use oxforms_pal::scene::{ImageHandle, Prim, StubShaper};
 
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_com::PortableComProjection;
@@ -90,6 +90,7 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
+        module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -209,7 +210,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        15,
+        16,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -223,6 +224,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE CheckBox",
         "LIVE ListBox",
         "LIVE Frame",
+        "LIVE Image",
     ] {
         assert!(
             catalog.contains(live),
@@ -259,6 +261,9 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
                 .contains("role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True")
             && accessibility.contains("role=group;name=FrameGroup;value=Frame")
             && accessibility.contains("role=label;name=FrameLabel;value=Nested child")
+            && accessibility.contains(
+                "role=image;name=LogoImage;value=showcase-inline;enabled=True;visible=True"
+            )
             && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
     );
@@ -274,18 +279,46 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && frame_diagnostics.contains("capabilities=kind=Frame"),
         "Frame diagnostics should expose container state: {frame_diagnostics}"
     );
+    let image_diagnostics = read_string(&mut rt, "ImageDiagnostics");
+    assert!(
+        image_diagnostics.contains("picture=showcase-inline;offset=0")
+            && image_diagnostics.contains(";handle=4242;")
+            && image_diagnostics.contains("draw_mode=stretch")
+            && image_diagnostics.contains("capabilities=kind=Image"),
+        "Image diagnostics should expose picture identity, handle, mode, and capabilities: {image_diagnostics}"
+    );
     for pending in ["OptionButton", "ToggleButton", "ComboBox", "MultiPage"] {
         assert!(
             catalog.contains(pending),
             "catalog should keep future control {pending:?} visible"
         );
     }
+    assert!(
+        !catalog.contains("PENDING OptionButton, ToggleButton, ComboBox, Image"),
+        "Image should be listed as live, not pending"
+    );
 
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 19,
-        "root node plus 15 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 20,
+        "root node plus 16 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+    );
+    assert!(
+        snap.scene
+            .as_ref()
+            .expect("resident scene")
+            .nodes
+            .iter()
+            .flat_map(|node| &node.prims)
+            .any(|prim| matches!(
+                prim,
+                Prim::DrawImage {
+                    image: ImageHandle(4242),
+                    ..
+                }
+            )),
+        "showcase Image should emit DrawImage with the expected opaque handle"
     );
 }
 
@@ -295,7 +328,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=15;"),
+        result.starts_with("PASS controls=16;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -307,6 +340,9 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "Label.MouseDown",
         "Label.MouseUp",
         "Label.Click",
+        "Image.MouseDown",
+        "Image.MouseUp",
+        "Image.Click",
         "TextBox.Enter",
         "TextBox.MouseDown",
         "TextBox.MouseUp",

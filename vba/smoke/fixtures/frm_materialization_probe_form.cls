@@ -103,6 +103,12 @@ Public Property Get ImageMetadata() As String
     ImageMetadata = mMaterializer.ImageMetadata
 End Property
 
+Public Property Get ImageDiagnostics() As String
+    Dim Img As Image
+    Set Img = mForm.ControlByName("LogoImage")
+    ImageDiagnostics = Img.Diagnostics
+End Property
+
 Public Property Get AccessibilitySnapshot() As String
     Dim Service As OxAccessibilityService
     Set Service = New OxAccessibilityService
