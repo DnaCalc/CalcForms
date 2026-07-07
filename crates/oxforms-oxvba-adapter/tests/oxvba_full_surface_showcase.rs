@@ -341,6 +341,69 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 }
 
 #[test]
+fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
+    let (mut rt, _surface) = attach_showcase();
+
+    let dashboard = read_string(&mut rt, "ConformanceDashboard");
+    for expected in [
+        "OXFORMS_CONFORMANCE_DASHBOARD version=1",
+        "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ListBox,Frame,Image,SpinButton",
+        "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
+        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
+        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown",
+        "first=InputField;last=RepeatSpin;default=OkButton;cancel=CancelButton;",
+        "cursor=focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3",
+        "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
+        "accessibility.snapshot=role=form;name=full_surface_showcase",
+        "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
+        "top_followup=oxforms-bqr scaled-hit-test",
+        "selftest=RunSelfTest returns PASS",
+        "pending.controls=OptionButton,ToggleButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+    ] {
+        assert!(
+            dashboard.contains(expected),
+            "dashboard should include {expected:?}; dashboard was:\n{dashboard}"
+        );
+    }
+    assert!(
+        !dashboard.contains("pending.controls=Frame"),
+        "Frame is live and must not remain in pending rows: {dashboard}"
+    );
+
+    let supported = read_string(&mut rt, "SupportedSurfaceSummary");
+    assert!(
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ListBox,Frame,Image,SpinButton")
+            && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection")
+            && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
+        "supported summary should list current controls/properties/events: {supported}"
+    );
+
+    let pending = read_string(&mut rt, "PendingSurfaceSummary");
+    assert!(
+        pending.contains(
+            "controls=OptionButton,ToggleButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+        ) && pending.contains("scaled hit-test indexing"),
+        "pending summary should keep future controls and follow-ups visible: {pending}"
+    );
+
+    let perf = read_string(&mut rt, "PerfBudgetSummary");
+    assert!(
+        perf.contains("representative_p95_us=32356")
+            && perf.contains("scaled_hit_test_p95_100_controls_us=432473")
+            && perf.contains("followup=oxforms-bqr"),
+        "perf summary should point at the committed budget report and ranked follow-up: {perf}"
+    );
+
+    let selftest = read_string(&mut rt, "SelfTestSummary");
+    assert!(
+        selftest.contains("method=RunSelfTest;expected=PASS controls=17")
+            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/ListBox/Frame/Image/SpinButton/lifecycle"),
+        "self-test summary should name the deterministic dashboard gate: {selftest}"
+    );
+}
+
+#[test]
 fn showcase_selftest_drives_current_methods_and_events() {
     let (mut rt, _surface) = attach_showcase();
 

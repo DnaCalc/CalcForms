@@ -101,6 +101,71 @@ fn runner_attaches_renders_and_records_trace_rows() {
 }
 
 #[test]
+fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+    runner.render().expect("initial render");
+
+    let dashboard = runner
+        .read_string("ConformanceDashboard")
+        .expect("ConformanceDashboard");
+    for expected in [
+        "OXFORMS_CONFORMANCE_DASHBOARD version=1",
+        "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ListBox,Frame,Image,SpinButton",
+        "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
+        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
+        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown",
+        "first=InputField;last=RepeatSpin;default=OkButton;cancel=CancelButton;",
+        "cursor=focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3",
+        "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
+        "accessibility.snapshot=role=form;name=full_surface_showcase",
+        "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
+        "pending.controls=OptionButton,ToggleButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+    ] {
+        assert!(
+            dashboard.contains(expected),
+            "dashboard should include {expected:?}; dashboard was:\n{dashboard}"
+        );
+    }
+    assert!(
+        !dashboard.contains("pending.controls=Frame"),
+        "Frame is live and must not be listed as pending: {dashboard}"
+    );
+
+    let supported = runner
+        .read_string("SupportedSurfaceSummary")
+        .expect("SupportedSurfaceSummary");
+    assert!(
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ListBox,Frame,Image,SpinButton")
+            && supported.contains("methods=Controls.Add,Controls.Item,Render,Dispatch")
+            && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
+        "supported surface summary should be a compact dashboard row: {supported}"
+    );
+
+    let pending = runner
+        .read_string("PendingSurfaceSummary")
+        .expect("PendingSurfaceSummary");
+    assert!(
+        pending.contains(
+            "controls=OptionButton,ToggleButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+        ) && pending.contains("Accessibility Windows UIA/MSAA provider")
+            && pending.contains("scaled hit-test indexing"),
+        "pending summary should include both controls and known follow-ups: {pending}"
+    );
+
+    let perf = runner
+        .read_string("PerfBudgetSummary")
+        .expect("PerfBudgetSummary");
+    assert!(
+        perf.contains("representative_p95_us=32356")
+            && perf.contains("scaled_hit_test_p95_100_controls_us=432473")
+            && perf.contains("followup=oxforms-bqr"),
+        "perf summary should stay tied to the committed W009 report: {perf}"
+    );
+}
+
+#[test]
 fn runner_accessibility_snapshot_tracks_focus_value_and_selection() {
     let repo = repo_root_from_crate();
     let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");

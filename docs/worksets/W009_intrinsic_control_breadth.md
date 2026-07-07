@@ -51,12 +51,13 @@ real or synthetic input
 ```
 
 **Living showcase.** `vba/smoke/fixtures/full_surface_showcase_form.cls` is the evolving
-current-state super-app for this workset. Entering W009 it renders the four implemented controls,
+current-state conformance dashboard for this workset. It renders the live representative controls,
 lists the remaining FM20 intrinsics as pending rows, exposes `RunSelfTest` to drive the current
-method/event surface through `OxRuntime`/`OxReducer` headlessly, and now surfaces the TextBox
-caret/selection/editing lane as a live conformance row. Each W009 control lane should add its new
-control, method rows, event handlers, and deterministic self-test coverage to this fixture instead
-of creating a separate demo island.
+method/event surface through `OxRuntime`/`OxReducer` headlessly, and exposes
+`ConformanceDashboard` plus compact supported/pending/perf/self-test summaries. Each W009 control
+lane should move its control from pending to supported, add method/property/event rows and
+deterministic self-test coverage, and prove the dashboard through the real runtime path instead of
+creating a separate demo island.
 
 **Phase-0 hazard gym (owner directive, 2026-07-01).** Before broad control lanes resume, W009 must
 make the runtime first-class enough that later controls cannot hide structural surprises. Phase 0
@@ -117,7 +118,7 @@ these detailed beads where applicable.
 | `oxforms-zhz.29` | Implement a representative SpinButton/ScrollBar timer-repeat spike. | Depends on `.15`, `.17`-`.21`, and `.23`; landed `SpinButton` as the representative smaller repeat lane with VBA-owned value/range/event state, `OxRuntime` auto-repeat timer dispatch, and headless virtual-time proofs for single press, held repeat, cancellation, disabled mutation, event ordering, and timer trace. Windows/native timer wake-up remains a precise blocker before visible held-repeat claims. |
 | `oxforms-zhz.30` | Prove reentrancy, modal/lifecycle, handler mutation, queued input, and repaint coherence. | Depends on `.15`, `.17`-`.23`; landed a representative `ReducerReentrancyForm` that found and fixed nested reducer effect-log clobbering, proves handler-side mutation/repaint, nested dispatch from inside a click handler, later queued validation veto, lifecycle callbacks/query-close, hide/unload state separation, and records nested modal pump as an explicit `OxRuntime` blocker. |
 | `oxforms-zhz.31` | Emit performance reports and budget bands for the ideal architecture. | Depends on representative controls/spikes `.24`-`.30`; landed a machine-readable W009 budget report over the canonical headless runtime path covering input/render, burst typing, repeat, tab, mouse/cursor, timer, Scene/surface timings, and 10/50/100-control scale crossings. Slowest non-scale representative p95 on this host is `32356 us`; 10/50/100 one-control changes stay at `MeasureBatch:1` + `SubmitPatch:1`; scaled hit-testing is the top follow-up (`432473 us` p95 at 100 controls, feeding `oxforms-bqr`). |
-| `oxforms-zhz.32` | Rebuild the full-surface showcase as a conformance dashboard over the ideal architecture. | Depends on representative controls/spikes `.24`-`.30`, accessibility, and materialization; roll-up `oxforms-zhz.8` depends on this. |
+| `oxforms-zhz.32` | Rebuild the full-surface showcase as a conformance dashboard over the ideal architecture. | Depends on representative controls/spikes `.24`-`.30`, accessibility, and materialization; landed dashboard properties for supported/pending controls, properties, methods, events, focus/cursor/services/accessibility, perf report, and `RunSelfTest`; adapter/headless tests prove it through `OxRuntime`; roll-up `oxforms-zhz.8` depends on this. |
 | `oxforms-zhz.33` | Final fresh-eyes architecture review, scaffold retirement/quarantine, and broad-control lane rewrite. | Depends on `.31` and `.32`; roll-up `oxforms-zhz.8` depends on this. |
 
 ## The Complete Intrinsic Control Set
@@ -337,7 +338,7 @@ Live phase-0 beads, created 2026-07-01:
 | `oxforms-zhz.5` | CheckBox focus/value hardening lane. | Partial local proof: `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value-first `Change`/`Click` before `KeyDown` plus `KeyUp` and trace rows. Remaining scope: focus visibility/adorners, disabled/hidden/tab-stop mutations, cursor behavior, validation edge cases, and live oracle notes. |
 | `oxforms-zhz.6` | List/container/image/timer representative spikes. | Representative slices prove list selection, nested coordinates, image/binary rendering, and headless timer/repeat services before broad lanes. |
 | `oxforms-zhz.7` | Reentrancy lifecycle hazard lane. | Handler mutation, nested reducer dispatch, focus veto, close/query-close, hide/unload, modal/nested pump blocker, and queued input keep reducer state coherent. |
-| `oxforms-zhz.8` | Perf + showcase conformance gate. | Runner emits perf reports (`oxforms-zhz.31`) and the full-surface showcase acts as a conformance dashboard for supported surface and known gaps. |
+| `oxforms-zhz.8` | Perf + showcase conformance gate. | Runner emits perf reports (`oxforms-zhz.31`) and the full-surface showcase acts as a conformance dashboard for supported surface, known gaps, perf follow-ups, and deterministic self-tests (`oxforms-zhz.32`). |
 
 The older broad-control plan below remains the roadmap after phase 0. Its suffixes are historical
 placeholders until the phase-0 gate rewrites/splits the broad lanes with live bead IDs.

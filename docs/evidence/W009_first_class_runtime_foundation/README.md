@@ -295,6 +295,25 @@ contract:
   scaled VBA hit-testing is the top follow-up (`432473 us` p95 at 100 controls, feeding
   `oxforms-bqr`).
 
+`oxforms-zhz.32` rebuilds the full-surface showcase as the W009 conformance dashboard:
+
+- `FullSurfaceShowcaseForm.ConformanceDashboard` rolls up the supported controls, properties,
+  methods, and events over the real `OxRuntime` -> VBA `OxReducer` -> `OxForms.Surface` -> Scene
+  path;
+- the dashboard includes focus/default/cancel/accelerator state, cursor/hover/capture state,
+  HostServices coverage, the host-neutral accessibility snapshot, the committed `.31` perf report
+  link, the ranked `oxforms-bqr` scaled-hit-test follow-up, and the deterministic `RunSelfTest`
+  gate;
+- `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`
+  expose compact rows for later control lanes to update as they move controls from pending to live;
+- the visible form's pending container row no longer lists `Frame`, because `Frame` is now a live
+  representative control. Remaining pending controls are `OptionButton`, `ToggleButton`,
+  `ComboBox`, `ScrollBar`, `TabStrip`, and `MultiPage/Page`;
+- visible desktop inspection was attempted through the installed Computer Use plugin. The bootstrap
+  launch reached the Windows helper, but the first `get_window_state` snapshot failed with
+  `GetCursorPos failed: Access is denied. (0x80070005)`, so `.32` records this as the precise
+  visible-inspection blocker rather than claiming a screenshot smoke.
+
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
 - `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms
@@ -334,7 +353,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` |
 | `.frm/.frx` materialization | Passing selected-slice seam | `vba/oxforms/OxFrmMaterializer.cls`; `fixtures/frm/w009-materialization/w009-representative.frm`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
 | Image/FRX representative spike | Passing representative seam | `vba/oxforms/Image.cls`; materialized `LogoImage`; showcase `ImageDiagnostics`; `DrawImage` Scene assertions in `oxvba_frm_materialization` and `oxvba_full_surface_showcase`; HostServices decode traces |
-| Showcase diagnostics | Passing scaffold | `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` reads `CapabilityCatalog`, `InteractionIndexSummary`, `InteractionStateSummary`, and `AccessibilitySnapshot` through `OxRuntime`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` reads `TextBoxDiagnostics` |
+| Showcase conformance dashboard | Passing | `FullSurfaceShowcaseForm.ConformanceDashboard`, `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`; `headless_runner_showcase::runner_reads_showcase_conformance_dashboard_through_oxruntime` proves the dashboard through `OxRuntime`; `oxvba_full_surface_showcase::showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps` proves the same surface through the adapter |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox value/property setters | Passing local representative slice | `vba/oxforms/TextBox.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `oxvba_reducer_cmdbutton::textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
@@ -354,7 +373,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | SpinButton timer/repeat spike | Passing representative headless seam | `vba/oxforms/SpinButton.cls`; showcase `RepeatSpin`/`SpinButtonDiagnostics`; `OxRuntime::dispatch_event_turn` auto-repeat timer dispatch; `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer`; `oxvba_full_surface_showcase::showcase_selftest_drives_current_methods_and_events` |
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
-| Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
+| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, and `SpinButtonDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
