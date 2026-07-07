@@ -14,6 +14,7 @@ Private WithEvents mOk As CommandButton
 Private WithEvents mCancel As CommandButton
 Private WithEvents mGo As CommandButton
 Private WithEvents mCheck As CheckBox
+Private WithEvents mChoices As ListBox
 Private mStatus As Label
 Private mPending1 As Label
 Private mPending2 As Label
@@ -37,10 +38,10 @@ Public Sub Build()
     mForm.Name = "full_surface_showcase"
     mForm.Caption = "OxForms Full Surface Showcase"
     mForm.Width = 640
-    mForm.Height = 420
+    mForm.Height = 450
 
     Set mTitle = mForm.Controls.Add("Forms.Label.1", "TitleLabel")
-    mTitle.Caption = "OxForms full-surface showcase: Label, TextBox, CommandButton, CheckBox"
+    mTitle.Caption = "OxForms full-surface showcase: Label, TextBox, CommandButton, CheckBox, ListBox"
     mTitle.Left = 12
     mTitle.Top = 8
     mTitle.Width = 610
@@ -106,10 +107,21 @@ Public Sub Build()
     mCheck.Height = 26
     mCheck.Core.TabIndex = 4
 
+    Set mChoices = mForm.Controls.Add("Forms.ListBox.1", "ChoicesList")
+    mChoices.Left = 16
+    mChoices.Top = 164
+    mChoices.Width = 220
+    mChoices.Height = 58
+    mChoices.Core.TabIndex = 5
+    mChoices.AddItem "Red"
+    mChoices.AddItem "Green"
+    mChoices.AddItem "Blue"
+    mChoices.ListIndex = 0
+
     Set mStatus = mForm.Controls.Add("Forms.Label.1", "StatusLabel")
     mStatus.Caption = "Ready. Run RunSelfTest, or interact with the controls."
     mStatus.Left = 16
-    mStatus.Top = 164
+    mStatus.Top = 232
     mStatus.Width = 600
     mStatus.Height = 24
     mStatus.Core.BackColor = &H2070C0
@@ -117,23 +129,23 @@ Public Sub Build()
     mStatus.Core.FontSize = 9
 
     Set mPending1 = mForm.Controls.Add("Forms.Label.1", "PendingMorphLabel")
-    mPending1.Caption = "Pending morph controls: OptionButton, ToggleButton, ComboBox, ListBox"
+    mPending1.Caption = "Pending morph controls: OptionButton, ToggleButton, ComboBox"
     mPending1.Left = 16
-    mPending1.Top = 210
+    mPending1.Top = 278
     mPending1.Width = 600
     mPending1.Height = 18
 
     Set mPending2 = mForm.Controls.Add("Forms.Label.1", "PendingSimpleLabel")
     mPending2.Caption = "Pending simple controls: Image, ScrollBar, SpinButton"
     mPending2.Left = 16
-    mPending2.Top = 232
+    mPending2.Top = 300
     mPending2.Width = 600
     mPending2.Height = 18
 
     Set mPending3 = mForm.Controls.Add("Forms.Label.1", "PendingContainerLabel")
     mPending3.Caption = "Pending containers: Frame, TabStrip, MultiPage/Page"
     mPending3.Left = 16
-    mPending3.Top = 254
+    mPending3.Top = 322
     mPending3.Width = 600
     mPending3.Height = 18
 
@@ -141,7 +153,7 @@ Public Sub Build()
     Set Usage = mForm.Controls.Add("Forms.Label.1", "UsageLabel")
     Usage.Caption = "Launch: cargo run -p oxforms-bootstrap -- showcase"
     Usage.Left = 16
-    Usage.Top = 300
+    Usage.Top = 368
     Usage.Width = 600
     Usage.Height = 18
 
@@ -243,6 +255,10 @@ Public Property Get CheckValue() As Boolean
     CheckValue = mCheck.Value
 End Property
 
+Public Property Get ListBoxDiagnostics() As String
+    ListBoxDiagnostics = mChoices.Diagnostics
+End Property
+
 Public Property Get InteractionIndexBuildCount() As Long
     InteractionIndexBuildCount = mReducer.InteractionIndexBuildCount
 End Property
@@ -262,7 +278,8 @@ Public Property Get CapabilityCatalog() As String
         "OkButton:" & mOk.Core.CapabilityDescriptor & vbLf & _
         "CancelButton:" & mCancel.Core.CapabilityDescriptor & vbLf & _
         "GoButton:" & mGo.Core.CapabilityDescriptor & vbLf & _
-        "CheckBox:" & mCheck.Core.CapabilityDescriptor
+        "CheckBox:" & mCheck.Core.CapabilityDescriptor & vbLf & _
+        "ChoicesList:" & mChoices.Core.CapabilityDescriptor
 End Property
 
 Public Sub ClearLog()
@@ -279,7 +296,8 @@ Public Function SurfaceCatalog() As String
         "LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection, caret, selection, copy/cut/paste/drop, geometry, Visible, Enabled, TextBoxDiagnostics; Change, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste" & vbLf & _
         "LIVE CommandButton: Caption, Default, Cancel, geometry, Visible, Enabled; Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit" & vbLf & _
         "LIVE CheckBox: Caption, Value, geometry, Visible, Enabled; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
-        "PENDING OptionButton, ToggleButton, ComboBox, ListBox, Image, ScrollBar, SpinButton, Frame, TabStrip, MultiPage/Page"
+        "LIVE ListBox: AddItem, List(index), ListCount, ListIndex, Value, geometry, Visible, Enabled, ListBoxDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate; single-select rows" & vbLf & _
+        "PENDING OptionButton, ToggleButton, ComboBox, Image, ScrollBar, SpinButton, Frame, TabStrip, MultiPage/Page"
 End Function
 
 Public Function RunSelfTest() As String
@@ -312,7 +330,12 @@ Public Function RunSelfTest() As String
     DispatchKey "keyup", OX_KEY_SPACE, 0
     DispatchChar "c"
 
-    DriveMouse 40, 98            ' Dirty CheckBox focus-out: BeforeUpdate/AfterUpdate/Exit.
+    DriveMouse 40, 192           ' Dirty CheckBox focus-out; ListBox mouse focus/select.
+    DispatchKey "keydown", 40, 0
+    DispatchKey "keyup", 40, 0
+    DispatchChar "l"
+
+    DriveMouse 40, 98            ' Dirty ListBox focus-out: BeforeUpdate/AfterUpdate/Exit.
     DispatchKey "keydown", OX_KEY_ESCAPE, 0
     DispatchKey "keydown", OX_KEY_G, OX_SHIFT_ALT
 
@@ -487,6 +510,41 @@ Private Sub mCheck_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 End Sub
 Private Sub mCheck_KeyPress(ByVal KeyAscii As ReturnInteger)
     Append "CheckBox.KeyPress:" & CStr(KeyAscii.Value)
+End Sub
+
+' --- Event sinks: ListBox ---
+Private Sub mChoices_Enter()
+    Append "ListBox.Enter"
+End Sub
+Private Sub mChoices_Exit(ByVal Cancel As ReturnBoolean)
+    Append "ListBox.Exit"
+End Sub
+Private Sub mChoices_BeforeUpdate(ByVal Cancel As ReturnBoolean)
+    Append "ListBox.BeforeUpdate"
+End Sub
+Private Sub mChoices_AfterUpdate()
+    Append "ListBox.AfterUpdate"
+End Sub
+Private Sub mChoices_Change()
+    Append "ListBox.Change:" & mChoices.Value
+End Sub
+Private Sub mChoices_Click()
+    Append "ListBox.Click:" & mChoices.Value
+End Sub
+Private Sub mChoices_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "ListBox.MouseDown"
+End Sub
+Private Sub mChoices_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "ListBox.MouseUp"
+End Sub
+Private Sub mChoices_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "ListBox.KeyDown:" & CStr(KeyCode.Value)
+End Sub
+Private Sub mChoices_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "ListBox.KeyUp:" & CStr(KeyCode.Value)
+End Sub
+Private Sub mChoices_KeyPress(ByVal KeyAscii As ReturnInteger)
+    Append "ListBox.KeyPress:" & CStr(KeyAscii.Value)
 End Sub
 
 ' --- Form event handlers exposed through Perform* ---

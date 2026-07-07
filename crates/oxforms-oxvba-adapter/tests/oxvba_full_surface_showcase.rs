@@ -83,6 +83,7 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/CommandButton.cls",
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
+        module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -202,7 +203,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        13,
+        14,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -214,6 +215,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE TextBox",
         "LIVE CommandButton",
         "LIVE CheckBox",
+        "LIVE ListBox",
     ] {
         assert!(
             catalog.contains(live),
@@ -245,16 +247,19 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
                 "role=textbox;name=InputField;value=;enabled=True;visible=True;focused=True"
             )
             && accessibility
-                .contains("role=checkbox;name=CheckBox;value=True;enabled=True;visible=True"),
+                .contains("role=checkbox;name=CheckBox;value=True;enabled=True;visible=True")
+            && accessibility
+                .contains("role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True")
+            && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
     );
-    for pending in [
-        "OptionButton",
-        "ToggleButton",
-        "ComboBox",
-        "ListBox",
-        "MultiPage",
-    ] {
+    let listbox_diagnostics = read_string(&mut rt, "ListBoxDiagnostics");
+    assert!(
+        listbox_diagnostics.contains("count=3;index=0;value=Red;rows=Red|Green|Blue")
+            && listbox_diagnostics.contains("capabilities=kind=ListBox"),
+        "ListBox diagnostics should expose list data and capability shape: {listbox_diagnostics}"
+    );
+    for pending in ["OptionButton", "ToggleButton", "ComboBox", "MultiPage"] {
         assert!(
             catalog.contains(pending),
             "catalog should keep future control {pending:?} visible"
@@ -264,8 +269,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 16,
-        "root node plus 13 current showcase controls plus the TextBox text and selection overlay nodes should be resident"
+        snap.node_count, 17,
+        "root node plus 14 current showcase controls plus the TextBox text and selection overlay nodes should be resident"
     );
 }
 
@@ -275,7 +280,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=13;"),
+        result.starts_with("PASS controls=14;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -319,6 +324,18 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "CheckBox.BeforeUpdate",
         "CheckBox.AfterUpdate",
         "CheckBox.Exit",
+        "ListBox.Enter",
+        "ListBox.MouseDown",
+        "ListBox.Change:Green",
+        "ListBox.MouseUp",
+        "ListBox.Click:Green",
+        "ListBox.KeyDown:40",
+        "ListBox.Change:Blue",
+        "ListBox.KeyUp:40",
+        "ListBox.KeyPress:108",
+        "ListBox.BeforeUpdate",
+        "ListBox.AfterUpdate",
+        "ListBox.Exit",
         "CancelButton.Click",
         "AcceleratorButton.Enter",
         "AcceleratorButton.Click",

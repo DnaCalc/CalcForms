@@ -26,6 +26,8 @@ Public Function OxThemeFaceColor( _
             OxThemeFaceColor = &H2070C0
         Case oxControlTextBox
             OxThemeFaceColor = &HFFFFFF
+        Case oxControlListBox
+            OxThemeFaceColor = &HFFFFFF
         Case oxControlCommandButton
             If IsPressed Then
                 OxThemeFaceColor = &HB8C7DD
@@ -156,6 +158,54 @@ Public Sub OxThemePaintControlFrame( _
         Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
             OxThemeResolveBorder(Core), 255, 1
     End If
+End Sub
+
+Public Sub OxThemePaintListBox( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal ListIndex As Long, _
+        ByVal Focused As Boolean)
+    Const Inset As Single = 3
+    Const RowHeight As Single = 14
+
+    Surface.OpenNode Core.NodeId, True, 0, Core.ZOrder, _
+        Core.Left, Core.Top, Core.Width, Core.Height, Core.Visible
+
+    OxThemePaintControlFrame Core, Surface
+
+    If ListIndex >= 0 Then
+        Dim SelY As Single
+        SelY = Core.Top + Inset + (ListIndex * RowHeight)
+        If SelY < Core.Top + Core.Height - Inset Then
+            Dim SelW As Single
+            SelW = Core.Width - (Inset * 2)
+            If SelW < 1 Then SelW = 1
+            Surface.FillRect Core.Left + Inset, SelY, SelW, RowHeight, _
+                OxThemeSelectionBackColor(), 255
+        End If
+    End If
+
+    If Len(Core.DisplayText) > 0 Then
+        Dim RunId As String
+        RunId = Core.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        Dim TextW As Single, TextH As Single
+        TextW = Core.Width - ((Inset + 2) * 2)
+        If TextW < 1 Then TextW = 1
+        TextH = Core.Height - (Inset * 2)
+        If TextH < 1 Then TextH = 1
+        OxThemePaintTextRun Core, Surface, _
+            Core.Left + Inset + 2, Core.Top + Inset, _
+            TextW, TextH, _
+            RunId, "left", True, True, False
+    End If
+
+    If Focused And Core.Enabled Then
+        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+            OxThemeFocusAdornerColor(), 255, 1
+    End If
+
+    Surface.CloseNode
 End Sub
 
 Public Sub OxThemePaintTextRun( _

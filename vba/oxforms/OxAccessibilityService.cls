@@ -49,8 +49,8 @@ Private Function ControlRow(ByVal Control As IOxControl, ByVal FocusName As Stri
         ";sel_length=" & CStr(Control.AccessibilitySelectionLength) & _
         ";sel_text=" & Encode(Control.AccessibilitySelectionText) & _
         ";patterns=" & Encode(Control.AccessibilityPatterns) & _
-        ";row_count=0" & _
-        ";column_count=0" & _
+        ";row_count=" & CStr(Control.AccessibilityRowCount) & _
+        ";column_count=" & CStr(Control.AccessibilityColumnCount) & _
         ";focusable=" & BoolText(Control.Core.Focusable) & _
         ";tabstop=" & BoolText(Control.Core.TabStop)
 End Function

@@ -27,8 +27,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 16,
-        "root plus 13 showcase controls plus the TextBox text and selection overlay nodes"
+        snap.node_count, 17,
+        "root plus 14 showcase controls plus the TextBox text and selection overlay nodes"
     );
 
     let capabilities = runner
@@ -36,14 +36,15 @@ fn runner_attaches_renders_and_records_trace_rows() {
         .expect("CapabilityCatalog");
     assert!(
         capabilities.contains("InputField:kind=TextBox")
-            && capabilities.contains("CheckBox:kind=CheckBox"),
+            && capabilities.contains("CheckBox:kind=CheckBox")
+            && capabilities.contains("ChoicesList:kind=ListBox"),
         "showcase should expose current capability descriptors: {capabilities}"
     );
     let index = runner
         .read_string("InteractionIndexSummary")
         .expect("InteractionIndexSummary");
     assert!(
-        index.contains(";first=InputField;last=CheckBox;")
+        index.contains(";first=InputField;last=ChoicesList;")
             && index.contains(";default=OkButton;cancel=CancelButton;"),
         "showcase should expose the reducer interaction index: {index}"
     );
@@ -66,6 +67,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
             "role=textbox;name=InputField;value=;enabled=True;visible=True;focused=True;selected=False"
         ) && accessibility.contains(
             "role=checkbox;name=CheckBox;value=True;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True;focused=False"
         ),
         "showcase should expose a representative accessibility snapshot: {accessibility}"
     );

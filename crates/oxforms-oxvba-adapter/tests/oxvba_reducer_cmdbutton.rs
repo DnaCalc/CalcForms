@@ -105,6 +105,7 @@ fn prepare_session_with_surface(
             "vba/oxforms/CommandButton.cls",
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
+        module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -152,6 +153,11 @@ fn prepare_session_with_surface(
             "ReducerButtonsForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_buttons_form.cls",
+        ),
+        module_unit(
+            "ReducerListBoxForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_listbox_form.cls",
         ),
     ];
 
@@ -1509,11 +1515,183 @@ fn label_click_routes_without_taking_focus() {
 // The buttons fixture: Field TextBox at (20,20,100,18); Chk CheckBox at (20,95,100,18).
 const FIELD_IN: (i32, i32) = (40, 28);
 const CHK2_IN: (i32, i32) = (40, 104);
+const LIST_RED_IN: (i32, i32) = (42, 28);
+const LIST_GREEN_IN: (i32, i32) = (42, 42);
 const KEY_ENTER: i16 = 13;
 const KEY_ESCAPE: i16 = 27;
 const KEY_SPACE: i16 = 32;
 const KEY_G: i16 = 71;
+const KEY_DOWN: i16 = 40;
+const KEY_UP_ARROW: i16 = 38;
 const SHIFT_ALT: i16 = 4;
+
+#[test]
+fn listbox_object_model_and_capability_descriptor_live_on_the_vba_control() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerListBoxForm");
+
+    assert_eq!(i32_get(&mut session, &form, "ListCount"), 3);
+    assert_eq!(string_get(&mut session, &form, "FirstItem"), "Red");
+    assert_eq!(i32_get(&mut session, &form, "ListIndex"), -1);
+    assert_eq!(string_get(&mut session, &form, "ListValue"), "");
+
+    invoke_sub(&mut session, &form, "SelectBlueProgrammatically");
+    assert_eq!(i32_get(&mut session, &form, "ListIndex"), 2);
+    assert_eq!(string_get(&mut session, &form, "ListValue"), "Blue");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog"),
+        "",
+        "programmatic ListIndex assignment should not raise Change"
+    );
+
+    let catalog = string_get(&mut session, &form, "CapabilityCatalog");
+    assert!(
+        catalog.contains("Choices:kind=ListBox;focusable=True;tabstop=True;click=True;pressed=False;text=False;paste=False;value=True;toggle=False;accelerator=False;default=False;cancel=False;cursor=0"),
+        "ListBox descriptor missing expected routing policy:\n{catalog}"
+    );
+}
+
+#[test]
+fn listbox_mouse_click_selects_a_row_and_renders_selection() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerListBoxForm");
+
+    let down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    assert_eq!(down, "enter:Choices|mousedown:Choices|repaint");
+    let up = dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    assert_eq!(up, "mouseup:Choices|click:Choices|repaint");
+
+    assert_eq!(i32_get(&mut session, &form, "ListIndex"), 1);
+    assert_eq!(string_get(&mut session, &form, "ListValue"), "Green");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "Choices.Enter",
+            "Choices.MouseDown",
+            "Choices.Change:Green",
+            "Choices.MouseUp",
+            "Choices.Click:Green",
+        ],
+        "mouse selection should raise Enter, MouseDown, Change, MouseUp, Click in order"
+    );
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let list = scene.get(NodeId(1)).expect("list scene node");
+    assert!(
+        fill_rect_with_color(&list.prims, TEXT_SELECTION_COLOR).is_some(),
+        "selected row should paint through the ThemePainter selection color"
+    );
+}
+
+#[test]
+fn listbox_keyboard_focus_and_accessibility_rows_are_exposed() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerListBoxForm");
+
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_RED_IN.0,
+        LIST_RED_IN.1,
+    );
+    dispatch(&mut session, &form, "mouseup", LIST_RED_IN.0, LIST_RED_IN.1);
+    invoke_sub(&mut session, &form, "ClearLog");
+
+    let down = dispatch_key(&mut session, &form, "keydown", KEY_DOWN);
+    assert_eq!(down, "keydown:Choices|repaint");
+    assert_eq!(i32_get(&mut session, &form, "ListIndex"), 1);
+    assert_eq!(string_get(&mut session, &form, "ListValue"), "Green");
+
+    let up = dispatch_key(&mut session, &form, "keydown", KEY_UP_ARROW);
+    assert_eq!(up, "keydown:Choices|repaint");
+    assert_eq!(i32_get(&mut session, &form, "ListIndex"), 0);
+    assert_eq!(string_get(&mut session, &form, "ListValue"), "Red");
+
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "Choices.KeyDown:40",
+            "Choices.Change:Green",
+            "Choices.KeyDown:38",
+            "Choices.Change:Red",
+        ],
+        "keyboard navigation should raise KeyDown before each default selection Change"
+    );
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=listbox;name=Choices;value=Red")
+            && accessibility.contains(";selected=True;sel_start=0;sel_length=1;sel_text=Red")
+            && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
+        "ListBox accessibility snapshot should expose selection and row count:\n{accessibility}"
+    );
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    let tab = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
+    assert_eq!(
+        tab,
+        "keydown:Choices|beforeupdate:Choices|afterupdate:Choices|exit:Choices|enter:Field|repaint"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "Choices.KeyDown:9",
+            "Choices.BeforeUpdate",
+            "Choices.AfterUpdate",
+            "Choices.Exit",
+            "Field.Enter",
+        ],
+        "dirty ListBox selection should participate in focus-out validation"
+    );
+
+    let form = build_form(&mut session, "ReducerListBoxForm");
+    invoke_sub(&mut session, &form, "DisableChoices");
+    let miss = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    assert_eq!(
+        miss, "",
+        "disabled ListBox should not receive mouse focus/input"
+    );
+
+    let form = build_form(&mut session, "ReducerListBoxForm");
+    invoke_sub(&mut session, &form, "HideChoices");
+    let miss = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    assert_eq!(
+        miss, "",
+        "hidden ListBox should not receive mouse focus/input"
+    );
+}
 
 #[test]
 fn capability_catalog_is_the_single_policy_source_for_current_controls() {

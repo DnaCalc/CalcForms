@@ -151,3 +151,9 @@ End Property
 
 Public Property Get AccessibilityPatterns() As String
 End Property
+
+Public Property Get AccessibilityRowCount() As Long
+End Property
+
+Public Property Get AccessibilityColumnCount() As Long
+End Property

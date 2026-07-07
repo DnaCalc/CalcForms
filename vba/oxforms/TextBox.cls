@@ -707,3 +707,11 @@ End Property
 Private Property Get IOxControl_AccessibilityPatterns() As String
     IOxControl_AccessibilityPatterns = "text,value,selection"
 End Property
+
+Private Property Get IOxControl_AccessibilityRowCount() As Long
+    IOxControl_AccessibilityRowCount = 0
+End Property
+
+Private Property Get IOxControl_AccessibilityColumnCount() As Long
+    IOxControl_AccessibilityColumnCount = 0
+End Property

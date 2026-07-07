@@ -654,6 +654,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/CheckBox.cls"),
         ),
         unit(
+            "ListBox",
+            Class,
+            include_str!("../../../vba/oxforms/ListBox.cls"),
+        ),
+        unit(
             "UserForm",
             Class,
             include_str!("../../../vba/oxforms/UserForm.cls"),

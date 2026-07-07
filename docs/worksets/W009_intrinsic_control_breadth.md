@@ -110,8 +110,8 @@ these detailed beads where applicable.
 | `oxforms-zhz.22` | Implement representative `.frm/.frx` materialization directly into the VBA object model. | Depends on `.15`, `.17`, and `.20`; landed selected-slice `OxFrmMaterializer` that builds live `UserForm.Controls.Add` controls for Label/TextBox/CommandButton/CheckBox and records Image `.frx` metadata without reviving the Rust projection. |
 | `oxforms-zhz.23` | Refresh the W009 oracle matrix around the ideal seams and representative controls. | Depends on `.13`; refreshed `oracle-foundation-matrix.md` to split MSForms oracle facts, local OxForms proofs, per-representative-bead consumption rules, and blockers before `.24`/later control claims. |
 | `oxforms-zhz.24` | Rebuild TextBox as the first representative complex control on all ideal seams. | Depends on `.15`-`.21` and `.23`; landed `Value` alias/materialization, local property/selection setter diagnostics, and showcase `TextBoxDiagnostics` over the existing single-line TextService, interaction, host-service, theme, render, object-model, and accessibility seams. |
-| `oxforms-zhz.25` | Rebuild CheckBox as the representative boolean/value control on ideal seams. | Depends on `.15`, `.17`-`.21`, and `.23`. |
-| `oxforms-zhz.26` | Implement a representative ListBox/list-data spike. | Depends on `.15`-`.21` and `.23`; roll-up `oxforms-zhz.6` depends on this. |
+| `oxforms-zhz.25` | Rebuild CheckBox as the representative boolean/value control on ideal seams. | Depends on `.15`, `.17`-`.21`, and `.23`; landed CheckBox-owned `Value`/focus/event/dirty state, ThemePainter glyph/focus rendering, and reducer Scene assertions. |
+| `oxforms-zhz.26` | Implement a representative ListBox/list-data spike. | Depends on `.15`-`.21` and `.23`; landed a single-select ListBox with VBA-owned `AddItem`/`List`/`ListCount`/`ListIndex`/`Value`, reducer click/keyboard/focus validation, Scene selection rendering, accessibility row counts, and showcase diagnostics. Multi-select, columns, type-ahead, wheel/scroll, and virtualization remain explicit follow-up depth. |
 | `oxforms-zhz.27` | Implement a representative Frame/container coordinate spike. | Depends on `.15`, `.17`-`.21`, and `.23`; roll-up `oxforms-zhz.6` depends on this. |
 | `oxforms-zhz.28` | Implement a representative Image binary/`.frx` spike. | Depends on `.15`, `.17`-`.23`; roll-up `oxforms-zhz.6` depends on this. |
 | `oxforms-zhz.29` | Implement a representative SpinButton/ScrollBar timer-repeat spike. | Depends on `.15`, `.17`-`.21`, and `.23`; roll-up `oxforms-zhz.6` depends on this. |
@@ -136,7 +136,7 @@ every row below.
 | `OptionButton` | morph / data | none | full lane |
 | `ToggleButton` | morph / data | none | full lane |
 | `ComboBox` | morph / data | none | full lane (list-data + dropdown) |
-| `ListBox` | morph / data | none | full lane (list-data + multi-select) |
+| `ListBox` | morph / data | representative single-select spike (`oxforms-zhz.26`) | remaining lane depth: multi-select, columns/bound-column, type-ahead, wheel/scroll, virtualization, and richer row accessibility |
 | `Image` | simple | none | full lane (image decode + `.frx`) |
 | `ScrollBar` | simple | none | full lane (value + auto-repeat) |
 | `SpinButton` | simple | none | full lane (value + auto-repeat) |

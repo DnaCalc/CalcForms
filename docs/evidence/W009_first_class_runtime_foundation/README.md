@@ -289,6 +289,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | RendererBackend/Scene determinism | Passing representative spine | `scene::tests::headless_reference_rasterizes_every_primitive_variant`; `raster::tests::draw_image_placeholder_is_visible_until_decode_lands`; `oxvba_surface_render_smoke::vba_scene_builder_records_full_primitive_vocabulary`; existing `geometry_showcase_has_a_stable_golden_hash`, `text_draws_glyph_coverage_when_a_font_is_available`, and `incremental_damage_repaint_is_pixel_identical_to_full_repaint` |
 | ThemePainter tokens | Passing representative seam | `vba/oxforms/OxTheme.bas`; `OxPaintStandardControl`; `OxThemePaintCheckBox`; `oxvba_reducer_cmdbutton::command_button_mouse_click_runs_the_vba_reducer`; `theme_painter_maps_disabled_text_and_edges_for_standard_controls`; `textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
 | CheckBox keyboard/focus/value path | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state; `oxvba_reducer_cmdbutton::checkbox_mouse_click_toggles_value_with_change_before_click` proves reducer-routed focus invalidation and a Scene focus adorner |
+| ListBox list-data spike | Passing representative single-select seam | `vba/oxforms/ListBox.cls`; `OxThemePaintListBox`; `reducer_listbox_form.cls`; `oxvba_reducer_cmdbutton::listbox_object_model_and_capability_descriptor_live_on_the_vba_control`; `listbox_mouse_click_selects_a_row_and_renders_selection`; `listbox_keyboard_focus_and_accessibility_rows_are_exposed`; showcase `ListBoxDiagnostics` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; later representative control beads apply native cursor hooks, control timers, richer DataObject formats, and real image decode |
@@ -327,6 +328,12 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   caret stops through `OxTextService`; selected foreground recolor and clipped/scrolled normal
   text are represented in Scene. Pixel-level MSForms parity is still not claimed without a live
   oracle capture.
+- The ListBox spike is single-select and representative. It proves `AddItem`, `List(index)`,
+  `ListCount`, `ListIndex`, `Value`, click selection, arrow selection, dirty focus-out,
+  disabled/hidden routing exclusion, Scene selection paint, capability descriptors, and
+  accessibility row counts. It does not yet claim multi-select modes, columns/bound-column,
+  type-ahead, wheel/scroll, virtualization, per-row provider objects, or exact MSForms
+  selection-event parity beyond the local order pinned by tests.
 - Theme tokens are internal implementation vocabulary only. MSForms properties and runtime state
   remain authoritative, and `.18` does not claim alternate skin/theme product behavior or
   pixel-perfect MSForms rendering.
