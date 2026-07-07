@@ -307,8 +307,8 @@ contract:
   gate;
 - `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`
   expose compact rows for later control lanes to update as they move controls from pending to live;
-- the visible form's pending rows no longer list `Frame` or `ToggleButton`, because both are now
-  live controls. Remaining pending controls are `OptionButton`, `ComboBox`, `ScrollBar`,
+- the visible form's pending rows no longer list `Frame`, `ToggleButton`, or `OptionButton`,
+  because they are now live controls. Remaining pending controls are `ComboBox`, `ScrollBar`,
   `TabStrip`, and `MultiPage/Page`;
 - visible desktop inspection was attempted through the installed Computer Use plugin. The bootstrap
   launch reached the Windows helper, but the first `get_window_state` snapshot failed with
@@ -381,6 +381,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Image/FRX representative spike | Passing representative seam | `vba/oxforms/Image.cls`; materialized `LogoImage`; showcase `ImageDiagnostics`; `DrawImage` Scene assertions in `oxvba_frm_materialization` and `oxvba_full_surface_showcase`; HostServices decode traces |
 | Showcase conformance dashboard | Passing | `FullSurfaceShowcaseForm.ConformanceDashboard`, `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`; `headless_runner_showcase::runner_reads_showcase_conformance_dashboard_through_oxruntime` proves the dashboard through `OxRuntime`; `oxvba_full_surface_showcase::showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps` proves the same surface through the adapter |
 | ToggleButton boolean/value lane | Passing local lane | `vba/oxforms/ToggleButton.cls`; `vba/smoke/fixtures/reducer_togglebutton_form.cls`; `oxvba_reducer_cmdbutton::togglebutton_factory_diagnostics_and_accessibility_are_live`; `togglebutton_mouse_and_keyboard_toggle_value_first`; `togglebutton_value_latches_pressed_face_and_accessibility_selected`; materialization and showcase tests prove factory, `.frm`, accessibility, dashboard, and self-test coverage |
+| OptionButton grouping lane | Passing local lane | `vba/oxforms/OptionButtonControl.cls`; `vba/smoke/fixtures/reducer_optionbutton_form.cls`; `oxvba_reducer_cmdbutton::optionbutton_factory_diagnostics_and_accessibility_are_live`; `optionbutton_mouse_and_keyboard_select_with_group_exclusion`; `optionbutton_render_uses_radio_dot_for_selected_value`; materialization and showcase tests prove `Forms.OptionButton.1`, `Value`, `GroupName`, same-container mutual exclusion, accessibility, dashboard, and self-test coverage |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox value/property setters | Passing local representative slice | `vba/oxforms/TextBox.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `oxvba_reducer_cmdbutton::textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |

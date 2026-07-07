@@ -24,7 +24,7 @@ MSForms compatibility surface.
 It is a production-shaped VBA form-document driven by `OxRuntime`/`OxReducer`,
 not a low-level smoke bridge: it renders every currently implemented intrinsic
 control (`Label`, `TextBox`, `CommandButton`, `CheckBox`, `ToggleButton`,
-`ListBox`, `Frame`, `Image`, and `SpinButton`), lists the future FM20 intrinsics
+`OptionButton`, `ListBox`, `Frame`, `Image`, and `SpinButton`), lists the future FM20 intrinsics
 as pending rows, and exposes `RunSelfTest` plus dashboard diagnostics so the current method,
 property, event, focus, service, accessibility, and perf surfaces can be proven
 headlessly.

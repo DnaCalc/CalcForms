@@ -101,6 +101,11 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/oxforms/ToggleButton.cls",
         ),
+        module_unit(
+            "OptionButtonControl",
+            ModuleKind::Class,
+            "vba/oxforms/OptionButtonControl.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -220,7 +225,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        18,
+        19,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -306,7 +311,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && spin_diagnostics.contains("capabilities=kind=SpinButton"),
         "SpinButton diagnostics should expose range, value, repeat state, and capabilities: {spin_diagnostics}"
     );
-    for pending in ["OptionButton", "ComboBox", "MultiPage"] {
+    for pending in ["ComboBox", "MultiPage"] {
         assert!(
             catalog.contains(pending),
             "catalog should keep future control {pending:?} visible"
@@ -315,6 +320,10 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     assert!(
         catalog.contains("LIVE ToggleButton:"),
         "ToggleButton should be listed as live: {catalog}"
+    );
+    assert!(
+        catalog.contains("LIVE OptionButton:"),
+        "OptionButton should be listed as live: {catalog}"
     );
     assert!(
         !catalog.contains("PENDING OptionButton, ToggleButton, ComboBox, Image"),
@@ -328,8 +337,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 22,
-        "root node plus 18 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 23,
+        "root node plus 19 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
     );
     assert!(
         snap.scene
@@ -357,7 +366,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ToggleButton,ListBox,Frame,Image,SpinButton",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
         "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown",
@@ -368,7 +377,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
         "top_followup=oxforms-bqr scaled-hit-test",
         "selftest=RunSelfTest returns PASS",
-        "pending.controls=OptionButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+        "pending.controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -382,7 +391,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let supported = read_string(&mut rt, "SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ToggleButton,ListBox,Frame,Image,SpinButton")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton")
             && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported summary should list current controls/properties/events: {supported}"
@@ -390,7 +399,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let pending = read_string(&mut rt, "PendingSurfaceSummary");
     assert!(
-        pending.contains("controls=OptionButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",)
+        pending.contains("controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page",)
             && pending.contains("scaled hit-test indexing"),
         "pending summary should keep future controls and follow-ups visible: {pending}"
     );
@@ -405,8 +414,8 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let selftest = read_string(&mut rt, "SelfTestSummary");
     assert!(
-        selftest.contains("method=RunSelfTest;expected=PASS controls=18")
-            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/ToggleButton/ListBox/Frame/Image/SpinButton/lifecycle"),
+        selftest.contains("method=RunSelfTest;expected=PASS controls=19")
+            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/Frame/Image/SpinButton/lifecycle"),
         "self-test summary should name the deterministic dashboard gate: {selftest}"
     );
 }
@@ -417,7 +426,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=18;"),
+        result.starts_with("PASS controls=19;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -483,6 +492,15 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "ToggleButton.BeforeUpdate",
         "ToggleButton.AfterUpdate",
         "ToggleButton.Exit",
+        "OptionButton.Enter",
+        "OptionButton.MouseDown",
+        "OptionButton.MouseUp",
+        "OptionButton.Click=True",
+        "OptionButton.Click=True",
+        "OptionButton.KeyDown:32",
+        "OptionButton.KeyUp:32",
+        "OptionButton.KeyPress:111",
+        "OptionButton.Exit",
         "ListBox.Enter",
         "ListBox.MouseDown",
         "ListBox.Change:Green",

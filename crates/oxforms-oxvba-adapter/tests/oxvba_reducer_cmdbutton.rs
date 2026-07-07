@@ -123,6 +123,11 @@ fn prepare_session_with_surface(
             ModuleKind::Class,
             "vba/oxforms/ToggleButton.cls",
         ),
+        module_unit(
+            "OptionButtonControl",
+            ModuleKind::Class,
+            "vba/oxforms/OptionButtonControl.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -185,6 +190,11 @@ fn prepare_session_with_surface(
             "ReducerToggleButtonForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_togglebutton_form.cls",
+        ),
+        module_unit(
+            "ReducerOptionButtonForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_optionbutton_form.cls",
         ),
     ];
 
@@ -1004,6 +1014,137 @@ fn togglebutton_value_latches_pressed_face_and_accessibility_selected() {
             "role=togglebutton;name=Tog;value=True;enabled=True;visible=True;focused=False;selected=True;sel_start=0;sel_length=0;sel_text=;patterns=toggle,value"
         ),
         "ToggleButton accessibility should expose toggled value and selected state: {accessibility}"
+    );
+}
+
+// The OptionButton fixture controls: One at (20,18,110,24), Two at (20,48,110,24),
+// Other at (150,18,110,24).
+const OPTION_ONE_INSIDE: (i32, i32) = (35, 30);
+const OPTION_TWO_INSIDE: (i32, i32) = (35, 60);
+
+#[test]
+fn optionbutton_factory_diagnostics_and_accessibility_are_live() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerOptionButtonForm");
+
+    let diagnostics = string_get(&mut session, &form, "Diagnostics");
+    assert!(
+        diagnostics.contains("one=True;two=False;other=True;group=Mode")
+            && diagnostics.contains("capabilities=kind=OptionButton;focusable=True;tabstop=True;click=True;pressed=True;text=False;paste=False;value=True;toggle=True")
+            && diagnostics.contains("accessibility=radio/True/selection,value"),
+        "OptionButton diagnostics should expose group value, capabilities, and accessibility: {diagnostics}"
+    );
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=radio;name=One;value=True;enabled=True;visible=True;focused=False;selected=True")
+            && accessibility.contains("role=radio;name=Two;value=False;enabled=True;visible=True;focused=False;selected=False")
+            && accessibility.contains("role=radio;name=Other;value=True;enabled=True;visible=True;focused=False;selected=True"),
+        "OptionButton accessibility should expose selected state without collapsing different groups: {accessibility}"
+    );
+}
+
+#[test]
+fn optionbutton_mouse_and_keyboard_select_with_group_exclusion() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerOptionButtonForm");
+
+    let down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        OPTION_TWO_INSIDE.0,
+        OPTION_TWO_INSIDE.1,
+    );
+    assert_eq!(down, "enter:Two|mousedown:Two|press:Two|repaint");
+    let up = dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        OPTION_TWO_INSIDE.0,
+        OPTION_TWO_INSIDE.1,
+    );
+    assert_eq!(up, "mouseup:Two|click:Two|release:Two|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "Values"),
+        "False/True/True",
+        "selecting Two should clear only the same GroupName peer"
+    );
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    let key = dispatch_key(&mut session, &form, "keydown", KEY_SPACE);
+    assert_eq!(key, "activate:Two|keydown:Two");
+    assert_eq!(
+        string_get(&mut session, &form, "Values"),
+        "False/True/True",
+        "Space on an already-selected OptionButton should not toggle it off"
+    );
+    let key_up = dispatch_key(&mut session, &form, "keyup", KEY_SPACE);
+    assert_eq!(key_up, "keyup:Two");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Two.Click=True", "Two.KeyDown:32", "Two.KeyUp:32"],
+        "re-selecting an already-selected OptionButton should Click without Change"
+    );
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        OPTION_ONE_INSIDE.0,
+        OPTION_ONE_INSIDE.1,
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        OPTION_ONE_INSIDE.0,
+        OPTION_ONE_INSIDE.1,
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "Values"),
+        "True/False/True",
+        "selecting One should clear Two and leave the other group alone"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "Two.BeforeUpdate",
+            "Two.AfterUpdate",
+            "Two.Exit",
+            "One.Enter",
+            "One.MouseDown",
+            "One.MouseUp",
+            "Two.Change=False",
+            "One.Change=True",
+            "One.Click=True",
+        ],
+        "mouse selection should route focus, clear same-group peer, then click target"
+    );
+}
+
+#[test]
+fn optionbutton_render_uses_radio_dot_for_selected_value() {
+    let (mut session, surface) = prepare_session();
+    let _form = build_form(&mut session, "ReducerOptionButtonForm");
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let one = scene.get(NodeId(1)).expect("OptionButton One node");
+    let two = scene.get(NodeId(2)).expect("OptionButton Two node");
+
+    assert!(
+        fill_rect_with_color(&one.prims, THEME_TEXT).is_some(),
+        "selected OptionButton should render an inner radio dot"
+    );
+    assert!(
+        fill_rect_with_color(&two.prims, THEME_TEXT).is_none(),
+        "unselected OptionButton should render only the outer radio glyph"
     );
 }
 

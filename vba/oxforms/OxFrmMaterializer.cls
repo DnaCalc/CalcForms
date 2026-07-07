@@ -218,6 +218,8 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
             ApplyCommandCancel BoolValue(Raw)
         Case "value"
             ApplyValue Raw
+        Case "groupname"
+            ApplyGroupName Unquote(Raw)
         Case "picture", "mouseicon"
             RecordFrxReference mCurrentName, Key, Raw
             ApplyImagePicture Key, Raw
@@ -271,12 +273,28 @@ Private Sub ApplyToggleValue(ByVal Value As Boolean)
     Button.Value = Value
 End Sub
 
+Private Sub ApplyOptionValue(ByVal Value As Boolean)
+    If LCase$(mCurrentType) <> "msforms.optionbutton" Then Exit Sub
+    Dim Button As OptionButtonControl
+    Set Button = mCurrent
+    Button.Value = Value
+End Sub
+
+Private Sub ApplyGroupName(ByVal Value As String)
+    If LCase$(mCurrentType) <> "msforms.optionbutton" Then Exit Sub
+    Dim Button As OptionButtonControl
+    Set Button = mCurrent
+    Button.GroupName = Value
+End Sub
+
 Private Sub ApplyValue(ByVal Raw As String)
     Select Case LCase$(mCurrentType)
         Case "msforms.checkbox"
             ApplyCheckValue BoolValue(Raw)
         Case "msforms.togglebutton"
             ApplyToggleValue BoolValue(Raw)
+        Case "msforms.optionbutton"
+            ApplyOptionValue BoolValue(Raw)
         Case "msforms.textbox"
             Dim Box As TextBox
             Set Box = mCurrent
@@ -316,6 +334,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.CheckBox.1"
         Case "msforms.togglebutton"
             ProgIdForType = "Forms.ToggleButton.1"
+        Case "msforms.optionbutton"
+            ProgIdForType = "Forms.OptionButton.1"
         Case "msforms.image"
             ProgIdForType = "Forms.Image.1"
     End Select

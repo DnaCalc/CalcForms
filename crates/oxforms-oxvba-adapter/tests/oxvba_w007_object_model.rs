@@ -111,6 +111,11 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
                 ModuleKind::Class,
                 "vba/oxforms/ToggleButton.cls",
             ),
+            module_unit(
+                "OptionButtonControl",
+                ModuleKind::Class,
+                "vba/oxforms/OptionButtonControl.cls",
+            ),
             module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
             module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
             module_unit(

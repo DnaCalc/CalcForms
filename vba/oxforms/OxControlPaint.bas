@@ -51,3 +51,11 @@ Public Sub OxPaintToggleButton( _
         ByVal Latched As Boolean)
     OxThemePaintToggleButton Core, Surface, Focused, Latched
 End Sub
+
+Public Sub OxPaintOptionButton( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal Focused As Boolean, _
+        ByVal Checked As Boolean)
+    OxThemePaintOptionButton Core, Surface, Checked, Focused
+End Sub

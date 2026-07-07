@@ -77,6 +77,19 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Enabled         =   -1
       Visible         =   -1
    End
+   Begin MSForms.OptionButton ModeOption
+      Caption         =   "Option"
+      GroupName       =   "Mode"
+      Value           =   -1
+      Left            =   2700
+      Top             =   1900
+      Width           =   1200
+      Height          =   420
+      TabIndex        =   5
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+   End
    Begin MSForms.Image LogoImage
       Picture         =   "w009-representative.frx":0000
       Left            =   3200

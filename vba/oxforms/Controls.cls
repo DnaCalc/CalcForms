@@ -35,6 +35,9 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     If Control Is Nothing Then Exit Function
     mOwner.RegisterControl Control
     mItems.Add Control, Name
+    If Control.Core.Kind = oxControlOptionButton Then
+        Set Control.Core.PeerControls = Me
+    End If
     Set Add = Control
 End Function
 

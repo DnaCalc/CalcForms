@@ -42,7 +42,7 @@ Public Function OxThemeFaceColor( _
             Else
                 OxThemeFaceColor = &HDCDCDC
             End If
-        Case oxControlCheckBox
+        Case oxControlCheckBox, oxControlOptionButton
             If IsPressed Then
                 OxThemeFaceColor = &HE8E8E8
             Else
@@ -299,6 +299,51 @@ Public Sub OxThemePaintCheckBox( _
         Tx = Core.PaintLeft + BoxSize + 4
         Ty = Core.PaintTop + 3
         Tw = Core.Width - BoxSize - 8
+        If Tw < 1 Then Tw = 1
+        Th = Core.Height - 6
+        If Th < 1 Then Th = 1
+        Dim RunId As String
+        RunId = Core.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        OxThemePaintTextRun Core, Surface, Tx, Ty, Tw, Th, RunId, "left", False, True, False
+    End If
+
+    If Focused And Core.Enabled Then
+        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
+            OxThemeFocusAdornerColor(), 255, 1
+    End If
+
+    Surface.CloseNode
+End Sub
+
+Public Sub OxThemePaintOptionButton( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal Checked As Boolean, _
+        ByVal Focused As Boolean)
+    Const DotSize As Single = 6
+    Const GlyphSize As Single = 12
+
+    Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
+        Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
+
+    Dim GlyphX As Single, GlyphY As Single
+    GlyphX = Core.PaintLeft
+    GlyphY = Core.PaintTop + (Core.Height - GlyphSize) / 2
+
+    Surface.FillRect GlyphX, GlyphY, GlyphSize, GlyphSize, OxThemeResolveFace(Core), 255
+    Surface.DrawEdge GlyphX, GlyphY, GlyphSize, GlyphSize, _
+        "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    If Checked Then
+        Surface.FillRect GlyphX + 3, GlyphY + 3, DotSize, DotSize, _
+            OxThemeResolveText(Core), 255
+    End If
+
+    If Len(Core.DisplayText) > 0 Then
+        Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
+        Tx = Core.PaintLeft + GlyphSize + 4
+        Ty = Core.PaintTop + 3
+        Tw = Core.Width - GlyphSize - 8
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
         If Th < 1 Then Th = 1

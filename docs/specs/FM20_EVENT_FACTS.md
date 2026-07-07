@@ -294,6 +294,20 @@ compatibility lane by `vba/smoke/fixtures/reducer_togglebutton_form.cls` and the
 edge cases such as exact pressed-face pixels, tri-state/null behavior, double-click, drag/drop,
 or native source-interface dispatch names.
 
+## W009 OptionButton Grouping Local Lane
+
+Status: implemented locally by `oxforms-zhz.40`; exact MSForms OptionButton parity is still
+oracle-gated.
+
+The first OptionButton lane implements `Forms.OptionButton.1` with Boolean `Value`,
+`GroupName`, and same-container mutual exclusion owned by VBA object state. User mouse or
+Space/Enter selection sets `Value=True`; an already-selected radio raises `Click` without
+`Change`; selecting a different radio in the same `GroupName` clears the previous peer. This is
+proven as an OxForms local lane by `vba/smoke/fixtures/reducer_optionbutton_form.cls` and the
+focused `oxvba_reducer_cmdbutton` tests. It is not yet a new MSForms oracle fact for exact
+cross-sibling `Change` ordering, arrow-key group navigation, parentage grouping across container
+lanes, source-interface dispatch metadata, drag/drop, double-click, or error events.
+
 ## Lifecycle And Form-adjacent Events
 
 The following names are needed by the W005 lifecycle/pump vocabulary. The first

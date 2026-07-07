@@ -45,6 +45,7 @@ Private mDirty As Boolean
 Private mPressed As Boolean
 Private mHost As IOxControlHost
 Private mOwner As IOxControl
+Private mPeerControls As Controls
 Private mNodeId As Long
 Private mBackColor As Long
 Private mForeColor As Long
@@ -158,6 +159,14 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mValueEditable = True
             mToggleable = True
             mSpecialEffect = fmSpecialEffectSunken
+        Case oxControlOptionButton
+            mFocusable = True
+            mTabStop = True
+            mSupportsClick = True
+            mHasPressedVisual = True
+            mValueEditable = True
+            mToggleable = True
+            mSpecialEffect = fmSpecialEffectSunken
         Case Else
             mFocusable = True
             mTabStop = True
@@ -182,7 +191,15 @@ End Sub
 Public Sub Unbind()
     Set mHost = Nothing
     Set mOwner = Nothing
+    Set mPeerControls = Nothing
 End Sub
+
+Public Property Get PeerControls() As Controls
+    Set PeerControls = mPeerControls
+End Property
+Public Property Set PeerControls(ByVal Value As Controls)
+    Set mPeerControls = Value
+End Property
 
 Public Property Get Kind() As OxControlKind
     Kind = mKind
@@ -397,6 +414,8 @@ Private Function KindName() As String
             KindName = "SpinButton"
         Case oxControlToggleButton
             KindName = "ToggleButton"
+        Case oxControlOptionButton
+            KindName = "OptionButton"
         Case Else
             KindName = "Unknown"
     End Select
