@@ -58,6 +58,11 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/IOxControlHost.cls",
         ),
         module_unit(
+            "IOxControlContainer",
+            ModuleKind::Class,
+            "vba/oxforms/IOxControlContainer.cls",
+        ),
+        module_unit(
             "OxControlCore",
             ModuleKind::Class,
             "vba/oxforms/OxControlCore.cls",
@@ -87,6 +92,7 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
+        module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(

@@ -54,6 +54,14 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     OxPaintStandardControl mCore, Surface, "center", mFocused
 End Sub
 
+Private Property Get IOxControl_HasChildren() As Boolean
+    IOxControl_HasChildren = False
+End Property
+
+Private Property Get IOxControl_Children() As Controls
+    Set IOxControl_Children = Nothing
+End Property
+
 ' --- User-facing properties ---
 Public Property Get Caption() As String
     Caption = mCore.DisplayText

@@ -15,6 +15,7 @@ Private WithEvents mCancel As CommandButton
 Private WithEvents mGo As CommandButton
 Private WithEvents mCheck As CheckBox
 Private WithEvents mChoices As ListBox
+Private mFrame As Frame
 Private mStatus As Label
 Private mPending1 As Label
 Private mPending2 As Label
@@ -38,7 +39,7 @@ Public Sub Build()
     mForm.Name = "full_surface_showcase"
     mForm.Caption = "OxForms Full Surface Showcase"
     mForm.Width = 640
-    mForm.Height = 450
+    mForm.Height = 480
 
     Set mTitle = mForm.Controls.Add("Forms.Label.1", "TitleLabel")
     mTitle.Caption = "OxForms full-surface showcase: Label, TextBox, CommandButton, CheckBox, ListBox"
@@ -117,6 +118,20 @@ Public Sub Build()
     mChoices.AddItem "Green"
     mChoices.AddItem "Blue"
     mChoices.ListIndex = 0
+
+    Set mFrame = mForm.Controls.Add("Forms.Frame.1", "FrameGroup")
+    mFrame.Caption = "Frame"
+    mFrame.Left = 260
+    mFrame.Top = 164
+    mFrame.Width = 170
+    mFrame.Height = 58
+    Dim FrameLabel As Label
+    Set FrameLabel = mFrame.Controls.Add("Forms.Label.1", "FrameLabel")
+    FrameLabel.Caption = "Nested child"
+    FrameLabel.Left = 8
+    FrameLabel.Top = 16
+    FrameLabel.Width = 120
+    FrameLabel.Height = 18
 
     Set mStatus = mForm.Controls.Add("Forms.Label.1", "StatusLabel")
     mStatus.Caption = "Ready. Run RunSelfTest, or interact with the controls."
@@ -259,6 +274,10 @@ Public Property Get ListBoxDiagnostics() As String
     ListBoxDiagnostics = mChoices.Diagnostics
 End Property
 
+Public Property Get FrameDiagnostics() As String
+    FrameDiagnostics = mFrame.Diagnostics
+End Property
+
 Public Property Get InteractionIndexBuildCount() As Long
     InteractionIndexBuildCount = mReducer.InteractionIndexBuildCount
 End Property
@@ -279,7 +298,8 @@ Public Property Get CapabilityCatalog() As String
         "CancelButton:" & mCancel.Core.CapabilityDescriptor & vbLf & _
         "GoButton:" & mGo.Core.CapabilityDescriptor & vbLf & _
         "CheckBox:" & mCheck.Core.CapabilityDescriptor & vbLf & _
-        "ChoicesList:" & mChoices.Core.CapabilityDescriptor
+        "ChoicesList:" & mChoices.Core.CapabilityDescriptor & vbLf & _
+        "FrameGroup:" & mFrame.Core.CapabilityDescriptor
 End Property
 
 Public Sub ClearLog()
@@ -297,7 +317,8 @@ Public Function SurfaceCatalog() As String
         "LIVE CommandButton: Caption, Default, Cancel, geometry, Visible, Enabled; Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit" & vbLf & _
         "LIVE CheckBox: Caption, Value, geometry, Visible, Enabled; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
         "LIVE ListBox: AddItem, List(index), ListCount, ListIndex, Value, geometry, Visible, Enabled, ListBoxDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate; single-select rows" & vbLf & _
-        "PENDING OptionButton, ToggleButton, ComboBox, Image, ScrollBar, SpinButton, Frame, TabStrip, MultiPage/Page"
+        "LIVE Frame: Caption, Controls.Add, child ownership, nested coordinates, clipped child Scene subtree, FrameDiagnostics" & vbLf & _
+        "PENDING OptionButton, ToggleButton, ComboBox, Image, ScrollBar, SpinButton, TabStrip, MultiPage/Page"
 End Function
 
 Public Function RunSelfTest() As String

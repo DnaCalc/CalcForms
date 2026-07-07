@@ -622,6 +622,11 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
         ("OxFormsModel", Procedural, "vba/oxforms/OxFormsModel.bas"),
         ("IOxControl", Class, "vba/oxforms/IOxControl.cls"),
         ("IOxControlHost", Class, "vba/oxforms/IOxControlHost.cls"),
+        (
+            "IOxControlContainer",
+            Class,
+            "vba/oxforms/IOxControlContainer.cls",
+        ),
         ("OxControlCore", Class, "vba/oxforms/OxControlCore.cls"),
         ("Controls", Class, "vba/oxforms/Controls.cls"),
         ("ReturnInteger", Class, "vba/oxforms/ReturnInteger.cls"),
@@ -632,6 +637,7 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
         ("CommandButton", Class, "vba/oxforms/CommandButton.cls"),
         ("CheckBox", Class, "vba/oxforms/CheckBox.cls"),
         ("ListBox", Class, "vba/oxforms/ListBox.cls"),
+        ("Frame", Class, "vba/oxforms/Frame.cls"),
         ("UserForm", Class, "vba/oxforms/UserForm.cls"),
         ("OxTheme", Procedural, "vba/oxforms/OxTheme.bas"),
         (

@@ -609,6 +609,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/IOxControlHost.cls"),
         ),
         unit(
+            "IOxControlContainer",
+            Class,
+            include_str!("../../../vba/oxforms/IOxControlContainer.cls"),
+        ),
+        unit(
             "OxControlCore",
             Class,
             include_str!("../../../vba/oxforms/OxControlCore.cls"),
@@ -657,6 +662,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             "ListBox",
             Class,
             include_str!("../../../vba/oxforms/ListBox.cls"),
+        ),
+        unit(
+            "Frame",
+            Class,
+            include_str!("../../../vba/oxforms/Frame.cls"),
         ),
         unit(
             "UserForm",

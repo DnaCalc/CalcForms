@@ -27,8 +27,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 17,
-        "root plus 14 showcase controls plus the TextBox text and selection overlay nodes"
+        snap.node_count, 19,
+        "root plus 15 showcase controls, one Frame child, and the TextBox text/selection nodes"
     );
 
     let capabilities = runner
@@ -37,7 +37,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     assert!(
         capabilities.contains("InputField:kind=TextBox")
             && capabilities.contains("CheckBox:kind=CheckBox")
-            && capabilities.contains("ChoicesList:kind=ListBox"),
+            && capabilities.contains("ChoicesList:kind=ListBox")
+            && capabilities.contains("FrameGroup:kind=Frame"),
         "showcase should expose current capability descriptors: {capabilities}"
     );
     let index = runner
@@ -69,6 +70,10 @@ fn runner_attaches_renders_and_records_trace_rows() {
             "role=checkbox;name=CheckBox;value=True;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
             "role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=group;name=FrameGroup;value=Frame;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=label;name=FrameLabel;value=Nested child"
         ),
         "showcase should expose a representative accessibility snapshot: {accessibility}"
     );

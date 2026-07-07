@@ -232,7 +232,7 @@ Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As In
         End If
     End If
 
-    Hit.OnMouseDown Button, Shift, CSng(X - Hit.Core.Left), CSng(Y - Hit.Core.Top)
+    Hit.OnMouseDown Button, Shift, CSng(X - Hit.Core.PaintLeft), CSng(Y - Hit.Core.PaintTop)
     Emit "mousedown:" & Hit.Core.Name
 
     ' Any press on a control takes the mouse capture (matches the oracle apply_mouse_press,
@@ -265,7 +265,7 @@ Private Sub ReduceMouseMove(ByVal X As Long, ByVal Y As Long, ByVal Button As In
     End If
 
     ResolvePointerTarget Target
-    Target.OnMouseMove Button, Shift, CSng(X - Target.Core.Left), CSng(Y - Target.Core.Top)
+    Target.OnMouseMove Button, Shift, CSng(X - Target.Core.PaintLeft), CSng(Y - Target.Core.PaintTop)
     Emit "mousemove:" & Target.Core.Name
     If Target.Core.Dirty Then Repaint
 End Sub
@@ -284,7 +284,7 @@ Private Sub ReduceMouseUp(ByVal X As Long, ByVal Y As Long, ByVal Button As Inte
     If Target Is Nothing Then Exit Sub
     ResolvePointerTarget Target
 
-    Target.OnMouseUp Button, Shift, CSng(X - Target.Core.Left), CSng(Y - Target.Core.Top)
+    Target.OnMouseUp Button, Shift, CSng(X - Target.Core.PaintLeft), CSng(Y - Target.Core.PaintTop)
     Emit "mouseup:" & Target.Core.Name
 
     ' Click fires only when the release lands inside the SAME control that took the capture and
@@ -453,17 +453,53 @@ Private Sub BuildInteractionIndex()
     Dim I As Long
     ClearAccelerators
 
+    Dim AllNames As Collection
     Dim TabNames As Collection
     Dim TabKeys As Collection
+    Set AllNames = New Collection
     Set TabNames = New Collection
     Set TabKeys = New Collection
 
+    Dim Order As Long
+    Order = 0
+    CollectInteractionControls mForm.Controls, AllNames, TabNames, TabKeys, Order
+
+    If TabNames.Count > 0 Then
+        mFirstTabName = TabNames.Item(1)
+        mLastTabName = TabNames.Item(TabNames.Count)
+    End If
+
+    Dim Name As String
+    For I = 1 To AllNames.Count
+        Name = AllNames.Item(I)
+        If TabPosition(TabNames, Name) > 0 Then
+            mTabNextByName.Add TabNeighbor(TabNames, Name, False), Name
+            mTabPrevByName.Add TabNeighbor(TabNames, Name, True), Name
+        Else
+            mTabNextByName.Add "", Name
+            mTabPrevByName.Add "", Name
+        End If
+    Next I
+
+    mIndexedInteractionRevision = mForm.InteractionRevision
+    mInteractionIndexDirty = False
+    mInteractionIndexBuildCount = mInteractionIndexBuildCount + 1
+End Sub
+
+Private Sub CollectInteractionControls( _
+        ByVal List As Controls, _
+        ByVal AllNames As Collection, _
+        ByVal TabNames As Collection, _
+        ByVal TabKeys As Collection, _
+        ByRef Order As Long)
+    Dim I As Long
     Dim Ctl As IOxControl
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
+    For I = 1 To List.Count
+        Set Ctl = List.Item(I)
+        AllNames.Add Ctl.Core.Name
 
         If Participates(Ctl) Then
-            AddSortedTabParticipant TabNames, TabKeys, Ctl.Core.Name, TabKey(Ctl, I - 1)
+            AddSortedTabParticipant TabNames, TabKeys, Ctl.Core.Name, TabKey(Ctl, Order)
         End If
 
         If Len(mDefaultButtonName) = 0 _
@@ -478,27 +514,10 @@ Private Sub BuildInteractionIndex()
         If Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.Core.AcceleratorEligible Then
             RegisterAccelerator Ctl
         End If
+
+        Order = Order + 1
+        If Ctl.HasChildren Then CollectInteractionControls Ctl.Children, AllNames, TabNames, TabKeys, Order
     Next I
-
-    If TabNames.Count > 0 Then
-        mFirstTabName = TabNames.Item(1)
-        mLastTabName = TabNames.Item(TabNames.Count)
-    End If
-
-    For I = 1 To mForm.Controls.Count
-        Set Ctl = mForm.Controls.Item(I)
-        If Participates(Ctl) Then
-            mTabNextByName.Add TabNeighbor(TabNames, Ctl.Core.Name, False), Ctl.Core.Name
-            mTabPrevByName.Add TabNeighbor(TabNames, Ctl.Core.Name, True), Ctl.Core.Name
-        Else
-            mTabNextByName.Add "", Ctl.Core.Name
-            mTabPrevByName.Add "", Ctl.Core.Name
-        End If
-    Next I
-
-    mIndexedInteractionRevision = mForm.InteractionRevision
-    mInteractionIndexDirty = False
-    mInteractionIndexBuildCount = mInteractionIndexBuildCount + 1
 End Sub
 
 ' Keep transient interaction owners coherent after object-model mutations. Exact MSForms event
@@ -945,12 +964,19 @@ End Function
 ' the visible+enabled control whose half-open bounds contain the point, highest z-order then
 ' last-added winning. Returns Nothing on a miss.
 Private Function HitTest(ByVal X As Long, ByVal Y As Long) As IOxControl
+    Set HitTest = HitTestControls(mForm.Controls, X, Y)
+End Function
+
+Private Function HitTestControls(ByVal List As Controls, ByVal X As Long, ByVal Y As Long) As IOxControl
     Dim Best As IOxControl
     Dim BestZ As Long
     Dim I As Long, Control As IOxControl
-    For I = 1 To mForm.Controls.Count
-        Set Control = mForm.Controls.Item(I)
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
         If ContainsPoint(Control, X, Y) Then
+            Dim ChildHit As IOxControl
+            If Control.HasChildren Then Set ChildHit = HitTestControls(Control.Children, X, Y)
+            If Not ChildHit Is Nothing Then Set Control = ChildHit
             ' >= keeps the later control on a z tie (last-added wins, matching the kernel).
             If Best Is Nothing Or Control.Core.ZOrder >= BestZ Then
                 Set Best = Control
@@ -958,7 +984,7 @@ Private Function HitTest(ByVal X As Long, ByVal Y As Long) As IOxControl
             End If
         End If
     Next I
-    Set HitTest = Best
+    Set HitTestControls = Best
 End Function
 
 ' Half-open rect test [Left, Left+Width) x [Top, Top+Height) for a visible, enabled control
@@ -967,8 +993,8 @@ Private Function ContainsPoint(ByVal Control As IOxControl, ByVal X As Long, ByV
     Dim C As OxControlCore
     Set C = Control.Core
     ContainsPoint = C.Visible And C.Enabled _
-        And (X >= C.Left) And (X < C.Left + C.Width) _
-        And (Y >= C.Top) And (Y < C.Top + C.Height)
+        And (X >= C.PaintLeft) And (X < C.PaintLeft + C.Width) _
+        And (Y >= C.PaintTop) And (Y < C.PaintTop + C.Height)
 End Function
 
 ' Clear the armed pressed visual (if any) and log the release.

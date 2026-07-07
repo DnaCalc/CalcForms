@@ -12,16 +12,16 @@ Option Explicit
 ' MSForms-shaped public surface; the ProgID->class factory (OxCreateControl) is OxForms-internal
 ' machinery.
 
-Private mForm As UserForm
+Private mOwner As IOxControlContainer
 Private mItems As Collection
 
 Private Sub Class_Initialize()
     Set mItems = New Collection
 End Sub
 
-' Wire the collection to its owning form (called once by UserForm.Class_Initialize).
-Public Sub Bind(ByVal Form As UserForm)
-    Set mForm = Form
+' Wire the collection to its owning container (called once by UserForm/Frame.Class_Initialize).
+Public Sub Bind(ByVal Owner As IOxControlContainer)
+    Set mOwner = Owner
 End Sub
 
 ' Forms 2.0 Controls.Add: create the control for the ProgID ("Forms.Label.1", etc.),
@@ -33,7 +33,7 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     ' Nothing (which would crash in RegisterControl). (Real MSForms raises on a bad ProgID;
     ' a precise Err.Raise is future work once OxVba error handling is proven.)
     If Control Is Nothing Then Exit Function
-    mForm.RegisterControl Control
+    mOwner.RegisterControl Control
     mItems.Add Control, Name
     Set Add = Control
 End Function
@@ -48,7 +48,7 @@ Public Sub Remove(ByVal Name As String)
     For I = 1 To mItems.Count
         Set Control = mItems.Item(I)
         If Control.Core.Name = Name Then
-            mForm.UnregisterControl Control
+            mOwner.UnregisterControl Control
             mItems.Remove I
             Exit Sub
         End If

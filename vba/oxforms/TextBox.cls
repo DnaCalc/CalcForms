@@ -87,16 +87,16 @@ End Property
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     EnsureCaretVisible False
 
-    Surface.OpenNode mCore.NodeId, True, 0, mCore.ZOrder, _
-        mCore.Left, mCore.Top, mCore.Width, mCore.Height, mCore.Visible
+    Surface.OpenNode mCore.NodeId, True, mCore.PaintParentId, mCore.ZOrder, _
+        mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, mCore.Visible
     Surface.AddChild TextNodeId()
     Surface.AddChild SelectionOverlayNodeId()
 
     OxThemePaintControlFrame mCore, Surface
 
     Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-    Tx = mCore.Left + OX_TEXT_INSET_X
-    Ty = mCore.Top + OX_TEXT_INSET_Y
+    Tx = mCore.PaintLeft + OX_TEXT_INSET_X
+    Ty = mCore.PaintTop + OX_TEXT_INSET_Y
     Tw = mCore.Width - (OX_TEXT_INSET_X * 2)
     If Tw < 1 Then Tw = 1
     Th = mCore.Height - (OX_TEXT_INSET_Y * 2)
@@ -135,7 +135,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     If TextW < Tw Then TextW = Tw
 
     Surface.OpenNodeClipped TextNodeId(), True, mCore.NodeId, 0, _
-        mCore.Left, mCore.Top, mCore.Width, mCore.Height, _
+        mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, _
         Len(mCore.DisplayText) > 0, Tx, Ty, Tw, Th
     If Len(mCore.DisplayText) > 0 Then
         Dim RunId As String
@@ -147,7 +147,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     Surface.CloseNode
 
     Surface.OpenNodeClipped SelectionOverlayNodeId(), True, mCore.NodeId, 1, _
-        mCore.Left, mCore.Top, mCore.Width, mCore.Height, SelectionVisible And Sw > 0, _
+        mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, SelectionVisible And Sw > 0, _
         Sx, Ty, Sw, Th
     If SelectionVisible And Sw > 0 And Len(mCore.DisplayText) > 0 Then
         Dim OverlayRunId As String
@@ -158,6 +158,14 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     End If
     Surface.CloseNode
 End Sub
+
+Private Property Get IOxControl_HasChildren() As Boolean
+    IOxControl_HasChildren = False
+End Property
+
+Private Property Get IOxControl_Children() As Controls
+    Set IOxControl_Children = Nothing
+End Property
 
 ' --- User-facing properties ---
 ' Programmatic assignment updates the value and requests repaint; user Change

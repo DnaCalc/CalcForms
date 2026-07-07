@@ -53,6 +53,14 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     OxThemePaintCheckBox mCore, Surface, mValue, mFocused
 End Sub
 
+Private Property Get IOxControl_HasChildren() As Boolean
+    IOxControl_HasChildren = False
+End Property
+
+Private Property Get IOxControl_Children() As Controls
+    Set IOxControl_Children = Nothing
+End Property
+
 ' --- User-facing properties ---
 ' The checked state. Programmatic assignment updates + repaints but raises no Change.
 Public Property Get Value() As Boolean

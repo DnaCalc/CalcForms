@@ -112,7 +112,7 @@ these detailed beads where applicable.
 | `oxforms-zhz.24` | Rebuild TextBox as the first representative complex control on all ideal seams. | Depends on `.15`-`.21` and `.23`; landed `Value` alias/materialization, local property/selection setter diagnostics, and showcase `TextBoxDiagnostics` over the existing single-line TextService, interaction, host-service, theme, render, object-model, and accessibility seams. |
 | `oxforms-zhz.25` | Rebuild CheckBox as the representative boolean/value control on ideal seams. | Depends on `.15`, `.17`-`.21`, and `.23`; landed CheckBox-owned `Value`/focus/event/dirty state, ThemePainter glyph/focus rendering, and reducer Scene assertions. |
 | `oxforms-zhz.26` | Implement a representative ListBox/list-data spike. | Depends on `.15`-`.21` and `.23`; landed a single-select ListBox with VBA-owned `AddItem`/`List`/`ListCount`/`ListIndex`/`Value`, reducer click/keyboard/focus validation, Scene selection rendering, accessibility row counts, and showcase diagnostics. Multi-select, columns, type-ahead, wheel/scroll, and virtualization remain explicit follow-up depth. |
-| `oxforms-zhz.27` | Implement a representative Frame/container coordinate spike. | Depends on `.15`, `.17`-`.21`, and `.23`; roll-up `oxforms-zhz.6` depends on this. |
+| `oxforms-zhz.27` | Implement a representative Frame/container coordinate spike. | Depends on `.15`, `.17`-`.21`, and `.23`; landed `Frame` as a control/container owner with nested `Controls.Add`, relative child coordinates, recursive hit-test/tab/accessibility traversal, parented Scene nodes, child invalidation bubbling, and showcase `FrameDiagnostics`. Full MultiPage/TabStrip and exact MSForms container edge ordering remain later claims. |
 | `oxforms-zhz.28` | Implement a representative Image binary/`.frx` spike. | Depends on `.15`, `.17`-`.23`; roll-up `oxforms-zhz.6` depends on this. |
 | `oxforms-zhz.29` | Implement a representative SpinButton/ScrollBar timer-repeat spike. | Depends on `.15`, `.17`-`.21`, and `.23`; roll-up `oxforms-zhz.6` depends on this. |
 | `oxforms-zhz.30` | Prove reentrancy, modal/lifecycle, handler mutation, queued input, and repaint coherence. | Depends on `.15`, `.17`-`.23`; roll-up `oxforms-zhz.7` depends on this. |
@@ -140,7 +140,7 @@ every row below.
 | `Image` | simple | none | full lane (image decode + `.frx`) |
 | `ScrollBar` | simple | none | full lane (value + auto-repeat) |
 | `SpinButton` | simple | none | full lane (value + auto-repeat) |
-| `Frame` | container | none | full lane (nested children) |
+| `Frame` | container | representative coordinate/container spike (`oxforms-zhz.27`) | remaining lane depth: exact border/caption rendering, nested focus edge-order oracle, richer clipping cases, and broad child mutation/error parity |
 | `MultiPage` (+ `Page`, `Pages`) | container | none | full lane (paged children) |
 | `TabStrip` (+ `Tab`, `Tabs`) | container | none | full lane (tab re-skin) |
 

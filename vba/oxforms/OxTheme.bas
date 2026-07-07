@@ -146,16 +146,16 @@ End Function
 
 Public Sub OxThemePaintControlFrame( _
         ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder)
-    Surface.FillRect Core.Left, Core.Top, Core.Width, Core.Height, _
+    Surface.FillRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
         OxThemeResolveFace(Core), 255
 
     Dim EdgeName As String
     EdgeName = OxThemeEdgeName(Core.SpecialEffect)
     If Len(EdgeName) > 0 Then
-        Surface.DrawEdge Core.Left, Core.Top, Core.Width, Core.Height, _
+        Surface.DrawEdge Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
     ElseIf Core.BorderStyle = fmBorderStyleSingle Then
-        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             OxThemeResolveBorder(Core), 255, 1
     End If
 End Sub
@@ -168,19 +168,19 @@ Public Sub OxThemePaintListBox( _
     Const Inset As Single = 3
     Const RowHeight As Single = 14
 
-    Surface.OpenNode Core.NodeId, True, 0, Core.ZOrder, _
-        Core.Left, Core.Top, Core.Width, Core.Height, Core.Visible
+    Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
+        Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
 
     OxThemePaintControlFrame Core, Surface
 
     If ListIndex >= 0 Then
         Dim SelY As Single
-        SelY = Core.Top + Inset + (ListIndex * RowHeight)
-        If SelY < Core.Top + Core.Height - Inset Then
+        SelY = Core.PaintTop + Inset + (ListIndex * RowHeight)
+        If SelY < Core.PaintTop + Core.Height - Inset Then
             Dim SelW As Single
             SelW = Core.Width - (Inset * 2)
             If SelW < 1 Then SelW = 1
-            Surface.FillRect Core.Left + Inset, SelY, SelW, RowHeight, _
+            Surface.FillRect Core.PaintLeft + Inset, SelY, SelW, RowHeight, _
                 OxThemeSelectionBackColor(), 255
         End If
     End If
@@ -195,13 +195,13 @@ Public Sub OxThemePaintListBox( _
         TextH = Core.Height - (Inset * 2)
         If TextH < 1 Then TextH = 1
         OxThemePaintTextRun Core, Surface, _
-            Core.Left + Inset + 2, Core.Top + Inset, _
+            Core.PaintLeft + Inset + 2, Core.PaintTop + Inset, _
             TextW, TextH, _
             RunId, "left", True, True, False
     End If
 
     If Focused And Core.Enabled Then
-        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             OxThemeFocusAdornerColor(), 255, 1
     End If
 
@@ -225,12 +225,12 @@ Public Sub OxThemePaintCheckBox( _
         ByVal Focused As Boolean)
     Const BoxSize As Single = 12
 
-    Surface.OpenNode Core.NodeId, True, 0, Core.ZOrder, _
-        Core.Left, Core.Top, Core.Width, Core.Height, Core.Visible
+    Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
+        Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
 
     Dim BoxX As Single, BoxY As Single
-    BoxX = Core.Left
-    BoxY = Core.Top + (Core.Height - BoxSize) / 2
+    BoxX = Core.PaintLeft
+    BoxY = Core.PaintTop + (Core.Height - BoxSize) / 2
 
     Surface.FillRect BoxX, BoxY, BoxSize, BoxSize, OxThemeResolveFace(Core), 255
     Surface.DrawEdge BoxX, BoxY, BoxSize, BoxSize, _
@@ -242,8 +242,8 @@ Public Sub OxThemePaintCheckBox( _
 
     If Len(Core.DisplayText) > 0 Then
         Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-        Tx = Core.Left + BoxSize + 4
-        Ty = Core.Top + 3
+        Tx = Core.PaintLeft + BoxSize + 4
+        Ty = Core.PaintTop + 3
         Tw = Core.Width - BoxSize - 8
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
@@ -255,7 +255,7 @@ Public Sub OxThemePaintCheckBox( _
     End If
 
     If Focused And Core.Enabled Then
-        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             OxThemeFocusAdornerColor(), 255, 1
     End If
 

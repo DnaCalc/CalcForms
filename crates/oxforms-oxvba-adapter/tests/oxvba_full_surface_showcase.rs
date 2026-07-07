@@ -55,6 +55,11 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/IOxControlHost.cls",
         ),
         module_unit(
+            "IOxControlContainer",
+            ModuleKind::Class,
+            "vba/oxforms/IOxControlContainer.cls",
+        ),
+        module_unit(
             "OxControlCore",
             ModuleKind::Class,
             "vba/oxforms/OxControlCore.cls",
@@ -84,6 +89,7 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
+        module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -203,7 +209,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        14,
+        15,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -216,6 +222,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE CommandButton",
         "LIVE CheckBox",
         "LIVE ListBox",
+        "LIVE Frame",
     ] {
         assert!(
             catalog.contains(live),
@@ -250,6 +257,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
                 .contains("role=checkbox;name=CheckBox;value=True;enabled=True;visible=True")
             && accessibility
                 .contains("role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True")
+            && accessibility.contains("role=group;name=FrameGroup;value=Frame")
+            && accessibility.contains("role=label;name=FrameLabel;value=Nested child")
             && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
     );
@@ -258,6 +267,12 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         listbox_diagnostics.contains("count=3;index=0;value=Red;rows=Red|Green|Blue")
             && listbox_diagnostics.contains("capabilities=kind=ListBox"),
         "ListBox diagnostics should expose list data and capability shape: {listbox_diagnostics}"
+    );
+    let frame_diagnostics = read_string(&mut rt, "FrameDiagnostics");
+    assert!(
+        frame_diagnostics.contains("caption=Frame;children=1")
+            && frame_diagnostics.contains("capabilities=kind=Frame"),
+        "Frame diagnostics should expose container state: {frame_diagnostics}"
     );
     for pending in ["OptionButton", "ToggleButton", "ComboBox", "MultiPage"] {
         assert!(
@@ -269,8 +284,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 17,
-        "root node plus 14 current showcase controls plus the TextBox text and selection overlay nodes should be resident"
+        snap.node_count, 19,
+        "root node plus 15 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
     );
 }
 
@@ -280,7 +295,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=14;"),
+        result.starts_with("PASS controls=15;"),
         "self-test should report PASS, got {result:?}"
     );
 

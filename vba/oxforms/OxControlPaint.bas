@@ -17,15 +17,15 @@ Public Sub OxPaintStandardControl( _
         ByVal Surface As OxSceneBuilder, _
         ByVal Align As String, _
         Optional ByVal Focused As Boolean = False)
-    Surface.OpenNode Core.NodeId, True, 0, Core.ZOrder, _
-        Core.Left, Core.Top, Core.Width, Core.Height, Core.Visible
+    Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
+        Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
 
     OxThemePaintControlFrame Core, Surface
 
     If Len(Core.DisplayText) > 0 Then
         Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-        Tx = Core.Left + 4
-        Ty = Core.Top + 3
+        Tx = Core.PaintLeft + 4
+        Ty = Core.PaintTop + 3
         Tw = Core.Width - 8
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
@@ -37,7 +37,7 @@ Public Sub OxPaintStandardControl( _
     End If
 
     If Focused And Core.Enabled Then
-        Surface.StrokeRect Core.Left, Core.Top, Core.Width, Core.Height, _
+        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             OxThemeFocusAdornerColor(), 255, 1
     End If
 

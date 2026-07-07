@@ -1,5 +1,6 @@
 Option Explicit
 Implements IOxControlHost
+Implements IOxControlContainer
 
 ' MSForms-shaped UserForm container. Owns the control set and is the host the
 ' controls notify on change. A user form (or, later, the .frm loader) builds its
@@ -76,11 +77,35 @@ Public Property Get Controls() As Controls
 End Property
 
 Public Function ControlByName(ByVal Name As String) As IOxControl
-    Set ControlByName = mControls.ItemByName(Name)
+    Set ControlByName = ControlByNameIn(mControls, Name)
 End Function
 
 Public Function HasControl(ByVal Name As String) As Boolean
-    HasControl = mControls.Contains(Name)
+    Dim Found As IOxControl
+    Set Found = ControlByName(Name)
+    HasControl = Not Found Is Nothing
+End Function
+
+Private Function ControlByNameIn(ByVal List As Controls, ByVal Name As String) As IOxControl
+    Dim Found As IOxControl
+    Set Found = List.ItemByName(Name)
+    If Not Found Is Nothing Then
+        Set ControlByNameIn = Found
+        Exit Function
+    End If
+
+    Dim I As Long
+    Dim Control As IOxControl
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        If Control.HasChildren Then
+            Set Found = ControlByNameIn(Control.Children, Name)
+            If Not Found Is Nothing Then
+                Set ControlByNameIn = Found
+                Exit Function
+            End If
+        End If
+    Next I
 End Function
 
 Public Property Get Count() As Long
@@ -176,10 +201,23 @@ End Function
 Private Sub EmitControls( _
         ByVal List As Object, ByVal Builder As OxSceneBuilder, ByVal Surface As Object)
     OxProfileMark "vba_emit_controls_start"
-    MeasureControls List, Surface
+    Dim MeasureList As Collection
+    Set MeasureList = New Collection
+    AddControlsRecursive List, MeasureList
+    MeasureControls MeasureList, Surface
     OxProfileMark "vba_after_measure_controls"
     PaintControls List, Builder
     OxProfileMark "vba_after_paint_controls"
+End Sub
+
+Private Sub AddControlsRecursive(ByVal Source As Object, ByVal Target As Collection)
+    Dim I As Long
+    Dim Control As IOxControl
+    For I = 1 To Source.Count
+        Set Control = Source.Item(I)
+        Target.Add Control
+        If Control.HasChildren Then AddControlsRecursive Control.Children, Target
+    Next I
 End Sub
 
 ' Pass 1 -- measure: stamp each text control's content-hash run id + measured size from a
@@ -243,6 +281,8 @@ Private Sub PaintControls(ByVal List As Object, ByVal Builder As OxSceneBuilder)
                 Control.Core.MeasuredWidth + 8, Control.Core.MeasuredHeight + 6
         End If
 
+        Control.Core.SetRenderOffset 0, 0
+        Control.Core.SetRenderParentId 0
         Control.Render Builder
 
         ' The control's current state is now committed to the resident scene, so it is no
@@ -389,6 +429,14 @@ End Sub
 
 Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
     RecordInteractionInvalidated Control
+End Sub
+
+Private Sub IOxControlContainer_RegisterControl(ByVal Control As IOxControl)
+    RegisterControl Control
+End Sub
+
+Private Sub IOxControlContainer_UnregisterControl(ByVal Control As IOxControl)
+    UnregisterControl Control
 End Sub
 
 Private Sub RecordInteractionInvalidated(ByVal Control As IOxControl)

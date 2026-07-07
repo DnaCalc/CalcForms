@@ -77,6 +77,11 @@ fn prepare_session_with_surface(
             "vba/oxforms/IOxControlHost.cls",
         ),
         module_unit(
+            "IOxControlContainer",
+            ModuleKind::Class,
+            "vba/oxforms/IOxControlContainer.cls",
+        ),
+        module_unit(
             "OxControlCore",
             ModuleKind::Class,
             "vba/oxforms/OxControlCore.cls",
@@ -106,6 +111,7 @@ fn prepare_session_with_surface(
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
+        module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -158,6 +164,11 @@ fn prepare_session_with_surface(
             "ReducerListBoxForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_listbox_form.cls",
+        ),
+        module_unit(
+            "ReducerFrameForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_frame_form.cls",
         ),
     ];
 
@@ -1517,6 +1528,7 @@ const FIELD_IN: (i32, i32) = (40, 28);
 const CHK2_IN: (i32, i32) = (40, 104);
 const LIST_RED_IN: (i32, i32) = (42, 28);
 const LIST_GREEN_IN: (i32, i32) = (42, 42);
+const FRAME_INNER_IN: (i32, i32) = (42, 62);
 const KEY_ENTER: i16 = 13;
 const KEY_ESCAPE: i16 = 27;
 const KEY_SPACE: i16 = 32;
@@ -1690,6 +1702,107 @@ fn listbox_keyboard_focus_and_accessibility_rows_are_exposed() {
     assert_eq!(
         miss, "",
         "hidden ListBox should not receive mouse focus/input"
+    );
+}
+
+#[test]
+fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerFrameForm");
+
+    assert_eq!(i32_get(&mut session, &form, "RootControlCount"), 2);
+    assert_eq!(i32_get(&mut session, &form, "FrameChildCount"), 2);
+    let diagnostics = string_get(&mut session, &form, "FrameDiagnostics");
+    assert!(
+        diagnostics.contains("caption=Group;children=2")
+            && diagnostics.contains("capabilities=kind=Frame"),
+        "Frame diagnostics should expose container state: {diagnostics}"
+    );
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let root = scene.get(NodeId(0)).expect("root node");
+    assert!(
+        root.children.contains(&NodeId(1)) && root.children.contains(&NodeId(2)),
+        "root should contain the Frame and the outside TextBox"
+    );
+    let frame = scene.get(NodeId(1)).expect("frame node");
+    assert_eq!(frame.children, vec![NodeId(1001), NodeId(1002)]);
+    let inner = scene.get(NodeId(1001)).expect("inner TextBox node");
+    assert_eq!(inner.parent, Some(NodeId(1)));
+    assert_rect_close(
+        inner.bounds,
+        RectF::new(36.0, 56.0, 90.0, 20.0),
+        "inner TextBox absolute bounds should derive from Frame client offset",
+    );
+}
+
+#[test]
+fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerFrameForm");
+
+    let down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        FRAME_INNER_IN.0,
+        FRAME_INNER_IN.1,
+    );
+    assert_eq!(down, "enter:InnerField|mousedown:InnerField|repaint");
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        FRAME_INNER_IN.0,
+        FRAME_INNER_IN.1,
+    );
+    assert_eq!(string_get(&mut session, &form, "FocusName"), "InnerField");
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Inner.Enter", "Inner.MouseDown:6,6", "Inner.MouseUp:6,6"],
+        "mouse coordinates should arrive in child-local Frame coordinates"
+    );
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    dispatch_char(&mut session, &form, "x");
+    assert_eq!(string_get(&mut session, &form, "InnerText"), "x");
+    let tab = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
+    assert_eq!(
+        tab,
+        "keydown:InnerField|beforeupdate:InnerField|afterupdate:InnerField|exit:InnerField|enter:InnerButton|repaint"
+    );
+    let tab = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
+    assert_eq!(
+        tab,
+        "keydown:InnerButton|exit:InnerButton|enter:OuterField|repaint"
+    );
+
+    let index = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        index.contains(";first=InnerField;last=OuterField;"),
+        "tab map should include nested participants in tree order: {index}"
+    );
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=group;name=Group;value=Group")
+            && accessibility.contains("role=textbox;name=InnerField;value=x")
+            && accessibility.contains("role=button;name=InnerButton;value=Inside"),
+        "accessibility snapshot should walk Frame children:\n{accessibility}"
+    );
+
+    invoke_sub(&mut session, &form, "RemoveInnerButton");
+    assert_eq!(i32_get(&mut session, &form, "FrameChildCount"), 1);
+    invoke_sub(&mut session, &form, "Render");
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let frame = scene.get(NodeId(1)).expect("frame node after removal");
+    assert_eq!(
+        frame.children,
+        vec![NodeId(1001)],
+        "Frame repaint should drop the removed child from the parent child list"
     );
 }
 

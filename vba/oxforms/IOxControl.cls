@@ -20,6 +20,12 @@ End Property
 Public Sub Render(ByVal Surface As OxSceneBuilder)
 End Sub
 
+Public Property Get HasChildren() As Boolean
+End Property
+
+Public Property Get Children() As Controls
+End Property
+
 ' --- Reducer input surface ---
 ' The VBA InteractionManager (through the OxReducer facade) does the geometric routing
 ' (hit-test, capture, pressed) control-type-agnostically, then delivers the routed input here so the CONTROL

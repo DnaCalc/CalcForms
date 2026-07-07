@@ -63,6 +63,9 @@ Private mRunId As String
 Private mMeasuredWidth As Single
 Private mMeasuredHeight As Single
 Private mCaretStopsMilliPtCsv As String
+Private mRenderOffsetX As Single
+Private mRenderOffsetY As Single
+Private mRenderParentId As Long
 
 ' Called by the concrete control's Class_Initialize with its intrinsic kind. Sets
 ' the per-kind appearance defaults from [MS-OFORMS] s5.6: morph controls (TextBox)
@@ -99,6 +102,9 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mMeasuredWidth = 0
     mMeasuredHeight = 0
     mCaretStopsMilliPtCsv = ""
+    mRenderOffsetX = 0
+    mRenderOffsetY = 0
+    mRenderParentId = 0
 
     Select Case Kind
         Case oxControlLabel
@@ -129,6 +135,10 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mSupportsClick = True
             mValueEditable = True
             mSpecialEffect = fmSpecialEffectSunken
+        Case oxControlFrame
+            mFocusable = False
+            mTabStop = False
+            mSpecialEffect = fmSpecialEffectFlat
         Case Else
             mFocusable = True
             mTabStop = True
@@ -189,6 +199,27 @@ Public Property Let Top(ByVal Value As Single)
         MarkDirty
         MarkInteractionDirty
     End If
+End Property
+
+Public Property Get PaintLeft() As Single
+    PaintLeft = mLeft + mRenderOffsetX
+End Property
+
+Public Property Get PaintTop() As Single
+    PaintTop = mTop + mRenderOffsetY
+End Property
+
+Public Sub SetRenderOffset(ByVal OffsetX As Single, ByVal OffsetY As Single)
+    mRenderOffsetX = OffsetX
+    mRenderOffsetY = OffsetY
+End Sub
+
+Public Sub SetRenderParentId(ByVal ParentId As Long)
+    mRenderParentId = ParentId
+End Sub
+
+Public Property Get PaintParentId() As Long
+    PaintParentId = mRenderParentId
 End Property
 
 Public Property Get Width() As Single
@@ -339,6 +370,8 @@ Private Function KindName() As String
             KindName = "CheckBox"
         Case oxControlListBox
             KindName = "ListBox"
+        Case oxControlFrame
+            KindName = "Frame"
         Case Else
             KindName = "Unknown"
     End Select

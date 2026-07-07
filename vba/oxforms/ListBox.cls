@@ -53,6 +53,14 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     OxThemePaintListBox mCore, Surface, mListIndex, mFocused
 End Sub
 
+Private Property Get IOxControl_HasChildren() As Boolean
+    IOxControl_HasChildren = False
+End Property
+
+Private Property Get IOxControl_Children() As Controls
+    Set IOxControl_Children = Nothing
+End Property
+
 ' --- User-facing properties and methods ---
 Public Property Get Name() As String
     Name = mCore.Name

@@ -8,15 +8,20 @@ Public Function Snapshot(ByVal Form As UserForm, ByVal FocusName As String) As S
     Dim Text As String
     Text = FormRow(Form, FocusName)
 
-    Dim I As Long
-    Dim Control As IOxControl
-    For I = 1 To Form.Controls.Count
-        Set Control = Form.Controls.Item(I)
-        Text = Text & vbLf & ControlRow(Control, FocusName)
-    Next I
+    AppendControlRows Text, Form.Controls, FocusName
 
     Snapshot = Text
 End Function
+
+Private Sub AppendControlRows(ByRef Text As String, ByVal List As Controls, ByVal FocusName As String)
+    Dim I As Long
+    Dim Control As IOxControl
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        Text = Text & vbLf & ControlRow(Control, FocusName)
+        If Control.HasChildren Then AppendControlRows Text, Control.Children, FocusName
+    Next I
+End Sub
 
 Private Function FormRow(ByVal Form As UserForm, ByVal FocusName As String) As String
     FormRow = _

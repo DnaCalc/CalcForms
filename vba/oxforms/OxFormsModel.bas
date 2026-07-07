@@ -18,6 +18,7 @@ Public Enum OxControlKind
     oxControlCommandButton = 2
     oxControlCheckBox = 3
     oxControlListBox = 4
+    oxControlFrame = 5
 End Enum
 
 ' MSForms 3D appearance, values from [MS-OFORMS] fmSpecialEffect (see spec s5.6).
@@ -85,6 +86,8 @@ Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
             OxKindFromProgId = oxControlCheckBox
         Case "forms.listbox.1"
             OxKindFromProgId = oxControlListBox
+        Case "forms.frame.1"
+            OxKindFromProgId = oxControlFrame
         Case Else
             OxKindFromProgId = -1
     End Select
@@ -106,6 +109,8 @@ Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As
             Set Control = New CheckBox
         Case oxControlListBox
             Set Control = New ListBox
+        Case oxControlFrame
+            Set Control = New Frame
     End Select
 
     If Not Control Is Nothing Then
