@@ -19,6 +19,9 @@
     <ClassModule Include="CheckBox.cls" />
     <ClassModule Include="ListBox.cls" />
     <ClassModule Include="Frame.cls" />
+    <ClassModule Include="Image.cls" />
+    <ClassModule Include="SpinButton.cls" />
+    <ClassModule Include="ToggleButton.cls" />
     <ClassModule Include="UserForm.cls" />
     <ClassModule Include="OxAccessibilityService.cls" />
     <ClassModule Include="OxFrmMaterializer.cls" />

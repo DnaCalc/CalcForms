@@ -43,3 +43,11 @@ Public Sub OxPaintStandardControl( _
 
     Surface.CloseNode
 End Sub
+
+Public Sub OxPaintToggleButton( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal Focused As Boolean, _
+        ByVal Latched As Boolean)
+    OxThemePaintToggleButton Core, Surface, Focused, Latched
+End Sub

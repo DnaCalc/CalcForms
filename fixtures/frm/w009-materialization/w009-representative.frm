@@ -65,6 +65,18 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       BackColor       =   16777215
       ForeColor       =   0
    End
+   Begin MSForms.ToggleButton ModeToggle
+      Caption         =   "Mode"
+      Value           =   -1
+      Left            =   2700
+      Top             =   1400
+      Width           =   1200
+      Height          =   420
+      TabIndex        =   4
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+   End
    Begin MSForms.Image LogoImage
       Picture         =   "w009-representative.frx":0000
       Left            =   3200

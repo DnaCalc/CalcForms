@@ -264,10 +264,19 @@ Private Sub ApplyCheckValue(ByVal Value As Boolean)
     Box.Value = Value
 End Sub
 
+Private Sub ApplyToggleValue(ByVal Value As Boolean)
+    If LCase$(mCurrentType) <> "msforms.togglebutton" Then Exit Sub
+    Dim Button As ToggleButton
+    Set Button = mCurrent
+    Button.Value = Value
+End Sub
+
 Private Sub ApplyValue(ByVal Raw As String)
     Select Case LCase$(mCurrentType)
         Case "msforms.checkbox"
             ApplyCheckValue BoolValue(Raw)
+        Case "msforms.togglebutton"
+            ApplyToggleValue BoolValue(Raw)
         Case "msforms.textbox"
             Dim Box As TextBox
             Set Box = mCurrent
@@ -305,6 +314,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.CommandButton.1"
         Case "msforms.checkbox"
             ProgIdForType = "Forms.CheckBox.1"
+        Case "msforms.togglebutton"
+            ProgIdForType = "Forms.ToggleButton.1"
         Case "msforms.image"
             ProgIdForType = "Forms.Image.1"
     End Select

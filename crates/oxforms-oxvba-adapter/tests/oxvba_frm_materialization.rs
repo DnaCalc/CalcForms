@@ -100,6 +100,11 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/oxforms/SpinButton.cls",
         ),
+        module_unit(
+            "ToggleButton",
+            ModuleKind::Class,
+            "vba/oxforms/ToggleButton.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -225,14 +230,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        6,
-        "Image now materializes as a live VBA control"
+        7,
+        "ToggleButton and Image now materialize as live VBA controls"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=6"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=7"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -264,6 +269,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     assert_line_contains(
         &catalog,
+        "control;name=ModeToggle;role=togglebutton;value=True;left=135;top=70;width=60;height=21;enabled=True;visible=True;tabindex=4;tabstop=True",
+    );
+    assert_line_contains(
+        &catalog,
         "control;name=LogoImage;role=image;value=w009-representative.frx;left=160;top=122;width=32;height=24;enabled=True;visible=True;tabindex=0;tabstop=False",
     );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
@@ -289,12 +298,12 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     let image_metadata = read_string(&mut session, &form, "ImageMetadata");
     assert_line_contains(
         &image_metadata,
-        "image;name=LogoImage;left=160;top=122;width=32;height=24;picture_path=w009-representative.frx;picture_offset=0;handle=9006",
+        "image;name=LogoImage;left=160;top=122;width=32;height=24;picture_path=w009-representative.frx;picture_offset=0;handle=9007",
     );
     let image_diagnostics = read_string(&mut session, &form, "ImageDiagnostics");
     assert!(
         image_diagnostics.contains("picture=w009-representative.frx;offset=0")
-            && image_diagnostics.contains(";handle=9006;")
+            && image_diagnostics.contains(";handle=9007;")
             && image_diagnostics.contains("draw_mode=stretch")
             && image_diagnostics.contains("capabilities=kind=Image")
             && image_diagnostics.contains(";focusable=False;tabstop=False;click=True"),
@@ -327,8 +336,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 9,
-        "root plus six materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 10,
+        "root plus seven materialized controls plus TextBox text/selection nodes should be resident"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(
@@ -336,7 +345,7 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             matches!(
                 prim,
                 Prim::DrawImage {
-                    image: ImageHandle(9006),
+                    image: ImageHandle(9007),
                     ..
                 }
             )
@@ -354,6 +363,7 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         accessibility.contains("role=form;name=W009MaterializationForm")
             && accessibility.contains("role=textbox;name=InputField;value=seed")
             && accessibility.contains("role=checkbox;name=AcceptCheck;value=True")
+            && accessibility.contains("role=togglebutton;name=ModeToggle;value=True")
             && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx"),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );

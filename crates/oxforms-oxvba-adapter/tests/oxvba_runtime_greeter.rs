@@ -97,6 +97,11 @@ fn build_session() -> ProjectRuntimeSession {
             ModuleKind::Class,
             "vba/oxforms/SpinButton.cls",
         ),
+        module_unit(
+            "ToggleButton",
+            ModuleKind::Class,
+            "vba/oxforms/ToggleButton.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(

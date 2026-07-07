@@ -281,6 +281,19 @@ Deferred CheckBox events present in `MdcCheckBoxEvents` but outside this first
 lane: `DblClick`, `KeyPress`, `BeforeDragOver`, `BeforeDropOrPaste`, and
 `Error`.
 
+## W009 ToggleButton Boolean-Value Local Lane
+
+Status: implemented locally by `oxforms-zhz.39`; exact MSForms ToggleButton parity is still
+oracle-gated.
+
+The first ToggleButton lane deliberately borrows the CheckBox boolean/value ordering for the shared
+morph-toggle shape: user activation toggles `Value`, raises `Change`, then raises `Click`, and the
+keyboard Space path raises `Change`/`Click` before `KeyDown`. This is proven as an OxForms local
+compatibility lane by `vba/smoke/fixtures/reducer_togglebutton_form.cls` and the focused
+`oxvba_reducer_cmdbutton` tests. It is not yet a new MSForms oracle fact for ToggleButton-specific
+edge cases such as exact pressed-face pixels, tri-state/null behavior, double-click, drag/drop,
+or native source-interface dispatch names.
+
 ## Lifecycle And Form-adjacent Events
 
 The following names are needed by the W005 lifecycle/pump vocabulary. The first

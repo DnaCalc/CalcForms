@@ -42,7 +42,7 @@ through the adapter/headless path.
 ## Review Findings
 
 1. The representative architecture is coherent enough for broad control work:
-   `TextBox`, `CheckBox`, `ListBox`, `Frame`, `Image`, and `SpinButton` exercise
+   `TextBox`, `CheckBox`, `ToggleButton`, `ListBox`, `Frame`, `Image`, and `SpinButton` exercise
    the service seams, interaction manager, object model, accessibility snapshot,
    materializer, renderer vocabulary, performance harness, and dashboard.
 2. The major remaining architectural hazard is not another control abstraction;

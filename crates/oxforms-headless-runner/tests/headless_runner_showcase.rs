@@ -34,8 +34,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 21,
-        "root plus 17 showcase controls, one Frame child, and the TextBox text/selection nodes"
+        snap.node_count, 22,
+        "root plus 18 showcase controls, one Frame child, and the TextBox text/selection nodes"
     );
 
     let capabilities = runner
@@ -44,6 +44,7 @@ fn runner_attaches_renders_and_records_trace_rows() {
     assert!(
         capabilities.contains("InputField:kind=TextBox")
             && capabilities.contains("CheckBox:kind=CheckBox")
+            && capabilities.contains("ToggleButton:kind=ToggleButton")
             && capabilities.contains("ChoicesList:kind=ListBox")
             && capabilities.contains("FrameGroup:kind=Frame")
             && capabilities.contains("LogoImage:kind=Image")
@@ -77,6 +78,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
             "role=textbox;name=InputField;value=;enabled=True;visible=True;focused=True;selected=False"
         ) && accessibility.contains(
             "role=checkbox;name=CheckBox;value=True;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=togglebutton;name=ToggleButton;value=True;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
             "role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
@@ -112,7 +115,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ListBox,Frame,Image,SpinButton",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ToggleButton,ListBox,Frame,Image,SpinButton",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
         "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown",
@@ -121,7 +124,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
         "accessibility.snapshot=role=form;name=full_surface_showcase",
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
-        "pending.controls=OptionButton,ToggleButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+        "pending.controls=OptionButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -137,7 +140,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .read_string("SupportedSurfaceSummary")
         .expect("SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ListBox,Frame,Image,SpinButton")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,ToggleButton,ListBox,Frame,Image,SpinButton")
             && supported.contains("methods=Controls.Add,Controls.Item,Render,Dispatch")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported surface summary should be a compact dashboard row: {supported}"
@@ -147,9 +150,8 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .read_string("PendingSurfaceSummary")
         .expect("PendingSurfaceSummary");
     assert!(
-        pending.contains(
-            "controls=OptionButton,ToggleButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",
-        ) && pending.contains("Accessibility Windows UIA/MSAA provider")
+        pending.contains("controls=OptionButton,ComboBox,ScrollBar,TabStrip,MultiPage/Page",)
+            && pending.contains("Accessibility Windows UIA/MSAA provider")
             && pending.contains("scaled hit-test indexing"),
         "pending summary should include both controls and known follow-ups: {pending}"
     );

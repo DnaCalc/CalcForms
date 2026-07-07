@@ -118,6 +118,11 @@ fn prepare_session_with_surface(
             ModuleKind::Class,
             "vba/oxforms/SpinButton.cls",
         ),
+        module_unit(
+            "ToggleButton",
+            ModuleKind::Class,
+            "vba/oxforms/ToggleButton.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -175,6 +180,11 @@ fn prepare_session_with_surface(
             "ReducerFrameForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_frame_form.cls",
+        ),
+        module_unit(
+            "ReducerToggleButtonForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_togglebutton_form.cls",
         ),
     ];
 
@@ -897,6 +907,103 @@ fn checkbox_second_click_toggles_back_off() {
     assert!(
         !value(&mut session, &form),
         "a second click toggles back to unchecked"
+    );
+}
+
+// The ToggleButton fixture control is at Left=20, Top=20, Width=110, Height=24.
+const TOGGLE_INSIDE: (i32, i32) = (35, 32);
+
+#[test]
+fn togglebutton_factory_diagnostics_and_accessibility_are_live() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerToggleButtonForm");
+
+    let diagnostics = string_get(&mut session, &form, "Diagnostics");
+    assert!(
+        diagnostics.contains("caption=Toggle;value=False")
+            && diagnostics.contains("capabilities=kind=ToggleButton;focusable=True;tabstop=True;click=True;pressed=True;text=False;paste=False;value=True;toggle=True")
+            && diagnostics.contains("accessibility=togglebutton/False/toggle,value"),
+        "ToggleButton diagnostics should expose value, capabilities, and accessibility: {diagnostics}"
+    );
+}
+
+#[test]
+fn togglebutton_mouse_and_keyboard_toggle_value_first() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerToggleButtonForm");
+
+    let down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        TOGGLE_INSIDE.0,
+        TOGGLE_INSIDE.1,
+    );
+    assert_eq!(down, "enter:Tog|mousedown:Tog|press:Tog|repaint");
+    assert!(!value(&mut session, &form), "mouse down does not toggle");
+    let up = dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        TOGGLE_INSIDE.0,
+        TOGGLE_INSIDE.1,
+    );
+    assert_eq!(up, "mouseup:Tog|click:Tog|release:Tog|repaint");
+    assert!(value(&mut session, &form), "mouse up toggles on");
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    let key = dispatch_key(&mut session, &form, "keydown", KEY_SPACE);
+    assert_eq!(key, "activate:Tog|keydown:Tog|repaint");
+    assert!(!value(&mut session, &form), "Space toggles off");
+    let key_up = dispatch_key(&mut session, &form, "keyup", KEY_SPACE);
+    assert_eq!(key_up, "keyup:Tog");
+
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Change=False", "Click=False", "KeyDown:32", "KeyUp:32",],
+        "keyboard activation should match the CheckBox value-first event order"
+    );
+}
+
+#[test]
+fn togglebutton_value_latches_pressed_face_and_accessibility_selected() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerToggleButtonForm");
+
+    {
+        let snapshot = surface.snapshot().expect("surface snapshot");
+        let scene = snapshot.scene.expect("scene snapshot");
+        let button = scene.get(NodeId(1)).expect("ToggleButton node");
+        assert!(
+            fill_rect_with_color(&button.prims, THEME_COMMAND_FACE).is_some(),
+            "unchecked ToggleButton should start with the idle button face"
+        );
+    }
+
+    invoke_sub(&mut session, &form, "SetValueTrue");
+    {
+        let snapshot = surface.snapshot().expect("surface snapshot");
+        let scene = snapshot.scene.expect("scene snapshot");
+        let button = scene.get(NodeId(1)).expect("ToggleButton node");
+        assert!(
+            fill_rect_with_color(&button.prims, THEME_COMMAND_PRESSED).is_some(),
+            "programmatic Value=True should latch the pressed button face"
+        );
+        assert_eq!(
+            draw_edge_effect(&button.prims),
+            Some(EdgeEffect::Sunken),
+            "latched ToggleButton should use the pressed/sunken edge"
+        );
+    }
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains(
+            "role=togglebutton;name=Tog;value=True;enabled=True;visible=True;focused=False;selected=True;sel_start=0;sel_length=0;sel_text=;patterns=toggle,value"
+        ),
+        "ToggleButton accessibility should expose toggled value and selected state: {accessibility}"
     );
 }
 
