@@ -406,6 +406,42 @@ buffers keyed by stable NodeId. The only sanctioned cross-backend divergence is
 text AA/subpixel rounding, bounded by §10.1 profiles. DPI is a single root
 `Affine`; the scene never bakes pixels.
 
+### 11.1 WebGPU/ProGPU borrowing rule
+
+Borrow the shape of fast rendering systems, not their ownership model. The
+durable slow-world/fast-world seam remains:
+
+```text
+VBA control state + event semantics -> ScenePatch -> resident Scene -> backend
+```
+
+The Scene is the narrow, control-blind command/data boundary. A future
+WebGPU/wgpu backend, or a ProGPU-like compiled renderer, may add Rust-side
+derived caches such as:
+
+- `Scene` -> sorted draw batches;
+- `NodeId`/content-hash -> GPU buffers, pipeline keys, bind groups, atlases;
+- `DamageSet` -> invalidated batch/resource ranges;
+- `TextRunId` -> shaped glyph runs, atlas entries, or GPU text resources.
+
+Those caches are disposable backend products. They must never become the
+authoritative control model, never absorb MSForms property/event semantics, and
+never require TextBox/ListBox/etc. behavior to move out of VBA. `ScenePatch` is
+the durable contract; compiled batches/resources are rebuildable acceleration.
+
+WebGPU/wgpu is therefore a backend option, not an architecture. The CPU/headless
+renderer remains canonical for deterministic goldens and parity localization.
+GPU renderers may optimize presentation, batching, and resource reuse, but they
+must be validated against the same `Scene`/`PrimSink` invariants and tolerate a
+full rebuild from `ScenePatch`.
+
+Text follows the same rule. `TextRunId`/`TextService` is the semantic seam today;
+glyph atlases, GPU text, or richer shaping can land later behind that seam
+without changing TextBox ownership, selection state, or event ordering. Likewise,
+W009 performance evidence decides when JSON size, patch construction, patch
+application, or batching becomes the actual bottleneck; until then, avoid adding
+parallel render models just because a fast backend could use them internally.
+
 ## 12. Migration (green at every step)
 
 Ordered, each keeping `cargo fmt`/`clippy --all-targets`/`test` green:
