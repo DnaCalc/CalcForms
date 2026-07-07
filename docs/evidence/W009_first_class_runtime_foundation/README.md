@@ -326,6 +326,20 @@ contract:
 - scaled hit-test settlement (`oxforms-bqr`) blocks the broad implementation lanes because `.31`
   ranked it as the top phase-0 performance follow-up.
 
+`oxforms-bqr` settles the scaled hit-test home for those broad lanes:
+
+- `oxvba_lex_hittest_bench` now includes a layout-built VBA index and emits
+  `perf/w009-hittest-home-settlement-20260707.json`;
+- the post-fix array isolation remains flat (`~3`-`4 us` per array read on this host), so the
+  old vm3 O(N²) array-access blocker stays resolved;
+- linear VBA hit-testing is rejected for broad forms (`17828 us` per 400-control pick and
+  `71313 us` if four raw points crossed in one frame);
+- layout-built VBA indexed picking is accepted as the next home (`69`-`96 us` steady pick from
+  50 to 400 controls under a 16.6 ms frame budget);
+- index rebuild is allowed only on layout/visibility/z-order invalidation, because the 400-control
+  build cost is about one frame (`17520 us`), and Rust Scene picking remains the fallback if real
+  invalidation churn later misses budget.
+
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
 - `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms

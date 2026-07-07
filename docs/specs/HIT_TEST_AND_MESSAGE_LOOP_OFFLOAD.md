@@ -240,32 +240,56 @@ unless the index is built once per layout and held static between layouts; (iii)
 it must fit (≈16.6 ms at 60 Hz, less the render share) has not been measured against. So an indexed-VBA
 pick is **plausible but unproven** — the recommendation below keeps it *provisional*, not settled.
 
-## Recommendation (post array-fix)
+### Update — indexed-pick settlement (`oxforms-bqr`, 2026-07-07)
+
+`oxforms-bqr` added the missing fixture variant: `BuildIndex` builds a VBA-owned grid index from the
+same layout data, and `HitTestIndexed` does one cell lookup plus the same final bounds check. The
+ignored probe now writes
+`docs/evidence/W009_first_class_runtime_foundation/perf/w009-hittest-home-settlement-20260707.json`.
+Run:
+
+```powershell
+$env:OXFORMS_HITTEST_BQR_OUT = "$PWD\docs\evidence\W009_first_class_runtime_foundation\perf\w009-hittest-home-settlement-20260707.json"
+cargo test -p oxforms-oxvba-adapter --test oxvba_lex_hittest_bench -- --ignored --nocapture
+```
+
+Frame model for the decision: 240 raw pointer points/sec, 60 Hz dispatch frame, therefore 4 raw
+points/frame. The safe contract is still one dispatched move per frame with intermediate points
+attached; the table records both the coalesced indexed-pick cost and the accidental raw-crossing
+projection.
+
+| N | linear pick/op | indexed pick/op | crossing noop/op | index build, min-of-5 | coalesced indexed frame | raw 4x indexed frame | raw 4x linear frame |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 50 | 2062 us | 69 us | 6 us | 2541 us | 69 us | 275 us | 8249 us |
+| 100 | 3693 us | 81 us | 6 us | 4527 us | 81 us | 324 us | 14773 us |
+| 200 | 10485 us | 74 us | 6 us | 10266 us | 74 us | 297 us | 41942 us |
+| 400 | 17828 us | 96 us | 7 us | 17520 us | 96 us | 384 us | 71313 us |
+
+Decision: **the W009 broad-control lanes should use VBA-owned indexed picking as the next home**.
+It is inside the 16.6 ms frame budget by two orders of magnitude for steady pointer routing, and it
+keeps the control/semantic boundary simple: VBA owns layout, control flags, and behavioral routing;
+the index is just a geometry accelerator. A naïve linear scan is no longer acceptable for broad forms:
+it already exceeds one full frame at 400 controls for one pick and blows the frame budget if raw moves
+cross individually. Rebuilding the index is an O(N) layout-time cost, not a per-move cost; at 400
+controls it is about one frame, so it must be tied to layout/visibility/z-order invalidation and not
+rebuilt during steady mouse move. The Rust Scene pick remains the documented fallback if later real
+layout churn shows the VBA index-maintenance cost cannot be amortized.
+
+## Recommendation (post `oxforms-bqr`)
 
 1. **Independent of the hit-test numbers:** the backend should own the pump and **not cross into VBA
    on every raw move** — coalesce + deliver only to `wants_move` targets. Crossing per raw move is the
    clearest waste; this stands even if VBA hit-test is cheap.
 2. **The pick** has a progression, not a binary: (a) naïve VBA linear scan → (b) **VBA scan + a
    spatial index (AABB)** — Avalonia's actual choice, keeping the pick managed — → (c) the pick in
-   Rust over the Scene index. Avalonia (compiled managed) stops at (b); we may need (c) only because
-   vm3 is interpreted. Gate on the benchmark per §4.6: if an indexed VBA pick is fast enough
-   per-frame, stay managed (b); if interpreted cost dominates even indexed, offload to Rust (c). (c)
-   reuses geometry the render already produces and *simplifies* the VBA reducer, but per the Avalonia
-   precedent it is the fallback, not the default. **PROVISIONAL (post round-2 re-benchmark,
-   `oxforms-bqr`): planned default = (b), an indexed VBA pick — not yet firm.** The re-benchmark removed
-   the blocker (array access O(1); linear scan O(N) at ~33 µs/control) and the Avalonia precedent
-   favours keeping the pick managed, so (b) is the working assumption. It is **not settled**, because
-   the deciding numbers are unmeasured: no indexed pick exists in the fixture, the interpreter index
-   build/maintenance cost is unquantified, and nothing has been measured against a stated per-frame
-   budget (≈16.6 ms at 60 Hz, less render). A firm (b)-vs-(c) decision needs an indexed-pick +
-   per-frame benchmark with intermediate-point move traces (Open question 3) — increment-2 work, for
-   which `oxforms-bqr` stays open. The Rust geometric pick (c) remains the documented fallback.
-   Crucially, **the choice is a localized ROUTE-stage detail: either home leaves the message-handling
-   pipeline/contract (the spec) unchanged**, so it does not gate the reducer port.
-3. **Sequencing:** this does **not** block the reducer port. Port control *behavior* to VBA first
-   (bead-driven); land the Rust geometric router as a separate kernel slice when the numbers + the
-   move-semantics fixture justify it. Per `oxvba-vm3-handover-policy`, any vm3 limitation found while
-   exercising the VBA path is an OxVba handover, not a workaround.
+   Rust over the Scene index. The indexed fixture settles (b) as the next implementation home for
+   W009 broad controls. The Rust geometric pick (c) remains a localized fallback if later evidence
+   shows index rebuild/maintenance cannot stay on layout changes.
+3. **Sequencing:** the next control lanes may proceed with the VBA indexed-pick decision. The broad
+   lane implementation should add real invalidation hooks for layout/visibility/z-order changes,
+   preserve intermediate move points under coalescing, and keep all control behavior in VBA. Per
+   `oxvba-vm3-handover-policy`, any vm3 limitation found while exercising the VBA path is an OxVba
+   handover, not a workaround.
 
 ## Open questions before this could become a plan
 
@@ -275,7 +299,8 @@ pick is **plausible but unproven** — the recommendation below keeps it *provis
 2. **The move contract, proven not to break user code.** A fixture proving a control's `MouseMove`
    handler still fires (at frame rate), a drag threshold still trips, and per-move cursor logic still
    works under coalescing. The burden is showing it does NOT break, not that the crossing is slow.
-3. **Benchmark completeness.** Per-frame numbers (not just per-op), a JIT run alongside the
-   interpreter, and a realistic move-trace to quantify the coalescing saving.
+3. **JIT comparison.** The settlement is vm3-interpreter evidence because that is the current shipping
+   path. A later JIT run may refine constants but does not change the W009 home decision.
 
-Until 1–3 are resolved this is exploration, not a committed bead.
+The broad-control blocker is resolved: use VBA indexed picking first, with Rust Scene picking retained
+as a measured fallback rather than the architecture default.

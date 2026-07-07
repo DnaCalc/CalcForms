@@ -177,3 +177,36 @@ Hypothesis ledger:
 | VBA hit-test cost is already settled for broad forms | Supports follow-up | 100-control mouse move p95 is `432473 us`; settle indexed VBA pick vs Rust Scene pick in `oxforms-bqr`. |
 | Timer repeat needs a parallel runtime path | Rejects | The timer budget scenario dispatches `auto_repeat` through `OxRuntime`. |
 | Further optimization should proceed without scenario-specific evidence | Rejects | This bead records budgets only; optimization requires a ranked follow-up target. |
+
+## Hit-Test Home Settlement
+
+Artifact:
+`w009-hittest-home-settlement-20260707.json`
+
+`oxforms-bqr` extends the OxVba hit-test probe with a VBA-owned layout index and
+a frame-budget scenario. The benchmark is still ignored/timing-only:
+
+```powershell
+$env:OXFORMS_HITTEST_BQR_OUT = "$PWD\docs\evidence\W009_first_class_runtime_foundation\perf\w009-hittest-home-settlement-20260707.json"
+cargo test -p oxforms-oxvba-adapter --test oxvba_lex_hittest_bench -- --ignored --nocapture
+```
+
+Frame model: 240 raw pointer points/sec, 60 Hz dispatch frame, 4 raw
+points/frame. The intended contract is one dispatched move per frame with
+intermediate points attached.
+
+| Controls | Linear pick/op us | Indexed pick/op us | Crossing noop/op us | Index build min-of-5 us | Coalesced indexed frame us | Raw 4x indexed frame us | Raw 4x linear frame us |
+|---:|---:|---:|---:|---:|---:|---:|---:|
+| 50 | 2062 | 69 | 6 | 2541 | 69 | 275 | 8249 |
+| 100 | 3693 | 81 | 6 | 4527 | 81 | 324 | 14773 |
+| 200 | 10485 | 74 | 6 | 10266 | 74 | 297 | 41942 |
+| 400 | 17828 | 96 | 7 | 17520 | 96 | 384 | 71313 |
+
+Decision:
+
+| Question | Answer | Evidence |
+|---|---|---|
+| Should broad W009 lanes use naïve VBA linear hit-testing? | No. | Linear reaches `17828 us` for one 400-control pick and exceeds the frame budget if raw moves cross individually. |
+| Should broad W009 lanes use a VBA-owned indexed pick first? | Yes. | Steady indexed pick stays `69`-`96 us` from 50 to 400 controls, comfortably under a 16.6 ms frame budget. |
+| Should Rust Scene picking replace VBA routing now? | No. | The indexed VBA path is fast enough and keeps layout/control semantics owned by VBA; Rust Scene pick remains a fallback if real index invalidation churn misses budget. |
+| When is index rebuild acceptable? | Layout/visibility/z-order invalidation only. | Build cost is O(N) and reaches `17520 us` at 400 controls, so it must not run during steady mouse move. |

@@ -6,10 +6,11 @@
 //!
 //!   cargo test -p oxforms-oxvba-adapter --test oxvba_lex_hittest_bench -- --ignored --nocapture
 //!
-//! Three measurements per control-count N, over the same deterministic click stream:
-//!   - rust:     native linear hit-test over N rects (the control-agnostic kernel service shape).
-//!   - vba:      one `HitTestAll` crossing per click (VBA hit-test compute + the crossing).
-//!   - noop:     one `Noop` crossing per click (the bare invoke/marshal cost, no hit-test).
+//! Measurements per control-count N, over the same deterministic click stream:
+//!   - rust:        native linear hit-test over N rects (the control-agnostic kernel service shape).
+//!   - vba_linear:  one `HitTestAll` crossing per click (VBA hit-test compute + the crossing).
+//!   - vba_indexed: one `HitTestIndexed` crossing per click after layout-time index build.
+//!   - noop:        one `Noop` crossing per click (the bare invoke/marshal cost, no hit-test).
 //!
 //! vba_compute ≈ vba − noop isolates the interpreted hit-test loop from the crossing tax.
 //!
@@ -112,6 +113,10 @@ fn invoke_i32(
         .unwrap_or_else(|err| panic!("invoke {member}: {err}"));
 }
 
+fn duration_us(duration: Duration) -> f64 {
+    duration.as_secs_f64() * 1_000_000.0
+}
+
 #[test]
 #[ignore = "perf probe; run explicitly with --ignored --nocapture"]
 fn hit_test_scaling_vba_vs_rust_on_vm3() {
@@ -129,8 +134,8 @@ fn hit_test_scaling_vba_vs_rust_on_vm3() {
     // stderr is unbuffered, so each row lands live (println to a redirected file block-buffers).
     eprintln!("oxforms-lex hit-test scaling (vm3 interpreter, enable_jit=false), iters={iters}/N");
     eprintln!(
-        "{:>6} | {:>14} | {:>14} | {:>14} | {:>14}",
-        "N", "rust/op", "vba/op", "noop/op", "vba_compute/op"
+        "{:>6} | {:>14} | {:>14} | {:>14} | {:>14} | {:>14} | {:>14}",
+        "N", "rust/op", "vba_linear/op", "vba_index/op", "noop/op", "linear-noop", "build_index"
     );
 
     for &n in &[25usize, 50, 100, 200, 400] {
@@ -141,6 +146,10 @@ fn hit_test_scaling_vba_vs_rust_on_vm3() {
             vec![Variant::from_i32(n as i32)],
         );
         let rects = build_rects(n);
+
+        let t = Instant::now();
+        invoke_i32(&mut session, &form, "BuildIndex", Vec::new());
+        let build_index = t.elapsed();
 
         // Native Rust hit-test.
         let t = Instant::now();
@@ -163,6 +172,18 @@ fn hit_test_scaling_vba_vs_rust_on_vm3() {
         }
         let vba = t.elapsed();
 
+        // VBA indexed hit-test (compute + one crossing per click).
+        let t = Instant::now();
+        for &(x, y) in &clicks {
+            invoke_i32(
+                &mut session,
+                &form,
+                "HitTestIndexed",
+                vec![Variant::from_i32(x), Variant::from_i32(y)],
+            );
+        }
+        let indexed = t.elapsed();
+
         // Bare crossing overhead (Noop, no hit-test).
         let t = Instant::now();
         for _ in 0..iters {
@@ -173,12 +194,147 @@ fn hit_test_scaling_vba_vs_rust_on_vm3() {
         let per = |d: std::time::Duration| d / iters as u32;
         let vba_compute = vba.saturating_sub(noop);
         eprintln!(
-            "{n:>6} | {:>14?} | {:>14?} | {:>14?} | {:>14?}",
+            "{n:>6} | {:>14?} | {:>14?} | {:>14?} | {:>14?} | {:>14?} | {:>14?}",
             per(rust),
             per(vba),
+            per(indexed),
             per(noop),
-            per(vba_compute)
+            per(vba_compute),
+            build_index
         );
+    }
+}
+
+#[test]
+#[ignore = "perf probe; run explicitly with --ignored --nocapture"]
+fn indexed_hit_test_frame_budget_on_vm3() {
+    let mut session = prepare_session();
+    let form = session
+        .create_class_instance("LexHitTestBenchForm")
+        .expect("create bench form");
+
+    let points_per_second = 240.0;
+    let frame_hz = 60.0;
+    let raw_points_per_frame = points_per_second / frame_hz;
+    let frame_budget_us = 16_666.0;
+    let trace_len = 240usize;
+    let moves: Vec<(i32, i32)> = (0..trace_len)
+        .map(|k| (((k * 29) % 960) as i32, ((k * 47) % 640) as i32))
+        .collect();
+
+    let mut rows = Vec::new();
+    eprintln!(
+        "oxforms-lex indexed hit-test frame budget (vm3 interpreter, enable_jit=false), trace={trace_len} moves, raw_points_per_frame={raw_points_per_frame}"
+    );
+    eprintln!(
+        "{:>6} | {:>14} | {:>14} | {:>14} | {:>14} | {:>14} | {:>10}",
+        "N", "linear/op", "indexed/op", "noop/op", "build_index", "indexed_frame", "status"
+    );
+
+    for &n in &[50usize, 100, 200, 400] {
+        invoke_i32(
+            &mut session,
+            &form,
+            "Setup",
+            vec![Variant::from_i32(n as i32)],
+        );
+
+        let build_trials = 5;
+        let mut best_build = Duration::MAX;
+        for _ in 0..build_trials {
+            let t = Instant::now();
+            invoke_i32(&mut session, &form, "BuildIndex", Vec::new());
+            best_build = best_build.min(t.elapsed());
+        }
+
+        let t = Instant::now();
+        for &(x, y) in &moves {
+            invoke_i32(
+                &mut session,
+                &form,
+                "HitTestAll",
+                vec![Variant::from_i32(x), Variant::from_i32(y)],
+            );
+        }
+        let linear = t.elapsed() / trace_len as u32;
+
+        let t = Instant::now();
+        for &(x, y) in &moves {
+            invoke_i32(
+                &mut session,
+                &form,
+                "HitTestIndexed",
+                vec![Variant::from_i32(x), Variant::from_i32(y)],
+            );
+        }
+        let indexed = t.elapsed() / trace_len as u32;
+
+        let t = Instant::now();
+        for _ in 0..trace_len {
+            invoke_i32(&mut session, &form, "Noop", Vec::new());
+        }
+        let noop = t.elapsed() / trace_len as u32;
+
+        // Under the documented move contract, raw moves are coalesced to one dispatched
+        // move per frame with intermediate points attached. That means one picked/crossed
+        // event per frame in steady state; the raw-points-per-frame projection shows the
+        // cost if we accidentally crossed every raw move.
+        let indexed_frame_us = duration_us(indexed);
+        let indexed_raw_frame_us = duration_us(indexed) * raw_points_per_frame;
+        let linear_raw_frame_us = duration_us(linear) * raw_points_per_frame;
+        let status = if indexed_frame_us < frame_budget_us {
+            "PASS"
+        } else {
+            "FAIL"
+        };
+        eprintln!(
+            "{n:>6} | {:>14?} | {:>14?} | {:>14?} | {:>14?} | {:>14.1} | {:>10}",
+            linear, indexed, noop, best_build, indexed_frame_us, status
+        );
+
+        rows.push(serde_json::json!({
+            "controls": n,
+            "linear_pick_us": duration_us(linear),
+            "indexed_pick_us": duration_us(indexed),
+            "noop_crossing_us": duration_us(noop),
+            "build_index_us_min_of_5": duration_us(best_build),
+            "coalesced_indexed_frame_us": indexed_frame_us,
+            "raw_4x_indexed_frame_us": indexed_raw_frame_us,
+            "raw_4x_linear_frame_us": linear_raw_frame_us,
+            "frame_budget_us": frame_budget_us,
+            "status": status,
+        }));
+    }
+
+    if let Ok(path) = std::env::var("OXFORMS_HITTEST_BQR_OUT") {
+        let report = serde_json::json!({
+            "bead": "oxforms-bqr",
+            "scenario": "indexed_hit_test_frame_budget_on_vm3",
+            "git_sha": std::process::Command::new("git")
+                .args(["rev-parse", "HEAD"])
+                .output()
+                .ok()
+                .and_then(|output| String::from_utf8(output.stdout).ok())
+                .map(|sha| sha.trim().to_string())
+                .unwrap_or_else(|| "unknown".to_string()),
+            "host": {
+                "os": std::env::consts::OS,
+                "arch": std::env::consts::ARCH,
+            },
+            "vm": "OxVba vm3 interpreter",
+            "enable_jit": false,
+            "points_per_second": points_per_second,
+            "frame_hz": frame_hz,
+            "raw_points_per_frame": raw_points_per_frame,
+            "frame_budget_us": frame_budget_us,
+            "interpretation": "VBA indexed pick is under the per-frame budget when the index is built on layout changes and pointer moves are coalesced to one dispatched move with intermediate points attached. Crossing every raw move remains avoidable by contract.",
+            "rows": rows,
+        });
+        std::fs::write(
+            &path,
+            serde_json::to_string_pretty(&report).expect("serialize hit-test report"),
+        )
+        .unwrap_or_else(|err| panic!("write {path}: {err}"));
     }
 }
 

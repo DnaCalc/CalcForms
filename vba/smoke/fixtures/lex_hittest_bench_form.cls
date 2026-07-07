@@ -13,6 +13,12 @@ Private mX() As Long
 Private mY() As Long
 Private mW() As Long
 Private mH() As Long
+Private mCols As Long
+Private mCw As Long
+Private mCh As Long
+Private mRows As Long
+Private mCellIndex() As Long
+Private mIndexBuilt As Boolean
 
 ' Build N control rects as a grid of fixed-size cells (cols wide).
 Public Sub Setup(ByVal N As Long)
@@ -21,16 +27,17 @@ Public Sub Setup(ByVal N As Long)
     ReDim mY(0 To N - 1)
     ReDim mW(0 To N - 1)
     ReDim mH(0 To N - 1)
+    mCols = 40
+    mCw = 24
+    mCh = 16
+    mRows = (N + mCols - 1) \ mCols
+    mIndexBuilt = False
     Dim i As Long
-    Dim cols As Long, cw As Long, ch As Long
-    cols = 40
-    cw = 24
-    ch = 16
     For i = 0 To N - 1
-        mX(i) = (i Mod cols) * cw
-        mY(i) = (i \ cols) * ch
-        mW(i) = cw - 2
-        mH(i) = ch - 2
+        mX(i) = (i Mod mCols) * mCw
+        mY(i) = (i \ mCols) * mCh
+        mW(i) = mCw - 2
+        mH(i) = mCh - 2
     Next i
 End Sub
 
@@ -47,6 +54,67 @@ Public Function HitTestAll(ByVal X As Long, ByVal Y As Long) As Long
         End If
     Next i
     HitTestAll = hit
+End Function
+
+' Build a simple cell index from the current layout. This approximates the first
+' realistic VBA-owned routing step: index maintenance is paid when layout changes,
+' not on every pointer move. Last-added wins for overlapping cells, matching
+' HitTestAll's z-order rule for this fixture's non-overlapping grid.
+Public Sub BuildIndex()
+    Dim cellCount As Long
+    cellCount = mCols * mRows
+    ReDim mCellIndex(0 To cellCount - 1)
+
+    Dim i As Long
+    For i = 0 To cellCount - 1
+        mCellIndex(i) = -1
+    Next i
+
+    Dim col As Long
+    Dim row As Long
+    For i = 0 To mN - 1
+        col = mX(i) \ mCw
+        row = mY(i) \ mCh
+        mCellIndex((row * mCols) + col) = i
+    Next i
+    mIndexBuilt = True
+End Sub
+
+' Indexed hit-test: constant candidate lookup plus the same final rect check.
+' This is still VBA-owned and semantic-free; it only narrows geometry.
+Public Function HitTestIndexed(ByVal X As Long, ByVal Y As Long) As Long
+    If Not mIndexBuilt Then
+        HitTestIndexed = -1
+        Exit Function
+    End If
+
+    If (X < 0) Or (Y < 0) Then
+        HitTestIndexed = -1
+        Exit Function
+    End If
+
+    Dim col As Long
+    Dim row As Long
+    col = X \ mCw
+    row = Y \ mCh
+    If (col < 0) Or (col >= mCols) Or (row < 0) Or (row >= mRows) Then
+        HitTestIndexed = -1
+        Exit Function
+    End If
+
+    Dim candidate As Long
+    candidate = mCellIndex((row * mCols) + col)
+    If candidate < 0 Then
+        HitTestIndexed = -1
+        Exit Function
+    End If
+
+    If (X >= mX(candidate)) And (X < mX(candidate) + mW(candidate)) And _
+       (Y >= mY(candidate)) And (Y < mY(candidate) + mH(candidate)) Then
+        HitTestIndexed = candidate
+    Else
+        HitTestIndexed = -1
+    End If
 End Function
 
 ' A trivial crossing to isolate the bare VBA invoke/marshal overhead from the hit-test cost.
