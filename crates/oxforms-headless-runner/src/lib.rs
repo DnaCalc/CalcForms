@@ -343,6 +343,7 @@ impl HeadlessRunner {
             .collect();
         let surface_rust_us = surface_call_timings
             .iter()
+            .filter(|call| !call.member.starts_with("ProfileMark."))
             .map(|call| call.elapsed_us)
             .sum();
         let report = DispatchReport {

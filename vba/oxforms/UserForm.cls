@@ -144,6 +144,7 @@ Public Function BuildScenePatch( _
         ByVal Surface As Object, _
         ByVal DpiX As Long, _
         ByVal DpiY As Long) As String
+    OxProfileMark "vba_build_full_patch_start"
     Builder.BeginPatch BaseToken, CLng(mWidth), CLng(mHeight), DpiX, DpiY
 
     Dim I As Long
@@ -162,6 +163,7 @@ Public Function BuildScenePatch( _
     EmitControls mControls, Builder, Surface
 
     BuildScenePatch = Builder.ToPatchJson()
+    OxProfileMark "vba_after_build_full_patch"
 End Function
 
 ' Emit a set of controls into the builder in two passes that share one batched text-measure
@@ -173,8 +175,11 @@ End Function
 ' -> 1). Both BuildScenePatch (all controls) and RenderIncremental (the invalidated set) use it.
 Private Sub EmitControls( _
         ByVal List As Object, ByVal Builder As OxSceneBuilder, ByVal Surface As Object)
+    OxProfileMark "vba_emit_controls_start"
     MeasureControls List, Surface
+    OxProfileMark "vba_after_measure_controls"
     PaintControls List, Builder
+    OxProfileMark "vba_after_paint_controls"
 End Sub
 
 ' Pass 1 -- measure: stamp each text control's content-hash run id + measured size from a
@@ -263,22 +268,28 @@ End Sub
 ' structural change (control Add/Remove or render-derived AutoSize root membership effects)
 ' forces a full rebuild so the root/form node's child list and the retained Scene agree.
 Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
+    OxProfileMark "vba_render_start"
     Dim Surface As Object
     Set Surface = CreateObject("OxForms.Surface")
 
     If Not mHasResident Or mStructureDirty Then
+        OxProfileMark "vba_render_full_start"
         RenderFull Surface, DpiX, DpiY
     ElseIf mInvalidated.Count > 0 Then
+        OxProfileMark "vba_render_incremental_start"
         If RenderIncremental(Surface, DpiX, DpiY) = OX_STALE_SENTINEL Then
             ' The resident base drifted (e.g. the surface was re-initialized): rebuild.
+            OxProfileMark "vba_render_stale_full_start"
             RenderFull Surface, DpiX, DpiY
         End If
     Else
         ' Nothing changed since the last frame: no crossing, no new resident revision.
+        OxProfileMark "vba_render_noop"
         Exit Sub
     End If
 
     ClearInvalidations
+    OxProfileMark "vba_after_render"
 End Sub
 
 ' Full rebuild against a fresh BeginScene base; (re)establishes the resident scene. Used
@@ -302,12 +313,15 @@ Private Function RenderIncremental( _
         ByVal Surface As Object, ByVal DpiX As Long, ByVal DpiY As Long) As String
     Dim Builder As OxSceneBuilder
     Set Builder = New OxSceneBuilder
+    OxProfileMark "vba_build_incremental_patch_start"
     Builder.BeginPatch mLastSceneToken, CLng(mWidth), CLng(mHeight), DpiX, DpiY
 
     EmitControls mInvalidated, Builder, Surface
 
     Dim NewToken As String
+    OxProfileMark "vba_before_incremental_to_json"
     NewToken = Surface.SubmitPatch(Builder.ToPatchJson())
+    OxProfileMark "vba_after_incremental_submit"
     If NewToken <> OX_STALE_SENTINEL Then mLastSceneToken = NewToken
     RenderIncremental = NewToken
 End Function

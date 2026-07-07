@@ -14,7 +14,9 @@ use std::path::{Path, PathBuf};
 use std::sync::Arc;
 
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::{EdgeEffect, FontId, NodeId, Paint, Prim, RectF, StubShaper, TextRunId};
+use oxforms_pal::scene::{
+    render_headless_report, EdgeEffect, FontId, NodeId, Paint, Prim, RectF, StubShaper, TextRunId,
+};
 use oxforms_pal::Color;
 use oxforms_pal_win::{load_ui_font, AbGlyphShaper};
 
@@ -488,12 +490,8 @@ fn revision(surface: &Arc<SurfaceFactory>) -> u64 {
 }
 
 fn framebuffer_hash(surface: &Arc<SurfaceFactory>) -> u64 {
-    surface
-        .snapshot()
-        .expect("surface snapshot")
-        .last_report
-        .expect("a render report")
-        .framebuffer_hash
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    render_headless_report(snapshot.scene.as_ref().expect("scene snapshot")).framebuffer_hash
 }
 
 fn fill_rect_count(surface: &Arc<SurfaceFactory>, node: NodeId) -> usize {

@@ -312,7 +312,9 @@ End Sub
 ' focused control's IOxControl surface.
 Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String
     mEffects = ""
+    OxProfileMark "vba_dispatchkey_start"
     EnsureInteractionIndex
+    OxProfileMark "vba_after_interaction_index"
     Select Case Kind
         Case "keydown"
             ReduceKeyDown KeyCode, Shift
@@ -349,6 +351,7 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     Dim Post As Integer
     Post = Focused.OnKeyDown(KeyCode, Shift)
     Emit "keydown:" & mFocusName
+    OxProfileMark "vba_after_keydown"
 
     ' Swallow linkage: a KeyDown handler that zeroed the key code suppresses the character that
     ' would otherwise follow (consumed by the next DispatchChar). A swallowed key also performs
@@ -396,9 +399,11 @@ Private Sub HandleClipboardShortcut(ByVal Focused As IOxControl, ByVal KeyCode A
             ' (BeforeDropOrPaste -> Change), AFTER the V KeyDown fired. Empty clipboard is
             ' a no-op. No KeyPress for Ctrl+V.
             If Len(mClipboardText) > 0 Then
+                OxProfileMark "vba_before_paste"
                 If Focused.OnPaste(mClipboardText, OX_ACTION_PASTE, Shift) Then
                     Emit "paste:" & mFocusName
                 End If
+                OxProfileMark "vba_after_paste"
             End If
     End Select
 End Sub
@@ -979,7 +984,9 @@ End Sub
 ' Re-render the form across the OxForms.Surface boundary (the reducer's RequestRepaint
 ' effect). The form self-renders the invalidated controls incrementally.
 Private Sub Repaint()
+    OxProfileMark "vba_before_repaint"
     mForm.Render mDpiX, mDpiY
+    OxProfileMark "vba_after_repaint"
     Emit "repaint"
 End Sub
 

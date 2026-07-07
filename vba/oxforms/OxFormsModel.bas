@@ -65,6 +65,10 @@ Public Type OxMeasureResult
     CaretStopsMilliPtCsv As String
 End Type
 
+Private gOxProfileChecked As Boolean
+Private gOxProfileEnabled As Boolean
+Private gOxProfileSurface As Object
+
 ' Map a Forms 2.0 control ProgID ("Forms.Label.1") to the internal kind. Unknown -> -1.
 ' Case-insensitive, like real MSForms Controls.Add. The currently implemented intrinsic
 ' subset is Label, TextBox, CommandButton, and CheckBox.
@@ -105,3 +109,22 @@ Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As
 
     Set OxCreateControl = Control
 End Function
+
+' Profiling-only phase marker for W009 performance attribution. Normal runs do
+' not cross to Rust at all; the ignored perf harness opts in with
+' OXFORMS_PROFILE_TIMINGS.
+Public Function OxProfileEnabled() As Boolean
+    If Not gOxProfileChecked Then
+        gOxProfileEnabled = (Len(Environ("OXFORMS_PROFILE_TIMINGS")) > 0)
+        gOxProfileChecked = True
+    End If
+    OxProfileEnabled = gOxProfileEnabled
+End Function
+
+Public Sub OxProfileMark(ByVal Name As String)
+    If Not OxProfileEnabled() Then Exit Sub
+    If gOxProfileSurface Is Nothing Then
+        Set gOxProfileSurface = CreateObject("OxForms.Surface")
+    End If
+    gOxProfileSurface.ProfileMark Name
+End Sub

@@ -6,6 +6,11 @@ Option Explicit
 ' horizontal scroll. Future versions extend this boundary for IME/dead keys,
 ' multiline layout, undo/redo, and grapheme-aware editing.
 
+Private mCachedCaretStopsCsv As String
+Private mCachedCaretStops As Collection
+Private mCachedCaretStopCount As Long
+Private mCaretStopCacheReady As Boolean
+
 Public Function TextWidth( _
         ByVal Core As OxControlCore, ByVal TextLength As Long) As Single
     If Core.MeasuredWidth > 0 Then
@@ -153,27 +158,33 @@ Private Function CaretStopFromCsv( _
     Found = False
     If Len(Csv) = 0 Then Exit Function
 
-    Dim Pos As Long, Current As Long, Token As String, Ch As String
-    Token = ""
-    For Pos = 1 To Len(Csv) + 1
-        If Pos <= Len(Csv) Then
-            Ch = Mid$(Csv, Pos, 1)
-        Else
-            Ch = ","
-        End If
-
-        If Ch = "," Then
-            If Current = Target Then
-                If Len(Token) > 0 Then
-                    CaretStopFromCsv = CSng(CLng(Token)) / 1000
-                    Found = True
-                End If
-                Exit Function
-            End If
-            Current = Current + 1
-            Token = ""
-        Else
-            Token = Token & Ch
-        End If
-    Next Pos
+    EnsureCaretStopCache Csv
+    If Target < mCachedCaretStopCount Then
+        CaretStopFromCsv = CSng(mCachedCaretStops.Item(Target + 1))
+        Found = True
+    End If
 End Function
+
+Private Sub EnsureCaretStopCache(ByVal Csv As String)
+    If mCaretStopCacheReady And mCachedCaretStopsCsv = Csv Then Exit Sub
+
+    mCachedCaretStopsCsv = Csv
+    mCachedCaretStopCount = 0
+    mCaretStopCacheReady = True
+    Set mCachedCaretStops = New Collection
+
+    If Len(Csv) = 0 Then Exit Sub
+
+    Dim Parts As Variant
+    Parts = Split(Csv, ",")
+    If UBound(Parts) < LBound(Parts) Then Exit Sub
+
+    Dim I As Long, Token As String
+    For I = LBound(Parts) To UBound(Parts)
+        Token = CStr(Parts(I))
+        If Len(Token) > 0 Then
+            mCachedCaretStops.Add CSng(CLng(Token)) / 1000
+            mCachedCaretStopCount = mCachedCaretStopCount + 1
+        End If
+    Next I
+End Sub

@@ -1,6 +1,6 @@
 # W009 TextBox Repeat/Paste Responsiveness
 
-Beads: `oxforms-aghp`, `oxforms-zhz.36`
+Beads: `oxforms-aghp`, `oxforms-zhz.36`, `oxforms-zhz.37`
 
 This directory records a host-specific baseline for TextBox repeat and repeated
 paste behavior after the visible W009 TextBox smoke proved that both the
@@ -91,3 +91,44 @@ paste mutation/events versus `UserForm.Render` scene-building/VM marshalling
 before any optimization. Do not optimize clipboard or surface policy from these
 numbers: both have now been ruled out as the primary repeated-paste source for
 this harness.
+
+## TextBox Dispatch/Render Optimization
+
+Artifacts:
+`w009-textbox-dispatch-render-optimization-20260707.json`,
+`w009-textbox-repeat-paste-optimized-20260707.json`
+
+`oxforms-zhz.37` added profiling-only VBA phase markers for visible/TextBox
+turns, then optimized the proven hot path. The two retained changes are:
+
+1. `OxTextService` caches the parsed caret-stop list for the current measured
+   run, so TextBox render pays the CSV boundary once per run instead of once per
+   caret/selection geometry query.
+2. `OxForms.Surface.SubmitPatch` no longer computes a headless framebuffer
+   report on the live submit path. Pixel-proof tests now render from the
+   retained `Scene` snapshot only when they explicitly need oracle evidence.
+
+Final uninstrumented benchmark:
+
+| Scenario | Dispatch p50 us | Dispatch p95 us | Max us | Snapshot p95 us |
+|---|---:|---:|---:|---:|
+| `burst_typing_40_chars` | 3553 | 22973 | 44110 | 81 |
+| `held_char_repeat_30` | 4229 | 19423 | 22755 | 65 |
+| `backspace_repeat_20` | 4208 | 18376 | 19696 | 61 |
+| `paste_fragment_repeat_20` | 20896 | 26563 | 26563 | 58 |
+
+Optimized attribution for repeated paste:
+
+| Bucket | p50 us | p95 us | Interpretation |
+|---|---:|---:|---|
+| Total paste turn dispatch | 28743 | 83687 | Profiling markers add noise; use the uninstrumented benchmark for acceptance. |
+| `DispatchKey` minus Rust surface | 27699 | 81692 | Remaining cost is now mostly VBA-side TextBox mutation/render work. |
+| Rust surface crossings | 1044 | 1582 | Eager headless report generation is no longer in the submit hot path. |
+| `SubmitPatch` | 664 | 1170 | Patch parse/apply is not the current repeated-paste bottleneck. |
+| `MeasureBatch` | 185 | 412 | Text measurement remains negligible for this harness. |
+
+Result: the original repeated-paste p95 moved from 195100 us to 26563 us, and
+repeat-key repaint scenarios now render during repeat turns within the same
+sub-50 ms dispatch budget. Further TextBox performance work should focus on the
+remaining VBA-side paint/mutation bucket only after a visible scenario shows a
+new problem.

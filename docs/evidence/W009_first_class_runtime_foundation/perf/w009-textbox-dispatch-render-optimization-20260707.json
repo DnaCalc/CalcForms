@@ -1,0 +1,4326 @@
+{
+  "run_id": "w009-textbox-paste-dispatch-attribution",
+  "bead": "oxforms-zhz.37",
+  "baseline_bead": "oxforms-aghp",
+  "git_rev": "24c7df3",
+  "git_status_short": "M ../../.beads/issues.jsonl\n M ../../.gitignore\n M src/lib.rs\n M tests/headless_textbox_perf.rs\n M ../oxforms-oxvba-adapter/src/surface.rs\n M ../oxforms-oxvba-adapter/tests/oxvba_reducer_cmdbutton.rs\n M ../oxforms-oxvba-adapter/tests/oxvba_surface_render_smoke.rs\n M ../../docs/evidence/W009_first_class_runtime_foundation/perf/README.md\n M ../../vba/oxforms/OxFormsModel.bas\n M ../../vba/oxforms/OxInteractionManager.cls\n M ../../vba/oxforms/OxTextService.cls\n M ../../vba/oxforms/UserForm.cls\n?? ../../docs/evidence/W009_first_class_runtime_foundation/perf/w009-textbox-dispatch-render-optimization-20260707.json\n?? ../../docs/evidence/W009_first_class_runtime_foundation/perf/w009-textbox-repeat-paste-optimized-20260707.json",
+  "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+  "host": {
+    "os": "windows",
+    "arch": "x86_64",
+    "logical_cpus": 16
+  },
+  "notes": [
+    "Attribution-only follow-up over the same OxRuntime + VBA OxReducer + SurfaceFactory path.",
+    "Runtime phase timings split HostServices clipboard, VBA SetClipboardText, and DispatchKey Ctrl+V.",
+    "Surface call timings cover Rust-side BeginScene/MeasureBatch/SubmitPatch work only.",
+    "DispatchKey minus surface remains a combined VBA/VM bucket: TextBox paste mutation, events, UserForm.Render scene building, and COM marshalling.",
+    "No optimization or repaint-policy change is made by this report."
+  ],
+  "hotspot_table": [
+    {
+      "rank": 1,
+      "area": "DispatchKey Ctrl+V inclusive",
+      "metric": "p95_us",
+      "value_us": 83274,
+      "evidence": "runtime_phase_summaries.DispatchKey:keydown:Ctrl+V",
+      "interpretation": "The Ctrl+V reducer turn remains the top inclusive bucket."
+    },
+    {
+      "rank": 2,
+      "area": "DispatchKey minus Rust surface",
+      "metric": "p95_us",
+      "value_us": 81692,
+      "evidence": "scenario.dispatch_key_minus_surface_us",
+      "interpretation": "Current seams leave TextBox paste mutation, events, VBA UserForm.Render scene building, and VM/COM marshalling combined here."
+    },
+    {
+      "rank": 3,
+      "area": "Rust surface crossings",
+      "metric": "p95_us",
+      "value_us": 1582,
+      "evidence": "surface_call_summaries",
+      "interpretation": "Rust MeasureBatch/SubmitPatch work is measured separately from the VBA dispatch bucket."
+    },
+    {
+      "rank": 4,
+      "area": "VBA SetClipboardText",
+      "metric": "p95_us",
+      "value_us": 506,
+      "evidence": "runtime_phase_summaries.SetClipboardText",
+      "interpretation": "Clipboard text push into the reducer is isolated from the Ctrl+V dispatch."
+    },
+    {
+      "rank": 5,
+      "area": "HostServices clipboard write",
+      "metric": "p95_us",
+      "value_us": 10,
+      "evidence": "runtime_phase_summaries.HostServices.SetClipboardText",
+      "interpretation": "The headless host clipboard write is isolated from VBA work."
+    }
+  ],
+  "hypothesis_ledger": [
+    {
+      "name": "Host clipboard write dominates paste",
+      "verdict": "rejects",
+      "evidence": "host p95 10 us vs total dispatch p95 83687 us"
+    },
+    {
+      "name": "VBA SetClipboardText dominates paste",
+      "verdict": "rejects",
+      "evidence": "SetClipboardText p95 506 us vs total dispatch p95 83687 us"
+    },
+    {
+      "name": "Rust surface implementation dominates paste",
+      "verdict": "rejects",
+      "evidence": "surface p95 1582 us vs total dispatch p95 83687 us"
+    },
+    {
+      "name": "Remaining Ctrl+V dispatch/VBA render bucket dominates paste",
+      "verdict": "supports",
+      "evidence": "DispatchKey minus surface p95 81692 us vs total dispatch p95 83687 us"
+    }
+  ],
+  "scenario": {
+    "name": "paste_fragment_repeat_20",
+    "turn_count": 20,
+    "final_text_len": 80,
+    "final_text": "fragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfragfrag",
+    "total_dispatch_us": {
+      "count": 20,
+      "sum": 620876,
+      "p50": 28743,
+      "p95": 83687,
+      "p99": 83687,
+      "max": 83687
+    },
+    "dispatch_key_ctrl_v_us": {
+      "count": 20,
+      "sum": 617612,
+      "p50": 28564,
+      "p95": 83274,
+      "p99": 83274,
+      "max": 83274
+    },
+    "dispatch_key_minus_surface_us": {
+      "count": 20,
+      "sum": 600039,
+      "p50": 27699,
+      "p95": 81692,
+      "p99": 81692,
+      "max": 81692
+    },
+    "host_set_clipboard_us": {
+      "count": 20,
+      "sum": 120,
+      "p50": 6,
+      "p95": 10,
+      "p99": 10,
+      "max": 10
+    },
+    "vba_set_clipboard_us": {
+      "count": 20,
+      "sum": 2253,
+      "p50": 84,
+      "p95": 506,
+      "p99": 506,
+      "max": 506
+    },
+    "surface_rust_us": {
+      "count": 20,
+      "sum": 17573,
+      "p50": 865,
+      "p95": 1582,
+      "p99": 1582,
+      "max": 1582
+    },
+    "measure_batch_us": {
+      "count": 20,
+      "sum": 4105,
+      "p50": 185,
+      "p95": 412,
+      "p99": 412,
+      "max": 412
+    },
+    "submit_patch_us": {
+      "count": 20,
+      "sum": 13468,
+      "p50": 664,
+      "p95": 1170,
+      "p99": 1170,
+      "max": 1170
+    },
+    "snapshot_us": {
+      "count": 20,
+      "sum": 3564,
+      "p50": 155,
+      "p95": 570,
+      "p99": 570,
+      "max": 570
+    },
+    "runtime_phase_summaries": [
+      {
+        "name": "DispatchKey:keydown:Ctrl+V",
+        "summary": {
+          "count": 20,
+          "sum": 617612,
+          "p50": 28564,
+          "p95": 83274,
+          "p99": 83274,
+          "max": 83274
+        }
+      },
+      {
+        "name": "HostServices.SetClipboardText",
+        "summary": {
+          "count": 20,
+          "sum": 120,
+          "p50": 6,
+          "p95": 10,
+          "p99": 10,
+          "max": 10
+        }
+      },
+      {
+        "name": "SetClipboardText",
+        "summary": {
+          "count": 20,
+          "sum": 2253,
+          "p50": 84,
+          "p95": 506,
+          "p99": 506,
+          "max": 506
+        }
+      }
+    ],
+    "surface_call_summaries": [
+      {
+        "name": "MeasureBatch",
+        "summary": {
+          "count": 20,
+          "sum": 4105,
+          "p50": 185,
+          "p95": 412,
+          "p99": 412,
+          "max": 412
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_incremental_submit",
+        "summary": {
+          "count": 20,
+          "sum": 34806,
+          "p50": 1734,
+          "p95": 2787,
+          "p99": 2787,
+          "max": 2787
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_interaction_index",
+        "summary": {
+          "count": 20,
+          "sum": 34755,
+          "p50": 1586,
+          "p95": 4908,
+          "p99": 4908,
+          "max": 4908
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_keydown",
+        "summary": {
+          "count": 20,
+          "sum": 62779,
+          "p50": 2508,
+          "p95": 15441,
+          "p99": 15441,
+          "max": 15441
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_measure_controls",
+        "summary": {
+          "count": 20,
+          "sum": 34788,
+          "p50": 1763,
+          "p95": 3288,
+          "p99": 3288,
+          "max": 3288
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_paint_controls",
+        "summary": {
+          "count": 20,
+          "sum": 351379,
+          "p50": 16228,
+          "p95": 45025,
+          "p99": 45025,
+          "max": 45025
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_paste",
+        "summary": {
+          "count": 20,
+          "sum": 59006,
+          "p50": 2372,
+          "p95": 9403,
+          "p99": 9403,
+          "max": 9403
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_render",
+        "summary": {
+          "count": 20,
+          "sum": 2715,
+          "p50": 143,
+          "p95": 179,
+          "p99": 179,
+          "max": 179
+        }
+      },
+      {
+        "name": "ProfileMark.vba_after_repaint",
+        "summary": {
+          "count": 20,
+          "sum": 1075,
+          "p50": 54,
+          "p95": 91,
+          "p99": 91,
+          "max": 91
+        }
+      },
+      {
+        "name": "ProfileMark.vba_before_incremental_to_json",
+        "summary": {
+          "count": 20,
+          "sum": 1225,
+          "p50": 54,
+          "p95": 198,
+          "p99": 198,
+          "max": 198
+        }
+      },
+      {
+        "name": "ProfileMark.vba_before_paste",
+        "summary": {
+          "count": 20,
+          "sum": 3515,
+          "p50": 181,
+          "p95": 369,
+          "p99": 369,
+          "max": 369
+        }
+      },
+      {
+        "name": "ProfileMark.vba_before_repaint",
+        "summary": {
+          "count": 20,
+          "sum": 2819,
+          "p50": 112,
+          "p95": 431,
+          "p99": 431,
+          "max": 431
+        }
+      },
+      {
+        "name": "ProfileMark.vba_build_incremental_patch_start",
+        "summary": {
+          "count": 20,
+          "sum": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        }
+      },
+      {
+        "name": "ProfileMark.vba_dispatchkey_start",
+        "summary": {
+          "count": 20,
+          "sum": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        }
+      },
+      {
+        "name": "ProfileMark.vba_emit_controls_start",
+        "summary": {
+          "count": 20,
+          "sum": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        }
+      },
+      {
+        "name": "ProfileMark.vba_render_incremental_start",
+        "summary": {
+          "count": 20,
+          "sum": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        }
+      },
+      {
+        "name": "ProfileMark.vba_render_start",
+        "summary": {
+          "count": 20,
+          "sum": 0,
+          "p50": 0,
+          "p95": 0,
+          "p99": 0,
+          "max": 0
+        }
+      },
+      {
+        "name": "SubmitPatch",
+        "summary": {
+          "count": 20,
+          "sum": 13468,
+          "p50": 664,
+          "p95": 1170,
+          "p99": 1170,
+          "max": 1170
+        }
+      }
+    ],
+    "worst_turns": [
+      {
+        "seq": 14,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 83687,
+        "dispatch_minus_surface_us": 82105,
+        "render_us": 0,
+        "snapshot_us": 219,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 355
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 83274
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 4908,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 15441,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 227,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 9403,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 255,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 412,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 3288,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 45025,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 198,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 1170,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 2565,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 168,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 67,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1582
+      },
+      {
+        "seq": 13,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 48972,
+        "dispatch_minus_surface_us": 47756,
+        "render_us": 0,
+        "snapshot_us": 426,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 8
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 138
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 48749
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 2556,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 3738,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 182,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 4141,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 178,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 270,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 3039,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 29829,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 84,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 946,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 2787,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 176,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 76,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1216
+      },
+      {
+        "seq": 15,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 38323,
+        "dispatch_minus_surface_us": 37661,
+        "render_us": 0,
+        "snapshot_us": 122,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 506
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 37763
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 2495,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 4783,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 369,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 6087,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 431,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 166,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1411,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 16228,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 42,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 496,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1338,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 131,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 43,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 662
+      },
+      {
+        "seq": 17,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 34802,
+        "dispatch_minus_surface_us": 34037,
+        "render_us": 0,
+        "snapshot_us": 155,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 8
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 84
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 34667
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1827,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2961,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 176,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 5354,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 137,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 185,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1763,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 19281,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 47,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 580,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1650,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 111,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 43,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 765
+      },
+      {
+        "seq": 16,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 33402,
+        "dispatch_minus_surface_us": 32353,
+        "render_us": 0,
+        "snapshot_us": 172,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 113
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 33241
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1765,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2607,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 272,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2563,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 112,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 254,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1808,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 20531,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 62,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 795,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1947,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 160,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 61,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1049
+      }
+    ],
+    "turns": [
+      {
+        "seq": 2,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 26562,
+        "dispatch_minus_surface_us": 25594,
+        "render_us": 0,
+        "snapshot_us": 139,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 10
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 95
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 26394
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 2136,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2734,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 193,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2451,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 104,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 162,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1520,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 13506,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 52,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 806,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1960,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 163,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 68,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 968
+      },
+      {
+        "seq": 3,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 28231,
+        "dispatch_minus_surface_us": 27328,
+        "render_us": 0,
+        "snapshot_us": 79,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 107
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 28079
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1766,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2841,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 204,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2419,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 251,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 183,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 2091,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 14705,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 60,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 720,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1988,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 179,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 53,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 903
+      },
+      {
+        "seq": 4,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 27693,
+        "dispatch_minus_surface_us": 26779,
+        "render_us": 0,
+        "snapshot_us": 88,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 61
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 27579
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1362,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2497,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 226,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 3207,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 158,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 192,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 2117,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 14253,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 67,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 722,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1937,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 155,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 61,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 914
+      },
+      {
+        "seq": 5,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 17467,
+        "dispatch_minus_surface_us": 16875,
+        "render_us": 0,
+        "snapshot_us": 56,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 39
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 17389
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1054,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 1631,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 100,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 1509,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 75,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 151,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1096,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 9798,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 38,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 441,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1083,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 83,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 37,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 592
+      },
+      {
+        "seq": 6,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 20598,
+        "dispatch_minus_surface_us": 19871,
+        "render_us": 0,
+        "snapshot_us": 121,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 43
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 20515
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 996,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 1526,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 99,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 1528,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 87,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 118,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1083,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 12393,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 54,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 609,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1625,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 149,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 56,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 727
+      },
+      {
+        "seq": 7,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 28743,
+        "dispatch_minus_surface_us": 27878,
+        "render_us": 0,
+        "snapshot_us": 94,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 8
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 123
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 28564
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1849,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2375,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 205,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2239,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 158,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 216,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1828,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 16852,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 48,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 649,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1561,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 134,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 55,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 865
+      },
+      {
+        "seq": 8,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 25438,
+        "dispatch_minus_surface_us": 24365,
+        "render_us": 0,
+        "snapshot_us": 87,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 3
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 50
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 25354
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1544,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2454,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 152,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2210,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 112,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 175,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1671,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 14143,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 48,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 898,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1734,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 156,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 54,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1073
+      },
+      {
+        "seq": 9,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 20094,
+        "dispatch_minus_surface_us": 19272,
+        "render_us": 0,
+        "snapshot_us": 246,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 3
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 35
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 20008
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 976,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 1559,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 98,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 1516,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 74,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 126,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1192,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 11599,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 39,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 696,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1557,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 130,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 91,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 822
+      },
+      {
+        "seq": 10,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 20291,
+        "dispatch_minus_surface_us": 19642,
+        "render_us": 0,
+        "snapshot_us": 128,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 3
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 37
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 20216
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1096,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 1788,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 102,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 1499,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 130,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 127,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1075,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 12234,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 41,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 522,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1284,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 100,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 36,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 649
+      },
+      {
+        "seq": 11,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 24921,
+        "dispatch_minus_surface_us": 24233,
+        "render_us": 0,
+        "snapshot_us": 570,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 80
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 24796
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1073,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 1695,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 135,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2034,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 75,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 147,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1157,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 15404,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 80,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 541,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 2092,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 110,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 41,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 688
+      },
+      {
+        "seq": 12,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 18952,
+        "dispatch_minus_surface_us": 18379,
+        "render_us": 0,
+        "snapshot_us": 82,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 4
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 39
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 18881
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1066,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 1733,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 100,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 1444,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 65,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 133,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1022,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 11461,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 36,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 440,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1088,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 86,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 37,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 573
+      },
+      {
+        "seq": 13,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 48972,
+        "dispatch_minus_surface_us": 47756,
+        "render_us": 0,
+        "snapshot_us": 426,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 8
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 138
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 48749
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 2556,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 3738,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 182,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 4141,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 178,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 270,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 3039,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 29829,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 84,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 946,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 2787,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 176,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 76,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1216
+      },
+      {
+        "seq": 14,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 83687,
+        "dispatch_minus_surface_us": 82105,
+        "render_us": 0,
+        "snapshot_us": 219,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 355
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 83274
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 4908,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 15441,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 227,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 9403,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 255,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 412,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 3288,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 45025,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 198,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 1170,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 2565,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 168,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 67,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1582
+      },
+      {
+        "seq": 15,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 38323,
+        "dispatch_minus_surface_us": 37661,
+        "render_us": 0,
+        "snapshot_us": 122,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 7
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 506
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 37763
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 2495,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 4783,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 369,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 6087,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 431,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 166,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1411,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 16228,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 42,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 496,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1338,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 131,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 43,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 662
+      },
+      {
+        "seq": 16,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 33402,
+        "dispatch_minus_surface_us": 32353,
+        "render_us": 0,
+        "snapshot_us": 172,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 113
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 33241
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1765,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2607,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 272,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2563,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 112,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 254,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1808,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 20531,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 62,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 795,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1947,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 160,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 61,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 1049
+      },
+      {
+        "seq": 17,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 34802,
+        "dispatch_minus_surface_us": 34037,
+        "render_us": 0,
+        "snapshot_us": 155,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 8
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 84
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 34667
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1827,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2961,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 176,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 5354,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 137,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 185,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1763,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 19281,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 47,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 580,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1650,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 111,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 43,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 765
+      },
+      {
+        "seq": 18,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 30682,
+        "dispatch_minus_surface_us": 29728,
+        "render_us": 0,
+        "snapshot_us": 178,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 83
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 30551
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1505,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2769,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 181,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2027,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 84,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 267,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1940,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 18562,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 56,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 687,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1809,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 132,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 55,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 954
+      },
+      {
+        "seq": 19,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 29823,
+        "dispatch_minus_surface_us": 28971,
+        "render_us": 0,
+        "snapshot_us": 179,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 10
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 93
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 29661
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1530,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2268,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 137,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2120,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 105,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 259,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1756,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 18439,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 69,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 593,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1749,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 143,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 50,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 852
+      },
+      {
+        "seq": 20,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 30742,
+        "dispatch_minus_surface_us": 29812,
+        "render_us": 0,
+        "snapshot_us": 194,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 6
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 91
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 30599
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1586,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2508,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 147,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2372,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 111,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 266,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 1821,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 18713,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 60,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 664,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1727,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 145,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 51,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 930
+      },
+      {
+        "seq": 21,
+        "action": "paste:frag",
+        "effect_log": "keydown:InputField|paste:InputField|repaint",
+        "effects": [
+          "keydown:InputField",
+          "paste:InputField",
+          "repaint"
+        ],
+        "dispatch_us": 31453,
+        "dispatch_minus_surface_us": 30664,
+        "render_us": 0,
+        "snapshot_us": 229,
+        "runtime_phase_timings": [
+          {
+            "name": "HostServices.SetClipboardText",
+            "elapsed_us": 5
+          },
+          {
+            "name": "SetClipboardText",
+            "elapsed_us": 81
+          },
+          {
+            "name": "DispatchKey:keydown:Ctrl+V",
+            "elapsed_us": 31332
+          }
+        ],
+        "surface_call_timings": [
+          {
+            "call": "ProfileMark.vba_dispatchkey_start:1",
+            "member": "ProfileMark.vba_dispatchkey_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_interaction_index:1",
+            "member": "ProfileMark.vba_after_interaction_index",
+            "arg_count": 1,
+            "elapsed_us": 1665,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_keydown:1",
+            "member": "ProfileMark.vba_after_keydown",
+            "arg_count": 1,
+            "elapsed_us": 2871,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_paste:1",
+            "member": "ProfileMark.vba_before_paste",
+            "arg_count": 1,
+            "elapsed_us": 210,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paste:1",
+            "member": "ProfileMark.vba_after_paste",
+            "arg_count": 1,
+            "elapsed_us": 2883,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_repaint:1",
+            "member": "ProfileMark.vba_before_repaint",
+            "arg_count": 1,
+            "elapsed_us": 117,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_start:1",
+            "member": "ProfileMark.vba_render_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_render_incremental_start:1",
+            "member": "ProfileMark.vba_render_incremental_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_build_incremental_patch_start:1",
+            "member": "ProfileMark.vba_build_incremental_patch_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_emit_controls_start:1",
+            "member": "ProfileMark.vba_emit_controls_start",
+            "arg_count": 1,
+            "elapsed_us": 0,
+            "ok": true
+          },
+          {
+            "call": "MeasureBatch:1",
+            "member": "MeasureBatch",
+            "arg_count": 1,
+            "elapsed_us": 296,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_measure_controls:1",
+            "member": "ProfileMark.vba_after_measure_controls",
+            "arg_count": 1,
+            "elapsed_us": 2110,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_paint_controls:1",
+            "member": "ProfileMark.vba_after_paint_controls",
+            "arg_count": 1,
+            "elapsed_us": 18423,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_before_incremental_to_json:1",
+            "member": "ProfileMark.vba_before_incremental_to_json",
+            "arg_count": 1,
+            "elapsed_us": 44,
+            "ok": true
+          },
+          {
+            "call": "SubmitPatch:1",
+            "member": "SubmitPatch",
+            "arg_count": 1,
+            "elapsed_us": 493,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_incremental_submit:1",
+            "member": "ProfileMark.vba_after_incremental_submit",
+            "arg_count": 1,
+            "elapsed_us": 1325,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_render:1",
+            "member": "ProfileMark.vba_after_render",
+            "arg_count": 1,
+            "elapsed_us": 104,
+            "ok": true
+          },
+          {
+            "call": "ProfileMark.vba_after_repaint:1",
+            "member": "ProfileMark.vba_after_repaint",
+            "arg_count": 1,
+            "elapsed_us": 40,
+            "ok": true
+          }
+        ],
+        "surface_rust_us": 789
+      }
+    ]
+  }
+}

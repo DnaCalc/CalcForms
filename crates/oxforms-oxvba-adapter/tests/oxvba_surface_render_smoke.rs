@@ -21,9 +21,9 @@ use std::sync::Arc;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
 use oxforms_pal::input::DpiScale;
 use oxforms_pal::scene::{
-    render_headless_hash, text_run_id, EdgeBorder, EdgeEffect, FontId, NodeEdit, NodeId, Paint,
-    Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextAlign, TextFlags, TextKey,
-    TextShaper,
+    render_headless_hash, render_headless_report, text_run_id, EdgeBorder, EdgeEffect, FontId,
+    NodeEdit, NodeId, Paint, Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextAlign,
+    TextFlags, TextKey, TextShaper,
 };
 use oxforms_pal::{Color, SurfaceSize};
 use oxforms_pal_win::{load_ui_font, render_scene_to_rgba, AbGlyphShaper, FontTable};
@@ -352,7 +352,7 @@ fn vba_self_render_crosses_the_surface_and_matches_the_canonical_scene() {
 
     // The VBA-authored, JSON-marshalled, patch-applied scene rasterizes to exactly
     // the framebuffer of the same scene built directly in Rust.
-    let report = snap.last_report.expect("a render report");
+    let report = render_headless_report(snap.scene.as_ref().expect("resident scene"));
     assert_eq!(
         report.width, 200,
         "surface width crossed from the form geometry"
@@ -425,7 +425,7 @@ fn vba_scene_builder_records_full_primitive_vocabulary() {
         ["BeginScene:4", "SubmitPatch:1"],
         "primitive recorder probe should cross only BeginScene + SubmitPatch"
     );
-    let report = snap.last_report.expect("render report");
+    let report = render_headless_report(snap.scene.as_ref().expect("resident scene"));
     assert_eq!(
         report.command_count, 9,
         "the probe walks the full primitive vocabulary fixture"

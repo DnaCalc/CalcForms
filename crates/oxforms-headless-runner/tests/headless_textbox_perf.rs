@@ -51,7 +51,7 @@ fn textbox_repeat_paste_baseline_writes_json_report() {
 
     let report = PerfReport {
         run_id,
-        bead: "oxforms-aghp",
+        bead: report_bead("OXFORMS_TEXTBOX_PERF_BEAD", "oxforms-aghp"),
         git_rev: command_output("git", &["rev-parse", "--short", "HEAD"]),
         git_status_short: command_output("git", &["status", "--short"]),
         rustc: command_output("rustc", &["--version"]),
@@ -97,7 +97,7 @@ fn textbox_paste_dispatch_attribution_writes_json_report() {
     );
     let report = AttributionReport {
         run_id: "w009-textbox-paste-dispatch-attribution",
-        bead: "oxforms-zhz.36",
+        bead: report_bead("OXFORMS_TEXTBOX_ATTRIBUTION_BEAD", "oxforms-zhz.36"),
         baseline_bead: "oxforms-aghp",
         git_rev: command_output("git", &["rev-parse", "--short", "HEAD"]),
         git_status_short: command_output("git", &["status", "--short"]),
@@ -128,6 +128,10 @@ fn textbox_paste_dispatch_attribution_writes_json_report() {
     let json = serde_json::to_string_pretty(&report).expect("serialize attribution report");
     fs::write(&out, json).expect("write attribution report");
     eprintln!("wrote {}", out.display());
+}
+
+fn report_bead(env_name: &str, default: &'static str) -> String {
+    std::env::var(env_name).unwrap_or_else(|_| default.to_string())
 }
 
 fn run_scenario(
@@ -565,7 +569,7 @@ fn summarize_calls(calls: &[String]) -> Vec<CallCount> {
 #[derive(Serialize)]
 struct PerfReport {
     run_id: &'static str,
-    bead: &'static str,
+    bead: String,
     git_rev: String,
     git_status_short: String,
     rustc: String,
@@ -577,7 +581,7 @@ struct PerfReport {
 #[derive(Serialize)]
 struct AttributionReport {
     run_id: &'static str,
-    bead: &'static str,
+    bead: String,
     baseline_bead: &'static str,
     git_rev: String,
     git_status_short: String,

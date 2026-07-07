@@ -53,8 +53,8 @@ use oxvba_runtime::{Variant, VbaRecord, VbaRecordFieldKind, VbaRecordFieldSpec, 
 
 use oxforms_pal::input::DpiScale;
 use oxforms_pal::scene::{
-    render_headless_report, FontId, NodeId, Prim, Scene, SceneError, ScenePatch, SceneRenderReport,
-    TextKey, TextRun, TextShaper,
+    FontId, NodeId, Prim, Scene, SceneError, ScenePatch, SceneRenderReport, TextKey, TextRun,
+    TextShaper,
 };
 use oxforms_pal::SurfaceSize;
 
@@ -156,6 +156,8 @@ pub struct SurfaceSnapshot {
     /// The backend consumes this to decide "is there a newer frame to Repaint?" —
     /// it never goes backward, even though `frame_token` is a content hash.
     pub revision: u64,
+    /// Legacy eager render oracle slot. Live SubmitPatch no longer populates this;
+    /// tests that need pixel evidence should render the retained `scene` snapshot.
     pub last_report: Option<SceneRenderReport>,
     pub last_stale_base: bool,
     pub node_count: usize,
@@ -191,6 +193,7 @@ struct SurfaceState {
     last_patch_json: Option<String>,
     calls: Vec<String>,
     call_timings: Vec<SurfaceCallTiming>,
+    profile_last_mark: Option<Instant>,
     /// The persistent shaped-run store (the kernel-side interning cache), keyed by
     /// [`oxforms_pal::scene::TextRunId`]`.0`. Populated by `MeasureText`; it **survives
     /// `BeginScene`** (a cache, not per-frame content). `SubmitPatch` projects the runs
@@ -209,19 +212,26 @@ impl PortableDispatch for SurfaceDispatch {
             .ok_or_else(|| format!("unexpected {SURFACE_PROG_ID} method `{member}`"))?;
         let call_start = profiling_timings_enabled().then(Instant::now);
 
+        let mut recorded = false;
         let result = match member {
             "BeginScene" => self.begin_scene(args),
             "SubmitPatch" => self.submit_patch(args),
             "MeasureText" => self.measure_text(args),
             "MeasureBatch" => self.measure_batch(args),
+            "ProfileMark" => {
+                recorded = true;
+                self.profile_mark(args)
+            }
             _ => unreachable!("canonical_member filters methods"),
         };
-        self.record_call(
-            member,
-            args.len(),
-            call_start.map(|start| start.elapsed().as_micros()),
-            result.is_ok(),
-        )?;
+        if !recorded {
+            self.record_call(
+                member,
+                args.len(),
+                call_start.map(|start| start.elapsed().as_micros()),
+                result.is_ok(),
+            )?;
+        }
         result
     }
 
@@ -243,6 +253,7 @@ impl PortableDispatch for SurfaceDispatch {
             "SubmitPatch".into(),
             "MeasureText".into(),
             "MeasureBatch".into(),
+            "ProfileMark".into(),
         ]
     }
 }
@@ -295,9 +306,8 @@ impl SurfaceDispatch {
                 // persistent store into `Scene.text`, so the snapshot is self-contained
                 // (the backend resolves text from the scene, not a side channel).
                 project_text_runs(scene, &st.text_runs);
-                let report = render_headless_report(scene);
                 let token = scene.frame_hash;
-                st.last_report = Some(report);
+                st.last_report = None;
                 st.last_stale_base = false;
                 // Advance the resident revision only when the content actually
                 // changed (a content-equal resubmit leaves the token, and the
@@ -424,6 +434,34 @@ impl SurfaceDispatch {
         )
         .map_err(|err| format!("{SURFACE_PROG_ID}.MeasureBatch result array: {err}"))?;
         Ok(Variant::from_safearray(array))
+    }
+
+    fn profile_mark(&self, args: &[Variant]) -> Result<Variant, String> {
+        expect_arg_count("ProfileMark", args, 1)?;
+        let label = bstr_arg("ProfileMark", args, 0, "label")?;
+        if !profiling_timings_enabled() {
+            return Ok(Variant::from_string(String::new()));
+        }
+
+        let now = Instant::now();
+        let mut state = self.lock()?;
+        let elapsed_us = if label.ends_with("_start") {
+            0
+        } else {
+            state
+                .profile_last_mark
+                .map(|start| now.duration_since(start).as_micros())
+                .unwrap_or(0)
+        };
+        state.profile_last_mark = Some(now);
+        state.calls.push(format!("ProfileMark:{label}"));
+        state.call_timings.push(SurfaceCallTiming {
+            member: format!("ProfileMark.{label}"),
+            arg_count: 1,
+            elapsed_us,
+            ok: true,
+        });
+        Ok(Variant::from_string(String::new()))
     }
 
     fn record_call(
@@ -624,6 +662,8 @@ fn canonical_member(member: &str) -> Option<&'static str> {
         Some("MeasureText")
     } else if member.eq_ignore_ascii_case("MeasureBatch") {
         Some("MeasureBatch")
+    } else if member.eq_ignore_ascii_case("ProfileMark") {
+        Some("ProfileMark")
     } else {
         None
     }
@@ -677,8 +717,8 @@ mod tests {
     use super::*;
 
     use oxforms_pal::scene::{
-        text_run_id, NodeEdit, Paint, Prim, RectF, SceneNode, ScenePatch, StubShaper, TextAlign,
-        TextFlags, TextKey, TextRunId, SCENE_PATCH_VERSION,
+        render_headless_report, text_run_id, NodeEdit, Paint, Prim, RectF, SceneNode, ScenePatch,
+        StubShaper, TextAlign, TextFlags, TextKey, TextRunId, SCENE_PATCH_VERSION,
     };
     use oxforms_pal::Color;
 
@@ -773,7 +813,7 @@ mod tests {
         assert_eq!(snap.calls, ["BeginScene:4", "SubmitPatch:1"]);
         assert!(!snap.last_stale_base);
         assert_eq!(snap.node_count, 1);
-        let report = snap.last_report.expect("report");
+        let report = render_headless_report(snap.scene.as_ref().expect("scene"));
         assert_eq!(
             report.framebuffer_hash, W002_FRAMEBUFFER_HASH,
             "the Scene seam must reproduce the historical W002 framebuffer hash"
