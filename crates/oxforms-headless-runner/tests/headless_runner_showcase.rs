@@ -19,6 +19,13 @@ fn showcase_spec() -> FormSpec {
     ))
 }
 
+fn reentrancy_spec() -> FormSpec {
+    FormSpec::new("ReducerReentrancyForm", "Build").with_fixture(FixtureModule::class(
+        "ReducerReentrancyForm",
+        "vba/smoke/fixtures/reducer_reentrancy_form.cls",
+    ))
+}
+
 #[test]
 fn runner_attaches_renders_and_records_trace_rows() {
     let repo = repo_root_from_crate();
@@ -559,6 +566,172 @@ fn runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer() {
             && jsonl.contains("timer.fire:auto_repeat:1:at=25")
             && jsonl.contains("\"effect_log\":\"repeat:RepeatSpin:2|repaint\""),
         "repeat timing and effect trace should be visible in JSONL: {jsonl}"
+    );
+}
+
+#[test]
+fn runner_reentrant_handler_mutation_and_lifecycle_stay_coherent() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &reentrancy_spec()).expect("attach reentrant");
+    runner.render().expect("initial render");
+    let initial_revision = runner.snapshot().expect("initial snapshot").revision;
+
+    runner
+        .dispatch(InputAction::MouseDown {
+            x: 152,
+            y: 32,
+            button: 1,
+            shift: 0,
+        })
+        .expect("button down");
+    let up = runner
+        .dispatch(InputAction::MouseUp {
+            x: 152,
+            y: 32,
+            button: 1,
+            shift: 0,
+        })
+        .expect("button up");
+    assert_eq!(
+        up.effects, "mouseup:Reenter|click:Reenter|release:Reenter|repaint",
+        "nested dispatch must not clobber the outer mouse-up effect log"
+    );
+    assert_eq!(
+        runner.read_string("FieldText").expect("FieldText"),
+        "r",
+        "nested DispatchKey/DispatchChar inside the button handler mutates the TextBox"
+    );
+    assert_eq!(
+        runner.read_string("FocusName").expect("FocusName"),
+        "Field",
+        "nested Tab dispatch should leave focus on Field coherently"
+    );
+    assert_eq!(
+        runner.read_string("StatusCaption").expect("StatusCaption"),
+        "nested:r",
+        "handler-side label mutation and repaint should be observable after the turn"
+    );
+    assert!(
+        runner.snapshot().expect("after nested snapshot").revision > initial_revision,
+        "handler repaint and runner turn should advance the resident Scene"
+    );
+
+    let log = runner.read_string("HandlerLog").expect("HandlerLog");
+    for expected in [
+        "Reenter.Enter",
+        "Reenter.Click.Begin",
+        "Reenter.Exit",
+        "Field.Enter",
+        "NestedKey=keydown:Reenter|exit:Reenter|enter:Field|repaint",
+        "NestedChar=char:Field|repaint",
+        "Field.Change=r",
+        "Field.Change.Render",
+        "Reenter.Click.Render",
+        "Reenter.Click.End",
+    ] {
+        assert!(
+            log.lines()
+                .any(|line| line == expected || line.contains(expected)),
+            "reentrant handler log missing {expected:?}; log was:\n{log}"
+        );
+    }
+
+    runner
+        .invoke_string("ClearLog", ProjectMemberKind::Method)
+        .expect("clear log");
+    runner
+        .invoke_string("ArmBeforeUpdateVeto", ProjectMemberKind::Method)
+        .expect("arm veto");
+    let veto = runner
+        .dispatch(InputAction::KeyDown {
+            key_code: VK_TAB,
+            shift: 0,
+        })
+        .expect("tab with veto");
+    assert_eq!(veto.effects, "keydown:Field|beforeupdate:Field");
+    assert_eq!(
+        runner.read_string("FocusName").expect("FocusName"),
+        "Field",
+        "BeforeUpdate veto inside a later queued turn keeps focus stable"
+    );
+    assert_eq!(
+        runner
+            .read_string("HandlerLog")
+            .expect("HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec!["Field.BeforeUpdate"],
+        "veto turn should not leak AfterUpdate/Exit/Enter"
+    );
+
+    runner
+        .invoke_string("PerformInitialize", ProjectMemberKind::Method)
+        .expect("initialize");
+    runner
+        .invoke_string("PerformActivate", ProjectMemberKind::Method)
+        .expect("activate");
+    assert_eq!(
+        runner
+            .invoke_string("QueryCloseAllowed", ProjectMemberKind::Method)
+            .expect("query close allowed"),
+        "cancel=0"
+    );
+    assert_eq!(
+        runner
+            .invoke_string("QueryCloseVetoed", ProjectMemberKind::Method)
+            .expect("query close vetoed"),
+        "cancel=1"
+    );
+    let hide = runner
+        .invoke_string("RequestHide", ProjectMemberKind::Method)
+        .expect("hide");
+    assert!(
+        hide.contains("hidden=True") && hide.contains("unloaded=False"),
+        "hide should be represented separately from unload: {hide}"
+    );
+    let unload = runner
+        .invoke_string("RequestUnload", ProjectMemberKind::Method)
+        .expect("unload");
+    assert!(
+        unload.contains("hidden=True") && unload.contains("unloaded=True"),
+        "unload should update lifecycle state and render after mutation: {unload}"
+    );
+    runner
+        .invoke_string("PerformDeactivate", ProjectMemberKind::Method)
+        .expect("deactivate");
+    runner
+        .invoke_string("PerformTerminate", ProjectMemberKind::Method)
+        .expect("terminate");
+    assert_eq!(
+        runner
+            .invoke_string("ModalProbe", ProjectMemberKind::Method)
+            .expect("modal probe"),
+        "BLOCKED:no nested modal pump in OxRuntime yet"
+    );
+
+    let lifecycle_log = runner.read_string("HandlerLog").expect("HandlerLog");
+    for expected in [
+        "UserForm.Initialize",
+        "UserForm.Activate",
+        "UserForm.QueryClose:1",
+        "UserForm.QueryClose:0",
+        "Form.HideRequested",
+        "Form.UnloadRequested",
+        "UserForm.Deactivate",
+        "UserForm.Terminate",
+    ] {
+        assert!(
+            lifecycle_log.lines().any(|line| line == expected),
+            "lifecycle log missing {expected:?}; log was:\n{lifecycle_log}"
+        );
+    }
+
+    let jsonl = runner.trace_jsonl().expect("trace jsonl");
+    assert!(
+        jsonl.contains("\"action\":\"mouse_up:152,32\"")
+            && jsonl.contains("\"action\":\"key_down:9:0\"")
+            && jsonl.contains("role=textbox;name=Field;value=r"),
+        "trace should preserve outer click, queued Tab turn, and post-reentrant TextBox state: {jsonl}"
     );
 }
 

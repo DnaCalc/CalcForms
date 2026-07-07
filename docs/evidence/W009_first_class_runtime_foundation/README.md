@@ -266,6 +266,20 @@ contract:
   behavior, event ordering, and JSONL timer trace shape. Native Windows timer wake-up for visible
   held-repeat is not claimed by this slice.
 
+`oxforms-zhz.30` exercises the reentrancy/lifecycle hazard lane on the ideal seams:
+
+- `ReducerReentrancyForm` drives handler-side mutation and repaint from `TextBox.Change`, nested
+  reducer dispatch from inside a `CommandButton.Click`, a later queued `BeforeUpdate` veto, and
+  lifecycle/query-close/hide/unload probes through the same `OxRuntime` facade used by visible and
+  headless runs;
+- the first proof exposed a real nested-dispatch bug: `OxInteractionManager` used one global effect
+  buffer, so nested `DispatchChar` could clobber the outer mouse-up effect log. The reducer now frames
+  effect logs per public dispatch call and restores the outer log after nested calls;
+- `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` proves
+  post-handler form state, Scene revision advancement, accessibility trace state, validation veto
+  containment, `QueryClose` cancel readback, hide/unload separation, and the explicit nested-modal
+  blocker string. Full modal pump/blocking `Show vbModal` semantics remain a later runtime claim.
+
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
 - `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms
@@ -323,6 +337,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | ListBox list-data spike | Passing representative single-select seam | `vba/oxforms/ListBox.cls`; `OxThemePaintListBox`; `reducer_listbox_form.cls`; `oxvba_reducer_cmdbutton::listbox_object_model_and_capability_descriptor_live_on_the_vba_control`; `listbox_mouse_click_selects_a_row_and_renders_selection`; `listbox_keyboard_focus_and_accessibility_rows_are_exposed`; showcase `ListBoxDiagnostics` |
 | Frame/container coordinate spike | Passing representative seam | `vba/oxforms/Frame.cls`; `IOxControlContainer`; recursive `OxInteractionManager` and `OxAccessibilityService` traversal; `reducer_frame_form.cls`; `oxvba_reducer_cmdbutton::frame_owns_nested_controls_and_renders_a_parented_scene_subtree`; `frame_routes_hit_testing_tab_focus_and_accessibility_recursively`; showcase `FrameDiagnostics` |
 | SpinButton timer/repeat spike | Passing representative headless seam | `vba/oxforms/SpinButton.cls`; showcase `RepeatSpin`/`SpinButtonDiagnostics`; `OxRuntime::dispatch_event_turn` auto-repeat timer dispatch; `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer`; `oxvba_full_surface_showcase::showcase_selftest_drives_current_methods_and_events` |
+| Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |

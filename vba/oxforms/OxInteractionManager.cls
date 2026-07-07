@@ -196,7 +196,8 @@ End Property
 Public Function Dispatch( _
         ByVal Kind As String, ByVal X As Long, ByVal Y As Long, _
         ByVal Button As Integer, ByVal Shift As Integer) As String
-    mEffects = ""
+    Dim PreviousEffects As String
+    PreviousEffects = BeginEffectLog()
     EnsureInteractionIndex
     Select Case Kind
         Case "mousedown"
@@ -206,7 +207,7 @@ Public Function Dispatch( _
         Case "mouseup"
             ReduceMouseUp X, Y, Button, Shift
     End Select
-    Dispatch = mEffects
+    Dispatch = EndEffectLog(PreviousEffects)
 End Function
 
 Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer)
@@ -311,7 +312,8 @@ End Sub
 ' buttons, accelerators, clipboard shortcuts, and the swallow->character linkage through the
 ' focused control's IOxControl surface.
 Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String
-    mEffects = ""
+    Dim PreviousEffects As String
+    PreviousEffects = BeginEffectLog()
     OxProfileMark "vba_dispatchkey_start"
     EnsureInteractionIndex
     OxProfileMark "vba_after_interaction_index"
@@ -324,7 +326,7 @@ Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVa
                 Emit "keyup:" & mFocusName
             End If
     End Select
-    DispatchKey = mEffects
+    DispatchKey = EndEffectLog(PreviousEffects)
 End Function
 
 Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
@@ -801,14 +803,15 @@ End Sub
 ' (if not vetoed) insert + Change -- the same paste path as Ctrl+V, different origin. Returns the
 ' ordered effect log.
 Public Function DispatchDrop(ByVal Text As String) As String
-    mEffects = ""
+    Dim PreviousEffects As String
+    PreviousEffects = BeginEffectLog()
     EnsureInteractionIndex
     If Len(mFocusName) > 0 And Len(Text) > 0 Then
         mForm.ControlByName(mFocusName).OnPaste Text, OX_ACTION_PASTE, 0
         Emit "drop:" & mFocusName
         Repaint
     End If
-    DispatchDrop = mEffects
+    DispatchDrop = EndEffectLog(PreviousEffects)
 End Function
 
 ' The visible+enabled form default button's name ("" if none).
@@ -868,12 +871,13 @@ End Sub
 ' TextBox) inserts the text + raises Change. A character whose KeyDown was swallowed is dropped
 ' (no KeyPress, no Change), matching the oracle swallow linkage. Returns the ordered effect log.
 Public Function DispatchChar(ByVal Text As String) As String
-    mEffects = ""
+    Dim PreviousEffects As String
+    PreviousEffects = BeginEffectLog()
     EnsureInteractionIndex
     If mSwallowNextChar Then
         mSwallowNextChar = False
         Emit "char-swallowed"
-        DispatchChar = mEffects
+        DispatchChar = EndEffectLog(PreviousEffects)
         Exit Function
     End If
     If Len(mFocusName) > 0 Then
@@ -881,7 +885,7 @@ Public Function DispatchChar(ByVal Text As String) As String
         Emit "char:" & mFocusName
         Repaint
     End If
-    DispatchChar = mEffects
+    DispatchChar = EndEffectLog(PreviousEffects)
 End Function
 
 ' Whether a control takes part in Tab navigation: focusable, a tab stop, visible and enabled
@@ -1020,3 +1024,13 @@ Private Sub Emit(ByVal Effect As String)
     If Len(mEffects) > 0 Then mEffects = mEffects & "|"
     mEffects = mEffects & Effect
 End Sub
+
+Private Function BeginEffectLog() As String
+    BeginEffectLog = mEffects
+    mEffects = ""
+End Function
+
+Private Function EndEffectLog(ByVal PreviousEffects As String) As String
+    EndEffectLog = mEffects
+    mEffects = PreviousEffects
+End Function
