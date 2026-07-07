@@ -280,6 +280,21 @@ contract:
   containment, `QueryClose` cancel readback, hide/unload separation, and the explicit nested-modal
   blocker string. Full modal pump/blocking `Show vbModal` semantics remain a later runtime claim.
 
+`oxforms-zhz.31` records the ideal architecture performance budget:
+
+- `headless_textbox_perf::w009_ideal_architecture_budget_report_writes_json` emits the
+  machine-readable `perf/w009-ideal-architecture-budget-20260707.json` artifact over the canonical
+  headless runtime path;
+- the report covers input-to-state/render paste, burst typing, Backspace repeat, tab traversal,
+  mouse/cursor movement, SpinButton virtual timer repeat, Scene/surface timings, and 10/50/100
+  control first-paint plus one-control incremental crossing counts;
+- the 10/50/100-control scale fixture holds first-paint crossings at `BeginScene:4`,
+  `MeasureBatch:1`, `SubmitPatch:1` and one-control changes at `MeasureBatch:1`, `SubmitPatch:1`;
+- this bead produces ranked measurement evidence only. The slowest representative p95 on this host
+  is the timer repeat scenario at `32356 us`, below the current sub-50 ms dispatch budget, while
+  scaled VBA hit-testing is the top follow-up (`432473 us` p95 at 100 controls, feeding
+  `oxforms-bqr`).
+
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
 - `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms
@@ -343,7 +358,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
-| Perf budgets | Scaffold only | Broad budget report remains future `oxforms-zhz.31` |
+| Perf budgets | Passing budget report | `perf/w009-ideal-architecture-budget-20260707.json`; `headless_textbox_perf::w009_ideal_architecture_budget_report_writes_json`; covers representative input/render, burst/repeat/tab/mouse/timer, crossing counts, and 10/50/100-control scale |
 
 ## Known Non-Claims
 

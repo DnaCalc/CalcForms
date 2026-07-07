@@ -6,14 +6,22 @@ use std::process::Command;
 
 use oxforms_headless_runner::{
     repo_root_from_crate, FixtureModule, FormSpec, HeadlessRunner, InputAction, RepaintPolicy,
-    RunnerOptions, RuntimePhaseTrace, SurfaceCallTrace, TraceRow, VK_BACKSPACE,
+    RunnerOptions, RuntimePhaseTrace, SurfaceCallTrace, TraceRow, VK_BACKSPACE, VK_TAB,
 };
+use oxforms_oxvba_adapter::host_services::{HostCursor, HostTimerRequest, HostTimerSlot};
 use serde::Serialize;
 
 fn showcase_spec() -> FormSpec {
     FormSpec::new("FullSurfaceShowcaseForm", "Build").with_fixture(FixtureModule::class(
         "FullSurfaceShowcaseForm",
         "vba/smoke/fixtures/full_surface_showcase_form.cls",
+    ))
+}
+
+fn scale_spec(build_member: &str) -> FormSpec {
+    FormSpec::new("PerfBudgetScaleForm", build_member).with_fixture(FixtureModule::class(
+        "PerfBudgetScaleForm",
+        "vba/smoke/fixtures/perf_budget_scale_form.cls",
     ))
 }
 
@@ -127,6 +135,76 @@ fn textbox_paste_dispatch_attribution_writes_json_report() {
     }
     let json = serde_json::to_string_pretty(&report).expect("serialize attribution report");
     fs::write(&out, json).expect("write attribution report");
+    eprintln!("wrote {}", out.display());
+}
+
+#[test]
+#[ignore = "W009 ideal architecture budget report: writes a host-specific JSON artifact"]
+fn w009_ideal_architecture_budget_report_writes_json() {
+    let repo = repo_root_from_crate();
+    let scenarios = vec![
+        budget_scenario(
+            &repo,
+            "input_to_state_render_paste",
+            repeated_paste("state", 8),
+            "statestatestatestatestatestatestatestate",
+        ),
+        budget_scenario(
+            &repo,
+            "burst_typing_40_chars",
+            key_turns("visibletextboxbaselinevisibletextboxbase"),
+            "visibletextboxbaselinevisibletextboxbase",
+        ),
+        budget_scenario(
+            &repo,
+            "backspace_repeat_20",
+            backspace_repeat("abcdefghijklmnopqrst", 20),
+            "",
+        ),
+        budget_scenario(&repo, "tab_traversal_12", tab_turns(12), ""),
+        budget_scenario(&repo, "mouse_cursor_moves_40", mouse_moves(40), ""),
+    ];
+    let timer = timer_budget_scenario(&repo);
+    let scale = vec![
+        scale_budget(&repo, "Build10", 10),
+        scale_budget(&repo, "Build50", 50),
+        scale_budget(&repo, "Build100", 100),
+    ];
+    let hotspot_table = budget_hotspots(&scenarios, &timer, &scale);
+    let report = BudgetReport {
+        run_id: "w009-ideal-architecture-budget-20260707",
+        bead: report_bead("OXFORMS_W009_BUDGET_BEAD", "oxforms-zhz.31"),
+        git_rev: command_output("git", &["rev-parse", "--short", "HEAD"]),
+        git_status_short: command_output("git", &["status", "--short"]),
+        rustc: command_output("rustc", &["--version"]),
+        host: HostFingerprint {
+            os: std::env::consts::OS,
+            arch: std::env::consts::ARCH,
+            logical_cpus: std::thread::available_parallelism()
+                .map(usize::from)
+                .unwrap_or(0),
+        },
+        profile_timings_enabled: std::env::var_os("OXFORMS_PROFILE_TIMINGS").is_some(),
+        notes: [
+            "Host-specific headless budget report over OxRuntime + VBA OxReducer + SurfaceFactory.",
+            "This is ranked measurement evidence only; no optimization is made by this bead.",
+            "Scenario dispatch_us includes VBA reducer work and reducer-owned repaint.",
+            "Surface timings cover Rust-side SurfaceFactory calls only when OXFORMS_PROFILE_TIMINGS is set.",
+            "Scale scenarios measure first-paint and one-control incremental crossing counts at 10/50/100 labels.",
+        ],
+        scenarios,
+        timer,
+        scale,
+        hotspot_table,
+        hypothesis_ledger: budget_hypotheses(),
+    };
+
+    let out = budget_output_path();
+    if let Some(parent) = out.parent() {
+        fs::create_dir_all(parent).expect("create budget artifact directory");
+    }
+    let json = serde_json::to_string_pretty(&report).expect("serialize budget report");
+    fs::write(&out, json).expect("write budget report");
     eprintln!("wrote {}", out.display());
 }
 
@@ -260,6 +338,126 @@ fn run_attribution_scenario(
     }
 }
 
+fn budget_scenario(
+    repo: &std::path::Path,
+    name: &'static str,
+    actions: Vec<InputAction>,
+    expected_text: &str,
+) -> ScenarioReport {
+    run_scenario(repo, name, actions, expected_text)
+}
+
+fn timer_budget_scenario(repo: &std::path::Path) -> TimerBudget {
+    let mut runner = HeadlessRunner::attach_with_options(
+        repo,
+        &showcase_spec(),
+        RunnerOptions {
+            project_name: "OxFormsTimerBudget".to_string(),
+            repaint_policy: RepaintPolicy::VisibleBootstrap,
+        },
+    )
+    .expect("attach showcase timer budget");
+    runner.render().expect("initial render");
+    let actions = [
+        InputAction::MouseDown {
+            x: 546,
+            y: 174,
+            button: 1,
+            shift: 0,
+        },
+        InputAction::ArmTimer(HostTimerRequest::new(HostTimerSlot::AutoRepeat, 25, true)),
+        InputAction::Tick { advance_ms: 24 },
+        InputAction::Tick { advance_ms: 1 },
+        InputAction::Tick { advance_ms: 50 },
+        InputAction::MouseUp {
+            x: 546,
+            y: 174,
+            button: 1,
+            shift: 0,
+        },
+        InputAction::CancelTimer(HostTimerSlot::AutoRepeat),
+    ];
+    for action in actions {
+        runner
+            .dispatch(action)
+            .expect("dispatch timer budget action");
+    }
+    let final_spin_value = runner.read_i32("SpinValue").expect("SpinValue");
+    let rows: Vec<&TraceRow> = runner
+        .trace()
+        .iter()
+        .filter(|row| row.action != "render")
+        .collect();
+    let timer_fire_rows = rows
+        .iter()
+        .filter(|row| {
+            row.host_service_effects
+                .iter()
+                .any(|effect| effect.starts_with("timer.fire:auto_repeat:"))
+        })
+        .count();
+    TimerBudget {
+        name: "spinbutton_auto_repeat_virtual_timer",
+        action_rows: rows.len(),
+        timer_fire_rows,
+        final_spin_value,
+        dispatch_us: summarize(rows.iter().map(|row| row.dispatch_us)),
+        snapshot_us: summarize(rows.iter().map(|row| row.snapshot_us)),
+        service_effects: rows
+            .iter()
+            .flat_map(|row| row.host_service_effects.iter().cloned())
+            .collect(),
+        worst_dispatch: worst_trace_rows(&rows),
+    }
+}
+
+fn scale_budget(repo: &std::path::Path, build_member: &str, control_count: usize) -> ScaleBudget {
+    let mut runner = HeadlessRunner::attach_with_options(
+        repo,
+        &scale_spec(build_member),
+        RunnerOptions {
+            project_name: format!("OxFormsScaleBudget{control_count}"),
+            repaint_policy: RepaintPolicy::Manual,
+        },
+    )
+    .expect("attach scale budget");
+    let first = runner.snapshot().expect("first-paint snapshot");
+    let first_paint_len = first.calls.len();
+    let first_paint_calls = non_profile_calls(&first.calls);
+    runner
+        .invoke_string("ChangeOne", oxvba_bundle::ProjectMemberKind::Method)
+        .expect("change one label");
+    runner.render().expect("incremental render");
+    let after = runner.snapshot().expect("after change snapshot");
+    let change_calls = non_profile_calls(&after.calls[first_paint_len..]);
+    let hit_y = 8 + ((control_count as i32 - 1) * 16) + 7;
+    for i in 0..20 {
+        runner
+            .dispatch(InputAction::MouseMove {
+                x: 20 + (i % 3),
+                y: hit_y,
+                button: 0,
+                shift: 0,
+            })
+            .expect("dispatch scale hit-test mouse move");
+    }
+    let hit_rows: Vec<&TraceRow> = runner
+        .trace()
+        .iter()
+        .filter(|row| row.action.starts_with("mouse_move:"))
+        .collect();
+    ScaleBudget {
+        control_count,
+        first_paint_node_count: first.node_count,
+        first_paint_call_count: first_paint_calls.len(),
+        first_paint_calls,
+        change_call_count: change_calls.len(),
+        change_calls,
+        final_node_count: after.node_count,
+        hit_test_dispatch_us: summarize(hit_rows.iter().map(|row| row.dispatch_us)),
+    }
+}
+
 fn turn_attribution(row: &TraceRow) -> TurnAttribution {
     TurnAttribution {
         seq: row.seq,
@@ -322,6 +520,34 @@ fn repeated_paste(fragment: &str, count: usize) -> Vec<InputAction> {
         .collect()
 }
 
+fn tab_turns(count: usize) -> Vec<InputAction> {
+    let mut actions = Vec::new();
+    for _ in 0..count {
+        actions.push(InputAction::KeyDown {
+            key_code: VK_TAB,
+            shift: 0,
+        });
+        actions.push(InputAction::KeyUp {
+            key_code: VK_TAB,
+            shift: 0,
+        });
+    }
+    actions
+}
+
+fn mouse_moves(count: usize) -> Vec<InputAction> {
+    let mut actions = vec![InputAction::SetCursor(HostCursor::IBeam)];
+    for i in 0..count {
+        actions.push(InputAction::MouseMove {
+            x: 22 + (i as i32 % 30),
+            y: 98,
+            button: 0,
+            shift: 0,
+        });
+    }
+    actions
+}
+
 fn vk_for_char(ch: char) -> i16 {
     match ch.to_ascii_uppercase() {
         'A'..='Z' | '0'..='9' => ch.to_ascii_uppercase() as u8 as i16,
@@ -367,6 +593,14 @@ fn attribution_output_path() -> PathBuf {
         .unwrap_or_else(|| {
             repo_root_from_crate()
                 .join("target/oxforms-perf/w009-textbox-paste-dispatch-attribution.json")
+        })
+}
+
+fn budget_output_path() -> PathBuf {
+    std::env::var_os("OXFORMS_W009_BUDGET_OUT")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| {
+            repo_root_from_crate().join("target/oxforms-perf/w009-ideal-architecture-budget.json")
         })
 }
 
@@ -456,6 +690,23 @@ fn worst_turns(turns: &[TurnAttribution]) -> Vec<TurnAttribution> {
     worst.into_iter().take(5).collect()
 }
 
+fn worst_trace_rows(rows: &[&TraceRow]) -> Vec<WorstTurn> {
+    let mut worst = rows.to_vec();
+    worst.sort_by_key(|row| Reverse(row.dispatch_us));
+    worst
+        .into_iter()
+        .take(5)
+        .map(|row| WorstTurn {
+            seq: row.seq,
+            action: row.action.clone(),
+            effect_log: row.effect_log.clone(),
+            dispatch_us: row.dispatch_us,
+            render_us: row.render_us,
+            snapshot_us: row.snapshot_us,
+        })
+        .collect()
+}
+
 fn hotspot_table(scenario: &AttributionScenario) -> Vec<HotspotRow> {
     vec![
         HotspotRow {
@@ -497,6 +748,63 @@ fn hotspot_table(scenario: &AttributionScenario) -> Vec<HotspotRow> {
             value_us: scenario.host_set_clipboard_us.p95,
             evidence: "runtime_phase_summaries.HostServices.SetClipboardText",
             interpretation: "The headless host clipboard write is isolated from VBA work.",
+        },
+    ]
+}
+
+fn budget_hotspots(
+    scenarios: &[ScenarioReport],
+    timer: &TimerBudget,
+    scale: &[ScaleBudget],
+) -> Vec<HotspotRow> {
+    let slowest_dispatch = scenarios
+        .iter()
+        .map(|scenario| scenario.dispatch_us.p95)
+        .chain(std::iter::once(timer.dispatch_us.p95))
+        .max()
+        .unwrap_or(0);
+    let largest_change_crossings = scale
+        .iter()
+        .map(|scenario| scenario.change_call_count as u128)
+        .max()
+        .unwrap_or(0);
+    let scaled_hit_test = scale
+        .iter()
+        .map(|scenario| scenario.hit_test_dispatch_us.p95)
+        .max()
+        .unwrap_or(0);
+    vec![
+        HotspotRow {
+            rank: 1,
+            area: "Scaled VBA hit-test mouse move",
+            metric: "p95_us",
+            value_us: scaled_hit_test,
+            evidence: "scale[*].hit_test_dispatch_us.p95",
+            interpretation: "Mouse-move hit testing grows sharply at 50/100 controls and is the top follow-up target.",
+        },
+        HotspotRow {
+            rank: 2,
+            area: "Slowest representative dispatch",
+            metric: "p95_us",
+            value_us: slowest_dispatch,
+            evidence: "scenarios[*].dispatch_us.p95 and timer.dispatch_us.p95",
+            interpretation: "This is the top end-to-end input-to-state/render budget bucket in the broad report.",
+        },
+        HotspotRow {
+            rank: 3,
+            area: "Scale one-control change crossings",
+            metric: "max_count",
+            value_us: largest_change_crossings,
+            evidence: "scale[*].change_call_count",
+            interpretation: "The 10/50/100-control incremental render budget should stay constant.",
+        },
+        HotspotRow {
+            rank: 4,
+            area: "Timer virtual repeat dispatch",
+            metric: "p95_us",
+            value_us: timer.dispatch_us.p95,
+            evidence: "timer.dispatch_us.p95",
+            interpretation: "Auto-repeat timer fires use the same OxRuntime event-turn path.",
         },
     ]
 }
@@ -555,6 +863,29 @@ fn hypothesis_ledger(scenario: &AttributionScenario) -> Vec<Hypothesis> {
     ]
 }
 
+fn budget_hypotheses() -> Vec<Hypothesis> {
+    vec![
+        Hypothesis {
+            name: "Scene crossing count scales with control count for one-control changes",
+            verdict: "rejects",
+            evidence: "scale change calls are reported separately for 10/50/100 controls"
+                .to_string(),
+        },
+        Hypothesis {
+            name: "Timer repeat needs a parallel runtime path",
+            verdict: "rejects",
+            evidence: "timer budget scenario dispatches auto_repeat through OxRuntime".to_string(),
+        },
+        Hypothesis {
+            name: "Further optimization should proceed without scenario-specific evidence",
+            verdict: "rejects",
+            evidence:
+                "this bead records budgets only; optimization requires a ranked follow-up target"
+                    .to_string(),
+        },
+    ]
+}
+
 fn summarize_calls(calls: &[String]) -> Vec<CallCount> {
     let mut counts = BTreeMap::new();
     for call in calls {
@@ -563,6 +894,14 @@ fn summarize_calls(calls: &[String]) -> Vec<CallCount> {
     counts
         .into_iter()
         .map(|(call, count)| CallCount { call, count })
+        .collect()
+}
+
+fn non_profile_calls(calls: &[String]) -> Vec<String> {
+    calls
+        .iter()
+        .filter(|call| !call.starts_with("ProfileMark"))
+        .cloned()
         .collect()
 }
 
@@ -591,6 +930,23 @@ struct AttributionReport {
     hotspot_table: Vec<HotspotRow>,
     hypothesis_ledger: Vec<Hypothesis>,
     scenario: AttributionScenario,
+}
+
+#[derive(Serialize)]
+struct BudgetReport {
+    run_id: &'static str,
+    bead: String,
+    git_rev: String,
+    git_status_short: String,
+    rustc: String,
+    host: HostFingerprint,
+    profile_timings_enabled: bool,
+    notes: [&'static str; 5],
+    scenarios: Vec<ScenarioReport>,
+    timer: TimerBudget,
+    scale: Vec<ScaleBudget>,
+    hotspot_table: Vec<HotspotRow>,
+    hypothesis_ledger: Vec<Hypothesis>,
 }
 
 #[derive(Serialize)]
@@ -636,6 +992,30 @@ struct AttributionScenario {
     surface_call_summaries: Vec<NamedSummary>,
     worst_turns: Vec<TurnAttribution>,
     turns: Vec<TurnAttribution>,
+}
+
+#[derive(Serialize)]
+struct TimerBudget {
+    name: &'static str,
+    action_rows: usize,
+    timer_fire_rows: usize,
+    final_spin_value: i32,
+    dispatch_us: Summary,
+    snapshot_us: Summary,
+    service_effects: Vec<String>,
+    worst_dispatch: Vec<WorstTurn>,
+}
+
+#[derive(Serialize)]
+struct ScaleBudget {
+    control_count: usize,
+    first_paint_node_count: usize,
+    first_paint_call_count: usize,
+    first_paint_calls: Vec<String>,
+    change_call_count: usize,
+    change_calls: Vec<String>,
+    final_node_count: usize,
+    hit_test_dispatch_us: Summary,
 }
 
 #[derive(Clone, Serialize)]

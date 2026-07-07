@@ -1,0 +1,1026 @@
+{
+  "run_id": "w009-ideal-architecture-budget-20260707",
+  "bead": "oxforms-zhz.31",
+  "git_rev": "e2bad83",
+  "git_status_short": "M ../../.beads/issues.jsonl\n M ../../.gitignore\n M tests/headless_textbox_perf.rs\n M ../../docs/evidence/W009_first_class_runtime_foundation/README.md\n M ../../docs/evidence/W009_first_class_runtime_foundation/oracle-foundation-matrix.md\n M ../../docs/evidence/W009_first_class_runtime_foundation/perf/README.md\n M ../../docs/worksets/W009_intrinsic_control_breadth.md\n?? ../../docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json\n?? ../../vba/smoke/fixtures/perf_budget_scale_form.cls",
+  "rustc": "rustc 1.94.1 (e408947bf 2026-03-25)",
+  "host": {
+    "os": "windows",
+    "arch": "x86_64",
+    "logical_cpus": 16
+  },
+  "profile_timings_enabled": true,
+  "notes": [
+    "Host-specific headless budget report over OxRuntime + VBA OxReducer + SurfaceFactory.",
+    "This is ranked measurement evidence only; no optimization is made by this bead.",
+    "Scenario dispatch_us includes VBA reducer work and reducer-owned repaint.",
+    "Surface timings cover Rust-side SurfaceFactory calls only when OXFORMS_PROFILE_TIMINGS is set.",
+    "Scale scenarios measure first-paint and one-control incremental crossing counts at 10/50/100 labels."
+  ],
+  "scenarios": [
+    {
+      "name": "input_to_state_render_paste",
+      "action_rows": 8,
+      "effect_rows": 8,
+      "repaint_rows": 8,
+      "service_effect_rows": 8,
+      "total_surface_calls": 194,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 12
+        },
+        {
+          "call": "ProfileMark:vba_after_build_full_patch",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_after_incremental_submit",
+          "count": 11
+        },
+        {
+          "call": "ProfileMark:vba_after_interaction_index",
+          "count": 8
+        },
+        {
+          "call": "ProfileMark:vba_after_keydown",
+          "count": 8
+        },
+        {
+          "call": "ProfileMark:vba_after_measure_controls",
+          "count": 12
+        },
+        {
+          "call": "ProfileMark:vba_after_paint_controls",
+          "count": 12
+        },
+        {
+          "call": "ProfileMark:vba_after_paste",
+          "count": 8
+        },
+        {
+          "call": "ProfileMark:vba_after_render",
+          "count": 12
+        },
+        {
+          "call": "ProfileMark:vba_after_repaint",
+          "count": 10
+        },
+        {
+          "call": "ProfileMark:vba_before_incremental_to_json",
+          "count": 11
+        },
+        {
+          "call": "ProfileMark:vba_before_paste",
+          "count": 8
+        },
+        {
+          "call": "ProfileMark:vba_before_repaint",
+          "count": 10
+        },
+        {
+          "call": "ProfileMark:vba_build_full_patch_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_build_incremental_patch_start",
+          "count": 11
+        },
+        {
+          "call": "ProfileMark:vba_dispatchkey_start",
+          "count": 8
+        },
+        {
+          "call": "ProfileMark:vba_emit_controls_start",
+          "count": 12
+        },
+        {
+          "call": "ProfileMark:vba_render_full_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_incremental_start",
+          "count": 11
+        },
+        {
+          "call": "ProfileMark:vba_render_noop",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_start",
+          "count": 13
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 12
+        }
+      ],
+      "final_text_len": 40,
+      "final_text": "statestatestatestatestatestatestatestate",
+      "dispatch_us": {
+        "count": 8,
+        "sum": 150430,
+        "p50": 19383,
+        "p95": 21234,
+        "p99": 21234,
+        "max": 21234
+      },
+      "render_us": {
+        "count": 8,
+        "sum": 0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "max": 0
+      },
+      "snapshot_us": {
+        "count": 8,
+        "sum": 459,
+        "p50": 61,
+        "p95": 76,
+        "p99": 76,
+        "max": 76
+      },
+      "worst_dispatch": [
+        {
+          "seq": 6,
+          "action": "paste:state",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 21234,
+          "render_us": 0,
+          "snapshot_us": 76
+        },
+        {
+          "seq": 8,
+          "action": "paste:state",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 20349,
+          "render_us": 0,
+          "snapshot_us": 56
+        },
+        {
+          "seq": 5,
+          "action": "paste:state",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 19535,
+          "render_us": 0,
+          "snapshot_us": 51
+        },
+        {
+          "seq": 3,
+          "action": "paste:state",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 19383,
+          "render_us": 0,
+          "snapshot_us": 69
+        },
+        {
+          "seq": 4,
+          "action": "paste:state",
+          "effect_log": "keydown:InputField|paste:InputField|repaint",
+          "dispatch_us": 18587,
+          "render_us": 0,
+          "snapshot_us": 49
+        }
+      ]
+    },
+    {
+      "name": "burst_typing_40_chars",
+      "action_rows": 120,
+      "effect_rows": 120,
+      "repaint_rows": 40,
+      "service_effect_rows": 0,
+      "total_surface_calls": 770,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_after_build_full_patch",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_after_incremental_submit",
+          "count": 43
+        },
+        {
+          "call": "ProfileMark:vba_after_interaction_index",
+          "count": 80
+        },
+        {
+          "call": "ProfileMark:vba_after_keydown",
+          "count": 40
+        },
+        {
+          "call": "ProfileMark:vba_after_measure_controls",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_after_paint_controls",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_after_render",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_after_repaint",
+          "count": 42
+        },
+        {
+          "call": "ProfileMark:vba_before_incremental_to_json",
+          "count": 43
+        },
+        {
+          "call": "ProfileMark:vba_before_repaint",
+          "count": 42
+        },
+        {
+          "call": "ProfileMark:vba_build_full_patch_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_build_incremental_patch_start",
+          "count": 43
+        },
+        {
+          "call": "ProfileMark:vba_dispatchkey_start",
+          "count": 80
+        },
+        {
+          "call": "ProfileMark:vba_emit_controls_start",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_render_full_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_incremental_start",
+          "count": 43
+        },
+        {
+          "call": "ProfileMark:vba_render_noop",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_start",
+          "count": 45
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 44
+        }
+      ],
+      "final_text_len": 40,
+      "final_text": "visibletextboxbaselinevisibletextboxbase",
+      "dispatch_us": {
+        "count": 120,
+        "sum": 899444,
+        "p50": 3005,
+        "p95": 19147,
+        "p99": 21111,
+        "max": 22053
+      },
+      "render_us": {
+        "count": 120,
+        "sum": 0,
+        "p50": 0,
+        "p95": 0,
+        "p99": 0,
+        "max": 0
+      },
+      "snapshot_us": {
+        "count": 120,
+        "sum": 18868,
+        "p50": 146,
+        "p95": 354,
+        "p99": 541,
+        "max": 636
+      },
+      "worst_dispatch": [
+        {
+          "seq": 93,
+          "action": "char:e",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 22053,
+          "render_us": 0,
+          "snapshot_us": 207
+        },
+        {
+          "seq": 63,
+          "action": "char:n",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 21111,
+          "render_us": 0,
+          "snapshot_us": 163
+        },
+        {
+          "seq": 114,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 20385,
+          "render_us": 0,
+          "snapshot_us": 636
+        },
+        {
+          "seq": 60,
+          "action": "char:i",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 19750,
+          "render_us": 0,
+          "snapshot_us": 115
+        },
+        {
+          "seq": 66,
+          "action": "char:e",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 19610,
+          "render_us": 0,
+          "snapshot_us": 171
+        }
+      ]
+    },
+    {
+      "name": "backspace_repeat_20",
+      "action_rows": 81,
+      "effect_rows": 81,
+      "repaint_rows": 40,
+      "service_effect_rows": 0,
+      "total_surface_calls": 743,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 45
+        },
+        {
+          "call": "ProfileMark:vba_after_build_full_patch",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_after_incremental_submit",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_after_interaction_index",
+          "count": 61
+        },
+        {
+          "call": "ProfileMark:vba_after_keydown",
+          "count": 40
+        },
+        {
+          "call": "ProfileMark:vba_after_measure_controls",
+          "count": 45
+        },
+        {
+          "call": "ProfileMark:vba_after_paint_controls",
+          "count": 45
+        },
+        {
+          "call": "ProfileMark:vba_after_render",
+          "count": 45
+        },
+        {
+          "call": "ProfileMark:vba_after_repaint",
+          "count": 42
+        },
+        {
+          "call": "ProfileMark:vba_before_incremental_to_json",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_before_repaint",
+          "count": 42
+        },
+        {
+          "call": "ProfileMark:vba_build_full_patch_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_build_incremental_patch_start",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_dispatchkey_start",
+          "count": 61
+        },
+        {
+          "call": "ProfileMark:vba_emit_controls_start",
+          "count": 45
+        },
+        {
+          "call": "ProfileMark:vba_render_full_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_incremental_start",
+          "count": 44
+        },
+        {
+          "call": "ProfileMark:vba_render_noop",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_start",
+          "count": 46
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 45
+        }
+      ],
+      "final_text_len": 0,
+      "final_text": "",
+      "dispatch_us": {
+        "count": 81,
+        "sum": 804795,
+        "p50": 4472,
+        "p95": 20392,
+        "p99": 26481,
+        "max": 26481
+      },
+      "render_us": {
+        "count": 81,
+        "sum": 4594,
+        "p50": 0,
+        "p95": 0,
+        "p99": 4594,
+        "max": 4594
+      },
+      "snapshot_us": {
+        "count": 81,
+        "sum": 10579,
+        "p50": 117,
+        "p95": 265,
+        "p99": 361,
+        "max": 361
+      },
+      "worst_dispatch": [
+        {
+          "seq": 57,
+          "action": "char:s",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 26481,
+          "render_us": 0,
+          "snapshot_us": 216
+        },
+        {
+          "seq": 64,
+          "action": "key_down:8:0",
+          "effect_log": "keydown:InputField|repaint",
+          "dispatch_us": 23859,
+          "render_us": 0,
+          "snapshot_us": 215
+        },
+        {
+          "seq": 67,
+          "action": "key_down:8:0",
+          "effect_log": "keydown:InputField|repaint",
+          "dispatch_us": 21265,
+          "render_us": 0,
+          "snapshot_us": 250
+        },
+        {
+          "seq": 3,
+          "action": "char:a",
+          "effect_log": "char:InputField|repaint",
+          "dispatch_us": 20629,
+          "render_us": 0,
+          "snapshot_us": 60
+        },
+        {
+          "seq": 65,
+          "action": "key_down:8:0",
+          "effect_log": "keydown:InputField|repaint",
+          "dispatch_us": 20392,
+          "render_us": 0,
+          "snapshot_us": 162
+        }
+      ]
+    },
+    {
+      "name": "tab_traversal_12",
+      "action_rows": 24,
+      "effect_rows": 24,
+      "repaint_rows": 12,
+      "service_effect_rows": 0,
+      "total_surface_calls": 353,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 23
+        },
+        {
+          "call": "ProfileMark:vba_after_build_full_patch",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_after_incremental_submit",
+          "count": 22
+        },
+        {
+          "call": "ProfileMark:vba_after_interaction_index",
+          "count": 24
+        },
+        {
+          "call": "ProfileMark:vba_after_keydown",
+          "count": 12
+        },
+        {
+          "call": "ProfileMark:vba_after_measure_controls",
+          "count": 23
+        },
+        {
+          "call": "ProfileMark:vba_after_paint_controls",
+          "count": 23
+        },
+        {
+          "call": "ProfileMark:vba_after_render",
+          "count": 23
+        },
+        {
+          "call": "ProfileMark:vba_after_repaint",
+          "count": 14
+        },
+        {
+          "call": "ProfileMark:vba_before_incremental_to_json",
+          "count": 22
+        },
+        {
+          "call": "ProfileMark:vba_before_repaint",
+          "count": 14
+        },
+        {
+          "call": "ProfileMark:vba_build_full_patch_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_build_incremental_patch_start",
+          "count": 22
+        },
+        {
+          "call": "ProfileMark:vba_dispatchkey_start",
+          "count": 24
+        },
+        {
+          "call": "ProfileMark:vba_emit_controls_start",
+          "count": 23
+        },
+        {
+          "call": "ProfileMark:vba_render_full_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_incremental_start",
+          "count": 22
+        },
+        {
+          "call": "ProfileMark:vba_render_noop",
+          "count": 6
+        },
+        {
+          "call": "ProfileMark:vba_render_start",
+          "count": 29
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 23
+        }
+      ],
+      "final_text_len": 0,
+      "final_text": "",
+      "dispatch_us": {
+        "count": 24,
+        "sum": 266978,
+        "p50": 16364,
+        "p95": 23172,
+        "p99": 26574,
+        "max": 26574
+      },
+      "render_us": {
+        "count": 24,
+        "sum": 37205,
+        "p50": 473,
+        "p95": 5185,
+        "p99": 5308,
+        "max": 5308
+      },
+      "snapshot_us": {
+        "count": 24,
+        "sum": 2149,
+        "p50": 82,
+        "p95": 180,
+        "p99": 187,
+        "max": 187
+      },
+      "worst_dispatch": [
+        {
+          "seq": 8,
+          "action": "key_down:9:0",
+          "effect_log": "keydown:GoButton|exit:GoButton|enter:CheckBox|repaint",
+          "dispatch_us": 26574,
+          "render_us": 0,
+          "snapshot_us": 83
+        },
+        {
+          "seq": 14,
+          "action": "key_down:9:0",
+          "effect_log": "keydown:RepeatSpin|exit:RepeatSpin|enter:InputField|repaint",
+          "dispatch_us": 23172,
+          "render_us": 0,
+          "snapshot_us": 64
+        },
+        {
+          "seq": 12,
+          "action": "key_down:9:0",
+          "effect_log": "keydown:ChoicesList|exit:ChoicesList|enter:RepeatSpin|repaint",
+          "dispatch_us": 21802,
+          "render_us": 0,
+          "snapshot_us": 60
+        },
+        {
+          "seq": 22,
+          "action": "key_down:9:0",
+          "effect_log": "keydown:GoButton|exit:GoButton|enter:CheckBox|repaint",
+          "dispatch_us": 21682,
+          "render_us": 0,
+          "snapshot_us": 80
+        },
+        {
+          "seq": 6,
+          "action": "key_down:9:0",
+          "effect_log": "keydown:CancelButton|exit:CancelButton|enter:GoButton|repaint",
+          "dispatch_us": 20126,
+          "render_us": 0,
+          "snapshot_us": 46
+        }
+      ]
+    },
+    {
+      "name": "mouse_cursor_moves_40",
+      "action_rows": 41,
+      "effect_rows": 40,
+      "repaint_rows": 0,
+      "service_effect_rows": 1,
+      "total_surface_calls": 130,
+      "surface_call_counts": [
+        {
+          "call": "BeginScene:4",
+          "count": 1
+        },
+        {
+          "call": "MeasureBatch:1",
+          "count": 4
+        },
+        {
+          "call": "ProfileMark:vba_after_build_full_patch",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_after_incremental_submit",
+          "count": 3
+        },
+        {
+          "call": "ProfileMark:vba_after_measure_controls",
+          "count": 4
+        },
+        {
+          "call": "ProfileMark:vba_after_paint_controls",
+          "count": 4
+        },
+        {
+          "call": "ProfileMark:vba_after_render",
+          "count": 4
+        },
+        {
+          "call": "ProfileMark:vba_after_repaint",
+          "count": 2
+        },
+        {
+          "call": "ProfileMark:vba_before_incremental_to_json",
+          "count": 3
+        },
+        {
+          "call": "ProfileMark:vba_before_repaint",
+          "count": 2
+        },
+        {
+          "call": "ProfileMark:vba_build_full_patch_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_build_incremental_patch_start",
+          "count": 3
+        },
+        {
+          "call": "ProfileMark:vba_emit_controls_start",
+          "count": 4
+        },
+        {
+          "call": "ProfileMark:vba_render_full_start",
+          "count": 1
+        },
+        {
+          "call": "ProfileMark:vba_render_incremental_start",
+          "count": 3
+        },
+        {
+          "call": "ProfileMark:vba_render_noop",
+          "count": 41
+        },
+        {
+          "call": "ProfileMark:vba_render_start",
+          "count": 45
+        },
+        {
+          "call": "SubmitPatch:1",
+          "count": 4
+        }
+      ],
+      "final_text_len": 0,
+      "final_text": "",
+      "dispatch_us": {
+        "count": 41,
+        "sum": 655952,
+        "p50": 15553,
+        "p95": 20767,
+        "p99": 21670,
+        "max": 21670
+      },
+      "render_us": {
+        "count": 41,
+        "sum": 24088,
+        "p50": 572,
+        "p95": 901,
+        "p99": 903,
+        "max": 903
+      },
+      "snapshot_us": {
+        "count": 41,
+        "sum": 3484,
+        "p50": 72,
+        "p95": 149,
+        "p99": 205,
+        "max": 205
+      },
+      "worst_dispatch": [
+        {
+          "seq": 21,
+          "action": "mouse_move:40,98",
+          "effect_log": "mousemove:InputField",
+          "dispatch_us": 21670,
+          "render_us": 702,
+          "snapshot_us": 115
+        },
+        {
+          "seq": 19,
+          "action": "mouse_move:38,98",
+          "effect_log": "mousemove:InputField",
+          "dispatch_us": 21193,
+          "render_us": 903,
+          "snapshot_us": 73
+        },
+        {
+          "seq": 9,
+          "action": "mouse_move:28,98",
+          "effect_log": "mousemove:InputField",
+          "dispatch_us": 20767,
+          "render_us": 555,
+          "snapshot_us": 57
+        },
+        {
+          "seq": 20,
+          "action": "mouse_move:39,98",
+          "effect_log": "mousemove:InputField",
+          "dispatch_us": 20030,
+          "render_us": 827,
+          "snapshot_us": 89
+        },
+        {
+          "seq": 25,
+          "action": "mouse_move:44,98",
+          "effect_log": "mousemove:InputField",
+          "dispatch_us": 19689,
+          "render_us": 793,
+          "snapshot_us": 84
+        }
+      ]
+    }
+  ],
+  "timer": {
+    "name": "spinbutton_auto_repeat_virtual_timer",
+    "action_rows": 7,
+    "timer_fire_rows": 2,
+    "final_spin_value": 6,
+    "dispatch_us": {
+      "count": 7,
+      "sum": 74190,
+      "p50": 11104,
+      "p95": 32356,
+      "p99": 32356,
+      "max": 32356
+    },
+    "snapshot_us": {
+      "count": 7,
+      "sum": 389,
+      "p50": 43,
+      "p95": 90,
+      "p99": 90,
+      "max": 90
+    },
+    "service_effects": [
+      "timer.arm:auto_repeat:25:repeat=true",
+      "time.advance:24:now=24",
+      "time.advance:1:now=25",
+      "timer.fire:auto_repeat:1:at=25",
+      "time.advance:50:now=75",
+      "timer.fire:auto_repeat:2:at=75",
+      "timer.cancel:auto_repeat"
+    ],
+    "worst_dispatch": [
+      {
+        "seq": 2,
+        "action": "mouse_down:546,174",
+        "effect_log": "exit:InputField|enter:RepeatSpin|mousedown:RepeatSpin|press:RepeatSpin|repaint",
+        "dispatch_us": 32356,
+        "render_us": 0,
+        "snapshot_us": 37
+      },
+      {
+        "seq": 7,
+        "action": "mouse_up:546,174",
+        "effect_log": "mouseup:RepeatSpin|release:RepeatSpin|repaint",
+        "dispatch_us": 18868,
+        "render_us": 0,
+        "snapshot_us": 90
+      },
+      {
+        "seq": 6,
+        "action": "tick:50",
+        "effect_log": "repeat:RepeatSpin:2|repaint",
+        "dispatch_us": 11691,
+        "render_us": 0,
+        "snapshot_us": 42
+      },
+      {
+        "seq": 5,
+        "action": "tick:1",
+        "effect_log": "repeat:RepeatSpin:1|repaint",
+        "dispatch_us": 11104,
+        "render_us": 0,
+        "snapshot_us": 38
+      },
+      {
+        "seq": 8,
+        "action": "timer_cancel:auto_repeat",
+        "effect_log": "",
+        "dispatch_us": 77,
+        "render_us": 0,
+        "snapshot_us": 73
+      }
+    ]
+  },
+  "scale": [
+    {
+      "control_count": 10,
+      "first_paint_node_count": 11,
+      "first_paint_call_count": 3,
+      "first_paint_calls": [
+        "BeginScene:4",
+        "MeasureBatch:1",
+        "SubmitPatch:1"
+      ],
+      "change_call_count": 2,
+      "change_calls": [
+        "MeasureBatch:1",
+        "SubmitPatch:1"
+      ],
+      "final_node_count": 11,
+      "hit_test_dispatch_us": {
+        "count": 20,
+        "sum": 146435,
+        "p50": 6981,
+        "p95": 9053,
+        "p99": 9053,
+        "max": 9053
+      }
+    },
+    {
+      "control_count": 50,
+      "first_paint_node_count": 51,
+      "first_paint_call_count": 3,
+      "first_paint_calls": [
+        "BeginScene:4",
+        "MeasureBatch:1",
+        "SubmitPatch:1"
+      ],
+      "change_call_count": 2,
+      "change_calls": [
+        "MeasureBatch:1",
+        "SubmitPatch:1"
+      ],
+      "final_node_count": 51,
+      "hit_test_dispatch_us": {
+        "count": 20,
+        "sum": 2221603,
+        "p50": 112800,
+        "p95": 126007,
+        "p99": 126007,
+        "max": 126007
+      }
+    },
+    {
+      "control_count": 100,
+      "first_paint_node_count": 101,
+      "first_paint_call_count": 3,
+      "first_paint_calls": [
+        "BeginScene:4",
+        "MeasureBatch:1",
+        "SubmitPatch:1"
+      ],
+      "change_call_count": 2,
+      "change_calls": [
+        "MeasureBatch:1",
+        "SubmitPatch:1"
+      ],
+      "final_node_count": 101,
+      "hit_test_dispatch_us": {
+        "count": 20,
+        "sum": 8166011,
+        "p50": 409935,
+        "p95": 432473,
+        "p99": 432473,
+        "max": 432473
+      }
+    }
+  ],
+  "hotspot_table": [
+    {
+      "rank": 1,
+      "area": "Scaled VBA hit-test mouse move",
+      "metric": "p95_us",
+      "value_us": 432473,
+      "evidence": "scale[*].hit_test_dispatch_us.p95",
+      "interpretation": "Mouse-move hit testing grows sharply at 50/100 controls and is the top follow-up target."
+    },
+    {
+      "rank": 2,
+      "area": "Slowest representative dispatch",
+      "metric": "p95_us",
+      "value_us": 32356,
+      "evidence": "scenarios[*].dispatch_us.p95 and timer.dispatch_us.p95",
+      "interpretation": "This is the top end-to-end input-to-state/render budget bucket in the broad report."
+    },
+    {
+      "rank": 3,
+      "area": "Scale one-control change crossings",
+      "metric": "max_count",
+      "value_us": 2,
+      "evidence": "scale[*].change_call_count",
+      "interpretation": "The 10/50/100-control incremental render budget should stay constant."
+    },
+    {
+      "rank": 4,
+      "area": "Timer virtual repeat dispatch",
+      "metric": "p95_us",
+      "value_us": 32356,
+      "evidence": "timer.dispatch_us.p95",
+      "interpretation": "Auto-repeat timer fires use the same OxRuntime event-turn path."
+    }
+  ],
+  "hypothesis_ledger": [
+    {
+      "name": "Scene crossing count scales with control count for one-control changes",
+      "verdict": "rejects",
+      "evidence": "scale change calls are reported separately for 10/50/100 controls"
+    },
+    {
+      "name": "Timer repeat needs a parallel runtime path",
+      "verdict": "rejects",
+      "evidence": "timer budget scenario dispatches auto_repeat through OxRuntime"
+    },
+    {
+      "name": "Further optimization should proceed without scenario-specific evidence",
+      "verdict": "rejects",
+      "evidence": "this bead records budgets only; optimization requires a ranked follow-up target"
+    }
+  ]
+}

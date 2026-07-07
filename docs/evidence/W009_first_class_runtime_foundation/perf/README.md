@@ -132,3 +132,48 @@ repeat-key repaint scenarios now render during repeat turns within the same
 sub-50 ms dispatch budget. Further TextBox performance work should focus on the
 remaining VBA-side paint/mutation bucket only after a visible scenario shows a
 new problem.
+
+## W009 Ideal Architecture Budget Report
+
+Artifact:
+`w009-ideal-architecture-budget-20260707.json`
+
+Generated for `oxforms-zhz.31` with `OXFORMS_PROFILE_TIMINGS=1`. This is a
+host-specific headless report over the canonical `OxRuntime` + VBA `OxReducer`
++ `SurfaceFactory` path. It is measurement evidence only; no optimization was
+made in this bead.
+
+| Scenario | Rows | Repaints | Surface calls incl. profile marks | Dispatch p50 us | Dispatch p95 us | Max us | Snapshot p95 us |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `input_to_state_render_paste` | 8 | 8 | 194 | 19383 | 21234 | 21234 | 76 |
+| `burst_typing_40_chars` | 120 | 40 | 770 | 3005 | 19147 | 22053 | 354 |
+| `backspace_repeat_20` | 81 | 40 | 743 | 4472 | 20392 | 26481 | 265 |
+| `tab_traversal_12` | 24 | 12 | 353 | 16364 | 23172 | 26574 | 180 |
+| `mouse_cursor_moves_40` | 41 | 0 | 130 | 15553 | 20767 | 21670 | 149 |
+| `spinbutton_auto_repeat_virtual_timer` | 7 | 2 timer fires | n/a | 11104 | 32356 | 32356 | 90 |
+
+Scale/crossing budget:
+
+| Controls | First-paint nodes | First-paint crossings | One-control change crossings | Mouse-move hit-test p95 us |
+|---:|---:|---|---|---:|
+| 10 | 11 | `BeginScene:4`, `MeasureBatch:1`, `SubmitPatch:1` | `MeasureBatch:1`, `SubmitPatch:1` | 9053 |
+| 50 | 51 | `BeginScene:4`, `MeasureBatch:1`, `SubmitPatch:1` | `MeasureBatch:1`, `SubmitPatch:1` | 126007 |
+| 100 | 101 | `BeginScene:4`, `MeasureBatch:1`, `SubmitPatch:1` | `MeasureBatch:1`, `SubmitPatch:1` | 432473 |
+
+Ranked findings:
+
+| Rank | Area | Evidence | Interpretation |
+|---:|---|---|---|
+| 1 | Scaled VBA hit-test mouse move | 100-control p95 `432473 us` | Mouse-move hit testing scales poorly and is the top follow-up target; this feeds `oxforms-bqr`. |
+| 2 | Slowest representative dispatch | timer p95 `32356 us` | The broad headless representative set remains under the current sub-50 ms dispatch budget on this host, excluding the scale hit-test probe. |
+| 3 | Scale one-control change crossings | `2` crossings at 10/50/100 controls | Incremental render crossing count is independent of control count for the label-scale fixture. |
+| 4 | Timer virtual repeat dispatch | timer p95 `32356 us` | Auto-repeat uses the same `OxRuntime` event-turn path; no parallel timer runtime was needed. |
+
+Hypothesis ledger:
+
+| Hypothesis | Verdict | Evidence |
+|---|---|---|
+| Scene crossing count scales with control count for one-control changes | Rejects | 10/50/100-control change all emit `MeasureBatch:1`, `SubmitPatch:1`. |
+| VBA hit-test cost is already settled for broad forms | Supports follow-up | 100-control mouse move p95 is `432473 us`; settle indexed VBA pick vs Rust Scene pick in `oxforms-bqr`. |
+| Timer repeat needs a parallel runtime path | Rejects | The timer budget scenario dispatches `auto_repeat` through `OxRuntime`. |
+| Further optimization should proceed without scenario-specific evidence | Rejects | This bead records budgets only; optimization requires a ranked follow-up target. |
