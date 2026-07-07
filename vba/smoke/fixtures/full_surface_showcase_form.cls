@@ -17,6 +17,7 @@ Private WithEvents mCheck As CheckBox
 Private WithEvents mChoices As ListBox
 Private mFrame As Frame
 Private WithEvents mLogo As Image
+Private WithEvents mSpin As SpinButton
 Private mStatus As Label
 Private mPending1 As Label
 Private mPending2 As Label
@@ -142,6 +143,16 @@ Public Sub Build()
     mLogo.Core.BorderStyle = fmBorderStyleSingle
     mLogo.SetPictureReference "showcase-inline", 0, "showcase-demo-bytes", "4242"
 
+    Set mSpin = mForm.Controls.Add("Forms.SpinButton.1", "RepeatSpin")
+    mSpin.Left = 532
+    mSpin.Top = 164
+    mSpin.Width = 28
+    mSpin.Height = 58
+    mSpin.Min = 0
+    mSpin.Max = 9
+    mSpin.Value = 2
+    mSpin.Core.TabIndex = 6
+
     Set mStatus = mForm.Controls.Add("Forms.Label.1", "StatusLabel")
     mStatus.Caption = "Ready. Run RunSelfTest, or interact with the controls."
     mStatus.Left = 16
@@ -160,7 +171,7 @@ Public Sub Build()
     mPending1.Height = 18
 
     Set mPending2 = mForm.Controls.Add("Forms.Label.1", "PendingSimpleLabel")
-    mPending2.Caption = "Pending simple controls: ScrollBar, SpinButton"
+    mPending2.Caption = "Pending simple controls: ScrollBar"
     mPending2.Left = 16
     mPending2.Top = 300
     mPending2.Width = 600
@@ -220,6 +231,17 @@ End Sub
 Public Sub Render()
     mForm.Render 96, 96
 End Sub
+
+Public Function DispatchTimer(ByVal Slot As String, ByVal Fires As Long) As String
+    If Slot = "auto_repeat" And mReducer.CaptureName = mSpin.Name Then
+        mSpin.PerformRepeatTick Fires
+        DispatchTimer = "repeat:" & mSpin.Name & ":" & CStr(Fires)
+        mForm.Render 96, 96
+        DispatchTimer = DispatchTimer & "|repaint"
+    Else
+        DispatchTimer = ""
+    End If
+End Function
 
 Public Property Get FocusName() As String
     FocusName = mReducer.FocusName
@@ -291,6 +313,26 @@ Public Property Get ImageDiagnostics() As String
     ImageDiagnostics = mLogo.Diagnostics
 End Property
 
+Public Property Get SpinButtonDiagnostics() As String
+    SpinButtonDiagnostics = mSpin.Diagnostics
+End Property
+
+Public Property Get SpinValue() As Long
+    SpinValue = mSpin.Value
+End Property
+
+Public Function DisableSpin() As String
+    mSpin.Enabled = False
+    mForm.Render 96, 96
+    DisableSpin = mSpin.Diagnostics
+End Function
+
+Public Function HideSpin() As String
+    mSpin.Visible = False
+    mForm.Render 96, 96
+    HideSpin = mSpin.Diagnostics
+End Function
+
 Public Property Get InteractionIndexBuildCount() As Long
     InteractionIndexBuildCount = mReducer.InteractionIndexBuildCount
 End Property
@@ -313,7 +355,8 @@ Public Property Get CapabilityCatalog() As String
         "CheckBox:" & mCheck.Core.CapabilityDescriptor & vbLf & _
         "ChoicesList:" & mChoices.Core.CapabilityDescriptor & vbLf & _
         "FrameGroup:" & mFrame.Core.CapabilityDescriptor & vbLf & _
-        "LogoImage:" & mLogo.Core.CapabilityDescriptor
+        "LogoImage:" & mLogo.Core.CapabilityDescriptor & vbLf & _
+        "RepeatSpin:" & mSpin.Core.CapabilityDescriptor
 End Property
 
 Public Sub ClearLog()
@@ -333,7 +376,8 @@ Public Function SurfaceCatalog() As String
         "LIVE ListBox: AddItem, List(index), ListCount, ListIndex, Value, geometry, Visible, Enabled, ListBoxDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate; single-select rows" & vbLf & _
         "LIVE Frame: Caption, Controls.Add, child ownership, nested coordinates, clipped child Scene subtree, FrameDiagnostics" & vbLf & _
         "LIVE Image: Picture, PictureHandle, PictureSizeMode, geometry, Visible, Enabled, ImageDiagnostics; DrawImage placeholder render; MouseDown, MouseUp, Click" & vbLf & _
-        "PENDING OptionButton, ToggleButton, ComboBox, ScrollBar, SpinButton, TabStrip, MultiPage/Page"
+        "LIVE SpinButton: Value, Min, Max, SmallChange, geometry, Visible, Enabled, SpinButtonDiagnostics; SpinUp, SpinDown, Change, MouseDown, MouseUp, Enter, Exit; HostServices auto-repeat callback" & vbLf & _
+        "PENDING OptionButton, ToggleButton, ComboBox, ScrollBar, TabStrip, MultiPage/Page"
 End Function
 
 Public Function RunSelfTest() As String
@@ -350,6 +394,7 @@ Public Function RunSelfTest() As String
 
     DriveMouse 20, 16        ' Title Label: MouseDown/MouseUp/Click.
     DriveMouse 462, 184      ' Image: click-only, non-focusable DrawImage lane.
+    DriveMouse 546, 174      ' SpinButton up half: single-step value/event path.
     DriveMouse 40, 98        ' TextBox: Enter/MouseDown/MouseUp.
     DriveKey OX_KEY_A, 0, "a"
 
@@ -593,6 +638,29 @@ Private Sub mLogo_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal
 End Sub
 Private Sub mLogo_Click()
     Append "Image.Click"
+End Sub
+
+' --- Event sinks: SpinButton ---
+Private Sub mSpin_Enter()
+    Append "SpinButton.Enter"
+End Sub
+Private Sub mSpin_Exit(ByVal Cancel As ReturnBoolean)
+    Append "SpinButton.Exit"
+End Sub
+Private Sub mSpin_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "SpinButton.MouseDown"
+End Sub
+Private Sub mSpin_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "SpinButton.MouseUp"
+End Sub
+Private Sub mSpin_SpinUp()
+    Append "SpinButton.SpinUp=" & CStr(mSpin.Value)
+End Sub
+Private Sub mSpin_SpinDown()
+    Append "SpinButton.SpinDown=" & CStr(mSpin.Value)
+End Sub
+Private Sub mSpin_Change()
+    Append "SpinButton.Change=" & CStr(mSpin.Value)
 End Sub
 
 ' --- Form event handlers exposed through Perform* ---

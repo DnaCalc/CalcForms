@@ -36,6 +36,12 @@ Public Function OxThemeFaceColor( _
             Else
                 OxThemeFaceColor = &HDCDCDC
             End If
+        Case oxControlSpinButton
+            If IsPressed Then
+                OxThemeFaceColor = &HB8C7DD
+            Else
+                OxThemeFaceColor = &HDCDCDC
+            End If
         Case oxControlCheckBox
             If IsPressed Then
                 OxThemeFaceColor = &HE8E8E8

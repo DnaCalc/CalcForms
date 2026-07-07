@@ -114,7 +114,7 @@ these detailed beads where applicable.
 | `oxforms-zhz.26` | Implement a representative ListBox/list-data spike. | Depends on `.15`-`.21` and `.23`; landed a single-select ListBox with VBA-owned `AddItem`/`List`/`ListCount`/`ListIndex`/`Value`, reducer click/keyboard/focus validation, Scene selection rendering, accessibility row counts, and showcase diagnostics. Multi-select, columns, type-ahead, wheel/scroll, and virtualization remain explicit follow-up depth. |
 | `oxforms-zhz.27` | Implement a representative Frame/container coordinate spike. | Depends on `.15`, `.17`-`.21`, and `.23`; landed `Frame` as a control/container owner with nested `Controls.Add`, relative child coordinates, recursive hit-test/tab/accessibility traversal, parented Scene nodes, child invalidation bubbling, and showcase `FrameDiagnostics`. Full MultiPage/TabStrip and exact MSForms container edge ordering remain later claims. |
 | `oxforms-zhz.28` | Implement a representative Image binary/`.frx` spike. | Depends on `.15`, `.17`-`.23`; landed `Image` as a non-focusable click-capable live control with `Picture`/`PictureHandle`/`PictureSizeMode` diagnostics, `.frm` Image materialization, `DrawImage` Scene output, HostServices decode-handle evidence for fixture bytes, and headless/visible placeholder rendering. Real decoded pixels and full Picture object parity remain later claims. |
-| `oxforms-zhz.29` | Implement a representative SpinButton/ScrollBar timer-repeat spike. | Depends on `.15`, `.17`-`.21`, and `.23`; roll-up `oxforms-zhz.6` depends on this. |
+| `oxforms-zhz.29` | Implement a representative SpinButton/ScrollBar timer-repeat spike. | Depends on `.15`, `.17`-`.21`, and `.23`; landed `SpinButton` as the representative smaller repeat lane with VBA-owned value/range/event state, `OxRuntime` auto-repeat timer dispatch, and headless virtual-time proofs for single press, held repeat, cancellation, disabled mutation, event ordering, and timer trace. Windows/native timer wake-up remains a precise blocker before visible held-repeat claims. |
 | `oxforms-zhz.30` | Prove reentrancy, modal/lifecycle, handler mutation, queued input, and repaint coherence. | Depends on `.15`, `.17`-`.23`; roll-up `oxforms-zhz.7` depends on this. |
 | `oxforms-zhz.31` | Emit performance reports and budget bands for the ideal architecture. | Depends on representative controls/spikes `.24`-`.30`; roll-up `oxforms-zhz.8` depends on this. |
 | `oxforms-zhz.32` | Rebuild the full-surface showcase as a conformance dashboard over the ideal architecture. | Depends on representative controls/spikes `.24`-`.30`, accessibility, and materialization; roll-up `oxforms-zhz.8` depends on this. |
@@ -138,8 +138,8 @@ every row below.
 | `ComboBox` | morph / data | none | full lane (list-data + dropdown) |
 | `ListBox` | morph / data | representative single-select spike (`oxforms-zhz.26`) | remaining lane depth: multi-select, columns/bound-column, type-ahead, wheel/scroll, virtualization, and richer row accessibility |
 | `Image` | simple | representative binary/`.frx` spike (`oxforms-zhz.28`) | remaining lane depth: real decoded image pixels, full Picture object parity, exact MSForms size/alignment oracle, and full `.frx`/MS-OFORMS persistence codec |
-| `ScrollBar` | simple | none | full lane (value + auto-repeat) |
-| `SpinButton` | simple | none | full lane (value + auto-repeat) |
+| `ScrollBar` | simple | none | full lane (value + auto-repeat), borrowing the `.29` repeat timer seam |
+| `SpinButton` | simple | representative timer/value spike (`oxforms-zhz.29`) | remaining lane depth: exact MSForms single-step oracle facts, native Windows timer wake-up for visible held repeat, richer keyboard/range edge behavior, and full parity rendering |
 | `Frame` | container | representative coordinate/container spike (`oxforms-zhz.27`) | remaining lane depth: exact border/caption rendering, nested focus edge-order oracle, richer clipping cases, and broad child mutation/error parity |
 | `MultiPage` (+ `Page`, `Pages`) | container | none | full lane (paged children) |
 | `TabStrip` (+ `Tab`, `Tabs`) | container | none | full lane (tab re-skin) |
@@ -292,11 +292,11 @@ Cross-cutting work, each scheduled **just before the batch that needs it** (not 
   dropdown popup surface for `ComboBox`. A spike captures the selection-event matrix and dropdown
   lifecycle (flagging the uvh-class key-interception risk for type-ahead/Escape) and designs the
   collection state that stays out of the control-agnostic kernel. *Before `ComboBox`/`ListBox`.*
-- **F5 — Auto-repeat timer service**. The PAL contract names timers incl. auto-repeat (§6.2) but the
-  reducer does not drive a repeat timer yet. Wire the held-button repeat path, reusing the held-key
-  once-gate pattern (esq.12/esq.15). The single-step value+event facts are oracle-reachable; the
-  **repeat rate** is uvh-class unreachable (documented non-claim, probed once). *Before
-  `ScrollBar`/`SpinButton`.*
+- **F5 — Auto-repeat timer service**. The PAL contract names timers incl. auto-repeat (§6.2).
+  `oxforms-zhz.29` wires the representative held-button path through `HostServices` virtual timers
+  and a VBA `DispatchTimer` facade. The single-step value+event facts are oracle-reachable; the
+  **repeat rate** and native Windows timer wake-up remain explicit blocker/non-claim territory before
+  visible held-repeat parity. *Before the full `ScrollBar` lane and deeper `SpinButton` parity.*
 - **F6 — Binary/image interop + `.frx` indirection** (research + spike). Image bytes (and
   list-data blobs) do not fit the current JSON-string VBA↔Rust channel
   ([`OxSceneBuilder.cls`](../../vba/oxforms/OxSceneBuilder.cls) `ToPatchJson` is the wire format).
@@ -335,7 +335,7 @@ Live phase-0 beads, created 2026-07-01:
 | `oxforms-zhz.11` | TextBox shaped caret geometry, selected-text recolor, and drag-selection repair. | MeasureBatch returns caret stops to VBA; TextBox caret/selection/hit-testing consumes shaped stops; selected text is recolored through a clipped Scene child; MouseMove routes through bootstrap/headless/reducer capture; adapter and headless tests reproduce Shift+arrow/Backspace, proportional-font selection geometry, and mouse drag selection. |
 | `oxforms-zhz.9` | TextBox horizontal scroll, setter side effects, and deeper editing follow-up. | Narrowed by `.16` and `.24`: horizontal scrolling/clipped draw for long single-line text is implemented through `OxTextService`; `Value`, `SelStart`/`SelLength`, `SelText`, `HideSelection`, diagnostics, and `.frm` `Value` materialization have local coverage. Remaining scope is exact MSForms setter ordering/coercion/error behavior and burst/post oracle behavior. IME/dead keys, multiline, undo/redo, and grapheme-aware editing are split to `oxforms-zhz.34`. |
 | `oxforms-zhz.5` | CheckBox focus/value hardening lane. | Partial local proof: `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value-first `Change`/`Click` before `KeyDown` plus `KeyUp` and trace rows. Remaining scope: focus visibility/adorners, disabled/hidden/tab-stop mutations, cursor behavior, validation edge cases, and live oracle notes. |
-| `oxforms-zhz.6` | List/container/image/timer representative spikes. | Representative slices prove list selection, nested coordinates, image/binary rendering, and timer/repeat services before broad lanes. |
+| `oxforms-zhz.6` | List/container/image/timer representative spikes. | Representative slices prove list selection, nested coordinates, image/binary rendering, and headless timer/repeat services before broad lanes. |
 | `oxforms-zhz.7` | Reentrancy lifecycle hazard lane. | Handler mutation, focus veto, close/query-close, hide/unload, modal/nested pump probe, and queued input keep reducer state coherent. |
 | `oxforms-zhz.8` | Perf + showcase conformance gate. | Runner emits perf reports and the full-surface showcase acts as a conformance dashboard for supported surface and known gaps. |
 

@@ -376,7 +376,17 @@ impl OxRuntime {
                     "HostServices.AdvanceTime",
                     || self.host_services.advance_time(advance_ms),
                 ));
-                String::new()
+                let auto_repeat_fires = timer_fire_count(&host_service_effects, "auto_repeat");
+                if auto_repeat_fires > 0 {
+                    timed_phase(
+                        collect_timings,
+                        &mut phase_timings,
+                        "DispatchTimer:auto_repeat",
+                        || self.dispatch_timer("auto_repeat", auto_repeat_fires),
+                    )?
+                } else {
+                    String::new()
+                }
             }
             RuntimeInput::DpiChanged { dpi_x, dpi_y } => {
                 host_service_effects.extend(timed_value_phase(
@@ -461,6 +471,17 @@ impl OxRuntime {
             "DispatchDrop",
             ProjectMemberKind::Method,
             vec![Variant::from_string(text)],
+        )
+    }
+
+    /// Route a host timer fire to the VBA form-document. The representative timer
+    /// lane currently consumes the `auto_repeat` slot.
+    fn dispatch_timer(&mut self, slot: &str, fires: u64) -> Result<String, String> {
+        let fires = i32::try_from(fires).unwrap_or(i32::MAX);
+        self.invoke_string(
+            "DispatchTimer",
+            ProjectMemberKind::Method,
+            vec![Variant::from_string(slot), Variant::from_i32(fires)],
         )
     }
 
@@ -570,6 +591,16 @@ fn profiling_timings_enabled() -> bool {
 #[must_use]
 pub fn effect_log_contains_repaint(effects: &str) -> bool {
     effects.split('|').any(|effect| effect == "repaint")
+}
+
+fn timer_fire_count(effects: &[String], slot: &str) -> u64 {
+    let prefix = format!("timer.fire:{slot}:");
+    effects
+        .iter()
+        .filter_map(|effect| effect.strip_prefix(&prefix))
+        .filter_map(|rest| rest.split(':').next())
+        .filter_map(|count| count.parse::<u64>().ok())
+        .sum()
 }
 
 fn escape_label(text: &str) -> String {

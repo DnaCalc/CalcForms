@@ -250,6 +250,22 @@ contract:
   decoded image pixels, exact MSForms size/alignment oracle behavior, and full Picture object
   parity remain explicit non-claims.
 
+`oxforms-zhz.29` consumes the timer/repeat lane through a representative `SpinButton`:
+
+- `Forms.SpinButton.1` now creates a focusable `SpinButton` control with VBA-owned `Value`, `Min`,
+  `Max`, `SmallChange`, pressed-half state, diagnostics, accessibility row, and `SpinUp`/`SpinDown`
+  before `Change` for user steps;
+- the full-surface showcase exposes `RepeatSpin`, `SpinButtonDiagnostics`, and a `DispatchTimer`
+  facade that consumes `HostServices` `auto_repeat` fires while the reducer capture remains on the
+  spin control;
+- `OxRuntime::dispatch_event_turn` now translates `timer.fire:auto_repeat:<n>` service effects into
+  a VBA timer turn, preserving the one-turn effect log and repaint semantics used by the headless
+  runner;
+- `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer` proves
+  initial press, early non-fire, single fire, batched repeat fires, cancel, disabled no-mutation
+  behavior, event ordering, and JSONL timer trace shape. Native Windows timer wake-up for visible
+  held-repeat is not claimed by this slice.
+
 `oxforms-zhz.24` makes the current single-line `TextBox` the representative complex control:
 
 - `TextBox.Value` is a first-class alias for the authoritative `Text`/display string, so MSForms
@@ -306,9 +322,10 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | CheckBox keyboard/focus/value path | Passing headless path | `headless_runner_showcase::runner_keyboard_space_toggles_focused_checkbox` tabs to the CheckBox, presses Space, and asserts value/event/trace state; `oxvba_reducer_cmdbutton::checkbox_mouse_click_toggles_value_with_change_before_click` proves reducer-routed focus invalidation and a Scene focus adorner |
 | ListBox list-data spike | Passing representative single-select seam | `vba/oxforms/ListBox.cls`; `OxThemePaintListBox`; `reducer_listbox_form.cls`; `oxvba_reducer_cmdbutton::listbox_object_model_and_capability_descriptor_live_on_the_vba_control`; `listbox_mouse_click_selects_a_row_and_renders_selection`; `listbox_keyboard_focus_and_accessibility_rows_are_exposed`; showcase `ListBoxDiagnostics` |
 | Frame/container coordinate spike | Passing representative seam | `vba/oxforms/Frame.cls`; `IOxControlContainer`; recursive `OxInteractionManager` and `OxAccessibilityService` traversal; `reducer_frame_form.cls`; `oxvba_reducer_cmdbutton::frame_owns_nested_controls_and_renders_a_parented_scene_subtree`; `frame_routes_hit_testing_tab_focus_and_accessibility_recursively`; showcase `FrameDiagnostics` |
+| SpinButton timer/repeat spike | Passing representative headless seam | `vba/oxforms/SpinButton.cls`; showcase `RepeatSpin`/`SpinButtonDiagnostics`; `OxRuntime::dispatch_event_turn` auto-repeat timer dispatch; `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer`; `oxvba_full_surface_showcase::showcase_selftest_drives_current_methods_and_events` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Showcase TextBox editing dashboard | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog and `TextBoxDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
-| Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; later depth applies native cursor hooks, control timers, richer DataObject formats, and real image pixel decode |
+| Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
 | Perf budgets | Scaffold only | Broad budget report remains future `oxforms-zhz.31` |

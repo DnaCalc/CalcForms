@@ -91,6 +91,11 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
+        module_unit(
+            "SpinButton",
+            ModuleKind::Class,
+            "vba/oxforms/SpinButton.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
@@ -210,7 +215,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        16,
+        17,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -225,6 +230,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE ListBox",
         "LIVE Frame",
         "LIVE Image",
+        "LIVE SpinButton",
     ] {
         assert!(
             catalog.contains(live),
@@ -264,6 +270,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && accessibility.contains(
                 "role=image;name=LogoImage;value=showcase-inline;enabled=True;visible=True"
             )
+            && accessibility
+                .contains("role=spinbutton;name=RepeatSpin;value=2;enabled=True;visible=True")
             && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
     );
@@ -287,6 +295,12 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && image_diagnostics.contains("capabilities=kind=Image"),
         "Image diagnostics should expose picture identity, handle, mode, and capabilities: {image_diagnostics}"
     );
+    let spin_diagnostics = read_string(&mut rt, "SpinButtonDiagnostics");
+    assert!(
+        spin_diagnostics.contains("value=2;min=0;max=9;small_change=1;pressed_direction=0")
+            && spin_diagnostics.contains("capabilities=kind=SpinButton"),
+        "SpinButton diagnostics should expose range, value, repeat state, and capabilities: {spin_diagnostics}"
+    );
     for pending in ["OptionButton", "ToggleButton", "ComboBox", "MultiPage"] {
         assert!(
             catalog.contains(pending),
@@ -297,12 +311,16 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         !catalog.contains("PENDING OptionButton, ToggleButton, ComboBox, Image"),
         "Image should be listed as live, not pending"
     );
+    assert!(
+        !catalog.contains("ScrollBar, SpinButton"),
+        "SpinButton should be listed as live, not pending"
+    );
 
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 20,
-        "root node plus 16 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 21,
+        "root node plus 17 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
     );
     assert!(
         snap.scene
@@ -328,7 +346,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=16;"),
+        result.starts_with("PASS controls=17;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -343,6 +361,12 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "Image.MouseDown",
         "Image.MouseUp",
         "Image.Click",
+        "SpinButton.Enter",
+        "SpinButton.MouseDown",
+        "SpinButton.SpinUp=3",
+        "SpinButton.Change=3",
+        "SpinButton.MouseUp",
+        "SpinButton.Exit",
         "TextBox.Enter",
         "TextBox.MouseDown",
         "TextBox.MouseUp",

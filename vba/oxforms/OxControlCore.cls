@@ -144,6 +144,12 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mTabStop = False
             mSupportsClick = True
             mSpecialEffect = fmSpecialEffectFlat
+        Case oxControlSpinButton
+            mFocusable = True
+            mTabStop = True
+            mHasPressedVisual = True
+            mValueEditable = True
+            mSpecialEffect = fmSpecialEffectRaised
         Case Else
             mFocusable = True
             mTabStop = True
@@ -379,6 +385,8 @@ Private Function KindName() As String
             KindName = "Frame"
         Case oxControlImage
             KindName = "Image"
+        Case oxControlSpinButton
+            KindName = "SpinButton"
         Case Else
             KindName = "Unknown"
     End Select

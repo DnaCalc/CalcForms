@@ -27,8 +27,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 20,
-        "root plus 16 showcase controls, one Frame child, and the TextBox text/selection nodes"
+        snap.node_count, 21,
+        "root plus 17 showcase controls, one Frame child, and the TextBox text/selection nodes"
     );
 
     let capabilities = runner
@@ -39,14 +39,15 @@ fn runner_attaches_renders_and_records_trace_rows() {
             && capabilities.contains("CheckBox:kind=CheckBox")
             && capabilities.contains("ChoicesList:kind=ListBox")
             && capabilities.contains("FrameGroup:kind=Frame")
-            && capabilities.contains("LogoImage:kind=Image"),
+            && capabilities.contains("LogoImage:kind=Image")
+            && capabilities.contains("RepeatSpin:kind=SpinButton"),
         "showcase should expose current capability descriptors: {capabilities}"
     );
     let index = runner
         .read_string("InteractionIndexSummary")
         .expect("InteractionIndexSummary");
     assert!(
-        index.contains(";first=InputField;last=ChoicesList;")
+        index.contains(";first=InputField;last=RepeatSpin;")
             && index.contains(";default=OkButton;cancel=CancelButton;"),
         "showcase should expose the reducer interaction index: {index}"
     );
@@ -77,6 +78,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
             "role=label;name=FrameLabel;value=Nested child"
         ) && accessibility.contains(
             "role=image;name=LogoImage;value=showcase-inline;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=spinbutton;name=RepeatSpin;value=2;enabled=True;visible=True;focused=False"
         ),
         "showcase should expose a representative accessibility snapshot: {accessibility}"
     );
@@ -340,6 +343,222 @@ fn runner_virtual_timer_and_clipboard_pass_through_oxruntime() {
         runner.read_string("InputText").expect("InputText"),
         "timer",
         "clipboard paste should still mutate VBA through OxRuntime"
+    );
+}
+
+#[test]
+fn runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer() {
+    let repo = repo_root_from_crate();
+    let mut runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach showcase");
+    runner.render().expect("initial render");
+
+    assert_eq!(runner.read_i32("SpinValue").expect("SpinValue"), 2);
+
+    let down = runner
+        .dispatch(InputAction::MouseDown {
+            x: 546,
+            y: 174,
+            button: 1,
+            shift: 0,
+        })
+        .expect("spin mouse down");
+    assert!(
+        down.effects.contains("mousedown:RepeatSpin") && down.effects.contains("repaint"),
+        "press should route to the SpinButton and render its pressed state: {}",
+        down.effects
+    );
+    assert_eq!(
+        runner.read_i32("SpinValue").expect("SpinValue after press"),
+        3,
+        "the initial press performs exactly one SpinUp step"
+    );
+
+    runner
+        .dispatch(InputAction::ArmTimer(HostTimerRequest::new(
+            HostTimerSlot::AutoRepeat,
+            25,
+            true,
+        )))
+        .expect("arm auto-repeat");
+
+    let early = runner
+        .dispatch(InputAction::Tick { advance_ms: 24 })
+        .expect("tick before due");
+    assert_eq!(early.service_effects, vec!["time.advance:24:now=24"]);
+    assert_eq!(
+        runner.read_i32("SpinValue").expect("SpinValue before due"),
+        3,
+        "early virtual time must not mutate the held SpinButton"
+    );
+
+    let fired = runner
+        .dispatch(InputAction::Tick { advance_ms: 1 })
+        .expect("tick first fire");
+    assert_eq!(
+        fired.service_effects,
+        vec!["time.advance:1:now=25", "timer.fire:auto_repeat:1:at=25"]
+    );
+    assert_eq!(fired.effects, "repeat:RepeatSpin:1|repaint");
+    assert_eq!(
+        runner.read_i32("SpinValue").expect("SpinValue after fire"),
+        4,
+        "one timer fire performs one repeat step"
+    );
+
+    let burst = runner
+        .dispatch(InputAction::Tick { advance_ms: 50 })
+        .expect("tick burst");
+    assert_eq!(
+        burst.service_effects,
+        vec!["time.advance:50:now=75", "timer.fire:auto_repeat:2:at=75"]
+    );
+    assert_eq!(burst.effects, "repeat:RepeatSpin:2|repaint");
+    assert_eq!(
+        runner.read_i32("SpinValue").expect("SpinValue after burst"),
+        6,
+        "batched timer fires perform ordered repeat steps"
+    );
+
+    let up = runner
+        .dispatch(InputAction::MouseUp {
+            x: 546,
+            y: 174,
+            button: 1,
+            shift: 0,
+        })
+        .expect("spin mouse up");
+    assert!(
+        up.effects.contains("mouseup:RepeatSpin") && up.effects.contains("repaint"),
+        "release should clear repeat press state: {}",
+        up.effects
+    );
+    let canceled = runner
+        .dispatch(InputAction::CancelTimer(HostTimerSlot::AutoRepeat))
+        .expect("cancel auto-repeat");
+    assert_eq!(canceled.service_effects, vec!["timer.cancel:auto_repeat"]);
+    runner
+        .dispatch(InputAction::Tick { advance_ms: 100 })
+        .expect("tick after cancel");
+    assert_eq!(
+        runner
+            .read_i32("SpinValue")
+            .expect("SpinValue after cancel"),
+        6,
+        "cancelled repeat timer must not mutate value"
+    );
+
+    runner
+        .dispatch(InputAction::MouseDown {
+            x: 546,
+            y: 174,
+            button: 1,
+            shift: 0,
+        })
+        .expect("spin mouse down before disable");
+    assert_eq!(runner.read_i32("SpinValue").expect("SpinValue"), 7);
+    let disabled = runner
+        .invoke_string("DisableSpin", ProjectMemberKind::Method)
+        .expect("disable spin");
+    assert!(
+        disabled.contains("value=7") && disabled.contains("pressed_direction=1"),
+        "disabling should preserve diagnostic repeat state without mutating value: {disabled}"
+    );
+    runner
+        .dispatch(InputAction::ArmTimer(HostTimerRequest::new(
+            HostTimerSlot::AutoRepeat,
+            25,
+            true,
+        )))
+        .expect("arm auto-repeat while disabled");
+    let disabled_fire = runner
+        .dispatch(InputAction::Tick { advance_ms: 25 })
+        .expect("tick disabled repeat");
+    assert_eq!(
+        disabled_fire.service_effects,
+        vec!["time.advance:25:now=200", "timer.fire:auto_repeat:1:at=200"]
+    );
+    assert_eq!(
+        disabled_fire.effects, "",
+        "disabling the captured SpinButton should clear the repeat route"
+    );
+    assert_eq!(
+        runner.read_i32("SpinValue").expect("SpinValue disabled"),
+        7,
+        "disabled controls must ignore held repeat mutations"
+    );
+
+    let mut hidden_runner = HeadlessRunner::attach(&repo, &showcase_spec()).expect("attach hidden");
+    hidden_runner.render().expect("initial render hidden");
+    hidden_runner
+        .dispatch(InputAction::MouseDown {
+            x: 546,
+            y: 174,
+            button: 1,
+            shift: 0,
+        })
+        .expect("spin mouse down before hide");
+    assert_eq!(hidden_runner.read_i32("SpinValue").expect("SpinValue"), 3);
+    let hidden = hidden_runner
+        .invoke_string("HideSpin", ProjectMemberKind::Method)
+        .expect("hide spin");
+    assert!(
+        hidden.contains("value=3")
+            && hidden.contains("pressed_direction=1")
+            && hidden.contains("visible=False"),
+        "hiding should preserve diagnostic repeat state without mutating value: {hidden}"
+    );
+    hidden_runner
+        .dispatch(InputAction::ArmTimer(HostTimerRequest::new(
+            HostTimerSlot::AutoRepeat,
+            25,
+            true,
+        )))
+        .expect("arm hidden auto-repeat");
+    let hidden_fire = hidden_runner
+        .dispatch(InputAction::Tick { advance_ms: 25 })
+        .expect("tick hidden repeat");
+    assert_eq!(
+        hidden_fire.service_effects,
+        vec!["time.advance:25:now=25", "timer.fire:auto_repeat:1:at=25"]
+    );
+    assert_eq!(
+        hidden_fire.effects, "",
+        "hiding the captured SpinButton should clear the repeat route"
+    );
+    assert_eq!(
+        hidden_runner
+            .read_i32("SpinValue")
+            .expect("SpinValue hidden"),
+        3,
+        "hidden controls must ignore held repeat mutations"
+    );
+
+    let log = runner.read_string("HandlerLog").expect("HandlerLog");
+    for expected in [
+        "SpinButton.Enter",
+        "SpinButton.MouseDown",
+        "SpinButton.SpinUp=3",
+        "SpinButton.Change=3",
+        "SpinButton.SpinUp=4",
+        "SpinButton.Change=4",
+        "SpinButton.SpinUp=5",
+        "SpinButton.Change=5",
+        "SpinButton.SpinUp=6",
+        "SpinButton.Change=6",
+        "SpinButton.MouseUp",
+    ] {
+        assert!(
+            log.lines().any(|line| line == expected),
+            "SpinButton repeat log missing {expected:?}; log was:\n{log}"
+        );
+    }
+
+    let jsonl = runner.trace_jsonl().expect("trace jsonl");
+    assert!(
+        jsonl.contains("\"action\":\"tick:1\"")
+            && jsonl.contains("timer.fire:auto_repeat:1:at=25")
+            && jsonl.contains("\"effect_log\":\"repeat:RepeatSpin:2|repaint\""),
+        "repeat timing and effect trace should be visible in JSONL: {jsonl}"
     );
 }
 

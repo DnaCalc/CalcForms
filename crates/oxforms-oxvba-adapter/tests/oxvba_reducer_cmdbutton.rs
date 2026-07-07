@@ -113,6 +113,11 @@ fn prepare_session_with_surface(
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
+        module_unit(
+            "SpinButton",
+            ModuleKind::Class,
+            "vba/oxforms/SpinButton.cls",
+        ),
         module_unit("UserForm", ModuleKind::Class, "vba/oxforms/UserForm.cls"),
         module_unit("OxTheme", ModuleKind::Procedural, "vba/oxforms/OxTheme.bas"),
         module_unit(
