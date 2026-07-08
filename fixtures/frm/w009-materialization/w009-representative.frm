@@ -90,6 +90,19 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Enabled         =   -1
       Visible         =   -1
    End
+   Begin MSForms.ListBox ChoicesList
+      Left            =   240
+      Top             =   2440
+      Width           =   2200
+      Height          =   840
+      TabIndex        =   6
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+      MultiSelect     =   2
+      ColumnCount     =   2
+      BoundColumn     =   2
+   End
    Begin MSForms.Image LogoImage
       Picture         =   "w009-representative.frx":0000
       Left            =   3200

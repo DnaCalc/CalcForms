@@ -67,6 +67,28 @@ Public Property Get ListDiagnostics() As String
     ListDiagnostics = mChoices.Diagnostics
 End Property
 
+Public Property Get SelectedSummary() As String
+    Dim Text As String
+    If mChoices.Selected(0) Then Text = "0"
+    If mChoices.Selected(1) Then
+        If Len(Text) > 0 Then Text = Text & ","
+        Text = Text & "1"
+    End If
+    If mChoices.Selected(2) Then
+        If Len(Text) > 0 Then Text = Text & ","
+        Text = Text & "2"
+    End If
+    SelectedSummary = Text
+End Property
+
+Public Property Get GreenSelected() As Boolean
+    GreenSelected = mChoices.Selected(1)
+End Property
+
+Public Property Get BlueCode() As String
+    BlueCode = mChoices.Column(2, 1)
+End Property
+
 Public Property Get ListIndex() As Long
     ListIndex = mChoices.ListIndex
 End Property
@@ -95,6 +117,30 @@ End Property
 
 Public Sub SelectBlueProgrammatically()
     mChoices.ListIndex = 2
+End Sub
+
+Public Sub UseMultiSelect()
+    mChoices.MultiSelect = fmMultiSelectMulti
+End Sub
+
+Public Sub UseExtendedMultiSelect()
+    mChoices.MultiSelect = fmMultiSelectExtended
+End Sub
+
+Public Sub SelectRedAndBlueProgrammatically()
+    mChoices.MultiSelect = fmMultiSelectMulti
+    mChoices.Selected(0) = True
+    mChoices.Selected(2) = True
+End Sub
+
+Public Sub ConfigureColumns()
+    mChoices.Clear
+    mChoices.ColumnCount = 2
+    mChoices.BoundColumn = 2
+    mChoices.AddRow "Red", "R"
+    mChoices.AddRow "Green", "G"
+    mChoices.AddRow "Blue", "B"
+    mForm.Render 96, 96
 End Sub
 
 Public Sub DisableChoices()

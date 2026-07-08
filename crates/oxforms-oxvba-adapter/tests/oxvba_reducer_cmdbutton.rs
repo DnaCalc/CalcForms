@@ -1161,6 +1161,7 @@ const KEY_END: i16 = 35;
 const KEY_LEFT: i16 = 37;
 const KEY_DELETE: i16 = 46;
 const SHIFT_SHIFT: i16 = 1;
+const SHIFT_CTRL: i16 = 2;
 
 #[test]
 fn typing_into_focused_textbox_fires_keydown_keypress_change_keyup() {
@@ -1960,6 +1961,121 @@ fn listbox_keyboard_focus_and_accessibility_rows_are_exposed() {
 }
 
 #[test]
+fn listbox_multiselect_mouse_and_space_toggle_rows() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerListBoxForm");
+    invoke_sub(&mut session, &form, "UseMultiSelect");
+
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_RED_IN.0,
+        LIST_RED_IN.1,
+    );
+    dispatch(&mut session, &form, "mouseup", LIST_RED_IN.0, LIST_RED_IN.1);
+    assert_eq!(string_get(&mut session, &form, "SelectedSummary"), "0");
+
+    dispatch_mouse(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+        1,
+        SHIFT_CTRL,
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    assert_eq!(string_get(&mut session, &form, "SelectedSummary"), "0,1");
+    assert_eq!(i32_get(&mut session, &form, "ListIndex"), 1);
+
+    let key = dispatch_key(&mut session, &form, "keydown", KEY_SPACE);
+    assert_eq!(key, "keydown:Choices|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "SelectedSummary"),
+        "0",
+        "Space toggles the focused row in fmMultiSelectMulti"
+    );
+
+    let snapshot = surface.snapshot().expect("surface snapshot");
+    let scene = snapshot.scene.expect("scene snapshot");
+    let list = scene.get(NodeId(1)).expect("list scene node");
+    let selected_rects = list
+        .prims
+        .iter()
+        .filter(|prim| {
+            matches!(
+                prim,
+                Prim::FillRect { paint, .. } if solid_color(paint) == Some(TEXT_SELECTION_COLOR)
+            )
+        })
+        .count();
+    assert_eq!(
+        selected_rects, 1,
+        "multi-select render should reflect the selected row set"
+    );
+}
+
+#[test]
+fn listbox_extended_shift_range_and_columns_are_vba_state() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerListBoxForm");
+
+    invoke_sub(&mut session, &form, "ConfigureColumns");
+    assert_eq!(string_get(&mut session, &form, "BlueCode"), "B");
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        LIST_GREEN_IN.0,
+        LIST_GREEN_IN.1,
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "ListValue"),
+        "G",
+        "BoundColumn=2 should make Value read the second column"
+    );
+
+    let form = build_form(&mut session, "ReducerListBoxForm");
+    invoke_sub(&mut session, &form, "UseExtendedMultiSelect");
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        LIST_RED_IN.0,
+        LIST_RED_IN.1,
+    );
+    dispatch(&mut session, &form, "mouseup", LIST_RED_IN.0, LIST_RED_IN.1);
+    let range = dispatch_key_shift(&mut session, &form, "keydown", KEY_DOWN, SHIFT_SHIFT);
+    assert_eq!(range, "keydown:Choices|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "SelectedSummary"),
+        "0,1",
+        "Shift+Down should extend selection from the anchor"
+    );
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains(";sel_start=1;sel_length=2;sel_text=Red|Green")
+            && accessibility.contains(";row_count=3;column_count=1"),
+        "extended ListBox accessibility should expose selected count/text:\n{accessibility}"
+    );
+}
+
+#[test]
 fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
     let (mut session, surface) = prepare_session();
     let form = build_form(&mut session, "ReducerFrameForm");
@@ -2428,7 +2544,6 @@ fn space_toggles_the_focused_checkbox_value_first() {
 
 const KEY_CTRL: i16 = 17;
 const KEY_V: i16 = 86;
-const SHIFT_CTRL: i16 = 2;
 
 #[test]
 fn ctrl_v_pastes_clipboard_into_the_focused_textbox() {

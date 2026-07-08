@@ -218,7 +218,9 @@ Public Sub OxThemePaintListBox( _
         ByVal Core As OxControlCore, _
         ByVal Surface As OxSceneBuilder, _
         ByVal ListIndex As Long, _
-        ByVal Focused As Boolean)
+        ByVal Focused As Boolean, _
+        Optional ByVal SelectedRowsCsv As String = "", _
+        Optional ByVal RowCount As Long = 256)
     Const Inset As Single = 3
     Const RowHeight As Single = 14
 
@@ -227,17 +229,22 @@ Public Sub OxThemePaintListBox( _
 
     OxThemePaintControlFrame Core, Surface
 
-    If ListIndex >= 0 Then
-        Dim SelY As Single
-        SelY = Core.PaintTop + Inset + (ListIndex * RowHeight)
-        If SelY < Core.PaintTop + Core.Height - Inset Then
-            Dim SelW As Single
-            SelW = Core.Width - (Inset * 2)
-            If SelW < 1 Then SelW = 1
-            Surface.FillRect Core.PaintLeft + Inset, SelY, SelW, RowHeight, _
-                OxThemeSelectionBackColor(), 255
+    If RowCount < 0 Then RowCount = 0
+    Dim I As Long
+    For I = 0 To RowCount - 1
+        If InStr(1, SelectedRowsCsv, "," & CStr(I) & ",", vbBinaryCompare) > 0 _
+                Or (Len(SelectedRowsCsv) = 0 And I = ListIndex) Then
+            Dim SelY As Single
+            SelY = Core.PaintTop + Inset + (I * RowHeight)
+            If SelY < Core.PaintTop + Core.Height - Inset Then
+                Dim SelW As Single
+                SelW = Core.Width - (Inset * 2)
+                If SelW < 1 Then SelW = 1
+                Surface.FillRect Core.PaintLeft + Inset, SelY, SelW, RowHeight, _
+                    OxThemeSelectionBackColor(), 255
+            End If
         End If
-    End If
+    Next I
 
     If Len(Core.DisplayText) > 0 Then
         Dim RunId As String

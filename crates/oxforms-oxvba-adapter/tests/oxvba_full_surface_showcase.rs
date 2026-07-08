@@ -287,7 +287,9 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     );
     let listbox_diagnostics = read_string(&mut rt, "ListBoxDiagnostics");
     assert!(
-        listbox_diagnostics.contains("count=3;index=0;value=Red;rows=Red|Green|Blue")
+        listbox_diagnostics.contains("count=3;index=0;value=Red")
+            && listbox_diagnostics.contains(";multiselect=0;selected=0;columns=1;bound_column=1;")
+            && listbox_diagnostics.contains("rows=Red|Green|Blue")
             && listbox_diagnostics.contains("capabilities=kind=ListBox"),
         "ListBox diagnostics should expose list data and capability shape: {listbox_diagnostics}"
     );

@@ -218,6 +218,12 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
             ApplyCommandCancel BoolValue(Raw)
         Case "value"
             ApplyValue Raw
+        Case "multiselect"
+            ApplyListBoxMultiSelect CLng(Raw)
+        Case "columncount"
+            ApplyListBoxColumnCount CLng(Raw)
+        Case "boundcolumn"
+            ApplyListBoxBoundColumn CLng(Raw)
         Case "groupname"
             ApplyGroupName Unquote(Raw)
         Case "picture", "mouseicon"
@@ -287,6 +293,27 @@ Private Sub ApplyGroupName(ByVal Value As String)
     Button.GroupName = Value
 End Sub
 
+Private Sub ApplyListBoxMultiSelect(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.listbox" Then Exit Sub
+    Dim Box As ListBox
+    Set Box = mCurrent
+    Box.MultiSelect = Value
+End Sub
+
+Private Sub ApplyListBoxColumnCount(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.listbox" Then Exit Sub
+    Dim Box As ListBox
+    Set Box = mCurrent
+    Box.ColumnCount = Value
+End Sub
+
+Private Sub ApplyListBoxBoundColumn(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.listbox" Then Exit Sub
+    Dim Box As ListBox
+    Set Box = mCurrent
+    Box.BoundColumn = Value
+End Sub
+
 Private Sub ApplyValue(ByVal Raw As String)
     Select Case LCase$(mCurrentType)
         Case "msforms.checkbox"
@@ -336,6 +363,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.ToggleButton.1"
         Case "msforms.optionbutton"
             ProgIdForType = "Forms.OptionButton.1"
+        Case "msforms.listbox"
+            ProgIdForType = "Forms.ListBox.1"
         Case "msforms.image"
             ProgIdForType = "Forms.Image.1"
     End Select

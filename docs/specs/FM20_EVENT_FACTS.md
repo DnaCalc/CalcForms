@@ -308,6 +308,19 @@ focused `oxvba_reducer_cmdbutton` tests. It is not yet a new MSForms oracle fact
 cross-sibling `Change` ordering, arrow-key group navigation, parentage grouping across container
 lanes, source-interface dispatch metadata, drag/drop, double-click, or error events.
 
+## W009 ListBox Selection/Columns Local Lane
+
+Status: implemented locally by `oxforms-zhz.41`; exact MSForms ListBox parity is still
+oracle-gated.
+
+The W009 ListBox depth lane keeps list data and selection state in VBA: `MultiSelect`,
+`Selected(index)`, `ColumnCount`, and `BoundColumn` are live, and reducer input can drive
+single-select, simple multi-select toggles, and extended Shift range selection. The local facts are
+proven by `vba/smoke/fixtures/reducer_listbox_form.cls` plus the focused `oxvba_reducer_cmdbutton`
+tests and by showcase/materialization/headless coverage. It is not yet a new MSForms oracle fact
+for type-ahead, wheel/scroll behavior, virtualization, full column width/list-data loading, or exact
+event ordering across every selection mode.
+
 ## Lifecycle And Form-adjacent Events
 
 The following names are needed by the W005 lifecycle/pump vocabulary. The first

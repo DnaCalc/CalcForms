@@ -42,6 +42,12 @@ Public Enum fmBorderStyle
     fmBorderStyleSingle = 1
 End Enum
 
+Public Enum fmMultiSelect
+    fmMultiSelectSingle = 0
+    fmMultiSelectMulti = 1
+    fmMultiSelectExtended = 2
+End Enum
+
 ' Sentinel for the BackColor/ForeColor/BorderColor band meaning "no explicit
 ' override; resolve from the theme at paint time". Distinct from any 0xRRGGBB
 ' value and from the 0x80000000 OLE_COLOR system-index flag.
