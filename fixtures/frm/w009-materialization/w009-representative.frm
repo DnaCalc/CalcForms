@@ -138,5 +138,20 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Enabled         =   -1
       Visible         =   -1
    End
+   Begin MSForms.ScrollBar AmountScroll
+      Value           =   25
+      Min             =   0
+      Max             =   100
+      SmallChange     =   5
+      LargeChange     =   20
+      Left            =   240
+      Top             =   3360
+      Width           =   2200
+      Height          =   320
+      TabIndex        =   9
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+   End
 End
 Attribute VB_Name = "W009MaterializationForm"

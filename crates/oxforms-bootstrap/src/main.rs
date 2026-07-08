@@ -684,6 +684,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/SpinButton.cls"),
         ),
         unit(
+            "ScrollBar",
+            Class,
+            include_str!("../../../vba/oxforms/ScrollBar.cls"),
+        ),
+        unit(
             "ToggleButton",
             Class,
             include_str!("../../../vba/oxforms/ToggleButton.cls"),

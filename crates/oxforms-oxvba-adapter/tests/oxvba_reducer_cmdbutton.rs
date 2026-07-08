@@ -119,6 +119,7 @@ fn prepare_session_with_surface(
             ModuleKind::Class,
             "vba/oxforms/SpinButton.cls",
         ),
+        module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -196,6 +197,11 @@ fn prepare_session_with_surface(
             "ReducerSpinButtonForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_spinbutton_form.cls",
+        ),
+        module_unit(
+            "ReducerScrollBarForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_scrollbar_form.cls",
         ),
         module_unit(
             "ReducerToggleButtonForm",
@@ -2254,6 +2260,170 @@ fn spinbutton_keyboard_mouse_range_and_accessibility_are_live() {
     assert_eq!(
         hidden, "",
         "hidden SpinButton should not receive pointer input"
+    );
+}
+
+const SCROLL_LEFT_BUTTON_IN: (i32, i32) = (24, 29);
+const SCROLL_RIGHT_BUTTON_IN: (i32, i32) = (174, 29);
+const SCROLL_PAGE_RIGHT_IN: (i32, i32) = (126, 29);
+const SCROLL_THUMB_DRAG_IN: (i32, i32) = (150, 29);
+
+#[test]
+fn scrollbar_range_page_thumb_and_events_are_live() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerScrollBarForm");
+
+    let diagnostics = string_get(&mut session, &form, "ScrollDiagnostics");
+    assert!(
+        diagnostics.contains("value=40;min=0;max=100;small_change=5;large_change=20;pressed_part=")
+            && diagnostics.contains("capabilities=kind=ScrollBar;focusable=True;tabstop=True;click=False;pressed=True;text=False;paste=False;value=True"),
+        "ScrollBar diagnostics should expose range/value and routing policy: {diagnostics}"
+    );
+
+    let right = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        SCROLL_RIGHT_BUTTON_IN.0,
+        SCROLL_RIGHT_BUTTON_IN.1,
+    );
+    assert_eq!(right, "enter:Amount|mousedown:Amount|press:Amount|repaint");
+    assert_eq!(i32_get(&mut session, &form, "ScrollValue"), 45);
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        SCROLL_RIGHT_BUTTON_IN.0,
+        SCROLL_RIGHT_BUTTON_IN.1,
+    );
+
+    let page = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        SCROLL_PAGE_RIGHT_IN.0,
+        SCROLL_PAGE_RIGHT_IN.1,
+    );
+    assert_eq!(page, "mousedown:Amount|press:Amount|repaint");
+    assert_eq!(i32_get(&mut session, &form, "ScrollValue"), 65);
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        SCROLL_PAGE_RIGHT_IN.0,
+        SCROLL_PAGE_RIGHT_IN.1,
+    );
+
+    let key_left = dispatch_key(&mut session, &form, "keydown", KEY_LEFT);
+    assert_eq!(key_left, "keydown:Amount|repaint");
+    assert_eq!(i32_get(&mut session, &form, "ScrollValue"), 60);
+    let key_up = dispatch_key(&mut session, &form, "keyup", KEY_LEFT);
+    assert_eq!(key_up, "keyup:Amount");
+
+    let end = dispatch_key(&mut session, &form, "keydown", KEY_END);
+    assert_eq!(end, "keydown:Amount|repaint");
+    assert_eq!(i32_get(&mut session, &form, "ScrollValue"), 100);
+    let clamped = dispatch_key(&mut session, &form, "keydown", KEY_END);
+    assert_eq!(clamped, "keydown:Amount");
+
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        SCROLL_LEFT_BUTTON_IN.0,
+        SCROLL_LEFT_BUTTON_IN.1,
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        SCROLL_LEFT_BUTTON_IN.0,
+        SCROLL_LEFT_BUTTON_IN.1,
+    );
+    assert_eq!(i32_get(&mut session, &form, "ScrollValue"), 95);
+
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        SCROLL_THUMB_DRAG_IN.0,
+        SCROLL_THUMB_DRAG_IN.1,
+    );
+    let dragged = dispatch(
+        &mut session,
+        &form,
+        "mousemove",
+        SCROLL_LEFT_BUTTON_IN.0,
+        SCROLL_LEFT_BUTTON_IN.1,
+    );
+    assert_eq!(dragged, "mousemove:Amount|repaint");
+    assert!(
+        i32_get(&mut session, &form, "ScrollValue") < 95,
+        "thumb drag should set value from pointer position"
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        SCROLL_LEFT_BUTTON_IN.0,
+        SCROLL_LEFT_BUTTON_IN.1,
+    );
+
+    let log = string_get(&mut session, &form, "HandlerLog");
+    for expected in [
+        "Scroll.Enter",
+        "Scroll.MouseDown",
+        "Scroll.Scroll=45",
+        "Scroll.Change=45",
+        "Scroll.Scroll=65",
+        "Scroll.Change=65",
+        "Scroll.KeyDown:37",
+        "Scroll.Scroll=60",
+        "Scroll.Change=60",
+        "Scroll.KeyUp:37",
+        "Scroll.KeyDown:35",
+        "Scroll.Scroll=100",
+        "Scroll.Change=100",
+    ] {
+        assert!(
+            log.lines().any(|line| line == expected),
+            "ScrollBar log missing {expected:?}; log was:\n{log}"
+        );
+    }
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=scrollbar;name=Amount;")
+            && accessibility.contains(";patterns=range,value;row_count=0;column_count=0"),
+        "ScrollBar accessibility should expose range/value semantics:\n{accessibility}"
+    );
+
+    let form = build_form(&mut session, "ReducerScrollBarForm");
+    invoke_sub(&mut session, &form, "DisableScroll");
+    assert_eq!(
+        dispatch(
+            &mut session,
+            &form,
+            "mousedown",
+            SCROLL_RIGHT_BUTTON_IN.0,
+            SCROLL_RIGHT_BUTTON_IN.1,
+        ),
+        "",
+        "disabled ScrollBar should not receive pointer input"
+    );
+
+    let form = build_form(&mut session, "ReducerScrollBarForm");
+    invoke_sub(&mut session, &form, "HideScroll");
+    assert_eq!(
+        dispatch(
+            &mut session,
+            &form,
+            "mousedown",
+            SCROLL_RIGHT_BUTTON_IN.0,
+            SCROLL_RIGHT_BUTTON_IN.1,
+        ),
+        "",
+        "hidden ScrollBar should not receive pointer input"
     );
 }
 

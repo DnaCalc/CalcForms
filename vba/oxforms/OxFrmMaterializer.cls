@@ -229,11 +229,13 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
         Case "groupname"
             ApplyGroupName Unquote(Raw)
         Case "min"
-            ApplySpinMin CLng(Raw)
+            ApplyMin CLng(Raw)
         Case "max"
-            ApplySpinMax CLng(Raw)
+            ApplyMax CLng(Raw)
         Case "smallchange"
-            ApplySpinSmallChange CLng(Raw)
+            ApplySmallChange CLng(Raw)
+        Case "largechange"
+            ApplyLargeChange CLng(Raw)
         Case "picture", "mouseicon"
             RecordFrxReference mCurrentName, Key, Raw
             ApplyImagePicture Key, Raw
@@ -342,28 +344,57 @@ Private Sub ApplyValue(ByVal Raw As String)
             Dim Spin As SpinButton
             Set Spin = mCurrent
             Spin.Value = CLng(Raw)
+        Case "msforms.scrollbar"
+            Dim Bar As ScrollBar
+            Set Bar = mCurrent
+            Bar.Value = CLng(Raw)
     End Select
 End Sub
 
-Private Sub ApplySpinMin(ByVal Value As Long)
-    If LCase$(mCurrentType) <> "msforms.spinbutton" Then Exit Sub
-    Dim Spin As SpinButton
-    Set Spin = mCurrent
-    Spin.Min = Value
+Private Sub ApplyMin(ByVal Value As Long)
+    Select Case LCase$(mCurrentType)
+        Case "msforms.spinbutton"
+            Dim Spin As SpinButton
+            Set Spin = mCurrent
+            Spin.Min = Value
+        Case "msforms.scrollbar"
+            Dim Bar As ScrollBar
+            Set Bar = mCurrent
+            Bar.Min = Value
+    End Select
 End Sub
 
-Private Sub ApplySpinMax(ByVal Value As Long)
-    If LCase$(mCurrentType) <> "msforms.spinbutton" Then Exit Sub
-    Dim Spin As SpinButton
-    Set Spin = mCurrent
-    Spin.Max = Value
+Private Sub ApplyMax(ByVal Value As Long)
+    Select Case LCase$(mCurrentType)
+        Case "msforms.spinbutton"
+            Dim Spin As SpinButton
+            Set Spin = mCurrent
+            Spin.Max = Value
+        Case "msforms.scrollbar"
+            Dim Bar As ScrollBar
+            Set Bar = mCurrent
+            Bar.Max = Value
+    End Select
 End Sub
 
-Private Sub ApplySpinSmallChange(ByVal Value As Long)
-    If LCase$(mCurrentType) <> "msforms.spinbutton" Then Exit Sub
-    Dim Spin As SpinButton
-    Set Spin = mCurrent
-    Spin.SmallChange = Value
+Private Sub ApplySmallChange(ByVal Value As Long)
+    Select Case LCase$(mCurrentType)
+        Case "msforms.spinbutton"
+            Dim Spin As SpinButton
+            Set Spin = mCurrent
+            Spin.SmallChange = Value
+        Case "msforms.scrollbar"
+            Dim Bar As ScrollBar
+            Set Bar = mCurrent
+            Bar.SmallChange = Value
+    End Select
+End Sub
+
+Private Sub ApplyLargeChange(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.scrollbar" Then Exit Sub
+    Dim Bar As ScrollBar
+    Set Bar = mCurrent
+    Bar.LargeChange = Value
 End Sub
 
 Private Sub ApplyListIndex(ByVal Value As Long)
@@ -421,6 +452,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.Image.1"
         Case "msforms.spinbutton"
             ProgIdForType = "Forms.SpinButton.1"
+        Case "msforms.scrollbar"
+            ProgIdForType = "Forms.ScrollBar.1"
     End Select
 End Function
 

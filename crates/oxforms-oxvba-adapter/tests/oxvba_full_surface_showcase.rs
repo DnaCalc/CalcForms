@@ -97,6 +97,7 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/oxforms/SpinButton.cls",
         ),
+        module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -226,7 +227,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        20,
+        21,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -243,6 +244,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE Frame",
         "LIVE Image",
         "LIVE SpinButton",
+        "LIVE ScrollBar",
     ] {
         assert!(
             catalog.contains(live),
@@ -286,6 +288,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             )
             && accessibility
                 .contains("role=spinbutton;name=RepeatSpin;value=2;enabled=True;visible=True")
+            && accessibility
+                .contains("role=scrollbar;name=AmountScroll;value=40;enabled=True;visible=True")
             && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
     );
@@ -324,12 +328,16 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && spin_diagnostics.contains("capabilities=kind=SpinButton"),
         "SpinButton diagnostics should expose range, value, repeat state, and capabilities: {spin_diagnostics}"
     );
-    for pending in ["ScrollBar", "MultiPage"] {
-        assert!(
-            catalog.contains(pending),
-            "catalog should keep future control {pending:?} visible"
-        );
-    }
+    let scroll_diagnostics = read_string(&mut rt, "ScrollBarDiagnostics");
+    assert!(
+        scroll_diagnostics.contains("value=40;min=0;max=100;small_change=5;large_change=20;pressed_part=")
+            && scroll_diagnostics.contains("capabilities=kind=ScrollBar"),
+        "ScrollBar diagnostics should expose range, value, hit state, and capabilities: {scroll_diagnostics}"
+    );
+    assert!(
+        catalog.contains("MultiPage"),
+        "catalog should keep future MultiPage visible"
+    );
     assert!(
         catalog.contains("LIVE ToggleButton:"),
         "ToggleButton should be listed as live: {catalog}"
@@ -343,15 +351,15 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "OptionButton, ToggleButton, Image, and ComboBox should be listed as live, not pending"
     );
     assert!(
-        !catalog.contains("ScrollBar, SpinButton"),
-        "SpinButton should be listed as live, not pending"
+        !catalog.contains("PENDING ScrollBar"),
+        "ScrollBar should be listed as live, not pending"
     );
 
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 24,
-        "root node plus 20 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 25,
+        "root node plus 21 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
     );
     assert!(
         snap.scene
@@ -379,10 +387,10 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
-        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
+        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Scroll,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
         "first=InputField;last=ChoiceCombo;default=OkButton;cancel=CancelButton;",
         "cursor=focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3",
         "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
@@ -390,7 +398,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
         "top_followup=oxforms-bqr scaled-hit-test",
         "selftest=RunSelfTest returns PASS",
-        "pending.controls=ScrollBar,TabStrip,MultiPage/Page",
+        "pending.controls=TabStrip,MultiPage/Page",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -404,7 +412,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let supported = read_string(&mut rt, "SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar")
             && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported summary should list current controls/properties/events: {supported}"
@@ -412,7 +420,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let pending = read_string(&mut rt, "PendingSurfaceSummary");
     assert!(
-        pending.contains("controls=ScrollBar,TabStrip,MultiPage/Page",)
+        pending.contains("controls=TabStrip,MultiPage/Page",)
             && pending.contains("scaled hit-test indexing"),
         "pending summary should keep future controls and follow-ups visible: {pending}"
     );
@@ -427,8 +435,8 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let selftest = read_string(&mut rt, "SelfTestSummary");
     assert!(
-        selftest.contains("method=RunSelfTest;expected=PASS controls=20")
-            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/ComboBox/Frame/Image/SpinButton/lifecycle"),
+        selftest.contains("method=RunSelfTest;expected=PASS controls=21")
+            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/ComboBox/Frame/Image/SpinButton/ScrollBar/lifecycle"),
         "self-test summary should name the deterministic dashboard gate: {selftest}"
     );
 }
@@ -439,7 +447,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=20;"),
+        result.starts_with("PASS controls=21;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -460,6 +468,12 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "SpinButton.Change=3",
         "SpinButton.MouseUp",
         "SpinButton.Exit",
+        "ScrollBar.Enter",
+        "ScrollBar.MouseDown",
+        "ScrollBar.Scroll=45",
+        "ScrollBar.Change=45",
+        "ScrollBar.MouseUp",
+        "ScrollBar.Exit",
         "TextBox.Enter",
         "TextBox.MouseDown",
         "TextBox.MouseUp",

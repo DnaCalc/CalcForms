@@ -121,6 +121,18 @@ Public Property Get SpinValue() As Long
     SpinValue = Spin.Value
 End Property
 
+Public Property Get ScrollBarDiagnostics() As String
+    Dim Bar As ScrollBar
+    Set Bar = mForm.ControlByName("AmountScroll")
+    ScrollBarDiagnostics = Bar.Diagnostics
+End Property
+
+Public Property Get ScrollValue() As Long
+    Dim Bar As ScrollBar
+    Set Bar = mForm.ControlByName("AmountScroll")
+    ScrollValue = Bar.Value
+End Property
+
 Public Property Get AccessibilitySnapshot() As String
     Dim Service As OxAccessibilityService
     Set Service = New OxAccessibilityService

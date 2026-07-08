@@ -101,6 +101,7 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/oxforms/SpinButton.cls",
         ),
+        module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -236,14 +237,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        11,
-        "OptionButton, ListBox, ComboBox, ToggleButton, Image, and SpinButton now materialize as live VBA controls"
+        12,
+        "OptionButton, ListBox, ComboBox, ToggleButton, Image, SpinButton, and ScrollBar now materialize as live VBA controls"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=11"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=12"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -297,6 +298,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         &catalog,
         "control;name=CountSpin;role=spinbutton;value=3;left=225;top=160;width=21;height=42;enabled=True;visible=True;tabindex=8;tabstop=True",
     );
+    assert_line_contains(
+        &catalog,
+        "control;name=AmountScroll;role=scrollbar;value=25;left=12;top=168;width=110;height=16;enabled=True;visible=True;tabindex=9;tabstop=True",
+    );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
     assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
     let textbox_diagnostics = read_string(&mut session, &form, "TextBoxDiagnostics");
@@ -338,6 +343,13 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         "SpinButton diagnostics should expose .frm value/range materialization:\n{spin_diagnostics}"
     );
     assert_eq!(read_i32(&mut session, &form, "SpinValue"), 3);
+    let scroll_diagnostics = read_string(&mut session, &form, "ScrollBarDiagnostics");
+    assert!(
+        scroll_diagnostics.contains("value=25;min=0;max=100;small_change=5;large_change=20;pressed_part=")
+            && scroll_diagnostics.contains("capabilities=kind=ScrollBar"),
+        "ScrollBar diagnostics should expose .frm value/range materialization:\n{scroll_diagnostics}"
+    );
+    assert_eq!(read_i32(&mut session, &form, "ScrollValue"), 25);
 
     let frx = std::fs::read(
         repo_root().join("fixtures/frm/w009-materialization/w009-representative.frx"),
@@ -365,8 +377,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 14,
-        "root plus eleven materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 15,
+        "root plus twelve materialized controls plus TextBox text/selection nodes should be resident"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(
@@ -398,7 +410,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && accessibility.contains("role=listbox;name=ChoicesList;value=")
             && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx")
             && accessibility.contains("role=combobox;name=SizeCombo;value=Medium")
-            && accessibility.contains("role=spinbutton;name=CountSpin;value=3"),
+            && accessibility.contains("role=spinbutton;name=CountSpin;value=3")
+            && accessibility.contains("role=scrollbar;name=AmountScroll;value=25"),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );
 

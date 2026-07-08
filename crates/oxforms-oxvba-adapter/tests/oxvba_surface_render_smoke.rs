@@ -121,6 +121,7 @@ fn prepare_session(projection: Arc<PortableComProjection>) -> oxvba_host::Projec
                 ModuleKind::Class,
                 "vba/oxforms/SpinButton.cls",
             ),
+            module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
             module_unit(
                 "ToggleButton",
                 ModuleKind::Class,
