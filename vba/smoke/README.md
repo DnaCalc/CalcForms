@@ -24,10 +24,11 @@ MSForms compatibility surface.
 It is a production-shaped VBA form-document driven by `OxRuntime`/`OxReducer`,
 not a low-level smoke bridge: it renders every currently implemented intrinsic
 control (`Label`, `TextBox`, `CommandButton`, `CheckBox`, `ToggleButton`,
-`OptionButton`, `ListBox`, `Frame`, `Image`, and `SpinButton`), lists the future FM20 intrinsics
-as pending rows, and exposes `RunSelfTest` plus dashboard diagnostics so the current method,
-property, event, focus, service, accessibility, and perf surfaces can be proven
-headlessly.
+`OptionButton`, `ListBox`, `ComboBox`, `Frame`, `Image`, `SpinButton`,
+`ScrollBar`, `TabStrip`, and `MultiPage`/`Page`). Its W009 pending-control rows
+are empty at the current representative subset depth, and it exposes
+`RunSelfTest` plus dashboard diagnostics so the current method, property, event,
+focus, service, accessibility, and perf surfaces can be proven headlessly.
 
 Run it visibly:
 

@@ -1,9 +1,10 @@
 # W009 First-Class Runtime Foundation Evidence
 
-Status: `SEED`
+Status: `CLOSURE`
 Workset: `W009_intrinsic_control_breadth`
 Epic: `oxforms-zhz`
-Active slice: `oxforms-zhz.4`
+Closure slice: `oxforms-zhz.49`
+Initial TextBox slice: `oxforms-zhz.4`
 Input-turn bugfix slice: `oxforms-zhz.10`
 Geometry/drag slice: `oxforms-zhz.11`
 CheckBox hardening slice: `oxforms-zhz.5`
@@ -22,10 +23,12 @@ Form materialization seam: `oxforms-zhz.22`
 Oracle matrix refresh: `oxforms-zhz.23`
 Image/FRX representative seam: `oxforms-zhz.28`
 
-This directory accumulates evidence for the phase-0 hazard gym that must pass before
-broad W009 control breadth resumes. The first committed slice creates the reusable
-headless runner over the real `OxRuntime` + `OxForms.Surface` path; later slices add
-oracle captures, conformance matrices, visual proofs, and perf reports.
+This directory accumulates evidence for the W009 first-class runtime foundation
+and representative intrinsic-control breadth. The first committed slice created
+the reusable headless runner over the real `OxRuntime` + `OxForms.Surface` path;
+later slices added oracle routing, conformance matrices, visual proofs, perf
+reports, and live factory/control lanes for every FM20 intrinsic at the W009
+subset depth.
 
 ## Current Proof
 
@@ -388,7 +391,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Object model side effects | Passing representative seam | `vba/oxforms/Controls.cls`; `vba/oxforms/UserForm.cls`; `oxvba_reducer_cmdbutton::object_model_add_remove_and_name_lookup_drive_structural_state`; `focused_hide_disable_and_remove_clear_stale_interaction_state`; `overlapping_controls_route_by_z_order_then_last_added` |
 | InteractionManager state | Passing representative seam | `vba/oxforms/OxInteractionManager.cls`; `oxvba_reducer_cmdbutton::capture_routes_mouseup_to_the_pressed_control_across_a_sibling`; `interaction_manager_tracks_hover_and_cursor_without_capture`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
-| AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` |
+| AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_empty_pending_rows` |
 | `.frm/.frx` materialization | Passing selected-slice seam | `vba/oxforms/OxFrmMaterializer.cls`; `fixtures/frm/w009-materialization/w009-representative.frm`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
 | Image/FRX representative spike | Passing representative seam | `vba/oxforms/Image.cls`; materialized `LogoImage`; showcase `ImageDiagnostics`; `DrawImage` Scene assertions in `oxvba_frm_materialization` and `oxvba_full_surface_showcase`; HostServices decode traces |
 | Showcase conformance dashboard | Passing | `FullSurfaceShowcaseForm.ConformanceDashboard`, `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`; `headless_runner_showcase::runner_reads_showcase_conformance_dashboard_through_oxruntime` proves the dashboard through `OxRuntime`; `oxvba_full_surface_showcase::showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps` proves the same surface through the adapter |
@@ -421,7 +424,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Final architecture review and broad-lane rewrite | Passing doc/graph gate | `final-architecture-review.md`; `docs/worksets/W009_intrinsic_control_breadth.md`; live beads `oxforms-zhz.39` through `.49`; `br dep cycles` |
-| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `ComboBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, `SpinButtonDiagnostics`, `ScrollBarDiagnostics`, `TabStripDiagnostics`, and `MultiPageDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
+| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_empty_pending_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `ComboBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, `SpinButtonDiagnostics`, `ScrollBarDiagnostics`, `TabStripDiagnostics`, and `MultiPageDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |

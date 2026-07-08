@@ -52,11 +52,11 @@ real or synthetic input
 
 **Living showcase.** `vba/smoke/fixtures/full_surface_showcase_form.cls` is the evolving
 current-state conformance dashboard for this workset. It renders the live representative controls,
-lists the remaining FM20 intrinsics as pending rows, exposes `RunSelfTest` to drive the current
-method/event surface through `OxRuntime`/`OxReducer` headlessly, and exposes
+keeps the FM20 intrinsic pending rows empty at W009 subset depth, exposes `RunSelfTest` to drive
+the current method/event surface through `OxRuntime`/`OxReducer` headlessly, and exposes
 `ConformanceDashboard` plus compact supported/pending/perf/self-test summaries. Each W009 control
-lane should move its control from pending to supported, add method/property/event rows and
-deterministic self-test coverage, and prove the dashboard through the real runtime path instead of
+lane moved its control from pending to supported, added method/property/event rows and
+deterministic self-test coverage, and proved the dashboard through the real runtime path instead of
 creating a separate demo island.
 
 **Phase-0 hazard gym (owner directive, 2026-07-01).** Before broad control lanes resume, W009 must

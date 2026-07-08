@@ -1,8 +1,8 @@
 Option Explicit
 
 ' Living OxForms full-surface showcase. This is a runnable form-document, not an oracle:
-' it renders every control currently implemented by OxForms, lists future intrinsic controls
-' as pending rows, and exposes a deterministic RunSelfTest method that drives the current
+' it renders every W009 intrinsic control currently implemented by OxForms, keeps
+' pending-control rows empty at W009 subset depth, and exposes a deterministic RunSelfTest method that drives the current
 ' reducer/event surface end to end. Future control lanes should extend this file rather than
 ' creating one-off demos.
 

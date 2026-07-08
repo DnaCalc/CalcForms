@@ -1,7 +1,8 @@
 //! Living full-surface showcase proof. The VBA fixture renders the current intrinsic surface
-//! (Label, TextBox, CommandButton, CheckBox), lists future FM20 controls as pending rows, and
-//! exposes `RunSelfTest` so the supported method/event surface can be proven without launching a
-//! desktop window.
+//! (Label, TextBox, CommandButton, CheckBox, and the later W009 intrinsic lanes),
+//! keeps pending-control rows empty at the W009 subset depth, and exposes
+//! `RunSelfTest` so the supported method/event surface can be proven without
+//! launching a desktop window.
 
 use std::path::{Path, PathBuf};
 use std::sync::Arc;
@@ -228,13 +229,13 @@ fn assert_log_contains(log: &str, expected: &str) {
 }
 
 #[test]
-fn showcase_catalog_lists_current_live_surface_and_future_rows() {
+fn showcase_catalog_lists_current_live_surface_and_empty_pending_rows() {
     let (mut rt, surface) = attach_showcase();
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
         23,
-        "the showcase renders live controls plus pending catalog rows"
+        "the showcase renders the live W009 intrinsic surface"
     );
 
     let catalog = invoke_string(&mut rt, "SurfaceCatalog", ProjectMemberKind::Method);
@@ -453,7 +454,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
     let pending = read_string(&mut rt, "PendingSurfaceSummary");
     assert!(
         pending.contains("controls=") && pending.contains("scaled hit-test indexing"),
-        "pending summary should keep future controls and follow-ups visible: {pending}"
+        "pending summary should remain explicit even when no W009 intrinsic controls are pending: {pending}"
     );
 
     let perf = read_string(&mut rt, "PerfBudgetSummary");

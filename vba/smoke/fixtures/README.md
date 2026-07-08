@@ -13,6 +13,6 @@ library, not by this app fixture.
 `full_surface_showcase_form.cls` is the evolving Forms super-app fixture. It is
 the first stop for runnable current-state proof: every supported intrinsic
 control is visible, current method/event families are wired through ordinary VBA
-`WithEvents` handlers, and unsupported future intrinsics appear as pending
-catalog rows. Extend this fixture when a control lane lands so the showcase grows
-with the product surface.
+`WithEvents` handlers, and the W009 pending-control catalog is empty at the
+current subset depth. Extend this fixture when a later parity-depth lane lands so
+the showcase grows with the product surface.
