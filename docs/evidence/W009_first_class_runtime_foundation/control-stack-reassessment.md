@@ -55,7 +55,7 @@ The reassessment turns "self-painted controls" into explicit subsystem seams:
 
 | Seam | Immediate W009 pressure |
 |---|---|
-| `TextService` | TextBox caret stops, selection geometry, mouse hit testing, rapid input, paste/drop, future IME/dead keys and multiline behavior. |
+| `TextService` | TextBox caret stops, selection geometry, mouse hit testing, rapid input, paste/drop, local multiline/undo/composition-preedit behavior, and future native OS IME/dead-key and pixel multiline parity. |
 | `ThemeTokens` / `ThemePainter` | Focus rings, disabled state, selected text/background, classic MSForms edge effects, future DNA-consistent previews. |
 | `AccessibilityService` | Focus, roles, names, selection, value/state changes, list/table patterns, future UIA/MSAA provider work. |
 | `RendererBackend` | Scene remains canonical; backends consume Scene. DOM/WebView, if built, must be a backend/binder, not a second reducer. |

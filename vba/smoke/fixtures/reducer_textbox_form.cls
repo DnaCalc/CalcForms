@@ -117,6 +117,26 @@ Public Property Get T1HideSelection() As Boolean
     T1HideSelection = mT1.HideSelection
 End Property
 
+Public Property Get T1MultiLine() As Boolean
+    T1MultiLine = mT1.MultiLine
+End Property
+
+Public Property Get T1CanUndo() As Boolean
+    T1CanUndo = mT1.CanUndo
+End Property
+
+Public Property Get T1CanRedo() As Boolean
+    T1CanRedo = mT1.CanRedo
+End Property
+
+Public Property Get T1CompositionActive() As Boolean
+    T1CompositionActive = mT1.CompositionActive
+End Property
+
+Public Property Get T1CompositionText() As String
+    T1CompositionText = mT1.CompositionText
+End Property
+
 Public Property Get T1Diagnostics() As String
     T1Diagnostics = _
         "text=" & mT1.Text & _
@@ -125,6 +145,11 @@ Public Property Get T1Diagnostics() As String
         ";sel_length=" & CStr(mT1.SelLength) & _
         ";sel_text=" & mT1.SelText & _
         ";hide_selection=" & CStr(mT1.HideSelection) & _
+        ";multiline=" & CStr(mT1.MultiLine) & _
+        ";can_undo=" & CStr(mT1.CanUndo) & _
+        ";can_redo=" & CStr(mT1.CanRedo) & _
+        ";composition_active=" & CStr(mT1.CompositionActive) & _
+        ";composition_text=" & mT1.CompositionText & _
         ";capabilities=" & mT1.Core.CapabilityDescriptor
 End Property
 
@@ -149,6 +174,34 @@ End Sub
 
 Public Sub SetT1HideSelection(ByVal Value As Boolean)
     mT1.HideSelection = Value
+End Sub
+
+Public Sub SetT1MultiLine(ByVal Value As Boolean)
+    mT1.MultiLine = Value
+End Sub
+
+Public Sub T1Undo()
+    mT1.Undo
+End Sub
+
+Public Sub T1Redo()
+    mT1.Redo
+End Sub
+
+Public Sub T1BeginComposition()
+    mT1.BeginComposition
+End Sub
+
+Public Sub T1UpdateComposition(ByVal PreeditText As String)
+    mT1.UpdateComposition PreeditText
+End Sub
+
+Public Sub T1CommitComposition(ByVal CommitText As String)
+    mT1.CommitComposition CommitText
+End Sub
+
+Public Sub T1CancelComposition()
+    mT1.CancelComposition
 End Sub
 
 Public Property Get T2Text() As String

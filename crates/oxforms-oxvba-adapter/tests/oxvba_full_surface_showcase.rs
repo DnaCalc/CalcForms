@@ -266,7 +266,7 @@ fn showcase_catalog_lists_current_live_surface_and_empty_pending_rows() {
         "catalog should name the InteractionManager and accessibility diagnostic surfaces"
     );
     assert!(
-        catalog.contains("LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection")
+        catalog.contains("LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection, MultiLine, undo/redo, composition facade")
             && catalog.contains("TextBoxDiagnostics"),
         "catalog should expose the representative TextBox property/diagnostic surface"
     );
@@ -275,6 +275,8 @@ fn showcase_catalog_lists_current_live_surface_and_empty_pending_rows() {
         textbox_diagnostics.contains("text=;value=;sel_start=0;sel_length=0")
             && textbox_diagnostics.contains("capabilities=kind=TextBox")
             && textbox_diagnostics.contains(";text=True;paste=True;value=True")
+            && textbox_diagnostics.contains(";multiline=False;can_undo=False;can_redo=False")
+            && textbox_diagnostics.contains(";composition_active=False;composition_text=")
             && textbox_diagnostics.contains(";accessibility=textbox/text,value,selection"),
         "TextBox diagnostics should carry value, selection, capability, and accessibility shape: {textbox_diagnostics}"
     );
@@ -422,7 +424,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
         "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
-        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
+        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBox.Undo,TextBox.Redo",
         "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Scroll,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
         "first=InputField;last=ChoiceCombo;default=OkButton;cancel=CancelButton;",
         "cursor=focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3",
@@ -446,7 +448,8 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
     let supported = read_string(&mut rt, "SupportedSurfaceSummary");
     assert!(
         supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page")
-            && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection")
+            && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection,MultiLine,CanUndo,CanRedo,CompositionActive,CompositionText")
+            && supported.contains("TextBox.BeginComposition")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported summary should list current controls/properties/events: {supported}"
     );

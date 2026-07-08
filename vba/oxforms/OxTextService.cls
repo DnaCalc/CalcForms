@@ -1,10 +1,11 @@
 Option Explicit
 
-' Single-line TextBox geometry service. The Rust/PAL side shapes text and returns
+' TextBox geometry service. The Rust/PAL side shapes text and returns
 ' typed metrics + caret stops through MeasureBatch; this VBA seam consumes those
 ' results for caret placement, hit testing, selection geometry, clipping, and
-' horizontal scroll. Future versions extend this boundary for IME/dead keys,
-' multiline layout, undo/redo, and grapheme-aware editing.
+' horizontal scroll. TextBox remains the owner of value, selection, undo/redo,
+' multiline edit semantics, composition-preedit state, and text-boundary-aware
+' editing.
 
 Private mCachedCaretStopsCsv As String
 Private mCachedCaretStops As Collection

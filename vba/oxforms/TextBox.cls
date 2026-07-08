@@ -1,10 +1,11 @@
 Option Explicit
 Implements IOxControl
 
-' MSForms-shaped single-line TextBox. Focusable; Text value, Change/keyboard/
-' mouse/focus events. Note the MSForms semantic split: setting .Text in code is
-' programmatic and does NOT raise Change, while a user edit (ApplyUserText, driven
-' by the runtime from real keystrokes) updates the text AND raises Change.
+' MSForms-shaped TextBox. Focusable; Text value, selection, undo/redo,
+' composition-preedit state, Change/keyboard/mouse/focus events. Note the
+' MSForms semantic split: setting .Text in code is programmatic and does NOT
+' raise Change, while a user edit (driven by the runtime from real keystrokes)
+' updates the text AND raises Change.
 
 Public Event Change()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
@@ -45,16 +46,27 @@ Private mHideSelection As Boolean
 Private mFocused As Boolean
 Private mTextService As OxTextService
 Private mScrollX As Single
+Private mMultiLine As Boolean
+Private mUndoStack As Collection
+Private mRedoStack As Collection
+Private mHistoryApplying As Boolean
+Private mCompositionActive As Boolean
+Private mCompositionText As String
+Private mCompositionStart As Long
+Private mCompositionLength As Long
 
 Private Const OX_SHIFT_MASK As Integer = 1
 Private Const OX_CTRL_MASK As Integer = 2
 Private Const OX_KEY_BACKSPACE As Integer = 8
+Private Const OX_KEY_ENTER As Integer = 13
 Private Const OX_KEY_HOME As Integer = 36
 Private Const OX_KEY_END As Integer = 35
 Private Const OX_KEY_LEFT As Integer = 37
 Private Const OX_KEY_RIGHT As Integer = 39
 Private Const OX_KEY_DELETE As Integer = 46
 Private Const OX_KEY_A As Integer = 65
+Private Const OX_KEY_Y As Integer = 89
+Private Const OX_KEY_Z As Integer = 90
 Private Const OX_BUTTON_LEFT As Integer = 1
 Private Const OX_TEXT_INSET_X As Single = 4
 Private Const OX_TEXT_INSET_Y As Single = 3
@@ -68,6 +80,14 @@ Private Sub Class_Initialize()
     mHideSelection = True
     mFocused = False
     mScrollX = 0
+    mMultiLine = False
+    Set mUndoStack = New Collection
+    Set mRedoStack = New Collection
+    mHistoryApplying = False
+    mCompositionActive = False
+    mCompositionText = ""
+    mCompositionStart = 0
+    mCompositionLength = 0
 End Sub
 
 ' --- IOxControl ---
@@ -224,6 +244,80 @@ Public Property Let HideSelection(ByVal Value As Boolean)
     End If
 End Property
 
+Public Property Get MultiLine() As Boolean
+    MultiLine = mMultiLine
+End Property
+Public Property Let MultiLine(ByVal Value As Boolean)
+    If mMultiLine <> Value Then
+        mMultiLine = Value
+        mCore.MarkDirty
+        EnsureCaretVisible
+    End If
+End Property
+
+Public Property Get CanUndo() As Boolean
+    CanUndo = (mUndoStack.Count > 0)
+End Property
+
+Public Property Get CanRedo() As Boolean
+    CanRedo = (mRedoStack.Count > 0)
+End Property
+
+Public Sub Undo()
+    If mUndoStack.Count = 0 Then Exit Sub
+    ApplyHistoryState PopText(mUndoStack), mRedoStack
+End Sub
+
+Public Sub Redo()
+    If mRedoStack.Count = 0 Then Exit Sub
+    ApplyHistoryState PopText(mRedoStack), mUndoStack
+End Sub
+
+Public Property Get CompositionActive() As Boolean
+    CompositionActive = mCompositionActive
+End Property
+
+Public Property Get CompositionText() As String
+    CompositionText = mCompositionText
+End Property
+
+Public Sub BeginComposition()
+    mCompositionActive = True
+    mCompositionText = ""
+    mCompositionStart = SelectionStart()
+    mCompositionLength = SelectionLength()
+    mCore.MarkDirty
+End Sub
+
+Public Sub UpdateComposition(ByVal PreeditText As String)
+    If Not mCompositionActive Then BeginComposition
+    mCompositionText = PreeditText
+    mCore.MarkDirty
+End Sub
+
+Public Sub CommitComposition(Optional ByVal CommitText As String = "")
+    Dim TextToCommit As String
+    If Not mCompositionActive Then
+        If Len(CommitText) > 0 Then InsertText CommitText
+        Exit Sub
+    End If
+    TextToCommit = CommitText
+    If Len(TextToCommit) = 0 Then TextToCommit = mCompositionText
+    mCompositionActive = False
+    mCompositionText = ""
+    SetSelection mCompositionStart, mCompositionLength
+    mCompositionLength = 0
+    InsertText TextToCommit
+End Sub
+
+Public Sub CancelComposition()
+    If Not mCompositionActive Then Exit Sub
+    mCompositionActive = False
+    mCompositionText = ""
+    mCompositionLength = 0
+    CollapseSelection mCompositionStart
+End Sub
+
 Public Property Get Name() As String
     Name = mCore.Name
 End Property
@@ -364,6 +458,7 @@ Private Sub ReplaceSelection(ByVal NewText As String, ByVal IsUserEdit As Boolea
     OldText = mCore.DisplayText
     NextText = Left$(OldText, Start) & NewText & Mid$(OldText, Start + Length + 1)
     If NextText = OldText And Length = 0 And Len(NewText) = 0 Then Exit Sub
+    If IsUserEdit Then RecordUndoState OldText
     mCore.DisplayText = NextText
     CollapseSelection Start + Len(NewText)
     If IsUserEdit Then
@@ -376,7 +471,7 @@ Private Sub DeleteBack()
     If SelectionLength() > 0 Then
         ReplaceSelection "", True
     ElseIf mCaret > 0 Then
-        mAnchor = mCaret - 1
+        mAnchor = PreviousTextBoundary(mCaret)
         ReplaceSelection "", True
     End If
 End Sub
@@ -385,7 +480,7 @@ Private Sub DeleteForward()
     If SelectionLength() > 0 Then
         ReplaceSelection "", True
     ElseIf mCaret < TextLength() Then
-        mAnchor = mCaret + 1
+        mAnchor = NextTextBoundary(mCaret)
         ReplaceSelection "", True
     End If
 End Sub
@@ -445,6 +540,140 @@ Private Sub EnsureCaretVisible(Optional ByVal MarkDirty As Boolean = True)
         mScrollX = NewScroll
         If MarkDirty Then mCore.MarkDirty
     End If
+End Function
+
+Private Sub RecordUndoState(ByVal OldText As String)
+    If mHistoryApplying Then Exit Sub
+    mUndoStack.Add OldText
+    Set mRedoStack = New Collection
+End Sub
+
+Private Function PopText(ByVal Stack As Collection) As String
+    PopText = CStr(Stack.Item(Stack.Count))
+    Stack.Remove Stack.Count
+End Function
+
+Private Sub ApplyHistoryState(ByVal TargetText As String, ByVal OppositeStack As Collection)
+    mHistoryApplying = True
+    OppositeStack.Add mCore.DisplayText
+    mCore.DisplayText = TargetText
+    CollapseSelection Len(TargetText)
+    mEditDirty = True
+    mCompositionActive = False
+    mCompositionText = ""
+    mCompositionLength = 0
+    mHistoryApplying = False
+    RaiseEvent Change
+End Sub
+
+Private Function PreviousTextBoundary(ByVal Index As Long) As Long
+    Dim Pos As Long
+    Pos = ClampIndex(Index)
+    If Pos <= 0 Then
+        PreviousTextBoundary = 0
+        Exit Function
+    End If
+
+    Dim Text As String
+    Text = mCore.DisplayText
+    If Pos >= 2 Then
+        If Mid$(Text, Pos - 1, 2) = vbCrLf Then
+            PreviousTextBoundary = Pos - 2
+            Exit Function
+        End If
+    End If
+
+    Pos = Pos - 1
+    Do While Pos > 0 And IsCombiningCodeUnit(CodeUnitAt(Text, Pos + 1))
+        Pos = Pos - 1
+    Loop
+    If Pos > 0 Then
+        If IsLowSurrogate(CodeUnitAt(Text, Pos + 1)) And IsHighSurrogate(CodeUnitAt(Text, Pos)) Then
+            Pos = Pos - 1
+        End If
+    End If
+    PreviousTextBoundary = Pos
+End Function
+
+Private Function NextTextBoundary(ByVal Index As Long) As Long
+    Dim Pos As Long
+    Pos = ClampIndex(Index)
+    If Pos >= TextLength() Then
+        NextTextBoundary = TextLength()
+        Exit Function
+    End If
+
+    Dim Text As String
+    Text = mCore.DisplayText
+    If Pos + 1 < Len(Text) Then
+        If Mid$(Text, Pos + 1, 2) = vbCrLf Then
+            NextTextBoundary = Pos + 2
+            Exit Function
+        End If
+    End If
+
+    Pos = Pos + 1
+    If Pos < Len(Text) Then
+        If IsHighSurrogate(CodeUnitAt(Text, Pos)) And IsLowSurrogate(CodeUnitAt(Text, Pos + 1)) Then
+            Pos = Pos + 1
+        End If
+    End If
+    Do While Pos < Len(Text) And IsCombiningCodeUnit(CodeUnitAt(Text, Pos + 1))
+        Pos = Pos + 1
+    Loop
+    NextTextBoundary = Pos
+End Function
+
+Private Function LineStartFor(ByVal Index As Long) As Long
+    Dim Pos As Long
+    Pos = ClampIndex(Index)
+    Do While Pos > 0
+        If Mid$(mCore.DisplayText, Pos, 2) = vbCrLf Then
+            LineStartFor = Pos + 1
+            Exit Function
+        End If
+        Pos = Pos - 1
+    Loop
+    LineStartFor = 0
+End Function
+
+Private Function LineEndFor(ByVal Index As Long) As Long
+    Dim Pos As Long
+    Pos = ClampIndex(Index)
+    Do While Pos < TextLength()
+        If Mid$(mCore.DisplayText, Pos + 1, 2) = vbCrLf Then
+            LineEndFor = Pos
+            Exit Function
+        End If
+        Pos = Pos + 1
+    Loop
+    LineEndFor = TextLength()
+End Function
+
+Private Function CodeUnitAt(ByVal Text As String, ByVal OneBasedIndex As Long) As Long
+    If OneBasedIndex < 1 Or OneBasedIndex > Len(Text) Then
+        CodeUnitAt = 0
+        Exit Function
+    End If
+    CodeUnitAt = AscW(Mid$(Text, OneBasedIndex, 1))
+    If CodeUnitAt < 0 Then CodeUnitAt = CodeUnitAt + 65536
+End Function
+
+Private Function IsHighSurrogate(ByVal CodeUnit As Long) As Boolean
+    IsHighSurrogate = (CodeUnit >= &HD800 And CodeUnit <= &HDBFF)
+End Function
+
+Private Function IsLowSurrogate(ByVal CodeUnit As Long) As Boolean
+    IsLowSurrogate = (CodeUnit >= &HDC00 And CodeUnit <= &HDFFF)
+End Function
+
+Private Function IsCombiningCodeUnit(ByVal CodeUnit As Long) As Boolean
+    IsCombiningCodeUnit = _
+        (CodeUnit >= &H300 And CodeUnit <= &H36F) Or _
+        (CodeUnit >= &H1AB0 And CodeUnit <= &H1AFF) Or _
+        (CodeUnit >= &H1DC0 And CodeUnit <= &H1DFF) Or _
+        (CodeUnit >= &H20D0 And CodeUnit <= &H20FF) Or _
+        (CodeUnit >= &HFE00 And CodeUnit <= &HFE0F)
 End Function
 
 Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
@@ -568,20 +797,34 @@ Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As I
             If SelectionLength() > 0 And Not ExtendSelection Then
                 MoveCaretTo SelectionStart(), False
             Else
-                MoveCaretTo mCaret - 1, ExtendSelection
+                MoveCaretTo PreviousTextBoundary(mCaret), ExtendSelection
             End If
         Case OX_KEY_RIGHT
             If SelectionLength() > 0 And Not ExtendSelection Then
                 MoveCaretTo SelectionStart() + SelectionLength(), False
             Else
-                MoveCaretTo mCaret + 1, ExtendSelection
+                MoveCaretTo NextTextBoundary(mCaret), ExtendSelection
             End If
         Case OX_KEY_HOME
-            MoveCaretTo 0, ExtendSelection
+            If mMultiLine Then
+                MoveCaretTo LineStartFor(mCaret), ExtendSelection
+            Else
+                MoveCaretTo 0, ExtendSelection
+            End If
         Case OX_KEY_END
-            MoveCaretTo TextLength(), ExtendSelection
+            If mMultiLine Then
+                MoveCaretTo LineEndFor(mCaret), ExtendSelection
+            Else
+                MoveCaretTo TextLength(), ExtendSelection
+            End If
+        Case OX_KEY_ENTER
+            If mMultiLine Then InsertText vbCrLf
         Case OX_KEY_A
             If (Shift And OX_CTRL_MASK) <> 0 Then SelectAll
+        Case OX_KEY_Z
+            If (Shift And OX_CTRL_MASK) <> 0 Then Undo
+        Case OX_KEY_Y
+            If (Shift And OX_CTRL_MASK) <> 0 Then Redo
     End Select
 End Function
 

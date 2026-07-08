@@ -48,10 +48,11 @@ through the adapter/headless path.
 2. The major remaining architectural hazard is not another control abstraction;
    it is scaled hit-testing. `oxforms-bqr` is therefore a dependency of the new
    broad control lanes.
-3. TextService v2 and Windows accessibility-provider work are real follow-ups,
-   but they do not block the first broad-control lanes because the current
-   single-line TextBox and host-neutral accessibility snapshot are already
-   explicitly bounded.
+3. The local TextService v2 TextBox lane has now landed through `oxforms-zhz.34`;
+   native OS IME/dead-key hookup, pixel-perfect multiline layout, and Windows
+   accessibility-provider work remain real follow-ups, but they do not block the
+   first broad-control lanes because the current TextBox and host-neutral
+   accessibility snapshot are explicitly bounded.
 4. Visible desktop showcase inspection remains blocked in this environment by
    Computer Use `get_window_state`: `GetCursorPos failed: Access is denied.
    (0x80070005)`. Headless and adapter conformance are green; visible evidence

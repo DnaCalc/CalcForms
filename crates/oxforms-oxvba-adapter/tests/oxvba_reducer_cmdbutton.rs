@@ -528,6 +528,40 @@ fn set_t1_hide_selection(session: &mut ProjectRuntimeSession, form: &ObjectRef, 
     );
 }
 
+fn set_t1_multiline(session: &mut ProjectRuntimeSession, form: &ObjectRef, value: bool) {
+    call(
+        session,
+        form.clone(),
+        "SetT1MultiLine",
+        ProjectMemberKind::Method,
+        vec![Variant::from_bool(value)],
+    );
+}
+
+fn t1_update_composition(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) {
+    call(
+        session,
+        form.clone(),
+        "T1UpdateComposition",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    );
+}
+
+fn t1_commit_composition(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) {
+    call(
+        session,
+        form.clone(),
+        "T1CommitComposition",
+        ProjectMemberKind::Method,
+        vec![Variant::from_string(text)],
+    );
+}
+
+fn t1_cancel_composition(session: &mut ProjectRuntimeSession, form: &ObjectRef) {
+    invoke_sub(session, form, "T1CancelComposition");
+}
+
 fn dispatch_drop(session: &mut ProjectRuntimeSession, form: &ObjectRef, text: &str) -> String {
     call(
         session,
@@ -1188,7 +1222,10 @@ const T2_IN: (i32, i32) = (40, 58);
 const KEY_A: i16 = 65;
 const KEY_C: i16 = 67;
 const KEY_X: i16 = 88;
+const KEY_Y: i16 = 89;
+const KEY_Z: i16 = 90;
 const KEY_BACKSPACE: i16 = 8;
+const KEY_ENTER_TEXTBOX: i16 = 13;
 const KEY_HOME: i16 = 36;
 const KEY_END: i16 = 35;
 const KEY_LEFT: i16 = 37;
@@ -1389,6 +1426,139 @@ fn textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub() {
     assert_eq!(paste, "keydown:T1|paste:T1|repaint");
     assert_eq!(string_get(&mut session, &form, "T1Text"), "X");
     assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
+}
+
+#[test]
+fn textbox_undo_redo_tracks_user_edits_without_programmatic_noise() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "seed");
+    assert!(
+        !bool_get(&mut session, &form, "T1CanUndo"),
+        "programmatic setup should not create user undo history"
+    );
+
+    dispatch_char(&mut session, &form, "!");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "seed!");
+    assert!(bool_get(&mut session, &form, "T1CanUndo"));
+    assert!(!bool_get(&mut session, &form, "T1CanRedo"));
+
+    let undo = dispatch_key_shift(&mut session, &form, "keydown", KEY_Z, SHIFT_CTRL);
+    assert_eq!(undo, "keydown:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "seed");
+    assert!(bool_get(&mut session, &form, "T1CanRedo"));
+
+    let redo = dispatch_key_shift(&mut session, &form, "keydown", KEY_Y, SHIFT_CTRL);
+    assert_eq!(redo, "keydown:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "seed!");
+
+    invoke_sub(&mut session, &form, "T1Undo");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "seed");
+    invoke_sub(&mut session, &form, "T1Redo");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "seed!");
+}
+
+#[test]
+fn textbox_multiline_enter_home_end_and_crlf_delete_are_vba_owned() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_multiline(&mut session, &form, true);
+    set_t1_text(&mut session, &form, "ab");
+
+    let enter = dispatch_key(&mut session, &form, "keydown", KEY_ENTER_TEXTBOX);
+    assert_eq!(enter, "keydown:T1|repaint");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "ab\r\n");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 4);
+
+    dispatch_char(&mut session, &form, "cd");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "ab\r\ncd");
+    let home = dispatch_key(&mut session, &form, "keydown", KEY_HOME);
+    assert_eq!(home, "keydown:T1|repaint");
+    assert_eq!(
+        i32_get(&mut session, &form, "T1SelStart"),
+        4,
+        "Home in multiline mode should move to the current logical line start"
+    );
+    let end = dispatch_key(&mut session, &form, "keydown", KEY_END);
+    assert_eq!(end, "keydown:T1|repaint");
+    assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 6);
+
+    set_t1_selection(&mut session, &form, 4, 0);
+    let backspace = dispatch_key(&mut session, &form, "keydown", KEY_BACKSPACE);
+    assert_eq!(backspace, "keydown:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "abcd",
+        "Backspace at a CRLF boundary should remove the CRLF as one text boundary"
+    );
+}
+
+#[test]
+fn textbox_grapheme_boundaries_keep_surrogates_and_combining_marks_together() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "a\u{301}b");
+    dispatch_key(&mut session, &form, "keydown", KEY_HOME);
+    let right = dispatch_key(&mut session, &form, "keydown", KEY_RIGHT);
+    assert_eq!(right, "keydown:T1|repaint");
+    assert_eq!(
+        i32_get(&mut session, &form, "T1SelStart"),
+        2,
+        "Right should skip the base letter plus combining mark as one cluster"
+    );
+    dispatch_key(&mut session, &form, "keydown", KEY_DELETE);
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "a\u{301}");
+
+    set_t1_text(&mut session, &form, "x\u{1f600}y");
+    set_t1_selection(&mut session, &form, 2, 0);
+    let delete_smile = dispatch_key(&mut session, &form, "keydown", KEY_BACKSPACE);
+    assert_eq!(delete_smile, "keydown:T1|repaint");
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "xy",
+        "Backspace should delete a UTF-16 surrogate pair as one text boundary"
+    );
+}
+
+#[test]
+fn textbox_composition_preedit_commits_or_cancels_without_leaving_rust_semantics() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    set_t1_text(&mut session, &form, "pre");
+    t1_update_composition(&mut session, &form, "e'");
+    assert!(bool_get(&mut session, &form, "T1CompositionActive"));
+    assert_eq!(string_get(&mut session, &form, "T1CompositionText"), "e'");
+    t1_cancel_composition(&mut session, &form);
+    assert!(!bool_get(&mut session, &form, "T1CompositionActive"));
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "pre");
+
+    t1_update_composition(&mut session, &form, "e'");
+    t1_commit_composition(&mut session, &form, "é");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "preé");
+    assert!(!bool_get(&mut session, &form, "T1CompositionActive"));
+    assert!(
+        string_get(&mut session, &form, "HandlerLog").contains("T1.Change"),
+        "committing composition uses the ordinary user-edit Change path"
+    );
+
+    set_t1_text(&mut session, &form, "abXYcd");
+    set_t1_selection(&mut session, &form, 2, 2);
+    t1_update_composition(&mut session, &form, "zz");
+    set_t1_selection(&mut session, &form, 6, 0);
+    t1_commit_composition(&mut session, &form, "Ω");
+    assert_eq!(
+        string_get(&mut session, &form, "T1Text"),
+        "abΩcd",
+        "composition commit replaces the selection captured at BeginComposition"
+    );
 }
 
 #[test]

@@ -370,6 +370,11 @@ Public Property Get TextBoxDiagnostics() As String
         ";sel_length=" & CStr(mInput.SelLength) & _
         ";sel_text=" & mInput.SelText & _
         ";hide_selection=" & CStr(mInput.HideSelection) & _
+        ";multiline=" & CStr(mInput.MultiLine) & _
+        ";can_undo=" & CStr(mInput.CanUndo) & _
+        ";can_redo=" & CStr(mInput.CanRedo) & _
+        ";composition_active=" & CStr(mInput.CompositionActive) & _
+        ";composition_text=" & mInput.CompositionText & _
         ";capabilities=" & mInput.Core.CapabilityDescriptor & _
         ";accessibility=" & Control.AccessibilityRole & "/" & Control.AccessibilityPatterns
 End Property
@@ -491,8 +496,8 @@ Public Property Get ConformanceDashboard() As String
     ConformanceDashboard = _
         "OXFORMS_CONFORMANCE_DASHBOARD version=1;source=FullSurfaceShowcaseForm;runtime=OxRuntime/OxReducer/OxForms.Surface/Scene" & vbLf & _
         "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page" & vbLf & _
-        "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart,TextBox.SelLength,TextBox.SelText,TextBox.HideSelection,CheckBox.Value,OptionButton.Value,OptionButton.GroupName,ToggleButton.Value,ListBox.ListCount,ListBox.ListIndex,ListBox.Value,ListBox.MultiSelect,ListBox.Selected,ListBox.ColumnCount,ListBox.BoundColumn,ComboBox.Text,ComboBox.Value,ComboBox.ListCount,ComboBox.ListIndex,ComboBox.DropDownOpen,Frame.Caption,Image.Picture,Image.PictureHandle,Image.PictureSizeMode,SpinButton.Value,SpinButton.Min,SpinButton.Max,SpinButton.SmallChange,ScrollBar.Value,ScrollBar.Min,ScrollBar.Max,ScrollBar.SmallChange,ScrollBar.LargeChange,TabStrip.Value,TabStrip.ListIndex,TabStrip.SelectedCaption,Tabs.Count,Tab.Caption,Tab.Selected,MultiPage.Value,MultiPage.ListIndex,MultiPage.SelectedCaption,Pages.Count,Page.Caption,Page.Selected,Page.Controls,CommandButton.Default,CommandButton.Cancel" & vbLf & _
-        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBoxDiagnostics,OptionButtonDiagnostics,ToggleButtonDiagnostics,ListBoxDiagnostics,ComboBoxDiagnostics,FrameDiagnostics,ImageDiagnostics,SpinButtonDiagnostics,ScrollBarDiagnostics,TabStripDiagnostics,MultiPageDiagnostics,AccessibilitySnapshot" & vbLf & _
+        "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart,TextBox.SelLength,TextBox.SelText,TextBox.HideSelection,TextBox.MultiLine,TextBox.CanUndo,TextBox.CanRedo,TextBox.CompositionActive,TextBox.CompositionText,CheckBox.Value,OptionButton.Value,OptionButton.GroupName,ToggleButton.Value,ListBox.ListCount,ListBox.ListIndex,ListBox.Value,ListBox.MultiSelect,ListBox.Selected,ListBox.ColumnCount,ListBox.BoundColumn,ComboBox.Text,ComboBox.Value,ComboBox.ListCount,ComboBox.ListIndex,ComboBox.DropDownOpen,Frame.Caption,Image.Picture,Image.PictureHandle,Image.PictureSizeMode,SpinButton.Value,SpinButton.Min,SpinButton.Max,SpinButton.SmallChange,ScrollBar.Value,ScrollBar.Min,ScrollBar.Max,ScrollBar.SmallChange,ScrollBar.LargeChange,TabStrip.Value,TabStrip.ListIndex,TabStrip.SelectedCaption,Tabs.Count,Tab.Caption,Tab.Selected,MultiPage.Value,MultiPage.ListIndex,MultiPage.SelectedCaption,Pages.Count,Page.Caption,Page.Selected,Page.Controls,CommandButton.Default,CommandButton.Cancel" & vbLf & _
+        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBox.Undo,TextBox.Redo,TextBox.BeginComposition,TextBox.UpdateComposition,TextBox.CommitComposition,TextBox.CancelComposition,TextBoxDiagnostics,OptionButtonDiagnostics,ToggleButtonDiagnostics,ListBoxDiagnostics,ComboBoxDiagnostics,FrameDiagnostics,ImageDiagnostics,SpinButtonDiagnostics,ScrollBarDiagnostics,TabStripDiagnostics,MultiPageDiagnostics,AccessibilitySnapshot" & vbLf & _
         "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Scroll,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown" & vbLf & _
         "focus=" & InteractionIndexSummary & vbLf & _
         "cursor=" & InteractionStateSummary & vbLf & _
@@ -506,15 +511,15 @@ End Property
 Public Property Get SupportedSurfaceSummary() As String
     SupportedSurfaceSummary = _
         "controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page" & vbLf & _
-        "properties=Text,Value,SelStart,SelLength,SelText,HideSelection,Caption,Enabled,Visible,TabIndex,ListCount,ListIndex,DropDownOpen,Picture,PictureHandle,PictureSizeMode,Min,Max,SmallChange,LargeChange,SelectedCaption,Page.Controls,Default,Cancel" & vbLf & _
-        "methods=Controls.Add,Controls.Item,Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest" & vbLf & _
+        "properties=Text,Value,SelStart,SelLength,SelText,HideSelection,MultiLine,CanUndo,CanRedo,CompositionActive,CompositionText,Caption,Enabled,Visible,TabIndex,ListCount,ListIndex,DropDownOpen,Picture,PictureHandle,PictureSizeMode,Min,Max,SmallChange,LargeChange,SelectedCaption,Page.Controls,Default,Cancel" & vbLf & _
+        "methods=Controls.Add,Controls.Item,Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBox.Undo,TextBox.Redo,TextBox.BeginComposition,TextBox.UpdateComposition,TextBox.CommitComposition,TextBox.CancelComposition" & vbLf & _
         "events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Scroll,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown"
 End Property
 
 Public Property Get PendingSurfaceSummary() As String
     PendingSurfaceSummary = _
         "controls=" & vbLf & _
-        "followups=TextBox v2 multiline/IME/undo/grapheme;Accessibility Windows UIA/MSAA provider;native SpinButton/ScrollBar timer wake-up;scaled hit-test indexing;Image decoded pixels/full Picture parity"
+        "followups=TextBox native OS IME hookup and multiline pixel parity;Accessibility Windows UIA/MSAA provider;native SpinButton/ScrollBar timer wake-up;scaled hit-test indexing;Image decoded pixels/full Picture parity"
 End Property
 
 Public Property Get PerfBudgetSummary() As String
@@ -538,7 +543,7 @@ Public Function SurfaceCatalog() As String
         "LIVE Controls: Add, Item(index), Item(name), Count" & vbLf & _
         "LIVE Runtime foundation: capability descriptors, first-class InteractionManager diagnostics, accessibility snapshots, focus/tab/default/cancel/accelerator maps, hover/cursor/capture state, clipboard shortcuts" & vbLf & _
         "LIVE Label: Caption, geometry, Visible, Enabled; MouseDown, MouseUp, Click" & vbLf & _
-        "LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection, caret, selection, copy/cut/paste/drop, geometry, Visible, Enabled, TextBoxDiagnostics; Change, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste" & vbLf & _
+        "LIVE TextBox: Text, Value, SelStart, SelLength, SelText, HideSelection, MultiLine, undo/redo, composition facade, caret, selection, copy/cut/paste/drop, geometry, Visible, Enabled, TextBoxDiagnostics; Change, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste" & vbLf & _
         "LIVE CommandButton: Caption, Default, Cancel, geometry, Visible, Enabled; Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit" & vbLf & _
         "LIVE CheckBox: Caption, Value, geometry, Visible, Enabled; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
         "LIVE OptionButton: Caption, Value, GroupName, same-container mutual exclusion, geometry, Visible, Enabled, OptionButtonDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _

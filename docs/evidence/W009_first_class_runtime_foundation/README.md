@@ -14,7 +14,7 @@ Post-foundation control graph: `oxforms-zhz.39` through `oxforms-zhz.49`
 Canonical event-turn contract: `oxforms-zhz.14`
 HostServices spine: `oxforms-zhz.15`
 Renderer primitive determinism: `oxforms-zhz.17`
-TextService seam: `oxforms-zhz.16`
+TextService seam: `oxforms-zhz.16`, extended by `oxforms-zhz.34`
 ThemePainter seam: `oxforms-zhz.18`
 InteractionManager seam: `oxforms-zhz.19`
 Object-model side-effect seam: `oxforms-zhz.20`
@@ -173,8 +173,10 @@ contract:
 - headless/OxVba tests cover long single-line scroll/clipped draw, Home reset to origin,
   proportional shaped selection geometry, drag selection, repeated delete/backspace, and
   the full showcase/runtime path;
-- deferred TextService v2 hazards are filed as `oxforms-zhz.34`: IME/dead keys, multiline,
-  undo/redo, and grapheme-cluster-aware editing.
+- TextService v2 follow-up `oxforms-zhz.34` later lands VBA-owned
+  `MultiLine`, undo/redo, composition-preedit facade, and text-boundary-aware
+  editing. Native OS IME hookup and pixel-perfect multiline layout remain later
+  host/render parity work.
 
 `oxforms-zhz.18` adds the representative internal `ThemeTokens`/`ThemePainter` seam:
 
@@ -406,6 +408,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | TextBox rapid selection/delete state | Passing | `oxvba_reducer_cmdbutton::textbox_shift_arrow_selection_and_backspace_repeat_are_headless_stateful` |
 | TextBox caret/selection visuals | Passing shaped-scene proof | `oxvba_reducer_cmdbutton::textbox_scene_emits_caret_and_selection_fill_primitives`; `textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text` |
 | TextBox TextService + horizontal scroll | Passing single-line v1 | `vba/oxforms/OxTextService.cls`; `oxvba_reducer_cmdbutton::textbox_textservice_scrolls_and_clips_long_text_to_caret`; render-smoke canonical scene covers the clipped TextBox text child node |
+| TextBox TextService v2 local editing | Passing local lane + platform blockers | `vba/oxforms/TextBox.cls`; `vba/oxforms/OxTextService.cls`; `textbox_multiline_enter_home_end_and_crlf_delete_are_vba_owned`; `textbox_undo_redo_tracks_user_edits_without_programmatic_noise`; `textbox_grapheme_boundaries_keep_surrogates_and_combining_marks_together`; `textbox_composition_preedit_commits_or_cancels_without_leaving_rust_semantics`; showcase diagnostics expose `MultiLine`, undo/redo, and composition state. Native OS IME hookup, exact dead-key/composition ordering, pixel-perfect multiline layout/wrapping, and exact MSForms setter/burst behavior remain blockers. |
 | TextBox mouse drag selection | Passing headless path | `oxvba_reducer_cmdbutton::textbox_mouse_drag_extends_selection_through_mousemove_capture`; `headless_runner_showcase::runner_mouse_drag_selects_textbox_text_through_mousemove` |
 | Rapid TextBox key sequences | Passing scaffold | `headless_runner_showcase::runner_handles_rapid_letter_sequence_and_backspace_repeat` |
 | Runtime/event-turn contract | Passing | `RuntimeInput`/`RuntimeEventTurn` in `crates/oxforms-oxvba-adapter/src/runtime.rs`; headless and bootstrap both call `OxRuntime::dispatch_event_turn` |
@@ -463,8 +466,9 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   cursor application remain later representative-control work.
 - TextBox caret/selection geometry and single-line horizontal scroll now use shaped text-run
   caret stops through `OxTextService`; selected foreground recolor and clipped/scrolled normal
-  text are represented in Scene. Pixel-level MSForms parity is still not claimed without a live
-  oracle capture.
+  text are represented in Scene. Local `MultiLine`, undo/redo, composition-preedit state,
+  and text-boundary-aware editing are covered, while native OS IME/dead-key ordering and
+  pixel-perfect multiline layout remain later host/render parity work.
 - The ListBox lane is representative local behavior. It proves `AddItem`, `AddRow`,
   `List(index)`, `Column(index,column)`, `ListCount`, `ListIndex`, `Value`,
   `MultiSelect`, `Selected(index)`, `ColumnCount`, `BoundColumn`, single/multi/extended
@@ -492,12 +496,13 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 - Theme tokens are internal implementation vocabulary only. MSForms properties and runtime state
   remain authoritative, and `.18` does not claim alternate skin/theme product behavior or
   pixel-perfect MSForms rendering.
-- TextBox is still a visible single-line representative slice. Local `Value`,
+- TextBox is a visible representative slice. Local `Value`,
   `SelStart`/`SelLength`/`SelText`, `HideSelection`, diagnostics, selection/caret editing,
-  paste/drop, drag selection, and horizontal scroll/clipping are covered, but exact MSForms setter
-  event ordering, coercion/error cases, burst/post behavior, and pixel-level caret/selection parity
-  remain non-claims without a live oracle capture. IME/dead keys, multiline, undo/redo, and
-  grapheme-cluster editing are tracked as `oxforms-zhz.34`.
+  paste/drop, drag selection, horizontal scroll/clipping, `MultiLine`, undo/redo,
+  composition-preedit state, and text-boundary-aware editing are covered, but exact MSForms setter
+  event ordering, coercion/error cases, burst/post behavior, native OS IME/dead-key ordering,
+  pixel-perfect multiline layout, and pixel-level caret/selection parity remain non-claims without
+  live oracle and platform-backed evidence.
 - CheckBox Space activation, focus adornment, disabled/hidden/tab-stop interaction rebuilds,
   value-first ordering, validation, and accessibility/value traces are locally covered through
   the headless runner and reducer Scene tests. Native cursor application and live MSForms oracle
