@@ -9,7 +9,7 @@ use std::sync::Arc;
 
 use oxforms_oxvba_adapter::host_services::HostServices;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
-use oxforms_pal::scene::{render_headless_report, ImageHandle, Prim, StubShaper};
+use oxforms_pal::scene::{render_headless_report, ImageHandle, ImageMode, Prim, StubShaper};
 
 use oxvba_bundle::ProjectMemberKind;
 use oxvba_com::PortableComProjection;
@@ -322,7 +322,7 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     assert!(
         image_diagnostics.contains("picture=w009-representative.frx;offset=0")
             && image_diagnostics.contains(";handle=9009;")
-            && image_diagnostics.contains("draw_mode=stretch")
+            && image_diagnostics.contains("draw_mode=zoom")
             && image_diagnostics.contains("capabilities=kind=Image")
             && image_diagnostics.contains(";focusable=False;tabstop=False;click=True"),
         "Image diagnostics should expose the live picture handle and capability shape:\n{image_diagnostics}"
@@ -364,6 +364,7 @@ fn representative_frm_materializes_into_live_vba_object_model() {
                 prim,
                 Prim::DrawImage {
                     image: ImageHandle(9009),
+                    mode: ImageMode::Zoom,
                     ..
                 }
             )

@@ -186,6 +186,7 @@ pub struct ImageHandle(pub u64);
 pub enum ImageMode {
     Stretch,
     Clip,
+    Zoom,
     Tile,
 }
 
@@ -1119,6 +1120,7 @@ impl HeadlessSink {
         let mode_bias = match mode {
             ImageMode::Stretch => 0x30,
             ImageMode::Clip => 0x60,
+            ImageMode::Zoom => 0x78,
             ImageMode::Tile => 0x90,
         };
         let fill = Color::rgba(

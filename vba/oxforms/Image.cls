@@ -328,7 +328,7 @@ Private Function DrawMode() As String
         Case fmPictureSizeModeClip
             DrawMode = "clip"
         Case fmPictureSizeModeZoom
-            DrawMode = "stretch"
+            DrawMode = "zoom"
         Case Else
             DrawMode = "stretch"
     End Select

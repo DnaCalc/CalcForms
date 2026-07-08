@@ -111,6 +111,7 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Height          =   480
       Enabled         =   -1
       Visible         =   -1
+      PictureSizeMode =   3
    End
    Begin MSForms.ComboBox SizeCombo
       Value           =   "Medium"
