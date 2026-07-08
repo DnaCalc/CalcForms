@@ -10,14 +10,15 @@ the live session is fast and the captures formalize the same way as esq.14/15/17
   vetoing `BeforeDropOrPaste` suppresses the target drop (no `Change`); a drop is `Action=3`
   (fmActionDragDrop) vs `Action=2` for a keyboard paste. `reduce_drop_or_paste` now routes through
   the same two-stage defer as the keyboard paste (esq.17); bead closed.
-- **oxforms-uvh — BLOCKED (oracle-unreachable), stays open.** Both the modeless AND a purpose-built
+- **oxforms-uvh — CLOSED AS ORACLE-UNREACHABLE NON-CLAIM.** Both the modeless AND a purpose-built
   MODAL harness were driven; held + discrete Escape logged only `KeyUp(27)` (no KeyDown, no Cancel
   Click) while a MOUSE click on the same CancelButton fired Enter+Click, and Alt+A triggered Excel's
   ribbon. **Excel intercepts Escape/Alt at the app level, before any MSForms form regardless of
   modality** — so cancel/accelerator key-activation is not capturable in the Excel oracle. The
   reducer Escape/accelerator arms stay repeat-blind as a documented non-claim. The modal harness
   (`ShowW008HeldCancelAccelModal` + scratchpad `w008_modal_driver.ps1`) is kept as reusable infra
-  for future non-Escape/Alt modal captures. See [[oxforms-excel-oracle-harness]].
+  for future non-Escape/Alt modal captures. See [[oxforms-excel-oracle-harness]]. The bead was
+  closed on 2026-07-08 after this blocker was promoted into `FM20_EVENT_FACTS.md`.
 
 **Prep note:** both fixtures build + VBA-compile clean headlessly (`-DryRun` then `-CompileCheck`).
 Gotcha hit + fixed during prep: a `vbaModuleName` >31 chars hangs the invisible-Excel build (VBA's

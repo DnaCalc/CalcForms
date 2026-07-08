@@ -91,7 +91,7 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
     `Initialize`/`Activate`/`Deactivate`/`Terminate` → the matching no-arg `Perform*`.
     The reducer's missing `Terminate` emission was added. Form events use a sentinel
     `<form>` control_id in the dispatch record.
-  - **Non-claims / follow-ups (not blockers):** focus `Enter` is not emitted/dispatched
+- **Non-claims / follow-ups (not blockers):** focus `Enter` is not emitted/dispatched
     (needs a new control `Enter` event — a documented gap, not in the targeted set);
     every Return* readback (KeyCode/KeyAscii/Cancel) is **recorded** in
     `NativeDispatchRecord.returned`, not yet **folded back into reducer state** (a
@@ -102,7 +102,15 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
     Cancel does not yet change downstream reducer behavior); `KeyCode` is the OS
     virtual key (faithful for standard keys; exotic/platform VK variance untested);
     readback rides the repo-owned `ReturnInteger`/`ReturnBoolean` stand-ins, not the
-    real `MSForms.*` COM types or literal VBA ByRef-scalar copyback (per esq.1).
+     real `MSForms.*` COM types or literal VBA ByRef-scalar copyback (per esq.1).
+- **`oxforms-uvh`: CLOSED AS ORACLE-UNREACHABLE NON-CLAIM** — the held Escape cancel-button and
+  held Alt+accelerator follow-up cannot be captured in the Excel/MSForms oracle host. Prior
+  modeless and modal harness attempts showed Excel intercepts Escape/Alt before the form
+  (Escape surfaces only as `KeyUp(27)` with no `KeyDown` or CancelButton `Click`; Alt+A enters the
+  Excel ribbon), while mouse click proves the same CancelButton works. The reducer Escape and
+  accelerator arms therefore stay repeat-blind, documented in
+  [`FM20_EVENT_FACTS.md`](../specs/FM20_EVENT_FACTS.md), until a non-Excel MSForms host is
+  available.
 
 ## Non-claims (preserved from W006/W007)
 
