@@ -148,6 +148,8 @@ End Sub
 ' set, not all controls. (A keyed Collection + On Error Resume Next is the usual VBA dedup,
 ' but On Error is unproven on OxVba and unused elsewhere here, so this stays explicit.)
 Private Sub RecordInvalidated(ByVal Control As IOxControl)
+    If Control.HasChildren Then mStructureDirty = True
+
     Dim I As Long
     Dim Existing As IOxControl
     For I = 1 To mInvalidated.Count

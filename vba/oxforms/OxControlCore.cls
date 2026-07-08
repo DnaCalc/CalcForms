@@ -67,6 +67,11 @@ Private mCaretStopsMilliPtCsv As String
 Private mRenderOffsetX As Single
 Private mRenderOffsetY As Single
 Private mRenderParentId As Long
+Private mHasChildClip As Boolean
+Private mChildClipLeft As Single
+Private mChildClipTop As Single
+Private mChildClipRight As Single
+Private mChildClipBottom As Single
 
 ' Called by the concrete control's Class_Initialize with its intrinsic kind. Sets
 ' the per-kind appearance defaults from [MS-OFORMS] s5.6: morph controls (TextBox)
@@ -106,6 +111,11 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mRenderOffsetX = 0
     mRenderOffsetY = 0
     mRenderParentId = 0
+    mHasChildClip = False
+    mChildClipLeft = 0
+    mChildClipTop = 0
+    mChildClipRight = 0
+    mChildClipBottom = 0
 
     Select Case Kind
         Case oxControlLabel
@@ -272,6 +282,44 @@ End Sub
 Public Property Get PaintParentId() As Long
     PaintParentId = mRenderParentId
 End Property
+
+Public Sub SetChildClipMargins( _
+        ByVal LeftMargin As Single, ByVal TopMargin As Single, _
+        ByVal RightMargin As Single, ByVal BottomMargin As Single)
+    mHasChildClip = True
+    mChildClipLeft = LeftMargin
+    mChildClipTop = TopMargin
+    mChildClipRight = RightMargin
+    mChildClipBottom = BottomMargin
+End Sub
+
+Public Property Get ChildClipLeft() As Single
+    ChildClipLeft = PaintLeft + mChildClipLeft
+End Property
+
+Public Property Get ChildClipTop() As Single
+    ChildClipTop = PaintTop + mChildClipTop
+End Property
+
+Public Property Get ChildClipWidth() As Single
+    ChildClipWidth = mWidth - mChildClipLeft - mChildClipRight
+    If ChildClipWidth < 1 Then ChildClipWidth = 1
+End Property
+
+Public Property Get ChildClipHeight() As Single
+    ChildClipHeight = mHeight - mChildClipTop - mChildClipBottom
+    If ChildClipHeight < 1 Then ChildClipHeight = 1
+End Property
+
+Public Function ContainsChildHitPoint(ByVal X As Single, ByVal Y As Single) As Boolean
+    If Not mHasChildClip Then
+        ContainsChildHitPoint = True
+        Exit Function
+    End If
+    ContainsChildHitPoint = _
+        (X >= ChildClipLeft) And (X < ChildClipLeft + ChildClipWidth) _
+        And (Y >= ChildClipTop) And (Y < ChildClipTop + ChildClipHeight)
+End Function
 
 Public Property Get Width() As Single
     Width = mWidth

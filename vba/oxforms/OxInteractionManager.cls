@@ -979,7 +979,9 @@ Private Function HitTestControls(ByVal List As Controls, ByVal X As Long, ByVal 
         Set Control = List.Item(I)
         If ContainsPoint(Control, X, Y) Then
             Dim ChildHit As IOxControl
-            If Control.HasChildren Then Set ChildHit = HitTestControls(Control.Children, X, Y)
+            If Control.HasChildren And Control.Core.ContainsChildHitPoint(X, Y) Then
+                Set ChildHit = HitTestControls(Control.Children, X, Y)
+            End If
             If Not ChildHit Is Nothing Then Set Control = ChildHit
             ' >= keeps the later control on a z tie (last-added wins, matching the kernel).
             If Best Is Nothing Or Control.Core.ZOrder >= BestZ Then

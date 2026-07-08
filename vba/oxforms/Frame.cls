@@ -19,6 +19,7 @@ Private mNextChildNodeId As Long
 Private Sub Class_Initialize()
     Set mCore = New OxControlCore
     mCore.Init oxControlFrame
+    mCore.SetChildClipMargins CLIENT_LEFT, CLIENT_TOP, CLIENT_RIGHT, CLIENT_BOTTOM
     Set mControls = New Controls
     mControls.Bind Me
     mNextChildNodeId = 1
@@ -136,8 +137,10 @@ Public Function Diagnostics() As String
     Diagnostics = _
         "caption=" & mCore.DisplayText & _
         ";children=" & CStr(mControls.Count) & _
-        ";client_left=" & CStr(CLIENT_LEFT) & _
-        ";client_top=" & CStr(CLIENT_TOP) & _
+        ";client_left=" & CStr(mCore.ChildClipLeft) & _
+        ";client_top=" & CStr(mCore.ChildClipTop) & _
+        ";client_width=" & CStr(mCore.ChildClipWidth) & _
+        ";client_height=" & CStr(mCore.ChildClipHeight) & _
         ";capabilities=" & mCore.CapabilityDescriptor
 End Function
 
@@ -291,19 +294,17 @@ Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
 End Sub
 
 Private Function ClientPaintLeft() As Single
-    ClientPaintLeft = mCore.PaintLeft + CLIENT_LEFT
+    ClientPaintLeft = mCore.ChildClipLeft
 End Function
 
 Private Function ClientPaintTop() As Single
-    ClientPaintTop = mCore.PaintTop + CLIENT_TOP
+    ClientPaintTop = mCore.ChildClipTop
 End Function
 
 Private Function ClientWidth() As Single
-    ClientWidth = mCore.Width - CLIENT_LEFT - CLIENT_RIGHT
-    If ClientWidth < 1 Then ClientWidth = 1
+    ClientWidth = mCore.ChildClipWidth
 End Function
 
 Private Function ClientHeight() As Single
-    ClientHeight = mCore.Height - CLIENT_TOP - CLIENT_BOTTOM
-    If ClientHeight < 1 Then ClientHeight = 1
+    ClientHeight = mCore.ChildClipHeight
 End Function

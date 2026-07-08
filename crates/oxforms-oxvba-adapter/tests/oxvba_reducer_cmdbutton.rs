@@ -1802,6 +1802,8 @@ const CHK2_IN: (i32, i32) = (40, 104);
 const LIST_RED_IN: (i32, i32) = (42, 28);
 const LIST_GREEN_IN: (i32, i32) = (42, 42);
 const FRAME_INNER_IN: (i32, i32) = (42, 62);
+const FRAME_CLIPPED_VISIBLE_IN: (i32, i32) = (42, 98);
+const FRAME_CLIPPED_OUTSIDE_CLIENT_IN: (i32, i32) = (42, 106);
 const KEY_ENTER: i16 = 13;
 const KEY_ESCAPE: i16 = 27;
 const KEY_SPACE: i16 = 32;
@@ -2433,10 +2435,12 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
     let form = build_form(&mut session, "ReducerFrameForm");
 
     assert_eq!(i32_get(&mut session, &form, "RootControlCount"), 2);
-    assert_eq!(i32_get(&mut session, &form, "FrameChildCount"), 2);
+    assert_eq!(i32_get(&mut session, &form, "FrameChildCount"), 3);
     let diagnostics = string_get(&mut session, &form, "FrameDiagnostics");
     assert!(
-        diagnostics.contains("caption=Group;children=2")
+        diagnostics.contains("caption=Group;children=3")
+            && diagnostics
+                .contains(";client_left=26;client_top=38;client_width=168;client_height=66;")
             && diagnostics.contains("capabilities=kind=Frame"),
         "Frame diagnostics should expose container state: {diagnostics}"
     );
@@ -2449,7 +2453,15 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
         "root should contain the Frame and the outside TextBox"
     );
     let frame = scene.get(NodeId(1)).expect("frame node");
-    assert_eq!(frame.children, vec![NodeId(1001), NodeId(1002)]);
+    assert_eq!(
+        frame.children,
+        vec![NodeId(1001), NodeId(1002), NodeId(1003)]
+    );
+    assert_rect_close(
+        frame.clip.expect("Frame child clip"),
+        RectF::new(26.0, 38.0, 168.0, 66.0),
+        "Frame scene clip should expose the child client rectangle",
+    );
     let inner = scene.get(NodeId(1001)).expect("inner TextBox node");
     assert_eq!(inner.parent, Some(NodeId(1)));
     assert_rect_close(
@@ -2502,29 +2514,83 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
         "keydown:InnerButton|exit:InnerButton|enter:OuterField|repaint"
     );
 
+    invoke_sub(&mut session, &form, "ClearLog");
+    let clipped_down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        FRAME_CLIPPED_VISIBLE_IN.0,
+        FRAME_CLIPPED_VISIBLE_IN.1,
+    );
+    assert_eq!(
+        clipped_down,
+        "exit:OuterField|enter:ClippedField|mousedown:ClippedField|repaint"
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        FRAME_CLIPPED_VISIBLE_IN.0,
+        FRAME_CLIPPED_VISIBLE_IN.1,
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "Clipped.Enter",
+            "Clipped.MouseDown:6,5",
+            "Clipped.MouseUp:6,5"
+        ],
+        "Frame should route inside-client child hits to the clipped child"
+    );
+
+    invoke_sub(&mut session, &form, "ClearLog");
+    let clipped_outside = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        FRAME_CLIPPED_OUTSIDE_CLIENT_IN.0,
+        FRAME_CLIPPED_OUTSIDE_CLIENT_IN.1,
+    );
+    assert_eq!(
+        clipped_outside, "mousedown:Group",
+        "child raw bounds outside the Frame client clip should not receive input"
+    );
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog"),
+        "",
+        "clipped-away child should not receive mouse events"
+    );
+
     let index = string_get(&mut session, &form, "InteractionIndexSummary");
     assert!(
-        index.contains(";first=InnerField;last=OuterField;"),
+        index.contains(";first=InnerField;last=ClippedField;"),
         "tab map should include nested participants in tree order: {index}"
     );
     let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
     assert!(
         accessibility.contains("role=group;name=Group;value=Group")
             && accessibility.contains("role=textbox;name=InnerField;value=x")
-            && accessibility.contains("role=button;name=InnerButton;value=Inside"),
+            && accessibility.contains("role=button;name=InnerButton;value=Inside")
+            && accessibility.contains("role=textbox;name=ClippedField;value=clip"),
         "accessibility snapshot should walk Frame children:\n{accessibility}"
     );
 
     invoke_sub(&mut session, &form, "RemoveInnerButton");
-    assert_eq!(i32_get(&mut session, &form, "FrameChildCount"), 1);
+    assert_eq!(i32_get(&mut session, &form, "FrameChildCount"), 2);
     invoke_sub(&mut session, &form, "Render");
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
     let frame = scene.get(NodeId(1)).expect("frame node after removal");
     assert_eq!(
         frame.children,
-        vec![NodeId(1001)],
+        vec![NodeId(1001), NodeId(1003)],
         "Frame repaint should drop the removed child from the parent child list"
+    );
+    assert!(
+        scene.get(NodeId(1002)).is_none(),
+        "container structural mutation should rebuild the retained scene so removed child nodes do not linger"
     );
 }
 

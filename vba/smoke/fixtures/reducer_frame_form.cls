@@ -8,6 +8,7 @@ Private mReducer As OxReducer
 Private mFrame As Frame
 Private WithEvents mInner As TextBox
 Private WithEvents mInnerButton As CommandButton
+Private WithEvents mClipped As TextBox
 Private WithEvents mOuter As TextBox
 Private mLog As String
 
@@ -38,6 +39,14 @@ Public Sub Build()
     mInnerButton.Width = 54
     mInnerButton.Height = 20
     mInnerButton.Core.TabIndex = 1
+
+    Set mClipped = mFrame.Controls.Add("Forms.TextBox.1", "ClippedField")
+    mClipped.Left = 10
+    mClipped.Top = 55
+    mClipped.Width = 90
+    mClipped.Height = 40
+    mClipped.Text = "clip"
+    mClipped.Core.TabIndex = 3
 
     Set mOuter = mForm.Controls.Add("Forms.TextBox.1", "OuterField")
     mOuter.Left = 20
@@ -142,6 +151,16 @@ Private Sub mInnerButton_Enter()
 End Sub
 Private Sub mInnerButton_Click()
     Append "InnerButton.Click"
+End Sub
+
+Private Sub mClipped_Enter()
+    Append "Clipped.Enter"
+End Sub
+Private Sub mClipped_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "Clipped.MouseDown:" & CStr(CLng(X)) & "," & CStr(CLng(Y))
+End Sub
+Private Sub mClipped_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "Clipped.MouseUp:" & CStr(CLng(X)) & "," & CStr(CLng(Y))
 End Sub
 
 Private Sub mOuter_Enter()
