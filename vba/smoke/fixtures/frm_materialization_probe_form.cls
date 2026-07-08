@@ -109,6 +109,18 @@ Public Property Get ImageDiagnostics() As String
     ImageDiagnostics = Img.Diagnostics
 End Property
 
+Public Property Get SpinButtonDiagnostics() As String
+    Dim Spin As SpinButton
+    Set Spin = mForm.ControlByName("CountSpin")
+    SpinButtonDiagnostics = Spin.Diagnostics
+End Property
+
+Public Property Get SpinValue() As Long
+    Dim Spin As SpinButton
+    Set Spin = mForm.ControlByName("CountSpin")
+    SpinValue = Spin.Value
+End Property
+
 Public Property Get AccessibilitySnapshot() As String
     Dim Service As OxAccessibilityService
     Set Service = New OxAccessibilityService

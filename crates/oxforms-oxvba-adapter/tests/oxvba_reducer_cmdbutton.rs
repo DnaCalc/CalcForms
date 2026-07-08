@@ -193,6 +193,11 @@ fn prepare_session_with_surface(
             "vba/smoke/fixtures/reducer_frame_form.cls",
         ),
         module_unit(
+            "ReducerSpinButtonForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_spinbutton_form.cls",
+        ),
+        module_unit(
             "ReducerToggleButtonForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_togglebutton_form.cls",
@@ -2138,6 +2143,117 @@ fn combobox_object_model_dropdown_keyboard_and_paste_are_live() {
         accessibility.contains("role=combobox;name=Choice;value=Green!")
             && accessibility.contains(";patterns=textbox/list/value,expand-collapse,selection;row_count=3;column_count=1"),
         "ComboBox accessibility should expose editable value, popup/list affordance, and row count:\n{accessibility}"
+    );
+}
+
+const SPIN_UP_IN: (i32, i32) = (34, 32);
+const SPIN_DOWN_IN: (i32, i32) = (34, 64);
+
+#[test]
+fn spinbutton_keyboard_mouse_range_and_accessibility_are_live() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerSpinButtonForm");
+
+    let diagnostics = string_get(&mut session, &form, "SpinDiagnostics");
+    assert!(
+        diagnostics.contains("value=0;min=-2;max=4;small_change=2;pressed_direction=0")
+            && diagnostics.contains("capabilities=kind=SpinButton;focusable=True;tabstop=True;click=False;pressed=True;text=False;paste=False;value=True"),
+        "SpinButton diagnostics should expose range, value, repeat state, and routing policy: {diagnostics}"
+    );
+
+    let down = dispatch(&mut session, &form, "mousedown", SPIN_UP_IN.0, SPIN_UP_IN.1);
+    assert_eq!(down, "enter:Spin|mousedown:Spin|press:Spin|repaint");
+    assert_eq!(i32_get(&mut session, &form, "SpinValue"), 2);
+    let up = dispatch(&mut session, &form, "mouseup", SPIN_UP_IN.0, SPIN_UP_IN.1);
+    assert_eq!(up, "mouseup:Spin|release:Spin|repaint");
+
+    let key_up = dispatch_key(&mut session, &form, "keydown", KEY_UP_ARROW);
+    assert_eq!(key_up, "keydown:Spin|repaint");
+    assert_eq!(
+        i32_get(&mut session, &form, "SpinValue"),
+        4,
+        "keyboard Up should step by SmallChange and clamp to Max"
+    );
+    let repeat_at_max = dispatch_key(&mut session, &form, "keydown", KEY_UP_ARROW);
+    assert_eq!(
+        repeat_at_max, "keydown:Spin",
+        "a clamped no-op key turn should raise KeyDown without repaint"
+    );
+    assert_eq!(i32_get(&mut session, &form, "SpinValue"), 4);
+
+    let key_down = dispatch_key(&mut session, &form, "keydown", KEY_DOWN);
+    assert_eq!(key_down, "keydown:Spin|repaint");
+    assert_eq!(i32_get(&mut session, &form, "SpinValue"), 2);
+    let key_up = dispatch_key(&mut session, &form, "keyup", KEY_DOWN);
+    assert_eq!(key_up, "keyup:Spin");
+
+    let mouse_down_half = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        SPIN_DOWN_IN.0,
+        SPIN_DOWN_IN.1,
+    );
+    assert_eq!(
+        mouse_down_half, "mousedown:Spin|press:Spin|repaint",
+        "bottom half press should start SpinDown without changing focus"
+    );
+    assert_eq!(i32_get(&mut session, &form, "SpinValue"), 0);
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        SPIN_DOWN_IN.0,
+        SPIN_DOWN_IN.1,
+    );
+
+    assert_eq!(
+        string_get(&mut session, &form, "HandlerLog")
+            .lines()
+            .collect::<Vec<_>>(),
+        vec![
+            "Spin.Enter",
+            "Spin.MouseDown",
+            "Spin.SpinUp=2",
+            "Spin.Change=2",
+            "Spin.MouseUp",
+            "Spin.KeyDown:38",
+            "Spin.SpinUp=4",
+            "Spin.Change=4",
+            "Spin.KeyDown:38",
+            "Spin.KeyDown:40",
+            "Spin.SpinDown=2",
+            "Spin.Change=2",
+            "Spin.KeyUp:40",
+            "Spin.MouseDown",
+            "Spin.SpinDown=0",
+            "Spin.Change=0",
+            "Spin.MouseUp",
+        ],
+        "SpinButton should raise routed keys before keyboard spin events and mouse events before mouse spin events"
+    );
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=spinbutton;name=Spin;value=0")
+            && accessibility.contains(";patterns=range,value;row_count=0;column_count=0"),
+        "SpinButton accessibility should expose range/value semantics:\n{accessibility}"
+    );
+
+    let form = build_form(&mut session, "ReducerSpinButtonForm");
+    invoke_sub(&mut session, &form, "DisableSpin");
+    let disabled = dispatch(&mut session, &form, "mousedown", SPIN_UP_IN.0, SPIN_UP_IN.1);
+    assert_eq!(
+        disabled, "",
+        "disabled SpinButton should not receive pointer input"
+    );
+
+    let form = build_form(&mut session, "ReducerSpinButtonForm");
+    invoke_sub(&mut session, &form, "HideSpin");
+    let hidden = dispatch(&mut session, &form, "mousedown", SPIN_UP_IN.0, SPIN_UP_IN.1);
+    assert_eq!(
+        hidden, "",
+        "hidden SpinButton should not receive pointer input"
     );
 }
 

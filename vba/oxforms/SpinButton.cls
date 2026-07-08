@@ -10,10 +10,14 @@ Public Event SpinUp()
 Public Event SpinDown()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 Public Event [Exit](ByVal Cancel As ReturnBoolean)
 Public Event Enter()
 
 Private Const OX_BUTTON_LEFT As Integer = 1
+Private Const OX_KEY_UP As Integer = 38
+Private Const OX_KEY_DOWN As Integer = 40
 
 Private mCore As OxControlCore
 Private mValue As Long
@@ -220,11 +224,21 @@ Private Property Get IOxControl_HasPressedVisual() As Boolean
 End Property
 
 Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
-    IOxControl_OnKeyDown = KeyCode
+    Dim Post As Integer
+    Post = PerformKeyDown(KeyCode, Shift)
+    If Post <> 0 Then
+        Select Case Post
+            Case OX_KEY_UP
+                StepBy 1, True
+            Case OX_KEY_DOWN
+                StepBy -1, True
+        End Select
+    End If
+    IOxControl_OnKeyDown = Post
 End Function
 
 Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
-    IOxControl_OnKeyUp = KeyCode
+    IOxControl_OnKeyUp = PerformKeyUp(KeyCode, Shift)
 End Function
 
 Private Sub IOxControl_OnCharacterInput(ByVal Text As String)
@@ -338,6 +352,22 @@ Private Sub StepBy(ByVal Direction As Long, ByVal FromUser As Boolean)
         SetValue mValue - mSmallChange, FromUser, -1
     End If
 End Sub
+
+Private Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    Dim MutableKey As ReturnInteger
+    Set MutableKey = New ReturnInteger
+    MutableKey.Value = KeyCode
+    RaiseEvent KeyDown(MutableKey, Shift)
+    PerformKeyDown = MutableKey.Value
+End Function
+
+Private Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
+    Dim MutableKey As ReturnInteger
+    Set MutableKey = New ReturnInteger
+    MutableKey.Value = KeyCode
+    RaiseEvent KeyUp(MutableKey, Shift)
+    PerformKeyUp = MutableKey.Value
+End Function
 
 Private Sub SetValue(ByVal NewValue As Long, ByVal FromUser As Boolean, ByVal Direction As Long)
     If NewValue < mMin Then NewValue = mMin

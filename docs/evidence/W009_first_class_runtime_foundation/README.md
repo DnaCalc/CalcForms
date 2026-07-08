@@ -267,6 +267,17 @@ contract:
   behavior, event ordering, and JSONL timer trace shape. Native Windows timer wake-up for visible
   held-repeat is not claimed by this slice.
 
+`oxforms-zhz.44` extends that representative spike into the W009 local depth lane:
+
+- `SpinButton` now raises routed `KeyDown`/`KeyUp` events and handles Up/Down keyboard stepping
+  through VBA-owned `Value`/`Min`/`Max`/`SmallChange`, including no-op clamp turns;
+- the `.frm` materializer recognizes `MSForms.SpinButton` and loads `Value`, `Min`, `Max`,
+  `SmallChange`, geometry, tab, enabled, and visible properties into a live `Forms.SpinButton.1`;
+- focused reducer and materialization tests prove mouse half hit-testing, keyboard event order,
+  range clamping, disabled/hidden routing, accessibility `range,value`, dashboard/catalog text,
+  and representative `.frm` readback. Exact MSForms keyboard/repeat timing parity and native
+  visible timer wake-up remain oracle-gated non-claims.
+
 `oxforms-zhz.30` exercises the reentrancy/lifecycle hazard lane on the ideal seams:
 
 - `ReducerReentrancyForm` drives handler-side mutation and repaint from `TextBox.Change`, nested
@@ -402,6 +413,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | ListBox list-data/selection lane | Passing representative local seam | `vba/oxforms/ListBox.cls`; `OxThemePaintListBox`; `reducer_listbox_form.cls`; `oxvba_reducer_cmdbutton::listbox_object_model_and_capability_descriptor_live_on_the_vba_control`; `listbox_mouse_click_selects_a_row_and_renders_selection`; `listbox_keyboard_focus_and_accessibility_rows_are_exposed`; `listbox_multiselect_mouse_and_space_toggle_rows`; `listbox_extended_shift_range_and_columns_are_vba_state`; showcase `ListBoxDiagnostics` |
 | Frame/container coordinate spike | Passing representative seam | `vba/oxforms/Frame.cls`; `IOxControlContainer`; recursive `OxInteractionManager` and `OxAccessibilityService` traversal; `reducer_frame_form.cls`; `oxvba_reducer_cmdbutton::frame_owns_nested_controls_and_renders_a_parented_scene_subtree`; `frame_routes_hit_testing_tab_focus_and_accessibility_recursively`; showcase `FrameDiagnostics` |
 | SpinButton timer/repeat spike | Passing representative headless seam | `vba/oxforms/SpinButton.cls`; showcase `RepeatSpin`/`SpinButtonDiagnostics`; `OxRuntime::dispatch_event_turn` auto-repeat timer dispatch; `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer`; `oxvba_full_surface_showcase::showcase_selftest_drives_current_methods_and_events` |
+| SpinButton range/keyboard/materialization lane | Passing local lane + native timer blocker | `vba/oxforms/SpinButton.cls`; `vba/smoke/fixtures/reducer_spinbutton_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `CountSpin`; `oxvba_reducer_cmdbutton::spinbutton_keyboard_mouse_range_and_accessibility_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase catalog proves Up/Down keyboard stepping, range clamping, disabled/hidden routing, `KeyDown`/`KeyUp`, `.frm` `Value`/`Min`/`Max`/`SmallChange`, accessibility, and diagnostics while native visible timer wake-up remains explicitly blocked |
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Final architecture review and broad-lane rewrite | Passing doc/graph gate | `final-architecture-review.md`; `docs/worksets/W009_intrinsic_control_breadth.md`; live beads `oxforms-zhz.39` through `.49`; `br dep cycles` |

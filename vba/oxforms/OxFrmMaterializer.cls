@@ -228,6 +228,12 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
             ApplyListIndex CLng(Raw)
         Case "groupname"
             ApplyGroupName Unquote(Raw)
+        Case "min"
+            ApplySpinMin CLng(Raw)
+        Case "max"
+            ApplySpinMax CLng(Raw)
+        Case "smallchange"
+            ApplySpinSmallChange CLng(Raw)
         Case "picture", "mouseicon"
             RecordFrxReference mCurrentName, Key, Raw
             ApplyImagePicture Key, Raw
@@ -332,7 +338,32 @@ Private Sub ApplyValue(ByVal Raw As String)
             Dim Combo As ComboBox
             Set Combo = mCurrent
             Combo.Value = Unquote(Raw)
+        Case "msforms.spinbutton"
+            Dim Spin As SpinButton
+            Set Spin = mCurrent
+            Spin.Value = CLng(Raw)
     End Select
+End Sub
+
+Private Sub ApplySpinMin(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.spinbutton" Then Exit Sub
+    Dim Spin As SpinButton
+    Set Spin = mCurrent
+    Spin.Min = Value
+End Sub
+
+Private Sub ApplySpinMax(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.spinbutton" Then Exit Sub
+    Dim Spin As SpinButton
+    Set Spin = mCurrent
+    Spin.Max = Value
+End Sub
+
+Private Sub ApplySpinSmallChange(ByVal Value As Long)
+    If LCase$(mCurrentType) <> "msforms.spinbutton" Then Exit Sub
+    Dim Spin As SpinButton
+    Set Spin = mCurrent
+    Spin.SmallChange = Value
 End Sub
 
 Private Sub ApplyListIndex(ByVal Value As Long)
@@ -388,6 +419,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.ComboBox.1"
         Case "msforms.image"
             ProgIdForType = "Forms.Image.1"
+        Case "msforms.spinbutton"
+            ProgIdForType = "Forms.SpinButton.1"
     End Select
 End Function
 

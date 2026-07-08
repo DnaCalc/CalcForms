@@ -124,5 +124,19 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Enabled         =   -1
       Visible         =   -1
    End
+   Begin MSForms.SpinButton CountSpin
+      Value           =   3
+      Min             =   -1
+      Max             =   7
+      SmallChange     =   2
+      Left            =   4500
+      Top             =   3200
+      Width           =   420
+      Height          =   840
+      TabIndex        =   8
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+   End
 End
 Attribute VB_Name = "W009MaterializationForm"

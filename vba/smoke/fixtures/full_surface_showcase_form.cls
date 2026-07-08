@@ -488,7 +488,7 @@ Public Function SurfaceCatalog() As String
         "LIVE ComboBox: AddItem, List(index), ListCount, ListIndex, Text, Value, DropDown, DropDownOpen, geometry, Visible, Enabled, ComboBoxDiagnostics; DropButtonClick, Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste; editable value plus representative dropdown" & vbLf & _
         "LIVE Frame: Caption, Controls.Add, child ownership, nested coordinates, clipped child Scene subtree, FrameDiagnostics" & vbLf & _
         "LIVE Image: Picture, PictureHandle, PictureSizeMode, geometry, Visible, Enabled, ImageDiagnostics; DrawImage placeholder render; MouseDown, MouseUp, Click" & vbLf & _
-        "LIVE SpinButton: Value, Min, Max, SmallChange, geometry, Visible, Enabled, SpinButtonDiagnostics; SpinUp, SpinDown, Change, MouseDown, MouseUp, Enter, Exit; HostServices auto-repeat callback" & vbLf & _
+        "LIVE SpinButton: Value, Min, Max, SmallChange, geometry, Visible, Enabled, SpinButtonDiagnostics; Up/Down keyboard stepping; SpinUp, SpinDown, Change, MouseDown, MouseUp, KeyDown, KeyUp, Enter, Exit; HostServices auto-repeat callback" & vbLf & _
         "PENDING ScrollBar, TabStrip, MultiPage/Page"
 End Function
 
@@ -892,6 +892,12 @@ Private Sub mSpin_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByV
 End Sub
 Private Sub mSpin_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "SpinButton.MouseUp"
+End Sub
+Private Sub mSpin_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "SpinButton.KeyDown:" & CStr(KeyCode.Value)
+End Sub
+Private Sub mSpin_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "SpinButton.KeyUp:" & CStr(KeyCode.Value)
 End Sub
 Private Sub mSpin_SpinUp()
     Append "SpinButton.SpinUp=" & CStr(mSpin.Value)

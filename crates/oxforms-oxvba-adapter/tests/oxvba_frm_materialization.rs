@@ -236,14 +236,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        10,
-        "OptionButton, ListBox, ComboBox, ToggleButton, and Image now materialize as live VBA controls"
+        11,
+        "OptionButton, ListBox, ComboBox, ToggleButton, Image, and SpinButton now materialize as live VBA controls"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=10"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=11"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -293,6 +293,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         &catalog,
         "control;name=SizeCombo;role=combobox;value=Medium;left=135;top=160;width=80;height=21;enabled=True;visible=True;tabindex=7;tabstop=True",
     );
+    assert_line_contains(
+        &catalog,
+        "control;name=CountSpin;role=spinbutton;value=3;left=225;top=160;width=21;height=42;enabled=True;visible=True;tabindex=8;tabstop=True",
+    );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
     assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
     let textbox_diagnostics = read_string(&mut session, &form, "TextBoxDiagnostics");
@@ -327,6 +331,13 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && image_diagnostics.contains(";focusable=False;tabstop=False;click=True"),
         "Image diagnostics should expose the live picture handle and capability shape:\n{image_diagnostics}"
     );
+    let spin_diagnostics = read_string(&mut session, &form, "SpinButtonDiagnostics");
+    assert!(
+        spin_diagnostics.contains("value=3;min=-1;max=7;small_change=2;pressed_direction=0")
+            && spin_diagnostics.contains("capabilities=kind=SpinButton"),
+        "SpinButton diagnostics should expose .frm value/range materialization:\n{spin_diagnostics}"
+    );
+    assert_eq!(read_i32(&mut session, &form, "SpinValue"), 3);
 
     let frx = std::fs::read(
         repo_root().join("fixtures/frm/w009-materialization/w009-representative.frx"),
@@ -354,8 +365,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 13,
-        "root plus ten materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 14,
+        "root plus eleven materialized controls plus TextBox text/selection nodes should be resident"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(
@@ -386,7 +397,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && accessibility.contains("role=radio;name=ModeOption;value=True")
             && accessibility.contains("role=listbox;name=ChoicesList;value=")
             && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx")
-            && accessibility.contains("role=combobox;name=SizeCombo;value=Medium"),
+            && accessibility.contains("role=combobox;name=SizeCombo;value=Medium")
+            && accessibility.contains("role=spinbutton;name=CountSpin;value=3"),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );
 
