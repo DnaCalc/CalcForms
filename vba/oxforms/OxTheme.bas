@@ -26,7 +26,7 @@ Public Function OxThemeFaceColor( _
             OxThemeFaceColor = &H2070C0
         Case oxControlTextBox
             OxThemeFaceColor = &HFFFFFF
-        Case oxControlListBox
+        Case oxControlListBox, oxControlComboBox
             OxThemeFaceColor = &HFFFFFF
         Case oxControlImage
             OxThemeFaceColor = &HFFFFFF
@@ -264,6 +264,79 @@ Public Sub OxThemePaintListBox( _
     If Focused And Core.Enabled Then
         Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             OxThemeFocusAdornerColor(), 255, 1
+    End If
+
+    Surface.CloseNode
+End Sub
+
+Public Sub OxThemePaintComboBox( _
+        ByVal Core As OxControlCore, _
+        ByVal Surface As OxSceneBuilder, _
+        ByVal ListIndex As Long, _
+        ByVal Focused As Boolean, _
+        ByVal DropDownOpen As Boolean, _
+        ByVal RowCount As Long)
+    Const Inset As Single = 3
+    Const ButtonWidth As Single = 18
+    Const RowHeight As Single = 14
+
+    Dim PopupHeight As Single
+    PopupHeight = 0
+    If DropDownOpen Then PopupHeight = RowHeight * RowCount
+
+    Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
+        Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height + PopupHeight, Core.Visible
+
+    OxThemePaintControlFrame Core, Surface
+
+    Dim ButtonLeft As Single
+    ButtonLeft = Core.PaintLeft + Core.Width - ButtonWidth
+    Surface.FillRect ButtonLeft, Core.PaintTop + 1, ButtonWidth - 1, Core.Height - 2, _
+        &HDCDCDC, 255
+    Surface.DrawEdge ButtonLeft, Core.PaintTop + 1, ButtonWidth - 1, Core.Height - 2, "raised", _
+        OxThemeEdgeLight(), OxThemeEdgeShadow()
+
+    Dim ArrowX As Single
+    Dim ArrowY As Single
+    ArrowX = ButtonLeft + 6
+    ArrowY = Core.PaintTop + (Core.Height / 2) - 1
+    Surface.FillRect ArrowX, ArrowY, 7, 1, OxThemeResolveText(Core), 255
+    Surface.FillRect ArrowX + 1, ArrowY + 1, 5, 1, OxThemeResolveText(Core), 255
+    Surface.FillRect ArrowX + 2, ArrowY + 2, 3, 1, OxThemeResolveText(Core), 255
+    Surface.FillRect ArrowX + 3, ArrowY + 3, 1, 1, OxThemeResolveText(Core), 255
+
+    If Focused Then
+        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
+            OxThemeFocusAdornerColor(), 255, 1
+    End If
+
+    If Len(Core.DisplayText) > 0 Then
+        Dim RunId As String
+        RunId = Core.RunId
+        If Len(RunId) = 0 Then RunId = "0"
+        Dim TextW As Single
+        TextW = Core.Width - ButtonWidth - (Inset * 2)
+        If TextW < 1 Then TextW = 1
+        OxThemePaintTextRun Core, Surface, _
+            Core.PaintLeft + Inset, Core.PaintTop + Inset, TextW, Core.Height - (Inset * 2), _
+            RunId, "left", False, False, False
+    End If
+
+    If DropDownOpen Then
+        Dim PopupTop As Single
+        PopupTop = Core.PaintTop + Core.Height
+        Surface.FillRect Core.PaintLeft, PopupTop, Core.Width, PopupHeight, OxThemeResolveFace(Core), 255
+        Surface.DrawEdge Core.PaintLeft, PopupTop, Core.Width, PopupHeight, "sunken", _
+            OxThemeEdgeLight(), OxThemeEdgeShadow()
+        If ListIndex >= 0 Then
+            Surface.FillRect Core.PaintLeft + Inset, PopupTop + Inset + (ListIndex * RowHeight), _
+                Core.Width - (Inset * 2), RowHeight, OxThemeSelectionBackColor(), 255
+        End If
+        Dim I As Long
+        For I = 1 To RowCount - 1
+            Surface.FillRect Core.PaintLeft + 1, PopupTop + (I * RowHeight), _
+                Core.Width - 2, 1, &HE8E8E8, 255
+        Next I
     End If
 
     Surface.CloseNode

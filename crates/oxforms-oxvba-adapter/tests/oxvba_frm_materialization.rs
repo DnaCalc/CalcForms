@@ -93,6 +93,7 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
+        module_unit("ComboBox", ModuleKind::Class, "vba/oxforms/ComboBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
         module_unit(
@@ -235,14 +236,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        9,
-        "OptionButton, ListBox, ToggleButton, and Image now materialize as live VBA controls"
+        10,
+        "OptionButton, ListBox, ComboBox, ToggleButton, and Image now materialize as live VBA controls"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=9"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=10"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -287,6 +288,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     assert_line_contains(
         &catalog,
         "control;name=LogoImage;role=image;value=w009-representative.frx;left=160;top=122;width=32;height=24;enabled=True;visible=True;tabindex=0;tabstop=False",
+    );
+    assert_line_contains(
+        &catalog,
+        "control;name=SizeCombo;role=combobox;value=Medium;left=135;top=160;width=80;height=21;enabled=True;visible=True;tabindex=7;tabstop=True",
     );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
     assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
@@ -349,8 +354,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 12,
-        "root plus nine materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 13,
+        "root plus ten materialized controls plus TextBox text/selection nodes should be resident"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(
@@ -379,7 +384,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && accessibility.contains("role=togglebutton;name=ModeToggle;value=True")
             && accessibility.contains("role=radio;name=ModeOption;value=True")
             && accessibility.contains("role=listbox;name=ChoicesList;value=")
-            && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx"),
+            && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx")
+            && accessibility.contains("role=combobox;name=SizeCombo;value=Medium"),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );
 

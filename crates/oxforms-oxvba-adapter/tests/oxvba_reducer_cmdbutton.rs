@@ -111,6 +111,7 @@ fn prepare_session_with_surface(
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
+        module_unit("ComboBox", ModuleKind::Class, "vba/oxforms/ComboBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
         module_unit(
@@ -180,6 +181,11 @@ fn prepare_session_with_surface(
             "ReducerListBoxForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_listbox_form.cls",
+        ),
+        module_unit(
+            "ReducerComboBoxForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_combobox_form.cls",
         ),
         module_unit(
             "ReducerFrameForm",
@@ -1160,6 +1166,7 @@ const KEY_HOME: i16 = 36;
 const KEY_END: i16 = 35;
 const KEY_LEFT: i16 = 37;
 const KEY_DELETE: i16 = 46;
+const KEY_F4: i16 = 115;
 const SHIFT_SHIFT: i16 = 1;
 const SHIFT_CTRL: i16 = 2;
 
@@ -2072,6 +2079,65 @@ fn listbox_extended_shift_range_and_columns_are_vba_state() {
         accessibility.contains(";sel_start=1;sel_length=2;sel_text=Red|Green")
             && accessibility.contains(";row_count=3;column_count=1"),
         "extended ListBox accessibility should expose selected count/text:\n{accessibility}"
+    );
+}
+
+// The ComboBox fixture control is at (20,20,120,22); the drop button is the
+// rightmost 18 points, so x=132 hits the button.
+const COMBO_BUTTON_IN: (i32, i32) = (132, 31);
+
+#[test]
+fn combobox_object_model_dropdown_keyboard_and_paste_are_live() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerComboBoxForm");
+
+    let diagnostics = string_get(&mut session, &form, "ComboDiagnostics");
+    assert!(
+        diagnostics.contains("count=3;index=0;text=Red;value=Red;dropdown=False")
+            && diagnostics.contains("rows=Red|Green|Blue")
+            && diagnostics.contains("capabilities=kind=ComboBox;focusable=True;tabstop=True;click=True;pressed=False;text=True;paste=True;value=True"),
+        "ComboBox diagnostics should expose edit/list/dropdown state and routing policy: {diagnostics}"
+    );
+
+    dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        COMBO_BUTTON_IN.0,
+        COMBO_BUTTON_IN.1,
+    );
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        COMBO_BUTTON_IN.0,
+        COMBO_BUTTON_IN.1,
+    );
+    assert!(bool_get(&mut session, &form, "ComboDropDownOpen"));
+    assert!(
+        string_get(&mut session, &form, "HandlerLog").contains("DropButtonClick|Click"),
+        "drop button should raise DropButtonClick and the normal click path"
+    );
+
+    let down = dispatch_key(&mut session, &form, "keydown", KEY_DOWN);
+    assert_eq!(down, "keydown:Choice|repaint");
+    assert_eq!(string_get(&mut session, &form, "ComboValue"), "Green");
+    assert_eq!(i32_get(&mut session, &form, "ComboListIndex"), 1);
+
+    let close = dispatch_key(&mut session, &form, "keydown", KEY_F4);
+    assert_eq!(close, "keydown:Choice|repaint");
+    assert!(!bool_get(&mut session, &form, "ComboDropDownOpen"));
+
+    let paste = dispatch_drop(&mut session, &form, "!");
+    assert_eq!(paste, "drop:Choice|repaint");
+    assert_eq!(string_get(&mut session, &form, "ComboValue"), "Green!");
+    assert_eq!(i32_get(&mut session, &form, "ComboListIndex"), -1);
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=combobox;name=Choice;value=Green!")
+            && accessibility.contains(";patterns=textbox/list/value,expand-collapse,selection;row_count=3;column_count=1"),
+        "ComboBox accessibility should expose editable value, popup/list affordance, and row count:\n{accessibility}"
     );
 }
 

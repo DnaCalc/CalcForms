@@ -136,6 +136,15 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mSupportsClick = True
             mValueEditable = True
             mSpecialEffect = fmSpecialEffectSunken
+        Case oxControlComboBox
+            mFocusable = True
+            mTabStop = True
+            mSupportsClick = True
+            mAcceptsTextEditing = True
+            mAcceptsPaste = True
+            mValueEditable = True
+            mMousePointer = 3
+            mSpecialEffect = fmSpecialEffectSunken
         Case oxControlFrame
             mFocusable = False
             mTabStop = False
@@ -416,6 +425,8 @@ Private Function KindName() As String
             KindName = "ToggleButton"
         Case oxControlOptionButton
             KindName = "OptionButton"
+        Case oxControlComboBox
+            KindName = "ComboBox"
         Case Else
             KindName = "Unknown"
     End Select

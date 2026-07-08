@@ -224,6 +224,8 @@ Private Sub ApplyControlProperty(ByVal Key As String, ByVal Raw As String)
             ApplyListBoxColumnCount CLng(Raw)
         Case "boundcolumn"
             ApplyListBoxBoundColumn CLng(Raw)
+        Case "listindex"
+            ApplyListIndex CLng(Raw)
         Case "groupname"
             ApplyGroupName Unquote(Raw)
         Case "picture", "mouseicon"
@@ -326,6 +328,23 @@ Private Sub ApplyValue(ByVal Raw As String)
             Dim Box As TextBox
             Set Box = mCurrent
             Box.Value = Unquote(Raw)
+        Case "msforms.combobox"
+            Dim Combo As ComboBox
+            Set Combo = mCurrent
+            Combo.Value = Unquote(Raw)
+    End Select
+End Sub
+
+Private Sub ApplyListIndex(ByVal Value As Long)
+    Select Case LCase$(mCurrentType)
+        Case "msforms.listbox"
+            Dim Box As ListBox
+            Set Box = mCurrent
+            Box.ListIndex = Value
+        Case "msforms.combobox"
+            Dim Combo As ComboBox
+            Set Combo = mCurrent
+            Combo.ListIndex = Value
     End Select
 End Sub
 
@@ -365,6 +384,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.OptionButton.1"
         Case "msforms.listbox"
             ProgIdForType = "Forms.ListBox.1"
+        Case "msforms.combobox"
+            ProgIdForType = "Forms.ComboBox.1"
         Case "msforms.image"
             ProgIdForType = "Forms.Image.1"
     End Select

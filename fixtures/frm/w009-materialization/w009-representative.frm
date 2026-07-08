@@ -112,5 +112,16 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Enabled         =   -1
       Visible         =   -1
    End
+   Begin MSForms.ComboBox SizeCombo
+      Value           =   "Medium"
+      Left            =   2700
+      Top             =   3200
+      Width           =   1600
+      Height          =   420
+      TabIndex        =   7
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+   End
 End
 Attribute VB_Name = "W009MaterializationForm"

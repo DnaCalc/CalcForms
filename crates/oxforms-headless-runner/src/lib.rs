@@ -637,6 +637,7 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
         ("CommandButton", Class, "vba/oxforms/CommandButton.cls"),
         ("CheckBox", Class, "vba/oxforms/CheckBox.cls"),
         ("ListBox", Class, "vba/oxforms/ListBox.cls"),
+        ("ComboBox", Class, "vba/oxforms/ComboBox.cls"),
         ("Frame", Class, "vba/oxforms/Frame.cls"),
         ("Image", Class, "vba/oxforms/Image.cls"),
         ("SpinButton", Class, "vba/oxforms/SpinButton.cls"),

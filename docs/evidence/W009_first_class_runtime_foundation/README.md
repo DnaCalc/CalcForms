@@ -307,8 +307,8 @@ contract:
   gate;
 - `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`
   expose compact rows for later control lanes to update as they move controls from pending to live;
-- the visible form's pending rows no longer list `Frame`, `ToggleButton`, or `OptionButton`,
-  because they are now live controls. Remaining pending controls are `ComboBox`, `ScrollBar`,
+- the visible form's pending rows no longer list `Frame`, `ToggleButton`, `OptionButton`, or
+  `ComboBox`, because they are now live controls. Remaining pending controls are `ScrollBar`,
   `TabStrip`, and `MultiPage/Page`;
 - visible desktop inspection was attempted through the installed Computer Use plugin. The bootstrap
   launch reached the Windows helper, but the first `get_window_state` snapshot failed with
@@ -383,6 +383,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | ToggleButton boolean/value lane | Passing local lane | `vba/oxforms/ToggleButton.cls`; `vba/smoke/fixtures/reducer_togglebutton_form.cls`; `oxvba_reducer_cmdbutton::togglebutton_factory_diagnostics_and_accessibility_are_live`; `togglebutton_mouse_and_keyboard_toggle_value_first`; `togglebutton_value_latches_pressed_face_and_accessibility_selected`; materialization and showcase tests prove factory, `.frm`, accessibility, dashboard, and self-test coverage |
 | OptionButton grouping lane | Passing local lane | `vba/oxforms/OptionButtonControl.cls`; `vba/smoke/fixtures/reducer_optionbutton_form.cls`; `oxvba_reducer_cmdbutton::optionbutton_factory_diagnostics_and_accessibility_are_live`; `optionbutton_mouse_and_keyboard_select_with_group_exclusion`; `optionbutton_render_uses_radio_dot_for_selected_value`; materialization and showcase tests prove `Forms.OptionButton.1`, `Value`, `GroupName`, same-container mutual exclusion, accessibility, dashboard, and self-test coverage |
 | ListBox selection/columns lane | Passing local lane | `vba/oxforms/ListBox.cls`; `vba/smoke/fixtures/reducer_listbox_form.cls`; `oxvba_reducer_cmdbutton::listbox_multiselect_mouse_and_space_toggle_rows`; `listbox_extended_shift_range_and_columns_are_vba_state`; existing ListBox reducer/showcase/materialization/headless tests prove `MultiSelect`, `Selected(index)`, `ColumnCount`, `BoundColumn`, multi-row render selection, accessibility count/text, and `.frm` property materialization |
+| ComboBox editable dropdown lane | Passing local lane | `vba/oxforms/ComboBox.cls`; `vba/smoke/fixtures/reducer_combobox_form.cls`; `oxvba_reducer_cmdbutton::combobox_object_model_dropdown_keyboard_and_paste_are_live`; materialization and showcase/headless tests prove `Forms.ComboBox.1`, editable `Text`/`Value`, `AddItem`, `List`, `ListCount`, `ListIndex`, `DropDown`/`DropDownOpen`, `DropButtonClick`, keyboard selection, paste/drop edit mutation, accessibility row/counts, dashboard, and `.frm` materialization |
 | Foundation oracle matrix | Refreshed ideal-seam routing | `oracle-foundation-matrix.md` separates MSForms oracle facts, local OxForms proofs, representative-bead consumption rules, and explicit blockers for `.21`, `.22`, `.24`, and later spikes |
 | TextBox selection/edit commands | Passing first slice | `oxvba_reducer_cmdbutton::textbox_character_input_replaces_selection_and_moves_caret`; `textbox_backspace_delete_and_navigation_edit_at_the_caret`; `textbox_ctrl_a_paste_copy_and_cut_use_selection_and_clipboard_stub`; `textbox_mouse_down_places_caret_from_control_local_x` |
 | TextBox value/property setters | Passing local representative slice | `vba/oxforms/TextBox.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `oxvba_reducer_cmdbutton::textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
@@ -403,7 +404,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Final architecture review and broad-lane rewrite | Passing doc/graph gate | `final-architecture-review.md`; `docs/worksets/W009_intrinsic_control_breadth.md`; live beads `oxforms-zhz.39` through `.49`; `br dep cycles` |
-| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, and `SpinButtonDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
+| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `ComboBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, and `SpinButtonDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
@@ -449,6 +450,13 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   snapshots. It does not yet claim type-ahead, wheel/scrollbars, virtualization, full
   column-width/list-data loading, per-row provider objects, or exact MSForms selection-event
   parity beyond the local order pinned by tests.
+- The ComboBox lane is representative local behavior. It proves editable `Text`/`Value`,
+  list collection, `ListIndex`, `DropDown`/`DropDownOpen`, `DropButtonClick`, arrow selection,
+  paste/drop edit mutation, focus validation, representative dropdown rendering, capability
+  descriptors, `.frm` materialization, and accessibility rows/counts. It does not yet claim
+  native popup window mechanics, type-ahead/autocomplete parity, wheel/scrollbars, full
+  column/list-data loading, exact `DropButtonClick` ordering for every open/close path, or
+  source-interface edge cases beyond the local order pinned by tests.
 - The Frame spike is representative container architecture, not full container parity. It proves
   nested `Controls.Add`, child ownership/removal, relative child coordinates, recursive hit-test
   and tab traversal, child-local pointer coordinates, parented Scene nodes, recursive

@@ -89,6 +89,7 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         ),
         module_unit("CheckBox", ModuleKind::Class, "vba/oxforms/CheckBox.cls"),
         module_unit("ListBox", ModuleKind::Class, "vba/oxforms/ListBox.cls"),
+        module_unit("ComboBox", ModuleKind::Class, "vba/oxforms/ComboBox.cls"),
         module_unit("Frame", ModuleKind::Class, "vba/oxforms/Frame.cls"),
         module_unit("Image", ModuleKind::Class, "vba/oxforms/Image.cls"),
         module_unit(
@@ -225,7 +226,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        19,
+        20,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -238,6 +239,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE CommandButton",
         "LIVE CheckBox",
         "LIVE ListBox",
+        "LIVE ComboBox",
         "LIVE Frame",
         "LIVE Image",
         "LIVE SpinButton",
@@ -275,6 +277,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
                 .contains("role=checkbox;name=CheckBox;value=True;enabled=True;visible=True")
             && accessibility
                 .contains("role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True")
+            && accessibility
+                .contains("role=combobox;name=ChoiceCombo;value=Small;enabled=True;visible=True")
             && accessibility.contains("role=group;name=FrameGroup;value=Frame")
             && accessibility.contains("role=label;name=FrameLabel;value=Nested child")
             && accessibility.contains(
@@ -292,6 +296,13 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && listbox_diagnostics.contains("rows=Red|Green|Blue")
             && listbox_diagnostics.contains("capabilities=kind=ListBox"),
         "ListBox diagnostics should expose list data and capability shape: {listbox_diagnostics}"
+    );
+    let combobox_diagnostics = read_string(&mut rt, "ComboBoxDiagnostics");
+    assert!(
+        combobox_diagnostics.contains("count=3;index=0;text=Small;value=Small;dropdown=False")
+            && combobox_diagnostics.contains("rows=Small|Medium|Large")
+            && combobox_diagnostics.contains("capabilities=kind=ComboBox"),
+        "ComboBox diagnostics should expose editable value, list data, dropdown state, and capability shape: {combobox_diagnostics}"
     );
     let frame_diagnostics = read_string(&mut rt, "FrameDiagnostics");
     assert!(
@@ -313,7 +324,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && spin_diagnostics.contains("capabilities=kind=SpinButton"),
         "SpinButton diagnostics should expose range, value, repeat state, and capabilities: {spin_diagnostics}"
     );
-    for pending in ["ComboBox", "MultiPage"] {
+    for pending in ["ScrollBar", "MultiPage"] {
         assert!(
             catalog.contains(pending),
             "catalog should keep future control {pending:?} visible"
@@ -328,8 +339,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "OptionButton should be listed as live: {catalog}"
     );
     assert!(
-        !catalog.contains("PENDING OptionButton, ToggleButton, ComboBox, Image"),
-        "Image and ToggleButton should be listed as live, not pending"
+        !catalog.contains("PENDING OptionButton, ToggleButton"),
+        "OptionButton, ToggleButton, Image, and ComboBox should be listed as live, not pending"
     );
     assert!(
         !catalog.contains("ScrollBar, SpinButton"),
@@ -339,8 +350,8 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 23,
-        "root node plus 19 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 24,
+        "root node plus 20 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
     );
     assert!(
         snap.scene
@@ -368,18 +379,18 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
-        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown",
-        "first=InputField;last=RepeatSpin;default=OkButton;cancel=CancelButton;",
+        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
+        "first=InputField;last=ChoiceCombo;default=OkButton;cancel=CancelButton;",
         "cursor=focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3",
         "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
         "accessibility.snapshot=role=form;name=full_surface_showcase",
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
         "top_followup=oxforms-bqr scaled-hit-test",
         "selftest=RunSelfTest returns PASS",
-        "pending.controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+        "pending.controls=ScrollBar,TabStrip,MultiPage/Page",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -393,7 +404,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let supported = read_string(&mut rt, "SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton")
             && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported summary should list current controls/properties/events: {supported}"
@@ -401,7 +412,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let pending = read_string(&mut rt, "PendingSurfaceSummary");
     assert!(
-        pending.contains("controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page",)
+        pending.contains("controls=ScrollBar,TabStrip,MultiPage/Page",)
             && pending.contains("scaled hit-test indexing"),
         "pending summary should keep future controls and follow-ups visible: {pending}"
     );
@@ -416,8 +427,8 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let selftest = read_string(&mut rt, "SelfTestSummary");
     assert!(
-        selftest.contains("method=RunSelfTest;expected=PASS controls=19")
-            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/Frame/Image/SpinButton/lifecycle"),
+        selftest.contains("method=RunSelfTest;expected=PASS controls=20")
+            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/ComboBox/Frame/Image/SpinButton/lifecycle"),
         "self-test summary should name the deterministic dashboard gate: {selftest}"
     );
 }
@@ -428,7 +439,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=19;"),
+        result.starts_with("PASS controls=20;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -515,6 +526,19 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "ListBox.BeforeUpdate",
         "ListBox.AfterUpdate",
         "ListBox.Exit",
+        "ComboBox.Enter",
+        "ComboBox.MouseDown",
+        "ComboBox.DropButtonClick",
+        "ComboBox.MouseUp",
+        "ComboBox.Click:Small",
+        "ComboBox.KeyDown:40",
+        "ComboBox.Change:Medium",
+        "ComboBox.KeyUp:40",
+        "ComboBox.KeyPress:120",
+        "ComboBox.Change:Mediumx",
+        "ComboBox.BeforeUpdate",
+        "ComboBox.AfterUpdate",
+        "ComboBox.Exit",
         "CancelButton.Click",
         "AcceleratorButton.Enter",
         "AcceleratorButton.Click",

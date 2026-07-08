@@ -34,8 +34,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 23,
-        "root plus 19 showcase controls, one Frame child, and the TextBox text/selection nodes"
+        snap.node_count, 24,
+        "root plus 20 showcase controls, one Frame child, and the TextBox text/selection nodes"
     );
 
     let capabilities = runner
@@ -47,6 +47,7 @@ fn runner_attaches_renders_and_records_trace_rows() {
             && capabilities.contains("OptionButton:kind=OptionButton")
             && capabilities.contains("ToggleButton:kind=ToggleButton")
             && capabilities.contains("ChoicesList:kind=ListBox")
+            && capabilities.contains("ChoiceCombo:kind=ComboBox")
             && capabilities.contains("FrameGroup:kind=Frame")
             && capabilities.contains("LogoImage:kind=Image")
             && capabilities.contains("RepeatSpin:kind=SpinButton"),
@@ -56,7 +57,7 @@ fn runner_attaches_renders_and_records_trace_rows() {
         .read_string("InteractionIndexSummary")
         .expect("InteractionIndexSummary");
     assert!(
-        index.contains(";first=InputField;last=RepeatSpin;")
+        index.contains(";first=InputField;last=ChoiceCombo;")
             && index.contains(";default=OkButton;cancel=CancelButton;"),
         "showcase should expose the reducer interaction index: {index}"
     );
@@ -85,6 +86,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
             "role=togglebutton;name=ToggleButton;value=True;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
             "role=listbox;name=ChoicesList;value=Red;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=combobox;name=ChoiceCombo;value=Small;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
             "role=group;name=FrameGroup;value=Frame;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
@@ -118,16 +121,16 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
-        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown",
-        "first=InputField;last=RepeatSpin;default=OkButton;cancel=CancelButton;",
+        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
+        "first=InputField;last=ChoiceCombo;default=OkButton;cancel=CancelButton;",
         "cursor=focus=InputField;capture=;pressed=;hover=InputField;cursor_target=InputField;cursor=3",
         "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
         "accessibility.snapshot=role=form;name=full_surface_showcase",
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
-        "pending.controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page",
+        "pending.controls=ScrollBar,TabStrip,MultiPage/Page",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -143,7 +146,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .read_string("SupportedSurfaceSummary")
         .expect("SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton")
             && supported.contains("methods=Controls.Add,Controls.Item,Render,Dispatch")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported surface summary should be a compact dashboard row: {supported}"
@@ -153,7 +156,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .read_string("PendingSurfaceSummary")
         .expect("PendingSurfaceSummary");
     assert!(
-        pending.contains("controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page",)
+        pending.contains("controls=ScrollBar,TabStrip,MultiPage/Page",)
             && pending.contains("Accessibility Windows UIA/MSAA provider")
             && pending.contains("scaled hit-test indexing"),
         "pending summary should include both controls and known follow-ups: {pending}"

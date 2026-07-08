@@ -17,6 +17,7 @@ Private WithEvents mCheck As CheckBox
 Private WithEvents mToggle As ToggleButton
 Private WithEvents mOption As OptionButtonControl
 Private WithEvents mChoices As ListBox
+Private WithEvents mCombo As ComboBox
 Private mFrame As Frame
 Private WithEvents mLogo As Image
 Private WithEvents mSpin As SpinButton
@@ -46,7 +47,7 @@ Public Sub Build()
     mForm.Height = 480
 
     Set mTitle = mForm.Controls.Add("Forms.Label.1", "TitleLabel")
-    mTitle.Caption = "OxForms full-surface showcase: Label, TextBox, CommandButton, CheckBox, OptionButton, ToggleButton, ListBox"
+    mTitle.Caption = "OxForms full-surface showcase: Label, TextBox, CommandButton, CheckBox, OptionButton, ToggleButton, ListBox, ComboBox"
     mTitle.Left = 12
     mTitle.Top = 8
     mTitle.Width = 610
@@ -174,10 +175,21 @@ Public Sub Build()
     mSpin.Value = 2
     mSpin.Core.TabIndex = 8
 
+    Set mCombo = mForm.Controls.Add("Forms.ComboBox.1", "ChoiceCombo")
+    mCombo.Left = 260
+    mCombo.Top = 232
+    mCombo.Width = 170
+    mCombo.Height = 24
+    mCombo.Core.TabIndex = 9
+    mCombo.AddItem "Small"
+    mCombo.AddItem "Medium"
+    mCombo.AddItem "Large"
+    mCombo.Value = "Small"
+
     Set mStatus = mForm.Controls.Add("Forms.Label.1", "StatusLabel")
     mStatus.Caption = "Ready. Run RunSelfTest, or interact with the controls."
     mStatus.Left = 16
-    mStatus.Top = 232
+    mStatus.Top = 264
     mStatus.Width = 600
     mStatus.Height = 24
     mStatus.Core.BackColor = &H2070C0
@@ -185,21 +197,21 @@ Public Sub Build()
     mStatus.Core.FontSize = 9
 
     Set mPending1 = mForm.Controls.Add("Forms.Label.1", "PendingMorphLabel")
-    mPending1.Caption = "Pending morph controls: ComboBox"
+    mPending1.Caption = "Pending simple controls: ScrollBar"
     mPending1.Left = 16
     mPending1.Top = 278
     mPending1.Width = 600
     mPending1.Height = 18
 
     Set mPending2 = mForm.Controls.Add("Forms.Label.1", "PendingSimpleLabel")
-    mPending2.Caption = "Pending simple controls: ScrollBar"
+    mPending2.Caption = "Pending containers: TabStrip, MultiPage/Page"
     mPending2.Left = 16
     mPending2.Top = 300
     mPending2.Width = 600
     mPending2.Height = 18
 
     Set mPending3 = mForm.Controls.Add("Forms.Label.1", "PendingContainerLabel")
-    mPending3.Caption = "Pending containers: TabStrip, MultiPage/Page"
+    mPending3.Caption = "Representative control lanes continue through ScrollBar and containers"
     mPending3.Left = 16
     mPending3.Top = 322
     mPending3.Width = 600
@@ -355,6 +367,10 @@ Public Property Get ListBoxDiagnostics() As String
     ListBoxDiagnostics = mChoices.Diagnostics
 End Property
 
+Public Property Get ComboBoxDiagnostics() As String
+    ComboBoxDiagnostics = mCombo.Diagnostics
+End Property
+
 Public Property Get FrameDiagnostics() As String
     FrameDiagnostics = mFrame.Diagnostics
 End Property
@@ -406,6 +422,7 @@ Public Property Get CapabilityCatalog() As String
         "ToggleButton:" & mToggle.Core.CapabilityDescriptor & vbLf & _
         "OptionButton:" & mOption.Core.CapabilityDescriptor & vbLf & _
         "ChoicesList:" & mChoices.Core.CapabilityDescriptor & vbLf & _
+        "ChoiceCombo:" & mCombo.Core.CapabilityDescriptor & vbLf & _
         "FrameGroup:" & mFrame.Core.CapabilityDescriptor & vbLf & _
         "LogoImage:" & mLogo.Core.CapabilityDescriptor & vbLf & _
         "RepeatSpin:" & mSpin.Core.CapabilityDescriptor
@@ -414,30 +431,30 @@ End Property
 Public Property Get ConformanceDashboard() As String
     ConformanceDashboard = _
         "OXFORMS_CONFORMANCE_DASHBOARD version=1;source=FullSurfaceShowcaseForm;runtime=OxRuntime/OxReducer/OxForms.Surface/Scene" & vbLf & _
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton" & vbLf & _
-        "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart,TextBox.SelLength,TextBox.SelText,TextBox.HideSelection,CheckBox.Value,OptionButton.Value,OptionButton.GroupName,ToggleButton.Value,ListBox.ListCount,ListBox.ListIndex,ListBox.Value,ListBox.MultiSelect,ListBox.Selected,ListBox.ColumnCount,ListBox.BoundColumn,Frame.Caption,Image.Picture,Image.PictureHandle,Image.PictureSizeMode,SpinButton.Value,SpinButton.Min,SpinButton.Max,SpinButton.SmallChange,CommandButton.Default,CommandButton.Cancel" & vbLf & _
-        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBoxDiagnostics,OptionButtonDiagnostics,ToggleButtonDiagnostics,ListBoxDiagnostics,FrameDiagnostics,ImageDiagnostics,SpinButtonDiagnostics,AccessibilitySnapshot" & vbLf & _
-        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown" & vbLf & _
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton" & vbLf & _
+        "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart,TextBox.SelLength,TextBox.SelText,TextBox.HideSelection,CheckBox.Value,OptionButton.Value,OptionButton.GroupName,ToggleButton.Value,ListBox.ListCount,ListBox.ListIndex,ListBox.Value,ListBox.MultiSelect,ListBox.Selected,ListBox.ColumnCount,ListBox.BoundColumn,ComboBox.Text,ComboBox.Value,ComboBox.ListCount,ComboBox.ListIndex,ComboBox.DropDownOpen,Frame.Caption,Image.Picture,Image.PictureHandle,Image.PictureSizeMode,SpinButton.Value,SpinButton.Min,SpinButton.Max,SpinButton.SmallChange,CommandButton.Default,CommandButton.Cancel" & vbLf & _
+        "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBoxDiagnostics,OptionButtonDiagnostics,ToggleButtonDiagnostics,ListBoxDiagnostics,ComboBoxDiagnostics,FrameDiagnostics,ImageDiagnostics,SpinButtonDiagnostics,AccessibilitySnapshot" & vbLf & _
+        "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown" & vbLf & _
         "focus=" & InteractionIndexSummary & vbLf & _
         "cursor=" & InteractionStateSummary & vbLf & _
         "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop" & vbLf & _
         "accessibility.snapshot=" & AccessibilitySnapshot & vbLf & _
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json;top_followup=oxforms-bqr scaled-hit-test" & vbLf & _
         "selftest=RunSelfTest returns PASS and drives current controls/properties/methods/events" & vbLf & _
-        "pending.controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page"
+        "pending.controls=ScrollBar,TabStrip,MultiPage/Page"
 End Property
 
 Public Property Get SupportedSurfaceSummary() As String
     SupportedSurfaceSummary = _
-        "controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,Frame,Image,SpinButton" & vbLf & _
-        "properties=Text,Value,SelStart,SelLength,SelText,HideSelection,Caption,Enabled,Visible,TabIndex,ListCount,ListIndex,Picture,PictureHandle,PictureSizeMode,Min,Max,SmallChange,Default,Cancel" & vbLf & _
+        "controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton" & vbLf & _
+        "properties=Text,Value,SelStart,SelLength,SelText,HideSelection,Caption,Enabled,Visible,TabIndex,ListCount,ListIndex,DropDownOpen,Picture,PictureHandle,PictureSizeMode,Min,Max,SmallChange,Default,Cancel" & vbLf & _
         "methods=Controls.Add,Controls.Item,Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest" & vbLf & _
-        "events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,SpinUp,SpinDown"
+        "events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown"
 End Property
 
 Public Property Get PendingSurfaceSummary() As String
     PendingSurfaceSummary = _
-        "controls=ComboBox,ScrollBar,TabStrip,MultiPage/Page" & vbLf & _
+        "controls=ScrollBar,TabStrip,MultiPage/Page" & vbLf & _
         "followups=TextBox v2 multiline/IME/undo/grapheme;Accessibility Windows UIA/MSAA provider;native SpinButton/ScrollBar timer wake-up;scaled hit-test indexing;Image decoded pixels/full Picture parity"
 End Property
 
@@ -448,7 +465,7 @@ Public Property Get PerfBudgetSummary() As String
 End Property
 
 Public Property Get SelfTestSummary() As String
-    SelfTestSummary = "method=RunSelfTest;expected=PASS controls=19;coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/Frame/Image/SpinButton/lifecycle"
+    SelfTestSummary = "method=RunSelfTest;expected=PASS controls=20;coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/ComboBox/Frame/Image/SpinButton/lifecycle"
 End Property
 
 Public Sub ClearLog()
@@ -468,10 +485,11 @@ Public Function SurfaceCatalog() As String
         "LIVE OptionButton: Caption, Value, GroupName, same-container mutual exclusion, geometry, Visible, Enabled, OptionButtonDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
         "LIVE ToggleButton: Caption, Value, latched pressed face, geometry, Visible, Enabled, ToggleButtonDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate" & vbLf & _
         "LIVE ListBox: AddItem, AddRow, List(index), Column(index,column), ListCount, ListIndex, Value, MultiSelect, Selected(index), ColumnCount, BoundColumn, geometry, Visible, Enabled, ListBoxDiagnostics; Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate; single/multi/extended row selection" & vbLf & _
+        "LIVE ComboBox: AddItem, List(index), ListCount, ListIndex, Text, Value, DropDown, DropDownOpen, geometry, Visible, Enabled, ComboBoxDiagnostics; DropButtonClick, Change, Click, MouseDown, MouseUp, KeyDown, KeyPress, KeyUp, Enter, Exit, BeforeUpdate, AfterUpdate, BeforeDropOrPaste; editable value plus representative dropdown" & vbLf & _
         "LIVE Frame: Caption, Controls.Add, child ownership, nested coordinates, clipped child Scene subtree, FrameDiagnostics" & vbLf & _
         "LIVE Image: Picture, PictureHandle, PictureSizeMode, geometry, Visible, Enabled, ImageDiagnostics; DrawImage placeholder render; MouseDown, MouseUp, Click" & vbLf & _
         "LIVE SpinButton: Value, Min, Max, SmallChange, geometry, Visible, Enabled, SpinButtonDiagnostics; SpinUp, SpinDown, Change, MouseDown, MouseUp, Enter, Exit; HostServices auto-repeat callback" & vbLf & _
-        "PENDING ComboBox, ScrollBar, TabStrip, MultiPage/Page"
+        "PENDING ScrollBar, TabStrip, MultiPage/Page"
 End Function
 
 Public Function RunSelfTest() As String
@@ -523,7 +541,12 @@ Public Function RunSelfTest() As String
     DispatchKey "keyup", 40, 0
     DispatchChar "l"
 
-    DriveMouse 40, 98            ' Dirty ListBox focus-out: BeforeUpdate/AfterUpdate/Exit.
+    DriveMouse 420, 244          ' Dirty ListBox focus-out; ComboBox drop button opens.
+    DispatchKey "keydown", 40, 0
+    DispatchKey "keyup", 40, 0
+    DispatchChar "x"
+
+    DriveMouse 40, 98            ' Dirty ComboBox focus-out: BeforeUpdate/AfterUpdate/Exit.
     DispatchKey "keydown", OX_KEY_ESCAPE, 0
     DispatchKey "keydown", OX_KEY_G, OX_SHIFT_ALT
 
@@ -803,6 +826,47 @@ Private Sub mChoices_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Intege
 End Sub
 Private Sub mChoices_KeyPress(ByVal KeyAscii As ReturnInteger)
     Append "ListBox.KeyPress:" & CStr(KeyAscii.Value)
+End Sub
+
+' --- Event sinks: ComboBox ---
+Private Sub mCombo_Enter()
+    Append "ComboBox.Enter"
+End Sub
+Private Sub mCombo_Exit(ByVal Cancel As ReturnBoolean)
+    Append "ComboBox.Exit"
+End Sub
+Private Sub mCombo_BeforeUpdate(ByVal Cancel As ReturnBoolean)
+    Append "ComboBox.BeforeUpdate"
+End Sub
+Private Sub mCombo_AfterUpdate()
+    Append "ComboBox.AfterUpdate"
+End Sub
+Private Sub mCombo_DropButtonClick()
+    Append "ComboBox.DropButtonClick"
+End Sub
+Private Sub mCombo_Change()
+    Append "ComboBox.Change:" & mCombo.Value
+End Sub
+Private Sub mCombo_Click()
+    Append "ComboBox.Click:" & mCombo.Value
+End Sub
+Private Sub mCombo_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "ComboBox.MouseDown"
+End Sub
+Private Sub mCombo_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "ComboBox.MouseUp"
+End Sub
+Private Sub mCombo_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "ComboBox.KeyDown:" & CStr(KeyCode.Value)
+End Sub
+Private Sub mCombo_KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
+    Append "ComboBox.KeyUp:" & CStr(KeyCode.Value)
+End Sub
+Private Sub mCombo_KeyPress(ByVal KeyAscii As ReturnInteger)
+    Append "ComboBox.KeyPress:" & CStr(KeyAscii.Value)
+End Sub
+Private Sub mCombo_BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)
+    Append "ComboBox.BeforeDropOrPaste:" & CStr(Action)
 End Sub
 
 ' --- Event sinks: Image ---

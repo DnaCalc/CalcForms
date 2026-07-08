@@ -664,6 +664,11 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/ListBox.cls"),
         ),
         unit(
+            "ComboBox",
+            Class,
+            include_str!("../../../vba/oxforms/ComboBox.cls"),
+        ),
+        unit(
             "Frame",
             Class,
             include_str!("../../../vba/oxforms/Frame.cls"),

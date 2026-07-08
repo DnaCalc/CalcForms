@@ -18,6 +18,7 @@
     <ClassModule Include="CommandButton.cls" />
     <ClassModule Include="CheckBox.cls" />
     <ClassModule Include="ListBox.cls" />
+    <ClassModule Include="ComboBox.cls" />
     <ClassModule Include="Frame.cls" />
     <ClassModule Include="Image.cls" />
     <ClassModule Include="SpinButton.cls" />
