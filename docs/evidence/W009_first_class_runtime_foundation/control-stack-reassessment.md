@@ -57,7 +57,7 @@ The reassessment turns "self-painted controls" into explicit subsystem seams:
 |---|---|
 | `TextService` | TextBox caret stops, selection geometry, mouse hit testing, rapid input, paste/drop, local multiline/undo/composition-preedit behavior, and future native OS IME/dead-key and pixel multiline parity. |
 | `ThemeTokens` / `ThemePainter` | Focus rings, disabled state, selected text/background, classic MSForms edge effects, future DNA-consistent previews. |
-| `AccessibilityService` | Focus, roles, names, selection, value/state changes, list/table patterns, future UIA/MSAA provider work. |
+| `AccessibilityService` | Focus, roles, names, selection, value/state changes, list/table patterns, UIA-first provider-facing adapter model, and future live Windows provider registration/client traversal. |
 | `RendererBackend` | Scene remains canonical; backends consume Scene. DOM/WebView, if built, must be a backend/binder, not a second reducer. |
 | `HostServices` | Clipboard/DataObject, cursor, timers/caret blink/auto-repeat, system colors/metrics, DPI, image decode, traces, virtual clock. |
 | `InteractionManager` | Tab maps, focus transfer, capture, hover/cursor routing, default/cancel, accelerators, validation vetoes, invalidation. |

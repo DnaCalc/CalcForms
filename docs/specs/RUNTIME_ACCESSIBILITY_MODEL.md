@@ -1,6 +1,7 @@
 # OxForms Runtime Accessibility Model
 
-Status: W006 design-only surface, updated by W009 semantic snapshot seam `oxforms-zhz.21`.
+Status: W006 design-only surface, updated by W009 semantic snapshot seam `oxforms-zhz.21`
+and UIA-first provider-facing adapter model `oxforms-zhz.35`.
 Owning workset:
 [`W006_control_implementation_rollout`](../worksets/W006_control_implementation_rollout.md).
 
@@ -176,7 +177,40 @@ Still out of scope:
 - MSForms accessibility parity claims or oracle captures.
 
 The current snapshot is therefore valid evidence that OxForms has a serializable
-runtime accessibility data model for representative controls. It is not evidence
-that the runtime is visible to assistive technology or compatible with any
-specific platform accessibility API. Windows UIA/MSAA provider wiring is tracked
-as `oxforms-zhz.35`.
+runtime accessibility data model for representative controls. The
+`oxforms-zhz.35` adapter model below proves the first UIA-facing projection of
+that data. Neither slice is evidence that the runtime is visible to assistive
+technology or compatible with any live Windows accessibility client.
+
+## 8. W009 UIA-First Provider Adapter Update
+
+`oxforms-zhz.35` implements the first provider-facing adapter model in
+`oxforms-pal::accessibility`.
+
+Implemented scope:
+
+- parse deterministic `OxAccessibilityService` rows, including escaped field
+  delimiters, into typed `AccessibilitySnapshot` and `AccessibilityNode` values;
+- expose query helpers for focused node, node-by-name, and UIA-provider nodes;
+- map OxForms roles to UIA-oriented control types such as `Edit`, `CheckBox`,
+  `Button`, `List`, `ComboBox`, `Tab`, `Pane`, and `Window`;
+- map snapshot patterns to UIA-oriented pattern declarations including `Text`,
+  `Value`, `Selection`, `Toggle`, `Invoke`, `RangeValue`, `ExpandCollapse`,
+  `Grid`, and `Scroll`;
+- diff consecutive snapshots into provider notification intents for focus,
+  value, selection, state, and structure changes;
+- record MSAA as explicitly deferred: UIA is the W009 primary provider target,
+  and MSAA should be added only for a named product or compatibility
+  requirement.
+
+Still out of scope:
+
+- live HWND/COM UIA provider registration;
+- public OS UIA client traversal against an OxForms window;
+- assistive-technology compatibility;
+- provider event delivery through Windows APIs;
+- MSForms accessibility parity or oracle captures.
+
+The adapter is therefore a tested boundary between the canonical runtime
+semantic snapshot and a future Windows provider layer. It is not yet a claim
+that OxForms controls are visible to Windows accessibility clients.

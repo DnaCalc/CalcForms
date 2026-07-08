@@ -9,6 +9,9 @@ use std::sync::Arc;
 
 use oxforms_oxvba_adapter::runtime::OxRuntime;
 use oxforms_oxvba_adapter::surface::{register_surface, SurfaceFactory};
+use oxforms_pal::accessibility::{
+    AccessibilitySnapshot, MsaaProviderDecision, UiaControlType, UiaPattern,
+};
 use oxforms_pal::scene::{ImageHandle, Prim, StubShaper};
 
 use oxvba_bundle::ProjectMemberKind;
@@ -307,6 +310,32 @@ fn showcase_catalog_lists_current_live_surface_and_empty_pending_rows() {
                 .contains("role=page;name=ModePages.Page0;value=First;enabled=True;visible=True")
             && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
+    );
+    let snapshot =
+        AccessibilitySnapshot::parse(&accessibility).expect("showcase accessibility parses");
+    let provider_nodes = snapshot.uia_nodes();
+    let input = provider_nodes
+        .iter()
+        .find(|node| node.automation_id == "InputField")
+        .expect("InputField UIA provider node");
+    assert_eq!(input.control_type, UiaControlType::Edit);
+    assert!(input.has_keyboard_focus);
+    assert!(input.patterns.contains(&UiaPattern::Text));
+    assert!(input.patterns.contains(&UiaPattern::Value));
+    assert!(input.patterns.contains(&UiaPattern::Selection));
+
+    let checkbox = provider_nodes
+        .iter()
+        .find(|node| node.automation_id == "CheckBox")
+        .expect("CheckBox UIA provider node");
+    assert_eq!(checkbox.control_type, UiaControlType::CheckBox);
+    assert!(checkbox.patterns.contains(&UiaPattern::Toggle));
+    assert_eq!(checkbox.value, "True");
+
+    let msaa = MsaaProviderDecision::default();
+    assert!(
+        !msaa.implemented && msaa.reason.contains("UIA-first"),
+        "W009 provider slice should record UIA-first/MSAA-deferred policy"
     );
     let listbox_diagnostics = read_string(&mut rt, "ListBoxDiagnostics");
     assert!(

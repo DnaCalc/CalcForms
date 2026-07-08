@@ -18,7 +18,7 @@ TextService seam: `oxforms-zhz.16`, extended by `oxforms-zhz.34`
 ThemePainter seam: `oxforms-zhz.18`
 InteractionManager seam: `oxforms-zhz.19`
 Object-model side-effect seam: `oxforms-zhz.20`
-AccessibilityService seam: `oxforms-zhz.21`
+AccessibilityService seam: `oxforms-zhz.21`, extended by `oxforms-zhz.35`
 Form materialization seam: `oxforms-zhz.22`
 Oracle matrix refresh: `oxforms-zhz.23`
 Image/FRX representative seam: `oxforms-zhz.28`
@@ -227,8 +227,21 @@ contract:
   exposes the snapshot alongside its capability and interaction diagnostics;
 - headless trace rows now carry `accessibility_snapshot`, so each `OxRuntime` input turn can prove
   focus, value, and selection changes without consulting pixels or a platform provider echo;
-- Windows UIA/MSAA provider wiring is intentionally not claimed by this bead and is tracked as
-  `oxforms-zhz.35`.
+- Windows UIA/MSAA provider wiring is intentionally not claimed by this bead; the later
+  `oxforms-zhz.35` slice adds the UIA-first provider-facing adapter model while keeping live
+  HWND/COM registration and assistive-technology compatibility as non-claims.
+
+`oxforms-zhz.35` adds the first UIA-first provider-facing adapter model:
+
+- `oxforms-pal::accessibility` parses deterministic `OxAccessibilityService` rows into typed
+  snapshots and nodes, including escaped field delimiters;
+- `UiaProviderNode` maps OxForms roles to UIA-oriented control types and supported pattern
+  declarations without storing platform handles or COM objects;
+- snapshot diffing emits provider notification intents for focus, value, selection, state, and
+  structure changes;
+- the full-surface showcase test parses the real `AccessibilitySnapshot` and proves representative
+  `Edit`/`CheckBox` control types and `Text`/`Value`/`Selection`/`Toggle` patterns;
+- MSAA remains explicitly deferred until a named product or compatibility target requires it.
 
 `oxforms-zhz.22` adds a representative selected-slice `.frm/.frx` materialization path:
 
@@ -394,6 +407,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | InteractionManager state | Passing representative seam | `vba/oxforms/OxInteractionManager.cls`; `oxvba_reducer_cmdbutton::capture_routes_mouseup_to_the_pressed_control_across_a_sibling`; `interaction_manager_tracks_hover_and_cursor_without_capture`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | Interaction maps + invalidation | Passing representative seam | `oxvba_reducer_cmdbutton::interaction_index_caches_tab_default_cancel_and_accelerator_maps`; `interaction_manager_rebuilds_tab_maps_after_mutations` |
 | AccessibilityService snapshots/traces | Passing representative seam | `vba/oxforms/OxAccessibilityService.cls`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows`; `headless_runner_showcase::runner_accessibility_snapshot_tracks_focus_value_and_selection`; `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_empty_pending_rows` |
+| Accessibility UIA adapter model | Passing provider-facing adapter + platform blockers | `crates/oxforms-pal/src/accessibility.rs`; `accessibility::tests::parses_accessibility_snapshot_rows_and_escapes`; `maps_snapshot_nodes_to_uia_provider_nodes`; `diffs_snapshots_into_provider_notifications`; `records_msaa_as_deferred_by_policy`; full-surface showcase parses real VBA rows into UIA provider nodes. Live HWND/COM UIA provider registration, public OS UIA client traversal, Windows event delivery, MSAA, assistive-technology compatibility, and MSForms accessibility parity remain non-claims. |
 | `.frm/.frx` materialization | Passing selected-slice seam | `vba/oxforms/OxFrmMaterializer.cls`; `fixtures/frm/w009-materialization/w009-representative.frm`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model` |
 | Image/FRX representative spike | Passing representative seam | `vba/oxforms/Image.cls`; materialized `LogoImage`; showcase `ImageDiagnostics`; `DrawImage` Scene assertions in `oxvba_frm_materialization` and `oxvba_full_surface_showcase`; HostServices decode traces |
 | Showcase conformance dashboard | Passing | `FullSurfaceShowcaseForm.ConformanceDashboard`, `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`; `headless_runner_showcase::runner_reads_showcase_conformance_dashboard_through_oxruntime` proves the dashboard through `OxRuntime`; `oxvba_full_surface_showcase::showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps` proves the same surface through the adapter |
@@ -436,10 +450,10 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 ## Known Non-Claims
 
 - The runner is infrastructure, not an alternate backend.
-- Accessibility snapshots are a host-neutral runtime data model only. They do not implement or
-  claim Windows UIA/MSAA provider behavior, assistive-technology compatibility, provider event
-  notifications, bounding-rectangle parity, or MSForms accessibility parity. Provider wiring is
-  tracked by `oxforms-zhz.35`.
+- Accessibility snapshots now have a UIA-first provider-facing adapter model and notification
+  intents. They still do not implement or claim live Windows HWND/COM UIA provider registration,
+  public OS UIA client traversal, assistive-technology compatibility, Windows provider event
+  delivery, bounding-rectangle parity, MSAA, or MSForms accessibility parity.
 - HostServices now provides API stubs and deterministic traces for cursor, timers,
   DataObject, metrics/colors, DPI, image-decode handles, and drag/drop. It does
   not yet claim native cursor application, control-driven timer behavior, rich

@@ -168,7 +168,8 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .expect("PendingSurfaceSummary");
     assert!(
         pending.contains("controls=")
-            && pending.contains("Accessibility Windows UIA/MSAA provider")
+            && pending
+                .contains("Accessibility live Windows provider registration/client traversal")
             && pending.contains("scaled hit-test indexing"),
         "pending summary should include both controls and known follow-ups: {pending}"
     );

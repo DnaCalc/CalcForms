@@ -519,7 +519,7 @@ End Property
 Public Property Get PendingSurfaceSummary() As String
     PendingSurfaceSummary = _
         "controls=" & vbLf & _
-        "followups=TextBox native OS IME hookup and multiline pixel parity;Accessibility Windows UIA/MSAA provider;native SpinButton/ScrollBar timer wake-up;scaled hit-test indexing;Image decoded pixels/full Picture parity"
+        "followups=TextBox native OS IME hookup and multiline pixel parity;Accessibility live Windows provider registration/client traversal;native SpinButton/ScrollBar timer wake-up;scaled hit-test indexing;Image decoded pixels/full Picture parity"
 End Property
 
 Public Property Get PerfBudgetSummary() As String

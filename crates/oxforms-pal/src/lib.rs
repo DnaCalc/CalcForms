@@ -13,6 +13,7 @@
 
 #![forbid(unsafe_code)]
 
+pub mod accessibility;
 pub mod input;
 pub mod scene;
 
