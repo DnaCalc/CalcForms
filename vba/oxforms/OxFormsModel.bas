@@ -26,6 +26,8 @@ Public Enum OxControlKind
     oxControlComboBox = 10
     oxControlScrollBar = 11
     oxControlTabStrip = 12
+    oxControlMultiPage = 13
+    oxControlPage = 14
 End Enum
 
 ' MSForms 3D appearance, values from [MS-OFORMS] fmSpecialEffect (see spec s5.6).
@@ -87,7 +89,7 @@ Private gOxProfileSurface As Object
 ' Map a Forms 2.0 control ProgID ("Forms.Label.1") to the internal kind. Unknown -> -1.
 ' Case-insensitive, like real MSForms Controls.Add. The currently implemented intrinsic
 ' subset is Label, TextBox, CommandButton, CheckBox, OptionButton, ListBox, ComboBox,
-' Frame, Image, SpinButton, ScrollBar, TabStrip, and ToggleButton.
+' Frame, Image, SpinButton, ScrollBar, TabStrip, MultiPage/Page, and ToggleButton.
 Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
     Select Case LCase$(ProgId)
         Case "forms.label.1"
@@ -112,6 +114,8 @@ Public Function OxKindFromProgId(ByVal ProgId As String) As OxControlKind
             OxKindFromProgId = oxControlScrollBar
         Case "forms.tabstrip.1"
             OxKindFromProgId = oxControlTabStrip
+        Case "forms.multipage.1"
+            OxKindFromProgId = oxControlMultiPage
         Case "forms.togglebutton.1"
             OxKindFromProgId = oxControlToggleButton
         Case "forms.optionbutton.1"
@@ -149,6 +153,8 @@ Public Function OxCreateControl(ByVal ProgId As String, ByVal Name As String) As
             Set Control = New ScrollBar
         Case oxControlTabStrip
             Set Control = New TabStrip
+        Case oxControlMultiPage
+            Set Control = New MultiPage
         Case oxControlToggleButton
             Set Control = New ToggleButton
         Case oxControlOptionButton

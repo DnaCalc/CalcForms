@@ -319,8 +319,9 @@ contract:
 - `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`
   expose compact rows for later control lanes to update as they move controls from pending to live;
 - the visible form's pending rows no longer list `Frame`, `ToggleButton`, `OptionButton`,
-  `ComboBox`, `ScrollBar`, or `TabStrip`, because they are now live controls. Remaining pending
-  controls are `MultiPage/Page`;
+  `ComboBox`, `ScrollBar`, `TabStrip`, or `MultiPage/Page`, because they are now live
+  controls at the W009 representative depth. Remaining pending control rows are empty;
+  remaining work is parity depth and documented follow-ups;
 - visible desktop inspection was attempted through the installed Computer Use plugin. The bootstrap
   launch reached the Windows helper, but the first `get_window_state` snapshot failed with
   `GetCursorPos failed: Access is denied. (0x80070005)`, so `.32` records this as the precise
@@ -416,10 +417,11 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | SpinButton range/keyboard/materialization lane | Passing local lane + native timer blocker | `vba/oxforms/SpinButton.cls`; `vba/smoke/fixtures/reducer_spinbutton_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `CountSpin`; `oxvba_reducer_cmdbutton::spinbutton_keyboard_mouse_range_and_accessibility_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase catalog proves Up/Down keyboard stepping, range clamping, disabled/hidden routing, `KeyDown`/`KeyUp`, `.frm` `Value`/`Min`/`Max`/`SmallChange`, accessibility, and diagnostics while native visible timer wake-up remains explicitly blocked |
 | ScrollBar range/page/thumb lane | Passing local lane + repeat blocker | `vba/oxforms/ScrollBar.cls`; `vba/smoke/fixtures/reducer_scrollbar_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `AmountScroll`; `oxvba_reducer_cmdbutton::scrollbar_range_page_thumb_and_events_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase/headless tests prove `Forms.ScrollBar.1`, `Value`/`Min`/`Max`/`SmallChange`/`LargeChange`, button/page/thumb regions, `Scroll` before `Change`, keyboard stepping, disabled/hidden routing, materialization, accessibility, diagnostics, and dashboard coverage while held repeat cadence/native timer wake-up remain explicitly blocked |
 | TabStrip/Tabs/Tab lane | Passing local lane + persistence/render blockers | `vba/oxforms/TabStrip.cls`; `Tabs.cls`; `Tab.cls`; `vba/smoke/fixtures/reducer_tabstrip_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `ModeTabs`; `oxvba_reducer_cmdbutton::tabstrip_tabs_collection_selection_and_events_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase/headless tests prove `Forms.TabStrip.1`, `Tabs.Add`, `Tabs.Item`, `Tabs.Count`, `Tab.Caption`, `Tab.Selected`, `Value`/`ListIndex`, `SelectedCaption`, pointer/keyboard selection, `Change` ordering, disabled/hidden routing, accessibility, diagnostics, dashboard coverage, and empty `.frm` materialization while serialized tab-item persistence, per-tab text-run rendering, exact visual style, and oracle event signatures remain explicit blockers |
+| MultiPage/Pages/Page lane | Passing local lane + persistence/render blockers | `vba/oxforms/MultiPage.cls`; `Pages.cls`; `Page.cls`; `vba/smoke/fixtures/reducer_multipage_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `ModePages`; `oxvba_reducer_cmdbutton::multipage_pages_own_child_trees_selection_focus_scope_and_events`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase/headless tests prove `Forms.MultiPage.1`, `Pages.Add`, `Pages.Item`, `Pages.Count`, `Page.Caption`, `Page.Selected`, `Page.Controls`, per-page child ownership, selected page show/hide, focus-scope traversal, `Change` ordering, accessibility, diagnostics, dashboard coverage, and empty `.frm` materialization while serialized page-item persistence, per-page caption text-run rendering, exact source-event index args, exact visual style, and oracle/pixel parity remain explicit blockers |
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Final architecture review and broad-lane rewrite | Passing doc/graph gate | `final-architecture-review.md`; `docs/worksets/W009_intrinsic_control_breadth.md`; live beads `oxforms-zhz.39` through `.49`; `br dep cycles` |
-| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `ComboBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, `SpinButtonDiagnostics`, and `ScrollBarDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
+| Showcase live-control diagnostics | Passing | `oxvba_full_surface_showcase::showcase_catalog_lists_current_live_surface_and_future_rows` proves catalog, `TextBoxDiagnostics`, `ListBoxDiagnostics`, `ComboBoxDiagnostics`, `FrameDiagnostics`, `ImageDiagnostics`, `SpinButtonDiagnostics`, `ScrollBarDiagnostics`, `TabStripDiagnostics`, and `MultiPageDiagnostics`; `headless_runner_showcase::runner_attaches_renders_and_records_trace_rows` proves the runtime path |
 | Full cursor/timer/DataObject/image parity | Representative spine only | `oxforms-zhz.15` provides deterministic traces and API stubs; `oxforms-zhz.28` applies the image handle/DrawImage path; `oxforms-zhz.29` applies headless auto-repeat timer dispatch; later depth applies native cursor hooks, Windows timer wake-ups, richer DataObject formats, and real image pixel decode |
 | New W009 MSForms oracle rows | Not captured in this slice | Future focused captures must cover unresolved TextBox edge facts plus `oxforms-zhz.5`/`.6` hazards before parity claims consume them |
 | TextBox repeat/paste responsiveness | Baseline + attribution captured | `perf/w009-textbox-repeat-paste-baseline-20260704.json`; `perf/w009-textbox-paste-dispatch-attribution-20260704.json`; `headless_textbox_perf::textbox_repeat_paste_baseline_writes_json_report`; `headless_textbox_perf::textbox_paste_dispatch_attribution_writes_json_report` |
@@ -475,14 +477,15 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   native popup window mechanics, type-ahead/autocomplete parity, wheel/scrollbars, full
   column/list-data loading, exact `DropButtonClick` ordering for every open/close path, or
   source-interface edge cases beyond the local order pinned by tests.
-- The Frame/TabStrip container lanes are representative container architecture, not full container
+- The Frame/TabStrip/MultiPage container lanes are representative container architecture, not full container
   parity. They prove
   nested `Controls.Add`, child ownership/removal, relative child coordinates, recursive hit-test
   and tab traversal, child-local pointer coordinates, parented Scene nodes, recursive
-  accessibility rows, child invalidation bubbling, and TabStrip selected-tab state. They do not
+  accessibility rows, child invalidation bubbling, TabStrip selected-tab state, and MultiPage
+  selected-page child ownership/focus scope. They do not
   yet claim exact MSForms border/caption/tab pixels, all clipping edge cases, nested focus
   edge-order oracle behavior, reparenting, index removal, serialized TabStrip tab items in `.frm`,
-  or MultiPage/Page behavior.
+  serialized MultiPage page items in `.frm`, or exact MultiPage/Page oracle parity.
 - Theme tokens are internal implementation vocabulary only. MSForms properties and runtime state
   remain authoritative, and `.18` does not claim alternate skin/theme product behavior or
   pixel-perfect MSForms rendering.

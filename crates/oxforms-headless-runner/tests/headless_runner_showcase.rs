@@ -34,8 +34,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 26,
-        "root plus 22 showcase controls, one Frame child, and the TextBox text/selection nodes"
+        snap.node_count, 29,
+        "root plus 23 showcase controls, container children, and the TextBox text/selection nodes"
     );
 
     let capabilities = runner
@@ -52,7 +52,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
             && capabilities.contains("LogoImage:kind=Image")
             && capabilities.contains("RepeatSpin:kind=SpinButton")
             && capabilities.contains("AmountScroll:kind=ScrollBar")
-            && capabilities.contains("ModeTabs:kind=TabStrip"),
+            && capabilities.contains("ModeTabs:kind=TabStrip")
+            && capabilities.contains("ModePages:kind=MultiPage"),
         "showcase should expose current capability descriptors: {capabilities}"
     );
     let index = runner
@@ -102,6 +103,10 @@ fn runner_attaches_renders_and_records_trace_rows() {
             "role=scrollbar;name=AmountScroll;value=40;enabled=True;visible=True;focused=False"
         ) && accessibility.contains(
             "role=tabstrip;name=ModeTabs;value=One;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=multipage;name=ModePages;value=First;enabled=True;visible=True;focused=False"
+        ) && accessibility.contains(
+            "role=page;name=ModePages.Page0;value=First;enabled=True;visible=True"
         ),
         "showcase should expose a representative accessibility snapshot: {accessibility}"
     );
@@ -127,7 +132,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
         "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Scroll,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
@@ -136,7 +141,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         "host.services=clipboard,text-dataobject,cursor,timer,dpi,metrics,colors,image-decode,drag-drop",
         "accessibility.snapshot=role=form;name=full_surface_showcase",
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
-        "pending.controls=MultiPage/Page",
+        "pending.controls=",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -152,7 +157,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .read_string("SupportedSurfaceSummary")
         .expect("SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page")
             && supported.contains("methods=Controls.Add,Controls.Item,Render,Dispatch")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported surface summary should be a compact dashboard row: {supported}"
@@ -162,7 +167,7 @@ fn runner_reads_showcase_conformance_dashboard_through_oxruntime() {
         .read_string("PendingSurfaceSummary")
         .expect("PendingSurfaceSummary");
     assert!(
-        pending.contains("controls=MultiPage/Page",)
+        pending.contains("controls=")
             && pending.contains("Accessibility Windows UIA/MSAA provider")
             && pending.contains("scaled hit-test indexing"),
         "pending summary should include both controls and known follow-ups: {pending}"

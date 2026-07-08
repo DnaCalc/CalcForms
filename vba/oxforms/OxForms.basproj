@@ -21,6 +21,9 @@
     <ClassModule Include="ComboBox.cls" />
     <ClassModule Include="Frame.cls" />
     <ClassModule Include="Image.cls" />
+    <ClassModule Include="MultiPage.cls" />
+    <ClassModule Include="Page.cls" />
+    <ClassModule Include="Pages.cls" />
     <ClassModule Include="SpinButton.cls" />
     <ClassModule Include="ScrollBar.cls" />
     <ClassModule Include="Tab.cls" />

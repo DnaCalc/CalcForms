@@ -518,7 +518,8 @@ Private Sub CollectInteractionControls( _
         End If
 
         Order = Order + 1
-        If Ctl.HasChildren Then CollectInteractionControls Ctl.Children, AllNames, TabNames, TabKeys, Order
+        If Ctl.HasChildren And Ctl.Core.Visible And Ctl.Core.Enabled Then _
+            CollectInteractionControls Ctl.Children, AllNames, TabNames, TabKeys, Order
     Next I
 End Sub
 
@@ -549,17 +550,62 @@ Private Sub ReconcileInteractionState()
 End Sub
 
 Private Function CanReceivePointer(ByVal Name As String) As Boolean
-    If Not mForm.HasControl(Name) Then Exit Function
     Dim Control As IOxControl
-    Set Control = mForm.ControlByName(Name)
-    CanReceivePointer = Control.Core.Visible And Control.Core.Enabled
+    Dim EffectiveVisible As Boolean
+    Dim EffectiveEnabled As Boolean
+    If Not EffectiveControlState(Name, Control, EffectiveVisible, EffectiveEnabled) Then Exit Function
+    CanReceivePointer = EffectiveVisible And EffectiveEnabled
 End Function
 
 Private Function CanHoldFocus(ByVal Name As String) As Boolean
-    If Not mForm.HasControl(Name) Then Exit Function
     Dim Control As IOxControl
-    Set Control = mForm.ControlByName(Name)
-    CanHoldFocus = Control.Core.Focusable And Control.Core.Visible And Control.Core.Enabled
+    Dim EffectiveVisible As Boolean
+    Dim EffectiveEnabled As Boolean
+    If Not EffectiveControlState(Name, Control, EffectiveVisible, EffectiveEnabled) Then Exit Function
+    CanHoldFocus = Control.Core.Focusable And EffectiveVisible And EffectiveEnabled
+End Function
+
+Private Function EffectiveControlState( _
+        ByVal Name As String, _
+        ByRef Found As IOxControl, _
+        ByRef EffectiveVisible As Boolean, _
+        ByRef EffectiveEnabled As Boolean) As Boolean
+    EffectiveControlState = EffectiveControlStateIn( _
+        mForm.Controls, Name, True, True, Found, EffectiveVisible, EffectiveEnabled)
+End Function
+
+Private Function EffectiveControlStateIn( _
+        ByVal List As Controls, _
+        ByVal Name As String, _
+        ByVal ParentVisible As Boolean, _
+        ByVal ParentEnabled As Boolean, _
+        ByRef Found As IOxControl, _
+        ByRef EffectiveVisible As Boolean, _
+        ByRef EffectiveEnabled As Boolean) As Boolean
+    Dim I As Long
+    Dim Control As IOxControl
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        Dim ChildVisible As Boolean
+        Dim ChildEnabled As Boolean
+        ChildVisible = ParentVisible And Control.Core.Visible
+        ChildEnabled = ParentEnabled And Control.Core.Enabled
+        If Control.Core.Name = Name Then
+            Set Found = Control
+            EffectiveVisible = ChildVisible
+            EffectiveEnabled = ChildEnabled
+            EffectiveControlStateIn = True
+            Exit Function
+        End If
+        If Control.HasChildren Then
+            If EffectiveControlStateIn( _
+                    Control.Children, Name, ChildVisible, ChildEnabled, _
+                    Found, EffectiveVisible, EffectiveEnabled) Then
+                EffectiveControlStateIn = True
+                Exit Function
+            End If
+        End If
+    Next I
 End Function
 
 Private Sub ClearPressedVisual()

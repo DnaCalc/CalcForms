@@ -111,6 +111,9 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
             module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
             module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
             module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
+            module_unit("MultiPage", ModuleKind::Class, "vba/oxforms/MultiPage.cls"),
+            module_unit("Page", ModuleKind::Class, "vba/oxforms/Page.cls"),
+            module_unit("Pages", ModuleKind::Class, "vba/oxforms/Pages.cls"),
             module_unit(
                 "ToggleButton",
                 ModuleKind::Class,

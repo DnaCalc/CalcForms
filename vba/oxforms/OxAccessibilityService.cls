@@ -8,18 +8,28 @@ Public Function Snapshot(ByVal Form As UserForm, ByVal FocusName As String) As S
     Dim Text As String
     Text = FormRow(Form, FocusName)
 
-    AppendControlRows Text, Form.Controls, FocusName
+    AppendControlRows Text, Form.Controls, FocusName, True, True
 
     Snapshot = Text
 End Function
 
-Private Sub AppendControlRows(ByRef Text As String, ByVal List As Controls, ByVal FocusName As String)
+Private Sub AppendControlRows( _
+        ByRef Text As String, _
+        ByVal List As Controls, _
+        ByVal FocusName As String, _
+        ByVal ParentVisible As Boolean, _
+        ByVal ParentEnabled As Boolean)
     Dim I As Long
     Dim Control As IOxControl
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        Text = Text & vbLf & ControlRow(Control, FocusName)
-        If Control.HasChildren Then AppendControlRows Text, Control.Children, FocusName
+        Dim EffectiveVisible As Boolean
+        Dim EffectiveEnabled As Boolean
+        EffectiveVisible = ParentVisible And Control.Core.Visible
+        EffectiveEnabled = ParentEnabled And Control.Core.Enabled
+        Text = Text & vbLf & ControlRow(Control, FocusName, EffectiveVisible, EffectiveEnabled)
+        If Control.HasChildren Then _
+            AppendControlRows Text, Control.Children, FocusName, EffectiveVisible, EffectiveEnabled
     Next I
 End Sub
 
@@ -41,14 +51,18 @@ Private Function FormRow(ByVal Form As UserForm, ByVal FocusName As String) As S
         ";control_count=" & CStr(Form.Controls.Count)
 End Function
 
-Private Function ControlRow(ByVal Control As IOxControl, ByVal FocusName As String) As String
+Private Function ControlRow( _
+        ByVal Control As IOxControl, _
+        ByVal FocusName As String, _
+        ByVal EffectiveVisible As Boolean, _
+        ByVal EffectiveEnabled As Boolean) As String
     ControlRow = _
         "role=" & Encode(Control.AccessibilityRole) & _
         ";name=" & Encode(Control.AccessibilityName) & _
         ";value=" & Encode(Control.AccessibilityValue) & _
-        ";enabled=" & BoolText(Control.Core.Enabled) & _
-        ";visible=" & BoolText(Control.Core.Visible) & _
-        ";focused=" & BoolText(Control.Core.Name = FocusName) & _
+        ";enabled=" & BoolText(EffectiveEnabled) & _
+        ";visible=" & BoolText(EffectiveVisible) & _
+        ";focused=" & BoolText(Control.Core.Name = FocusName And EffectiveVisible And EffectiveEnabled) & _
         ";selected=" & BoolText(Control.AccessibilitySelected) & _
         ";sel_start=" & CStr(Control.AccessibilitySelectionStart) & _
         ";sel_length=" & CStr(Control.AccessibilitySelectionLength) & _

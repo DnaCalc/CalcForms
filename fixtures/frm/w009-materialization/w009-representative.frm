@@ -163,5 +163,15 @@ Begin {C62A69F0-16DC-11CE-9E98-00AA00574A4F} W009MaterializationForm
       Enabled         =   -1
       Visible         =   -1
    End
+   Begin MSForms.MultiPage ModePages
+      Left            =   2700
+      Top             =   3760
+      Width           =   2200
+      Height          =   780
+      TabIndex        =   11
+      TabStop         =   -1
+      Enabled         =   -1
+      Visible         =   -1
+   End
 End
 Attribute VB_Name = "W009MaterializationForm"

@@ -133,6 +133,12 @@ Public Property Get TabStripDiagnostics() As String
     TabStripDiagnostics = Tabs.Diagnostics
 End Property
 
+Public Property Get MultiPageDiagnostics() As String
+    Dim Pages As MultiPage
+    Set Pages = mForm.ControlByName("ModePages")
+    MultiPageDiagnostics = Pages.Diagnostics
+End Property
+
 Public Property Get ScrollValue() As Long
     Dim Bar As ScrollBar
     Set Bar = mForm.ControlByName("AmountScroll")

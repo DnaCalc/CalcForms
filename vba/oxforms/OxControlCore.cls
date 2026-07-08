@@ -181,6 +181,15 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mTabStop = True
             mValueEditable = True
             mSpecialEffect = fmSpecialEffectFlat
+        Case oxControlMultiPage
+            mFocusable = True
+            mTabStop = True
+            mValueEditable = True
+            mSpecialEffect = fmSpecialEffectFlat
+        Case oxControlPage
+            mFocusable = False
+            mTabStop = False
+            mSpecialEffect = fmSpecialEffectFlat
         Case oxControlToggleButton
             mFocusable = True
             mTabStop = True
@@ -484,6 +493,10 @@ Private Function KindName() As String
             KindName = "ScrollBar"
         Case oxControlTabStrip
             KindName = "TabStrip"
+        Case oxControlMultiPage
+            KindName = "MultiPage"
+        Case oxControlPage
+            KindName = "Page"
         Case oxControlToggleButton
             KindName = "ToggleButton"
         Case oxControlOptionButton

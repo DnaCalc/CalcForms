@@ -123,6 +123,9 @@ fn prepare_session_with_surface(
         module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
         module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
         module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
+        module_unit("MultiPage", ModuleKind::Class, "vba/oxforms/MultiPage.cls"),
+        module_unit("Page", ModuleKind::Class, "vba/oxforms/Page.cls"),
+        module_unit("Pages", ModuleKind::Class, "vba/oxforms/Pages.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -210,6 +213,11 @@ fn prepare_session_with_surface(
             "ReducerTabStripForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_tabstrip_form.cls",
+        ),
+        module_unit(
+            "ReducerMultiPageForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_multipage_form.cls",
         ),
         module_unit(
             "ReducerToggleButtonForm",
@@ -2279,6 +2287,8 @@ const SCROLL_RIGHT_BUTTON_IN: (i32, i32) = (174, 29);
 const SCROLL_PAGE_RIGHT_IN: (i32, i32) = (126, 29);
 const SCROLL_THUMB_DRAG_IN: (i32, i32) = (150, 29);
 const TABSTRIP_BETA_IN: (i32, i32) = (90, 30);
+const MULTIPAGE_BETA_TAB_IN: (i32, i32) = (150, 30);
+const MULTIPAGE_BETA_FIELD_IN: (i32, i32) = (136, 55);
 
 #[test]
 fn scrollbar_range_page_thumb_and_events_are_live() {
@@ -2527,6 +2537,106 @@ fn tabstrip_tabs_collection_selection_and_events_are_live() {
         ),
         "",
         "hidden TabStrip should not receive pointer input"
+    );
+}
+
+#[test]
+fn multipage_pages_own_child_trees_selection_focus_scope_and_events() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerMultiPageForm");
+
+    assert_eq!(i32_get(&mut session, &form, "PageCount"), 2);
+    assert_eq!(string_get(&mut session, &form, "FirstCaption"), "Alpha");
+    let diagnostics = string_get(&mut session, &form, "MultiPageDiagnostics");
+    assert!(
+        diagnostics.contains("count=2;value=0;caption=Alpha;pages=Alpha|Beta;selected_children=1")
+            && diagnostics.contains("capabilities=kind=MultiPage;focusable=True;tabstop=True;click=False;pressed=False;text=False;paste=False;value=True"),
+        "MultiPage diagnostics should expose pages, selection, and routing policy: {diagnostics}"
+    );
+    assert!(
+        string_get(&mut session, &form, "SelectedPageDiagnostics")
+            .contains("index=0;caption=Alpha;selected=True;children=1"),
+        "selected Page diagnostics should expose page-local children"
+    );
+
+    let inactive_hit = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        MULTIPAGE_BETA_FIELD_IN.0,
+        MULTIPAGE_BETA_FIELD_IN.1,
+    );
+    assert!(
+        !inactive_hit.contains("BetaField"),
+        "inactive page child should not receive pointer input: {inactive_hit}"
+    );
+
+    let down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        MULTIPAGE_BETA_TAB_IN.0,
+        MULTIPAGE_BETA_TAB_IN.1,
+    );
+    assert_eq!(down, "enter:WizardPages|mousedown:WizardPages|repaint");
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        MULTIPAGE_BETA_TAB_IN.0,
+        MULTIPAGE_BETA_TAB_IN.1,
+    );
+    assert_eq!(i32_get(&mut session, &form, "PageValue"), 1);
+    assert_eq!(string_get(&mut session, &form, "PageCaption"), "Beta");
+    assert!(bool_get(&mut session, &form, "SecondSelected"));
+
+    let beta_down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        MULTIPAGE_BETA_FIELD_IN.0,
+        MULTIPAGE_BETA_FIELD_IN.1,
+    );
+    assert!(
+        beta_down.contains("enter:BetaField") && beta_down.contains("mousedown:BetaField"),
+        "selected page child should receive pointer input after switch: {beta_down}"
+    );
+    dispatch_char(&mut session, &form, "!");
+    assert_eq!(string_get(&mut session, &form, "BetaText"), "!beta");
+    assert_eq!(string_get(&mut session, &form, "AlphaText"), "alpha");
+
+    let log = string_get(&mut session, &form, "HandlerLog");
+    for expected in [
+        "MultiPage.Enter",
+        "MultiPage.MouseDown:130,10",
+        "MultiPage.Change=1:Beta",
+        "MultiPage.MouseUp",
+        "MultiPage.Exit",
+        "BetaField.Enter",
+        "BetaField.Change=!beta",
+    ] {
+        assert!(
+            log.lines().any(|line| line == expected),
+            "MultiPage log missing {expected:?}; log was:\n{log}"
+        );
+    }
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=multipage;name=WizardPages;value=Beta")
+            && accessibility.contains(";selected=True;sel_start=1;sel_length=1;sel_text=Beta;patterns=selection,container,value;row_count=2;column_count=1")
+            && accessibility.contains("role=textbox;name=AlphaField;value=alpha;enabled=True;visible=False")
+            && accessibility.contains("role=page;name=WizardPages.Page1;value=Beta;enabled=True;visible=True")
+            && accessibility.contains("role=textbox;name=BetaField;value=!beta"),
+        "MultiPage accessibility should expose selected page and selected child tree:\n{accessibility}"
+    );
+
+    let index = string_get(&mut session, &form, "InteractionIndexSummary");
+    assert!(
+        index.contains("first=WizardPages")
+            && index.contains("last=BetaField")
+            && !index.contains("last=AlphaField"),
+        "interaction index should scope tab traversal to the selected page: {index}"
     );
 }
 

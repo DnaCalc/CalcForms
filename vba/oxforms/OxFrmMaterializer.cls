@@ -456,6 +456,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.ScrollBar.1"
         Case "msforms.tabstrip"
             ProgIdForType = "Forms.TabStrip.1"
+        Case "msforms.multipage"
+            ProgIdForType = "Forms.MultiPage.1"
     End Select
 End Function
 

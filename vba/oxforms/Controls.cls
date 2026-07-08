@@ -41,6 +41,13 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     Set Add = Control
 End Function
 
+' Internal container helper: track a control object that was constructed by a typed
+' collection such as Pages, after that owner has already assigned identity/binding.
+Public Sub AddExisting(ByVal Control As IOxControl, ByVal Name As String)
+    If Control Is Nothing Then Exit Sub
+    mItems.Add Control, Name
+End Sub
+
 ' Forms 2.0 Controls.Remove by control name. The current representative slice removes by name;
 ' index removal and exact Err.Raise behavior for missing keys land with broader object-model
 ' parity. This method is deliberately structural: the owning UserForm detaches the control,

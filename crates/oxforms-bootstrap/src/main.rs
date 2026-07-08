@@ -679,6 +679,17 @@ fn oxforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/oxforms/Image.cls"),
         ),
         unit(
+            "MultiPage",
+            Class,
+            include_str!("../../../vba/oxforms/MultiPage.cls"),
+        ),
+        unit("Page", Class, include_str!("../../../vba/oxforms/Page.cls")),
+        unit(
+            "Pages",
+            Class,
+            include_str!("../../../vba/oxforms/Pages.cls"),
+        ),
+        unit(
             "SpinButton",
             Class,
             include_str!("../../../vba/oxforms/SpinButton.cls"),

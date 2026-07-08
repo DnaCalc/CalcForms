@@ -105,6 +105,9 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
         module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
         module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
         module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
+        module_unit("MultiPage", ModuleKind::Class, "vba/oxforms/MultiPage.cls"),
+        module_unit("Page", ModuleKind::Class, "vba/oxforms/Page.cls"),
+        module_unit("Pages", ModuleKind::Class, "vba/oxforms/Pages.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -240,14 +243,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        13,
-        "OptionButton, ListBox, ComboBox, ToggleButton, Image, SpinButton, ScrollBar, and TabStrip now materialize as live VBA controls"
+        14,
+        "OptionButton, ListBox, ComboBox, ToggleButton, Image, SpinButton, ScrollBar, TabStrip, and MultiPage now materialize as live VBA controls"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=13"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=14"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -309,6 +312,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         &catalog,
         "control;name=ModeTabs;role=tabstrip;value=;left=12;top=188;width=110;height=32;enabled=True;visible=True;tabindex=10;tabstop=True",
     );
+    assert_line_contains(
+        &catalog,
+        "control;name=ModePages;role=multipage;value=;left=135;top=188;width=110;height=39;enabled=True;visible=True;tabindex=11;tabstop=True",
+    );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
     assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
     let textbox_diagnostics = read_string(&mut session, &form, "TextBoxDiagnostics");
@@ -363,6 +370,12 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && tabstrip_diagnostics.contains("capabilities=kind=TabStrip"),
         "TabStrip diagnostics should expose live empty materialization and capability shape:\n{tabstrip_diagnostics}"
     );
+    let multipage_diagnostics = read_string(&mut session, &form, "MultiPageDiagnostics");
+    assert!(
+        multipage_diagnostics.contains("count=0;value=-1;caption=;pages=;selected_children=0")
+            && multipage_diagnostics.contains("capabilities=kind=MultiPage"),
+        "MultiPage diagnostics should expose live empty materialization and capability shape:\n{multipage_diagnostics}"
+    );
 
     let frx = std::fs::read(
         repo_root().join("fixtures/frm/w009-materialization/w009-representative.frx"),
@@ -390,8 +403,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 16,
-        "root plus thirteen materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 17,
+        "root plus fourteen materialized controls plus TextBox text/selection nodes should be resident"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(
@@ -425,7 +438,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && accessibility.contains("role=combobox;name=SizeCombo;value=Medium")
             && accessibility.contains("role=spinbutton;name=CountSpin;value=3")
             && accessibility.contains("role=scrollbar;name=AmountScroll;value=25")
-            && accessibility.contains("role=tabstrip;name=ModeTabs;value="),
+            && accessibility.contains("role=tabstrip;name=ModeTabs;value=")
+            && accessibility.contains("role=multipage;name=ModePages;value="),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );
 
