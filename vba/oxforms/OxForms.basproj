@@ -23,6 +23,9 @@
     <ClassModule Include="Image.cls" />
     <ClassModule Include="SpinButton.cls" />
     <ClassModule Include="ScrollBar.cls" />
+    <ClassModule Include="Tab.cls" />
+    <ClassModule Include="Tabs.cls" />
+    <ClassModule Include="TabStrip.cls" />
     <ClassModule Include="ToggleButton.cls" />
     <ClassModule Include="OptionButtonControl.cls" />
     <ClassModule Include="UserForm.cls" />

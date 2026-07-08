@@ -454,6 +454,8 @@ Private Function ProgIdForType(ByVal TypeName As String) As String
             ProgIdForType = "Forms.SpinButton.1"
         Case "msforms.scrollbar"
             ProgIdForType = "Forms.ScrollBar.1"
+        Case "msforms.tabstrip"
+            ProgIdForType = "Forms.TabStrip.1"
     End Select
 End Function
 

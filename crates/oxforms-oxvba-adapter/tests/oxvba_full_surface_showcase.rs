@@ -98,6 +98,9 @@ fn build_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/SpinButton.cls",
         ),
         module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
+        module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
+        module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
+        module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -227,7 +230,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
 
     assert_eq!(
         read_i32(&mut rt, "ControlCount"),
-        21,
+        22,
         "the showcase renders live controls plus pending catalog rows"
     );
 
@@ -245,6 +248,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         "LIVE Image",
         "LIVE SpinButton",
         "LIVE ScrollBar",
+        "LIVE TabStrip",
     ] {
         assert!(
             catalog.contains(live),
@@ -290,6 +294,7 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
                 .contains("role=spinbutton;name=RepeatSpin;value=2;enabled=True;visible=True")
             && accessibility
                 .contains("role=scrollbar;name=AmountScroll;value=40;enabled=True;visible=True")
+            && accessibility.contains("role=tabstrip;name=ModeTabs;value=One")
             && accessibility.contains(";patterns=selection,value;row_count=3;column_count=1"),
         "showcase should expose representative accessibility rows: {accessibility}"
     );
@@ -334,6 +339,12 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
             && scroll_diagnostics.contains("capabilities=kind=ScrollBar"),
         "ScrollBar diagnostics should expose range, value, hit state, and capabilities: {scroll_diagnostics}"
     );
+    let tabstrip_diagnostics = read_string(&mut rt, "TabStripDiagnostics");
+    assert!(
+        tabstrip_diagnostics.contains("count=3;value=0;caption=One;tabs=One|Two|Three")
+            && tabstrip_diagnostics.contains("capabilities=kind=TabStrip"),
+        "TabStrip diagnostics should expose tabs, selected value, and capabilities: {tabstrip_diagnostics}"
+    );
     assert!(
         catalog.contains("MultiPage"),
         "catalog should keep future MultiPage visible"
@@ -354,12 +365,16 @@ fn showcase_catalog_lists_current_live_surface_and_future_rows() {
         !catalog.contains("PENDING ScrollBar"),
         "ScrollBar should be listed as live, not pending"
     );
+    assert!(
+        !catalog.contains("PENDING TabStrip"),
+        "TabStrip should be listed as live, not pending"
+    );
 
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 25,
-        "root node plus 21 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 26,
+        "root node plus 22 root controls, one Frame child, and the TextBox text/selection nodes should be resident"
     );
     assert!(
         snap.scene
@@ -387,7 +402,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
     for expected in [
         "OXFORMS_CONFORMANCE_DASHBOARD version=1",
         "runtime=OxRuntime/OxReducer/OxForms.Surface/Scene",
-        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar",
+        "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab",
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart",
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest",
         "supported.events=Initialize,Activate,Deactivate,Terminate,QueryClose,Enter,Exit,BeforeUpdate,AfterUpdate,Change,Scroll,Click,MouseDown,MouseUp,KeyDown,KeyPress,KeyUp,BeforeDropOrPaste,DropButtonClick,SpinUp,SpinDown",
@@ -398,7 +413,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
         "perf.report=docs/evidence/W009_first_class_runtime_foundation/perf/w009-ideal-architecture-budget-20260707.json",
         "top_followup=oxforms-bqr scaled-hit-test",
         "selftest=RunSelfTest returns PASS",
-        "pending.controls=TabStrip,MultiPage/Page",
+        "pending.controls=MultiPage/Page",
     ] {
         assert!(
             dashboard.contains(expected),
@@ -412,7 +427,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let supported = read_string(&mut rt, "SupportedSurfaceSummary");
     assert!(
-        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar")
+        supported.contains("controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab")
             && supported.contains("properties=Text,Value,SelStart,SelLength,SelText,HideSelection")
             && supported.contains("events=Initialize,Activate,Deactivate,Terminate,QueryClose"),
         "supported summary should list current controls/properties/events: {supported}"
@@ -420,7 +435,7 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let pending = read_string(&mut rt, "PendingSurfaceSummary");
     assert!(
-        pending.contains("controls=TabStrip,MultiPage/Page",)
+        pending.contains("controls=MultiPage/Page",)
             && pending.contains("scaled hit-test indexing"),
         "pending summary should keep future controls and follow-ups visible: {pending}"
     );
@@ -435,8 +450,8 @@ fn showcase_conformance_dashboard_rolls_up_runtime_surface_and_gaps() {
 
     let selftest = read_string(&mut rt, "SelfTestSummary");
     assert!(
-        selftest.contains("method=RunSelfTest;expected=PASS controls=21")
-            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/ComboBox/Frame/Image/SpinButton/ScrollBar/lifecycle"),
+        selftest.contains("method=RunSelfTest;expected=PASS controls=22")
+            && selftest.contains("coverage=Label/TextBox/CommandButton/CheckBox/OptionButton/ToggleButton/ListBox/ComboBox/Frame/Image/SpinButton/ScrollBar/TabStrip/lifecycle"),
         "self-test summary should name the deterministic dashboard gate: {selftest}"
     );
 }
@@ -447,7 +462,7 @@ fn showcase_selftest_drives_current_methods_and_events() {
 
     let result = invoke_string(&mut rt, "RunSelfTest", ProjectMemberKind::Method);
     assert!(
-        result.starts_with("PASS controls=21;"),
+        result.starts_with("PASS controls=22;"),
         "self-test should report PASS, got {result:?}"
     );
 
@@ -474,6 +489,11 @@ fn showcase_selftest_drives_current_methods_and_events() {
         "ScrollBar.Change=45",
         "ScrollBar.MouseUp",
         "ScrollBar.Exit",
+        "TabStrip.Enter",
+        "TabStrip.MouseDown",
+        "TabStrip.Change=1:Two",
+        "TabStrip.MouseUp",
+        "TabStrip.Exit",
         "TextBox.Enter",
         "TextBox.MouseDown",
         "TextBox.MouseUp",

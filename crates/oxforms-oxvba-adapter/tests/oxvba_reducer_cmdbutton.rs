@@ -120,6 +120,9 @@ fn prepare_session_with_surface(
             "vba/oxforms/SpinButton.cls",
         ),
         module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
+        module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
+        module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
+        module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -202,6 +205,11 @@ fn prepare_session_with_surface(
             "ReducerScrollBarForm",
             ModuleKind::Class,
             "vba/smoke/fixtures/reducer_scrollbar_form.cls",
+        ),
+        module_unit(
+            "ReducerTabStripForm",
+            ModuleKind::Class,
+            "vba/smoke/fixtures/reducer_tabstrip_form.cls",
         ),
         module_unit(
             "ReducerToggleButtonForm",
@@ -1176,6 +1184,7 @@ const KEY_BACKSPACE: i16 = 8;
 const KEY_HOME: i16 = 36;
 const KEY_END: i16 = 35;
 const KEY_LEFT: i16 = 37;
+const KEY_RIGHT: i16 = 39;
 const KEY_DELETE: i16 = 46;
 const KEY_F4: i16 = 115;
 const SHIFT_SHIFT: i16 = 1;
@@ -2269,6 +2278,7 @@ const SCROLL_LEFT_BUTTON_IN: (i32, i32) = (24, 29);
 const SCROLL_RIGHT_BUTTON_IN: (i32, i32) = (174, 29);
 const SCROLL_PAGE_RIGHT_IN: (i32, i32) = (126, 29);
 const SCROLL_THUMB_DRAG_IN: (i32, i32) = (150, 29);
+const TABSTRIP_BETA_IN: (i32, i32) = (90, 30);
 
 #[test]
 fn scrollbar_range_page_thumb_and_events_are_live() {
@@ -2426,6 +2436,97 @@ fn scrollbar_range_page_thumb_and_events_are_live() {
         ),
         "",
         "hidden ScrollBar should not receive pointer input"
+    );
+}
+
+#[test]
+fn tabstrip_tabs_collection_selection_and_events_are_live() {
+    let (mut session, _surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTabStripForm");
+
+    assert_eq!(i32_get(&mut session, &form, "TabCount"), 3);
+    assert_eq!(string_get(&mut session, &form, "FirstCaption"), "Alpha");
+    let diagnostics = string_get(&mut session, &form, "TabDiagnostics");
+    assert!(
+        diagnostics.contains("count=3;value=0;caption=Alpha;tabs=Alpha|Beta|Gamma")
+            && diagnostics.contains("capabilities=kind=TabStrip;focusable=True;tabstop=True;click=False;pressed=False;text=False;paste=False;value=True"),
+        "TabStrip diagnostics should expose tabs, selection, and routing policy: {diagnostics}"
+    );
+
+    let down = dispatch(
+        &mut session,
+        &form,
+        "mousedown",
+        TABSTRIP_BETA_IN.0,
+        TABSTRIP_BETA_IN.1,
+    );
+    assert_eq!(down, "enter:Pages|mousedown:Pages|repaint");
+    dispatch(
+        &mut session,
+        &form,
+        "mouseup",
+        TABSTRIP_BETA_IN.0,
+        TABSTRIP_BETA_IN.1,
+    );
+    assert_eq!(i32_get(&mut session, &form, "TabValue"), 1);
+    assert_eq!(string_get(&mut session, &form, "TabCaption"), "Beta");
+    assert!(bool_get(&mut session, &form, "SecondSelected"));
+
+    let right = dispatch_key(&mut session, &form, "keydown", KEY_RIGHT);
+    assert_eq!(right, "keydown:Pages|repaint");
+    assert_eq!(i32_get(&mut session, &form, "TabValue"), 2);
+    let key_up = dispatch_key(&mut session, &form, "keyup", KEY_RIGHT);
+    assert_eq!(key_up, "keyup:Pages");
+
+    let log = string_get(&mut session, &form, "HandlerLog");
+    for expected in [
+        "TabStrip.Enter",
+        "TabStrip.MouseDown:70,10",
+        "TabStrip.Change=1:Beta",
+        "TabStrip.MouseUp",
+        "TabStrip.KeyDown:39",
+        "TabStrip.Change=2:Gamma",
+        "TabStrip.KeyUp:39",
+    ] {
+        assert!(
+            log.lines().any(|line| line == expected),
+            "TabStrip log missing {expected:?}; log was:\n{log}"
+        );
+    }
+
+    let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");
+    assert!(
+        accessibility.contains("role=tabstrip;name=Pages;value=Gamma")
+            && accessibility.contains(";selected=True;sel_start=2;sel_length=1;sel_text=Gamma;patterns=selection,value;row_count=3;column_count=1"),
+        "TabStrip accessibility should expose selected tab semantics:\n{accessibility}"
+    );
+
+    let form = build_form(&mut session, "ReducerTabStripForm");
+    invoke_sub(&mut session, &form, "DisableTabs");
+    assert_eq!(
+        dispatch(
+            &mut session,
+            &form,
+            "mousedown",
+            TABSTRIP_BETA_IN.0,
+            TABSTRIP_BETA_IN.1,
+        ),
+        "",
+        "disabled TabStrip should not receive pointer input"
+    );
+
+    let form = build_form(&mut session, "ReducerTabStripForm");
+    invoke_sub(&mut session, &form, "HideTabs");
+    assert_eq!(
+        dispatch(
+            &mut session,
+            &form,
+            "mousedown",
+            TABSTRIP_BETA_IN.0,
+            TABSTRIP_BETA_IN.1,
+        ),
+        "",
+        "hidden TabStrip should not receive pointer input"
     );
 }
 

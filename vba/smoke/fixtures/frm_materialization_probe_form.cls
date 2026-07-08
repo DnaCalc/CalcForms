@@ -127,6 +127,12 @@ Public Property Get ScrollBarDiagnostics() As String
     ScrollBarDiagnostics = Bar.Diagnostics
 End Property
 
+Public Property Get TabStripDiagnostics() As String
+    Dim Tabs As TabStrip
+    Set Tabs = mForm.ControlByName("ModeTabs")
+    TabStripDiagnostics = Tabs.Diagnostics
+End Property
+
 Public Property Get ScrollValue() As Long
     Dim Bar As ScrollBar
     Set Bar = mForm.ControlByName("AmountScroll")

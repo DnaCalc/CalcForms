@@ -102,6 +102,9 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             "vba/oxforms/SpinButton.cls",
         ),
         module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
+        module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
+        module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
+        module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
         module_unit(
             "ToggleButton",
             ModuleKind::Class,
@@ -237,14 +240,14 @@ fn representative_frm_materializes_into_live_vba_object_model() {
 
     assert_eq!(
         read_i32(&mut session, &form, "ControlCount"),
-        12,
-        "OptionButton, ListBox, ComboBox, ToggleButton, Image, SpinButton, and ScrollBar now materialize as live VBA controls"
+        13,
+        "OptionButton, ListBox, ComboBox, ToggleButton, Image, SpinButton, ScrollBar, and TabStrip now materialize as live VBA controls"
     );
 
     let catalog = read_string(&mut session, &form, "MaterializationCatalog");
     assert!(
         catalog.contains(
-            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=12"
+            "form;name=W009MaterializationForm;caption=W009 Materialized Form;width=260;height=190;controls=13"
         ),
         "form row should reflect live UserForm properties:\n{catalog}"
     );
@@ -302,6 +305,10 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         &catalog,
         "control;name=AmountScroll;role=scrollbar;value=25;left=12;top=168;width=110;height=16;enabled=True;visible=True;tabindex=9;tabstop=True",
     );
+    assert_line_contains(
+        &catalog,
+        "control;name=ModeTabs;role=tabstrip;value=;left=12;top=188;width=110;height=32;enabled=True;visible=True;tabindex=10;tabstop=True",
+    );
     assert_eq!(read_string(&mut session, &form, "InputText"), "seed");
     assert_eq!(read_string(&mut session, &form, "InputValue"), "seed");
     let textbox_diagnostics = read_string(&mut session, &form, "TextBoxDiagnostics");
@@ -350,6 +357,12 @@ fn representative_frm_materializes_into_live_vba_object_model() {
         "ScrollBar diagnostics should expose .frm value/range materialization:\n{scroll_diagnostics}"
     );
     assert_eq!(read_i32(&mut session, &form, "ScrollValue"), 25);
+    let tabstrip_diagnostics = read_string(&mut session, &form, "TabStripDiagnostics");
+    assert!(
+        tabstrip_diagnostics.contains("count=0;value=-1;caption=;tabs=")
+            && tabstrip_diagnostics.contains("capabilities=kind=TabStrip"),
+        "TabStrip diagnostics should expose live empty materialization and capability shape:\n{tabstrip_diagnostics}"
+    );
 
     let frx = std::fs::read(
         repo_root().join("fixtures/frm/w009-materialization/w009-representative.frx"),
@@ -377,8 +390,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 15,
-        "root plus twelve materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 16,
+        "root plus thirteen materialized controls plus TextBox text/selection nodes should be resident"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(
@@ -411,7 +424,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
             && accessibility.contains("role=image;name=LogoImage;value=w009-representative.frx")
             && accessibility.contains("role=combobox;name=SizeCombo;value=Medium")
             && accessibility.contains("role=spinbutton;name=CountSpin;value=3")
-            && accessibility.contains("role=scrollbar;name=AmountScroll;value=25"),
+            && accessibility.contains("role=scrollbar;name=AmountScroll;value=25")
+            && accessibility.contains("role=tabstrip;name=ModeTabs;value="),
         "materialized form should project accessibility from the live object model:\n{accessibility}"
     );
 

@@ -108,6 +108,9 @@ fn prepare_session() -> oxvba_host::ProjectRuntimeSession {
                 "vba/oxforms/SpinButton.cls",
             ),
             module_unit("ScrollBar", ModuleKind::Class, "vba/oxforms/ScrollBar.cls"),
+            module_unit("Tab", ModuleKind::Class, "vba/oxforms/Tab.cls"),
+            module_unit("Tabs", ModuleKind::Class, "vba/oxforms/Tabs.cls"),
+            module_unit("TabStrip", ModuleKind::Class, "vba/oxforms/TabStrip.cls"),
             module_unit(
                 "ToggleButton",
                 ModuleKind::Class,

@@ -319,8 +319,8 @@ contract:
 - `SupportedSurfaceSummary`, `PendingSurfaceSummary`, `PerfBudgetSummary`, and `SelfTestSummary`
   expose compact rows for later control lanes to update as they move controls from pending to live;
 - the visible form's pending rows no longer list `Frame`, `ToggleButton`, `OptionButton`,
-  `ComboBox`, or `ScrollBar`, because they are now live controls. Remaining pending controls are
-  `TabStrip` and `MultiPage/Page`;
+  `ComboBox`, `ScrollBar`, or `TabStrip`, because they are now live controls. Remaining pending
+  controls are `MultiPage/Page`;
 - visible desktop inspection was attempted through the installed Computer Use plugin. The bootstrap
   launch reached the Windows helper, but the first `get_window_state` snapshot failed with
   `GetCursorPos failed: Access is denied. (0x80070005)`, so `.32` records this as the precise
@@ -415,6 +415,7 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
 | SpinButton timer/repeat spike | Passing representative headless seam | `vba/oxforms/SpinButton.cls`; showcase `RepeatSpin`/`SpinButtonDiagnostics`; `OxRuntime::dispatch_event_turn` auto-repeat timer dispatch; `headless_runner_showcase::runner_spinbutton_held_repeat_uses_virtual_auto_repeat_timer`; `oxvba_full_surface_showcase::showcase_selftest_drives_current_methods_and_events` |
 | SpinButton range/keyboard/materialization lane | Passing local lane + native timer blocker | `vba/oxforms/SpinButton.cls`; `vba/smoke/fixtures/reducer_spinbutton_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `CountSpin`; `oxvba_reducer_cmdbutton::spinbutton_keyboard_mouse_range_and_accessibility_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase catalog proves Up/Down keyboard stepping, range clamping, disabled/hidden routing, `KeyDown`/`KeyUp`, `.frm` `Value`/`Min`/`Max`/`SmallChange`, accessibility, and diagnostics while native visible timer wake-up remains explicitly blocked |
 | ScrollBar range/page/thumb lane | Passing local lane + repeat blocker | `vba/oxforms/ScrollBar.cls`; `vba/smoke/fixtures/reducer_scrollbar_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `AmountScroll`; `oxvba_reducer_cmdbutton::scrollbar_range_page_thumb_and_events_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase/headless tests prove `Forms.ScrollBar.1`, `Value`/`Min`/`Max`/`SmallChange`/`LargeChange`, button/page/thumb regions, `Scroll` before `Change`, keyboard stepping, disabled/hidden routing, materialization, accessibility, diagnostics, and dashboard coverage while held repeat cadence/native timer wake-up remain explicitly blocked |
+| TabStrip/Tabs/Tab lane | Passing local lane + persistence/render blockers | `vba/oxforms/TabStrip.cls`; `Tabs.cls`; `Tab.cls`; `vba/smoke/fixtures/reducer_tabstrip_form.cls`; `vba/oxforms/OxFrmMaterializer.cls`; `.frm` fixture `ModeTabs`; `oxvba_reducer_cmdbutton::tabstrip_tabs_collection_selection_and_events_are_live`; `oxvba_frm_materialization::representative_frm_materializes_into_live_vba_object_model`; showcase/headless tests prove `Forms.TabStrip.1`, `Tabs.Add`, `Tabs.Item`, `Tabs.Count`, `Tab.Caption`, `Tab.Selected`, `Value`/`ListIndex`, `SelectedCaption`, pointer/keyboard selection, `Change` ordering, disabled/hidden routing, accessibility, diagnostics, dashboard coverage, and empty `.frm` materialization while serialized tab-item persistence, per-tab text-run rendering, exact visual style, and oracle event signatures remain explicit blockers |
 | Reentrancy/lifecycle spike | Passing representative headless seam + modal blocker | `vba/smoke/fixtures/reducer_reentrancy_form.cls`; reentrant-safe effect framing in `OxInteractionManager`; `headless_runner_showcase::runner_reentrant_handler_mutation_and_lifecycle_stay_coherent` |
 | Control-stack reassessment | Implemented doc gate | `docs/specs/CONTROL_STACK_STRATEGY.md`; `control-stack-reassessment.md`; `oxforms-zhz.12` |
 | Final architecture review and broad-lane rewrite | Passing doc/graph gate | `final-architecture-review.md`; `docs/worksets/W009_intrinsic_control_breadth.md`; live beads `oxforms-zhz.39` through `.49`; `br dep cycles` |
@@ -474,12 +475,14 @@ cargo test -p oxforms-oxvba-adapter --test oxvba_full_surface_showcase
   native popup window mechanics, type-ahead/autocomplete parity, wheel/scrollbars, full
   column/list-data loading, exact `DropButtonClick` ordering for every open/close path, or
   source-interface edge cases beyond the local order pinned by tests.
-- The Frame spike is representative container architecture, not full container parity. It proves
+- The Frame/TabStrip container lanes are representative container architecture, not full container
+  parity. They prove
   nested `Controls.Add`, child ownership/removal, relative child coordinates, recursive hit-test
   and tab traversal, child-local pointer coordinates, parented Scene nodes, recursive
-  accessibility rows, and child invalidation bubbling. It does not yet claim exact MSForms
-  border/caption pixels, all clipping edge cases, nested focus edge-order oracle behavior,
-  reparenting, index removal, or MultiPage/TabStrip behavior.
+  accessibility rows, child invalidation bubbling, and TabStrip selected-tab state. They do not
+  yet claim exact MSForms border/caption/tab pixels, all clipping edge cases, nested focus
+  edge-order oracle behavior, reparenting, index removal, serialized TabStrip tab items in `.frm`,
+  or MultiPage/Page behavior.
 - Theme tokens are internal implementation vocabulary only. MSForms properties and runtime state
   remain authoritative, and `.18` does not claim alternate skin/theme product behavior or
   pixel-perfect MSForms rendering.

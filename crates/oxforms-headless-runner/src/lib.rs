@@ -642,6 +642,9 @@ fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
         ("Image", Class, "vba/oxforms/Image.cls"),
         ("SpinButton", Class, "vba/oxforms/SpinButton.cls"),
         ("ScrollBar", Class, "vba/oxforms/ScrollBar.cls"),
+        ("Tab", Class, "vba/oxforms/Tab.cls"),
+        ("Tabs", Class, "vba/oxforms/Tabs.cls"),
+        ("TabStrip", Class, "vba/oxforms/TabStrip.cls"),
         ("ToggleButton", Class, "vba/oxforms/ToggleButton.cls"),
         (
             "OptionButtonControl",
