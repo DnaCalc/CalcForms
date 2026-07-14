@@ -668,6 +668,22 @@ rather than only a visual smoke test.
 - **P4 — Control breadth.** All remaining controls, with morph group first because one
   codec covers six controls. Each group lands with property/default rows, event rows,
   reducer tests, display-list goldens, and at least one differential trace where possible.
+- **W010 — Complete MSForms object-model parity.** W009 established a first-class
+  runtime and representative factory lane for every intrinsic category, but it
+  deliberately stopped at subset depth. W010 generates exhaustive FM20 plus
+  referenced-typelib, MS-OFORMS, and independently captured `.frm`/`.frx`
+  export fact packs and a row-level parity ledger, then closes every accepted
+  property, setter, method, default member, event, enum, error/coercion,
+  rendering-effect, and persistence row. The documented intrinsic global
+  `UserForms` collection, all ten actual FM20 HTML families, versioned,
+  supporting, and hidden/non-browsable rows are implementation scope;
+  classification out requires authoritative non-callable/restricted evidence.
+  The interactive designer UI remains out of scope, but its callable
+  object-model rows do not.
+  A blocker explains an open row; it does not count as completed parity.
+  *Artifact: a clean-regenerable all-member ledger and
+  conformance corpus; see
+  [`worksets/W010_complete_msforms_object_model_parity.md`](worksets/W010_complete_msforms_object_model_parity.md).*
 - **P5 — Fidelity hardening.** Differential tests (§10.2), event ordering, focus and
   validation edge cases, text editing, list semantics, DPI/text metrics, image fidelity,
   modal lifecycle, and close/unload behavior.

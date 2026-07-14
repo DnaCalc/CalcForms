@@ -1,5 +1,7 @@
 # W008 — Native FM20-named Event Breadth and ByRef Return* Mutation
 
+Status: `CLOSED` (all 17 child beads; see the closure record below)
+
 Epic: `oxforms-esq`
 Depends on: `W006_control_implementation_rollout` (CLOSED — the oracle orderings),
 `W007_production_runtime_vertical_slice` (CLOSED — the proven dispatch gate).
@@ -111,6 +113,19 @@ W006 oracle source captures (`docs/evidence/W006_control_implementation_rollout/
   accelerator arms therefore stay repeat-blind, documented in
   [`FM20_EVENT_FACTS.md`](../specs/FM20_EVENT_FACTS.md), until a non-Excel MSForms host is
   available.
+
+## Closure Record
+
+W008 closed on 2026-06-29 after all 17 children landed. The completed work
+includes mutable `Return*` readback and fold-back, native Click/Change/key/mouse/
+focus/update/QueryClose/lifecycle dispatch, two-stage validation and paste veto,
+live clipboard read, held-key gates, and conformance pins against W006/W008
+oracle captures. The detailed close reason remains execution truth in
+`br show oxforms-esq --json`.
+
+The historical progress notes above are retained to explain the rollout order;
+their interim “not yet” statements are superseded by the closure record and
+later child-bead results.
 
 ## Non-claims (preserved from W006/W007)
 

@@ -1,12 +1,52 @@
 # OxForms Source References
 
-Status: bootstrap reference map
-Last updated: 2026-06-21
-Owning bead: `oxforms-rzk.1`
+Status: active reference map
+Last updated: 2026-07-15
+Owning bead: `oxforms-jbjp.1` (baseline reconciliation; generated fact capture
+continues in `oxforms-jbjp.2`/`.3`/`.43`)
 
 This file names external source-of-truth inputs that OxForms reads but does not
 own. Update it whenever a Foundation source mirror or OxVba development baseline
 changes.
+
+## Microsoft Forms Runtime And Public Documentation
+
+The installed public type library is the authoritative API-shape input for
+W010. Observed on 2026-07-15:
+
+- File: `C:\Program Files\Microsoft Office\root\vfs\System\FM20.DLL`
+- Library: Microsoft Forms 2.0 Object Library
+- GUID/version: `{0D452EE1-E08F-101A-852E-02608C4D0BB4}`, 2.0
+- File version: `16.0.20131.20012`
+- SHA-256:
+  `2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe`
+- Census: 171 type infos: 60 coclasses, 64 dispatch interfaces, 42 enums,
+  four aliases, and one non-dispatch `IFont` interface.
+
+The W010 fact pack also resolves public external typelib references needed to
+interpret FM20 signatures, notably stdole `Picture`/`IPictureDisp`; it records
+their library identity and hashes rather than treating a display-name string as
+a complete type.
+
+Microsoft's public VBA documentation is the object/host overlay and example
+source, not a substitute for the generated typelib ledger:
+
+- [Microsoft Forms reference](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/reference-microsoft-forms)
+- [Collections, controls, and objects](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/objects-microsoft-forms)
+- [Methods](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/methods-microsoft-forms)
+- [Properties](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/properties-microsoft-forms)
+- [Events](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/events-microsoft-forms)
+- [Add method and intrinsic ProgIDs](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/add-method-microsoft-forms)
+- [UserForm object and intrinsic global UserForms collection](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/userform-object)
+
+These pages were reachable and rechecked on 2026-07-15. They enumerate the
+fourteen documented intrinsic control families and the three control-owned
+collections; the UserForm page additionally defines the intrinsic global
+`UserForms` collection with `Count`, default zero-based `Item`, and `Add`; and
+the Add page records the `Forms.<Control>.1` ProgIDs and zero-based Page/Tab
+insertion behavior. Missing HTML, hidden, versioned, or
+exact signature rows in the documentation remain governed by typelib facts and
+reproducible oracle captures rather than silently excluded.
 
 ## Foundation Forms Specification
 
@@ -21,13 +61,15 @@ Foundation reference surfaces:
 - Mirror index: `../Foundation/reference/index.csv`
 - Raw mirror root: `../Foundation/reference/downloads/...`
 
-Observed Foundation state on 2026-06-21:
+Observed Foundation state on 2026-07-15:
 
-- HEAD: `cbf24b746e66860242fd7b0d87ffac5d0e71807d`
-- Worktree caveat: `reference/index.csv` and `reference/spec_seeds.csv` were
-  modified, and the MS-OFORMS mirror directory was still untracked. Treat the
-  paths and hashes below as the local bootstrap pointer until Foundation lands
-  the mirror in git.
+- HEAD: `e6cfe71cfa1ebf07f52d1c7816a637ad5baad78b`
+- Worktree: no file changes; local branch was two commits ahead of
+  `origin/master`.
+- The official normalized MS-OFORMS run is committed at
+  `../Foundation/reference/runs/20260625-ms-oforms-official-pass-01/outputs/`.
+  Its README records 25,491 segments, 56,319 sentences, 13,115 spec items, 587
+  conformance candidates, and zero pending extraction items.
 
 Pinned MS-OFORMS artifacts:
 
@@ -53,36 +95,40 @@ Adjacent Foundation source for that boundary:
 ## OxVba Development Baseline
 
 OxForms depends on OxVba, but the sibling `../OxVba` checkout is under active
-development and had local uncommitted edits when this map was written. Do not use
-a floating sibling path as a shared stable input.
+development and may contain unrelated local artifacts. Do not use a floating
+sibling path as a shared stable input.
 
-Current OxForms bootstrap baseline:
+Current committed OxForms baseline (authoritative in workspace manifests):
 
 - Repo: `https://github.com/DnaCalc/OxVba.git`
-- Commit: `501bf64d978afd14b820ebd03096f9fdcc247e38`
-- Branch relation observed: `master` == `origin/master`
-- Commit subject: `Harden COM runtime object transport`
-- Observed on: 2026-06-21
+- Commit: `8f1aeccc683c4d41621bf137574b8a4d11bd9845`
+- Commit subject: `clippy: document unsafe blocks in oxvba-hal native ByRef marshaling`
+- Commit date: 2026-07-01
+- Branch relation observed on 2026-07-15: the pinned commit is an ancestor of
+  `origin/master`.
+- The sibling checkout was at `870ff78f39d241a9b150703a370927f8ca4eafef`
+  with an unrelated untracked `artifacts/windows-x64/excel-vba-oracle/`
+  directory. That mutable checkout is context only and is not the committed
+  dependency baseline.
 
 Why this baseline rather than a release tag:
 
-- The latest tag, `v0.1.2`, is 2081 commits behind this commit.
-- The workspace package version still reports `0.1.2`, so the semver value alone
-  is not a useful dependency baseline.
-- The current commit includes much newer project/reference, COM, event,
-  default-member, native-body, and host-object work that forms integration will
-  rely on.
+- The workspace package version alone is not a sufficient compatibility
+  baseline; the exact git revision is pinned in every consuming manifest.
+- This revision includes the VM3/OxIR, project/reference, COM, event,
+  default-member, native-body, array-performance, and host-object work used by
+  the current OxForms runtime.
 
-When Rust code lands in OxForms, prefer pinned git dependencies:
+Committed Rust manifests use pinned git dependencies:
 
 ```toml
 [dependencies]
-oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
-oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "501bf64d978afd14b820ebd03096f9fdcc247e38" }
+oxvba-project = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+oxvba-bind = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
 ```
 
 Use local `../OxVba` path overrides only for explicitly coordinated cross-repo
@@ -98,7 +144,11 @@ Known forms integration boundary in this baseline:
   currently exposes `<Module>`, `<ClassModule>`, and `<DocumentModule>` only.
 - OxForms should track form-module materialization, default-instance exposure,
   designer-declared control members, and event handler wiring as OxVba
-  integration closure work rather than papering over the gap locally.
+  integration closure work rather than papering over the gap locally. W010 now
+  owns a precise handover in `oxforms-jbjp.44` and a separate production
+  integration gate in `oxforms-jbjp.57`; local `.frm` parsing/serialization can
+  proceed, but `.57` stays open or precisely blocked until the upstream contract
+  is actually delivered and consumed.
 
 ## Baseline Update Procedure
 

@@ -1,17 +1,14 @@
 # W009 — Complete MSForms Intrinsic Control Breadth
 
-Status: `IN PROGRESS` (phase-0 first-class runtime foundation active; broad control breadth is
-gated behind it)
-Epic: `oxforms-zhz`. The `oxforms-zhz.*` beads are the live phase-0 execution truth;
-the older suffix plan below is retained as the broad-control roadmap until the foundation gate
-rewrites the broad lanes.
+Status: `CLOSED` (closed by `oxforms-zhz.49` at representative W009 subset depth)
+Epic: `oxforms-zhz`. The historical phase-0 plan below is retained as rollout
+context; closed bead state and the final live-lane tables are execution truth.
 Depends on:
 `W006_control_implementation_rollout` (CLOSED — the reviewed control-rollout pattern + the first
 control lanes),
 `W007_production_runtime_vertical_slice` (CLOSED — the Scene / VBA self-render runtime),
-`W008_native_event_breadth` (OPEN — current native-dispatch baseline is usable, but remaining
-oracle/repeat/breadth facts must be respected; W009 parity claims depend on either closure or precise
-blockers).
+`W008_native_event_breadth` (CLOSED — native-dispatch baseline and W008 oracle
+facts consumed by W009).
 Realizes: the **P4 (Control breadth)** phase of
 [`../FORMS_LIBRARY_SPEC_AND_PLAN.md`](../FORMS_LIBRARY_SPEC_AND_PLAN.md) §11 — taking the full
 `FM20.dll` intrinsic control set to the proven subset depth.
