@@ -1,8 +1,8 @@
 # W010 Complete MSForms Object-Model Parity Evidence
 
-Status: committed execution baseline through MS-OFORMS persistence/default
-capture (`oxforms-jbjp.3`), with independent `.frm`/`.frx` export-fact evidence
-in progress (`oxforms-jbjp.43`)
+Status: committed execution baseline through the independently verified
+`.frm`/`.frx` export facts (`oxforms-jbjp.43`); generated public-surface parity
+ledger work is in progress (`oxforms-jbjp.4`)
 
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
@@ -58,12 +58,12 @@ and Appendix product behavior retain their own non-implementation
 classifications. See
 [`../../specs/MSFORMS_PERSISTENCE_MODEL.md`](../../specs/MSFORMS_PERSISTENCE_MODEL.md).
 
-## Independent FRM/FRX Export-Fact Candidate
+## Independent FRM/FRX Export Facts (Closed)
 
-`oxforms-jbjp.43` is generating the independent export-fact surface under
-[`beads/oxforms-jbjp.43/`](beads/oxforms-jbjp.43/). Its artifact and preserved
-fixtures exist, but the bead is not a closure claim until its full checks,
-exact fresh-eyes review, post-review commit, and close complete.
+`oxforms-jbjp.43` closed after the independent export-fact surface under
+[`beads/oxforms-jbjp.43/`](beads/oxforms-jbjp.43/) passed its full verification
+floor and exact fresh-eyes review. The reviewed implementation is commit
+`9572f7a`; `oxforms-jbjp.4` now consumes these facts as an immutable input.
 
 The public-source side pins MS-OVBA 15.0 for `VBFrameText` and the fifteen
 ordered `DesignerProperties`, and MS-VBAL for the physical class-module
@@ -74,7 +74,7 @@ sixteen `Controls.Add` instances spanning all fourteen intrinsic families;
 structural UserForm and Page observations bring the observed-family universe
 to sixteen.
 
-The current candidate records:
+The closed fact surface records:
 
 - three strict authority profiles: genuine Office VBA export, an uncaptured
   separate VB6 profile, and the non-promotable OxForms/legacy synthetic nested
@@ -146,10 +146,10 @@ black-box evidence.
   by FM20, including stdole `Picture`/`IPictureDisp`; a 171-type FM20-only dump
   is insufficient for signature parity.
 - MS-OFORMS is the binary Office forms/default source, not the text `.frm`
-  grammar or `.frx` export-offset specification. `oxforms-jbjp.43` now keeps
-  that independent candidate universe in a generated manifest derived from
-  preserved real exports and pinned MS-OVBA/MS-VBAL rows, before
-  parser/serializer implementation.
+  grammar or `.frx` export-offset specification. `oxforms-jbjp.43` keeps that
+  independent fact universe in a generated manifest derived from preserved
+  real exports and pinned MS-OVBA/MS-VBAL rows, before parser/serializer
+  implementation.
 
 Representative mechanical gaps found before W010:
 
@@ -204,12 +204,14 @@ and preservation of the unrelated `.gitignore` edit.
 |---|---|
 | `cargo fmt --check` | passed |
 | clippy, workspace/all targets, warnings denied | passed |
-| evidence validators | 31/31 passed |
-| `git diff --check` | no content error; pre-existing `.gitignore` line-ending warning only |
+| `.43` targeted/source-required wrapper | 110 tests passed; 2 platform skips |
+| evidence validators | 37/37 passed |
+| `git diff --check` | passed; unrelated user `.gitignore` edit excluded from the commit |
 | bead dependency cycles | none |
-| workspace Rust tests | not a pass: initial 300-second budget expired in `oxvba_reducer_cmdbutton` without a reported assertion failure |
+| workspace Rust tests | passed |
 
-The `.43` evidence runner is registered but its final bead-level verification
-record is still pending. Later beads add their artifacts here and extend the
-repository evidence runner with deterministic validators. A dashboard summary
-is never a substitute for a generated member row and its test/evidence anchors.
+The `.43` evidence runner, source-required validation, promotion-safety suite,
+Rust floor, graph checks, and independent fresh-eyes review are complete. Later
+beads add their artifacts here and extend the repository evidence runner with
+deterministic validators. A dashboard summary is never a substitute for a
+generated member row and its test/evidence anchors.

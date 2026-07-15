@@ -101,11 +101,11 @@ The persistence schema and non-claims are in
 [`../specs/MSFORMS_PERSISTENCE_MODEL.md`](../specs/MSFORMS_PERSISTENCE_MODEL.md).
 Neither metadata fact pack implements a callable member or persistence codec.
 
-Strict successor `oxforms-jbjp.43` is now in progress with an independent
-`.frm`/`.frx` export-fact candidate. It preserves three genuine Excel
+Strict successor `oxforms-jbjp.43` is closed with an independently verified
+`.frm`/`.frx` export-fact surface. It preserves three genuine Excel
 `16.0.20131.20112`/VBE `7.01` `VBComponent.Export` pairs and pins the adjacent
 MS-OVBA `VBFrameText`/fifteen-`DesignerProperties` grammar plus the MS-VBAL
-class-header/body boundary. The current candidate records:
+class-header/body boundary. The closed artifact records:
 
 - three non-promotable authority profiles: captured Office VBA export,
   uncaptured VB6, and OxForms/legacy synthetic nested compatibility input;
@@ -134,9 +134,9 @@ projections, not decoded claims about the live opaque FRX streams.
 The ten registered HTML ProgIDs' same-build designer-add `E_INVALIDARG` result
 is limited to that observation and does not establish runtime non-callability.
 No FRX property decoding, parser/serializer/codec, runtime API, VB6, or broader
-HTML claim is made. The presence of the candidate artifact does not close
-`.43`; its full verification, exact fresh-eyes review, post-review commit, and
-bead close remain required.
+HTML claim is made. Full verification and the exact fresh-eyes review passed;
+the implementation landed in `9572f7a`, `.43` is closed, and `.4` is now
+building the generated row-level parity ledger from these immutable inputs.
 
 ## Compatibility Perimeter
 

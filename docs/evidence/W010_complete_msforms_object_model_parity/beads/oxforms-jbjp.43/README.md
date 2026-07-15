@@ -1,7 +1,7 @@
 # oxforms-jbjp.43 — Independent FRM/FRX Export Facts
 
-Status: generated evidence candidate; bead verification, exact fresh-eyes
-review, post-review commit, and closure are still in progress
+Status: closed after full verification and an exact fresh-eyes review; reviewed
+implementation committed as `9572f7a`
 
 This bead establishes an independent text-export and resource-container fact
 surface for later W010 parser, serializer, resource, and corpus work. It changes
@@ -233,9 +233,12 @@ comparison:
 pwsh -File tools/evidence/Test-W010FrmFrxExportFacts.ps1 -RequireSource
 ```
 
-The owning bead must also pass the repository Rust/evidence/hygiene/graph floor
-and the exact mandated fresh-eyes review before this README may claim the bead
-is closed. The presence of this candidate artifact is not closure evidence.
+The repository Rust/evidence/hygiene/graph floor passed, including 110 focused
+tests (two platform skips) and 37/37 repository evidence checks. An independent
+fresh-eyes review found and drove correction of a default/status prose
+overclaim and two promotion-gate weaknesses, then returned a clean final
+verdict after a genuine hardened-tool recapture. The reviewed implementation
+is commit `9572f7a`.
 
 ## Explicit non-claims
 
