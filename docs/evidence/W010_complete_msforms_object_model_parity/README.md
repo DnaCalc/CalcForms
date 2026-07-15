@@ -1,11 +1,33 @@
 # W010 Complete MSForms Object-Model Parity Evidence
 
-Status: planning baseline (`oxforms-jbjp.1`)
+Status: execution baseline through FM20 fact capture (`oxforms-jbjp.2`)
 
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
 earlier evidence: W005/W006/W008 event captures and W009 representative-control
 proofs remain inputs, but they do not constitute full member parity.
+
+## FM20/referenced-typelib Fact Baseline
+
+`oxforms-jbjp.2` generated the complete public metadata baseline under
+[`beads/oxforms-jbjp.2/`](beads/oxforms-jbjp.2/). It captures 171 FM20 primary
+entries, 37 non-merged dual-interface companions, and the exact 12-node stdole
+closure required to resolve every emitted signature, including separate
+`Picture` and `IPictureDisp` alias nodes.
+
+The validator reconciles 2,832 functions, 221 variables, 216 implementation
+edges, 3,153 parameters, and 1,446 resolved reference occurrences. It also
+recomputes the legacy W005 projection: all 51 coclass/source attachments and
+376 selected event rows match structurally, with zero unexplained deltas. The
+classification `source_binary_changed_structure_same` records the old/new
+FM20 file-hash difference without weakening stable public-structure checks.
+
+The ordinary repository evidence pass is Office-independent. The owning bead
+also validates the exact installed source/runtime pins and performs two clean
+regenerations before byte-comparing the committed artifacts. See
+[`../../specs/FM20_TYPELIB_FACT_SCHEMA.md`](../../specs/FM20_TYPELIB_FACT_SCHEMA.md)
+for the schema, stable identities, closure algorithm, validator contract, and
+non-claims.
 
 The reviewed execution graph has 72 strict, atomic child beads. Each child has
 an exact evidence path declared in its `br` design field, an explicit

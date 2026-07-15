@@ -1,0 +1,18 @@
+{
+  "schema": "oxforms.fm20_expected_capture.v1",
+  "schema_version": 1,
+  "fact_schema": "oxforms.fm20_typelib_facts.v1",
+  "fact_canonical_sha256": "b10c9ef2b21769e9a2d6802297409dde231faab2355a9cf613c7c4a3b0a38b77",
+  "fact_counts": {
+    "exported_type_view_count": 220,
+    "function_count": 2832,
+    "variable_count": 221,
+    "implementation_edge_count": 216,
+    "parameter_count": 3153,
+    "type_reference_count": 1446
+  },
+  "comparison_schema": "oxforms.fm20_w005_event_reconciliation.v1",
+  "comparison_classification": "source_binary_changed_structure_same",
+  "comparison_row_count": 376,
+  "comparison_structural_delta_count": 0
+}

@@ -10,6 +10,8 @@
       - office-oracle scaffold and the W003 oracle comparison manifest;
       - the trace/replay schema validator over every committed trace sample;
       - the W005 interaction comparison manifest;
+      - the W010 committed FM20/referenced-typelib fact pack and W005
+        structural reconciliation (without requiring live Office inputs);
       - every committed checksums.sha256 manifest (git-tracked coverage).
 
     Per-capture Office evidence validators (Test-W006*CaptureEvidence.ps1, etc.)
@@ -74,6 +76,7 @@ function Invoke-Check {
 Invoke-Check -Name 'office-oracle scaffold' -Script 'tools/office-oracle/Test-OfficeOracleScaffold.ps1'
 Invoke-Check -Name 'W003 oracle comparison manifest' -Script 'tools/office-oracle/Test-OracleComparisonManifest.ps1'
 Invoke-Check -Name 'W005 interaction comparison manifest' -Script 'tools/evidence/Test-W005InteractionComparison.ps1'
+Invoke-Check -Name 'W010 FM20 typelib fact pack' -Script 'tools/evidence/Test-W010FM20TypeLibFacts.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

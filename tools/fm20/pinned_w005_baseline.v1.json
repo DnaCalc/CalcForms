@@ -1,0 +1,50 @@
+{
+  "schema": "oxforms.fm20_w005_baseline_pin.v1",
+  "schema_version": 1,
+  "artifact": {
+    "path": "docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json",
+    "size_bytes": 1009564,
+    "sha256": "3542ff0f264ea87d6100bf4e3da815b5893cc4f6080a61e03572b0879f01f2e5",
+    "schema": "oxforms.fm20_typelib_w005_events.v1",
+    "recorded_fm20_sha256": "e5085d8229d72180c7f2d8762e1a49fff18a04f0143d7a973ff1fbc6200cb81e"
+  },
+  "counts": {
+    "attachments": 51,
+    "arguments": 1206,
+    "event_names": 22,
+    "rows": 376,
+    "source_interfaces": 26
+  },
+  "included_events": [
+    "AddControl",
+    "AfterUpdate",
+    "BeforeDragOver",
+    "BeforeDropOrPaste",
+    "BeforeUpdate",
+    "Change",
+    "Click",
+    "DblClick",
+    "DropButtonClick",
+    "Enter",
+    "Error",
+    "Exit",
+    "KeyDown",
+    "KeyPress",
+    "KeyUp",
+    "Layout",
+    "MouseDown",
+    "MouseMove",
+    "MouseUp",
+    "RemoveControl",
+    "Scroll",
+    "Zoom"
+  ],
+  "lifecycle_events_checked_by_name": [
+    "Activate",
+    "Deactivate",
+    "Initialize",
+    "QueryClose",
+    "Resize",
+    "Terminate"
+  ]
+}

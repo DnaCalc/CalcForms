@@ -1,0 +1,8 @@
+/.gitattributes text eol=lf
+/tools/fm20/*.py text eol=lf
+/tools/fm20/*.json text eol=lf
+/tools/fm20/tests/*.py text eol=lf
+/docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json text eol=crlf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/README.md text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/checksums.sha256 text eol=lf

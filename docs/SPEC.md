@@ -48,6 +48,11 @@ planning truth.
    as the canonical MSForms runtime, borrows sibling DNA UI stack concepts only
    through explicit service seams, and gates any future DOM/WebView binder behind
    the same runtime contract.
+9. [`specs/FM20_TYPELIB_FACT_SCHEMA.md`](specs/FM20_TYPELIB_FACT_SCHEMA.md) -
+   W010's deterministic full FM20/referenced-typelib fact schema, pinned source
+   identities, dual-interface and stdole closure rules, stable identities,
+   descriptor/flag/default encoding, W005 structural reconciliation, and
+   validator contract.
 
 ## Source References
 
@@ -59,7 +64,8 @@ planning truth.
 Completed splits are listed above. As work grows, split the top-level document
 into additional focused specs and keep them reachable from this index:
 
-- object model and generated fact pack;
+- generated row-level public parity ledger and facade contract (the raw
+  object-model fact pack is now specified above);
 - `.frm` / `.frx` persistence;
 - reducer state model and event/effect semantics;
 - retained-Scene rendering and PAL contract;

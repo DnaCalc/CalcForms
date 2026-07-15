@@ -1,0 +1,5010 @@
+{
+  "attachment_deltas": [],
+  "classification": "source_binary_changed_structure_same",
+  "comparison_rules": {
+    "ignored_capture_local_fields": [
+      "HREFTYPE integers",
+      "implementation indexes",
+      "raw tuple string formatting",
+      "generated timestamps",
+      "absolute help-file path casing"
+    ],
+    "signature_fields": [
+      "names",
+      "function kind",
+      "invoke kind",
+      "call convention",
+      "function flags",
+      "resolved return type",
+      "ordered parameter names/types/flags/defaults"
+    ],
+    "stable_attachment_key": [
+      "coclass name",
+      "source-interface name",
+      "source-interface GUID",
+      "implementation flags"
+    ],
+    "stable_row_key": [
+      "coclass name",
+      "source-interface name",
+      "source-interface GUID",
+      "DISPID",
+      "invoke kind",
+      "event name"
+    ]
+  },
+  "counts": {
+    "current_projection": {
+      "arguments": 1206,
+      "attachments": 51,
+      "event_names": 22,
+      "rows": 376,
+      "source_interfaces": 26
+    },
+    "w005": {
+      "arguments": 1206,
+      "attachments": 51,
+      "event_names": 22,
+      "rows": 376,
+      "source_interfaces": 26
+    }
+  },
+  "current_fact_pack": {
+    "canonical_sha256": "b10c9ef2b21769e9a2d6802297409dde231faab2355a9cf613c7c4a3b0a38b77",
+    "fm20_sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+    "schema": "oxforms.fm20_typelib_facts.v1"
+  },
+  "included_event_names": [
+    "AddControl",
+    "AfterUpdate",
+    "BeforeDragOver",
+    "BeforeDropOrPaste",
+    "BeforeUpdate",
+    "Change",
+    "Click",
+    "DblClick",
+    "DropButtonClick",
+    "Enter",
+    "Error",
+    "Exit",
+    "KeyDown",
+    "KeyPress",
+    "KeyUp",
+    "Layout",
+    "MouseDown",
+    "MouseMove",
+    "MouseUp",
+    "RemoveControl",
+    "Scroll",
+    "Zoom"
+  ],
+  "lifecycle_name_check": {
+    "checked": [
+      "Activate",
+      "Deactivate",
+      "Initialize",
+      "QueryClose",
+      "Resize",
+      "Terminate"
+    ],
+    "found_in_current_fm20_source_interfaces": [],
+    "interpretation": "Absence from FM20 source interfaces does not exclude the public UserForm host lifecycle overlay.",
+    "not_found_in_current_fm20_source_interfaces": [
+      "Activate",
+      "Deactivate",
+      "Initialize",
+      "QueryClose",
+      "Resize",
+      "Terminate"
+    ]
+  },
+  "row_results": [
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "CheckBox",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "CheckBox2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcCheckBoxEvents",
+        "source_interface_guid": "{8BD21D42-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f",
+      "key": {
+        "coclass": "ComboBox",
+        "dispid": 2002,
+        "event_name": "DropButtonClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f",
+      "key": {
+        "coclass": "ComboBox2",
+        "dispid": 2002,
+        "event_name": "DropButtonClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcComboEvents",
+        "source_interface_guid": "{8BD21D32-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "CommandButton",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "CommandButton2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "CommandButtonEvents",
+        "source_interface_guid": "{7B020EC1-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "0bf42eb5a08a240c1780b4d94ae4d3192af1a4749779e4a4c5b0da44027adf32",
+      "key": {
+        "coclass": "Control",
+        "dispid": -2147384832,
+        "event_name": "AfterUpdate",
+        "invoke_kind": 1,
+        "source_interface": "ControlEvents",
+        "source_interface_guid": "{9A4BBF53-4E46-101B-8BBD-00AA003E3B29}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0bf42eb5a08a240c1780b4d94ae4d3192af1a4749779e4a4c5b0da44027adf32"
+    },
+    {
+      "current_signature_sha256": "9217dfcbe1bdad8b70c6ae21841d6c4d40eef2ae4ec6a9dc99fe8a496d7d6b15",
+      "key": {
+        "coclass": "Control",
+        "dispid": -2147384831,
+        "event_name": "BeforeUpdate",
+        "invoke_kind": 1,
+        "source_interface": "ControlEvents",
+        "source_interface_guid": "{9A4BBF53-4E46-101B-8BBD-00AA003E3B29}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "9217dfcbe1bdad8b70c6ae21841d6c4d40eef2ae4ec6a9dc99fe8a496d7d6b15"
+    },
+    {
+      "current_signature_sha256": "91fe14e235558d2577220ced3da0bc8660956a5f58240e767692821b5835cf6b",
+      "key": {
+        "coclass": "Control",
+        "dispid": -2147384830,
+        "event_name": "Enter",
+        "invoke_kind": 1,
+        "source_interface": "ControlEvents",
+        "source_interface_guid": "{9A4BBF53-4E46-101B-8BBD-00AA003E3B29}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "91fe14e235558d2577220ced3da0bc8660956a5f58240e767692821b5835cf6b"
+    },
+    {
+      "current_signature_sha256": "38b255bba1232948f27781daff5237c0a9516b458ce7136d3585b2ae07668b94",
+      "key": {
+        "coclass": "Control",
+        "dispid": -2147384829,
+        "event_name": "Exit",
+        "invoke_kind": 1,
+        "source_interface": "ControlEvents",
+        "source_interface_guid": "{9A4BBF53-4E46-101B-8BBD-00AA003E3B29}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "38b255bba1232948f27781daff5237c0a9516b458ce7136d3585b2ae07668b94"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "Frame",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2"
+    },
+    {
+      "current_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa"
+    },
+    {
+      "current_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 768,
+        "event_name": "AddControl",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8"
+    },
+    {
+      "current_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 770,
+        "event_name": "Layout",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf"
+    },
+    {
+      "current_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 771,
+        "event_name": "RemoveControl",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414"
+    },
+    {
+      "current_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 772,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243"
+    },
+    {
+      "current_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16",
+      "key": {
+        "coclass": "Frame",
+        "dispid": 773,
+        "event_name": "Zoom",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2"
+    },
+    {
+      "current_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa"
+    },
+    {
+      "current_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 768,
+        "event_name": "AddControl",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8"
+    },
+    {
+      "current_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 770,
+        "event_name": "Layout",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf"
+    },
+    {
+      "current_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 771,
+        "event_name": "RemoveControl",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414"
+    },
+    {
+      "current_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 772,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243"
+    },
+    {
+      "current_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16",
+      "key": {
+        "coclass": "Frame2",
+        "dispid": 773,
+        "event_name": "Zoom",
+        "invoke_kind": 1,
+        "source_interface": "OptionFrameEvents",
+        "source_interface_guid": "{CF3F94A0-F546-11CE-9BCE-00AA00608E01}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLCheckbox",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents3",
+        "source_interface_guid": "{47FF8FE2-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLCheckbox2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents3",
+        "source_interface_guid": "{47FF8FE2-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLHidden",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents6",
+        "source_interface_guid": "{47FF8FE5-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLHidden2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents6",
+        "source_interface_guid": "{47FF8FE5-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLImage",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents1",
+        "source_interface_guid": "{47FF8FE0-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLImage2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents1",
+        "source_interface_guid": "{47FF8FE0-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLOption",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents4",
+        "source_interface_guid": "{47FF8FE3-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLOption2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents4",
+        "source_interface_guid": "{47FF8FE3-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLPassword",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents7",
+        "source_interface_guid": "{47FF8FE6-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLPassword2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents7",
+        "source_interface_guid": "{47FF8FE6-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLReset",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents2",
+        "source_interface_guid": "{47FF8FE1-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLReset2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents2",
+        "source_interface_guid": "{47FF8FE1-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLSelect",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents9",
+        "source_interface_guid": "{47FF8FE8-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLSelect2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents9",
+        "source_interface_guid": "{47FF8FE8-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLSubmit",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents",
+        "source_interface_guid": "{796ED650-5FE9-11CF-8D68-00AA00BDCE1D}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLSubmit2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents",
+        "source_interface_guid": "{796ED650-5FE9-11CF-8D68-00AA00BDCE1D}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLText",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents5",
+        "source_interface_guid": "{47FF8FE4-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLText2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents5",
+        "source_interface_guid": "{47FF8FE4-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLTextArea",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents10",
+        "source_interface_guid": "{47FF8FE9-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03",
+      "key": {
+        "coclass": "HTMLTextArea2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "WHTMLControlEvents10",
+        "source_interface_guid": "{47FF8FE9-6198-11CF-8CE8-00AA006CB389}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "b96285e825d6655b075992323c40ea5a2fce9251444faa10e95a3b7432f09d03"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "Image",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "Image",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "Image",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "Image",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "186f713402975abcc460b431b9f9720dc95c115da07c0233550e62366d517217",
+      "key": {
+        "coclass": "Image",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "186f713402975abcc460b431b9f9720dc95c115da07c0233550e62366d517217"
+    },
+    {
+      "current_signature_sha256": "066834b0633f738e1320ed90e4933277debb8ec0807dde7dfd46789bbb15cde4",
+      "key": {
+        "coclass": "Image",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "066834b0633f738e1320ed90e4933277debb8ec0807dde7dfd46789bbb15cde4"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "Image",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "Image",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "Image2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "Image2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "Image2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "Image2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "186f713402975abcc460b431b9f9720dc95c115da07c0233550e62366d517217",
+      "key": {
+        "coclass": "Image2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "186f713402975abcc460b431b9f9720dc95c115da07c0233550e62366d517217"
+    },
+    {
+      "current_signature_sha256": "066834b0633f738e1320ed90e4933277debb8ec0807dde7dfd46789bbb15cde4",
+      "key": {
+        "coclass": "Image2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "066834b0633f738e1320ed90e4933277debb8ec0807dde7dfd46789bbb15cde4"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "Image2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "Image2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "ImageEvents",
+        "source_interface_guid": "{4C5992A5-6926-101B-9992-00000B65C6F9}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "Label",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "Label",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "Label",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "Label",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "Label",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "Label",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "Label",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "Label",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "Label2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "Label2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "Label2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "Label2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "Label2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "Label2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "Label2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "Label2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "LabelControlEvents",
+        "source_interface_guid": "{978C9E22-D4B0-11CE-BF2D-00AA003F40D0}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ListBox",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ListBox2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcListEvents",
+        "source_interface_guid": "{8BD21D22-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "a927f879c452c68280ff398dbb160f66c25dd4c572384f4fb76cb8e33b092076",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "a927f879c452c68280ff398dbb160f66c25dd4c572384f4fb76cb8e33b092076"
+    },
+    {
+      "current_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994"
+    },
+    {
+      "current_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae"
+    },
+    {
+      "current_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed"
+    },
+    {
+      "current_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "9730ac3716f366b0217dfcd7ea7b2c5ceb4934ffddf78e62f8120552bd3be7b5",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "9730ac3716f366b0217dfcd7ea7b2c5ceb4934ffddf78e62f8120552bd3be7b5"
+    },
+    {
+      "current_signature_sha256": "18826df9a61f5b82671a379cf8830dcce9edcd1577fb4f3da7668a255662e7fb",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "18826df9a61f5b82671a379cf8830dcce9edcd1577fb4f3da7668a255662e7fb"
+    },
+    {
+      "current_signature_sha256": "cedac91ed4f3688f79cde7d2980504569bc2d4fc94385aa1bb25c6acba365078",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 768,
+        "event_name": "AddControl",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "cedac91ed4f3688f79cde7d2980504569bc2d4fc94385aa1bb25c6acba365078"
+    },
+    {
+      "current_signature_sha256": "14068b0611c8e72dbeabf49104a94f8c9d1ee3ec66a8287fee390944fa29409f",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 770,
+        "event_name": "Layout",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "14068b0611c8e72dbeabf49104a94f8c9d1ee3ec66a8287fee390944fa29409f"
+    },
+    {
+      "current_signature_sha256": "42bba7f1744fe8d216147e85f8dea3454b6647b5be2b35e504ae76723fc258ca",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 771,
+        "event_name": "RemoveControl",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "42bba7f1744fe8d216147e85f8dea3454b6647b5be2b35e504ae76723fc258ca"
+    },
+    {
+      "current_signature_sha256": "480e19c6f13240545845642e30097100fa1ed41e06a899f3a2a7f39b5251f6b2",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 772,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "480e19c6f13240545845642e30097100fa1ed41e06a899f3a2a7f39b5251f6b2"
+    },
+    {
+      "current_signature_sha256": "34292e978838fb8b9e66a8ea14366816afe6732098d8a17f6221daa5812dcd39",
+      "key": {
+        "coclass": "MultiPage",
+        "dispid": 773,
+        "event_name": "Zoom",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "34292e978838fb8b9e66a8ea14366816afe6732098d8a17f6221daa5812dcd39"
+    },
+    {
+      "current_signature_sha256": "a927f879c452c68280ff398dbb160f66c25dd4c572384f4fb76cb8e33b092076",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "a927f879c452c68280ff398dbb160f66c25dd4c572384f4fb76cb8e33b092076"
+    },
+    {
+      "current_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994"
+    },
+    {
+      "current_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae"
+    },
+    {
+      "current_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed"
+    },
+    {
+      "current_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "9730ac3716f366b0217dfcd7ea7b2c5ceb4934ffddf78e62f8120552bd3be7b5",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "9730ac3716f366b0217dfcd7ea7b2c5ceb4934ffddf78e62f8120552bd3be7b5"
+    },
+    {
+      "current_signature_sha256": "18826df9a61f5b82671a379cf8830dcce9edcd1577fb4f3da7668a255662e7fb",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "18826df9a61f5b82671a379cf8830dcce9edcd1577fb4f3da7668a255662e7fb"
+    },
+    {
+      "current_signature_sha256": "cedac91ed4f3688f79cde7d2980504569bc2d4fc94385aa1bb25c6acba365078",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 768,
+        "event_name": "AddControl",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "cedac91ed4f3688f79cde7d2980504569bc2d4fc94385aa1bb25c6acba365078"
+    },
+    {
+      "current_signature_sha256": "14068b0611c8e72dbeabf49104a94f8c9d1ee3ec66a8287fee390944fa29409f",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 770,
+        "event_name": "Layout",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "14068b0611c8e72dbeabf49104a94f8c9d1ee3ec66a8287fee390944fa29409f"
+    },
+    {
+      "current_signature_sha256": "42bba7f1744fe8d216147e85f8dea3454b6647b5be2b35e504ae76723fc258ca",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 771,
+        "event_name": "RemoveControl",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "42bba7f1744fe8d216147e85f8dea3454b6647b5be2b35e504ae76723fc258ca"
+    },
+    {
+      "current_signature_sha256": "480e19c6f13240545845642e30097100fa1ed41e06a899f3a2a7f39b5251f6b2",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 772,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "480e19c6f13240545845642e30097100fa1ed41e06a899f3a2a7f39b5251f6b2"
+    },
+    {
+      "current_signature_sha256": "34292e978838fb8b9e66a8ea14366816afe6732098d8a17f6221daa5812dcd39",
+      "key": {
+        "coclass": "MultiPage2",
+        "dispid": 773,
+        "event_name": "Zoom",
+        "invoke_kind": 1,
+        "source_interface": "MultiPageEvents",
+        "source_interface_guid": "{7B020EC8-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "34292e978838fb8b9e66a8ea14366816afe6732098d8a17f6221daa5812dcd39"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "OptionButton",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "OptionButton2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcOptionButtonEvents",
+        "source_interface_guid": "{8BD21D52-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "715552dcf1e4e43529edd79b9efe131710d70f49d138ae94d509dff2b0ee3c6a",
+      "key": {
+        "coclass": "ScrollBar",
+        "dispid": 7,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "715552dcf1e4e43529edd79b9efe131710d70f49d138ae94d509dff2b0ee3c6a"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "715552dcf1e4e43529edd79b9efe131710d70f49d138ae94d509dff2b0ee3c6a",
+      "key": {
+        "coclass": "ScrollBar2",
+        "dispid": 7,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "ScrollbarEvents",
+        "source_interface_guid": "{7B020EC2-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "715552dcf1e4e43529edd79b9efe131710d70f49d138ae94d509dff2b0ee3c6a"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "SpinButton",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "SpinButton2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "SpinbuttonEvents",
+        "source_interface_guid": "{79176FB2-B7F2-11CE-97EF-00AA006D2776}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994"
+    },
+    {
+      "current_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae"
+    },
+    {
+      "current_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed"
+    },
+    {
+      "current_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "db042068738e2f59dee0aa40d0ab3eff6b3fa59915eab0a88d2fe7f8ea2b6705",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "db042068738e2f59dee0aa40d0ab3eff6b3fa59915eab0a88d2fe7f8ea2b6705"
+    },
+    {
+      "current_signature_sha256": "fa458ee927f4a78220a2c1ab82683cc3739b9ae0e75cb4e410a24a8ca1897876",
+      "key": {
+        "coclass": "TabStrip",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fa458ee927f4a78220a2c1ab82683cc3739b9ae0e75cb4e410a24a8ca1897876"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "32971fa857010fecfee307554d117296f276ad6e1b4d40f87c6087d0ac42a994"
+    },
+    {
+      "current_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0f40a7654e8e1d0de4366bd094461f758e5c5825012903d9b73411b7916414ae"
+    },
+    {
+      "current_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "0251d9e6020336390afea50aa71a369867570c42b076200c94b0819c3080c364"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f6aff892173baf7af1e3225e881c9b7175668867a34d263a59d21cf9b21ea6ed"
+    },
+    {
+      "current_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "38a46f3e3a7b4e46cffd737715abafa56e79b7d96a9de17939e07ae05a0e264c"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "db042068738e2f59dee0aa40d0ab3eff6b3fa59915eab0a88d2fe7f8ea2b6705",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "db042068738e2f59dee0aa40d0ab3eff6b3fa59915eab0a88d2fe7f8ea2b6705"
+    },
+    {
+      "current_signature_sha256": "fa458ee927f4a78220a2c1ab82683cc3739b9ae0e75cb4e410a24a8ca1897876",
+      "key": {
+        "coclass": "TabStrip2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "TabStripEvents",
+        "source_interface_guid": "{7B020EC7-AF6C-11CE-9F46-00AA00574A4F}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fa458ee927f4a78220a2c1ab82683cc3739b9ae0e75cb4e410a24a8ca1897876"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f",
+      "key": {
+        "coclass": "TextBox",
+        "dispid": 2002,
+        "event_name": "DropButtonClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "6e4a01a4398b85a9bcd3208c13b4ef16de6caa84d03e3065b1a4fa425e0600e2"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f",
+      "key": {
+        "coclass": "TextBox2",
+        "dispid": 2002,
+        "event_name": "DropButtonClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcTextEvents",
+        "source_interface_guid": "{8BD21D12-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d760feace5ba9695dc36b38ab57e6a10307342bc70b2d716673f1db29afc5c8f"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ToggleButton",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -610,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": 2,
+        "event_name": "Change",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2fbb74e470c43587c22c651a875ea1873024be28bf1603e15061538821d559c6"
+    },
+    {
+      "current_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4adc618d68602a9e1a29e2b28038a28873ae0ee6362cc316a3ef3f2b8066d804"
+    },
+    {
+      "current_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8",
+      "key": {
+        "coclass": "ToggleButton2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "MdcToggleButtonEvents",
+        "source_interface_guid": "{8BD21D62-EC42-11CE-9E0D-00AA006002F3}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "67757b420c361d3d09d61b14ba5c988486ea4d636a6563cf39f09e6c9bf9d1e8"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2"
+    },
+    {
+      "current_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa"
+    },
+    {
+      "current_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 768,
+        "event_name": "AddControl",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8"
+    },
+    {
+      "current_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 770,
+        "event_name": "Layout",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf"
+    },
+    {
+      "current_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 771,
+        "event_name": "RemoveControl",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414"
+    },
+    {
+      "current_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 772,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243"
+    },
+    {
+      "current_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16",
+      "key": {
+        "coclass": "UserForm",
+        "dispid": 773,
+        "event_name": "Zoom",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16"
+    },
+    {
+      "current_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -608,
+        "event_name": "Error",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "4bdaf5e9dea171c4bb5ff1ac7fe077b3900bd086306d4fa2dbbda42a551583fe"
+    },
+    {
+      "current_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -607,
+        "event_name": "MouseUp",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "725600d4d25cb7b88ff76d549a5c8e1c79f30777a28551b6f94c268a1adc68fd"
+    },
+    {
+      "current_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -606,
+        "event_name": "MouseMove",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "74392df0576107a0e56405decc1107e3d7bb9772a22389fc095bdb23e83523e2"
+    },
+    {
+      "current_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -605,
+        "event_name": "MouseDown",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "e6fd4f5a99295771c8be6a815458ccf3ae37c7a9c009a16b091da230071e1787"
+    },
+    {
+      "current_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -604,
+        "event_name": "KeyUp",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "29b0fbb03eddc2a2988bb9da3fa68bd863f231c9ae4ab56dce2007b7d492f960"
+    },
+    {
+      "current_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -603,
+        "event_name": "KeyPress",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "776ee6894a618f7413455857246778dc8ab1d9d68f5483614df6dbc219b6d563"
+    },
+    {
+      "current_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -602,
+        "event_name": "KeyDown",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "77f73e7c1a333b5b54bca87b78c487d0f612dac4865376c13ebc011b04eaa306"
+    },
+    {
+      "current_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -601,
+        "event_name": "DblClick",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "fbbabaa85e4ce0d1cd458f8e45fc0d24cc51976f251f4c645fc80290a47fa6a6"
+    },
+    {
+      "current_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": -600,
+        "event_name": "Click",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "070c73c9163554087f6148ce13a4950dbca0261e8619b36172b271ceef1fd9b9"
+    },
+    {
+      "current_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 3,
+        "event_name": "BeforeDragOver",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "d6b6a9be667c2cb615933daf4317b7ccef79ed18161f1283c09aac42d76b01b2"
+    },
+    {
+      "current_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 4,
+        "event_name": "BeforeDropOrPaste",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "605019dd88e444e09a6a1852102014f6f7b8aae8960819e44d92d1e129496dfa"
+    },
+    {
+      "current_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 768,
+        "event_name": "AddControl",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "2e1c7850f4ea9409ef50bf63be31f5caa100258a395779aaf5ee1d059a4354f8"
+    },
+    {
+      "current_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 770,
+        "event_name": "Layout",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "5bee065406f5307d2ec2b262dbe497c3329848bc7c60a2deefa21f6164d3b3cf"
+    },
+    {
+      "current_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 771,
+        "event_name": "RemoveControl",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "56384586b7a9a6a49425e01dd740551d34eb363c50784562d1d97360e0a9a414"
+    },
+    {
+      "current_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 772,
+        "event_name": "Scroll",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "f696de74859ed0a59d8c116007cd16affe8bd056b54d25f2020d4614175b1243"
+    },
+    {
+      "current_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16",
+      "key": {
+        "coclass": "UserForm2",
+        "dispid": 773,
+        "event_name": "Zoom",
+        "invoke_kind": 1,
+        "source_interface": "FormEvents",
+        "source_interface_guid": "{5B9D8FC8-4A71-101B-97A6-00000B65C08B}"
+      },
+      "status": "exact_match",
+      "w005_signature_sha256": "cc2e0e22eb982a2434c5431bae88dabebee567aa65a85fd134b03670faad8d16"
+    }
+  ],
+  "schema": "oxforms.fm20_w005_event_reconciliation.v1",
+  "schema_version": 1,
+  "source_binary_delta": {
+    "changed": true,
+    "explanation": "The installed public FM20 binary changed after W005; stable public type-library structure is compared independently of the file hash."
+  },
+  "structural_delta_count": 0,
+  "unexplained_structural_deltas": [],
+  "w005_artifact": {
+    "path": "docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json",
+    "recorded_fm20_sha256": "e5085d8229d72180c7f2d8762e1a49fff18a04f0143d7a973ff1fbc6200cb81e",
+    "schema": "oxforms.fm20_typelib_w005_events.v1",
+    "sha256": "3542ff0f264ea87d6100bf4e3da815b5893cc4f6080a61e03572b0879f01f2e5"
+  },
+  "w005_baseline_pin": {
+    "path": "tools/fm20/pinned_w005_baseline.v1.json",
+    "schema": "oxforms.fm20_w005_baseline_pin.v1",
+    "sha256": "037e41fb2b551149f0cec0ea71936a74f86fc31ee5d7d4e3532cbcc0dcc3437b"
+  }
+}

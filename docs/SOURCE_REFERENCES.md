@@ -2,8 +2,8 @@
 
 Status: active reference map
 Last updated: 2026-07-15
-Owning bead: `oxforms-jbjp.1` (baseline reconciliation; generated fact capture
-continues in `oxforms-jbjp.2`/`.3`/`.43`)
+Owning bead: `oxforms-jbjp.2` (FM20/referenced-typelib facts complete; default
+and persistence capture continues in `.3`/`.43`)
 
 This file names external source-of-truth inputs that OxForms reads but does not
 own. Update it whenever a Foundation source mirror or OxVba development baseline
@@ -18,15 +18,37 @@ W010. Observed on 2026-07-15:
 - Library: Microsoft Forms 2.0 Object Library
 - GUID/version: `{0D452EE1-E08F-101A-852E-02608C4D0BB4}`, 2.0
 - File version: `16.0.20131.20012`
+- Product version: `16.0.20131.0`
+- Size: 1,763,584 bytes
 - SHA-256:
   `2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe`
 - Census: 171 type infos: 60 coclasses, 64 dispatch interfaces, 42 enums,
   four aliases, and one non-dispatch `IFont` interface.
 
-The W010 fact pack also resolves public external typelib references needed to
-interpret FM20 signatures, notably stdole `Picture`/`IPictureDisp`; it records
-their library identity and hashes rather than treating a display-name string as
-a complete type.
+The W010 fact pack resolves the exact public external closure needed to
+interpret FM20 signatures. The only referenced library is stdole:
+
+- File: `C:\Windows\System32\stdole2.tlb`
+- Library GUID/version: `{00020430-0000-0000-C000-000000000046}`, 2.0
+- LCID/SYSKIND/flags: 0, `SYS_WIN32`, 8 (`FHASDISKIMAGE`)
+- File/product version: `10.0.26100.1`
+- Size: 28,672 bytes
+- SHA-256:
+  `815d6c50ad934a42800e52faef5207dd9352ab8c386793422682084c8f604c5d`
+
+Reproducible capture runtime: 64-bit Python `3.12.10`, pywin32 `309`, platform
+`Windows-11-10.0.26200-SP0`. The live check rejects runtime drift rather than
+allowing host-provenance bytes to change silently. The ordinary committed-fact
+validator remains standard-library-only.
+
+The generated closure has 171 FM20 primary entries, 37 FM20 dual-interface
+companions, and 12 required stdole types/views. The latter includes distinct
+stdole `Picture` and public `IPictureDisp` alias records rather than treating a
+display name or GUID alone as a complete identity. Exact pins, schema, capture,
+and validation rules are in
+[`specs/FM20_TYPELIB_FACT_SCHEMA.md`](specs/FM20_TYPELIB_FACT_SCHEMA.md); the
+artifacts and checksums are indexed by
+[`evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/README.md`](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/README.md).
 
 Microsoft's public VBA documentation is the object/host overlay and example
 source, not a substitute for the generated typelib ledger:

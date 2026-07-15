@@ -1,0 +1,48 @@
+{
+  "schema": "oxforms.fm20_typelib_pins.v1",
+  "schema_version": 1,
+  "capture_runtime": {
+    "python_version": "3.12.10",
+    "pywin32_version": "309",
+    "process_bits": 64,
+    "platform": "Windows-11-10.0.26200-SP0"
+  },
+  "libraries": [
+    {
+      "role": "root",
+      "name": "MSForms",
+      "path": "C:\\Program Files\\Microsoft Office\\root\\vfs\\System\\FM20.DLL",
+      "file_name": "FM20.DLL",
+      "size_bytes": 1763584,
+      "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+      "file_version": "16.0.20131.20012",
+      "product_version": "16.0.20131.0",
+      "libattr": {
+        "guid": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}",
+        "lcid": 0,
+        "syskind": 1,
+        "major_version": 2,
+        "minor_version": 0,
+        "library_flags": 10
+      }
+    },
+    {
+      "role": "referenced",
+      "name": "stdole",
+      "path": "C:\\Windows\\System32\\stdole2.tlb",
+      "file_name": "stdole2.tlb",
+      "size_bytes": 28672,
+      "sha256": "815d6c50ad934a42800e52faef5207dd9352ab8c386793422682084c8f604c5d",
+      "file_version": "10.0.26100.1",
+      "product_version": "10.0.26100.1",
+      "libattr": {
+        "guid": "{00020430-0000-0000-C000-000000000046}",
+        "lcid": 0,
+        "syskind": 1,
+        "major_version": 2,
+        "minor_version": 0,
+        "library_flags": 8
+      }
+    }
+  ]
+}

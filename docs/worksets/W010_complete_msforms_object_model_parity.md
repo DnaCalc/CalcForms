@@ -55,6 +55,27 @@ The W005 generated typelib artifact is an event-only subset. W010 first creates
 the complete fact pack and generated parity ledger, so later work cannot lose a
 member between prose plans or dashboard summaries.
 
+## Current Execution Baseline
+
+`oxforms-jbjp.1` ratified the 72-bead strict graph. `oxforms-jbjp.2` then
+established the API-shape baseline consumed by the remaining work:
+
+- independently pinned FM20, stdole, capture-runtime, legacy W005, and reviewed
+  semantic-capture identities;
+- all 171 FM20 primary entries and 37 separate dual-interface companions;
+- the exact 12-node referenced stdole closure, including distinct `Picture` and
+  reverse public alias `IPictureDisp` records;
+- 2,832 functions, 221 variables, 216 implementation edges, 3,153 parameters,
+  and 1,446 resolved type-reference occurrences; and
+- 376/376 stable W005 event-row matches with zero unexplained structural deltas
+  despite the explicitly recorded FM20 source-binary hash change.
+
+The schema and non-claims are in
+[`../specs/FM20_TYPELIB_FACT_SCHEMA.md`](../specs/FM20_TYPELIB_FACT_SCHEMA.md).
+This closes metadata capture only. Defaults/persistence begin in
+`oxforms-jbjp.3`; no callable member is implemented merely by appearing in this
+fact pack.
+
 ## Compatibility Perimeter
 
 The primary runtime set is `UserForm`, the intrinsic global `UserForms`

@@ -367,9 +367,13 @@ Control: `Click`, `DblClick`, `Change`, `Enter`, `Exit`, `KeyDown`/`KeyUp`/`KeyP
 
 ### 5.4 Capture method (the "full scope into docs" deliverable)
 Do not hand-transcribe. Two mechanical sources:
-1. **`FM20.dll` type-library dump** (OxVba already has deep typelib introspection):
-   emit every coclass/interface/dispid/property/method/event with exact signatures.
-   This file *is* the API reference and doubles as a conformance checklist.
+1. **Pinned `FM20.dll` plus referenced-typelib dump**: use public
+   `ITypeLib`/`ITypeInfo` metadata to emit every primary and dual-interface
+   view, coclass/interface/DISPID/property/method/event, exact signature, and
+   required external type. The schema and committed 220-view baseline are in
+   [`specs/FM20_TYPELIB_FACT_SCHEMA.md`](specs/FM20_TYPELIB_FACT_SCHEMA.md).
+   The later generated row ledger, not a hand-maintained summary, becomes the
+   conformance checklist.
 2. **[MS-OFORMS]** (now mirrored in Foundation, §11): the exact serialized properties,
    per-control defaults, and enum values.
 
@@ -402,6 +406,13 @@ documentation. It should include:
 The fact pack is the source for planning breadth and tracking parity. Hand-written docs
 may summarize it, but completion claims should point to generated rows and test/evidence
 anchors rather than broad prose.
+
+The API-shape lane completed in `oxforms-jbjp.2`: 171 FM20 primary entries, 37
+dual companions, and the 12-type stdole closure validate and regenerate
+deterministically. The W005 event subset has 376/376 stable structural matches
+despite an explained source-binary hash change. This is metadata closure only;
+the generated callable ledger and behavioral implementation remain later W010
+work.
 
 ### 5.6 Grounded appearance data (from [MS-OFORMS], for L2)
 `fmSpecialEffect`: Flat `0x00`, Raised `0x01`, Sunken `0x02`, Etched `0x03`, Bump `0x06`.
