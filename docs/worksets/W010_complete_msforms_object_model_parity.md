@@ -57,8 +57,8 @@ member between prose plans or dashboard summaries.
 
 ## Current Execution Baseline
 
-`oxforms-jbjp.1` ratified the 72-bead strict graph. `oxforms-jbjp.2` then
-established the API-shape baseline consumed by the remaining work:
+`oxforms-jbjp.1` ratified the 72-bead strict graph. `oxforms-jbjp.2` established
+the API-shape baseline consumed by the remaining work:
 
 - independently pinned FM20, stdole, capture-runtime, legacy W005, and reviewed
   semantic-capture identities;
@@ -70,11 +70,37 @@ established the API-shape baseline consumed by the remaining work:
 - 376/376 stable W005 event-row matches with zero unexplained structural deltas
   despite the explicitly recorded FM20 source-binary hash change.
 
-The schema and non-claims are in
+The API schema and non-claims are in
 [`../specs/FM20_TYPELIB_FACT_SCHEMA.md`](../specs/FM20_TYPELIB_FACT_SCHEMA.md).
-This closes metadata capture only. Defaults/persistence begin in
-`oxforms-jbjp.3`; no callable member is implemented merely by appearing in this
-fact pack.
+
+`oxforms-jbjp.3` then established the independent MS-OFORMS binary-persistence
+and file-format-default baseline:
+
+- exact Foundation commit plus raw document/figure and canonical-LF
+  index/manifest/segment pins, retaining the original dirty-capture caveat;
+- 8,024 lossless selected rows across context, normative structures/defaults
+  and algorithms, examples, security, and all twenty Appendix A notes;
+- 431 non-bitfield record fields (including both ordinary fields in the mixed
+  `FormObjectDepthTypeCount` section), ninety record sections/37 aggregate
+  requirements, 71 record tables, 18 property types, ten expanded resource
+  formats, sixteen cached control ids, and all sixteen persisted visible
+  controls including Page, with explicit composite dependencies;
+- 98 properties: 95 documented defaults plus mandatory-persist `DrawBuffer`,
+  `PageCount`, and `Size`, expanded to 107 typed default rows plus three typed
+  value-domain tables/eight rows;
+- 28 bitfields/320 semantically classified entries including all fifteen exact
+  property masks, 26 enum/constant definitions/132 values, and three typed
+  discriminator/value maps/eight values;
+- one shared algorithm context and three procedures, with all twenty Appendix
+  notes linked to their exact referenced rows; and
+- 179 normative/example-separated reserved, unused, undefined, or ignored rows
+  plus explicit 22-standard/103-occurrence, runtime/API, oracle, example, and
+  product-behavior boundaries.
+
+The persistence schema and non-claims are in
+[`../specs/MSFORMS_PERSISTENCE_MODEL.md`](../specs/MSFORMS_PERSISTENCE_MODEL.md).
+Neither metadata fact pack implements a callable member or persistence codec.
+Canonical `.frm`/`.frx` export facts begin in strict successor `.43`.
 
 ## Compatibility Perimeter
 

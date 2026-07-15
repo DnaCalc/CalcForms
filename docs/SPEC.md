@@ -53,6 +53,11 @@ planning truth.
    identities, dual-interface and stdole closure rules, stable identities,
    descriptor/flag/default encoding, W005 structural reconciliation, and
    validator contract.
+10. [`specs/MSFORMS_PERSISTENCE_MODEL.md`](specs/MSFORMS_PERSISTENCE_MODEL.md) -
+    W010's deterministic MS-OFORMS binary-persistence/default fact model,
+    canonical source pins, control/record/property/mask/enum/resource rows,
+    algorithms/examples/product-behavior classifications, explicit unknowns,
+    and runtime/API non-claims.
 
 ## Source References
 
@@ -66,7 +71,8 @@ into additional focused specs and keep them reachable from this index:
 
 - generated row-level public parity ledger and facade contract (the raw
   object-model fact pack is now specified above);
-- `.frm` / `.frx` persistence;
+- canonical `.frm` / `.frx` export grammar, resources, and persistence (the
+  separate MS-OFORMS binary/default fact model is now specified above);
 - reducer state model and event/effect semantics;
 - retained-Scene rendering and PAL contract;
 - trace/replay and evidence artifacts;

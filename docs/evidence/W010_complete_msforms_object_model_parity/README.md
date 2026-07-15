@@ -1,6 +1,7 @@
 # W010 Complete MSForms Object-Model Parity Evidence
 
-Status: execution baseline through FM20 fact capture (`oxforms-jbjp.2`)
+Status: execution baseline through MS-OFORMS persistence/default capture
+(`oxforms-jbjp.3`)
 
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
@@ -28,6 +29,33 @@ regenerations before byte-comparing the committed artifacts. See
 [`../../specs/FM20_TYPELIB_FACT_SCHEMA.md`](../../specs/FM20_TYPELIB_FACT_SCHEMA.md)
 for the schema, stable identities, closure algorithm, validator contract, and
 non-claims.
+
+## MS-OFORMS Persistence/Default Fact Baseline
+
+`oxforms-jbjp.3` generated the documented binary-persistence/default baseline
+under [`beads/oxforms-jbjp.3/`](beads/oxforms-jbjp.3/). It preserves 8,024
+source rows from persistence context through all twenty Appendix A notes,
+partitioned into normative, example, security, and product-behavior evidence
+classes.
+
+The normalized surfaces contain 431 non-bitfield record fields, ninety record
+sections with 37 aggregate requirements, all 71 control/common-text record
+tables and 16 shared-type tables, 98 properties (95 file-format defaults plus
+three mandatory-persist/no-default properties), 107 typed default rows, three
+property-domain tables/eight rows, 28 bitfields/320 entries including all
+fifteen masks, 26 enumerations/132 values, one algorithm context/three
+procedures, six examples, ten expanded resource formats, sixteen cached control
+ids, and 179 explicit unknown/reserved/ignored rows. The pack also inventories
+22 external standards across 103 occurrences.
+
+Source-required validation checks the exact Foundation commit, hashes every pin
+from that commit blob and from its clean working-tree path, then performs two
+independent clean regenerations. The static repository validator reconstructs
+every derived surface from committed source rows and requires the reviewed
+semantic digest. Runtime API and oracle arrays remain empty; worked examples
+and Appendix product behavior retain their own non-implementation
+classifications. See
+[`../../specs/MSFORMS_PERSISTENCE_MODEL.md`](../../specs/MSFORMS_PERSISTENCE_MODEL.md).
 
 The reviewed execution graph has 72 strict, atomic child beads. Each child has
 an exact evidence path declared in its `br` design field, an explicit

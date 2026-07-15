@@ -375,7 +375,10 @@ Do not hand-transcribe. Two mechanical sources:
    The later generated row ledger, not a hand-maintained summary, becomes the
    conformance checklist.
 2. **[MS-OFORMS]** (now mirrored in Foundation, §11): the exact serialized properties,
-   per-control defaults, and enum values.
+   per-control defaults, enum/constant/value maps, masks/flags, resources, storage
+   dependencies, algorithms, examples, and product notes. The deterministic 8,024-row
+   baseline and its non-claims are specified in
+   [`specs/MSFORMS_PERSISTENCE_MODEL.md`](specs/MSFORMS_PERSISTENCE_MODEL.md).
 
 Behaviors the typelib does not capture must be documented from observation/spec:
 focus→validate→exit ordering (`Enter` → … → `BeforeUpdate` → `AfterUpdate` → `Exit`),
@@ -413,6 +416,16 @@ deterministically. The W005 event subset has 376/376 stable structural matches
 despite an explained source-binary hash change. This is metadata closure only;
 the generated callable ledger and behavioral implementation remain later W010
 work.
+
+The independent persistence/default lane completed in `oxforms-jbjp.3`: the
+lossless MS-OFORMS span now regenerates 431 non-bitfield fields, ninety record
+sections/37 aggregate requirements, all 28 bitfields/320 entries, 98
+properties/107 typed default rows plus three value-domain tables/eight rows,
+26 named enum/constant definitions, three discriminator/value maps, three
+algorithm procedures plus their shared context, all twenty linked product
+notes, and explicit normative-versus-example unknown handling. This is
+documented format closure only; it does not claim a codec, `.frm`/`.frx`
+grammar, or runtime API.
 
 ### 5.6 Grounded appearance data (from [MS-OFORMS], for L2)
 `fmSpecialEffect`: Flat `0x00`, Raised `0x01`, Sunken `0x02`, Etched `0x03`, Bump `0x06`.

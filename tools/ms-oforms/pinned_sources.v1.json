@@ -1,0 +1,151 @@
+{
+  "foundation_layout": {
+    "capture_document_id": "ms-oforms-ms-oforms-250819-7bbbbdc4",
+    "capture_git_dirty": true,
+    "capture_tool_commit": "cbf24b746e66860242fd7b0d87ffac5d0e71807d",
+    "extraction_run_id": "specproc-20260625-051108",
+    "foundation_commit_observed": "e6cfe71cfa1ebf07f52d1c7816a637ad5baad78b",
+    "source_id": "MS-OFORMS"
+  },
+  "schema_version": "oxforms.ms-oforms.source-pins.v1",
+  "selection_ranges": [
+    {
+      "classification": "documented_persistence_context",
+      "end_heading_exclusive": "Structures",
+      "first_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-000631",
+      "id": "persistence_context",
+      "last_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-000702",
+      "start_heading": "Saving Controls"
+    },
+    {
+      "classification": "documented_normative_structure_default_and_algorithm",
+      "end_heading_exclusive": "Structure Examples",
+      "first_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-000703",
+      "id": "normative_core",
+      "last_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-006820",
+      "start_heading": "Structures"
+    },
+    {
+      "classification": "documented_worked_example",
+      "end_heading_exclusive": "Security Considerations",
+      "first_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-006821",
+      "id": "worked_examples",
+      "last_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-008618",
+      "start_heading": "Structure Examples"
+    },
+    {
+      "classification": "documented_security_context",
+      "end_heading_exclusive": "Appendix A: Product Behavior",
+      "first_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-008619",
+      "id": "security_context",
+      "last_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-008620",
+      "start_heading": "Security Considerations"
+    },
+    {
+      "classification": "documented_product_behavior",
+      "end_heading_exclusive": "Change Tracking",
+      "first_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-008621",
+      "id": "product_behavior",
+      "last_segment_id": "ms-oforms-ms-oforms-250819-7bbbbdc4-SEG-008654",
+      "start_heading": "Appendix A: Product Behavior"
+    }
+  ],
+  "sources": [
+    {
+      "bytes": 1153157,
+      "hash_mode": "raw_bytes",
+      "id": "authoritative_docx",
+      "path": "reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OFORMS/[MS-OFORMS]-250819.docx",
+      "role": "authoritative_source_document",
+      "sha256": "7bbbbdc43407524fe2af99c070dfc358cc67404e5224b56d5cdabbc4736c9158"
+    },
+    {
+      "bytes": 6102384,
+      "hash_mode": "raw_bytes",
+      "id": "authoritative_pdf",
+      "path": "reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OFORMS/[MS-OFORMS].pdf",
+      "role": "authoritative_source_document",
+      "sha256": "37e72c8605244ebd28c2f247f9605d858fb44c194f835867d8b9ecedcb744db4"
+    },
+    {
+      "bytes": 309559,
+      "hash_mode": "canonical_lf_utf8",
+      "id": "run_input_index",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/inputs/index.csv",
+      "role": "foundation_source_index_snapshot",
+      "sha256": "ad45dfabc0921a6b13c0347ade06e50b92d4d47eecab4e6a888b3391e94ddb0d"
+    },
+    {
+      "bytes": 1827,
+      "hash_mode": "canonical_lf_utf8",
+      "id": "run_manifest",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/run_manifest.json",
+      "role": "foundation_extraction_provenance",
+      "sha256": "b58b08dbdc183ecec14c122aea34283634f2e0eaba10967d6a38c4c07cd9efdc"
+    },
+    {
+      "bytes": 1665,
+      "hash_mode": "canonical_lf_utf8",
+      "id": "document_manifest",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/document_manifest.json",
+      "role": "foundation_document_provenance",
+      "sha256": "eaa7889f3d06be45c48c794ede082fd4a5290772f330f2306b3087d64a652ea7"
+    },
+    {
+      "bytes": 5037283,
+      "hash_mode": "canonical_lf_utf8",
+      "id": "normalized_segments",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/segments.jsonl",
+      "role": "deterministic_capture_input",
+      "sha256": "94639c4bee6f20ef59a904254c640bbe1666cedd0019708891e45b485a314e84"
+    },
+    {
+      "bytes": 97434,
+      "hash_mode": "raw_bytes",
+      "id": "figure_control_structure",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/images/img-0018-image18.bin",
+      "role": "selected_extracted_figure",
+      "sha256": "117f688213f8cfdd8aaceee03868368f8812752094508a4d00ce3be7abc79580"
+    },
+    {
+      "bytes": 29403,
+      "hash_mode": "raw_bytes",
+      "id": "figure_parent_control",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/images/img-0019-image19.bin",
+      "role": "selected_extracted_figure",
+      "sha256": "cb8c6ee34facb6dcfd791d88c2b7358ff8a1b7794403b47712bff16413d43939"
+    },
+    {
+      "bytes": 41313,
+      "hash_mode": "raw_bytes",
+      "id": "figure_class_table",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/images/img-0020-image20.bin",
+      "role": "selected_extracted_figure",
+      "sha256": "d3ad4c7344c6fab6a97cf51962a2894a617c7b0fba7958affedb882d415f8a87"
+    },
+    {
+      "bytes": 82966,
+      "hash_mode": "raw_bytes",
+      "id": "figure_sites_array",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/images/img-0021-image21.bin",
+      "role": "selected_extracted_figure",
+      "sha256": "a39a12985bbb313bc963917e6c6ed65ff60e41e1fd5b818c7fc7cb5cdda76655"
+    },
+    {
+      "bytes": 83992,
+      "hash_mode": "raw_bytes",
+      "id": "figure_multipage_structure",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/images/img-0022-image22.bin",
+      "role": "selected_extracted_figure",
+      "sha256": "9922387eef7b6f0c32567d11a04d78285cea1ada8c89540061b0d99a293925f8"
+    },
+    {
+      "bytes": 36361,
+      "hash_mode": "raw_bytes",
+      "id": "figure_padding_alignment",
+      "path": "reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/images/img-0023-image23.bin",
+      "role": "selected_extracted_figure",
+      "sha256": "e96a0a069d052065c7ae4d83f3c99eb0fcda0b41c25e81a7c609000a229cc745"
+    }
+  ]
+}

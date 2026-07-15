@@ -12,6 +12,8 @@
       - the W005 interaction comparison manifest;
       - the W010 committed FM20/referenced-typelib fact pack and W005
         structural reconciliation (without requiring live Office inputs);
+      - the W010 committed MS-OFORMS persistence/default fact pack (without
+        requiring the sibling Foundation source checkout);
       - every committed checksums.sha256 manifest (git-tracked coverage).
 
     Per-capture Office evidence validators (Test-W006*CaptureEvidence.ps1, etc.)
@@ -77,6 +79,7 @@ Invoke-Check -Name 'office-oracle scaffold' -Script 'tools/office-oracle/Test-Of
 Invoke-Check -Name 'W003 oracle comparison manifest' -Script 'tools/office-oracle/Test-OracleComparisonManifest.ps1'
 Invoke-Check -Name 'W005 interaction comparison manifest' -Script 'tools/evidence/Test-W005InteractionComparison.ps1'
 Invoke-Check -Name 'W010 FM20 typelib fact pack' -Script 'tools/evidence/Test-W010FM20TypeLibFacts.ps1'
+Invoke-Check -Name 'W010 MS-OFORMS persistence fact pack' -Script 'tools/evidence/Test-W010MSOFormsFacts.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

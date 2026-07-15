@@ -2,8 +2,9 @@
 
 Status: active reference map
 Last updated: 2026-07-15
-Owning bead: `oxforms-jbjp.2` (FM20/referenced-typelib facts complete; default
-and persistence capture continues in `.3`/`.43`)
+Owning bead: `oxforms-jbjp.3` (FM20/referenced-typelib and MS-OFORMS binary
+default/persistence facts complete; canonical `.frm`/`.frx` export capture
+continues in `.43`)
 
 This file names external source-of-truth inputs that OxForms reads but does not
 own. Update it whenever a Foundation source mirror or OxVba development baseline
@@ -92,6 +93,9 @@ Observed Foundation state on 2026-07-15:
   `../Foundation/reference/runs/20260625-ms-oforms-official-pass-01/outputs/`.
   Its README records 25,491 segments, 56,319 sentences, 13,115 spec items, 587
   conformance candidates, and zero pending extraction items.
+- The published Foundation worktree is clean, but the run manifest records the
+  original extraction tool worktree as `git_dirty: true`. OxForms preserves
+  that capture caveat and independently pins every consumed artifact.
 
 Pinned MS-OFORMS artifacts:
 
@@ -99,6 +103,10 @@ Pinned MS-OFORMS artifacts:
 |---|---|---|---|
 | Authoritative DOCX | `../Foundation/reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OFORMS/[MS-OFORMS]-250819.docx` | 9.1, 2025-08-19 | `7bbbbdc43407524fe2af99c070dfc358cc67404e5224b56d5cdabbc4736c9158` |
 | Authoritative PDF | `../Foundation/reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OFORMS/[MS-OFORMS].pdf` | 9.1, 2025-08-19 | `37e72c8605244ebd28c2f247f9605d858fb44c194f835867d8b9ecedcb744db4` |
+| Normalized DOCX segments | `../Foundation/reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/segments.jsonl` | canonical LF UTF-8, 9,085 rows | `94639c4bee6f20ef59a904254c640bbe1666cedd0019708891e45b485a314e84` |
+| Run input index | `../Foundation/reference/runs/20260625-ms-oforms-official-pass-01/inputs/index.csv` | canonical LF UTF-8 | `ad45dfabc0921a6b13c0347ade06e50b92d4d47eecab4e6a888b3391e94ddb0d` |
+| Run manifest | `../Foundation/reference/runs/20260625-ms-oforms-official-pass-01/outputs/run_manifest.json` | canonical LF UTF-8 | `b58b08dbdc183ecec14c122aea34283634f2e0eaba10967d6a38c4c07cd9efdc` |
+| Document manifest | `../Foundation/reference/runs/20260625-ms-oforms-official-pass-01/outputs/docs/ms-oforms-ms-oforms-250819-7bbbbdc4/document_manifest.json` | canonical LF UTF-8 | `eaa7889f3d06be45c48c794ede082fd4a5290772f330f2306b3087d64a652ea7` |
 
 Online seed:
 
@@ -107,6 +115,25 @@ Online seed:
 OxForms uses MS-OFORMS for serialized form/control property facts, enums,
 defaults, appearance vocabulary, and persistence matrices. The in-document
 binary codec remains OxDoc scope; OxForms meets OxDoc at `.frm` / `.frx`.
+
+`oxforms-jbjp.3` preserves the exact 8,024-row persistence span from `Saving
+Controls` through all twenty Appendix A product-behavior notes. The generated
+pack contains 431 non-bitfield record fields, 98 properties (95 defaults plus
+three mandatory-persist/no-default rows), ninety record sections/37 aggregate
+requirements, 28 bitfields/320 entries including 15 property masks, 26
+enum/constant definitions, three discriminator/value maps, three property-
+domain tables/eight rows, one shared algorithm context/three procedures, and
+explicit normative-versus-example unknown and 22-standard/103-occurrence
+external-reference boundaries. Schema, pins, and evidence are in
+[`specs/MSFORMS_PERSISTENCE_MODEL.md`](specs/MSFORMS_PERSISTENCE_MODEL.md) and
+[`evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/README.md`](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/README.md).
+
+Foundation text pins use canonical LF UTF-8 bytes and reject bare CR; raw
+DOCX/PDF/figure pins remain byte-for-byte. Each pin is also hashed from its
+exact Foundation commit blob, independently of the clean working-tree copy.
+This avoids checkout-dependent CRLF hashes without weakening source identity.
+The PDF is provenance only: the DOCX segments are the single semantic input,
+avoiding duplicate/fragmented facts.
 
 Adjacent Foundation source for that boundary:
 
