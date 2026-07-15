@@ -2,9 +2,9 @@
 
 Status: active reference map
 Last updated: 2026-07-15
-Owning bead: `oxforms-jbjp.3` (FM20/referenced-typelib and MS-OFORMS binary
-default/persistence facts complete; canonical `.frm`/`.frx` export capture
-continues in `.43`)
+Owning bead: `oxforms-jbjp.43` (FM20/referenced-typelib and MS-OFORMS binary
+default/persistence facts are committed; independent `.frm`/`.frx` export
+facts are in progress and not yet a closed-bead claim)
 
 This file names external source-of-truth inputs that OxForms reads but does not
 own. Update it whenever a Foundation source mirror or OxVba development baseline
@@ -140,6 +140,131 @@ Adjacent Foundation source for that boundary:
 - **[MS-OVBA] Office VBA File Format Structure**
   - `../Foundation/reference/downloads/learn.microsoft.com/en-us/openspecs/office_file_formats/ms-ovba/b39ac32f-0ce1-4533-9297-2ff3ff62c9ec.md`
   - Index hash: `de6157f4b4a5e2c0806837176cb8cfd32ffadb86ac08b06276bd5e3c31d656e4`
+
+## Independent `.frm`/`.frx` Export Sources
+
+`oxforms-jbjp.43` does not treat MS-OFORMS as the text-export grammar. It pins
+the adjacent MS-OVBA and MS-VBAL sources at the same Foundation commit and
+combines them with a preserved public-automation Excel export. The current
+fact candidate remains subject to the bead's verification, fresh-eyes review,
+and post-review commit.
+
+Pinned MS-OVBA inputs:
+
+| Artifact | Path from OxForms | Revision | SHA-256 |
+|---|---|---|---|
+| Authoritative DOCX | `../Foundation/reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OVBA/[MS-OVBA]-260519.docx` | 15.0, 2026-05-19 | `31fb68ac3ef209cb32247a3060ff775cc0517c4120137cb39945690448b46c79` |
+| Authoritative PDF | `../Foundation/reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OVBA/[MS-OVBA].pdf` | 15.0, 2026-05-19 | `6ca91a091da9b7a550e52ea60808fc78b676a3e96101a80990f75911619768c3` |
+| Normalized segments | `../Foundation/reference/runs/20260624-ms-ovba-official-pass-01/outputs/docs/ms-ovba-ms-ovba-260519-31fb68ac/segments.jsonl` | canonical LF UTF-8 | `0841dfad53ba5631fa4a86a34d113bc32f6e16e245e056acec86b519c67a29c8` |
+
+The selected MS-OVBA rows are 651-656 (module-identifier/newline grammar),
+724-726 (designer storage/VBFrame relationship), 2828-2932 (normative
+`VBFrameText` and the fifteen ordered `DesignerProperties`), and 5620-5645
+(worked VBFrame example).
+The DOCX segment stream is semantic input; the PDF is provenance only.
+
+Pinned MS-VBAL inputs:
+
+| Artifact | Path from OxForms | Release | SHA-256 |
+|---|---|---|---|
+| Authoritative DOCX | `../Foundation/reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-VBAL/[MS-VBAL]-250520.docx` | 2025-05-20 | `f945507ef43b2ecfcea76d872536ce3566def87c2c3f383d664380533197cfc1` |
+| Normalized segments | `../Foundation/reference/runs/20260301-ms-vbal-webref-compare-v5-latest/outputs/docs/discovered-ms-vbal-250520-f945507e/segments.jsonl` | canonical LF UTF-8 | `8035317ea8229f2d2ac7d2157d6d933da433d737429b958545e82d68001b7b6f` |
+
+Selected MS-VBAL rows 1480-1526 establish the physical class-module
+attribute-header/body boundary. The export inventory applies that boundary
+byte-exactly and leaves the remaining VBA body opaque.
+
+Public documentation anchors:
+
+- [MS-OVBA VBFrame](https://learn.microsoft.com/en-us/openspecs/office_file_formats/ms-ovba/76ecef26-5e1c-4729-8074-c76584e25b6b)
+- [MS-VBAL module representation](https://learn.microsoft.com/en-us/openspecs/microsoft_general_purpose_programming_languages/ms-vbal/4599fae2-3f41-4e70-968e-2398741f446b)
+- [VBE `Export` method](https://learn.microsoft.com/en-us/office/vba/language/reference/user-interface-help/export-method-vba-add-in-object-model)
+
+Pinned MS-CFB inputs for the embedded FRX compound file:
+
+| Artifact | Path from OxForms | Revision | SHA-256 |
+|---|---|---|---|
+| Authoritative Microsoft DOCX | `reference/ms-cfb/[MS-CFB]-240423.docx` | 12.0, 2024-04-23 | `2d650184072a148ba98ad0b68072fd5ad7780e46f3528d7f263f3127b2dadab5` |
+| Normalized selected rows | `reference/ms-cfb/ms_cfb_selected_rows.v1.jsonl` | canonical UTF-8/LF, 83 rows | `a4292137cbd8933f6b55398dfc9c8cee366d4f65270c4dd849b6b33afe22b765` |
+| Deterministic extractor | `tools/forms-persistence/extract_ms_cfb_selected_rows.py` | standard-library OOXML extraction | `86b05363a0edf4826877a710ed75a37fc5f3369ddd53470035a097c57647845c` |
+
+The selected rows cover header/version fields, general chains, FAT, mini FAT,
+DIFAT, directory entries and sibling trees, arbitrary user data and sector
+slack, and the range-lock sector. Exact Microsoft wording remains distinct from
+the project interpretations in `ms_cfb_selected_rules.v1.json`. In particular,
+the source says the minor version `SHOULD` be `0x003E`, permits either color for
+the sibling-less Root Entry, and lists no classical equal-black-height
+invariant; stricter inventory policy is labeled separately rather than
+attributed to Microsoft.
+
+### Preserved Excel/VBE export
+
+The genuine Office corpus is under
+`fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/`.
+It was generated from project-authored form content in an unsaved transient
+workbook through public `VBComponent.Export`:
+
+- Excel executable: `C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE`;
+- file/product version: `16.0.20131.20112`;
+- executable size/SHA-256: 76,582,128 bytes,
+  `1f653c8b7979fc80bec5a40423e0cd59cb4ad64644558bcab15a24416ce4e33e`;
+- VBE automation version `7.01`, AccessVBOM enabled, component type 3;
+- unique loaded Excel-process module `VBE7.DLL`, reported at
+  `C:\Program Files\Common Files\Microsoft Shared\VBA\VBA7.1\VBE7.DLL` and
+  byte-pinned through its unique readable Click-to-Run backing path under
+  `C:\Program Files\Microsoft Office\Root\vfs\ProgramFilesCommonX64\`:
+  4,487,696 bytes, file/product version `7.01.1153`, SHA-256
+  `a5b35d9ae67788869fe2cb92d410b8fa6f13f374208571eb3ea548850ff50810`;
+- 64-bit Windows/process, `en-ZA`, ANSI code page 1252; and
+- strict v2 capture manifest:
+  `fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/capture_manifest.v2.json`
+  (114,100 bytes, SHA-256
+  `08f3fd3e00cbb9cc8467906fd37f57056279d7f1c4efc337ed1ec2789c6683dd`).
+
+The module attribution proves exact loaded-process binary identity, not which
+binary implements `VBComponent.Export`. The manifest separately preserves
+requested and read-back list items and geometry. Fifteen controls retain exact
+requested geometry; the sole pinned normalization is `ListBoxProbe.Height`,
+`60.0` requested to `49.150001525878906` read back.
+
+The three captured pairs comprise 2,210 `.frm` bytes and 14,920 `.frx` bytes.
+They contain sixteen `Controls.Add` instances spanning all fourteen intrinsic
+families; structural UserForm and Page observations bring the observed-family
+universe to sixteen. All ten HTML ProgIDs were registered, but same-build
+designer adds returned only the
+bounded observation `E_INVALIDARG` (`0x80070057`); this is not runtime
+non-callability evidence.
+
+The selected normative MS-OVBA grammar has fifteen ordered
+`DesignerProperties`. The live export's root `OleObjectBlob` reference is kept
+as an observed Office/VBIDE extension rather than promoted into that grammar.
+Each FRX has an opaque 24-byte prefix before embedded CFB data; no prefix-field
+or binary property meaning is inferred. The strict inventory partitions every
+source byte through 32 physical regions and 62 mini-stream physical regions,
+covering three roots, four storages and 22 streams.
+
+The fact pack contains 187 pinned MS-OVBA/MS-VBAL source rows and classifies all
+98 MS-OFORMS properties into 47 exact-name live rows, sixteen contextual-only
+rows, eighteen documented internal-structure-only rows, and seventeen rows
+without an exact live probe. Across the 245 property/family pairs, the counts
+are 100 exact-name, 28 contextual-only, 33 internal-only, and 84 unprobed; 34
+exact-name rows cover every applicable family.
+
+The separate normative MS-OFORMS projection pins three object-valued
+properties, five type layouts, five resource formats, eight stream-data slots,
+fourteen presence flags, and 43 reviewed binary length/count fields grouped
+15/14/7/5/2 with four governing codecs. Omission/default evidence covers all 98
+properties, the 107-row control-specific matrix, fifteen masks with 221 entries,
+and 192 storage requirements. Live decoded FRX property/object values remain
+zero. The three textual resource observations are exact `:0000` references;
+they establish no general nonzero-offset or lexical-length rule.
+
+Full schema, profile separation, unknown preserve/reject policy, tooling, and
+non-claims are in
+[`specs/MSFORMS_PERSISTENCE_MODEL.md`](specs/MSFORMS_PERSISTENCE_MODEL.md),
+[`../tools/forms-persistence/README.md`](../tools/forms-persistence/README.md),
+and
+[`evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/README.md`](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/README.md).
 
 ## OxVba Development Baseline
 

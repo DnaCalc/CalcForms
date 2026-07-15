@@ -100,7 +100,43 @@ and file-format-default baseline:
 The persistence schema and non-claims are in
 [`../specs/MSFORMS_PERSISTENCE_MODEL.md`](../specs/MSFORMS_PERSISTENCE_MODEL.md).
 Neither metadata fact pack implements a callable member or persistence codec.
-Canonical `.frm`/`.frx` export facts begin in strict successor `.43`.
+
+Strict successor `oxforms-jbjp.43` is now in progress with an independent
+`.frm`/`.frx` export-fact candidate. It preserves three genuine Excel
+`16.0.20131.20112`/VBE `7.01` `VBComponent.Export` pairs and pins the adjacent
+MS-OVBA `VBFrameText`/fifteen-`DesignerProperties` grammar plus the MS-VBAL
+class-header/body boundary. The current candidate records:
+
+- three non-promotable authority profiles: captured Office VBA export,
+  uncaptured VB6, and OxForms/legacy synthetic nested compatibility input;
+- sixteen `Controls.Add` instances spanning all fourteen intrinsic families,
+  plus structural UserForm and Page observations for sixteen observed families;
+- an `OleObjectBlob` Office/VBIDE extension outside the selected normative
+  MS-OVBA property grammar, with a 24-byte opaque FRX prefix and embedded CFB;
+- a strict v2 capture binding the actual Excel process and the uniquely loaded
+  `VBE7.DLL` (including Click-to-Run reported/backing-path provenance), exact
+  requested/list readback, and the sole pinned ListBox height normalization;
+- complete FRX source-length accounting with strict CFB allocation/ownership
+  validation across three roots, four storages, 22 streams, 32 physical regions,
+  and 62 mini-stream physical regions;
+- applicability-specific coverage for all 98 MS-OFORMS properties and 245
+  property/family pairs: 100 exact-name, 28 contextual-only, 33 internal-only,
+  and 84 unprobed pairs; and
+- fifteen explicit unknown preserve-or-reject classes.
+
+The source-linked binary contract separately pins 43 selected length/count
+fields in reviewed 15/14/7/5/2 groups, four codecs, object-valued layouts,
+all 98 property default/status records (95 documented defaults plus three
+mandatory-persist/no-default statuses), the 107-row matrix, fifteen masks with
+221 entries, and 192 storage requirements. These are normative MS-OFORMS
+projections, not decoded claims about the live opaque FRX streams.
+
+The ten registered HTML ProgIDs' same-build designer-add `E_INVALIDARG` result
+is limited to that observation and does not establish runtime non-callability.
+No FRX property decoding, parser/serializer/codec, runtime API, VB6, or broader
+HTML claim is made. The presence of the candidate artifact does not close
+`.43`; its full verification, exact fresh-eyes review, post-review commit, and
+bead close remain required.
 
 ## Compatibility Perimeter
 

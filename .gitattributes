@@ -5,6 +5,18 @@
 /tools/ms-oforms/*.py text eol=lf
 /tools/ms-oforms/*.json text eol=lf
 /tools/ms-oforms/tests/*.py text eol=lf
+/tools/forms-persistence/*.json text eol=lf
+/tools/forms-persistence/*.py text eol=lf
+/tools/forms-persistence/*.ps1 text eol=lf
+/tools/forms-persistence/tests/*.py text eol=lf
+/tools/forms-persistence/tests/*.ps1 text eol=lf
+/tools/evidence/Test-W010FrmFrxExportFacts.ps1 text eol=lf
+/fixtures/forms-persistence/**/*.frm -text whitespace=-trailing-space
+/fixtures/forms-persistence/**/*.frx binary
+/fixtures/forms-persistence/**/*.json text eol=lf
+/fixtures/forms-persistence/**/capture_manifest*.json -text -eol whitespace=-trailing-space
+/reference/ms-cfb/*.docx binary
+/reference/ms-cfb/*.jsonl text eol=lf
 /docs/evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json text eol=crlf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/README.md text eol=lf
@@ -12,3 +24,6 @@
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/README.md text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/checksums.sha256 text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/README.md text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/checksums.sha256 text eol=lf

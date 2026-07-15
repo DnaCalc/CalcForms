@@ -1,7 +1,8 @@
 # W010 Complete MSForms Object-Model Parity Evidence
 
-Status: execution baseline through MS-OFORMS persistence/default capture
-(`oxforms-jbjp.3`)
+Status: committed execution baseline through MS-OFORMS persistence/default
+capture (`oxforms-jbjp.3`), with independent `.frm`/`.frx` export-fact evidence
+in progress (`oxforms-jbjp.43`)
 
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
@@ -57,6 +58,61 @@ and Appendix product behavior retain their own non-implementation
 classifications. See
 [`../../specs/MSFORMS_PERSISTENCE_MODEL.md`](../../specs/MSFORMS_PERSISTENCE_MODEL.md).
 
+## Independent FRM/FRX Export-Fact Candidate
+
+`oxforms-jbjp.43` is generating the independent export-fact surface under
+[`beads/oxforms-jbjp.43/`](beads/oxforms-jbjp.43/). Its artifact and preserved
+fixtures exist, but the bead is not a closure claim until its full checks,
+exact fresh-eyes review, post-review commit, and close complete.
+
+The public-source side pins MS-OVBA 15.0 for `VBFrameText` and the fifteen
+ordered `DesignerProperties`, and MS-VBAL for the physical class-module
+attribute-header/body boundary. The black-box side preserves three genuine
+Excel `16.0.20131.20112`/VBE `7.01` `VBComponent.Export` pairs: controlled outer
+defaults, outer nondefaults, and an intrinsic/container matrix. The matrix has
+sixteen `Controls.Add` instances spanning all fourteen intrinsic families;
+structural UserForm and Page observations bring the observed-family universe
+to sixteen.
+
+The current candidate records:
+
+- three strict authority profiles: genuine Office VBA export, an uncaptured
+  separate VB6 profile, and the non-promotable OxForms/legacy synthetic nested
+  profile;
+- 2,210 `.frm` bytes, 14,920 `.frx` bytes, three resource references, three
+  class headers, three opaque code bodies, and eight controlled outer-property
+  pairs, including the explicitly failed `RightToLeft = True` readback;
+- an observed root `OleObjectBlob` extension kept outside the selected
+  normative MS-OVBA `DesignerProperties` grammar;
+- an opaque 24-byte FRX prefix followed by embedded CFB, with three roots, four
+  storages, 22 streams, 32 physical regions, 62 mini-stream physical regions,
+  six explicit byte-region records, strict allocation/ownership validation,
+  and complete source-length accounting;
+- one applicability-specific mapping for each of the 98 MS-OFORMS properties:
+  47 exact-name rows, sixteen contextual-only rows, eighteen documented
+  internal-only rows, and seventeen rows without an exact live probe; across
+  245 property/family pairs this is 100 exact, 28 contextual, 33 internal, and
+  84 unprobed; and
+- fifteen unknown classes with an explicit preserve-or-reject policy.
+
+The strict v2 manifest freezes the actual Excel process and uniquely loaded
+VBE binary, including the Click-to-Run reported-path/backing-path distinction,
+requested/list readback, and the sole pinned geometry normalization
+(`ListBoxProbe.Height` `60.0` to `49.150001525878906`). The source-linked
+MS-OFORMS projection adds 43 reviewed length/count fields in 15/14/7/5/2 groups,
+four codecs, and the complete default/mask/storage-requirement surfaces. Those
+normative rows do not decode values from the live FRX corpus.
+
+All ten actual HTML ProgIDs were registered on the capture machine, while
+same-build designer `Controls.Add` returned `E_INVALIDARG` (`0x80070057`). The
+claim is strictly designer-add rejection on that host/build, not runtime
+non-callability.
+
+No FRX control-property value is decoded. No production parser, serializer,
+reader, writer, binary codec, runtime API, constructor-default, VB6, or broader
+HTML claim is made. See the focused persistence spec for the exact profile and
+unknown boundaries.
+
 The reviewed execution graph has 72 strict, atomic child beads. Each child has
 an exact evidence path declared in its `br` design field, an explicit
 no-temporary-production-scaffolding policy, residual/blocker behavior, and the
@@ -89,10 +145,11 @@ black-box evidence.
 - The full fact-pack schema must also resolve external public types referenced
   by FM20, including stdole `Picture`/`IPictureDisp`; a 171-type FM20-only dump
   is insufficient for signature parity.
-- MS-OFORMS is the binary Office forms/default source, not the text `.frm` grammar
-  or `.frx` export-offset specification. `oxforms-jbjp.43` independently derives
-  that accepted persistence universe from preserved real exports and public
-  sources before parser/serializer implementation.
+- MS-OFORMS is the binary Office forms/default source, not the text `.frm`
+  grammar or `.frx` export-offset specification. `oxforms-jbjp.43` now keeps
+  that independent candidate universe in a generated manifest derived from
+  preserved real exports and pinned MS-OVBA/MS-VBAL rows, before
+  parser/serializer implementation.
 
 Representative mechanical gaps found before W010:
 
@@ -152,6 +209,7 @@ and preservation of the unrelated `.gitignore` edit.
 | bead dependency cycles | none |
 | workspace Rust tests | not a pass: initial 300-second budget expired in `oxvba_reducer_cmdbutton` without a reported assertion failure |
 
-Later beads add their artifacts here and extend the repository evidence runner
-with deterministic validators. A dashboard summary is never a substitute for a
-generated member row and its test/evidence anchors.
+The `.43` evidence runner is registered but its final bead-level verification
+record is still pending. Later beads add their artifacts here and extend the
+repository evidence runner with deterministic validators. A dashboard summary
+is never a substitute for a generated member row and its test/evidence anchors.

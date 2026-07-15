@@ -1,0 +1,3963 @@
+{
+  "schema": "oxforms.forms-persistence.live-export-capture.v2",
+  "capture_id": "excel-vbcomponent-export-20260715",
+  "profile": "office_vba_userform_export",
+  "frozen_capture_identity": {
+    "capture_date_utc": "2026-07-15",
+    "output_directory": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112",
+    "excel_executable": {
+      "length": 76582128,
+      "sha256": "1f653c8b7979fc80bec5a40423e0cd59cb4ad64644558bcab15a24416ce4e33e",
+      "file_version": "16.0.20131.20112",
+      "product_version": "16.0.20131.20112"
+    },
+    "excel_automation": {
+      "version": "16.0",
+      "build": "20131",
+      "vbe_version": "7.01"
+    },
+    "vbe_binary": {
+      "module_name": "VBE7.DLL",
+      "length": 4487696,
+      "sha256": "a5b35d9ae67788869fe2cb92d410b8fa6f13f374208571eb3ea548850ff50810",
+      "file_version": "7.01.1153",
+      "product_version": "7.01.1153"
+    }
+  },
+  "authority_class": "observed_real_office_export",
+  "capture_started_utc": "2026-07-15T06:30:03.0697843Z",
+  "capture_completed_utc": "2026-07-15T06:30:13.8702048Z",
+  "clean_room": {
+    "project_authored_inputs": true,
+    "third_party_form_content": false,
+    "public_automation_only": true,
+    "transient_workbook_saved": false
+  },
+  "git": {
+    "head": "7fe1c453ba825ffb7977b516e26bf82ba4e2fe92",
+    "dirty": true,
+    "status_line_count": 41
+  },
+  "capture_tool": {
+    "path": "tools/forms-persistence/Capture-MSFormsExports.ps1",
+    "length": 118195,
+    "sha256": "0b669b243409527f5579ae806715dbd4f50a40a3a1748ce67984cf38ce5fe4d8"
+  },
+  "capture_spec": {
+    "path": "tools/forms-persistence/capture_spec.v1.json",
+    "length": 25330,
+    "sha256": "de74f0a6c6e237d2663e34d719d8412dbdf1e51f49dd5f7178307ef0817824cc"
+  },
+  "environment": {
+    "os_version": "Microsoft Windows NT 10.0.26200.0",
+    "os_architecture": "X64",
+    "process_architecture": "X64",
+    "culture": "en-ZA",
+    "ui_culture": "en-US",
+    "ansi_code_page": 1252,
+    "oem_code_page": 437,
+    "powershell_version": "7.6.1"
+  },
+  "excel_file": {
+    "process_id": 38708,
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "length": 76582128,
+    "sha256": "1f653c8b7979fc80bec5a40423e0cd59cb4ad64644558bcab15a24416ce4e33e",
+    "file_version": "16.0.20131.20112",
+    "product_version": "16.0.20131.20112"
+  },
+  "excel_automation": {
+    "application_name": "Microsoft Excel",
+    "version": "16.0",
+    "build": "20131",
+    "vbe_version": "7.01",
+    "access_vbom": true,
+    "component_type": 3,
+    "export_api": "VBComponent.Export",
+    "workbook_saved": false
+  },
+  "exporter_binary_identity": {
+    "status": "identified_loaded_vbe_binary",
+    "host_process_id": 38708,
+    "attribution_basis": "Unique loaded Excel-process module whose ModuleName matches VBE[0-9]*.DLL.",
+    "claim_scope": "Exact loaded VBE binary identity; this does not independently prove which binary owns VBComponent.Export.",
+    "binary": {
+      "module_name": "VBE7.DLL",
+      "module_reported_path": "C:\\Program Files\\Common Files\\Microsoft Shared\\VBA\\VBA7.1\\VBE7.DLL",
+      "path": "C:\\Program Files\\Microsoft Office\\Root\\vfs\\ProgramFilesCommonX64\\Microsoft Shared\\VBA\\VBA7.1\\VBE7.DLL",
+      "path_resolution_basis": "office_click_to_run_vfs_common_files_backing",
+      "path_resolution_caveat": "The loaded module path was not directly readable; bytes were hashed from the unique deterministic Click-to-Run VFS backing path under the frozen Excel Office root.",
+      "length": 4487696,
+      "sha256": "a5b35d9ae67788869fe2cb92d410b8fa6f13f374208571eb3ea548850ff50810",
+      "file_version": "7.01.1153",
+      "product_version": "7.01.1153",
+      "original_filename": null
+    }
+  },
+  "progid_registrations": [
+    {
+      "progid": "Forms.CheckBox.1",
+      "clsid": "{8BD21D40-EC42-11CE-9E0D-00AA006002F3}",
+      "class_name": "Microsoft Forms 2.0 CheckBox",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.ComboBox.1",
+      "clsid": "{8BD21D30-EC42-11CE-9E0D-00AA006002F3}",
+      "class_name": "Microsoft Forms 2.0 ComboBox",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.CommandButton.1",
+      "clsid": "{D7053240-CE69-11CD-A777-00DD01143C57}",
+      "class_name": "Microsoft Forms 2.0 CommandButton",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.Frame.1",
+      "clsid": "{6E182020-F460-11CE-9BCD-00AA00608E01}",
+      "class_name": "Microsoft Forms 2.0 Frame",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Checkbox.1",
+      "clsid": "{5512D116-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML CHECKBOX",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Hidden.1",
+      "clsid": "{5512D11C-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML Hidden",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Image.1",
+      "clsid": "{5512D112-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML IMAGE",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Option.1",
+      "clsid": "{5512D118-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML OPTION",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Password.1",
+      "clsid": "{5512D11E-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML Password",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Reset.1",
+      "clsid": "{5512D114-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML RESET",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Select.1",
+      "clsid": "{5512D122-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML SELECT",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Submitbutton.1",
+      "clsid": "{5512D110-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML SUBMIT",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:Text.1",
+      "clsid": "{5512D11A-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML TEXT",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.HTML:TextArea.1",
+      "clsid": "{5512D124-5CC6-11CF-8D67-00AA00BDCE1D}",
+      "class_name": "Microsoft Forms 2.0 HTML TextAREA",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.Image.1",
+      "clsid": "{4C599241-6926-101B-9992-00000B65C6F9}",
+      "class_name": "Microsoft Forms 2.0 Image",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.Label.1",
+      "clsid": "{978C9E23-D4B0-11CE-BF2D-00AA003F40D0}",
+      "class_name": "Microsoft Forms 2.0 Label",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.ListBox.1",
+      "clsid": "{8BD21D20-EC42-11CE-9E0D-00AA006002F3}",
+      "class_name": "Microsoft Forms 2.0 ListBox",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.MultiPage.1",
+      "clsid": "{46E31370-3F7A-11CE-BED6-00AA00611080}",
+      "class_name": "Microsoft Forms 2.0 MultiPage",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.OptionButton.1",
+      "clsid": "{8BD21D50-EC42-11CE-9E0D-00AA006002F3}",
+      "class_name": "Microsoft Forms 2.0 OptionButton",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.ScrollBar.1",
+      "clsid": "{DFD181E0-5E2F-11CE-A449-00AA004A803D}",
+      "class_name": "Microsoft Forms 2.0 ScrollBar",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.SpinButton.1",
+      "clsid": "{79176FB0-B7F2-11CE-97EF-00AA006D2776}",
+      "class_name": "Microsoft Forms 2.0 SpinButton",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.TabStrip.1",
+      "clsid": "{EAE50EB0-4A62-11CE-BED6-00AA00611080}",
+      "class_name": "Microsoft Forms 2.0 TabStrip",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.TextBox.1",
+      "clsid": "{8BD21D10-EC42-11CE-9E0D-00AA006002F3}",
+      "class_name": "Microsoft Forms 2.0 TextBox",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    },
+    {
+      "progid": "Forms.ToggleButton.1",
+      "clsid": "{8BD21D60-EC42-11CE-9E0D-00AA006002F3}",
+      "class_name": "Microsoft Forms 2.0 ToggleButton",
+      "inproc_server": {
+        "path": "C:\\Program Files\\Microsoft Office\\Root\\VFS\\System\\FM20.DLL",
+        "length": 1763584,
+        "sha256": "2c0e732b0e794451659ab0ff4e8489a518dde18a396201ace10bd3409acf90fe",
+        "file_version": "16.0.20131.20012",
+        "product_version": "16.0.20131.20012"
+      }
+    }
+  ],
+  "forms": [
+    {
+      "fixture_id": "outer-defaults",
+      "component_name": "W010OuterDefaults",
+      "component_properties": [
+        {
+          "name": "Caption",
+          "requested": {
+            "kind": "string",
+            "value": "W010 outer defaults"
+          },
+          "required": true,
+          "readback": {
+            "kind": "string",
+            "value": "W010 outer defaults"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Width",
+          "requested": {
+            "kind": "number",
+            "value": 240.0,
+            "invariant": "240"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 240.0,
+            "invariant": "240"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Height",
+          "requested": {
+            "kind": "number",
+            "value": 180.0,
+            "invariant": "180"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 180.0,
+            "invariant": "180"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Enabled",
+          "requested": {
+            "kind": "boolean",
+            "value": true
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": true
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "HelpContextID",
+          "requested": {
+            "kind": "integer",
+            "value": 0
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 0
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "RightToLeft",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": false
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ShowModal",
+          "requested": {
+            "kind": "boolean",
+            "value": true
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": true
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "StartUpPosition",
+          "requested": {
+            "kind": "integer",
+            "value": 1
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 1
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Tag",
+          "requested": {
+            "kind": "string",
+            "value": ""
+          },
+          "required": true,
+          "readback": {
+            "kind": "null",
+            "value": null
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "WhatsThisButton",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": false
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "WhatsThisHelp",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": false
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        }
+      ],
+      "controls": [],
+      "code_input": {
+        "line_count": 5,
+        "utf8_sha256": "dcf6b59d6273d3a502f798d800bcc2e80773d4e44e16827b7e914c31da3b21e8"
+      },
+      "exported_files": [
+        {
+          "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/W010OuterDefaults.frm",
+          "length": 631,
+          "sha256": "2b64aa9807e42e945fbbf758f98692da6f39c3f08a7502106e2cae095008130e"
+        },
+        {
+          "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/W010OuterDefaults.frx",
+          "length": 2584,
+          "sha256": "4b45fea725fe9c2ca447ae445cbe1db8b611bcd07fc6132eb34e41dd4cda76e2"
+        }
+      ]
+    },
+    {
+      "fixture_id": "outer-nondefaults",
+      "component_name": "W010OuterNonDefaults",
+      "component_properties": [
+        {
+          "name": "Caption",
+          "requested": {
+            "kind": "string",
+            "value": "Café \"quoted\""
+          },
+          "required": true,
+          "readback": {
+            "kind": "string",
+            "value": "Café \"quoted\""
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Width",
+          "requested": {
+            "kind": "number",
+            "value": 321.5,
+            "invariant": "321.5"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 321.5,
+            "invariant": "321.5"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Height",
+          "requested": {
+            "kind": "number",
+            "value": 222.25,
+            "invariant": "222.25"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 222.25,
+            "invariant": "222.25"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Left",
+          "requested": {
+            "kind": "number",
+            "value": 33.5,
+            "invariant": "33.5"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 33.5,
+            "invariant": "33.5"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Top",
+          "requested": {
+            "kind": "number",
+            "value": 44.75,
+            "invariant": "44.75"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 44.75,
+            "invariant": "44.75"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Enabled",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": false
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "HelpContextID",
+          "requested": {
+            "kind": "integer",
+            "value": 42
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 42
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "RightToLeft",
+          "requested": {
+            "kind": "boolean",
+            "value": true
+          },
+          "required": false,
+          "readback": {
+            "kind": "boolean",
+            "value": false
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ShowModal",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": false
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "StartUpPosition",
+          "requested": {
+            "kind": "integer",
+            "value": 0
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 0
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Tag",
+          "requested": {
+            "kind": "string",
+            "value": "tag;one=1"
+          },
+          "required": true,
+          "readback": {
+            "kind": "string",
+            "value": "tag;one=1"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "WhatsThisButton",
+          "requested": {
+            "kind": "boolean",
+            "value": true
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": true
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "WhatsThisHelp",
+          "requested": {
+            "kind": "boolean",
+            "value": true
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": true
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        }
+      ],
+      "controls": [],
+      "code_input": {
+        "line_count": 9,
+        "utf8_sha256": "af3a9aa47938e822c7249fe096753f4748a1fdb89362c7f3eee2a44b24bba487"
+      },
+      "exported_files": [
+        {
+          "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/W010OuterNonDefaults.frm",
+          "length": 892,
+          "sha256": "0529a90d75ce9ad1d06a23ad8be3a03baa7946ba09860d805bc082965f80fab7"
+        },
+        {
+          "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/W010OuterNonDefaults.frx",
+          "length": 2584,
+          "sha256": "46df34928410df174649f6554d4162a13fe84edde86b12b1d7b5de2230e41bde"
+        }
+      ]
+    },
+    {
+      "fixture_id": "intrinsic-containers-resources",
+      "component_name": "W010IntrinsicMatrix",
+      "component_properties": [
+        {
+          "name": "Caption",
+          "requested": {
+            "kind": "string",
+            "value": "W010 intrinsic matrix"
+          },
+          "required": true,
+          "readback": {
+            "kind": "string",
+            "value": "W010 intrinsic matrix"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Width",
+          "requested": {
+            "kind": "number",
+            "value": 620.0,
+            "invariant": "620"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 620.0,
+            "invariant": "620"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Height",
+          "requested": {
+            "kind": "number",
+            "value": 460.0,
+            "invariant": "460"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 460.0,
+            "invariant": "460"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "StartUpPosition",
+          "requested": {
+            "kind": "integer",
+            "value": 2
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 2
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "BackColor",
+          "requested": {
+            "kind": "integer",
+            "value": 15790320
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 15790320
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "BorderColor",
+          "requested": {
+            "kind": "integer",
+            "value": 255
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 255
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "BorderStyle",
+          "requested": {
+            "kind": "integer",
+            "value": 1
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 1
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Cycle",
+          "requested": {
+            "kind": "integer",
+            "value": 2
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 2
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "DrawBuffer",
+          "requested": {
+            "kind": "integer",
+            "value": 48000
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 48000
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ForeColor",
+          "requested": {
+            "kind": "integer",
+            "value": 128
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 128
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "GridX",
+          "requested": {
+            "kind": "number",
+            "value": 12.0,
+            "invariant": "12"
+          },
+          "required": false,
+          "readback": {
+            "kind": "number",
+            "value": 12.0,
+            "invariant": "12"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "GridY",
+          "requested": {
+            "kind": "number",
+            "value": 14.0,
+            "invariant": "14"
+          },
+          "required": false,
+          "readback": {
+            "kind": "number",
+            "value": 14.0,
+            "invariant": "14"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "KeepScrollBarsVisible",
+          "requested": {
+            "kind": "integer",
+            "value": 3
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 3
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "MousePointer",
+          "requested": {
+            "kind": "integer",
+            "value": 2
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 2
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "PictureAlignment",
+          "requested": {
+            "kind": "integer",
+            "value": 4
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 4
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "PictureSizeMode",
+          "requested": {
+            "kind": "integer",
+            "value": 3
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 3
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "PictureTiling",
+          "requested": {
+            "kind": "boolean",
+            "value": true
+          },
+          "required": true,
+          "readback": {
+            "kind": "boolean",
+            "value": true
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ScrollBars",
+          "requested": {
+            "kind": "integer",
+            "value": 3
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 3
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ScrollHeight",
+          "requested": {
+            "kind": "number",
+            "value": 480.0,
+            "invariant": "480"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 480.0,
+            "invariant": "480"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ScrollWidth",
+          "requested": {
+            "kind": "number",
+            "value": 640.0,
+            "invariant": "640"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 640.0,
+            "invariant": "640"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ScrollLeft",
+          "requested": {
+            "kind": "number",
+            "value": 3.0,
+            "invariant": "3"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 3.0,
+            "invariant": "3"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ScrollTop",
+          "requested": {
+            "kind": "number",
+            "value": 4.0,
+            "invariant": "4"
+          },
+          "required": true,
+          "readback": {
+            "kind": "number",
+            "value": 4.0,
+            "invariant": "4"
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "ShowGridDots",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": false,
+          "readback": {
+            "kind": "integer",
+            "value": 0
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "SnapToGrid",
+          "requested": {
+            "kind": "boolean",
+            "value": false
+          },
+          "required": false,
+          "readback": {
+            "kind": "integer",
+            "value": 0
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "SpecialEffect",
+          "requested": {
+            "kind": "integer",
+            "value": 2
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 2
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        },
+        {
+          "name": "Zoom",
+          "requested": {
+            "kind": "integer",
+            "value": 110
+          },
+          "required": true,
+          "readback": {
+            "kind": "integer",
+            "value": 110
+          },
+          "succeeded": true,
+          "error": null,
+          "hresult": null
+        }
+      ],
+      "controls": [
+        {
+          "name": "CommandButtonProbe",
+          "family": "CommandButton",
+          "progid": "Forms.CommandButton.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 12.0,
+            "top": 12.0,
+            "width": 90.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 12.0,
+            "top": 12.0,
+            "width": 90.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "&Run"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "&Run"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Accelerator",
+              "requested": {
+                "kind": "string",
+                "value": "R"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "R"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BackColor",
+              "requested": {
+                "kind": "integer",
+                "value": 65535
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 65535
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ForeColor",
+              "requested": {
+                "kind": "integer",
+                "value": 16711680
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 16711680
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "HelpContextID",
+              "requested": {
+                "kind": "integer",
+                "value": 101
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 101
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PicturePosition",
+              "requested": {
+                "kind": "integer",
+                "value": 7
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 7
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Default",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Cancel",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TakeFocusOnClick",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 0
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 0
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabStop",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "WordWrap",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Tag",
+              "requested": {
+                "kind": "string",
+                "value": "command-tag"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "command-tag"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "LabelProbe",
+          "family": "Label",
+          "progid": "Forms.Label.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 114.0,
+            "top": 12.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 114.0,
+            "top": 12.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "Label \"quoted\""
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "Label \"quoted\""
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Accelerator",
+              "requested": {
+                "kind": "string",
+                "value": "L"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "L"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BackStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BackColor",
+              "requested": {
+                "kind": "integer",
+                "value": 16777164
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 16777164
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BorderColor",
+              "requested": {
+                "kind": "integer",
+                "value": 32768
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 32768
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BorderStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ForeColor",
+              "requested": {
+                "kind": "integer",
+                "value": 128
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 128
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PicturePosition",
+              "requested": {
+                "kind": "integer",
+                "value": 10
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 10
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TextAlign",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "WordWrap",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabStop",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "TextBoxProbe",
+          "family": "TextBox",
+          "progid": "Forms.TextBox.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 222.0,
+            "top": 12.0,
+            "width": 120.0,
+            "height": 48.0
+          },
+          "geometry_readback": {
+            "left": 222.0,
+            "top": 12.0,
+            "width": 120.0,
+            "height": 48.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "string",
+                "value": "line one\r\nline two"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "line one\r\nline two"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MultiLine",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "EnterKeyBehavior",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabKeyBehavior",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "WordWrap",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ScrollBars",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BorderColor",
+              "requested": {
+                "kind": "integer",
+                "value": 255
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 255
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "DropButtonStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "HideSelection",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MaxLength",
+              "requested": {
+                "kind": "integer",
+                "value": 37
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 37
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PasswordChar",
+              "requested": {
+                "kind": "string",
+                "value": "*"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "*"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ShowDropButtonWhen",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TextAlign",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BorderStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "CheckBoxProbe",
+          "family": "CheckBox",
+          "progid": "Forms.CheckBox.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 354.0,
+            "top": 12.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 354.0,
+            "top": 12.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "Check"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "Check"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TripleState",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Alignment",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PicturePosition",
+              "requested": {
+                "kind": "integer",
+                "value": 5
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 5
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "OptionButtonProbe",
+          "family": "OptionButton",
+          "progid": "Forms.OptionButton.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 462.0,
+            "top": 12.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 462.0,
+            "top": 12.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "Option"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "Option"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "GroupName",
+              "requested": {
+                "kind": "string",
+                "value": "MatrixGroup"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "MatrixGroup"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Alignment",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PicturePosition",
+              "requested": {
+                "kind": "integer",
+                "value": 6
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 6
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "ToggleButtonProbe",
+          "family": "ToggleButton",
+          "progid": "Forms.ToggleButton.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 12.0,
+            "top": 72.0,
+            "width": 90.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 12.0,
+            "top": 72.0,
+            "width": 90.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "Toggle"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "Toggle"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Style",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": false,
+              "readback": {
+                "kind": "null",
+                "value": null
+              },
+              "succeeded": false,
+              "error": "COM property 'Style' is not exposed.",
+              "hresult": "0x80131501"
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 4
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 4
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PicturePosition",
+              "requested": {
+                "kind": "integer",
+                "value": 8
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 8
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "WordWrap",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 4
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 4
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "ComboBoxProbe",
+          "family": "ComboBox",
+          "progid": "Forms.ComboBox.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 114.0,
+            "top": 72.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 114.0,
+            "top": 72.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "string",
+                "value": "green"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "green"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BoundColumn",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ColumnCount",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TextColumn",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ListRows",
+              "requested": {
+                "kind": "integer",
+                "value": 5
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 5
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ListWidth",
+              "requested": {
+                "kind": "number",
+                "value": 132.0,
+                "invariant": "132"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "132 pt"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MatchEntry",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "DropButtonStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ShowDropButtonWhen",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 5
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 5
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": [
+            "red",
+            "green",
+            "blue"
+          ],
+          "list_items_readback": {
+            "list_count": 3,
+            "items": [
+              "red",
+              "green",
+              "blue"
+            ]
+          },
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "ListBoxProbe",
+          "family": "ListBox",
+          "progid": "Forms.ListBox.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 222.0,
+            "top": 72.0,
+            "width": 120.0,
+            "height": 60.0
+          },
+          "geometry_readback": {
+            "left": 222.0,
+            "top": 72.0,
+            "width": 120.0,
+            "height": 49.150001525878906
+          },
+          "geometry_result": {
+            "classification": "expected_msforms_normalization",
+            "changed_fields": [
+              "height"
+            ],
+            "basis": "Excel 16.0.20131.20112 MSForms ListBox normalized the requested 60.0-point height to this deterministic readback after control initialization."
+          },
+          "properties": [
+            {
+              "name": "BoundColumn",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ColumnCount",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TextColumn",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MultiSelect",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ListStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ListWidth",
+              "requested": {
+                "kind": "number",
+                "value": 144.0,
+                "invariant": "144"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "144 pt"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MatchEntry",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "IntegralHeight",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 6
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 6
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": [
+            "alpha",
+            "beta",
+            "gamma"
+          ],
+          "list_items_readback": {
+            "list_count": 3,
+            "items": [
+              "alpha",
+              "beta",
+              "gamma"
+            ]
+          },
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "ScrollBarProbe",
+          "family": "ScrollBar",
+          "progid": "Forms.ScrollBar.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 354.0,
+            "top": 72.0,
+            "width": 120.0,
+            "height": 18.0
+          },
+          "geometry_readback": {
+            "left": 354.0,
+            "top": 72.0,
+            "width": 120.0,
+            "height": 18.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Min",
+              "requested": {
+                "kind": "integer",
+                "value": -10
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": -10
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Max",
+              "requested": {
+                "kind": "integer",
+                "value": 110
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 110
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "integer",
+                "value": 25
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 25
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "SmallChange",
+              "requested": {
+                "kind": "integer",
+                "value": 5
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 5
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "LargeChange",
+              "requested": {
+                "kind": "integer",
+                "value": 20
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 20
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Orientation",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ProportionalThumb",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Delay",
+              "requested": {
+                "kind": "integer",
+                "value": 77
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 77
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 7
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 7
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "SpinButtonProbe",
+          "family": "SpinButton",
+          "progid": "Forms.SpinButton.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 486.0,
+            "top": 72.0,
+            "width": 24.0,
+            "height": 48.0
+          },
+          "geometry_readback": {
+            "left": 486.0,
+            "top": 72.0,
+            "width": 24.0,
+            "height": 48.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Min",
+              "requested": {
+                "kind": "integer",
+                "value": -3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": -3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Max",
+              "requested": {
+                "kind": "integer",
+                "value": 7
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 7
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "SmallChange",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Orientation",
+              "requested": {
+                "kind": "integer",
+                "value": 0
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 0
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Delay",
+              "requested": {
+                "kind": "integer",
+                "value": 88
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 88
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 8
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 8
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "ImageProbe",
+          "family": "Image",
+          "progid": "Forms.Image.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 522.0,
+            "top": 72.0,
+            "width": 48.0,
+            "height": 48.0
+          },
+          "geometry_readback": {
+            "left": 522.0,
+            "top": 72.0,
+            "width": 48.0,
+            "height": 48.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "AutoSize",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BackStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BackColor",
+              "requested": {
+                "kind": "integer",
+                "value": 12632256
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 12632256
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BorderColor",
+              "requested": {
+                "kind": "integer",
+                "value": 255
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 255
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "BorderStyle",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PictureAlignment",
+              "requested": {
+                "kind": "integer",
+                "value": 4
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 4
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PictureSizeMode",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "PictureTiling",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "SpecialEffect",
+              "requested": {
+                "kind": "integer",
+                "value": 0
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 0
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Enabled",
+              "requested": {
+                "kind": "boolean",
+                "value": false
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": false
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 4
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 4
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "FrameProbe",
+          "family": "Frame",
+          "progid": "Forms.Frame.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 12.0,
+            "top": 150.0,
+            "width": 180.0,
+            "height": 108.0
+          },
+          "geometry_readback": {
+            "left": 12.0,
+            "top": 150.0,
+            "width": 180.0,
+            "height": 108.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "Nested frame"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "Nested frame"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Cycle",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "KeepScrollBarsVisible",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ScrollBars",
+              "requested": {
+                "kind": "integer",
+                "value": 3
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 3
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ScrollHeight",
+              "requested": {
+                "kind": "number",
+                "value": 140.0,
+                "invariant": "140"
+              },
+              "required": true,
+              "readback": {
+                "kind": "number",
+                "value": 140.0,
+                "invariant": "140"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ScrollWidth",
+              "requested": {
+                "kind": "number",
+                "value": 220.0,
+                "invariant": "220"
+              },
+              "required": true,
+              "readback": {
+                "kind": "number",
+                "value": 220.0,
+                "invariant": "220"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ScrollLeft",
+              "requested": {
+                "kind": "number",
+                "value": 2.0,
+                "invariant": "2"
+              },
+              "required": true,
+              "readback": {
+                "kind": "number",
+                "value": 2.0,
+                "invariant": "2"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ScrollTop",
+              "requested": {
+                "kind": "number",
+                "value": 3.0,
+                "invariant": "3"
+              },
+              "required": true,
+              "readback": {
+                "kind": "number",
+                "value": 3.0,
+                "invariant": "3"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Zoom",
+              "requested": {
+                "kind": "integer",
+                "value": 125
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 125
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 9
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 9
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "FrameChildLabel",
+          "family": "Label",
+          "progid": "Forms.Label.1",
+          "container": "control:FrameProbe",
+          "geometry_requested": {
+            "left": 9.0,
+            "top": 18.0,
+            "width": 90.0,
+            "height": 18.0
+          },
+          "geometry_readback": {
+            "left": 9.0,
+            "top": 18.0,
+            "width": 90.0,
+            "height": 18.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Caption",
+              "requested": {
+                "kind": "string",
+                "value": "Frame child"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "Frame child"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ControlTipText",
+              "requested": {
+                "kind": "string",
+                "value": "frame tooltip"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "frame tooltip"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Tag",
+              "requested": {
+                "kind": "string",
+                "value": "nested-control"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "nested-control"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        },
+        {
+          "name": "TabStripProbe",
+          "family": "TabStrip",
+          "progid": "Forms.TabStrip.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 204.0,
+            "top": 150.0,
+            "width": 174.0,
+            "height": 72.0
+          },
+          "geometry_readback": {
+            "left": 204.0,
+            "top": 150.0,
+            "width": 174.0,
+            "height": 72.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "MultiRow",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Style",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "MousePointer",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabOrientation",
+              "requested": {
+                "kind": "integer",
+                "value": 2
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 2
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabFixedHeight",
+              "requested": {
+                "kind": "number",
+                "value": 18.0,
+                "invariant": "18"
+              },
+              "required": true,
+              "readback": {
+                "kind": "number",
+                "value": 18.0,
+                "invariant": "18"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabFixedWidth",
+              "requested": {
+                "kind": "number",
+                "value": 60.0,
+                "invariant": "60"
+              },
+              "required": true,
+              "readback": {
+                "kind": "number",
+                "value": 60.0,
+                "invariant": "60"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 10
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 10
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": [
+            {
+              "index": 0,
+              "name": "AlphaTab",
+              "caption": "Alpha"
+            },
+            {
+              "index": 1,
+              "name": "BetaTab",
+              "caption": "Beta"
+            },
+            {
+              "index": 2,
+              "name": "GammaTab",
+              "caption": "Gamma"
+            }
+          ]
+        },
+        {
+          "name": "MultiPageProbe",
+          "family": "MultiPage",
+          "progid": "Forms.MultiPage.1",
+          "container": "root",
+          "geometry_requested": {
+            "left": 390.0,
+            "top": 150.0,
+            "width": 180.0,
+            "height": 132.0
+          },
+          "geometry_readback": {
+            "left": 390.0,
+            "top": 150.0,
+            "width": 180.0,
+            "height": 132.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "MultiRow",
+              "requested": {
+                "kind": "boolean",
+                "value": true
+              },
+              "required": true,
+              "readback": {
+                "kind": "boolean",
+                "value": true
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Style",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabOrientation",
+              "requested": {
+                "kind": "integer",
+                "value": 0
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 0
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "integer",
+                "value": 1
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 1
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "TabIndex",
+              "requested": {
+                "kind": "integer",
+                "value": 11
+              },
+              "required": true,
+              "readback": {
+                "kind": "integer",
+                "value": 11
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [
+            {
+              "index": 0,
+              "name": "FirstPage",
+              "caption": "First"
+            },
+            {
+              "index": 1,
+              "name": "SecondPage",
+              "caption": "Second"
+            }
+          ],
+          "tabs": []
+        },
+        {
+          "name": "PageTextProbe",
+          "family": "TextBox",
+          "progid": "Forms.TextBox.1",
+          "container": "page:FirstPage",
+          "geometry_requested": {
+            "left": 9.0,
+            "top": 9.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_readback": {
+            "left": 9.0,
+            "top": 9.0,
+            "width": 96.0,
+            "height": 24.0
+          },
+          "geometry_result": {
+            "classification": "exact",
+            "changed_fields": [],
+            "basis": null
+          },
+          "properties": [
+            {
+              "name": "Value",
+              "requested": {
+                "kind": "string",
+                "value": "page resource text"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "page resource text"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            },
+            {
+              "name": "ControlTipText",
+              "requested": {
+                "kind": "string",
+                "value": "nested page child"
+              },
+              "required": true,
+              "readback": {
+                "kind": "string",
+                "value": "nested page child"
+              },
+              "succeeded": true,
+              "error": null,
+              "hresult": null
+            }
+          ],
+          "requested_list_items": null,
+          "list_items_readback": null,
+          "pages": [],
+          "tabs": []
+        }
+      ],
+      "code_input": {
+        "line_count": 8,
+        "utf8_sha256": "048b4543d255821ecd717dd57b68f9c58adc8f797a700c9f902361688f190ba3"
+      },
+      "exported_files": [
+        {
+          "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/W010IntrinsicMatrix.frm",
+          "length": 687,
+          "sha256": "402583f1059919460bdadd5a0cc7ffb753643b4e09bf6bdf06a186117fe4af1e"
+        },
+        {
+          "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/W010IntrinsicMatrix.frx",
+          "length": 9752,
+          "sha256": "87f3384df992d8d3dcdd6ebdb37e0b0b3171043d5235266eee82df1b7622143d"
+        }
+      ]
+    }
+  ],
+  "designer_add_probes": [
+    {
+      "family": "HTMLSubmit",
+      "progid": "Forms.HTML:Submitbutton.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLImage",
+      "progid": "Forms.HTML:Image.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLReset",
+      "progid": "Forms.HTML:Reset.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLCheckbox",
+      "progid": "Forms.HTML:Checkbox.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLOption",
+      "progid": "Forms.HTML:Option.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLText",
+      "progid": "Forms.HTML:Text.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLHidden",
+      "progid": "Forms.HTML:Hidden.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLPassword",
+      "progid": "Forms.HTML:Password.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLSelect",
+      "progid": "Forms.HTML:Select.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    },
+    {
+      "family": "HTMLTextArea",
+      "progid": "Forms.HTML:TextArea.1",
+      "expected": "rejected",
+      "added": false,
+      "error": "Invalid argument.",
+      "hresult": "0x80070057"
+    }
+  ]
+}

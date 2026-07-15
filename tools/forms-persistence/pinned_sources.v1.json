@@ -1,0 +1,161 @@
+{
+  "schema": "oxforms.forms-persistence.pinned-sources.v1",
+  "foundation": {
+    "repo_path": "../Foundation",
+    "expected_commit": "e6cfe71cfa1ebf07f52d1c7816a637ad5baad78b",
+    "artifacts": [
+      {
+        "source_id": "MS-OVBA-DOCX",
+        "path": "reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OVBA/[MS-OVBA]-260519.docx",
+        "hash_mode": "raw",
+        "length": 282924,
+        "sha256": "31fb68ac3ef209cb32247a3060ff775cc0517c4120137cb39945690448b46c79",
+        "revision": "15.0",
+        "release_date": "2026-05-19",
+        "url": "https://officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OVBA/%5BMS-OVBA%5D-260519.docx"
+      },
+      {
+        "source_id": "MS-OVBA-PDF",
+        "path": "reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OVBA/[MS-OVBA].pdf",
+        "hash_mode": "raw",
+        "length": 4356156,
+        "sha256": "6ca91a091da9b7a550e52ea60808fc78b676a3e96101a80990f75911619768c3",
+        "revision": "15.0",
+        "release_date": "2026-05-19",
+        "url": "https://officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-OVBA/%5BMS-OVBA%5D.pdf"
+      },
+      {
+        "source_id": "MS-OVBA-SEGMENTS",
+        "path": "reference/runs/20260624-ms-ovba-official-pass-01/outputs/docs/ms-ovba-ms-ovba-260519-31fb68ac/segments.jsonl",
+        "hash_mode": "canonical_utf8_lf",
+        "raw_length": 3144629,
+        "raw_sha256": "7d70419c7f869a9ed6dfba1c1be996dd12366fee12e5d60ca846b2abc308bf81",
+        "sha256": "0841dfad53ba5631fa4a86a34d113bc32f6e16e245e056acec86b519c67a29c8"
+      },
+      {
+        "source_id": "MS-OVBA-DOCUMENT-MANIFEST",
+        "path": "reference/runs/20260624-ms-ovba-official-pass-01/outputs/docs/ms-ovba-ms-ovba-260519-31fb68ac/document_manifest.json",
+        "hash_mode": "canonical_utf8_lf",
+        "raw_length": 1631,
+        "raw_sha256": "b913bceb3e868adf727fd73e6e91bad0beffe3ddd8c5bba1793b1e3230f8fe52",
+        "sha256": "f53891a5ac4847db591d3d4f9e1d4db6ef9a4dea460420a983369394b7972bdc"
+      },
+      {
+        "source_id": "MS-OVBA-RUN-MANIFEST",
+        "path": "reference/runs/20260624-ms-ovba-official-pass-01/outputs/run_manifest.json",
+        "hash_mode": "canonical_utf8_lf",
+        "raw_length": 1850,
+        "raw_sha256": "5c4df26bb39566d3f32ef6a17a77effb195bfb5e43d24cb9e2623d4c1e8b7644",
+        "sha256": "37e925ed7adef5066310cf3cdc16f249a82a1e422fb6ce7fd1c11fd717193180"
+      },
+      {
+        "source_id": "MS-VBAL-DOCX",
+        "path": "reference/downloads/officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-VBAL/[MS-VBAL]-250520.docx",
+        "hash_mode": "raw",
+        "length": 362913,
+        "sha256": "f945507ef43b2ecfcea76d872536ce3566def87c2c3f383d664380533197cfc1",
+        "release_date": "2025-05-20",
+        "url": "https://officeprotocoldocs-f5hpbjgea6b8gneq.b02.azurefd.net/files/MS-VBAL/%5BMS-VBAL%5D-250520.docx"
+      },
+      {
+        "source_id": "MS-VBAL-SEGMENTS",
+        "path": "reference/runs/20260301-ms-vbal-webref-compare-v5-latest/outputs/docs/discovered-ms-vbal-250520-f945507e/segments.jsonl",
+        "hash_mode": "canonical_utf8_lf",
+        "raw_length": 5304098,
+        "raw_sha256": "97abd18b31d2279524cfc76c760c5ec1c04ff1b21a908933143411371ddf2546",
+        "sha256": "8035317ea8229f2d2ac7d2157d6d933da433d737429b958545e82d68001b7b6f"
+      },
+      {
+        "source_id": "MS-VBAL-DOCUMENT-MANIFEST",
+        "path": "reference/runs/20260301-ms-vbal-webref-compare-v5-latest/outputs/docs/discovered-ms-vbal-250520-f945507e/document_manifest.json",
+        "hash_mode": "canonical_utf8_lf",
+        "raw_length": 1703,
+        "raw_sha256": "5acf720b51669fb5b2257270cbb28a0e6d10ea61c7a6d31be07c099e568f6681",
+        "sha256": "671d6bd53492499a3c99218d6280d2725baff59112e2a8b66828589325e6dd47"
+      },
+      {
+        "source_id": "MS-VBAL-RUN-MANIFEST",
+        "path": "reference/runs/20260301-ms-vbal-webref-compare-v5-latest/outputs/run_manifest.json",
+        "hash_mode": "canonical_utf8_lf",
+        "raw_length": 1965,
+        "raw_sha256": "408b574cabd95fdec62000ab5ffcb7dc8e54096adfa901a57ce3f01dbe859881",
+        "sha256": "affa42ac4738f573785f94dfd635e98e777a7ee31669c13f3cd70bd48617e8bb"
+      }
+    ],
+    "selected_segments": {
+      "MS-OVBA-SEGMENTS": [
+        { "first": 651, "last": 656, "purpose": "ModuleIdentifier and NWLN lexical grammar" },
+        { "first": 724, "last": 726, "purpose": "designer storage and VBFrame stream relationship" },
+        { "first": 2828, "last": 2932, "purpose": "VBFrame and DesignerProperties normative grammar" },
+        { "first": 5620, "last": 5645, "purpose": "Microsoft VBFrame worked example" }
+      ],
+      "MS-VBAL-SEGMENTS": [
+        { "first": 1480, "last": 1526, "purpose": "physical module header, attributes, and body boundary" }
+      ]
+    }
+  },
+  "local_dependencies": [
+    {
+      "source_id": "W010-FM20-FACTS",
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json",
+      "length": 12055606,
+      "sha256": "ff2abf8e3813e207e34f12c6f614070bc67cfd5e70ac7348bcd5ef275bd5582e",
+      "semantic_sha256": "b10c9ef2b21769e9a2d6802297409dde231faab2355a9cf613c7c4a3b0a38b77"
+    },
+    {
+      "source_id": "W010-MS-OFORMS-FACTS",
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/ms_oforms_persistence_facts.v1.json",
+      "length": 6376798,
+      "sha256": "74166611287b072434013056e00cecf811f361e2c0a26b740074a39a0c3249cb",
+      "semantic_sha256": "5c488d039273bd1aaedd465964e17262863e4d9dfb2fdf2f39b6b581efd7ebbf"
+    },
+    {
+      "source_id": "MS-CFB-DOCX",
+      "path": "reference/ms-cfb/[MS-CFB]-240423.docx",
+      "hash_mode": "raw",
+      "length": 220697,
+      "sha256": "2d650184072a148ba98ad0b68072fd5ad7780e46f3528d7f263f3127b2dadab5",
+      "revision": "12.0",
+      "release_date": "2024-04-23",
+      "url": "https://winprotocoldocs-bhdugrdyduf5h2e4.b02.azurefd.net/MS-CFB/%5BMS-CFB%5D-240423.docx"
+    },
+    {
+      "source_id": "MS-CFB-SELECTED-ROWS",
+      "path": "reference/ms-cfb/ms_cfb_selected_rows.v1.jsonl",
+      "hash_mode": "raw",
+      "length": 40792,
+      "sha256": "a4292137cbd8933f6b55398dfc9c8cee366d4f65270c4dd849b6b33afe22b765"
+    },
+    {
+      "source_id": "MS-CFB-EXTRACTOR",
+      "path": "tools/forms-persistence/extract_ms_cfb_selected_rows.py",
+      "hash_mode": "raw",
+      "length": 20530,
+      "sha256": "86b05363a0edf4826877a710ed75a37fc5f3369ddd53470035a097c57647845c"
+    },
+    {
+      "source_id": "MS-CFB-SELECTED-RULES",
+      "path": "tools/forms-persistence/ms_cfb_selected_rules.v1.json",
+      "length": 7000,
+      "sha256": "ce42d1ef6a0ddfa3ac7efa9ba36be58a33ade379294800388fcfe6dbc1ce62e4"
+    },
+    {
+      "source_id": "LIVE-EXPORT-CAPTURE-SPEC",
+      "path": "tools/forms-persistence/capture_spec.v1.json",
+      "length": 25330,
+      "sha256": "de74f0a6c6e237d2663e34d719d8412dbdf1e51f49dd5f7178307ef0817824cc"
+    },
+    {
+      "source_id": "LIVE-EXPORT-CAPTURE-TOOL",
+      "path": "tools/forms-persistence/Capture-MSFormsExports.ps1",
+      "length": 118195,
+      "sha256": "0b669b243409527f5579ae806715dbd4f50a40a3a1748ce67984cf38ce5fe4d8"
+    },
+    {
+      "source_id": "LIVE-EXPORT-CAPTURE-MANIFEST",
+      "path": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112/capture_manifest.v2.json",
+      "length": 114100,
+      "sha256": "08f3fd3e00cbb9cc8467906fd37f57056279d7f1c4efc337ed1ec2789c6683dd"
+    }
+  ]
+}

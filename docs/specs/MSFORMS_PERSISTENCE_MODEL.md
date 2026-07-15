@@ -1,13 +1,16 @@
-# MSForms Persistence and Default Fact Model
+# MSForms Persistence and Export Fact Models
 
-Status: W010 generated-fact contract (`oxforms-jbjp.3`)
+Status: W010 generated-fact contracts (`oxforms-jbjp.3` committed;
+`oxforms-jbjp.43` in progress)
 
 Schema: `oxforms.ms-oforms.persistence-facts.v1`
 
 This document defines the deterministic MS-OFORMS binary-persistence and file-
-format-default fact pack. It is the source contract for later parser, resource,
-serialization, control, and corpus beads. It does not implement a codec and it
-does not turn a persisted name or default into a callable runtime API claim.
+format-default fact pack, then the independent `.frm`/`.frx` export-fact
+contract derived by `oxforms-jbjp.43`. Together they are source contracts for
+later parser, resource, serialization, control, and corpus beads. They do not
+implement a codec and do not turn a persisted name, default, or export
+observation into a callable runtime API claim.
 
 ## 1. Authority and pinned provenance
 
@@ -237,6 +240,256 @@ This bead does not:
 - treat worked examples as passing implementation tests; or
 - treat Appendix product behavior as independently observed oracle evidence.
 
-Canonical `.frm`/`.frx` export facts are the strict next bead (`.43`). Parser,
-serialization, and resource implementations remain owned by their later W010
-beads.
+The independent `.frm`/`.frx` export-fact candidate is described below. Parser,
+serialization, resource decoding/writing, and round-trip behavior remain owned
+by later W010 beads.
+
+## 6. Independent `.frm`/`.frx` export facts
+
+Schema: `oxforms.forms-persistence.export-facts.v1`
+
+`oxforms-jbjp.43` adds a separate generated fact surface under
+`docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/`.
+The bead remains in progress until all required checks, its exact fresh-eyes
+review, and its post-review commit complete. This section records the current
+candidate contract rather than claiming closure.
+
+### 6.1 Authority profiles and non-promotion
+
+The export model has three deliberately non-interchangeable profiles:
+
+| Profile | Authority class | What it may establish |
+|---|---|---|
+| `office_vba_userform_export` | `canonical_for_captured_office_vba_export` | Facts observed in the preserved Excel/VBE `VBComponent.Export` corpus |
+| `vb6_frm_export` | `uncaptured_separate_profile` | Nothing in this bead; no authenticated VB6 export was captured |
+| `legacy_synthetic_nested` | `oxforms_canonical_extension_and_legacy_synthetic_only` | Compatibility inventory for existing project-authored nested fixtures, never Office-export facts |
+
+Cross-profile promotion is forbidden. A legacy nested textual `Begin`/`End`
+control block cannot establish an Office VBA export rule, and an Office root
+frame observation cannot silently define the uncaptured VB6 dialect.
+
+### 6.2 Genuine Excel export corpus
+
+The preserved capture was authored in a transient workbook and exported
+through the public `VBComponent.Export` method by Excel
+`16.0.20131.20112`/VBE `7.01`. The capture environment was 64-bit Windows and a
+64-bit process, `en-ZA`, ANSI code page 1252. The manifest pins the Excel
+binary, FM20 registrations, capture script and spec, requested and read-back
+values, failures, raw files, and hashes.
+
+The v2 manifest resolves the actual automation window to Excel process `38708`
+and pins
+`C:\Program Files\Microsoft Office\Root\Office16\EXCEL.EXE` (76,582,128
+bytes; SHA-256
+`1f653c8b7979fc80bec5a40423e0cd59cb4ad64644558bcab15a24416ce4e33e`). It
+also pins the uniquely loaded `VBE7.DLL` (4,487,696 bytes; SHA-256
+`a5b35d9ae67788869fe2cb92d410b8fa6f13f374208571eb3ea548850ff50810`).
+Click-to-Run reported
+`C:\Program Files\Common Files\Microsoft Shared\VBA\VBA7.1\VBE7.DLL`, while
+the exact bytes came from
+`C:\Program Files\Microsoft Office\Root\vfs\ProgramFilesCommonX64\Microsoft Shared\VBA\VBA7.1\VBE7.DLL`.
+The reported and backing paths, deterministic resolution basis, and caveat are
+all explicit; identifying the loaded binary does not independently prove which
+binary owns `VBComponent.Export`.
+
+Three genuine `.frm`/`.frx` pairs separate outer defaults, outer nondefaults,
+and an intrinsic/container matrix. The latter contains all fourteen documented
+intrinsic `Controls.Add` families plus structural UserForm and Page instances,
+with nested Frame and MultiPage children, TabStrip tabs, list data, and broad
+nondefault property probes. The current corpus totals sixteen `Controls.Add`
+instances spanning all fourteen intrinsic families. Structural UserForm and
+Page observations bring the observed-family universe to sixteen. The files
+contain 2,210 `.frm` bytes and 14,920 `.frx` bytes.
+
+Requested list items are separate from the actual `ListCount` and indexed
+`List` readback. `ComboBoxProbe` requested and read back `red`, `green`,
+`blue` with count 3; `ListBoxProbe` requested and read back `alpha`, `beta`,
+`gamma` with count 3. Requested and observed geometry are likewise distinct.
+The only pinned geometry normalization is `ListBoxProbe.Height`, from requested
+`60.0` points to observed `49.150001525878906`; every other captured geometry
+field compares exactly.
+
+All 24 recorded ProgIDs, including all ten actual HTML ProgIDs, were registered
+on this machine, but the same-build HTML designer `Controls.Add` probes rejected
+them with `E_INVALIDARG`
+(`0x80070057`). This establishes only designer-add rejection for that
+host/build. It is not evidence of runtime non-callability and cannot exclude a
+typelib row.
+
+### 6.3 Normative VBFrame text and the Office extension
+
+Pinned MS-OVBA 15.0 rows define `VBFrameText`, the root designer GUID/name, and
+the exact ordered universe of fifteen `DesignerProperties`. Together with the
+pinned MS-VBAL boundary rows, the export-fact source selection contains 187
+rows: 22 headings, 135 paragraphs, and 30 table cells. The ordered universe
+is:
+
+1. `Caption`
+2. `ClientHeight`
+3. `ClientLeft`
+4. `ClientTop`
+5. `ClientWidth`
+6. `Enabled`
+7. `HelpContextID`
+8. `RightToLeft`
+9. `ShowModal`
+10. `StartUpPosition`
+11. `Tag`
+12. `TypeInfoVer`
+13. `Visible`
+14. `WhatsThisButton`
+15. `WhatsThisHelp`
+
+The selected normative rows supply explicit grammar defaults only for
+`Enabled = True`, `ShowModal = True`, `TypeInfoVer = 0`, `Visible = True`, and
+`WhatsThisButton = False`; a missing declared default for another row is not a
+runtime-default claim. The manifest keeps the normative grammar and the live
+occurrence inventory separate. Eight same-build controlled pairs record
+serialization observations, including the failed `RightToLeft = True`
+readback; they are not constructor-default claims.
+
+The Office export also writes one root `OleObjectBlob` lexeme. The three live
+observations are exactly `"<safe-basename>.frx":0000`. They establish no
+general lexical width and no nonzero-offset behavior. That property is not in
+the selected normative MS-OVBA `DesignerProperties` production. It is
+therefore an observed Office/VBIDE extension, not a grammar amendment. The
+Office profile contains no nested textual control blocks; the captured control
+graph resides inside the referenced FRX data.
+
+### 6.4 Class header and code boundary
+
+Pinned MS-VBAL rows establish the physical module-header/body separation. In
+each preserved export, the designer root ends before a contiguous ordered
+header of `VB_Name`, `VB_GlobalNameSpace`, `VB_Creatable`,
+`VB_PredeclaredId`, and `VB_Exposed` attributes. All remaining bytes are an
+opaque VBA code body. A line such as `Caption = "..."` after that boundary is
+code and must never be parsed as designer metadata.
+
+The three captured headers and three opaque code bodies have exact byte/line
+spans and hashes. Office text is inventoried in code page 1252 with CRLF, so a
+parser cannot obtain byte-exact preservation by assuming UTF-8.
+
+### 6.5 FRX and CFB boundary
+
+Every captured `.frx` begins with exactly 24 opaque bytes before an embedded
+MS-CFB signature. No meaning is assigned to a prefix field. The fact pack
+validates the CFB header, FAT/DIFAT/miniFAT and directory chains, stream bounds,
+and source coverage, then inventories every stream, storage, free region,
+mini-stream region, and trailing region.
+
+Those structural requirements are bound to Microsoft's authoritative MS-CFB
+revision 12.0 DOCX (2024-04-23), not merely to a project-authored summary. A
+deterministic standard-library extractor pins 80 exact normalized rows across
+sections 2.1-2.8 plus three identity rows. The shorter rules carried in the
+fact pack are explicitly project interpretations with source-row links. Source `SHOULD` requirements
+and OxForms' stricter evidence policy remain distinct.
+
+The current corpus contains three CFB roots, four storages, 22 streams, six
+explicit logical `byte_regions` records, 32 physical CFB ownership regions,
+and 62 physical mini-stream ownership regions. There are zero logical free
+`mini_regions` records; that is not a claim that no physical mini sectors
+exist. Prefix bytes, the validated CFB logical extent, and trailing/residual
+regions account for the complete captured FRX length under strict ownership
+checks. This is structural inventory only: the pack decodes zero live FRX
+control-property values and specifies no live-derived binary codec.
+
+### 6.6 Normative binary contract boundary
+
+The binary contract is a normative, source-linked projection of the pinned
+`.3` MS-OFORMS fact pack. It is not derived by decoding the live opaque FRX
+bytes. The object-valued surface contains three properties, five type layouts,
+five resource formats, eight stream-data slots, and fourteen separate-storage
+presence flags.
+
+The contract selects 43 explicit length/count fields: fifteen aggregate record
+byte lengths, fourteen string count/compression fields, seven variable-region
+byte lengths, five serialized collection counts, and two resource-payload
+lengths. Four source-linked resource-format codecs accompany the selection.
+The normative omission/default projection contains 98 property-default/status
+records (95 documented defaults and three mandatory-persist/no-default
+statuses), 107 control-specific default-matrix rows, fifteen property masks
+with 221 entries, and 192 storage requirements. Live nondefault object probes
+and decoded live object/property values both remain zero; none of these
+normative projections is a claim that a live FRX value was decoded.
+
+### 6.7 MS-OFORMS property mapping coverage
+
+The generator requires exactly one evidence-classification row for each of the
+98 properties from the independent `.3` MS-OFORMS pack:
+
+| Evidence classification | Count |
+|---|---:|
+| `live_public_property_probe_exact_name` | 47 |
+| `live_context_only_not_exact_property_probe` | 16 |
+| `documented_internal_structure_only` | 18 |
+| `documented_no_exact_live_probe` | 17 |
+
+Those property rows expand to 245 property/family pairs:
+
+| Family-pair status | Count |
+|---|---:|
+| `exact_name_live_probe` | 100 |
+| `context_only_not_exact_probe` | 28 |
+| `documented_internal_only` | 33 |
+| `unprobed` | 84 |
+
+Exactly 34 exact-name property rows cover every applicable family. Probe
+applicability is control-family-specific; a same-named property on an unrelated
+family cannot satisfy a row. The classifications expose where live evidence
+exists and where it does not. They do not decode the CFB data, infer a runtime
+property, or convert a documented persistence field into a callable member.
+
+### 6.8 Unknown preservation and rejection
+
+Fifteen unknown classes make loss behavior explicit. Text classes cover
+unknown outer properties/value lexemes/blocks, module attributes and opaque
+code, and unsafe external-resource paths. Binary classes cover the 24-byte
+prefix, unknown CFB storages/streams, allocated CFB-sector and mini-sector
+slack, unallocated CFB and mini sectors, trailing FRX bytes, and MS-OFORMS
+documented unknowns.
+
+Readers preserve exact bytes, order, spans, and hierarchy where the class
+allows it. Writers either reproduce that material or reject a lossy rewrite.
+Cross-profile blocks are rejected rather than normalized. Rooted, traversal,
+drive, UNC, alternate-stream, and non-basename resource paths are inventoried
+without dereferencing and are rejected for writing.
+
+### 6.9 Determinism and validation
+
+The generator and validator live in `tools/forms-persistence/`. Canonical JSON
+is UTF-8/LF, sorted and timestamp-free, with no absolute checkout paths. Strict
+loading rejects duplicate keys and non-finite numbers. The validator rebuilds
+derived surfaces, verifies pinned local inputs and every fixture hash, checks
+text and CFB byte coverage, freezes the reviewed summary through
+`expected_capture.v1.json`, and rejects use of synthetic fixtures as Office
+authority.
+
+Ordinary Foundation-independent committed-artifact checks:
+
+```powershell
+python -B tools/forms-persistence/validate_frm_frx_facts.py
+python -B tools/forms-persistence/extract_ms_cfb_selected_rows.py
+pwsh -File tools/evidence/Test-W010FrmFrxExportFacts.ps1
+```
+
+Generation always reads the pinned Foundation sources. The source-required gate
+checks the exact clean Foundation commit, hashes the pinned MS-OVBA/MS-VBAL
+commit blobs and working-tree copies, performs fresh regeneration, and
+byte-compares the committed artifact:
+
+```powershell
+python -B tools/forms-persistence/export_frm_frx_facts.py --check
+pwsh -File tools/evidence/Test-W010FrmFrxExportFacts.ps1 -RequireSource
+```
+
+### 6.10 Export-fact non-claims
+
+The `.43` fact surface makes no claim of:
+
+- a production `.frm` parser or serializer;
+- an `.frx` reader, writer, binary property decoder, or codec;
+- runtime API, behavior, error, coercion, event, or constructor-default parity;
+- VB6 export grammar or compatibility;
+- a general `OleObjectBlob` offset width or any nonzero-offset behavior; or
+- HTML runtime callability/non-callability beyond the exact recorded
+  same-build designer-add result.

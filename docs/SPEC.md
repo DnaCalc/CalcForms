@@ -54,10 +54,12 @@ planning truth.
    descriptor/flag/default encoding, W005 structural reconciliation, and
    validator contract.
 10. [`specs/MSFORMS_PERSISTENCE_MODEL.md`](specs/MSFORMS_PERSISTENCE_MODEL.md) -
-    W010's deterministic MS-OFORMS binary-persistence/default fact model,
-    canonical source pins, control/record/property/mask/enum/resource rows,
-    algorithms/examples/product-behavior classifications, explicit unknowns,
-    and runtime/API non-claims.
+    W010's deterministic MS-OFORMS binary-persistence/default fact model plus
+    the in-progress independent `.frm`/`.frx` export-fact contract: genuine
+    Excel/VBE export evidence, strict Office/VB6/legacy profile separation,
+    MS-OVBA DesignerProperties, MS-VBAL class-header/code boundary, opaque FRX
+    prefix and embedded-CFB inventory, 98 property mappings, unknown policy,
+    and codec/runtime/API non-claims.
 
 ## Source References
 
@@ -71,8 +73,9 @@ into additional focused specs and keep them reachable from this index:
 
 - generated row-level public parity ledger and facade contract (the raw
   object-model fact pack is now specified above);
-- canonical `.frm` / `.frx` export grammar, resources, and persistence (the
-  separate MS-OFORMS binary/default fact model is now specified above);
+- production `.frm` / `.frx` parser, serializer, resource codec, and round-trip
+  behavior (the independent export-fact and MS-OFORMS contracts are now
+  specified above, while implementation remains later W010 work);
 - reducer state model and event/effect semantics;
 - retained-Scene rendering and PAL contract;
 - trace/replay and evidence artifacts;

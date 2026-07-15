@@ -1,0 +1,62 @@
+{
+  "canonical_sha256": "7a4881713baed458d6601e3821b35f14d92691ea1e38a5ca5f363e8eebdc29fe",
+  "fact_schema": "oxforms.forms-persistence.export-facts.v1",
+  "pinned_sources_sha256": "8bda74356bc1fc8aa9d5d4e285dea3c4a50643bc1a50117e1d8d410e1bf3fe3f",
+  "schema": "oxforms.forms-persistence.expected-capture.v1",
+  "summary": {
+    "captured_control_instances": 16,
+    "cfb_byte_regions": 6,
+    "cfb_mini_physical_regions": 62,
+    "cfb_mini_regions": 0,
+    "cfb_physical_regions": 32,
+    "cfb_roots": 3,
+    "cfb_storages": 4,
+    "cfb_streams": 22,
+    "component_headers": 3,
+    "controlled_omission_pairs": 8,
+    "decoded_frx_property_values": 0,
+    "designer_properties": 15,
+    "exact_name_rows_with_full_family_coverage": 34,
+    "fm20_hidden_control_coclasses_not_forward_progid_covered": 25,
+    "fm20_primary_nonhidden_control_coclasses": 25,
+    "html_designer_add_rejections": 10,
+    "legacy_complete_inventory_files": 3,
+    "legacy_synthetic_files": 6,
+    "ms_oforms_cached_control_ids": 16,
+    "ms_oforms_property_mappings": 98,
+    "normative_binary_length_fields": 43,
+    "normative_default_matrix_rows": 107,
+    "normative_object_type_layouts": 5,
+    "normative_object_valued_properties": 3,
+    "normative_property_masks": 15,
+    "observed_intrinsic_families": 16,
+    "opaque_code_bodies": 3,
+    "profiles": 3,
+    "property_mapping_class_counts": {
+      "documented_internal_structure_only": 18,
+      "documented_no_exact_live_probe": 17,
+      "live_context_only_not_exact_property_probe": 16,
+      "live_public_property_probe_exact_name": 47
+    },
+    "property_mapping_family_pair_counts": {
+      "context_only_not_exact_probe": 28,
+      "documented_internal_only": 33,
+      "exact_name_live_probe": 100,
+      "unprobed": 84
+    },
+    "property_mapping_family_pairs": 245,
+    "real_office_fixture_pairs": 3,
+    "real_office_frm_bytes": 2210,
+    "real_office_frx_bytes": 14920,
+    "registered_progids": 24,
+    "resource_references": 3,
+    "runtime_api_claims": 0,
+    "source_kind_counts": {
+      "heading": 22,
+      "paragraph": 135,
+      "table_cell": 30
+    },
+    "source_rows": 187,
+    "unknown_preservation_classes": 15
+  }
+}

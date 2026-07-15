@@ -1,0 +1,443 @@
+{
+  "schema": "oxforms.forms-persistence.capture-spec.v1",
+  "capture_id": "excel-vbcomponent-export-20260715",
+  "profile": "office_vba_userform_export",
+  "description": "Controlled clean-room UserForm exports produced through the public Excel/VBIDE VBComponent.Export API.",
+  "frozen_capture_identity": {
+    "capture_date_utc": "2026-07-15",
+    "output_directory": "fixtures/forms-persistence/office-vba-userform-export/20260715-excel-16.0.20131.20112",
+    "excel_executable": {
+      "length": 76582128,
+      "sha256": "1f653c8b7979fc80bec5a40423e0cd59cb4ad64644558bcab15a24416ce4e33e",
+      "file_version": "16.0.20131.20112",
+      "product_version": "16.0.20131.20112"
+    },
+    "excel_automation": {
+      "version": "16.0",
+      "build": "20131",
+      "vbe_version": "7.01"
+    },
+    "vbe_binary": {
+      "module_name": "VBE7.DLL",
+      "length": 4487696,
+      "sha256": "a5b35d9ae67788869fe2cb92d410b8fa6f13f374208571eb3ea548850ff50810",
+      "file_version": "7.01.1153",
+      "product_version": "7.01.1153"
+    }
+  },
+  "forms": [
+    {
+      "fixture_id": "outer-defaults",
+      "name": "W010OuterDefaults",
+      "component_properties": [
+        { "name": "Caption", "kind": "string", "value": "W010 outer defaults", "required": true },
+        { "name": "Width", "kind": "single", "value": 240.0, "required": true },
+        { "name": "Height", "kind": "single", "value": 180.0, "required": true },
+        { "name": "Enabled", "kind": "boolean", "value": true, "required": true },
+        { "name": "HelpContextID", "kind": "int32", "value": 0, "required": true },
+        { "name": "RightToLeft", "kind": "boolean", "value": false, "required": true },
+        { "name": "ShowModal", "kind": "boolean", "value": true, "required": true },
+        { "name": "StartUpPosition", "kind": "int16", "value": 1, "required": true },
+        { "name": "Tag", "kind": "string", "value": "", "required": true },
+        { "name": "WhatsThisButton", "kind": "boolean", "value": false, "required": true },
+        { "name": "WhatsThisHelp", "kind": "boolean", "value": false, "required": true }
+      ],
+      "controls": [],
+      "code_lines": [
+        "Option Explicit",
+        "",
+        "Public Function BaselineMarker() As String",
+        "    BaselineMarker = \"outer-defaults\"",
+        "End Function"
+      ]
+    },
+    {
+      "fixture_id": "outer-nondefaults",
+      "name": "W010OuterNonDefaults",
+      "component_properties": [
+        { "name": "Caption", "kind": "string", "value": "Caf\u00e9 \"quoted\"", "required": true },
+        { "name": "Width", "kind": "single", "value": 321.5, "required": true },
+        { "name": "Height", "kind": "single", "value": 222.25, "required": true },
+        { "name": "Left", "kind": "single", "value": 33.5, "required": true },
+        { "name": "Top", "kind": "single", "value": 44.75, "required": true },
+        { "name": "Enabled", "kind": "boolean", "value": false, "required": true },
+        { "name": "HelpContextID", "kind": "int32", "value": 42, "required": true },
+        { "name": "RightToLeft", "kind": "boolean", "value": true, "required": false },
+        { "name": "ShowModal", "kind": "boolean", "value": false, "required": true },
+        { "name": "StartUpPosition", "kind": "int16", "value": 0, "required": true },
+        { "name": "Tag", "kind": "string", "value": "tag;one=1", "required": true },
+        { "name": "WhatsThisButton", "kind": "boolean", "value": true, "required": true },
+        { "name": "WhatsThisHelp", "kind": "boolean", "value": true, "required": true }
+      ],
+      "controls": [],
+      "code_lines": [
+        "Option Explicit",
+        "",
+        "Public Function QuoteProbe() As String",
+        "    QuoteProbe = \"code = \"\"value\"\"\"",
+        "End Function",
+        "",
+        "Private Sub AssignmentShapedCode()",
+        "    Caption = \"this is code, not designer metadata\"",
+        "End Sub"
+      ]
+    },
+    {
+      "fixture_id": "intrinsic-containers-resources",
+      "name": "W010IntrinsicMatrix",
+      "component_properties": [
+        { "name": "Caption", "kind": "string", "value": "W010 intrinsic matrix", "required": true },
+        { "name": "Width", "kind": "single", "value": 620.0, "required": true },
+        { "name": "Height", "kind": "single", "value": 460.0, "required": true },
+        { "name": "StartUpPosition", "kind": "int16", "value": 2, "required": true },
+        { "name": "BackColor", "kind": "int32", "value": 15790320, "required": true },
+        { "name": "BorderColor", "kind": "int32", "value": 255, "required": true },
+        { "name": "BorderStyle", "kind": "int32", "value": 1, "required": true },
+        { "name": "Cycle", "kind": "int32", "value": 2, "required": true },
+        { "name": "DrawBuffer", "kind": "int32", "value": 48000, "required": true },
+        { "name": "ForeColor", "kind": "int32", "value": 128, "required": true },
+        { "name": "GridX", "kind": "single", "value": 12.0, "required": false },
+        { "name": "GridY", "kind": "single", "value": 14.0, "required": false },
+        { "name": "KeepScrollBarsVisible", "kind": "int32", "value": 3, "required": true },
+        { "name": "MousePointer", "kind": "int32", "value": 2, "required": true },
+        { "name": "PictureAlignment", "kind": "int32", "value": 4, "required": true },
+        { "name": "PictureSizeMode", "kind": "int32", "value": 3, "required": true },
+        { "name": "PictureTiling", "kind": "boolean", "value": true, "required": true },
+        { "name": "ScrollBars", "kind": "int32", "value": 3, "required": true },
+        { "name": "ScrollHeight", "kind": "single", "value": 480.0, "required": true },
+        { "name": "ScrollWidth", "kind": "single", "value": 640.0, "required": true },
+        { "name": "ScrollLeft", "kind": "single", "value": 3.0, "required": true },
+        { "name": "ScrollTop", "kind": "single", "value": 4.0, "required": true },
+        { "name": "ShowGridDots", "kind": "boolean", "value": false, "required": false },
+        { "name": "SnapToGrid", "kind": "boolean", "value": false, "required": false },
+        { "name": "SpecialEffect", "kind": "int32", "value": 2, "required": true },
+        { "name": "Zoom", "kind": "int16", "value": 110, "required": true }
+      ],
+      "controls": [
+        {
+          "name": "CommandButtonProbe",
+          "family": "CommandButton",
+          "progid": "Forms.CommandButton.1",
+          "container": "root",
+          "geometry": { "left": 12.0, "top": 12.0, "width": 90.0, "height": 24.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "&Run", "required": true },
+            { "name": "Accelerator", "kind": "string", "value": "R", "required": true },
+            { "name": "BackColor", "kind": "int32", "value": 65535, "required": true },
+            { "name": "ForeColor", "kind": "int32", "value": 16711680, "required": true },
+            { "name": "HelpContextID", "kind": "int32", "value": 101, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 2, "required": true },
+            { "name": "PicturePosition", "kind": "int32", "value": 7, "required": true },
+            { "name": "Default", "kind": "boolean", "value": true, "required": true },
+            { "name": "Cancel", "kind": "boolean", "value": false, "required": true },
+            { "name": "TakeFocusOnClick", "kind": "boolean", "value": false, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 0, "required": true },
+            { "name": "TabStop", "kind": "boolean", "value": true, "required": true },
+            { "name": "WordWrap", "kind": "boolean", "value": true, "required": true },
+            { "name": "Tag", "kind": "string", "value": "command-tag", "required": true }
+          ]
+        },
+        {
+          "name": "LabelProbe",
+          "family": "Label",
+          "progid": "Forms.Label.1",
+          "container": "root",
+          "geometry": { "left": 114.0, "top": 12.0, "width": 96.0, "height": 24.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "Label \"quoted\"", "required": true },
+            { "name": "Accelerator", "kind": "string", "value": "L", "required": true },
+            { "name": "BackStyle", "kind": "int32", "value": 1, "required": true },
+            { "name": "BackColor", "kind": "int32", "value": 16777164, "required": true },
+            { "name": "BorderColor", "kind": "int32", "value": 32768, "required": true },
+            { "name": "BorderStyle", "kind": "int32", "value": 1, "required": true },
+            { "name": "ForeColor", "kind": "int32", "value": 128, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 3, "required": true },
+            { "name": "PicturePosition", "kind": "int32", "value": 10, "required": true },
+            { "name": "TextAlign", "kind": "int32", "value": 2, "required": true },
+            { "name": "WordWrap", "kind": "boolean", "value": false, "required": true },
+            { "name": "TabStop", "kind": "boolean", "value": false, "required": true }
+          ]
+        },
+        {
+          "name": "TextBoxProbe",
+          "family": "TextBox",
+          "progid": "Forms.TextBox.1",
+          "container": "root",
+          "geometry": { "left": 222.0, "top": 12.0, "width": 120.0, "height": 48.0 },
+          "properties": [
+            { "name": "Value", "kind": "string", "value": "line one\r\nline two", "required": true },
+            { "name": "MultiLine", "kind": "boolean", "value": true, "required": true },
+            { "name": "EnterKeyBehavior", "kind": "boolean", "value": true, "required": true },
+            { "name": "TabKeyBehavior", "kind": "boolean", "value": true, "required": true },
+            { "name": "WordWrap", "kind": "boolean", "value": true, "required": true },
+            { "name": "ScrollBars", "kind": "int32", "value": 3, "required": true },
+            { "name": "BorderColor", "kind": "int32", "value": 255, "required": true },
+            { "name": "DropButtonStyle", "kind": "int32", "value": 2, "required": true },
+            { "name": "HideSelection", "kind": "boolean", "value": false, "required": true },
+            { "name": "MaxLength", "kind": "int32", "value": 37, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 1, "required": true },
+            { "name": "PasswordChar", "kind": "string", "value": "*", "required": true },
+            { "name": "ShowDropButtonWhen", "kind": "int32", "value": 2, "required": true },
+            { "name": "TextAlign", "kind": "int32", "value": 3, "required": true },
+            { "name": "BorderStyle", "kind": "int32", "value": 1, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 1, "required": true }
+          ]
+        },
+        {
+          "name": "CheckBoxProbe",
+          "family": "CheckBox",
+          "progid": "Forms.CheckBox.1",
+          "container": "root",
+          "geometry": { "left": 354.0, "top": 12.0, "width": 96.0, "height": 24.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "Check", "required": true },
+            { "name": "Value", "kind": "boolean", "value": true, "required": true },
+            { "name": "TripleState", "kind": "boolean", "value": true, "required": true },
+            { "name": "Alignment", "kind": "int32", "value": 1, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 2, "required": true },
+            { "name": "PicturePosition", "kind": "int32", "value": 5, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 2, "required": true }
+          ]
+        },
+        {
+          "name": "OptionButtonProbe",
+          "family": "OptionButton",
+          "progid": "Forms.OptionButton.1",
+          "container": "root",
+          "geometry": { "left": 462.0, "top": 12.0, "width": 96.0, "height": 24.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "Option", "required": true },
+            { "name": "GroupName", "kind": "string", "value": "MatrixGroup", "required": true },
+            { "name": "Value", "kind": "boolean", "value": true, "required": true },
+            { "name": "Alignment", "kind": "int32", "value": 1, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 3, "required": true },
+            { "name": "PicturePosition", "kind": "int32", "value": 6, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 3, "required": true }
+          ]
+        },
+        {
+          "name": "ToggleButtonProbe",
+          "family": "ToggleButton",
+          "progid": "Forms.ToggleButton.1",
+          "container": "root",
+          "geometry": { "left": 12.0, "top": 72.0, "width": 90.0, "height": 24.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "Toggle", "required": true },
+            { "name": "Value", "kind": "boolean", "value": true, "required": true },
+            { "name": "Style", "kind": "int32", "value": 1, "required": false },
+            { "name": "MousePointer", "kind": "int32", "value": 4, "required": true },
+            { "name": "PicturePosition", "kind": "int32", "value": 8, "required": true },
+            { "name": "WordWrap", "kind": "boolean", "value": true, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 4, "required": true }
+          ]
+        },
+        {
+          "name": "ComboBoxProbe",
+          "family": "ComboBox",
+          "progid": "Forms.ComboBox.1",
+          "container": "root",
+          "geometry": { "left": 114.0, "top": 72.0, "width": 96.0, "height": 24.0 },
+          "list_items": ["red", "green", "blue"],
+          "properties": [
+            { "name": "Value", "kind": "string", "value": "green", "required": true },
+            { "name": "BoundColumn", "kind": "int32", "value": 1, "required": true },
+            { "name": "ColumnCount", "kind": "int32", "value": 1, "required": true },
+            { "name": "TextColumn", "kind": "int32", "value": 1, "required": true },
+            { "name": "ListRows", "kind": "int32", "value": 5, "required": true },
+            { "name": "ListWidth", "kind": "single", "value": 132.0, "required": true },
+            { "name": "MatchEntry", "kind": "int32", "value": 1, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 2, "required": true },
+            { "name": "DropButtonStyle", "kind": "int32", "value": 3, "required": true },
+            { "name": "ShowDropButtonWhen", "kind": "int32", "value": 2, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 5, "required": true }
+          ]
+        },
+        {
+          "name": "ListBoxProbe",
+          "family": "ListBox",
+          "progid": "Forms.ListBox.1",
+          "container": "root",
+          "geometry": { "left": 222.0, "top": 72.0, "width": 120.0, "height": 60.0 },
+          "geometry_readback_expectation": {
+            "classification": "expected_msforms_normalization",
+            "values": { "left": 222.0, "top": 72.0, "width": 120.0, "height": 49.150001525878906 },
+            "basis": "Excel 16.0.20131.20112 MSForms ListBox normalized the requested 60.0-point height to this deterministic readback after control initialization."
+          },
+          "list_items": ["alpha", "beta", "gamma"],
+          "properties": [
+            { "name": "BoundColumn", "kind": "int32", "value": 1, "required": true },
+            { "name": "ColumnCount", "kind": "int32", "value": 1, "required": true },
+            { "name": "TextColumn", "kind": "int32", "value": 1, "required": true },
+            { "name": "MultiSelect", "kind": "int32", "value": 2, "required": true },
+            { "name": "ListStyle", "kind": "int32", "value": 1, "required": true },
+            { "name": "ListWidth", "kind": "single", "value": 144.0, "required": true },
+            { "name": "MatchEntry", "kind": "int32", "value": 2, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 3, "required": true },
+            { "name": "IntegralHeight", "kind": "boolean", "value": false, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 6, "required": true }
+          ]
+        },
+        {
+          "name": "ScrollBarProbe",
+          "family": "ScrollBar",
+          "progid": "Forms.ScrollBar.1",
+          "container": "root",
+          "geometry": { "left": 354.0, "top": 72.0, "width": 120.0, "height": 18.0 },
+          "properties": [
+            { "name": "Min", "kind": "int32", "value": -10, "required": true },
+            { "name": "Max", "kind": "int32", "value": 110, "required": true },
+            { "name": "Value", "kind": "int32", "value": 25, "required": true },
+            { "name": "SmallChange", "kind": "int32", "value": 5, "required": true },
+            { "name": "LargeChange", "kind": "int32", "value": 20, "required": true },
+            { "name": "Orientation", "kind": "int32", "value": 1, "required": true },
+            { "name": "ProportionalThumb", "kind": "boolean", "value": true, "required": true },
+            { "name": "Delay", "kind": "int32", "value": 77, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 2, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 7, "required": true }
+          ]
+        },
+        {
+          "name": "SpinButtonProbe",
+          "family": "SpinButton",
+          "progid": "Forms.SpinButton.1",
+          "container": "root",
+          "geometry": { "left": 486.0, "top": 72.0, "width": 24.0, "height": 48.0 },
+          "properties": [
+            { "name": "Min", "kind": "int32", "value": -3, "required": true },
+            { "name": "Max", "kind": "int32", "value": 7, "required": true },
+            { "name": "Value", "kind": "int32", "value": 3, "required": true },
+            { "name": "SmallChange", "kind": "int32", "value": 2, "required": true },
+            { "name": "Orientation", "kind": "int32", "value": 0, "required": true },
+            { "name": "Delay", "kind": "int32", "value": 88, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 3, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 8, "required": true }
+          ]
+        },
+        {
+          "name": "ImageProbe",
+          "family": "Image",
+          "progid": "Forms.Image.1",
+          "container": "root",
+          "geometry": { "left": 522.0, "top": 72.0, "width": 48.0, "height": 48.0 },
+          "properties": [
+            { "name": "AutoSize", "kind": "boolean", "value": true, "required": true },
+            { "name": "BackStyle", "kind": "int32", "value": 1, "required": true },
+            { "name": "BackColor", "kind": "int32", "value": 12632256, "required": true },
+            { "name": "BorderColor", "kind": "int32", "value": 255, "required": true },
+            { "name": "BorderStyle", "kind": "int32", "value": 1, "required": true },
+            { "name": "PictureAlignment", "kind": "int32", "value": 4, "required": true },
+            { "name": "PictureSizeMode", "kind": "int32", "value": 3, "required": true },
+            { "name": "PictureTiling", "kind": "boolean", "value": true, "required": true },
+            { "name": "SpecialEffect", "kind": "int32", "value": 0, "required": true },
+            { "name": "Enabled", "kind": "boolean", "value": false, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 4, "required": true }
+          ]
+        },
+        {
+          "name": "FrameProbe",
+          "family": "Frame",
+          "progid": "Forms.Frame.1",
+          "container": "root",
+          "geometry": { "left": 12.0, "top": 150.0, "width": 180.0, "height": 108.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "Nested frame", "required": true },
+            { "name": "Cycle", "kind": "int32", "value": 2, "required": true },
+            { "name": "KeepScrollBarsVisible", "kind": "int32", "value": 3, "required": true },
+            { "name": "ScrollBars", "kind": "int32", "value": 3, "required": true },
+            { "name": "ScrollHeight", "kind": "single", "value": 140.0, "required": true },
+            { "name": "ScrollWidth", "kind": "single", "value": 220.0, "required": true },
+            { "name": "ScrollLeft", "kind": "single", "value": 2.0, "required": true },
+            { "name": "ScrollTop", "kind": "single", "value": 3.0, "required": true },
+            { "name": "Zoom", "kind": "int16", "value": 125, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 9, "required": true }
+          ]
+        },
+        {
+          "name": "FrameChildLabel",
+          "family": "Label",
+          "progid": "Forms.Label.1",
+          "container": "control:FrameProbe",
+          "geometry": { "left": 9.0, "top": 18.0, "width": 90.0, "height": 18.0 },
+          "properties": [
+            { "name": "Caption", "kind": "string", "value": "Frame child", "required": true },
+            { "name": "ControlTipText", "kind": "string", "value": "frame tooltip", "required": true },
+            { "name": "Tag", "kind": "string", "value": "nested-control", "required": true }
+          ]
+        },
+        {
+          "name": "TabStripProbe",
+          "family": "TabStrip",
+          "progid": "Forms.TabStrip.1",
+          "container": "root",
+          "geometry": { "left": 204.0, "top": 150.0, "width": 174.0, "height": 72.0 },
+          "tabs": [
+            { "index": 0, "name": "AlphaTab", "caption": "Alpha" },
+            { "index": 1, "name": "BetaTab", "caption": "Beta" },
+            { "add_name": "GammaTab", "caption": "Gamma" }
+          ],
+          "properties": [
+            { "name": "MultiRow", "kind": "boolean", "value": true, "required": true },
+            { "name": "Style", "kind": "int32", "value": 1, "required": true },
+            { "name": "MousePointer", "kind": "int32", "value": 2, "required": true },
+            { "name": "TabOrientation", "kind": "int32", "value": 2, "required": true },
+            { "name": "TabFixedHeight", "kind": "single", "value": 18.0, "required": true },
+            { "name": "TabFixedWidth", "kind": "single", "value": 60.0, "required": true },
+            { "name": "Value", "kind": "int32", "value": 1, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 10, "required": true }
+          ]
+        },
+        {
+          "name": "MultiPageProbe",
+          "family": "MultiPage",
+          "progid": "Forms.MultiPage.1",
+          "container": "root",
+          "geometry": { "left": 390.0, "top": 150.0, "width": 180.0, "height": 132.0 },
+          "pages": [
+            { "index": 0, "name": "FirstPage", "caption": "First" },
+            { "index": 1, "name": "SecondPage", "caption": "Second" }
+          ],
+          "properties": [
+            { "name": "MultiRow", "kind": "boolean", "value": true, "required": true },
+            { "name": "Style", "kind": "int32", "value": 1, "required": true },
+            { "name": "TabOrientation", "kind": "int32", "value": 0, "required": true },
+            { "name": "Value", "kind": "int32", "value": 1, "required": true },
+            { "name": "TabIndex", "kind": "int32", "value": 11, "required": true }
+          ]
+        },
+        {
+          "name": "PageTextProbe",
+          "family": "TextBox",
+          "progid": "Forms.TextBox.1",
+          "container": "page:FirstPage",
+          "geometry": { "left": 9.0, "top": 9.0, "width": 96.0, "height": 24.0 },
+          "properties": [
+            { "name": "Value", "kind": "string", "value": "page resource text", "required": true },
+            { "name": "ControlTipText", "kind": "string", "value": "nested page child", "required": true }
+          ]
+        }
+      ],
+      "code_lines": [
+        "Option Explicit",
+        "",
+        "Private Sub CommandButtonProbe_Click()",
+        "    TextBoxProbe.Value = \"clicked = true\"",
+        "End Sub",
+        "",
+        "Private Sub PageTextProbe_Change()",
+        "End Sub"
+      ]
+    }
+  ],
+  "designer_add_probes": [
+    { "family": "HTMLSubmit", "progid": "Forms.HTML:Submitbutton.1", "expected": "rejected" },
+    { "family": "HTMLImage", "progid": "Forms.HTML:Image.1", "expected": "rejected" },
+    { "family": "HTMLReset", "progid": "Forms.HTML:Reset.1", "expected": "rejected" },
+    { "family": "HTMLCheckbox", "progid": "Forms.HTML:Checkbox.1", "expected": "rejected" },
+    { "family": "HTMLOption", "progid": "Forms.HTML:Option.1", "expected": "rejected" },
+    { "family": "HTMLText", "progid": "Forms.HTML:Text.1", "expected": "rejected" },
+    { "family": "HTMLHidden", "progid": "Forms.HTML:Hidden.1", "expected": "rejected" },
+    { "family": "HTMLPassword", "progid": "Forms.HTML:Password.1", "expected": "rejected" },
+    { "family": "HTMLSelect", "progid": "Forms.HTML:Select.1", "expected": "rejected" },
+    { "family": "HTMLTextArea", "progid": "Forms.HTML:TextArea.1", "expected": "rejected" }
+  ]
+}
