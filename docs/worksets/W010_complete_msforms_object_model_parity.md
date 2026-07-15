@@ -135,8 +135,39 @@ The ten registered HTML ProgIDs' same-build designer-add `E_INVALIDARG` result
 is limited to that observation and does not establish runtime non-callability.
 No FRX property decoding, parser/serializer/codec, runtime API, VB6, or broader
 HTML claim is made. Full verification and the exact fresh-eyes review passed;
-the implementation landed in `9572f7a`, `.43` is closed, and `.4` is now
-building the generated row-level parity ledger from these immutable inputs.
+the implementation landed in `9572f7a`, and `.43` is closed.
+
+`oxforms-jbjp.4` then established the deterministic
+raw-contract/current-overlay ledger from those immutable inputs plus the
+explicit official-documentation overlay and current 37-module VBA surface:
+
+- 7,753 addressable rows: 2,452 verified baseline rows, 4,682 gap rows, and
+  619 unexpected-public rows, with 20,046 gating dimension cells and root
+  `green = false`;
+- exact retention/cross-links for all 220 type views, 2,832 FUNCDESC
+  occurrences, 221 VARDESCs, 380 full-library event projections, every
+  persistence leaf and property/family join, and every extracted public source
+  declaration;
+- symmetric array/ParamArray/optional/passing/name/default checks, exact
+  default-member and enum-value rules, module-kind/creatability checks, and a
+  scalar non-`As New` intrinsic global-binding rule;
+- explicit source-index/vtable-offset signatures and the exact 200-byte IFont
+  non-dispatch layout rather than a fabricated VBA source projection;
+- 387 exact-owner and 191 logical-family rollups derived only from rows; and
+- independent content pins and expected digest, dynamic module dependency
+  closure, comment/dead-code-resistant Rust loader validation through the
+  exact production-adapter attach/session handoff, exact pinned OxVba/Cargo
+  resolution, canonical-only CLI validation/export, and adversarial mutation
+  coverage.
+
+The focused contract is in
+[`../specs/MSFORMS_OBJECT_MODEL_PARITY.md`](../specs/MSFORMS_OBJECT_MODEL_PARITY.md),
+with the census and nonclaims in the `.4` evidence README. This is an
+infrastructure baseline, not final host-composed parity. `.5` owns generalized
+live oracle capture. `.6` owns container-provided `Control`/`IControl` site
+composition for every verified concrete family, generic
+Enter/Exit/BeforeUpdate/AfterUpdate applicability, and the final
+UserForm/host overlay expansion.
 
 ## Compatibility Perimeter
 
@@ -200,7 +231,7 @@ residual behavior live in `br show <id> --json`.
 | 4 | `oxforms-jbjp.43` | Generate the independent canonical `.frm`/`.frx` export fact manifest. | `.3` |
 | 5 | `oxforms-jbjp.4` | Extract the public surface and generate the row-level parity ledger. | `.43` |
 | 6 | `oxforms-jbjp.5` | Generalize the live property/method/error/event oracle harness. | `.4` |
-| 7 | `oxforms-jbjp.6` | Define the full-library facade and internal boundary, including hidden rows. | `.5` |
+| 7 | `oxforms-jbjp.6` | Define the full-library facade/internal boundary, including per-control `Control`/`IControl` site composition, generic host-event applicability, final UserForm/host projection, and hidden rows. | `.5` |
 | 8 | `oxforms-jbjp.44` | Publish the precise OxVba FormModule integration handover. | `.6` |
 | 9 | `oxforms-jbjp.7` | Replace public runtime hooks with one internal dispatch bridge. | `.44` |
 | 10 | `oxforms-jbjp.8` | Implement all FM20 enums and public aliases. | `.7` |

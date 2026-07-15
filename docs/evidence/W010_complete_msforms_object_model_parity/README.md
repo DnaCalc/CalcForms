@@ -1,8 +1,9 @@
 # W010 Complete MSForms Object-Model Parity Evidence
 
 Status: committed execution baseline through the independently verified
-`.frm`/`.frx` export facts (`oxforms-jbjp.43`); generated public-surface parity
-ledger work is in progress (`oxforms-jbjp.4`)
+`.frm`/`.frx` export facts (`oxforms-jbjp.43`) and deterministic row-level
+parity ledger (`oxforms-jbjp.4`); generalized live-oracle work follows in
+`oxforms-jbjp.5`
 
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
@@ -122,6 +123,50 @@ FormModule handover plus later production-integration gate, and separate
 supporting-object, real HTML-family, post-HTML shared-band, event, render,
 corpus, and stress outcomes. It also explicitly owns the documented intrinsic
 global `UserForms` collection and loaded-form registry.
+
+## Deterministic Row-Level Parity Ledger
+
+`oxforms-jbjp.4` establishes the generated raw-contract/current-overlay
+inventory under [`beads/oxforms-jbjp.4/`](beads/oxforms-jbjp.4/). The canonical
+artifact contains 7,753 addressable rows: 2,452 verified baseline rows, 4,682
+gap rows, and 619 unexpected-public rows. Its 20,046 gating dimension cells
+make the root `green` value truthfully `false`.
+
+The ledger joins every `.2` FM20/stdole type/member/event/enum fact, the exact
+W005 metadata reconciliation, every `.3` and `.43` persistence leaf and
+property/family join, the explicit official-documentation UserForm/UserForms
+overlay, and the current 37-module OxForms VBA surface. Exact declaration rows
+remain separate from coclass and event projections. The 387 exact-owner and 191
+logical-family summaries are derived only from rows and cannot override one.
+
+Canonical signatures retain individual source indices and vtable offsets in
+addition to complete types, flags, parameters, defaults, and identity. The
+hidden non-dispatch IFont adapter surface therefore preserves all 22 ordered
+slots and its 200-byte vtable layout instead of pretending it is a VBA source
+Property surface. Symmetric array/ParamArray checks, authoritative names and
+passing modes, exact documented defaults, enum-value poisoning, module-kind and
+creatability checks, scalar/non-`As New` global binding, and fail-closed
+documentation inference prevent weaker same-name declarations from turning a
+row green.
+
+Strict validation independently pins the complete dynamic VBA dependency
+closure plus generator/parser/CLI/test sources and the reviewed expected
+digest. Commented or disconnected Rust loader inventories cannot establish an
+exposure profile; stale timestamps, alternate-ledger CLI options, arbitrary
+export paths, and hard-link aliases cannot bypass the canonical artifact.
+Schema names and all numeric schema versions are exact.
+
+The reviewed semantic digest is
+`2a63c8acebe038adec22273ecf6dde00d5a60b123ad88289a62629c1553c07c5`.
+See [`../../specs/MSFORMS_OBJECT_MODEL_PARITY.md`](../../specs/MSFORMS_OBJECT_MODEL_PARITY.md)
+for the row/status/reproducibility contract and the bead evidence README for
+the full census, commands, nonclaims, and fresh-eyes repairs.
+
+This is not final host-composed parity. `oxforms-jbjp.5` owns generalized live
+oracle capture. `oxforms-jbjp.6` owns container-provided `Control`/`IControl`
+extended-control composition for each concrete family, generic host-event
+applicability, and the final UserForm/host overlay. Their unresolved work stays
+red in the ledger.
 
 ## Planning Audit
 

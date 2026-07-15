@@ -1,0 +1,439 @@
+{
+  "schema": "oxforms.msforms_parity_input_pins.v1",
+  "schema_version": 1,
+  "hash_contract": "utf8_lf removes an optional UTF-8 BOM and canonicalizes CRLF/CR to LF; raw hashes exact bytes",
+  "files": [
+    {
+      "path": "Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "5b8fbff3ea89a3b9c4f71016dc8c3342eef17491923473e2121720978074d5a9"
+    },
+    {
+      "path": "crates/oxforms-bootstrap/Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "d523fcdf10495dd6e43ed60afa023a0f7124cf1547428f76ca22a22bfca724e7"
+    },
+    {
+      "path": "crates/oxforms-bootstrap/src/main.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "b3192b37b25206e23cfc5ea45d34930560664d87bd4bde869796cd1bbf612a35"
+    },
+    {
+      "path": "crates/oxforms-headless-runner/Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "a843c85bd5c9723643b8c130977574a46128caa3540f85f066da300f01bd82a7"
+    },
+    {
+      "path": "crates/oxforms-headless-runner/src/lib.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "200508b06f013fd22bfa497396f5219d84b71a65d2759689cfe6343051bd1583"
+    },
+    {
+      "path": "crates/oxforms-oxvba-adapter/Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "c354535bbcfd41a26c4ba8252a5d8e02e3b726117eae5ab005e0cff550aa0155"
+    },
+    {
+      "path": "crates/oxforms-oxvba-adapter/src/lib.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "a554a99d8ca3bea2c38ff71467d9c3e0ab346b08474b40f3c7b8b3b397e8e226"
+    },
+    {
+      "path": "crates/oxforms-oxvba-adapter/src/runtime.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "dfcbd5bee6387173382777bbf18dcf4250ea2b9b9a8d6480ad747cbc2fd94e83"
+    },
+    {
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv",
+      "hash_mode": "utf8_lf",
+      "sha256": "75b36eb83ed63b035aae231ca949d8fbb44d261fefd518e568ed56d9dac45db8"
+    },
+    {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z/README.md",
+      "hash_mode": "utf8_lf",
+      "sha256": "72527dd0f4a6c851de60ed2c62a28515452b86659d4bac1bfa1c40cc2cfa8379"
+    },
+    {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-held-enter-20260629T004000Z/README.md",
+      "hash_mode": "utf8_lf",
+      "sha256": "a124e33b88343dffa8a173e8e662e634ba5fb25abd3991558e5025a13cf1d1a7"
+    },
+    {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/README.md",
+      "hash_mode": "utf8_lf",
+      "sha256": "cf20d59a25a9fe32bbdb79a08d60d7609c36ffe1acbee3733c90b35e6ac7319b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ff2abf8e3813e207e34f12c6f614070bc67cfd5e70ac7348bcd5ef275bd5582e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/w005_event_reconciliation.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "2aeffe80d000902d194f0b0eef65af55833d11877feea4ca630881ca98fc56a0"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/ms_oforms_persistence_facts.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "74166611287b072434013056e00cecf811f361e2c0a26b740074a39a0c3249cb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/frm_frx_export_facts.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a0d5a03f5af94495918a6c85e7f3b9b6ee7f7e895cd1a73c607250dbf5b139f5"
+    },
+    {
+      "path": "tools/Run-EvidenceChecks.ps1",
+      "hash_mode": "utf8_lf",
+      "sha256": "f82c49c49f57c12799c66d7cc2dfc7d9a56acd05a863533665322abf9933ec4d"
+    },
+    {
+      "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
+      "hash_mode": "utf8_lf",
+      "sha256": "deb51ae20d2059675a68bcfcf076c8491a9d29cdb1239a56ed081d9178a999ff"
+    },
+    {
+      "path": "tools/msforms-parity/cli_trust.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "523970706cd4c518aeee8df5e64019ed897205facdadc892260e57f707f4b7b4"
+    },
+    {
+      "path": "tools/msforms-parity/expected_ledger.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "e5db2ff652b6e1250baaf7b6fff5e8e36d28b80b308822384be5fb7c2388e9f2"
+    },
+    {
+      "path": "tools/msforms-parity/export_parity_ledger.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "f4c5025b9a385834957ea436eac173b0636c4a1e7b9c44197ef7c34d8bfa4730"
+    },
+    {
+      "path": "tools/msforms-parity/parity_ledger.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "7ff931ede0ae104907119d76d9d77d460f9205070c9213742e2192749981b703"
+    },
+    {
+      "path": "tools/msforms-parity/public_overlay.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4fd7cd1146cee0c6c4e53e0aa561f8da00256151376aff4bef5087454d36cc64"
+    },
+    {
+      "path": "tools/msforms-parity/surface_policy.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3fdb5731139eb79c5418d010dc93a1312a8e5fa5faa867a500b708ed69811f13"
+    },
+    {
+      "path": "tools/msforms-parity/tests/test_cli_trust.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "d7210fb75c892d11893f798e2f2d54b8f224871a03541587fa4a0736411f5a28"
+    },
+    {
+      "path": "tools/msforms-parity/tests/test_parity_ledger.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "3d82b8eb56efd34869fb60e00c3f49d2925c1f9af74f4ccb333886e1c68f2c56"
+    },
+    {
+      "path": "tools/msforms-parity/tests/test_vba_surface.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "37ebe9e9df3dd5edd3565805c545d4830ca025b4468647ef1daa796c6179c327"
+    },
+    {
+      "path": "tools/msforms-parity/validate_parity_ledger.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "b56bba5101313fa54655b91c4d3fee1270a47bc56c3f45a7678f85458291120d"
+    },
+    {
+      "path": "tools/msforms-parity/vba_surface.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "1e06608762a30fc7984468be88421ec3efbb32a9ce1c428d96dcdfba011d6536"
+    },
+    {
+      "path": "vba/oxforms/CheckBox.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "d8583e8c1e103fc058177a669d2e638b22993a7ccc247088201ba072728e46d7"
+    },
+    {
+      "path": "vba/oxforms/ComboBox.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "8001362faae073a6eeca308267ad2fdb02320ec2e83f2b219f7c81812a4f386d"
+    },
+    {
+      "path": "vba/oxforms/CommandButton.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "c22aeaeb1110af1cc618b8727b3d2ebc046a8dfc3a29ff42aef4967830eda321"
+    },
+    {
+      "path": "vba/oxforms/Controls.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "5bdfb39de7a9a014af3a0ae9c981b47095ed6b53f470cd695526d38409d10793"
+    },
+    {
+      "path": "vba/oxforms/Frame.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "c81e195509c6743d6ac68179d9c5e859e3390356bed0eccca1922ca35a6915ac"
+    },
+    {
+      "path": "vba/oxforms/IOxControl.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "061918a92928aaca5f919cc350cd60bc54bfce50d23598f2086c45fd105578df"
+    },
+    {
+      "path": "vba/oxforms/IOxControlContainer.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "3d9ed3971b66f21124ada3f1312d6b3d4c8d8e4c9831a34a7a1de6d4c3e0396b"
+    },
+    {
+      "path": "vba/oxforms/IOxControlHost.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "b331cd55f53db3da2dc81db6bfa618c70f03f2a4ce7ff0964f7cd9209b5b62dd"
+    },
+    {
+      "path": "vba/oxforms/Image.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "7f90f2e94edc1714c6ca52a6f2c8ea735b39ee6dcdaebfcc3cac97d89864eded"
+    },
+    {
+      "path": "vba/oxforms/Label.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "b66d3bc0111d6eb706e2befe6c082aa9247f81c2eddba65a40e868ba14968924"
+    },
+    {
+      "path": "vba/oxforms/ListBox.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "6e9e7972176cce3ee7eef5c86c40f373c0deaad25909eb0b79991a69c59ae2b5"
+    },
+    {
+      "path": "vba/oxforms/MultiPage.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "6eeda2aacb5c2d00eab18b65bf7c7b68c3743bfc897e8237c82d845c07e64d72"
+    },
+    {
+      "path": "vba/oxforms/OptionButtonControl.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "f0954436fa5c49eadc35dabc510c408f3306c9f2184d07701b37ceb37aad9d26"
+    },
+    {
+      "path": "vba/oxforms/OxAccessibilityService.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "f1ae2fa07a46dd6e3f0caea664977992c71f7213e22f333c2c0628049d48330f"
+    },
+    {
+      "path": "vba/oxforms/OxControlCore.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "913fb652e9d583b60b4df0ba2560ae02be4bc9d67424b00d9f2f30b62d6e320d"
+    },
+    {
+      "path": "vba/oxforms/OxControlPaint.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "6f6b246bfe988fc512a85dd196881e6aceed89b078632e6569880d6df70dfb38"
+    },
+    {
+      "path": "vba/oxforms/OxForms.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "52163ee34d952658d198c219b56c7446396f55715d953c800a6b835a8a5b417e"
+    },
+    {
+      "path": "vba/oxforms/OxForms.basproj",
+      "hash_mode": "utf8_lf",
+      "sha256": "9a971c8e81f23aa652b0c69d42804ecbd4b1f616ff351676d23c05b0435d84a3"
+    },
+    {
+      "path": "vba/oxforms/OxFormsModel.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "0eef28b64d7602981f647c914dfa6a62d662a433963d9ea04181773142b07add"
+    },
+    {
+      "path": "vba/oxforms/OxFormsSmokeForm.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "ca61bcaf8afcf530250f838b4781c127dc5c5476b083516e3fc6f4623362b9c3"
+    },
+    {
+      "path": "vba/oxforms/OxFrmMaterializer.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "7ba15ad02d0b9ac90070d8bff12b1448d80e265c2df0d455893eaf1f9db7f117"
+    },
+    {
+      "path": "vba/oxforms/OxInteractionManager.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "40e397d140755472bcf5b082641279fd185c6ad00352cc6c717e01d217dc5287"
+    },
+    {
+      "path": "vba/oxforms/OxReducer.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "23a0fd61b16ceb7b5b05859283c02a62b8603bbae405f4f0dbb852c314afb82b"
+    },
+    {
+      "path": "vba/oxforms/OxSceneBuilder.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "b658e998f60f7f9632d602f45eb25c5e7c7ff8693ae8c06d9fcc3d23985f199e"
+    },
+    {
+      "path": "vba/oxforms/OxTextService.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "3e5b109072271d7ea82dd3c64879ca16d1f1dd53ac1809bf8c38f0dcd31753ec"
+    },
+    {
+      "path": "vba/oxforms/OxTheme.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "4be84a697b14f7225b9b0effafcc9faeed96624d5395e0d20626b3911fd62c8d"
+    },
+    {
+      "path": "vba/oxforms/Page.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "bca8b23b5e4a4dd28951f36aca391ddf2161a8df05d607d89386f0c8b615b56c"
+    },
+    {
+      "path": "vba/oxforms/Pages.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "dc1c7f22e73a68607af6349612ecee1888c2a5cae66e30dff090f166ebc059bd"
+    },
+    {
+      "path": "vba/oxforms/ReturnBoolean.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "b9400d3e8652f47766db91ac024e44ed9774c831e21f767411c23c33db9f07fe"
+    },
+    {
+      "path": "vba/oxforms/ReturnInteger.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "a0dca14790941f4815ac4deeb8379547a80d071e8b7cbc0c95ca789770e049d3"
+    },
+    {
+      "path": "vba/oxforms/ScrollBar.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "d7aa8c734a56f1c166a6b03459c4af008dce8b7e1db7f41fd24474c0c37633b2"
+    },
+    {
+      "path": "vba/oxforms/SpinButton.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "6384b5734f794c7160a65f30fa08e27bc881aaa532ef69742c9f3a487754859e"
+    },
+    {
+      "path": "vba/oxforms/Tab.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "4cb8feca5d4170ecebcf622d055a17c6cf37aa07344f16ad71082d931f3f0ea6"
+    },
+    {
+      "path": "vba/oxforms/TabStrip.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "860ab44d8b320facfc910d18925f72cfa01a31f5414fc95409d1d15318b9415e"
+    },
+    {
+      "path": "vba/oxforms/Tabs.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "5c0da6bb67d061e3476ef3206cad0d9b8eb94357760acefb0c33e1f4b17be43f"
+    },
+    {
+      "path": "vba/oxforms/TextBox.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "0a31fb2c29be3929bc90b14539c7367615e53c6b660314b737cdfd9d55b4c623"
+    },
+    {
+      "path": "vba/oxforms/ToggleButton.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "6560a5bdd871350221d9cf6b71558cf5e79207e436563859e740c4e6efe5ed2a"
+    },
+    {
+      "path": "vba/oxforms/UserForm.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "3bb778165119714598364cea302cb891a4255bdb589c1c1ea74e041c159f0907"
+    }
+  ],
+  "ledger_inputs": [
+    {
+      "path": "Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "5b8fbff3ea89a3b9c4f71016dc8c3342eef17491923473e2121720978074d5a9"
+    },
+    {
+      "path": "crates/oxforms-bootstrap/Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "d523fcdf10495dd6e43ed60afa023a0f7124cf1547428f76ca22a22bfca724e7"
+    },
+    {
+      "path": "crates/oxforms-bootstrap/src/main.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "b3192b37b25206e23cfc5ea45d34930560664d87bd4bde869796cd1bbf612a35"
+    },
+    {
+      "path": "crates/oxforms-headless-runner/Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "a843c85bd5c9723643b8c130977574a46128caa3540f85f066da300f01bd82a7"
+    },
+    {
+      "path": "crates/oxforms-headless-runner/src/lib.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "200508b06f013fd22bfa497396f5219d84b71a65d2759689cfe6343051bd1583"
+    },
+    {
+      "path": "crates/oxforms-oxvba-adapter/Cargo.toml",
+      "hash_mode": "utf8_lf",
+      "sha256": "c354535bbcfd41a26c4ba8252a5d8e02e3b726117eae5ab005e0cff550aa0155"
+    },
+    {
+      "path": "crates/oxforms-oxvba-adapter/src/lib.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "a554a99d8ca3bea2c38ff71467d9c3e0ab346b08474b40f3c7b8b3b397e8e226"
+    },
+    {
+      "path": "crates/oxforms-oxvba-adapter/src/runtime.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "dfcbd5bee6387173382777bbf18dcf4250ea2b9b9a8d6480ad747cbc2fd94e83"
+    },
+    {
+      "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv",
+      "hash_mode": "utf8_lf",
+      "sha256": "75b36eb83ed63b035aae231ca949d8fbb44d261fefd518e568ed56d9dac45db8"
+    },
+    {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-checkbox-update-20260629T003700Z/README.md",
+      "hash_mode": "utf8_lf",
+      "sha256": "72527dd0f4a6c851de60ed2c62a28515452b86659d4bac1bfa1c40cc2cfa8379"
+    },
+    {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-held-enter-20260629T004000Z/README.md",
+      "hash_mode": "utf8_lf",
+      "sha256": "a124e33b88343dffa8a173e8e662e634ba5fb25abd3991558e5025a13cf1d1a7"
+    },
+    {
+      "path": "docs/evidence/W008_native_event_breadth/captures/w008-veto-click-20260628T213100Z/README.md",
+      "hash_mode": "utf8_lf",
+      "sha256": "cf20d59a25a9fe32bbdb79a08d60d7609c36ffe1acbee3733c90b35e6ac7319b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ff2abf8e3813e207e34f12c6f614070bc67cfd5e70ac7348bcd5ef275bd5582e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/w005_event_reconciliation.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "2aeffe80d000902d194f0b0eef65af55833d11877feea4ca630881ca98fc56a0"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.3/ms_oforms_persistence_facts.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "74166611287b072434013056e00cecf811f361e2c0a26b740074a39a0c3249cb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/frm_frx_export_facts.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a0d5a03f5af94495918a6c85e7f3b9b6ee7f7e895cd1a73c607250dbf5b139f5"
+    },
+    {
+      "path": "tools/msforms-parity/public_overlay.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4fd7cd1146cee0c6c4e53e0aa561f8da00256151376aff4bef5087454d36cc64"
+    },
+    {
+      "path": "tools/msforms-parity/surface_policy.v1.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3fdb5731139eb79c5418d010dc93a1312a8e5fa5faa867a500b708ed69811f13"
+    },
+    {
+      "path": "vba/oxforms/OxForms.basproj",
+      "hash_mode": "utf8_lf",
+      "sha256": "9a971c8e81f23aa652b0c69d42804ecbd4b1f616ff351676d23c05b0435d84a3"
+    }
+  ]
+}

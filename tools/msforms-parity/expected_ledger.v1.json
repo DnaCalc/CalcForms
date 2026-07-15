@@ -1,0 +1,42 @@
+{
+  "schema": "oxforms.msforms_parity_expected_ledger.v1",
+  "schema_version": 1,
+  "ledger_schema": "oxforms.msforms_parity_ledger.v1",
+  "artifact_path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.4/msforms_parity_ledger.v1.json",
+  "canonical_sha256": "2a63c8acebe038adec22273ecf6dde00d5a60b123ad88289a62629c1553c07c5",
+  "canonical_file_sha256": "0e361935bab6490253224775154c7493e068a6e30a20fdcc2cd62f14e14342b0",
+  "source_surface_sha256": "6566f30de60a399131ebe9549f51bb9667054aff1488c79d192d7fa297c3e6f5",
+  "inputs_sha256": "5ab145dcf6529158b4a855bab91b0bc1db46f67fd0c0f13962b59c662ca42eaf",
+  "row_count": 7753,
+  "row_kinds": {
+    "abi_adapter_member": 14,
+    "declaration_member": 1849,
+    "declaration_variable": 30,
+    "enum_value": 191,
+    "event_projection": 380,
+    "host_event_attachment": 10,
+    "overlay_capability": 1,
+    "overlay_event": 6,
+    "overlay_global_binding": 1,
+    "overlay_member": 21,
+    "overlay_type": 1,
+    "persistence_aggregate": 19,
+    "persistence_family_property": 245,
+    "persistence_frm_frx_fact": 823,
+    "persistence_ms_oforms_fact": 1431,
+    "persistence_property": 98,
+    "surface_member": 1794,
+    "type_contract": 220,
+    "unexpected_public_member": 583,
+    "unexpected_public_nested_member": 24,
+    "unexpected_public_type": 12
+  },
+  "row_statuses": {
+    "gap": 4682,
+    "unexpected_public": 619,
+    "verified": 2452
+  },
+  "gating_dimension_cells": 20046,
+  "unexpected_public_rows": 619,
+  "green": false
+}

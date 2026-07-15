@@ -1,0 +1,167 @@
+{
+  "schema": "oxforms.msforms_surface_policy.v1",
+  "schema_version": 1,
+  "canonical_module_aliases": {
+    "OptionButton": "OptionButtonControl"
+  },
+  "alias_non_claim": "An alias permits row-by-row comparison but never satisfies the canonical public type identity.",
+  "abi_adapter_types": [
+    {
+      "library_key": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1",
+      "type_index": 3,
+      "view": "primary",
+      "name": "IFont",
+      "obligation": "Hidden non-dispatch IFont retains exact HRESULT/out-parameter ABI obligations. Its FUNCDESCs are adapter contracts and must not be compared directly with VBA Property/Get/Let declarations."
+    }
+  ],
+  "direct_facade_types": [
+    {
+      "library_key": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1",
+      "type_index": 39,
+      "view": "primary",
+      "name": "Controls",
+      "obligation": "Public collection object returned by canonical MSForms members; it has no coclass projection of its own."
+    },
+    {
+      "library_key": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1",
+      "type_index": 75,
+      "view": "primary",
+      "name": "Tab",
+      "obligation": "Public returned object with callable members and no coclass projection of its own."
+    },
+    {
+      "library_key": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1",
+      "type_index": 76,
+      "view": "primary",
+      "name": "Tabs",
+      "obligation": "Public collection object returned by canonical MSForms members; it has no coclass projection of its own."
+    },
+    {
+      "library_key": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1",
+      "type_index": 137,
+      "view": "primary",
+      "name": "Pages",
+      "obligation": "Public collection object returned by canonical MSForms members; it has no coclass projection of its own."
+    },
+    {
+      "library_key": "{00020430-0000-0000-C000-000000000046}:2.0:lcid=0:syskind=1",
+      "type_index": 35,
+      "view": "primary",
+      "name": "Picture",
+      "obligation": "Public supporting object used by MSForms picture-valued properties; its callable and VAR_DISPATCH surface is an implementation obligation, not external ABI plumbing.",
+      "member_projection_overrides": [
+        {
+          "memid": 6,
+          "name": "Render",
+          "mode": "native_pointer_adapter",
+          "basis": "The final FUNCDESC parameter is pointer(Void), representing a native bounds pointer whose VBA/OxVba source lowering is not encoded by the typelib fact pack; require an explicit adapter instead of inventing a source signature."
+        }
+      ]
+    }
+  ],
+  "effective_loader_profiles": [
+    {
+      "id": "clean_basproj",
+      "kind": "project_manifest",
+      "source_path": "vba/oxforms/OxForms.basproj",
+      "exposure_rule": "Option Private Module suppresses every module. Otherwise standard modules are exposed; class modules use source VB_Exposed when present and exact basproj VBExposed as the fallback.",
+      "creatable_rule": "Source VB_Creatable overrides exact basproj VBCreatable when present; otherwise the basproj value is used. A recognized creatable Instancing value from exact basproj metadata, or from an exported class header when basproj Instancing is absent, also makes the class creatable."
+    },
+    {
+      "id": "headless_runner_forced",
+      "kind": "manual_oxvba_loader",
+      "source_path": "crates/oxforms-headless-runner/src/lib.rs",
+      "exposure_rule": "The loader supplies vb_exposed=true to every listed module, but an explicit source VB_Exposed value overrides that fallback; standard modules remain exposed regardless, and Option Private Module suppresses exposure for every module kind.",
+      "creatable_rule": "The loader supplies vb_creatable=true to every listed module, but an explicit source VB_Creatable value overrides that fallback.",
+      "modules": [
+        "OxFormsModel",
+        "IOxControl",
+        "IOxControlHost",
+        "IOxControlContainer",
+        "OxControlCore",
+        "Controls",
+        "ReturnInteger",
+        "ReturnBoolean",
+        "Label",
+        "OxTextService",
+        "TextBox",
+        "CommandButton",
+        "CheckBox",
+        "ListBox",
+        "ComboBox",
+        "Frame",
+        "Image",
+        "MultiPage",
+        "Page",
+        "Pages",
+        "SpinButton",
+        "ScrollBar",
+        "Tab",
+        "Tabs",
+        "TabStrip",
+        "ToggleButton",
+        "OptionButtonControl",
+        "UserForm",
+        "OxTheme",
+        "OxControlPaint",
+        "OxSceneBuilder",
+        "OxAccessibilityService",
+        "OxInteractionManager",
+        "OxReducer"
+      ]
+    },
+    {
+      "id": "bootstrap_forced",
+      "kind": "manual_oxvba_loader",
+      "source_path": "crates/oxforms-bootstrap/src/main.rs",
+      "exposure_rule": "The loader supplies vb_exposed=true to every listed module, but an explicit source VB_Exposed value overrides that fallback; standard modules remain exposed regardless, and Option Private Module suppresses exposure for every module kind.",
+      "creatable_rule": "The loader supplies vb_creatable=true to every listed module, but an explicit source VB_Creatable value overrides that fallback.",
+      "modules": [
+        "OxFormsModel",
+        "IOxControl",
+        "IOxControlHost",
+        "IOxControlContainer",
+        "OxControlCore",
+        "Controls",
+        "ReturnInteger",
+        "ReturnBoolean",
+        "Label",
+        "OxTextService",
+        "TextBox",
+        "CommandButton",
+        "CheckBox",
+        "ListBox",
+        "ComboBox",
+        "Frame",
+        "Image",
+        "MultiPage",
+        "Page",
+        "Pages",
+        "SpinButton",
+        "ScrollBar",
+        "Tab",
+        "Tabs",
+        "TabStrip",
+        "ToggleButton",
+        "OptionButtonControl",
+        "UserForm",
+        "OxTheme",
+        "OxControlPaint",
+        "OxSceneBuilder",
+        "OxAccessibilityService",
+        "OxInteractionManager",
+        "OxReducer",
+        "OxFrmMaterializer"
+      ]
+    }
+  ],
+  "classification_rules": {
+    "accepted": "Every primary FM20/stdole type and member, every explicitly documented host overlay row, and every canonical persistence row is retained.",
+    "restricted": "Only an exact authoritative restricted flag may make a callable implementation dimension not applicable.",
+    "dual_companion": "A dual companion remains an exact metadata row but is not a second VBA facade obligation.",
+    "alias_typedef": "TKIND_ALIAS rows retain exact metadata identity and lower recursively to their canonical VBA source type; they are not class-module obligations.",
+    "abi_adapter": "A non-dispatch supporting interface retains exact ABI adapter rows and is never compared directly with VBA-facing source signatures.",
+    "external_abi": "stdole ABI structures, aliases, and IUnknown/IDispatch plumbing remain identity/signature-closure rows; Picture is a supporting-object implementation obligation while IPictureDisp lowers to its Picture alias target.",
+    "unexpected_public": "Every declared-public OxForms row not mapped to an accepted contract row is emitted and gates a green result."
+  }
+}
