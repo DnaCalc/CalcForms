@@ -163,11 +163,58 @@ explicit official-documentation overlay and current 37-module VBA surface:
 The focused contract is in
 [`../specs/MSFORMS_OBJECT_MODEL_PARITY.md`](../specs/MSFORMS_OBJECT_MODEL_PARITY.md),
 with the census and nonclaims in the `.4` evidence README. This is an
-infrastructure baseline, not final host-composed parity. `.5` owns generalized
-live oracle capture. `.6` owns container-provided `Control`/`IControl` site
-composition for every verified concrete family, generic
-Enter/Exit/BeforeUpdate/AfterUpdate applicability, and the final
-UserForm/host overlay expansion.
+infrastructure baseline, not final host-composed parity.
+
+`oxforms-jbjp.5` established the reusable live behavior-oracle lane and produced
+its replay-valid canonical representative capture. A strict declarative manifest binds
+direct early-bound VBA operations and native event handlers to exact `.4`
+ledger row ids; an immutable fifteen-row slice freezes the ten selected
+member/event contracts plus five owner type contracts; deterministic generation
+and adversarial replay validation cover result/event rows, generated sources,
+workbook/package structure, screenshot/window metadata, Office exports, tool
+snapshots, independent manifest pins for executable FRM/CFB replay validators,
+strict direct/one-to-one OPC relationships/content types, structurally closed
+PROJECT/module-table/VBA-storage metadata, empty host-document code,
+known-VBIDE-normalized decompressed VBA-source binding, bounded worksheet/JSON
+table binding, exact successful `TypeName`/`VarType` expectations, and full-tree
+checksums. Capture hardening executes byte-pinned capture-local generation,
+replay validation, and window capture; validates generated source and strict
+OPC/VBA structure before opening the phase-one workbook; requires an unchanged
+workbook hash across `Workbooks.Open`; and bounds external commands plus both
+private Excel phases with exact-reason watchdog completion. Each Excel `/safe`
+process is created directly with its initial thread suspended, assigned to a
+kill-on-close Job, verified as a Job member, and only then resumed. Exact
+process/executable/command-line observations and native
+`EXCEL7`/`OBJID_NATIVEOM` binding establish ownership; the narrow suspended
+creation-to-Job-assignment interval remains an explicit nonclaim rather than an
+atomicity claim.
+
+The canonical evidence at
+[`../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/captures/W010RepresentativeMemberOracleV1/`](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/captures/W010RepresentativeMemberOracleV1/)
+spans Label, TextBox, ListBox, CheckBox, and CommandButton. Its eleven result
+rows contain ten exact successes and the expected TextBox `MaxLength` error 380,
+including last-DLL-error 0, source `Forms.TextBox.1`, help file `fm20.hlp`, help
+context 1000380, `Erl` 0, and worksheet-safe plus raw-UTF-16 English
+descriptions. The two-event timeline records one TextBox `Change` causally bound
+to its value write and one host-attached TextBox `Exit` that changes
+`ReturnBoolean.Value` from `False` to `True`; the canceled focus-transfer call
+returns exact `-2147467259` (`0x80004005`), `Unspecified error.`, source
+`Forms.Form.1`. The run recorded x64 Excel `16.0.20228.20190`, VBE `7.01.1158`,
+FM20 `16.0.20228.20014`, and VBA UI language `LCID 1033`, and it passes the
+Office-independent canonical replay gate.
+
+At its isolation checkpoints, safe-mode `Application.COMAddIns` returned exact
+`0x800A03EC`; that inventory is explicitly incomplete and `.5` makes no
+COM-add-in connection-state claim. V1 also does not semantically bind the
+persisted MS-OFORMS control graph or prove compiled-cache/p-code execution
+equivalence. Exhaustive corpus bead `oxforms-jbjp.67` retains ownership of that
+control-graph binding and of rejecting or execution-binding those optional
+compiled surfaces.
+
+`.6` remains the successor for container-provided `Control`/`IControl` site
+composition for every verified
+concrete family, generic Enter/Exit/BeforeUpdate/AfterUpdate applicability, and
+the final UserForm/host overlay expansion.
 
 ## Compatibility Perimeter
 
@@ -292,7 +339,7 @@ residual behavior live in `br show <id> --json`.
 | 65 | `oxforms-jbjp.57` | Integrate production OxVba FormModule loading/default instances. | `.41` |
 | 66 | `oxforms-jbjp.62` | Complete container/form/page/tab events. | `.57` |
 | 67 | `oxforms-jbjp.64` | Validate all event mutation, ordering, and reentrancy. | `.62` |
-| 68 | `oxforms-jbjp.67` | Run the exhaustive runtime get/set/method/error corpus. | `.64` |
+| 68 | `oxforms-jbjp.67` | Run the exhaustive runtime get/set/method/error corpus and extend `.5`'s known-VBIDE-normalized decompressed VBA-source gate with semantic persisted UserForm/control-graph binding plus rejection or execution-semantic binding of compiled-cache/p-code surfaces for every live fixture. | `.64` |
 | 69 | `oxforms-jbjp.68` | Run the exhaustive generated/real persistence corpus. | `.67` |
 | 70 | `oxforms-jbjp.69` | Stress modal reentrancy and dynamic tree mutation. | `.68` |
 | 71 | `oxforms-jbjp.70` | Stress long-run resource and object lifetime. | `.69` |
@@ -318,6 +365,7 @@ residual behavior live in `br show <id> --json`.
 | Surface | Check |
 |---|---|
 | Generated facts/ledger | deterministic regeneration plus schema and coverage validators |
+| Live member oracle | manifest/snapshot validation; deterministic generation; canonical capture replay and checksum validation through `pwsh -File tools/evidence/Test-W010MSFormsMemberOracle.ps1` |
 | VBA binding | generated fixture names every public type/member/default/event/enum |
 | Semantics | targeted value, error/coercion, event/order, focus, lifecycle, and collection tests |
 | Persistence | generated and real `.frm/.frx` load-save-load corpus |

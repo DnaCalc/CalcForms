@@ -1,0 +1,2944 @@
+{
+  "schema": "oxforms.office_oracle.msforms_member_capture.v1",
+  "schema_version": 1,
+  "bead": "oxforms-jbjp.5",
+  "capture_id": "W010RepresentativeMemberOracleV1",
+  "status": "captured",
+  "started_at_utc": "2026-08-24T00:15:47.6012266Z",
+  "completed_at_utc": "2026-08-24T00:17:14.7241722Z",
+  "probe_manifest": {
+    "id": "W010RepresentativeMemberOracleV1",
+    "path": "fixtures/office-oracle/excel-msforms/member-probes/representative-v1.json",
+    "sha256": "b0af0a9f85c4e3ae8c963a224afec8bb1c08cca41300fbd511ed1d4d0be28903",
+    "ledger_canonical_sha256": "2a63c8acebe038adec22273ecf6dde00d5a60b123ad88289a62629c1553c07c5"
+  },
+  "tools": {
+    "generator_validator": {
+      "source_path": "tools/office-oracle/msforms_member_oracle.py",
+      "snapshot_path": "tool-snapshots/msforms_member_oracle.py",
+      "sha256": "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a"
+    },
+    "capture_runner": {
+      "source_path": "tools/office-oracle/Capture-MSFormsMemberOracle.ps1",
+      "snapshot_path": "tool-snapshots/Capture-MSFormsMemberOracle.ps1",
+      "sha256": "3f7bc111dba982e1234ba577cd96a22c42f8dfbe234f0cde14b09bc4edb864ad"
+    },
+    "window_capture": {
+      "source_path": "tools/office-oracle/Capture-Window.ps1",
+      "snapshot_path": "tool-snapshots/Capture-Window.ps1",
+      "sha256": "19cf48d420d0b7e51796a8ff36c3ee6399d48f8c54646fa49c450d5f4c120ec5"
+    },
+    "frm_inventory": {
+      "source_path": "tools/forms-persistence/frm_text_inventory.py",
+      "snapshot_path": "tool-snapshots/frm_text_inventory.py",
+      "sha256": "e09852b599ef105e391baefed2eca9205a70d308d25d732b9501d357ed536976"
+    },
+    "cfb_inventory": {
+      "source_path": "tools/forms-persistence/cfb_inventory.py",
+      "snapshot_path": "tool-snapshots/cfb_inventory.py",
+      "sha256": "6a9044fd55766281b23dc7a6df4c7f1d4144b25af1cd9110f452ae9c89bb754d"
+    }
+  },
+  "build_excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.20228.20190",
+    "product_version": "16.0.20228.20190",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation",
+    "sha256": "1e2d3f4be331b7606ef0c84d79cf9521f3ef28f6b35e61acb71ede9d0481084f",
+    "process_id": 75988,
+    "process_start_utc": "2026-08-24T00:15:54.1240942Z",
+    "bitness": "x64",
+    "startup_mode": "safe",
+    "launch_arguments": [
+      "/safe"
+    ],
+    "containment_method": "create_process_suspended_then_job_object_kill_on_close",
+    "containment_membership_verified": true,
+    "process_exclusivity_observation": {
+      "caller_snapshot_process_ids": [],
+      "pre_create_process_ids": [],
+      "post_create_process_ids": [
+        75988
+      ]
+    },
+    "command_line_observation_method": "cim_win32_process_command_line_to_argv_w",
+    "observed_command_line": "\"C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE\" /safe",
+    "observed_launch_argv": [
+      "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+      "/safe"
+    ],
+    "binding_method": "oleacc_accessible_object_from_window_excel7_objid_nativeom",
+    "binding_hwnd": 21765008,
+    "owned_window_count_at_binding": 66,
+    "startup_workbook_observation": {
+      "initial_workbook_count": 1,
+      "initial_workbooks": [
+        {
+          "path": "",
+          "full_name": "Book1",
+          "is_addin": false
+        }
+      ],
+      "post_close_workbook_count": 0
+    },
+    "isolation_checks": [
+      {
+        "checkpoint": "post_startup_close",
+        "window_observation": {
+          "enumeration_succeeded": true,
+          "enumeration_truncated": false,
+          "enumeration_limit": 512,
+          "enumeration_error_code": 0,
+          "owned_window_count": 58,
+          "top_level_windows": [
+            {
+              "hwnd": 5317552,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 8856986,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10232882,
+              "class_name": "OleDdeWndClass",
+              "title": "DDE Server Window",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11868752,
+              "class_name": "MSCTFIME UI",
+              "title": "MSCTFIME UI",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 12000930,
+              "class_name": "HardwareMonitorWindowClass",
+              "title": "HardwareMonitorWindow",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14686976,
+              "class_name": "IME",
+              "title": "Default IME",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 14819236,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18879102,
+              "class_name": "XLMAIN",
+              "title": "Microsoft Excel  -  Safe Mode",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 19405162,
+              "class_name": "ThunderMain",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 19670064,
+              "class_name": "XLMAIN",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 20781096,
+              "class_name": "MsoStdCompMgr",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 23730280,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 29891162,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 37232670,
+              "class_name": "OfficePowerManagerWindow",
+              "title": "OfficePowerManagerWindow",
+              "visible": false,
+              "enabled": false
+            }
+          ]
+        },
+        "workbook_disposition": "none",
+        "workbook_count": 0,
+        "workbooks": [],
+        "startup_path": "C:\\Users\\GovertvanDrimmelen\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART",
+        "alt_startup_path": "",
+        "protected_view_window_count": 0,
+        "com_addins_access": {
+          "status": "unavailable_exact_excel_error_nonclaim",
+          "error_number": -2146827284,
+          "error_hex": "0x800A03EC",
+          "inventory_complete": false,
+          "connection_state_claim": "not_made"
+        },
+        "com_addins": [],
+        "excel_addins": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "excel_addins2": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "loaded_xll_modules": []
+      },
+      {
+        "checkpoint": "pre_vbide_automation",
+        "window_observation": {
+          "enumeration_succeeded": true,
+          "enumeration_truncated": false,
+          "enumeration_limit": 512,
+          "enumeration_error_code": 0,
+          "owned_window_count": 69,
+          "top_level_windows": [
+            {
+              "hwnd": 5317552,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 8856986,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10232882,
+              "class_name": "OleDdeWndClass",
+              "title": "DDE Server Window",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11868752,
+              "class_name": "MSCTFIME UI",
+              "title": "MSCTFIME UI",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 12000930,
+              "class_name": "HardwareMonitorWindowClass",
+              "title": "HardwareMonitorWindow",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14686976,
+              "class_name": "IME",
+              "title": "Default IME",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 14819236,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18879102,
+              "class_name": "XLMAIN",
+              "title": "Sheet1 - Microsoft Excel  -  Safe Mode",
+              "visible": true,
+              "enabled": true
+            },
+            {
+              "hwnd": 19405162,
+              "class_name": "ThunderMain",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 19670064,
+              "class_name": "XLMAIN",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 20781096,
+              "class_name": "MsoStdCompMgr",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 23730280,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 29891162,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 37232670,
+              "class_name": "OfficePowerManagerWindow",
+              "title": "OfficePowerManagerWindow",
+              "visible": false,
+              "enabled": false
+            }
+          ]
+        },
+        "workbook_disposition": "expected_pathless_harness",
+        "workbook_count": 1,
+        "workbooks": [
+          {
+            "path": "",
+            "full_name": "Sheet1",
+            "is_addin": false
+          }
+        ],
+        "startup_path": "C:\\Users\\GovertvanDrimmelen\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART",
+        "alt_startup_path": "",
+        "protected_view_window_count": 0,
+        "com_addins_access": {
+          "status": "unavailable_exact_excel_error_nonclaim",
+          "error_number": -2146827284,
+          "error_hex": "0x800A03EC",
+          "inventory_complete": false,
+          "connection_state_claim": "not_made"
+        },
+        "com_addins": [],
+        "excel_addins": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "excel_addins2": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "loaded_xll_modules": []
+      },
+      {
+        "checkpoint": "pre_shutdown",
+        "window_observation": {
+          "enumeration_succeeded": true,
+          "enumeration_truncated": false,
+          "enumeration_limit": 512,
+          "enumeration_error_code": 0,
+          "owned_window_count": 106,
+          "top_level_windows": [
+            {
+              "hwnd": 4465802,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 5317552,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 7873150,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 8856986,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 9250186,
+              "class_name": "PbrsHost",
+              "title": "Properties",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10232882,
+              "class_name": "OleDdeWndClass",
+              "title": "DDE Server Window",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10888350,
+              "class_name": "ListBox",
+              "title": "Properties",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11281358,
+              "class_name": "F3 Global 82070000",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11868752,
+              "class_name": "MSCTFIME UI",
+              "title": "MSCTFIME UI",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 12000930,
+              "class_name": "HardwareMonitorWindowClass",
+              "title": "HardwareMonitorWindow",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 12067842,
+              "class_name": "wndclass_desked_gsk",
+              "title": "Microsoft Visual Basic for Applications",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14031144,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14686976,
+              "class_name": "IME",
+              "title": "Default IME",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 14819236,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 16000228,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 16652970,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18555336,
+              "class_name": "tooltips_class32",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18879102,
+              "class_name": "XLMAIN",
+              "title": "Microsoft Excel  -  Safe Mode",
+              "visible": true,
+              "enabled": true
+            },
+            {
+              "hwnd": 19405162,
+              "class_name": "ThunderMain",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 19670064,
+              "class_name": "XLMAIN",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 20781096,
+              "class_name": "MsoStdCompMgr",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 23729688,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 23730280,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 29891162,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 37232670,
+              "class_name": "OfficePowerManagerWindow",
+              "title": "OfficePowerManagerWindow",
+              "visible": false,
+              "enabled": false
+            }
+          ]
+        },
+        "workbook_disposition": "none",
+        "workbook_count": 0,
+        "workbooks": [],
+        "startup_path": "C:\\Users\\GovertvanDrimmelen\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART",
+        "alt_startup_path": "",
+        "protected_view_window_count": 0,
+        "com_addins_access": {
+          "status": "unavailable_exact_excel_error_nonclaim",
+          "error_number": -2146827284,
+          "error_hex": "0x800A03EC",
+          "inventory_complete": false,
+          "connection_state_claim": "not_made"
+        },
+        "com_addins": [],
+        "excel_addins": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "excel_addins2": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "loaded_xll_modules": []
+      }
+    ]
+  },
+  "preopen_workbook_sha256": "50a22d9f88ebcb1d6bd7cf9396833b156373ea96a41513931221e6dcb52560fd",
+  "platform": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.4",
+    "python": "Python 3.12.10; C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+    "process_architecture": "X64",
+    "culture": "en-ZA",
+    "ui_culture": "en-US",
+    "ansi_code_page": 1252,
+    "oem_code_page": 437,
+    "office_ui_lcid": 1033
+  },
+  "excel": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "file_version": "16.0.20228.20190",
+    "product_version": "16.0.20228.20190",
+    "product_name": "Microsoft Office",
+    "company_name": "Microsoft Corporation",
+    "sha256": "1e2d3f4be331b7606ef0c84d79cf9521f3ef28f6b35e61acb71ede9d0481084f",
+    "process_id": 48952,
+    "process_start_utc": "2026-08-24T00:16:37.4818771Z",
+    "bitness": "x64",
+    "startup_mode": "safe",
+    "launch_arguments": [
+      "/safe"
+    ],
+    "containment_method": "create_process_suspended_then_job_object_kill_on_close",
+    "containment_membership_verified": true,
+    "process_exclusivity_observation": {
+      "caller_snapshot_process_ids": [],
+      "pre_create_process_ids": [],
+      "post_create_process_ids": [
+        48952
+      ]
+    },
+    "command_line_observation_method": "cim_win32_process_command_line_to_argv_w",
+    "observed_command_line": "\"C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE\" /safe",
+    "observed_launch_argv": [
+      "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+      "/safe"
+    ],
+    "binding_method": "oleacc_accessible_object_from_window_excel7_objid_nativeom",
+    "binding_hwnd": 21366376,
+    "owned_window_count_at_binding": 63,
+    "startup_workbook_observation": {
+      "initial_workbook_count": 1,
+      "initial_workbooks": [
+        {
+          "path": "",
+          "full_name": "Book1",
+          "is_addin": false
+        }
+      ],
+      "post_close_workbook_count": 0
+    },
+    "isolation_checks": [
+      {
+        "checkpoint": "post_startup_close",
+        "window_observation": {
+          "enumeration_succeeded": true,
+          "enumeration_truncated": false,
+          "enumeration_limit": 512,
+          "enumeration_error_code": 0,
+          "owned_window_count": 63,
+          "top_level_windows": [
+            {
+              "hwnd": 5448624,
+              "class_name": "HardwareMonitorWindowClass",
+              "title": "HardwareMonitorWindow",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 6694286,
+              "class_name": "XLMAIN",
+              "title": "Microsoft Excel  -  Safe Mode",
+              "visible": true,
+              "enabled": true
+            },
+            {
+              "hwnd": 8922364,
+              "class_name": "MSCTFIME UI",
+              "title": "MSCTFIME UI",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 8922522,
+              "class_name": "OfficePowerManagerWindow",
+              "title": "OfficePowerManagerWindow",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 10036216,
+              "class_name": "XLMAIN",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10818780,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11346894,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 13247532,
+              "class_name": "ThunderMain",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14752512,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18748586,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 25828298,
+              "class_name": "MsoStdCompMgr",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 30942062,
+              "class_name": "IME",
+              "title": "Default IME",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 32186688,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 46928164,
+              "class_name": "OleDdeWndClass",
+              "title": "DDE Server Window",
+              "visible": false,
+              "enabled": true
+            }
+          ]
+        },
+        "workbook_disposition": "none",
+        "workbook_count": 0,
+        "workbooks": [],
+        "startup_path": "C:\\Users\\GovertvanDrimmelen\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART",
+        "alt_startup_path": "",
+        "protected_view_window_count": 0,
+        "com_addins_access": {
+          "status": "unavailable_exact_excel_error_nonclaim",
+          "error_number": -2146827284,
+          "error_hex": "0x800A03EC",
+          "inventory_complete": false,
+          "connection_state_claim": "not_made"
+        },
+        "com_addins": [],
+        "excel_addins": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "excel_addins2": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "loaded_xll_modules": []
+      },
+      {
+        "checkpoint": "pre_macro_execution",
+        "window_observation": {
+          "enumeration_succeeded": true,
+          "enumeration_truncated": false,
+          "enumeration_limit": 512,
+          "enumeration_error_code": 0,
+          "owned_window_count": 72,
+          "top_level_windows": [
+            {
+              "hwnd": 5448624,
+              "class_name": "HardwareMonitorWindowClass",
+              "title": "HardwareMonitorWindow",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 6694286,
+              "class_name": "XLMAIN",
+              "title": "member-oracle.xlsm - Microsoft Excel  -  Safe Mode",
+              "visible": true,
+              "enabled": true
+            },
+            {
+              "hwnd": 8922364,
+              "class_name": "MSCTFIME UI",
+              "title": "MSCTFIME UI",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 8922522,
+              "class_name": "OfficePowerManagerWindow",
+              "title": "OfficePowerManagerWindow",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 10036216,
+              "class_name": "XLMAIN",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10818780,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11346894,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 13247532,
+              "class_name": "ThunderMain",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14752512,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18748586,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 25828298,
+              "class_name": "MsoStdCompMgr",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 28908098,
+              "class_name": "F3 Global 7df80000",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 30942062,
+              "class_name": "IME",
+              "title": "Default IME",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 32186688,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 46928164,
+              "class_name": "OleDdeWndClass",
+              "title": "DDE Server Window",
+              "visible": false,
+              "enabled": true
+            }
+          ]
+        },
+        "workbook_disposition": "exact_hash_pinned_harness",
+        "workbook_count": 1,
+        "workbooks": [
+          {
+            "path": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8",
+            "full_name": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\member-oracle.xlsm",
+            "is_addin": false
+          }
+        ],
+        "startup_path": "C:\\Users\\GovertvanDrimmelen\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART",
+        "alt_startup_path": "",
+        "protected_view_window_count": 0,
+        "com_addins_access": {
+          "status": "unavailable_exact_excel_error_nonclaim",
+          "error_number": -2146827284,
+          "error_hex": "0x800A03EC",
+          "inventory_complete": false,
+          "connection_state_claim": "not_made"
+        },
+        "com_addins": [],
+        "excel_addins": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "excel_addins2": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "loaded_xll_modules": []
+      },
+      {
+        "checkpoint": "pre_shutdown",
+        "window_observation": {
+          "enumeration_succeeded": true,
+          "enumeration_truncated": false,
+          "enumeration_limit": 512,
+          "enumeration_error_code": 0,
+          "owned_window_count": 105,
+          "top_level_windows": [
+            {
+              "hwnd": 5448624,
+              "class_name": "HardwareMonitorWindowClass",
+              "title": "HardwareMonitorWindow",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 5907104,
+              "class_name": "PbrsHost",
+              "title": "Properties",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 6694286,
+              "class_name": "XLMAIN",
+              "title": "Microsoft Excel  -  Safe Mode",
+              "visible": true,
+              "enabled": true
+            },
+            {
+              "hwnd": 8922364,
+              "class_name": "MSCTFIME UI",
+              "title": "MSCTFIME UI",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 8922522,
+              "class_name": "OfficePowerManagerWindow",
+              "title": "OfficePowerManagerWindow",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 9577816,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 9900984,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10036216,
+              "class_name": "XLMAIN",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10363572,
+              "class_name": "ListBox",
+              "title": "Properties",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10623318,
+              "class_name": "wndclass_desked_gsk",
+              "title": "Microsoft Visual Basic for Applications",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 10818780,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 11346894,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 12518984,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 13247532,
+              "class_name": "ThunderMain",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14752512,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 14951430,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 17113538,
+              "class_name": "VBFloatingPalette",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 18748586,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 25828298,
+              "class_name": "MsoStdCompMgr",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 28908098,
+              "class_name": "F3 Global 7df80000",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 30942062,
+              "class_name": "IME",
+              "title": "Default IME",
+              "visible": false,
+              "enabled": false
+            },
+            {
+              "hwnd": 32186688,
+              "class_name": "ARC Event Window 00",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 35921780,
+              "class_name": "ComboLBox",
+              "title": "",
+              "visible": false,
+              "enabled": true
+            },
+            {
+              "hwnd": 46928164,
+              "class_name": "OleDdeWndClass",
+              "title": "DDE Server Window",
+              "visible": false,
+              "enabled": true
+            }
+          ]
+        },
+        "workbook_disposition": "none",
+        "workbook_count": 0,
+        "workbooks": [],
+        "startup_path": "C:\\Users\\GovertvanDrimmelen\\AppData\\Roaming\\Microsoft\\Excel\\XLSTART",
+        "alt_startup_path": "",
+        "protected_view_window_count": 0,
+        "com_addins_access": {
+          "status": "unavailable_exact_excel_error_nonclaim",
+          "error_number": -2146827284,
+          "error_hex": "0x800A03EC",
+          "inventory_complete": false,
+          "connection_state_claim": "not_made"
+        },
+        "com_addins": [],
+        "excel_addins": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "excel_addins2": [
+          {
+            "name": "GENERIC.xll",
+            "title": "Generic Standalone",
+            "path": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE",
+            "full_name": "C:\\Downloads\\Microsoft\\Excel2013XLLSDK\\SAMPLES\\GENERIC\\x64\\RELEASE\\GENERIC.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ANALYS32.XLL",
+            "title": "Analysis ToolPak",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ANALYS32.XLL",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ATPVBAEN.XLAM",
+            "title": "Analysis ToolPak - VBA",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\Analysis",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\ANALYSIS\\ATPVBAEN.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "EUROTOOL.XLAM",
+            "title": "Euro Currency Tools",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\EUROTOOL.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "SOLVER.XLAM",
+            "title": "Solver Add-in",
+            "path": "C:\\Program Files\\Microsoft Office\\root\\Office16\\Library\\SOLVER",
+            "full_name": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\LIBRARY\\SOLVER\\SOLVER.XLAM",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna64.xll",
+            "title": "RibbonBasics Add-In",
+            "path": "C:\\Temp\\ribbonCheck",
+            "full_name": "C:\\Temp\\ribbonCheck\\ExcelDna64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "RibbonTest-AddIn64.xll",
+            "title": "Ribbontest-Addin64",
+            "path": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\RibbonTest\\bin\\Debug\\net6.0-windows\\RibbonTest-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "Test160rc1Local-AddIn64.xll",
+            "title": "Test160rc1Local Add-In",
+            "path": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\Test160rc1Local\\bin\\Debug\\net6.0-windows\\Test160rc1Local-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestCrashGuard-AddIn64.xll",
+            "title": "Testcrashguard-Addin64",
+            "path": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCrashGuard\\bin\\Debug\\net6.0-windows\\TestCrashGuard-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          },
+          {
+            "name": "TestCs170rc2-AddIn64.xll",
+            "title": "TestCs170rc2 Add-In",
+            "path": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestCs170rc2\\bin\\Debug\\net6.0-windows\\TestCs170rc2-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestDoc170-AddIn64.xll",
+            "title": "TestDoc170 Add-In",
+            "path": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Temp\\TestDoc170\\bin\\Debug\\net6.0-windows\\TestDoc170-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestIntelliEmbed-AddIn64.xll",
+            "title": "My Add-In",
+            "path": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48",
+            "full_name": "C:\\Temp\\TestIntelliEmbed\\bin\\Debug\\net48\\TestIntelliEmbed-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "TestOpen16-AddIn64-packed.xll",
+            "title": "TestOpen16 Add-In",
+            "path": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish",
+            "full_name": "C:\\Temp\\TestOpen16\\bin\\Debug\\net6.0-windows\\publish\\TestOpen16-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "CsTest160PR Add-In",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net472\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "CsTest160PR-AddIn64-packed.xll",
+            "title": "Cstest160Pr-Addin64-Packed",
+            "path": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows",
+            "full_name": "C:\\Test\\CsTest160PR\\bin\\Debug\\net6.0-windows\\CsTest160PR-AddIn64-packed.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense64.xll",
+            "title": "Exceldna.Intellisense64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Host\\bin\\Release\\net452\\ExcelDna.IntelliSense64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "title": "Exceldna.Intellisense.Tools-Addin64",
+            "path": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug",
+            "full_name": "C:\\Work\\Excel-DNA\\IntelliSense\\Source\\ExcelDna.IntelliSense.Tools\\bin\\Debug\\ExcelDna.IntelliSense.Tools-AddIn64.xll",
+            "installed": false,
+            "is_open": false
+          },
+          {
+            "name": "McpExcel-AddIn64.xll",
+            "title": "Mcpexcel-Addin64",
+            "path": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows",
+            "full_name": "C:\\Work\\XlAdn\\mcp\\src\\McpExcel\\bin\\Debug\\net8.0-windows\\McpExcel-AddIn64.xll",
+            "installed": true,
+            "is_open": false
+          }
+        ],
+        "loaded_xll_modules": []
+      }
+    ]
+  },
+  "vbe": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\vfs\\ProgramFilesCommonX64\\Microsoft Shared\\VBA\\VBA7.1\\VBE7.DLL",
+    "file_version": "7.01.1158",
+    "product_version": "7.01.1158",
+    "sha256": "8ad9e8d123b4fd84de6df7fc931d69a556540b38317dfcef3b4cf7a5535d48e8"
+  },
+  "fm20": {
+    "path": "C:\\Program Files\\Microsoft Office\\Root\\vfs\\System\\FM20.DLL",
+    "file_version": "16.0.20228.20014",
+    "product_version": "16.0.20228.20014",
+    "sha256": "f6f647b5bf42cb9d5d115394fc4b7a82b9cb7680564fc398140f37f67ec41209"
+  },
+  "artifacts": {
+    "capture_attributes": {
+      "path": ".gitattributes",
+      "sha256": "f40f712f5dd5b4a66c78a48291b349238e71211deccbfa44dad49872c63e30e2"
+    },
+    "capture_command": {
+      "path": "capture-command.json",
+      "sha256": "9839fd151008bbb882d5cd4a06f3f47dc785fefb44ac2dead26e02153ba6253f"
+    },
+    "capture_progress": {
+      "path": "capture-progress.log",
+      "sha256": "62b98c4c49e9d31b55c2c3b25155637fb92258b5887e154aed9519d2e022650b"
+    },
+    "generator_command": {
+      "path": "generator-command.json",
+      "sha256": "253feef9c88d0e129549f3c69972eea5b9a18aadfd35d6d71080354963773543"
+    },
+    "generator_stdout": {
+      "path": "generator-stdout.log",
+      "sha256": "759c8c1b8f7382d9190baf5a3f16de9fa7cda7adf6a855a0362566c59665f66b"
+    },
+    "generator_stderr": {
+      "path": "generator-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "window_stdout": {
+      "path": "window-stdout.log",
+      "sha256": "885b919dd56a589704eec089096614ea07a68cd602777d7c0bb891fb9f47a794"
+    },
+    "window_stderr": {
+      "path": "window-stderr.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "macro_watchdog": {
+      "path": "macro-watchdog.log",
+      "sha256": "0deecddd78da118d48234086151da295a054b9e072034cac249c85a6dd039041"
+    },
+    "workbook": {
+      "path": "member-oracle.xlsm",
+      "sha256": "a6324a1fc8664fb792e433c6ef3dca48d9ce120e8d6d1de60520680230d2d90e"
+    },
+    "form_export": {
+      "path": "W010MemberOracleForm.frm",
+      "sha256": "bfca0c7e6d05aec464f1536501c22beee7a1c5bdc4c551f97a67a843ecd9893c"
+    },
+    "frx_export": {
+      "path": "W010MemberOracleForm.frx",
+      "sha256": "d0c7771db3c302e51df66fd2ded68c238a5f144a1507f3b3c5c7d3d534221c13"
+    },
+    "probe_results": {
+      "path": "probe-results.v1.json",
+      "sha256": "0f751861eb86160a5c938c8e5762e9ff3e898d245b8cbfe9ac2574fec04af934"
+    },
+    "event_log": {
+      "path": "event-log.v1.json",
+      "sha256": "1b2f631c720d48371c170a52f98a328ba91a0f2ba81966aa5240e25e66f6b3b8"
+    },
+    "screenshot": {
+      "path": "window-capture.png",
+      "sha256": "f7e76c6f1933aa24f94a64cc58c67b82b4dcffb52d9934173bec05cd7066a400"
+    },
+    "window_manifest": {
+      "path": "window-capture-manifest.json",
+      "sha256": "dd9c4592502ea824a48d8d9f65d4d95a4fd6af50012eccf31e11f9898aeae60c"
+    },
+    "generated_form_code": {
+      "path": "generated-form-code.bas",
+      "sha256": "2c8772f7c37fc802f41400c3fa8297fe45d1f2fbdb3fb9b9a2729f5bf353e4a5"
+    },
+    "generated_module_code": {
+      "path": "generated-module-code.bas",
+      "sha256": "e17f38de7b3a6f3a13d9598f4ea25060977affb5a3f42cd05169167d1f69613e"
+    },
+    "normalized_manifest": {
+      "path": "normalized-manifest.v1.json",
+      "sha256": "c0bd36c7612bcfaf00306345621ff91418f49c166df8d906976bbf2dba10040d"
+    },
+    "readme": {
+      "path": "README.md",
+      "sha256": "8d06873976151806a6fc9b67e0a7eeced15002cb054c904eb79a8a73495a9aee"
+    }
+  },
+  "observed_coverage": {
+    "control_families": [
+      "CheckBox",
+      "CommandButton",
+      "Label",
+      "ListBox",
+      "TextBox"
+    ],
+    "probe_count": 11,
+    "success_count": 10,
+    "error_count": 1,
+    "event_row_count": 2,
+    "screenshot_count": 1,
+    "export_pair_count": 1
+  },
+  "provenance": {
+    "observation_source": "live_excel_msforms_black_box",
+    "oxforms_output_paths": [],
+    "clean_room_basis": "Repo-owned declarative manifest and generated VBA executed through public Excel/VBIDE automation against live MSForms.",
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "warnings": [
+    "Error descriptions are locale-sensitive; culture and code-page identity are pinned in this manifest.",
+    "VBE and FM20 identities name exact loaded-module bytes but do not assert internal ownership of any observed behavior.",
+    "The PNG is a screen-coordinate CopyFromScreen observation bracketed by exact HWND/process/window-state metadata; visual review is required and the bytes are not an HWND surface proof.",
+    "Application.COMAddIns returned exact 0x800A03EC at one or more safe-mode isolation checkpoints; its inventory is incomplete and this capture makes no COM-add-in connection-state claim."
+  ],
+  "non_claims": [
+    "This capture observes live Excel/MSForms only and does not claim or compare OxForms runtime behavior.",
+    "The representative batch proves reusable harness capabilities; it is not the exhaustive full-library behavior corpus owned by later beads.",
+    "Absence of a probe or event row is unobserved, never a negative MSForms fact.",
+    "When safe-mode Excel returns exact error 0x800A03EC for Application.COMAddIns, the capture records an incomplete inventory and makes no COM-add-in connection-state claim.",
+    "The persisted MS-OFORMS control graph is structurally inventoried but is not yet semantically bound to this manifest or generated fixture.",
+    "Optional compiled-cache or p-code streams are not execution-bound to generated VBA source, so this capture does not claim source-preserving VBA-stomp resistance."
+  ]
+}

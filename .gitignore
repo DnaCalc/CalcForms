@@ -8,3 +8,9 @@ target/
 # coordinated development. Keep those machine-specific paths out of shared state.
 /.cargo/config
 /.cargo/config.toml
+
+# bv (beads viewer) local config and caches
+.bv/
+
+# Capture staging leftovers (canonical capture is the non-dot directory)
+**/.W010*.capture-staging-*/

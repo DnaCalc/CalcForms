@@ -1,15 +1,26 @@
 [CmdletBinding()]
 param()
 
+Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
 $repoRoot = Resolve-Path (Join-Path $PSScriptRoot '..\..')
 $requiredRelativePaths = @(
     'tools/office-oracle/README.md',
+    'tools/office-oracle/Capture-Window.ps1',
+    'tools/office-oracle/Test-CaptureWindowOutputPath.ps1',
+    'tools/office-oracle/Test-PrivateProcessWatchdog.ps1',
+    'tools/office-oracle/Capture-MSFormsMemberOracle.ps1',
+    'tools/office-oracle/msforms_member_oracle.py',
+    'tools/office-oracle/tests/test_msforms_member_oracle.py',
+    'tools/evidence/Test-W010MSFormsMemberOracle.ps1',
     'tools/office-oracle/Open-ExcelUserFormFixture.ps1',
     'tools/office-oracle/Test-W005InteractionFixture.ps1',
     'fixtures/office-oracle/README.md',
     'fixtures/office-oracle/excel-msforms/README.md',
+    'fixtures/office-oracle/excel-msforms/member-probes/README.md',
+    'fixtures/office-oracle/excel-msforms/member-probes/representative-v1.json',
+    'fixtures/office-oracle/excel-msforms/member-probes/representative-v1.ledger-slice.json',
     'fixtures/office-oracle/excel-msforms/userforms/README.md',
     'fixtures/office-oracle/excel-msforms/userforms/rectangle-label/README.md',
     'fixtures/office-oracle/excel-msforms/userforms/rectangle-label/fixture.json',
@@ -30,7 +41,7 @@ $missing = @()
 
 foreach ($relativePath in $requiredRelativePaths) {
     $path = Join-Path $repoRoot $relativePath
-    if (-not (Test-Path -LiteralPath $path)) {
+    if (-not (Test-Path -LiteralPath $path -PathType Leaf)) {
         $missing += $relativePath
     }
 }

@@ -1,7 +1,9 @@
 # FM20 Event Facts
 
-Status: W005 curated fact surface.
+Status: W005 curated fact surface plus the replay-valid W010 ledger-linked
+`oxforms-jbjp.5` representative event capture.
 Owning bead: `oxforms-xvx.17`.
+W010 contract bead: `oxforms-jbjp.5`.
 Raw metadata evidence:
 [`../evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json`](../evidence/W005_input_interaction_model_exploration/fm20_typelib_w005_events.json).
 
@@ -15,8 +17,10 @@ Facts in this file use these classes:
 
 - `metadata`: public FM20 type-library metadata loaded from `FM20.DLL`.
 - `public-doc`: public Microsoft Learn VBA/MSForms documentation.
-- `observed`: repo-owned or black-box MSForms observations. This bead adds no
-  live MSForms event observation rows.
+- `observed`: repo-owned or black-box MSForms observations. The original W005
+  fact bead added no live rows; later sections cite committed W006/W008
+  observations and the replay-valid canonical W010 `.5` representative
+  capture.
 - `assumption`: a W005 design expectation that still needs fixture evidence.
 - `unknown`: intentionally unresolved because neither public metadata nor
   committed observation settles it yet.
@@ -112,9 +116,9 @@ Legend:
 |---|---|---|---|---|---|---|
 | `Click` | `probe` for `Label`, `CommandButton`, `UserForm`; absent from `TextBox` source interface | `LabelControlEvents`, `CommandButtonEvents`, `FormEvents`, `OptionFrameEvents`, plus other non-probe controls. `MdcTextEvents` has no `Click`. | `-600` for W005 `Label`, `CommandButton`, `UserForm`; `-610` on several value-selection controls outside W005 probe. | No args for W005 probe sources. `MultiPage`/`TabStrip` add `index As Long` outside probe. | None. | Public docs describe `MouseDown -> MouseUp -> Click` for mouse click. Docs also say `CommandButton` focus `Enter` can precede `Click`; exact W005 order remains `unknown` until oracle capture. |
 | `DblClick` | `probe` for `Label`, `CommandButton`, `TextBox`, `UserForm` | `LabelControlEvents`, `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other controls. | `-601` on all W005 probe sources. | `Cancel As MSForms.ReturnBoolean`. `MultiPage`/`TabStrip` add leading `index As Long` outside probe. | `Cancel` is a mutable return-helper object. Public docs say setting it true lets the application handle/ignore the second click. | Public docs show `MouseDown -> MouseUp -> Click -> DblClick` when `Click` is supported; for `TextBox`, `Click` is omitted. Exact double-click synthesis is `unknown` until oracle capture. |
-| `Change` | `probe` for `TextBox`; broader controls deferred | `MdcTextEvents` for `TextBox`; also list/combo/check/option/toggle/scroll/spin/tab/multipage source interfaces. Not on `LabelControlEvents` or `CommandButtonEvents`. | `2`. | No args. | None. | Public docs tie it to `Value` changes from code or user action. Key/edit ordering is `unknown` until TextBox oracle capture. |
+| `Change` | `probe` for `TextBox`; representative programmatic value-write occurrence observed; broader controls deferred | `MdcTextEvents` for `TextBox`; also list/combo/check/option/toggle/scroll/spin/tab/multipage source interfaces. Not on `LabelControlEvents` or `CommandButtonEvents`. | `2`. | No args. | None. | The W010 `.5` canonical capture records exactly one TextBox `Change`, causally bound to the `TextValueForEvents` programmatic `Value` round-trip. Its event row is sequence 7 and the corresponding result row is sequence 8, reflecting synchronous handler delivery before result logging. User-edit/key ordering and broader-control behavior remain unknown. |
 | `Enter` | `probe` for focusable `CommandButton` and `TextBox` as an expected fixture event; `Label` not focusable by default | `ControlEvents` on generic `Control` coclass. Not present on the specific W005 probe source interfaces in this raw FM20 capture. | `-2147384830`. | No args. | None. | Public docs say `Enter` occurs before a control receives focus from another control on the same form. Per-coclass sink exposure and exact focus ordering are `unknown` until fixture/VBE observation. |
-| `Exit` | `probe` for focusable `CommandButton` and `TextBox` as an expected fixture event; validation detail deferred | `ControlEvents` on generic `Control` coclass. Not present on specific W005 probe source interfaces in this raw capture. | `-2147384829`. | `Cancel As MSForms.ReturnBoolean`. | `Cancel` is a mutable return-helper object. Public docs say setting it true keeps focus at the current control. | Public docs place `Exit` immediately before focus leaves for another control on the same form. Per-probe sink exposure remains `unknown`. |
+| `Exit` | `probe` for focusable `CommandButton` and `TextBox`; representative TextBox sink/mutation observed; broader validation detail deferred | `ControlEvents` on generic `Control` coclass. Not present on specific W005 probe source interfaces in this raw capture. | `-2147384829`. | `Cancel As MSForms.ReturnBoolean`. | `Cancel` is a mutable return-helper object. The W010 `.5` canonical capture observes the host-attached TextBox handler change `Cancel.Value` from `False` to `True` exactly once. | The `.5` programmatic transfer attempt records the `Exit` row at sequence 10, causally bound to `AttemptExitTransfer`; the requested target's `SetFocus` then returns `-2147467259` (`0x80004005`), `Unspecified error.`, source `Forms.Form.1`. This settles that representative sink and veto outcome, not general Enter/BeforeUpdate/AfterUpdate ordering or other controls. |
 | `KeyDown` | `probe` for `CommandButton`, `TextBox`, `UserForm`; absent from `Label` source interface | `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other focusable controls. | `-602`. | `KeyCode As MSForms.ReturnInteger`, `Shift As Integer` (`fmShiftState` in docs). | `KeyCode` is a mutable return-helper object; exact effect of mutation must be observed. `Shift` is scalar. | Public docs say keyboard sequence is `KeyDown -> KeyPress -> KeyUp` for ANSI input and that default/cancel buttons can suppress key events for Enter/Esc. Exact W005 routing is `unknown`. A **held** Enter activating a Default `CommandButton` activates it **exactly once** — no per-OS-repeat re-activation (oracle-confirmed oxforms-esq.15, `w008-held-enter-20260629T004000Z`: a sustained Enter hold logged a single `KeyDown(13)` then the button's `Enter -> Click -> KeyUp(13)`; the reducer gates the default-button Enter activation on `!KeyRepeat.is_repeat`, mirroring the CheckBox held-Space gate esq.12). Held Escape cancel-button and held Alt+accelerator activation are **oracle-unreachable in the Excel/MSForms host** (oxforms-uvh): modeless and modal harness attempts logged only Escape `KeyUp(27)` with no `KeyDown`/CancelButton `Click`, while mouse click proved the cancel button handler worked, and Alt+A was taken by Excel's ribbon. The reducer Escape/accelerator arms therefore remain repeat-blind documented non-claims unless a non-Excel MSForms host becomes available. |
 | `KeyUp` | `probe` for `CommandButton`, `TextBox`, `UserForm`; absent from `Label` source interface | `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other focusable controls. | `-604`. | `KeyCode As MSForms.ReturnInteger`, `Shift As Integer` (`fmShiftState` in docs). | `KeyCode` is a mutable return-helper object; exact effect of mutation must be observed. `Shift` is scalar. | Public docs put `KeyUp` after key-triggered control events; focus transfer can move `KeyPress`/`KeyUp` to a second control. W005 needs black-box logs. |
 | `KeyPress` | `probe` for `TextBox`; possible `CommandButton`/`UserForm` diagnostics; absent from `Label` source interface | `CommandButtonEvents`, `MdcTextEvents`, `FormEvents`, `OptionFrameEvents`, plus other focusable controls. | `-603`. | Metadata argument name is `KeyAscii As MSForms.ReturnInteger`. Microsoft Learn syntax currently uses `KeyANSI`; examples commonly use `KeyAscii`. Treat the exact VBE stub spelling as `unknown` until fixture generation observes it. | `KeyAscii`/`KeyANSI` is a mutable return-helper object; exact effect of mutation must be observed. | Public docs limit it to ANSI/typeable keys and exclude Tab, Enter, arrow keys, and focus-moving keystrokes. |
@@ -348,6 +352,40 @@ FM20 metadata also exposes form-adjacent events on `FormEvents` and
 | `Scroll` | `772` | `ActionX As MSForms.fmScrollAction`, `ActionY As MSForms.fmScrollAction`, `RequestDx As Single`, `RequestDy As Single`, `ActualDx As MSForms.ReturnSingle`, `ActualDy As MSForms.ReturnSingle` | Deferred; records mutable `ActualDx`/`ActualDy` return helpers. |
 | `Zoom` | `773` | `Percent` appears as raw pointer to `VT_I2` in this capture. | Deferred; exact VBA syntax needs VBE/black-box confirmation before use. |
 
+## W010 Ledger-Linked Event Oracle Contract
+
+`oxforms-jbjp.5` generalizes the event-observation mechanics without changing
+the W005 facts above. Each declarative event probe binds an exact event or
+host-event row from the `.4` parity ledger and its immutable selected-row
+snapshot. Generated handlers use the ledger-backed parameter order and passing
+mode, record argument text before and after the handler, and associate the row
+with the currently executing manifest step. That trigger-step binding prevents
+an initialization or unrelated earlier event from satisfying the intended
+event occurrence.
+
+The representative v1 manifest selects TextBox `Change` and host-attached
+`Exit`. The promoted canonical evidence is
+[`../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/captures/W010RepresentativeMemberOracleV1/`](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/captures/W010RepresentativeMemberOracleV1/).
+Its Office-independent replay verifies exact occurrence counts, trigger ids,
+sequence/timeline consistency, and before/after payloads alongside the member
+results and preserved capture artifacts.
+
+That capture records exactly one TextBox `Change` during the programmatic
+`TextValueForEvents` write and exactly one TextBox `Exit` during
+`AttemptExitTransfer`. The `Exit` handler observes
+`MSForms.ReturnBoolean.Value` as `False` and changes it to `True`; it is an
+object-helper mutation, not scalar `ByRef Boolean`. The attempted transfer then
+returns exact `-2147467259` (`0x80004005`), `Unspecified error.`, source
+`Forms.Form.1`. Its programmatic focus-transfer trigger does not rely on the
+user-edit dirty state required by `BeforeUpdate`.
+
+These are narrow observations of the selected TextBox triggers, not a general
+ordering claim for user edits, validation, other controls, or absent rows. Later
+W010 batches may add scalar event rows declaratively; new object, array,
+collection, Page/Tab, HTML-host, or additional argument shapes require a
+backward-compatible schema branch rather than a reinterpretation of v1
+evidence.
+
 ## Downstream Contract
 
 Oracle fixture beads should:
@@ -367,7 +405,9 @@ Trace/schema and event-dispatch beads should:
 
 - represent mutable helper arguments distinctly from scalar `ByRef`;
 - cite this file for DISPIDs and argument order;
-- keep ordering claims tentative unless backed by W005 event oracle evidence;
+- keep ordering claims tentative unless backed by committed black-box event
+  evidence, including the earlier W005/W006/W008 captures or a replay-valid
+  W010 ledger-linked capture;
 - avoid implementing drag/drop, paste, or lifecycle behavior merely because
   signatures are documented here.
 
@@ -379,8 +419,9 @@ Trace/schema and event-dispatch beads should:
   `KeyANSI` current public-doc syntax).
 - Actual mutation effects for `ReturnInteger`, `ReturnString`, `ReturnEffect`,
   `CancelDisplay`, and the documented `BeforeDropOrPaste` `Action` update.
-- Exact focus/validation ordering for `Enter`, `Exit`, `BeforeUpdate`,
-  `AfterUpdate`, `Change`, keyboard events, and default/cancel activation.
+- Exact focus/validation ordering beyond the narrow W010 `.5` TextBox
+  `Change`/`Exit` observations: `Enter`, `BeforeUpdate`, `AfterUpdate`, user-edit
+  `Change`, keyboard events, other controls, and default/cancel activation.
 - Exact live-coordinate rounding and target-local relation between MSForms
   point arguments, fixture bounds, and screenshot pixels after the W005
   calibration procedure runs.

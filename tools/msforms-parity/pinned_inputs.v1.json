@@ -86,7 +86,7 @@
     {
       "path": "tools/Run-EvidenceChecks.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "f82c49c49f57c12799c66d7cc2dfc7d9a56acd05a863533665322abf9933ec4d"
+      "sha256": "16b01a1a89e0d134e7d248ccee6f785bfacf9350d3c1c004bb415aa0667bab7f"
     },
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",

@@ -1,0 +1,13 @@
+Python 3.12.10
+
+{"status":"ok","rows":15}
+
+{"status":"ok","manifest_id":"W010RepresentativeMemberOracleV1","controls":5,"probes":11,"events":2}
+
+{"status":"ok","manifest_id":"W010RepresentativeMemberOracleV1","controls":5,"probes":11,"events":2}
+
+{"status":"ok","rows":15}
+
+{"normalized_manifest":"C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\normalized-manifest.v1.json","form_code":"C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\generated-form-code.bas","module_code":"C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\generated-module-code.bas"}
+
+{"status":"ok","workbook_sha256":"50a22d9f88ebcb1d6bd7cf9396833b156373ea96a41513931221e6dcb52560fd"}

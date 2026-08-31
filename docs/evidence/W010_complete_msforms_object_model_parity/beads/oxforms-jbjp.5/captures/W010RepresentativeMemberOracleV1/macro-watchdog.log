@@ -1,0 +1,14 @@
+2026-08-24T00:15:56.3474043Z ARMED operation=build_phase pid=75988 timeout_seconds=180 terminal_mode=disarm
+2026-08-24T00:16:32.4112517Z DISARMED operation=build_phase pid=75988 reason=explicit_disarm
+2026-08-24T00:16:33.2827562Z ARMED operation=build_shutdown pid=75988 timeout_seconds=15 terminal_mode=expected_exit
+2026-08-24T00:16:36.4940875Z PROCESS_EXITED operation=build_shutdown pid=75988 reason=expected_exit
+2026-08-24T00:16:39.2618112Z ARMED operation=live_phase pid=48952 timeout_seconds=240 terminal_mode=disarm
+2026-08-24T00:16:52.4224221Z ARMED operation=run_member_oracle pid=48952 timeout_seconds=60 terminal_mode=disarm
+2026-08-24T00:16:56.2059738Z DISARMED operation=run_member_oracle pid=48952 reason=explicit_disarm
+2026-08-24T00:16:57.2255171Z ARMED operation=read_harness_error pid=48952 timeout_seconds=60 terminal_mode=disarm
+2026-08-24T00:16:57.4093105Z DISARMED operation=read_harness_error pid=48952 reason=explicit_disarm
+2026-08-24T00:17:02.3499301Z ARMED operation=close_member_oracle pid=48952 timeout_seconds=60 terminal_mode=disarm
+2026-08-24T00:17:02.6287408Z DISARMED operation=close_member_oracle pid=48952 reason=explicit_disarm
+2026-08-24T00:17:11.5502982Z DISARMED operation=live_phase pid=48952 reason=explicit_disarm
+2026-08-24T00:17:12.5271442Z ARMED operation=live_shutdown pid=48952 timeout_seconds=15 terminal_mode=expected_exit
+2026-08-24T00:17:14.6129094Z PROCESS_EXITED operation=live_shutdown pid=48952 reason=expected_exit

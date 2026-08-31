@@ -2,8 +2,9 @@
 
 Status: committed execution baseline through the independently verified
 `.frm`/`.frx` export facts (`oxforms-jbjp.43`) and deterministic row-level
-parity ledger (`oxforms-jbjp.4`); generalized live-oracle work follows in
-`oxforms-jbjp.5`
+parity ledger (`oxforms-jbjp.4`), plus the replay-valid canonical representative
+live member-oracle capture (`oxforms-jbjp.5`). W010 remains in progress beyond
+that representative slice.
 
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
@@ -167,6 +168,97 @@ oracle capture. `oxforms-jbjp.6` owns container-provided `Control`/`IControl`
 extended-control composition for each concrete family, generic host-event
 applicability, and the final UserForm/host overlay. Their unresolved work stays
 red in the ledger.
+
+## Manifest-Driven Live Member Oracle (Canonical Capture Passed)
+
+`oxforms-jbjp.5` adds one reusable observation contract rather than a copied
+harness per control family. Its project-authored representative manifest and
+immutable selected-row ledger slice live under
+[`../../../fixtures/office-oracle/excel-msforms/member-probes/`](../../../fixtures/office-oracle/excel-msforms/member-probes/).
+The fifteen-row slice freezes ten selected member/event contracts and five
+owner type contracts from the exact `.4` ledger bytes. Historical replay reads
+that slice, while capture-time authoring separately verifies that it still
+matches the declared current ledger.
+
+The v1 representative batch contains five controls (Label, TextBox, ListBox,
+CheckBox, and CommandButton), eleven direct early-bound member probes, and two
+native event handlers (`Change` and host-attached `Exit`). It covers
+property get/put/round-trip, indexed/default get, a method with omitted and
+explicit optional arguments, scalar coercion/error shapes, exact successful
+`TypeName`/`VarType` expectations, a 22-column exact error row spanning
+`Err.Number`, `Err.LastDllError`, `Err.Source`, `Err.HelpFile`,
+`Err.HelpContext`, `Erl`, stage, and worksheet-safe/raw-UTF-16 descriptions,
+and `MSForms.ReturnBoolean.Value` before/after mutation.
+`CallByName` and OxForms outputs are outside the contract.
+
+The promoted canonical capture contains ten successful member rows and one
+expected error row. It observes the selected Caption, MaxLength, AddItem,
+ListCount, indexed/default-member, Value-coercion, and Value/default-get shapes
+with their exact value, `TypeName`, and `VarType` expectations. The invalid
+TextBox `MaxLength` write records error 380, last-DLL-error 0, source
+`Forms.TextBox.1`, help file `fm20.hlp`, help context 1000380, `Erl` 0, and the
+exact English description in worksheet-safe and raw UTF-16 forms. The event log
+records one TextBox `Change` bound to the value-write step and one host-attached
+TextBox `Exit` bound to the attempted focus transfer. `Exit` changes
+`ReturnBoolean.Value` from `False` to `True`, after which that transfer returns
+`-2147467259` (`0x80004005`), `Unspecified error.`, source `Forms.Form.1`.
+
+The deterministic generator/replayer and two-phase Excel capture runner are in
+[`../../../tools/office-oracle/`](../../../tools/office-oracle/). A capture must
+preserve the normalized manifest, generated VBA, workbook and worksheet rows,
+screenshot/window-process binding, genuine Office `.frm`/`.frx` export,
+environment/binary observations, capture-local tool snapshots, logs, README,
+and full-tree checksums. Source generation, capture replay validation, and
+window capture execute only from capture-local snapshots whose exact bytes
+match their source digests and required self-digests. Before phase two opens the
+workbook, the headless validator checks its generated source and strict OPC/VBA
+structure; the runner then requires identical workbook hashes immediately
+before and after `Workbooks.Open`. External child commands are bounded. Each
+Excel `/safe` process is created directly with its initial thread suspended,
+assigned to a kill-on-close Job, verified as a Job member, and only then
+resumed. Empty caller and immediate pre-create process observations plus the
+sole post-create PID, exact executable/command line, and native
+`EXCEL7`/`OBJID_NATIVEOM` binding establish ownership before automation. The
+narrow suspended creation-to-Job-assignment interval is disclosed rather than
+claimed atomic. All owned COM work after launch is watchdog-bounded, and the
+retained Job is the final process-tree cleanup backstop.
+
+Both phases record three exact-PID isolation checkpoints. They require an
+enabled `XLMAIN`, reject unexpected visible modal/disabled roots and foreign
+workbooks, and record startup paths, Protected View, Excel AddIns/AddIns2, and
+loaded XLLs. In this safe-mode capture `Application.COMAddIns` returned exact
+`0x800A03EC`; the COM-add-in inventory is therefore explicitly incomplete and
+the capture makes no COM-add-in connection-state claim. Its empty recorded
+array is not evidence of absence.
+
+Office-independent replay validates the capture's strict formats and causal
+timeline, exact result value/type expectations, exact generated source bytes,
+strict direct/one-to-one OPC relationships and content types, structurally
+closed PROJECT/module-table/VBA-storage metadata, empty host-document code, and
+decompressed workbook VBA-source equality after narrow known VBIDE
+normalization. It also checks bounded worksheet/JSON table equality and the
+independent manifest pins before executing the capture-local FRM/CFB validator
+snapshots. V1 inventories but does not decode the persisted MS-OFORMS control
+graph or prove optional compiled-cache/p-code execution equivalence; exhaustive
+corpus bead `oxforms-jbjp.67` owns semantic control-graph binding plus rejection
+or execution-semantic binding of the compiled-cache/p-code surface.
+
+The canonical run recorded Microsoft Office and VBA UI language `LCID 1033`
+(English - United States), stabilizing the worksheet-safe display form and
+exact raw UTF-16 code units of English `Err.Description`. The display field
+removes at most one terminal U+0000 for worksheet storage; the raw field
+preserves it. VBE **Error Trapping** had to be set manually to **Break on
+Unhandled Errors** before capture; the runner did not change that user-wide
+setting.
+
+The bead-specific contract and commands are documented in
+[`beads/oxforms-jbjp.5/README.md`](beads/oxforms-jbjp.5/README.md). The promoted
+canonical evidence is
+[`beads/oxforms-jbjp.5/captures/W010RepresentativeMemberOracleV1/`](beads/oxforms-jbjp.5/captures/W010RepresentativeMemberOracleV1/),
+and `tools/evidence/Test-W010MSFormsMemberOracle.ps1` passes its canonical
+Office-independent replay gate. Only rows present in that replay-valid capture
+are observations; the declarative manifest, a failed staging run, or the
+absence of an event/result row cannot establish an additional MSForms fact.
 
 ## Planning Audit
 

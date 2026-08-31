@@ -1,0 +1,476 @@
+{
+  "bead": "oxforms-jbjp.5",
+  "capture": {
+    "event_sheet": "W010EventLog",
+    "export_frm_frx": true,
+    "result_sheet": "W010ProbeResults",
+    "screenshot": true,
+    "workbook": true
+  },
+  "environment_requirements": [
+    "An unlocked Windows desktop session capable of displaying and capturing a top-level MSForms UserForm.",
+    "Microsoft Excel with the Microsoft Forms 2.0 designer and macro execution available.",
+    "Trust access to the VBA project object model enabled for generation and VBComponent.Export.",
+    "Microsoft Office and VBA UI language LCID 1033 (English - United States), so worksheet-safe display and raw UTF-16 Err.Description expectations are stable.",
+    "VBE Tools > Options > General > Error Trapping is manually set to Break on Unhandled Errors; the runner does not mutate this user-wide setting.",
+    "Python 3.12 or newer so junction-aware path-safety checks are available.",
+    "PowerShell 7.2 or newer for the capture runner."
+  ],
+  "events": [
+    {
+      "expect": {
+        "arguments_after": "",
+        "arguments_before": ""
+      },
+      "expected_occurrences": 1,
+      "id": "TextChangeEvent",
+      "ledger_row_id": "event:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|impl=1|source={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|94|primary|function=2",
+      "mutations": [],
+      "name": "Change",
+      "parameters": [],
+      "target": "text_probe",
+      "trigger_step_id": "TextValueForEvents"
+    },
+    {
+      "expect": {
+        "arguments_after": "Cancel=True",
+        "arguments_before": "Cancel=False"
+      },
+      "expected_occurrences": 1,
+      "id": "TextExitMutation",
+      "ledger_row_id": "host-event:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|source={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|42|primary|memid=-2147384829",
+      "mutations": [
+        {
+          "member": "Value",
+          "parameter": "Cancel",
+          "value": {
+            "kind": "boolean",
+            "value": true
+          }
+        }
+      ],
+      "name": "Exit",
+      "parameters": [
+        {
+          "name": "Cancel",
+          "passing": "ByVal",
+          "type": "MSForms.ReturnBoolean",
+          "value_member": "Value"
+        }
+      ],
+      "target": "text_probe",
+      "trigger_step_id": "AttemptExitTransfer"
+    }
+  ],
+  "form": {
+    "caption": "OxForms W010 Member Oracle",
+    "controls": [
+      {
+        "fm20_type": "Label",
+        "height_pt": 24,
+        "id": "label_probe",
+        "initial_properties": {
+          "BackColor": {
+            "kind": "integer",
+            "value": 15132390
+          },
+          "BorderStyle": {
+            "kind": "integer",
+            "value": 1
+          },
+          "Caption": {
+            "kind": "string",
+            "value": "Initial label"
+          }
+        },
+        "left_pt": 18,
+        "name": "ProbeLabel",
+        "prog_id": "Forms.Label.1",
+        "top_pt": 18,
+        "width_pt": 132
+      },
+      {
+        "fm20_type": "TextBox",
+        "height_pt": 24,
+        "id": "text_probe",
+        "initial_properties": {
+          "TabIndex": {
+            "kind": "integer",
+            "value": 0
+          },
+          "TabStop": {
+            "kind": "boolean",
+            "value": true
+          },
+          "Value": {
+            "kind": "string",
+            "value": ""
+          }
+        },
+        "left_pt": 168,
+        "name": "ProbeTextBox",
+        "prog_id": "Forms.TextBox.1",
+        "top_pt": 18,
+        "width_pt": 132
+      },
+      {
+        "fm20_type": "ListBox",
+        "height_pt": 72,
+        "id": "list_probe",
+        "initial_properties": {
+          "ColumnCount": {
+            "kind": "integer",
+            "value": 1
+          },
+          "TabIndex": {
+            "kind": "integer",
+            "value": 1
+          }
+        },
+        "left_pt": 18,
+        "name": "ProbeListBox",
+        "prog_id": "Forms.ListBox.1",
+        "top_pt": 60,
+        "width_pt": 132
+      },
+      {
+        "fm20_type": "CheckBox",
+        "height_pt": 24,
+        "id": "check_probe",
+        "initial_properties": {
+          "Caption": {
+            "kind": "string",
+            "value": "Coercion result"
+          },
+          "TabIndex": {
+            "kind": "integer",
+            "value": 2
+          }
+        },
+        "left_pt": 168,
+        "name": "ProbeCheckBox",
+        "prog_id": "Forms.CheckBox.1",
+        "top_pt": 66,
+        "width_pt": 132
+      },
+      {
+        "fm20_type": "CommandButton",
+        "height_pt": 24,
+        "id": "button_probe",
+        "initial_properties": {
+          "Caption": {
+            "kind": "string",
+            "value": "Focus target"
+          },
+          "TabIndex": {
+            "kind": "integer",
+            "value": 3
+          },
+          "TabStop": {
+            "kind": "boolean",
+            "value": true
+          }
+        },
+        "left_pt": 168,
+        "name": "ProbeCommandButton",
+        "prog_id": "Forms.CommandButton.1",
+        "top_pt": 108,
+        "width_pt": 96
+      }
+    ],
+    "height_pt": 220,
+    "name": "W010MemberOracleForm",
+    "startup_position": 2,
+    "width_pt": 330
+  },
+  "id": "W010RepresentativeMemberOracleV1",
+  "ledger": {
+    "canonical_sha256": "2a63c8acebe038adec22273ecf6dde00d5a60b123ad88289a62629c1553c07c5",
+    "file_sha256": "0e361935bab6490253224775154c7493e068a6e30a20fdcc2cd62f14e14342b0",
+    "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.4/msforms_parity_ledger.v1.json",
+    "snapshot_path": "fixtures/office-oracle/excel-msforms/member-probes/representative-v1.ledger-slice.json",
+    "snapshot_sha256": "61eea1607fd356d6ec6033d3a04824af5fa65ef7c26818bc04654d58d5e8a937"
+  },
+  "non_claims": [
+    "This capture observes live Excel/MSForms only and does not claim or compare OxForms runtime behavior.",
+    "The representative batch proves reusable harness capabilities; it is not the exhaustive full-library behavior corpus owned by later beads.",
+    "Absence of a probe or event row is unobserved, never a negative MSForms fact.",
+    "When safe-mode Excel returns exact error 0x800A03EC for Application.COMAddIns, the capture records an incomplete inventory and makes no COM-add-in connection-state claim.",
+    "The persisted MS-OFORMS control graph is structurally inventoried but is not yet semantically bound to this manifest or generated fixture.",
+    "Optional compiled-cache or p-code streams are not execution-bound to generated VBA source, so this capture does not claim source-preserving VBA-stomp resistance."
+  ],
+  "provenance": {
+    "clean_room_basis": "Repo-owned declarative manifest and generated VBA executed through public Excel/VBIDE automation against live MSForms.",
+    "observation_source": "live_excel_msforms_black_box",
+    "oxforms_output_paths": [],
+    "prohibited": "No Office internals, decompilation, disassembly, non-public source, or OxForms output comparison."
+  },
+  "replay_validators": {
+    "cfb_inventory": {
+      "path": "tools/forms-persistence/cfb_inventory.py",
+      "sha256": "6a9044fd55766281b23dc7a6df4c7f1d4144b25af1cd9110f452ae9c89bb754d"
+    },
+    "frm_inventory": {
+      "path": "tools/forms-persistence/frm_text_inventory.py",
+      "sha256": "e09852b599ef105e391baefed2eca9205a70d308d25d732b9501d357ed536976"
+    }
+  },
+  "schema": "oxforms.office_oracle.msforms_member_probe_manifest.v1",
+  "schema_version": 1,
+  "steps": [
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "String",
+        "value": {
+          "kind": "string",
+          "value": "Live MSForms round-trip"
+        },
+        "var_type": 8
+      },
+      "id": "LabelCaptionRoundtrip",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|91|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|65|primary|memid=0",
+      "member": "Caption",
+      "operation": "property_roundtrip",
+      "target": "label_probe",
+      "value": {
+        "kind": "string",
+        "value": "Live MSForms round-trip"
+      }
+    },
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "Long",
+        "value": {
+          "kind": "integer",
+          "value": 12
+        },
+        "var_type": 3
+      },
+      "id": "TextMaxLengthCoercion",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|68|primary|memid=-533",
+      "member": "MaxLength",
+      "operation": "property_roundtrip",
+      "target": "text_probe",
+      "value": {
+        "kind": "string",
+        "value": "12"
+      }
+    },
+    {
+      "args": [
+        {
+          "kind": "string",
+          "value": "tail"
+        },
+        {
+          "kind": "missing"
+        }
+      ],
+      "expect": {
+        "outcome": "success",
+        "type_name": "Empty",
+        "var_type": 0
+      },
+      "id": "ListAddItemDefaultIndex",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|97|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|69|primary|memid=-553",
+      "member": "AddItem",
+      "operation": "method",
+      "target": "list_probe"
+    },
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "Long",
+        "value": {
+          "kind": "integer",
+          "value": 1
+        },
+        "var_type": 3
+      },
+      "id": "ListCountAfterDefaultAdd",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|97|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|69|primary|memid=-531",
+      "member": "ListCount",
+      "operation": "property_get",
+      "target": "list_probe"
+    },
+    {
+      "args": [
+        {
+          "kind": "string",
+          "value": "head"
+        },
+        {
+          "kind": "integer",
+          "value": 0
+        }
+      ],
+      "expect": {
+        "outcome": "success",
+        "type_name": "Empty",
+        "var_type": 0
+      },
+      "id": "ListAddItemExplicitIndex",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|97|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|69|primary|memid=-553",
+      "member": "AddItem",
+      "operation": "method",
+      "target": "list_probe"
+    },
+    {
+      "args": [
+        {
+          "kind": "integer",
+          "value": 0
+        }
+      ],
+      "expect": {
+        "outcome": "success",
+        "type_name": "String",
+        "value": {
+          "kind": "string",
+          "value": "head"
+        },
+        "var_type": 8
+      },
+      "id": "ListFirstItemRead",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|97|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|69|primary|memid=-528",
+      "member": "List",
+      "operation": "property_get",
+      "target": "list_probe"
+    },
+    {
+      "expect": {
+        "outcome": "success"
+      },
+      "id": "FocusTextForExit",
+      "kind": "focus",
+      "target": "text_probe"
+    },
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "String",
+        "value": {
+          "kind": "string",
+          "value": "event payload"
+        },
+        "var_type": 8
+      },
+      "id": "TextValueForEvents",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|68|primary|memid=0",
+      "member": "Value",
+      "operation": "property_roundtrip",
+      "target": "text_probe",
+      "value": {
+        "kind": "string",
+        "value": "event payload"
+      }
+    },
+    {
+      "id": "DrainTextChange",
+      "kind": "do_events"
+    },
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "String",
+        "value": {
+          "kind": "string",
+          "value": "event payload"
+        },
+        "var_type": 8
+      },
+      "id": "TextDefaultValueRead",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|68|primary|memid=0",
+      "member": "Value",
+      "operation": "default_get",
+      "target": "text_probe"
+    },
+    {
+      "expect": {
+        "description_equals": "Unspecified error.",
+        "error_number": -2147467259,
+        "outcome": "error",
+        "source_equals": "Forms.Form.1"
+      },
+      "id": "AttemptExitTransfer",
+      "kind": "focus",
+      "target": "button_probe"
+    },
+    {
+      "id": "DrainExitEvent",
+      "kind": "do_events"
+    },
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "Boolean",
+        "value": {
+          "kind": "boolean",
+          "value": true
+        },
+        "var_type": 11
+      },
+      "id": "CheckValueCoercion",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|103|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|71|primary|memid=0",
+      "member": "Value",
+      "operation": "property_roundtrip",
+      "target": "check_probe",
+      "value": {
+        "kind": "string",
+        "value": "True"
+      }
+    },
+    {
+      "expect": {
+        "description_equals": "Could not set the MaxLength property. Invalid property value.  Enter a value greater than or equal to zero.",
+        "description_utf16_hex_equals": "0043 006F 0075 006C 0064 0020 006E 006F 0074 0020 0073 0065 0074 0020 0074 0068 0065 0020 004D 0061 0078 004C 0065 006E 0067 0074 0068 0020 0070 0072 006F 0070 0065 0072 0074 0079 002E 0020 0049 006E 0076 0061 006C 0069 0064 0020 0070 0072 006F 0070 0065 0072 0074 0079 0020 0076 0061 006C 0075 0065 002E 0020 0020 0045 006E 0074 0065 0072 0020 0061 0020 0076 0061 006C 0075 0065 0020 0067 0072 0065 0061 0074 0065 0072 0020 0074 0068 0061 006E 0020 006F 0072 0020 0065 0071 0075 0061 006C 0020 0074 006F 0020 007A 0065 0072 006F 002E 0000",
+        "error_number": 380,
+        "error_stage": "set",
+        "help_context_equals": 1000380,
+        "help_file_equals": "fm20.hlp",
+        "last_dll_error_equals": 0,
+        "line_equals": 0,
+        "outcome": "error",
+        "source_equals": "Forms.TextBox.1"
+      },
+      "id": "TextMaxLengthInvalid",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|68|primary|memid=-533",
+      "member": "MaxLength",
+      "operation": "property_roundtrip",
+      "target": "text_probe",
+      "value": {
+        "kind": "integer",
+        "value": -1
+      }
+    },
+    {
+      "expect": {
+        "outcome": "success",
+        "type_name": "String",
+        "value": {
+          "kind": "string",
+          "value": "Focus target"
+        },
+        "var_type": 8
+      },
+      "id": "ButtonCaptionRead",
+      "kind": "probe",
+      "ledger_row_id": "surface:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|93|primary|impl=0|decl={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|66|primary|memid=-518",
+      "member": "Caption",
+      "operation": "property_get",
+      "target": "button_probe"
+    }
+  ]
+}

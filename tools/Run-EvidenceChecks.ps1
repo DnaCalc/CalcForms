@@ -19,6 +19,8 @@
         sibling Foundation source checkout);
       - the W010 complete MSForms row-level parity ledger, pinned-input
         regeneration, adversarial mutation tests, and committed canonical bytes;
+      - the W010 manifest-driven live MSForms member-oracle capture, including
+        environment-independent generator/result/event/artifact replay;
       - every committed checksums.sha256 manifest (git-tracked coverage).
 
     Per-capture Office evidence validators (Test-W006*CaptureEvidence.ps1, etc.)
@@ -87,6 +89,7 @@ Invoke-Check -Name 'W010 FM20 typelib fact pack' -Script 'tools/evidence/Test-W0
 Invoke-Check -Name 'W010 MS-OFORMS persistence fact pack' -Script 'tools/evidence/Test-W010MSOFormsFacts.ps1'
 Invoke-Check -Name 'W010 FRM/FRX export fact pack' -Script 'tools/evidence/Test-W010FrmFrxExportFacts.ps1'
 Invoke-Check -Name 'W010 MSForms parity ledger' -Script 'tools/evidence/Test-W010MSFormsParityLedger.ps1'
+Invoke-Check -Name 'W010 MSForms member oracle' -Script 'tools/evidence/Test-W010MSFormsMemberOracle.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(
@@ -99,11 +102,18 @@ foreach ($trace in $traceSamples) {
     Invoke-Check -Name "trace schema: $(Split-Path -Leaf $trace)" -Script 'tools/trace-replay/Test-TraceReplaySchema.ps1' -Params @{ TracePath = $trace }
 }
 
-# Every committed checksum manifest (git-tracked coverage so gitignored *.log
-# working duplicates do not trip the on-disk coverage check).
+# Every committed checksum manifest. Discover through the index so retained
+# untracked failed-capture staging directories remain diagnostics rather than
+# impersonating committed evidence roots.
+$trackedChecksumPaths = @(git -C $repoRoot ls-files -- 'docs/evidence/**/checksums.sha256')
+if ($LASTEXITCODE -ne 0) {
+    throw 'git ls-files failed while discovering committed checksum manifests.'
+}
 $checksumDirs = @(
-    Get-ChildItem -LiteralPath (Join-Path $repoRoot 'docs/evidence') -Recurse -File -Filter 'checksums.sha256' |
-        ForEach-Object { $_.Directory.FullName } |
+    $trackedChecksumPaths |
+        ForEach-Object {
+            Split-Path -Parent ([System.IO.Path]::GetFullPath((Join-Path $repoRoot $_)))
+        } |
         Sort-Object
 )
 foreach ($dir in $checksumDirs) {

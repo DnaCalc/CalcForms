@@ -1,0 +1,11 @@
+* text=auto eol=lf
+*.json text eol=lf diff
+*.bas text eol=lf diff
+*.log text eol=lf diff
+*.md text eol=lf diff
+*.txt text eol=lf diff
+*.sha256 text eol=lf diff
+*.frm -text -diff
+*.frx -text -diff
+*.xlsm -text -diff
+*.png -text -diff

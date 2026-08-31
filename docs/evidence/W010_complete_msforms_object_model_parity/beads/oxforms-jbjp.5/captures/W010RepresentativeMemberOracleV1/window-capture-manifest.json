@@ -1,0 +1,116 @@
+{
+  "schema": "oxforms.office_oracle.window_capture.v1",
+  "tool": "tools/office-oracle/Capture-Window.ps1",
+  "mode": "capture",
+  "timestamp_utc": "2026-08-24T00:16:58.724396Z",
+  "command": "C:\\Users\\GovertvanDrimmelen\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.dll -NoProfile -NonInteractive -File C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\Capture-Window.ps1 -RepoRoot C:\\Work\\DnaCalc\\OxForms -ExpectedScriptSha256 19cf48d420d0b7e51796a8ff36c3ee6399d48f8c54646fa49c450d5f4c120ec5 -TitleContains \"OxForms W010 Member Oracle\" -ClassName ThunderDFrame -ProcessName EXCEL -ProcessId 48952 -OutDir C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8 -CaptureScreenshot -ScreenshotMaxAttempts 6 -ScreenshotRetryDelayMilliseconds 300",
+  "host": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.4"
+  },
+  "query": {
+    "title_contains": "OxForms W010 Member Oracle",
+    "process_contains": "",
+    "process_name": "EXCEL",
+    "process_id": 48952,
+    "class_name": "ThunderDFrame"
+  },
+  "status": "ok",
+  "diagnostics": [],
+  "visible_top_level_window_count": 43,
+  "match_count": 1,
+  "candidates": [
+    {
+      "handle": "0x107121C",
+      "title": "OxForms W010 Member Oracle",
+      "class_name": "ThunderDFrame",
+      "process_id": 48952,
+      "process_name": "EXCEL",
+      "bounds": {
+        "left": 740,
+        "top": 393,
+        "right": 1180,
+        "bottom": 686,
+        "width": 440,
+        "height": 293
+      }
+    }
+  ],
+  "selected_window": {
+    "handle": "0x107121C",
+    "title": "OxForms W010 Member Oracle",
+    "class_name": "ThunderDFrame",
+    "process_id": 48952,
+    "process_name": "EXCEL",
+    "process_path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "process_start_time_utc": "2026-08-24T00:16:37.4818771Z",
+    "bounds": {
+      "left": 740,
+      "top": 393,
+      "right": 1180,
+      "bottom": 686,
+      "width": 440,
+      "height": 293
+    },
+    "dpi": 96
+  },
+  "screenshot": {
+    "path": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\W010RepresentativeMemberOracleV1\\window-capture.png",
+    "sha256": "f7e76c6f1933aa24f94a64cc58c67b82b4dcffb52d9934173bec05cd7066a400",
+    "width": 440,
+    "height": 293,
+    "format": "png",
+    "capture_method": "screen_coordinates",
+    "visual_review_required": true,
+    "state_bracket": {
+      "comparator": "exact_selected_current_v1",
+      "before": {
+        "handle": "0x107121C",
+        "title": "OxForms W010 Member Oracle",
+        "class_name": "ThunderDFrame",
+        "process_id": 48952,
+        "process_name": "EXCEL",
+        "process_start_time_utc": "2026-08-24T00:16:37.4818771Z",
+        "process_path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+        "bounds": {
+          "left": 740,
+          "top": 393,
+          "right": 1180,
+          "bottom": 686,
+          "width": 440,
+          "height": 293
+        },
+        "visible": true,
+        "foreground": true
+      },
+      "after": {
+        "handle": "0x107121C",
+        "title": "OxForms W010 Member Oracle",
+        "class_name": "ThunderDFrame",
+        "process_id": 48952,
+        "process_name": "EXCEL",
+        "process_start_time_utc": "2026-08-24T00:16:37.4818771Z",
+        "process_path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+        "bounds": {
+          "left": 740,
+          "top": 393,
+          "right": 1180,
+          "bottom": 686,
+          "width": 440,
+          "height": 293
+        },
+        "visible": true,
+        "foreground": true
+      }
+    },
+    "attempts": [
+      {
+        "attempt": 1,
+        "status": "ok",
+        "foreground_attempt": 1
+      }
+    ]
+  },
+  "manifest_path": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\W010RepresentativeMemberOracleV1\\window-capture-manifest.json"
+}

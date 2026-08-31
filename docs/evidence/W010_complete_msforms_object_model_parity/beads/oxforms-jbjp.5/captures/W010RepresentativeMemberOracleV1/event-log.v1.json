@@ -1,0 +1,32 @@
+{
+  "schema": "oxforms.office_oracle.msforms_member_event_log.v1",
+  "schema_version": 1,
+  "manifest": {
+    "id": "W010RepresentativeMemberOracleV1",
+    "sha256": "b0af0a9f85c4e3ae8c963a224afec8bb1c08cca41300fbd511ed1d4d0be28903"
+  },
+  "rows": [
+    {
+      "sequence": 7,
+      "event_id": "TextChangeEvent",
+      "ledger_row_id": "event:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|impl=1|source={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|94|primary|function=2",
+      "target_id": "text_probe",
+      "target_kind": "TextBox",
+      "event_name": "Change",
+      "arguments_before": "",
+      "arguments_after": "",
+      "trigger_step_id": "TextValueForEvents"
+    },
+    {
+      "sequence": 10,
+      "event_id": "TextExitMutation",
+      "ledger_row_id": "host-event:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|95|primary|source={0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|42|primary|memid=-2147384829",
+      "target_id": "text_probe",
+      "target_kind": "TextBox",
+      "event_name": "Exit",
+      "arguments_before": "Cancel=False",
+      "arguments_after": "Cancel=True",
+      "trigger_step_id": "AttemptExitTransfer"
+    }
+  ]
+}

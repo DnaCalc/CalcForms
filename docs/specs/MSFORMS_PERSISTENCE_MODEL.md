@@ -1,7 +1,7 @@
 # MSForms Persistence and Export Fact Models
 
-Status: W010 generated-fact contracts (`oxforms-jbjp.3` committed;
-`oxforms-jbjp.43` in progress)
+Status: W010 generated-fact contracts established (`oxforms-jbjp.3` committed;
+`oxforms-jbjp.43` closed in reviewed commit `9572f7a`)
 
 Schema: `oxforms.ms-oforms.persistence-facts.v1`
 
@@ -240,19 +240,21 @@ This bead does not:
 - treat worked examples as passing implementation tests; or
 - treat Appendix product behavior as independently observed oracle evidence.
 
-The independent `.frm`/`.frx` export-fact candidate is described below. Parser,
-serialization, resource decoding/writing, and round-trip behavior remain owned
-by later W010 beads.
+The independently captured `.frm`/`.frx` export-fact surface established by
+closed bead `oxforms-jbjp.43` is described below. Parser, serialization,
+resource decoding/writing, and round-trip behavior remain owned by later W010
+beads.
 
 ## 6. Independent `.frm`/`.frx` export facts
 
 Schema: `oxforms.forms-persistence.export-facts.v1`
 
-`oxforms-jbjp.43` adds a separate generated fact surface under
+`oxforms-jbjp.43` established a separate generated fact surface under
 `docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/`.
-The bead remains in progress until all required checks, its exact fresh-eyes
-review, and its post-review commit complete. This section records the current
-candidate contract rather than claiming closure.
+The bead closed in reviewed commit `9572f7a` after its required checks and
+fresh-eyes review. This section records that established contract while
+preserving its parser, codec, runtime-API, decoded-live-property, nonzero-offset,
+and VB6 nonclaims.
 
 ### 6.1 Authority profiles and non-promotion
 

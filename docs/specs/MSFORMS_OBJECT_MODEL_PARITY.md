@@ -1,7 +1,10 @@
 # MSForms object-model parity ledger
 
 Status: deterministic raw-contract/current-overlay baseline established by
-`oxforms-jbjp.4`; implementation and host-composed parity remain open
+`oxforms-jbjp.4`; reusable live behavior-oracle contract and its replay-valid
+representative canonical capture established by `oxforms-jbjp.5`;
+implementation, exhaustive behavior coverage, and host-composed parity remain
+open
 
 Schema: `oxforms.msforms_parity_ledger.v1`
 
@@ -26,6 +29,7 @@ another.
 | Export persistence | Pinned W010 `.43` `.frm`/`.frx` facts | Genuine Office export observations, family applicability, opaque-resource boundaries, and source-linked export contracts |
 | Host/public overlay | Reviewed `public_overlay.v1.json` projection of official Microsoft documentation | UserForm/UserForms members, events, and prose capabilities absent from FM20, at only the precision stated by the cited page |
 | Current implementation | Deterministic extraction of `OxForms.basproj` and all referenced VBA modules | What the repository presently declares and which clean/manual loader profiles expose it |
+| Live black-box behavior | Versioned, ledger-linked Excel/MSForms member-oracle captures | Observed public values, coercions/errors, event payload/mutation, pixels, and Office export artifacts for only the exact probed rows |
 
 FM20/stdole facts remain exact raw contracts even when they cannot be lowered
 to legal VBA syntax. MS-OFORMS and `.frm`/`.frx` names do not create callable
@@ -222,13 +226,130 @@ replacement, and refuses path redirection. The validator always checks that
 canonical artifact first. An optional additional ledger is diagnostic only
 and cannot bypass a missing or corrupt canonical artifact.
 
-## 9. Closure boundary and successors
+## 9. Versioned live member-oracle contract
+
+`oxforms-jbjp.5` supplies one reusable Windows/Excel/MSForms observation engine.
+Its input is a strict declarative manifest with a safe numbered W010 bead id,
+form/control construction, ordered member/focus/message-pump steps, event
+handlers, expected observation shapes, capture requirements, and explicit
+clean-room nonclaims. A canonical ProgID-to-FM20-owner map prevents a control
+instantiated as one class from borrowing another class's ledger contract.
+
+Each probe binds one accepted callable ledger row by stable row id, exact owner
+and name, and the accessor required by its operation. V1 supports direct
+early-bound property get, put, get-after-put, indexed/default get, and method
+syntax; scalar arguments retain positional omitted optional slots. `CallByName`
+is forbidden. The selected member/event rows and their owner type contracts are
+frozen into a compact immutable ledger slice. Ordinary historical replay reads
+that slice rather than the mutable current-overlay ledger; authoring-time
+verification proves the slice was freshly selected from the exact recorded
+ledger bytes and canonical digest.
+
+The generated VBA records a single contiguous probe/event sequence. Result rows
+retain value text, `TypeName`, `VarType`, object/array flags, and every public
+`Err` field plus the exact operation stage. `Err` fields are snapshotted before
+any helper call. Every successful probe expectation pins both the exact
+`TypeName` and numeric `VarType`; matching value text alone is insufficient.
+Event rows retain exact before/after argument text and the currently executing
+manifest step, so an initialization event cannot satisfy a later intended
+trigger. Return-wrapper mutation must target the declared `Value` member; plain
+scalar mutation requires an actual `ByRef` parameter.
+
+The live runner uses two dedicated Excel `/safe` processes. For each phase it
+requires empty caller and immediate pre-create Excel PID observations, pins the
+sole registered executable, creates its initial thread suspended, assigns the
+process to a kill-on-close Job, verifies membership, and only then resumes it.
+The narrow suspended creation-to-Job-assignment interval is not represented as
+atomic creation-time association; completed-launch functional tests prove root
+and descendant termination on Job close and abrupt supervisor death. The first
+process constructs the UserForm through public VBIDE automation, exports the
+`.frm`/`.frx` pair, saves the macro workbook, and exits. Before the second
+process may open it, an
+Office-independent pre-open gate validates the exact generated sources and the
+strict OPC/VBA package graph, including PROJECT/module-table/VBA-storage closure
+and empty host-document code. The runner hashes the validated workbook
+immediately before and after `Workbooks.Open`; any byte change blocks execution.
+The second process then runs the batch, captures the exact UserForm window by
+caption/class/process id/start/executable, exports worksheet observations,
+saves, closes, and exits. The post-create PID observation must contain only the
+retained process. Both phases bind the exact process through
+`EXCEL7`/`OBJID_NATIVEOM`, record the raw OS command line and independently
+parsed executable-plus-sole-`/safe` arguments, and perform three isolation
+checkpoints. Each checkpoint requires complete exact-PID owned-window
+enumeration with an enabled `XLMAIN`, no unexpected visible modal or disabled
+root, the exact workbook disposition, zero Protected View windows, no open
+Excel AddIns/AddIns2, and no loaded XLL module. Startup paths are observations,
+not required to be empty. If safe-mode `Application.COMAddIns` is unavailable
+with exact Excel error `0x800A03EC`, the capture records an incomplete
+inventory and explicitly makes no COM-add-in connection-state claim; an empty
+array is not treated as proof of absence.
+
+Source generation, capture replay validation, and window capture execute only
+from their staging-capture tool snapshots. The runner verifies each snapshot's
+exact bytes against its source, records that digest, and requires the same value
+as the tool's self-digest. All external child commands have finite time bounds.
+After the contained process is created and verified, all owned COM work in that
+phase is watchdog-bounded. The Excel watchdogs require an explicit armed
+handshake, revalidate process identity before any termination, and accept only
+the exact expected terminal reason rather than treating an unexpected process
+exit as successful disarm. The retained Job remains the final process-tree
+cleanup authority through COM teardown and exact exit verification, then is
+deterministically disposed.
+
+The representative v1 capture requires Microsoft Office and VBA UI language
+`LCID 1033` (English - United States) because both the worksheet-safe display
+form and the exact raw UTF-16 code units of `Err.Description` are contract data;
+the runner checks and records that observation. The display form removes at
+most one final U+0000 for worksheet storage, while the raw field preserves it.
+The same 22-column result-row contract pins exact `Err.Number`,
+`Err.LastDllError`, `Err.Source`, `Err.HelpFile`, `Err.HelpContext`, `Erl`, and
+execution stage; successful rows must retain zero/empty error metadata.
+VBE **Error Trapping** must already be set manually to **Break on Unhandled
+Errors**, not **Break on All Errors**. That setting is user-wide and the runner
+never changes it.
+
+A committed capture preserves the source manifest binding, environment and
+loaded Excel/VBE/FM20 identities, command/progress/stdout/stderr logs,
+the capture-local byte-pinned generator/replayer and window-tool snapshots,
+deterministic generated sources, normalized manifest, workbook,
+worksheet JSON, screenshot and window metadata, real Office `.frm`/`.frx`
+exports, README, and full-tree checksums.
+
+The project-authored manifest independently pins the strict FRM/CFB validator
+source roles and digests; replay checks those pins before importing their
+capture-local snapshots. Replay validates strict JSON and paths, tool snapshots,
+OOXML/VBA package structure plus bounded worksheet dimensions and exact JSON
+table content, strict direct/one-to-one OPC relationships/namespaces/content
+types, MS-OVBA `PROJECTCODEPAGE`, complete
+PROJECT/module-table/VBA-storage closure, empty workbook/worksheet code,
+known-VBIDE-normalized form/runtime module equality, PNG chunks/CRC/compressed
+stream, exact generated source bytes, exported UserForm
+identity/properties/code body, strict FRM/FRX inventories,
+row/event/timeline/type expectations, and checksum coverage without requiring
+Office or the captured external binaries to remain installed.
+
+Project-authored expectations and live observation artifacts are separate truth
+surfaces. No OxForms output path is permitted, and a successful MSForms row does
+not claim OxForms behavior. V1 is intentionally scalar and control-targeted;
+object returns, putref, arrays, collection targets, Pages/Tabs, and HTML host
+creation require a new backward-compatible schema branch. Later scalar batches
+add manifests and rows declaratively rather than copying the engine, and v1
+generation/replay semantics remain immutable.
+
+The representative gate inventories but does not decode the persisted
+MS-OFORMS control graph. Exhaustive corpus bead `oxforms-jbjp.67` owns semantic
+manifest binding for that graph across every later live fixture. It also owns
+rejection or execution-semantic binding of optional compiled-cache/p-code
+streams; `.5` does not claim source-preserving VBA-stomp resistance.
+
+## 10. Closure boundary and successors
 
 `oxforms-jbjp.4` closes when this raw-contract/current-overlay inventory is
 complete, reproducible, internally cross-linked, adversarially tested, and
 truthfully red. It does not close W010 parity.
 
-- `oxforms-jbjp.5` owns generalized live property/method oracle capture.
+- `oxforms-jbjp.5` established the generalized live
+  property/method/error/event oracle and its representative canonical capture.
 - `oxforms-jbjp.6` owns FM20 `Control`/`IControl` container-site composition,
   per-concrete-control extended-member projections, generic
   Enter/Exit/BeforeUpdate/AfterUpdate applicability, and the final
@@ -240,7 +361,7 @@ The current ledger must therefore remain red until those row-level obligations
 are genuinely implemented and verified. A precise blocker or nonclaim is
 valuable evidence, but it is never completed parity.
 
-## 10. Verification
+## 11. Verification
 
 The focused checks are:
 
@@ -249,6 +370,9 @@ python -B -m unittest discover -s tools/msforms-parity/tests -p 'test_*.py'
 python -B tools/msforms-parity/export_parity_ledger.py --check
 python -B tools/msforms-parity/validate_parity_ledger.py
 pwsh -File tools/evidence/Test-W010MSFormsParityLedger.ps1
+python -B -m unittest discover -s tools/office-oracle/tests -p 'test_*.py'
+python -B tools/office-oracle/msforms_member_oracle.py validate-manifest --manifest fixtures/office-oracle/excel-msforms/member-probes/representative-v1.json
+pwsh -File tools/evidence/Test-W010MSFormsMemberOracle.ps1
 ```
 
 Repository closure additionally requires Rust format, clippy with warnings

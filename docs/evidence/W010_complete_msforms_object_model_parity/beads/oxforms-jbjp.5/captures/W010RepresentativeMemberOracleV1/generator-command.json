@@ -1,0 +1,109 @@
+{
+  "schema": "oxforms.office_oracle.command_log.v1",
+  "commands": [
+    {
+      "purpose": "python_version",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "--version"
+      ],
+      "exit_code": 0
+    },
+    {
+      "purpose": "verify_current_ledger_snapshot",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "C:\\Work\\DnaCalc\\OxForms\\target\\office-oracle-preflight\\generator-8374a382868b4321ac27e3122f53d8d3\\tool-snapshots\\msforms_member_oracle.py",
+        "--repo-root",
+        "C:\\Work\\DnaCalc\\OxForms",
+        "--expected-self-sha256",
+        "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+        "verify-current-ledger-snapshot",
+        "--manifest",
+        "C:\\Work\\DnaCalc\\OxForms\\target\\office-oracle-preflight\\generator-8374a382868b4321ac27e3122f53d8d3\\input-snapshots\\probe-manifest.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "purpose": "validate_manifest",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "C:\\Work\\DnaCalc\\OxForms\\target\\office-oracle-preflight\\generator-8374a382868b4321ac27e3122f53d8d3\\tool-snapshots\\msforms_member_oracle.py",
+        "--repo-root",
+        "C:\\Work\\DnaCalc\\OxForms",
+        "--expected-self-sha256",
+        "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+        "validate-manifest",
+        "--manifest",
+        "C:\\Work\\DnaCalc\\OxForms\\target\\office-oracle-preflight\\generator-8374a382868b4321ac27e3122f53d8d3\\input-snapshots\\probe-manifest.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "purpose": "validate_manifest_from_snapshot",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\msforms_member_oracle.py",
+        "--repo-root",
+        "C:\\Work\\DnaCalc\\OxForms",
+        "--expected-self-sha256",
+        "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+        "validate-manifest",
+        "--manifest",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\input-snapshots\\probe-manifest.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "purpose": "verify_current_ledger_from_snapshot",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\msforms_member_oracle.py",
+        "--repo-root",
+        "C:\\Work\\DnaCalc\\OxForms",
+        "--expected-self-sha256",
+        "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+        "verify-current-ledger-snapshot",
+        "--manifest",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\input-snapshots\\probe-manifest.json"
+      ],
+      "exit_code": 0
+    },
+    {
+      "purpose": "generate_sources_from_snapshot",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\msforms_member_oracle.py",
+        "--repo-root",
+        "C:\\Work\\DnaCalc\\OxForms",
+        "--expected-self-sha256",
+        "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+        "generate",
+        "--manifest",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\input-snapshots\\probe-manifest.json",
+        "--output-dir",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8"
+      ],
+      "exit_code": 0
+    },
+    {
+      "purpose": "validate_preopen_workbook_from_snapshots",
+      "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+      "arguments": [
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\msforms_member_oracle.py",
+        "--repo-root",
+        "C:\\Work\\DnaCalc\\OxForms",
+        "--expected-self-sha256",
+        "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+        "validate-preopen-workbook",
+        "--manifest",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\input-snapshots\\probe-manifest.json",
+        "--workbook",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\member-oracle.xlsm",
+        "--cfb-validator",
+        "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\cfb_inventory.py"
+      ],
+      "exit_code": 0
+    }
+  ]
+}

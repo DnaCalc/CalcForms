@@ -1,0 +1,67 @@
+{
+  "schema": "oxforms.office_oracle.capture_command.v1",
+  "runner": {
+    "process_path": "C:\\Users\\GovertvanDrimmelen\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "environment_command_line": "C:\\Users\\GovertvanDrimmelen\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.dll -NoProfile -File tools/office-oracle/Capture-MSFormsMemberOracle.ps1",
+    "script": "tools/office-oracle/Capture-MSFormsMemberOracle.ps1",
+    "bound_parameters": {
+      "manifest_path": "fixtures/office-oracle/excel-msforms/member-probes/representative-v1.json",
+      "out_dir": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\W010RepresentativeMemberOracleV1",
+      "capture_id": "W010RepresentativeMemberOracleV1",
+      "bead": "oxforms-jbjp.5",
+      "dry_run": false,
+      "generate_only": false,
+      "window_timeout_seconds": 30,
+      "macro_timeout_seconds": 60,
+      "build_phase_timeout_seconds": 180,
+      "live_phase_timeout_seconds": 240,
+      "shutdown_timeout_seconds": 15,
+      "python_command_timeout_seconds": 120,
+      "window_capture_process_timeout_seconds": 45
+    }
+  },
+  "window_capture": {
+    "file": "C:\\Users\\GovertvanDrimmelen\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.exe",
+    "arguments": [
+      "-NoProfile",
+      "-NonInteractive",
+      "-File",
+      "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\Capture-Window.ps1",
+      "-RepoRoot",
+      "C:\\Work\\DnaCalc\\OxForms",
+      "-ExpectedScriptSha256",
+      "19cf48d420d0b7e51796a8ff36c3ee6399d48f8c54646fa49c450d5f4c120ec5",
+      "-TitleContains",
+      "OxForms W010 Member Oracle",
+      "-ClassName",
+      "ThunderDFrame",
+      "-ProcessName",
+      "EXCEL",
+      "-ProcessId",
+      "48952",
+      "-OutDir",
+      "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8",
+      "-CaptureScreenshot",
+      "-ScreenshotMaxAttempts",
+      "6",
+      "-ScreenshotRetryDelayMilliseconds",
+      "300"
+    ],
+    "exit_code": 0
+  },
+  "staged_validator": {
+    "file": "C:\\Users\\GovertvanDrimmelen\\AppData\\Local\\Microsoft\\WindowsApps\\python.exe",
+    "arguments": [
+      "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\tool-snapshots\\msforms_member_oracle.py",
+      "--repo-root",
+      "C:\\Work\\DnaCalc\\OxForms",
+      "--expected-self-sha256",
+      "8f948591a45b379e1b443426e14fb0aff12669e6c89c782edfc0a9d5aa284c4a",
+      "validate-capture",
+      "--manifest",
+      "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8\\input-snapshots\\probe-manifest.json",
+      "--capture-dir",
+      "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.5\\captures\\.W010RepresentativeMemberOracleV1.capture-staging-bffb361c76b449ccb455f737724423e8"
+    ]
+  }
+}

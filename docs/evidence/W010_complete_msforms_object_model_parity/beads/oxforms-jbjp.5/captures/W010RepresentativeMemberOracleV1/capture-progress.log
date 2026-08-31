@@ -1,0 +1,17 @@
+2026-08-24T00:15:48.0855042Z Started mode=capture; manifest=W010RepresentativeMemberOracleV1.
+2026-08-24T00:15:52.2818936Z Validated the source manifest and generated deterministic VBA/normalized manifest.
+2026-08-24T00:15:52.2971981Z Phase 1: starting a directly created, suspended-then-Job-contained /safe Excel process for hidden VBIDE construction/export/save.
+2026-08-24T00:16:36.5676811Z Phase 1: safe-mode hidden build/export/save completed and the contained private Excel process was closed.
+2026-08-24T00:16:37.2493683Z Phase 1.5: strict pre-open XLSM/source validation passed for SHA-256 50a22d9f88ebcb1d6bd7cf9396833b156373ea96a41513931221e6dcb52560fd.
+2026-08-24T00:16:37.2504443Z Phase 2: starting a directly created, suspended-then-Job-contained /safe visible Excel process with AutomationSecurity=1.
+2026-08-24T00:16:47.9758419Z Phase 2: private safe-mode Excel process 48952 started, natively bound, and isolation-checked.
+2026-08-24T00:16:51.4237575Z Phase 2: workbook opened; invoking RunMemberOracle with a 60-second exact-process watchdog.
+2026-08-24T00:16:56.2532769Z Phase 2: RunMemberOracle returned; querying the harness error snapshot.
+2026-08-24T00:16:57.4519419Z Phase 2: generated VBA completed without a harness-level error.
+2026-08-24T00:16:57.5506134Z Phase 2: the exact private-Excel UserForm window is visible.
+2026-08-24T00:17:01.2662781Z Phase 2: coordinate screenshot and exact before/after window-state metadata bracket were captured and cross-checked; visual review remains required.
+2026-08-24T00:17:01.4646064Z Phase 2: loaded VBE and FM20 module identities were recorded.
+2026-08-24T00:17:06.0936855Z Phase 2: stopped event recording, closed the form, and exported the final 11 probe rows and 2 event rows.
+2026-08-24T00:17:11.4683532Z Phase 2: UserForm closed and the evidence workbook was saved and closed.
+2026-08-24T00:17:14.6732076Z Phase 2: macro run, owned-window screenshot, worksheet export, CloseMemberOracle, save, close, and private Excel quit completed.
+2026-08-24T00:17:14.7233808Z All capture artifacts are frozen; staged validator replay is the promotion gate.
