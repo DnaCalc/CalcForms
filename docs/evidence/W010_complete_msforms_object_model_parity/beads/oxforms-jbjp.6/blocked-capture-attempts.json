@@ -1,0 +1,30 @@
+{
+  "schema": "oxforms.facade_capture_blockers.v1",
+  "observed_date_utc": "2026-09-21",
+  "attempts": [
+    {
+      "attempt": ".designer-band-20260921.capture-staging-51ac5fbd744e441eb2031afea7c7ddf9",
+      "failure": "Safe-mode Excel exposed an owned visible startup/modal window or disabled Excel root; refusing automation: HWND=413260 class='MSCTFIME UI' visible=False enabled=False title='MSCTFIME UI'; HWND=2108038 class='ComboLBox' visible=False enabled=True title=''; HWND=2753280 class='HardwareMonitorWindowClass' visible=False enabled=True title='HardwareMonitorWindow'; HWND=3034814 class='NUIDialog' visible=True enabled=True title='Microsoft Excel'; HWND=3155066 class='ComboLBox' visible=False enabled=True title=''; HWND=4203966 class='XLMAIN' visible=True enabled=False title='Microsoft Excel'; HWND=5640830 class='XLMAIN' visible=False enabled=True title=''; HWND=10556310 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=10880862 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=11208090 class='OfficePowerManagerWindow' visible=False enabled=False title='OfficePowerManagerWindow'; HWND=12324218 class='IME' visible=False enabled=False title='Default IME'; HWND=12585906 class='ARC Event Window 00' visible=False enabled=True title=''.",
+      "result": "no_live_probe_results"
+    },
+    {
+      "attempt": ".designer-band-20260921.capture-staging-6764f3e90550498b81b80ffd9ed5e31b",
+      "failure": "Safe-mode oracle capture requires zero pre-existing Excel processes; found 1.",
+      "result": "no_live_probe_results"
+    },
+    {
+      "attempt": ".designer-band-20260921.capture-staging-9e2d2be3eefd4eccaeee45830446021c",
+      "failure": "Safe-mode Excel exposed an owned visible startup/modal window or disabled Excel root; refusing automation: HWND=666232 class='ComboLBox' visible=False enabled=True title=''; HWND=1517528 class='HardwareMonitorWindowClass' visible=False enabled=True title='HardwareMonitorWindow'; HWND=1920678 class='MsoSplash' visible=True enabled=True title='Opening - Microsoft Excel'; HWND=2697788 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=4072246 class='MSCTFIME UI' visible=False enabled=False title='MSCTFIME UI'; HWND=4138430 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=4411156 class='IME' visible=False enabled=False title='Default IME'; HWND=5904630 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=6429320 class='ComboLBox' visible=False enabled=True title=''; HWND=7819944 class='OfficePowerManagerWindow' visible=False enabled=False title='OfficePowerManagerWindow'; HWND=11607592 class='XLMAIN' visible=False enabled=False title='Microsoft Excel'; HWND=12258682 class='XLMAIN' visible=False enabled=True title=''; HWND=14031478 class='NUIDialog' visible=False enabled=True title='Microsoft Excel'.",
+      "result": "no_live_probe_results"
+    },
+    {
+      "attempt": ".designer-band-20260921.capture-staging-feab855da1be4c15be2d66fdae8dde0a",
+      "failure": "Safe-mode Excel exposed an owned visible startup/modal window or disabled Excel root; refusing automation: HWND=666174 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=729754 class='MSCTFIME UI' visible=False enabled=False title='MSCTFIME UI'; HWND=1135224 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=1188492 class='ComboLBox' visible=False enabled=True title=''; HWND=1516818 class='NUIDialog' visible=True enabled=True title='Microsoft Excel'; HWND=2501162 class='ComboLBox' visible=False enabled=True title=''; HWND=2884268 class='IME' visible=False enabled=False title='Default IME'; HWND=2953444 class='HardwareMonitorWindowClass' visible=False enabled=True title='HardwareMonitorWindow'; HWND=3231422 class='XLMAIN' visible=True enabled=False title='Microsoft Excel'; HWND=3742286 class='XLMAIN' visible=False enabled=True title=''; HWND=12262952 class='ARC Event Window 00' visible=False enabled=True title=''; HWND=26090330 class='OfficePowerManagerWindow' visible=False enabled=False title='OfficePowerManagerWindow'.",
+      "result": "no_live_probe_results"
+    }
+  ],
+  "diagnostic": "captures/startup-diagnostic/window-capture-manifest.json",
+  "screenshot_status": "failed_to_foreground_exact_owned_dialog",
+  "uia_text_status": "RootElement unavailable; no dialog text obtained",
+  "claim": "No hidden property callability decision is supported by these failed startup attempts."
+}

@@ -219,8 +219,22 @@ the final UserForm/host overlay expansion.
 `.5` closed on 2026-09-21 after fresh replay, visual review, and the complete
 repository verification passed; the
 [verification record](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/verification-2026-09-21.md)
-was committed as `5b70696` before closure. Execution stops at the requested
-stock-take, with `.6` open and untouched.
+was committed as `5b70696` before closure.
+
+`.6` now establishes the [facade contract](../specs/MSFORMS_FACADE_CONTRACT.md)
+and its generated companion: 183 primary type shapes, 3,632 primary member
+shapes, 2,652 owner-specific site rows and 204 generic host-event rows. It
+preserves all 19 named hidden declarations and generates 38 independent
+accessor probes. It remains blocked: live safe-mode Excel stops at a startup
+dialog, and executable separate-project probes reproduce failed default-member
+coercion and leaked Friend visibility on the pinned OxVba baseline.
+`oxforms-o0fp` owns the [binding handover](../handovers/HANDOVER_OxVba_w010_facade_binding.md).
+The [evidence record](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/README.md)
+distinguishes passing infrastructure from unmet compatibility requirements.
+
+The user clarified the eventual target to include Microsoft-supplied controls
+beyond MSForms and exclude third-party controls. `oxforms-tst7` tracks the
+additional library inventory and plan; W010 remains the MSForms workset.
 
 ## Compatibility Perimeter
 

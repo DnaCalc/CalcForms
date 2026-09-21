@@ -14,3 +14,4 @@ target/
 
 # Capture staging leftovers (canonical capture is the non-dot directory)
 **/.W010*.capture-staging-*/
+**/.designer-band-*.capture-staging-*/

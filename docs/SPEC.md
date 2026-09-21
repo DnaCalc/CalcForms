@@ -67,6 +67,11 @@ planning truth.
     preserved Office exports. The representative `.5` canonical capture is
     replay-valid and supplies the first committed rows under that contract;
     exhaustive full-library behavior remains later W010 work.
+12. [`specs/MSFORMS_FACADE_CONTRACT.md`](specs/MSFORMS_FACADE_CONTRACT.md) -
+    unchanged-project target, MSForms identity and exact type/member mapping,
+    per-control site and host-event obligations, hidden accessor probes, ProgIDs,
+    and one non-public runtime bridge. `.6` acceptance remains blocked by the
+    recorded OxVba and live Office observations.
 
 ## Source References
 
@@ -78,9 +83,6 @@ planning truth.
 Completed splits are listed above. As work grows, split the top-level document
 into additional focused specs and keep them reachable from this index:
 
-- facade/internal boundary and complete host-composed public projection (the
-  generated row-level ledger and live-oracle contract are now specified
-  above);
 - production `.frm` / `.frx` parser, serializer, resource codec, and round-trip
   behavior (the independent export-fact and MS-OFORMS contracts are now
   specified above, while implementation remains later W010 work);

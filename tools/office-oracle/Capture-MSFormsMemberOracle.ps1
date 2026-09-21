@@ -6,6 +6,9 @@ param(
     [string]$CaptureId,
     [switch]$DryRun,
     [switch]$GenerateOnly,
+    # Shared capture functions for later versioned oracle contracts. Loading
+    # definitions performs no generation, file mutation, or Office automation.
+    [switch]$LoadFunctionsOnly,
     [ValidateRange(5, 120)]
     [int]$WindowTimeoutSeconds = 30,
     [ValidateRange(10, 300)]
@@ -3454,6 +3457,8 @@ function Write-Checksums {
     }
     Write-TextLf -Path $checksumPath -Text ($lines -join "`n") -FinalNewline
 }
+
+if ($LoadFunctionsOnly) { return }
 
 if ($DryRun -and $GenerateOnly) { throw '-DryRun and -GenerateOnly are mutually exclusive.' }
 

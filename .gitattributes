@@ -14,6 +14,10 @@
 /tools/msforms-parity/*.py text eol=lf
 /tools/msforms-parity/*.json text eol=lf
 /tools/msforms-parity/tests/*.py text eol=lf
+/tools/msforms-parity/facade_tests/*.py text eol=lf
+/tools/evidence/Test-W010MSFormsFacadeContract.ps1 text eol=lf
+/tools/office-oracle/Capture-MSFormsFacadeProbe.ps1 text eol=lf
+/tools/office-oracle/msforms_facade_probe.py text eol=lf
 /tools/evidence/Test-W010MSFormsParityLedger.ps1 text eol=lf
 /tools/evidence/Test-W010MSFormsMemberOracle.ps1 text eol=lf
 /tools/office-oracle/msforms_member_oracle.py text eol=lf
@@ -49,3 +53,10 @@
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.4/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.4/README.md text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.4/checksums.sha256 text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/*.md text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/checksums.sha256 text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/*.vba text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/*.frm -text whitespace=-trailing-space
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/*.frx binary
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/**/*.xlsm binary

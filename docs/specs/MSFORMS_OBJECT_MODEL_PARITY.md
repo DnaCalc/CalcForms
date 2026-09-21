@@ -8,6 +8,12 @@ open
 
 Schema: `oxforms.msforms_parity_ledger.v1`
 
+The next composition layer is specified by
+[`MSFORMS_FACADE_CONTRACT.md`](MSFORMS_FACADE_CONTRACT.md). Its generated `.6`
+companion pins this historical raw ledger and adds exact owner/member shapes,
+Control-site projections and generic host-event applicability without changing
+raw declarations or granting implementation credit. Unresolved rows remain red.
+
 This specification defines the row-level truth surface used by W010. The
 ledger is an inventory and conformance contract, not a claim that OxForms is
 already compatible. It keeps each authoritative declaration, public

@@ -1545,7 +1545,8 @@ def _safe_proc_suffix(identifier: str) -> str:
 
 
 def _generate_probe_proc(
-    step: dict[str, Any], form_name: str, controls: dict[str, dict[str, Any]]
+    step: dict[str, Any], form_name: str, controls: dict[str, dict[str, Any]],
+    target_expressions: dict[str, str] | None = None,
 ) -> str:
     proc = _safe_proc_suffix(step["id"])
     args = step.get("args", [])
@@ -1555,7 +1556,11 @@ def _generate_probe_proc(
     persisted_member_name = "value" if member_name == "Value" else member_name
     member = _vba_string(member_name)
     target_id = _vba_string(step["target"])
-    target_expression = f"{form_name}.{controls[step['target']]['name']}"
+    target_expression = (
+        target_expressions[step["target"]]
+        if target_expressions is not None and step["target"] in target_expressions
+        else f"{form_name}.{controls[step['target']]['name']}"
+    )
     ledger_id = _vba_string(step["ledger_row_id"])
     operation = step["operation"]
 
@@ -1726,7 +1731,9 @@ def generate_form_code(manifest: dict[str, Any]) -> str:
     return "\n\n".join(blocks) + "\n"
 
 
-def generate_module_code(manifest: dict[str, Any]) -> str:
+def generate_module_code(
+    manifest: dict[str, Any], *, target_expressions: dict[str, str] | None = None
+) -> str:
     form_name = manifest["form"]["name"]
     result_sheet = manifest["capture"]["result_sheet"]
     event_sheet = manifest["capture"]["event_sheet"]
@@ -1970,7 +1977,7 @@ Public Function OracleWorksheetSafeErrorDescription(ByVal value As String) As St
 End Function
 '''
     probe_blocks = [
-        _generate_probe_proc(step, form_name, controls)
+        _generate_probe_proc(step, form_name, controls, target_expressions)
         for step in manifest["steps"]
         if step["kind"] == "probe"
     ]

@@ -17,6 +17,14 @@ The central bet is deliberate: build the high-level forms runtime in VBA first,
 measure it, improve OxVba because of it, and migrate only proven hot paths behind
 stable contracts.
 
+The eventual compatibility target is unchanged existing VBA projects using
+forms and Microsoft-supplied controls, without depending on the original
+control binaries. This includes Microsoft controls beyond MSForms, such as
+RefEdit and the Common Controls libraries; third-party controls are excluded.
+OxVba, OxDoc and the host must supply their respective language, import and
+application services. W010 establishes MSForms parity; additional Microsoft
+libraries require their own inventories and implementation work.
+
 ## 2. Place In The DNA Calc Program
 OxForms is a sibling repository under the DNA Calc umbrella.
 
@@ -110,6 +118,7 @@ In scope later:
 
 - Forms designer.
 - More host-specific extension controls.
+- Microsoft-supplied control libraries beyond FM20 (`oxforms-tst7` inventory).
 - Broader live Office differential harnesses.
 
 Out of scope:

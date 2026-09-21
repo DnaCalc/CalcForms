@@ -1,0 +1,66 @@
+{
+  "schema": "oxforms.office_oracle.window_capture.v1",
+  "tool": "tools/office-oracle/Capture-Window.ps1",
+  "mode": "capture",
+  "timestamp_utc": "2026-09-21T21:57:51.5168814Z",
+  "command": "C:\\Users\\GovertvanDrimmelen\\.cache\\codex-runtimes\\codex-primary-runtime\\dependencies\\native\\powershell\\pwsh.dll -NoProfile -File tools/office-oracle/Capture-Window.ps1 -RepoRoot C:\\Work\\DnaCalc\\OxForms -TitleContains \"Microsoft Excel\" -ClassName NUIDialog -ProcessName EXCEL -ProcessId 69476 -OutDir docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.6/captures/startup-diagnostic -CaptureScreenshot",
+  "host": {
+    "os": "Microsoft Windows NT 10.0.26200.0",
+    "is_windows": true,
+    "powershell": "7.6.5"
+  },
+  "query": {
+    "process_id": 69476,
+    "process_name": "EXCEL",
+    "title_contains": "Microsoft Excel",
+    "process_contains": "",
+    "class_name": "NUIDialog"
+  },
+  "status": "failed",
+  "diagnostics": [
+    {
+      "code": "screenshot_failure",
+      "severity": "error",
+      "message": "Window screenshot capture failed after 4 attempt(s): Selected HWND '0x334EBE' did not become the foreground window after 4 attempt(s)."
+    }
+  ],
+  "visible_top_level_window_count": 33,
+  "match_count": 1,
+  "candidates": [
+    {
+      "handle": "0x334EBE",
+      "title": "Microsoft Excel",
+      "class_name": "NUIDialog",
+      "process_id": 69476,
+      "process_name": "EXCEL",
+      "bounds": {
+        "left": 773,
+        "top": 415,
+        "right": 1148,
+        "bottom": 617,
+        "width": 375,
+        "height": 202
+      }
+    }
+  ],
+  "selected_window": {
+    "handle": "0x334EBE",
+    "title": "Microsoft Excel",
+    "class_name": "NUIDialog",
+    "process_id": 69476,
+    "process_name": "EXCEL",
+    "process_path": "C:\\Program Files\\Microsoft Office\\Root\\Office16\\EXCEL.EXE",
+    "process_start_time_utc": "2026-09-21T21:57:47.1402083Z",
+    "bounds": {
+      "left": 773,
+      "top": 415,
+      "right": 1148,
+      "bottom": 617,
+      "width": 375,
+      "height": 202
+    },
+    "dpi": 96
+  },
+  "screenshot": null,
+  "manifest_path": "C:\\Work\\DnaCalc\\OxForms\\docs\\evidence\\W010_complete_msforms_object_model_parity\\beads\\oxforms-jbjp.6\\captures\\startup-diagnostic\\window-capture-manifest.json"
+}
