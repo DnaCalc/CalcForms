@@ -9,6 +9,10 @@ manifest-driven MSForms member oracle, immutable `.4` ledger slice, and
 Office-independent replay contract. Its five-family, eleven-result/two-event
 representative slice is observed; it is not exhaustive full-library parity,
 which remains in the later W010 bead graph.
+`.5` closed on 2026-09-21 after its
+[closure verification](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/verification-2026-09-21.md)
+was committed as `5b70696`. Execution is at the requested stock-take; `.6`
+remains open and untouched.
 
 Status values: `OPEN`, `IN PROGRESS`, `CLOSED`, `BLOCKED`.
 

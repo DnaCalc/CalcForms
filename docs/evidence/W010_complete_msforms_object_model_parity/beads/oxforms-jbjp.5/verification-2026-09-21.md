@@ -66,5 +66,13 @@ acceptance criteria are satisfied.
 
 ## Handoff
 
+Verification was committed as `5b70696` before `br close oxforms-jbjp.5`.
+The bead is now closed; its reason records the decisive replay and repository
+checks. The canonical capture and production implementation remain unchanged.
+`br sync --flush-only` is clean, the graph remains acyclic, and `br ready`
+now lists `.6`. Comparing the exported bead records confirms that only `.5`
+changed. The final closure-document scan checked 29 local links without a
+broken path.
+
 The handoff stops at the requested stock-take. `.6` remains open and untouched;
 starting it requires the user's explicit resumption after that checkpoint.

@@ -216,6 +216,12 @@ composition for every verified
 concrete family, generic Enter/Exit/BeforeUpdate/AfterUpdate applicability, and
 the final UserForm/host overlay expansion.
 
+`.5` closed on 2026-09-21 after fresh replay, visual review, and the complete
+repository verification passed; the
+[verification record](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.5/verification-2026-09-21.md)
+was committed as `5b70696` before closure. Execution stops at the requested
+stock-take, with `.6` open and untouched.
+
 ## Compatibility Perimeter
 
 The primary runtime set is `UserForm`, the intrinsic global `UserForms`

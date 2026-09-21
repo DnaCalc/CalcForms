@@ -169,7 +169,13 @@ extended-control composition for each concrete family, generic host-event
 applicability, and the final UserForm/host overlay. Their unresolved work stays
 red in the ledger.
 
-## Manifest-Driven Live Member Oracle (Canonical Capture Passed)
+## Manifest-Driven Live Member Oracle (Closed)
+
+`oxforms-jbjp.5` closed on 2026-09-21 after the
+[closure verification](beads/oxforms-jbjp.5/verification-2026-09-21.md), committed
+as `5b70696`, confirmed canonical replay, visual review, 181 passing workspace
+tests, and all 41 repository evidence checks. `.6` remains untouched at the
+requested stock-take checkpoint.
 
 `oxforms-jbjp.5` adds one reusable observation contract rather than a copied
 harness per control family. Its project-authored representative manifest and

@@ -1,13 +1,14 @@
 # oxforms-jbjp.5 — Manifest-Driven MSForms Member Oracle
 
-Status: `COMPLETE` — the reusable manifest/generation/replay contract produced
+Status: `CLOSED` — the reusable manifest/generation/replay contract produced
 the canonical live Excel/MSForms representative capture, that capture passes
 the Office-independent replay gate, and the complete bead survived its required
 fresh-eyes review and repository verification floor before the closing commit.
 
-The [2026-09-21 verification](verification-2026-09-21.md) records fresh replay,
-visual review, and the full repository checks used to reconcile the completed
-implementation with its still-in-progress bead status.
+The [2026-09-21 verification](verification-2026-09-21.md), committed as
+`5b70696`, records fresh replay, visual review, and the full repository checks.
+The bead was then closed through `br`; `.6` remains untouched at the requested
+stock-take checkpoint.
 
 ## Outcome
 
