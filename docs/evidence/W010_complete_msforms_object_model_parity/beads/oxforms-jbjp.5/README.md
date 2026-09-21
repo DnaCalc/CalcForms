@@ -5,6 +5,10 @@ the canonical live Excel/MSForms representative capture, that capture passes
 the Office-independent replay gate, and the complete bead survived its required
 fresh-eyes review and repository verification floor before the closing commit.
 
+The [2026-09-21 verification](verification-2026-09-21.md) records fresh replay,
+visual review, and the full repository checks used to reconcile the completed
+implementation with its still-in-progress bead status.
+
 ## Outcome
 
 This bead generalizes the Office oracle into one durable, declarative engine
