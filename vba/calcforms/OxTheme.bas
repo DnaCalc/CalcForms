@@ -23,7 +23,7 @@ Public Function OxThemeFaceColor( _
 
     Select Case Kind
         Case oxControlLabel
-            OxThemeFaceColor = &H2070C0
+            OxThemeFaceColor = &HF0F0F0
         Case oxControlTextBox
             OxThemeFaceColor = &HFFFFFF
         Case oxControlListBox, oxControlComboBox
@@ -46,7 +46,7 @@ Public Function OxThemeFaceColor( _
             If IsPressed Then
                 OxThemeFaceColor = &HE8E8E8
             Else
-                OxThemeFaceColor = &HF8F8F8
+                OxThemeFaceColor = &HFFFFFF
             End If
         Case Else
             OxThemeFaceColor = &HF0F0F0
@@ -62,11 +62,7 @@ Public Function OxThemeTextColor( _
         Exit Function
     End If
 
-    If Kind = oxControlLabel Then
-        OxThemeTextColor = &HFFFFFF
-    Else
-        OxThemeTextColor = &H0
-    End If
+    OxThemeTextColor = &H0
 End Function
 
 ' Flat single-line border color (fmBorderStyleSingle).
@@ -357,28 +353,33 @@ Public Sub OxThemePaintCheckBox( _
         ByVal Surface As OxSceneBuilder, _
         ByVal Checked As Boolean, _
         ByVal Focused As Boolean)
-    Const BoxSize As Single = 12
+    ' Owned Excel/Tahoma greeter at 100% and 150%: 13px and 19px glyphs,
+    ' caption starts 13.5pt after the control's left edge. The site remains the
+    ' full hit target; the keyboard focus adorner encloses only the caption.
+    Const BoxSize As Single = 9.5
 
     Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
         Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
 
     Dim BoxX As Single, BoxY As Single
-    BoxX = Core.PaintLeft
-    BoxY = Core.PaintTop + (Core.Height - BoxSize) / 2
+    BoxX = Core.PaintLeft + 0.5
+    BoxY = Core.PaintTop + (Core.Height - BoxSize) / 2 - 0.5
 
     Surface.FillRect BoxX, BoxY, BoxSize, BoxSize, OxThemeResolveFace(Core), 255
     Surface.DrawEdge BoxX, BoxY, BoxSize, BoxSize, _
         "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
     If Checked Then
-        Surface.FillRect BoxX + 3, BoxY + 3, BoxSize - 6, BoxSize - 6, _
-            OxThemeResolveText(Core), 255
+        Surface.Polygon OxThemeResolveText(Core), 255, _
+            BoxX + 2.25, BoxY + 3.75, BoxX + 3.75, BoxY + 5.25, _
+            BoxX + 6.75, BoxY + 2.25, BoxX + 6.75, BoxY + 3.75, _
+            BoxX + 3.75, BoxY + 6.75, BoxX + 2.25, BoxY + 5.25
     End If
 
     If Len(Core.DisplayText) > 0 Then
         Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-        Tx = Core.PaintLeft + BoxSize + 4
+        Tx = Core.PaintLeft + 13.5
         Ty = Core.PaintTop + 3
-        Tw = Core.Width - BoxSize - 8
+        Tw = Core.Width - 15
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
         If Th < 1 Then Th = 1
@@ -389,7 +390,13 @@ Public Sub OxThemePaintCheckBox( _
     End If
 
     If Focused And Core.Enabled Then
-        Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
+        Dim FocusW As Single, FocusH As Single
+        FocusW = Core.MeasuredWidth + 3
+        If FocusW > Core.Width - 12 Then FocusW = Core.Width - 12
+        If FocusW < 1 Then FocusW = 1
+        FocusH = Core.MeasuredHeight + 3
+        If FocusH > Core.Height Then FocusH = Core.Height
+        Surface.StrokeRect Core.PaintLeft + 12, Core.PaintTop + (Core.Height - FocusH) / 2, FocusW, FocusH, _
             OxThemeFocusAdornerColor(), 255, 1
     End If
 

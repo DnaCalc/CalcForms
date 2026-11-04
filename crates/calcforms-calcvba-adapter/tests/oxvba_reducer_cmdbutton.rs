@@ -968,12 +968,10 @@ fn checkbox_mouse_click_toggles_value_with_change_before_click() {
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
     let checkbox = scene.get(NodeId(1)).expect("CheckBox node");
-    assert_rect_close(
-        stroke_rect_with_color(&checkbox.prims, Color::rgba(0, 0, 0, 0xff))
-            .expect("focused CheckBox should emit a focus adorner stroke"),
-        RectF::new(20.0, 20.0, 120.0, 20.0),
-        "CheckBox focus adorner",
-    );
+    let focus = stroke_rect_with_color(&checkbox.prims, Color::rgba(0, 0, 0, 0xff))
+        .expect("focused CheckBox should emit a caption focus adorner");
+    assert!(focus.x >= 32.0 && focus.w < 100.0);
+    assert!(focus.y >= 20.0 && focus.y + focus.h <= 40.0);
 
     // Release inside toggles: value flips, then Change, then Click (value-before-Click).
     let up = dispatch(&mut session, &form, "mouseup", CHK_INSIDE.0, CHK_INSIDE.1);

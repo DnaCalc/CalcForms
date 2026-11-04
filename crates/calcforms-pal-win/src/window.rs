@@ -27,6 +27,7 @@ use winit::application::ApplicationHandler;
 use winit::dpi::LogicalSize;
 use winit::event::{ElementState, WindowEvent};
 use winit::event_loop::{ActiveEventLoop, ControlFlow, EventLoop};
+use winit::platform::modifier_supplement::KeyEventExtModifierSupplement;
 use winit::window::{Window, WindowId};
 
 use crate::input;
@@ -373,7 +374,11 @@ where
                 );
                 self.dispatch(event_loop, key_ev);
                 if pressed {
-                    if let Some(text) = &event.text {
+                    // KeyEvent.text deliberately ignores Ctrl: Ctrl+A would
+                    // select all and then replace the selection with "a".
+                    // Use the OS text (Ctrl+A = U+0001); the normalizer drops
+                    // control characters while retaining AltGr's printable text.
+                    if let Some(text) = event.text_with_all_modifiers() {
                         let char_id = self.next_id();
                         if let Some(char_ev) = input::character_input(char_id, text, self.modifiers)
                         {

@@ -8,6 +8,11 @@ September raw facts and captures remain historical; the existing parity generato
 now writes the current-source comparison under `oxforms-jbjp.73`, preserving
 the `.4` ledger bytes referenced by the `.5` oracle and `.6` facade contract.
 
+The real-workbook Windows/VM3 greeter slice `.74` is closed. Current work is
+measured layout/painting (`.76`, `.79`) before wider W010 parity; see
+[the comparison contract](specs/LAYOUT_COMPARISON.md) and
+[greeter paint measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.76/README.md).
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

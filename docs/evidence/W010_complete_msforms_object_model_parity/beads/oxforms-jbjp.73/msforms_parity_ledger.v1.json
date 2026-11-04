@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "07cee12b9c2f5fd450e9da80e0cad748ee1a21cadef2bf612d1e59a0c9a68005",
+  "source_surface_sha256": "88a2124fae35c41240ffea89d41e835c246258e474fd0cf3baa8318679840d44",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -1518970,8 +1518970,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 73,
-          "end_line": 73,
+          "start_line": 69,
+          "end_line": 69,
           "text": "Public Function OxThemeBorderColor() As Long"
         },
         "member_attributes": {},
@@ -1519087,8 +1519087,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 78,
-          "end_line": 78,
+          "start_line": 74,
+          "end_line": 74,
           "text": "Public Function OxThemeFormBackColor() As Long"
         },
         "member_attributes": {},
@@ -1519204,8 +1519204,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 83,
-          "end_line": 83,
+          "start_line": 79,
+          "end_line": 79,
           "text": "Public Function OxThemeEdgeLight() As Long"
         },
         "member_attributes": {},
@@ -1519321,8 +1519321,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 87,
-          "end_line": 87,
+          "start_line": 83,
+          "end_line": 83,
           "text": "Public Function OxThemeEdgeShadow() As Long"
         },
         "member_attributes": {},
@@ -1519450,8 +1519450,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 93,
-          "end_line": 93,
+          "start_line": 89,
+          "end_line": 89,
           "text": "Public Function OxThemeEdgeName(ByVal Effect As fmSpecialEffect) As String"
         },
         "member_attributes": {},
@@ -1519579,8 +1519579,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 115,
-          "end_line": 115,
+          "start_line": 111,
+          "end_line": 111,
           "text": "Public Function OxThemeResolveFace(ByVal Core As OxControlCore) As Long"
         },
         "member_attributes": {},
@@ -1519708,8 +1519708,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 123,
-          "end_line": 123,
+          "start_line": 119,
+          "end_line": 119,
           "text": "Public Function OxThemeResolveText(ByVal Core As OxControlCore) As Long"
         },
         "member_attributes": {},
@@ -1519837,8 +1519837,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 131,
-          "end_line": 131,
+          "start_line": 127,
+          "end_line": 127,
           "text": "Public Function OxThemeResolveBorder(ByVal Core As OxControlCore) As Long"
         },
         "member_attributes": {},
@@ -1519954,8 +1519954,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 139,
-          "end_line": 139,
+          "start_line": 135,
+          "end_line": 135,
           "text": "Public Function OxThemeSelectionBackColor() As Long"
         },
         "member_attributes": {},
@@ -1520071,8 +1520071,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 143,
-          "end_line": 143,
+          "start_line": 139,
+          "end_line": 139,
           "text": "Public Function OxThemeSelectionTextColor() As Long"
         },
         "member_attributes": {},
@@ -1520188,8 +1520188,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 147,
-          "end_line": 147,
+          "start_line": 143,
+          "end_line": 143,
           "text": "Public Function OxThemeCaretColor() As Long"
         },
         "member_attributes": {},
@@ -1520305,8 +1520305,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 151,
-          "end_line": 151,
+          "start_line": 147,
+          "end_line": 147,
           "text": "Public Function OxThemeFocusAdornerColor() As Long"
         },
         "member_attributes": {},
@@ -1520445,8 +1520445,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 155,
-          "end_line": 156,
+          "start_line": 151,
+          "end_line": 152,
           "text": "Public Sub OxThemePaintControlFrame( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder)"
         },
         "member_attributes": {},
@@ -1520607,8 +1520607,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 171,
-          "end_line": 175,
+          "start_line": 167,
+          "end_line": 171,
           "text": "Public Sub OxThemePaintToggleButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Focused As Boolean, ByVal Latched As Boolean)"
         },
         "member_attributes": {},
@@ -1520791,8 +1520791,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 217,
-          "end_line": 223,
+          "start_line": 213,
+          "end_line": 219,
           "text": "Public Sub OxThemePaintListBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, Optional ByVal SelectedRowsCsv As String = \"\", Optional ByVal RowCount As Long = 256)"
         },
         "member_attributes": {},
@@ -1520975,8 +1520975,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 272,
-          "end_line": 278,
+          "start_line": 268,
+          "end_line": 274,
           "text": "Public Sub OxThemePaintComboBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal DropDownOpen As Boolean, ByVal RowCount As Long)"
         },
         "member_attributes": {},
@@ -1521214,8 +1521214,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 345,
-          "end_line": 350,
+          "start_line": 341,
+          "end_line": 346,
           "text": "Public Sub OxThemePaintTextRun( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, ByVal RunId As String, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, ByVal UnderlineAccelerator As Boolean)"
         },
         "member_attributes": {},
@@ -1521376,8 +1521376,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 355,
-          "end_line": 359,
+          "start_line": 351,
+          "end_line": 355,
           "text": "Public Sub OxThemePaintCheckBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1521538,8 +1521538,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 399,
-          "end_line": 403,
+          "start_line": 406,
+          "end_line": 410,
           "text": "Public Sub OxThemePaintOptionButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1521862,8 +1521862,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlPaint.bas",
-          "start_line": 47,
-          "end_line": 51,
+          "start_line": 56,
+          "end_line": 60,
           "text": "Public Sub OxPaintToggleButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Focused As Boolean, ByVal Latched As Boolean)"
         },
         "member_attributes": {},
@@ -1522024,8 +1522024,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlPaint.bas",
-          "start_line": 55,
-          "end_line": 59,
+          "start_line": 64,
+          "end_line": 68,
           "text": "Public Sub OxPaintOptionButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Focused As Boolean, ByVal Checked As Boolean)"
         },
         "member_attributes": {},
@@ -1562864,5 +1562864,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "af24fd12a6f5317f63073fe381fb21e5311e8bebc3cd95f1fe261050e5aa2ee0"
+  "canonical_sha256": "95e0e9bd0480b40c0973eef8aff33aa711366ffaceb3ebdf15b940bf13c09d46"
 }

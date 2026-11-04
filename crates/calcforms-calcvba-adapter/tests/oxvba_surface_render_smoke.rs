@@ -294,15 +294,15 @@ fn expected_demo_framebuffer_hash() -> u64 {
     label.prims = vec![
         Prim::FillRect {
             rect: RectF::new(12.0, 44.0, 176.0, 18.0),
-            paint: Paint::Solid(Color::rgba(0x20, 0x70, 0xc0, 0xff)),
+            paint: Paint::Solid(Color::rgba(0xf0, 0xf0, 0xf0, 0xff)),
         },
         Prim::DrawText {
             run: text_run_id(&text_key(8), "Ready"),
-            rect: RectF::new(16.0, 47.0, 168.0, 12.0),
+            rect: RectF::new(12.0, 44.75, 176.0, 8.0),
             align: TextAlign::Left,
             wrap: false,
             clip: true,
-            paint: Paint::Solid(Color::rgba(0xff, 0xff, 0xff, 0xff)),
+            paint: Paint::Solid(Color::rgba(0, 0, 0, 0xff)),
             flags: TextFlags::default(),
         },
     ];

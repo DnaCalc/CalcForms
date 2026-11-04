@@ -29,6 +29,15 @@ Public Sub OxPaintStandardControl( _
         Tw = Core.Width - 8
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
+        If Core.Kind = oxControlLabel Then
+            ' Label captions start at the site edge and use a top-aligned line;
+            ' button-style padding and vertical centering move them visibly.
+            Tx = Core.PaintLeft
+            Ty = Core.PaintTop + 0.75
+            Tw = Core.Width
+            Th = Core.MeasuredHeight
+            If Th > Core.Height - 0.75 Then Th = Core.Height - 0.75
+        End If
         If Th < 1 Then Th = 1
         Dim RunId As String
         RunId = Core.RunId

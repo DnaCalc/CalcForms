@@ -17,6 +17,10 @@ planning truth.
 
 ## Focused Specs
 
+November layout work: [`LAYOUT_COMPARISON.md`](specs/LAYOUT_COMPARISON.md)
+defines client/window captures, two-scale pixel measurements, owned Excel reuse
+and the measured greeter paint subset.
+
 1. [`specs/INPUT_INTERACTION_MODEL.md`](specs/INPUT_INTERACTION_MODEL.md) -
    W005 input/event architecture surface for normalized `UiEvent`, interaction
    `FormState`, effects, ordering, trace/replay, and the fact/model homes for

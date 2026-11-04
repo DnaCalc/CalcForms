@@ -1,0 +1,28 @@
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_READY pid=44160 form=WorkbookGreeter controls=5 width=288 height=130.5
+CALCFORMS_WORKBOOK_TURN action=mouse_move:137,56 effects=mousemove:InputName focus= text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_move:232,48 effects=mousemove:Greet focus= text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_down:232,48 effects=enter:Greet|mousedown:Greet|press:Greet|repaint focus=Greet text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_up:232,48 effects=mouseup:Greet|click:Greet|release:Greet|repaint focus=Greet text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_move:44,44 effects=mousemove:InputName focus=Greet text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_down:44,44 effects=exit:Greet|enter:InputName|mousedown:InputName|repaint focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_up:44,44 effects=mouseup:InputName|repaint focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_down:0:2 effects=keydown:InputName focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_down:65:2 effects=keydown:InputName|repaint focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=char:a effects=char:InputName|repaint focus=InputName text=a
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada|Change:a;text=a;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_up:65:2 effects=keyup:InputName focus=InputName text=a
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada|Change:a;text=a;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_up:0:0 effects=keyup:InputName focus=InputName text=a
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada|Change:a;text=a;caption=Hello, Ada;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_down:0:4 effects=keydown:InputName focus=InputName text=a
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Click:Hello, Ada|Change:a;text=a;caption=Hello, Ada;loud=False"}

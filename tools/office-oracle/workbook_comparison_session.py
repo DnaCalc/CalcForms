@@ -126,7 +126,8 @@ def stop_owned(process, hwnd=None):
     if win32event.WaitForSingleObject(process, 0) == win32con.WAIT_OBJECT_0:
         process.Close()
         return 'exited'
-    if hwnd and win32gui.IsWindow(hwnd):
+    if (hwnd and win32gui.IsWindow(hwnd)
+            and win32process.GetWindowThreadProcessId(hwnd)[1] == win32process.GetProcessId(process)):
         win32gui.PostMessage(hwnd, win32con.WM_CLOSE, 0, 0)
     if win32event.WaitForSingleObject(process, 10000) != win32con.WAIT_OBJECT_0:
         win32api.TerminateProcess(process, 1)

@@ -12,6 +12,16 @@ See the [slice evidence](../evidence/W010_complete_msforms_object_model_parity/b
 Further implementation follows real-form controls/lifecycle/events first;
 exhaustive W010 parity and upstream requests `.75`/`oxforms-o0fp` remain open.
 
+Run 3: `.76` corrects measured greeter colors and checkbox/label geometry;
+`.79` builds the reusable two-scale layout/input comparison. The
+[paint evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.76/README.md)
+records equal client sizes and substantially lower pixel errors, with precise
+font, border, focus and input residuals. See the
+[comparison contract](../specs/LAYOUT_COMPARISON.md). Both beads remain in progress.
+Real Ctrl+A exposed unwanted shortcut text in the Windows host; `.80` corrects
+the platform text source and records [actual input and matching original-handler state](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.80/README.md).
+Stale focus painting discovered by those clicks is tracked separately in `.81`.
+
 Depends on:
 
 - `W008_native_event_breadth` (`CLOSED` — representative native event and

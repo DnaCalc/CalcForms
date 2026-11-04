@@ -1,0 +1,293 @@
+{
+  "schema": "calcforms.greeter_paint.v1",
+  "excel_pid": 49844,
+  "excel_launches": 1,
+  "input": "initial form state; original Initialize handlers; no compatibility credit for physical input from this manifest",
+  "capture": "PrintWindow client crop",
+  "observations": [
+    {
+      "stage": "before",
+      "zoom": 100,
+      "pixels": {
+        "comparable": true,
+        "pixels": 66816,
+        "different_pixels": 17906,
+        "different_fraction": 0.2679897030651341,
+        "mean_absolute_rgb": [
+          43.33439595306513,
+          28.325161637931036,
+          13.358372246168582
+        ],
+        "luminance_error_above_32": 14344
+      },
+      "excel_facts": "288;130.5;100\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "geometry": {
+        "excel": {
+          "hwnd": 24644946,
+          "pid": 49844,
+          "window_rect": [
+            754,
+            504,
+            1154,
+            717
+          ],
+          "client_size": [
+            384,
+            174
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "calcforms": {
+          "hwnd": 2163006,
+          "pid": 58560,
+          "window_rect": [
+            130,
+            130,
+            530,
+            343
+          ],
+          "client_size": [
+            384,
+            174
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        }
+      },
+      "images": [
+        {
+          "file": "before-100-excel.png",
+          "sha256": "e8d21f401cb2d248b01e40fefd5f41d93de8a74f4ee1e91f44fe69535eb75a83"
+        },
+        {
+          "file": "before-100-calcforms.png",
+          "sha256": "621d2009300d341228305a99673bc2080a9aabf2daaf72a540354a0f7151d86d"
+        }
+      ]
+    },
+    {
+      "stage": "before",
+      "zoom": 150,
+      "pixels": {
+        "comparable": true,
+        "pixels": 150336,
+        "different_pixels": 38983,
+        "different_fraction": 0.2593058216262239,
+        "mean_absolute_rgb": [
+          42.53419008088548,
+          27.622791613452534,
+          12.87280491698595
+        ],
+        "luminance_error_above_32": 31421
+      },
+      "excel_facts": "288;130.5;150\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "geometry": {
+        "excel": {
+          "hwnd": 24710482,
+          "pid": 49844,
+          "window_rect": [
+            658,
+            460,
+            1250,
+            760
+          ],
+          "client_size": [
+            576,
+            261
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "calcforms": {
+          "hwnd": 97589456,
+          "pid": 58784,
+          "window_rect": [
+            156,
+            156,
+            748,
+            456
+          ],
+          "client_size": [
+            576,
+            261
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        }
+      },
+      "images": [
+        {
+          "file": "before-150-excel.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        },
+        {
+          "file": "before-150-calcforms.png",
+          "sha256": "25c099f76742470605335e5647d883099ec3c76a7afe2a5838ff619e8de2bfca"
+        }
+      ]
+    },
+    {
+      "stage": "paint",
+      "zoom": 100,
+      "pixels": {
+        "comparable": true,
+        "pixels": 66816,
+        "different_pixels": 5258,
+        "different_fraction": 0.07869372605363985,
+        "mean_absolute_rgb": [
+          4.517061781609195,
+          4.569848539272031,
+          4.544016403256705
+        ],
+        "luminance_error_above_32": 1751
+      },
+      "excel_facts": "288;130.5;100\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "geometry": {
+        "excel": {
+          "hwnd": 24841554,
+          "pid": 49844,
+          "window_rect": [
+            754,
+            504,
+            1154,
+            717
+          ],
+          "client_size": [
+            384,
+            174
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "calcforms": {
+          "hwnd": 9111050,
+          "pid": 37340,
+          "window_rect": [
+            26,
+            26,
+            426,
+            239
+          ],
+          "client_size": [
+            384,
+            174
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        }
+      },
+      "images": [
+        {
+          "file": "paint-100-excel.png",
+          "sha256": "e8d21f401cb2d248b01e40fefd5f41d93de8a74f4ee1e91f44fe69535eb75a83"
+        },
+        {
+          "file": "paint-100-calcforms.png",
+          "sha256": "828aa72d799e06e16b9a72b2619611d2ea0dc0ee16ef0d1758452d5162c0cb37"
+        }
+      ]
+    },
+    {
+      "stage": "paint",
+      "zoom": 150,
+      "pixels": {
+        "comparable": true,
+        "pixels": 150336,
+        "different_pixels": 10590,
+        "different_fraction": 0.07044220945083014,
+        "mean_absolute_rgb": [
+          4.116013463175819,
+          4.13512398893146,
+          4.132124042145594
+        ],
+        "luminance_error_above_32": 3469
+      },
+      "excel_facts": "288;130.5;150\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "geometry": {
+        "excel": {
+          "hwnd": 24907090,
+          "pid": 49844,
+          "window_rect": [
+            658,
+            460,
+            1250,
+            760
+          ],
+          "client_size": [
+            576,
+            261
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "calcforms": {
+          "hwnd": 38998190,
+          "pid": 46156,
+          "window_rect": [
+            52,
+            52,
+            644,
+            352
+          ],
+          "client_size": [
+            576,
+            261
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        }
+      },
+      "images": [
+        {
+          "file": "paint-150-excel.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        },
+        {
+          "file": "paint-150-calcforms.png",
+          "sha256": "ed72cd7186c9a990398fd22a12c2e808c43453f80ad9e1080bbd96f4f4b21724"
+        }
+      ]
+    }
+  ]
+}

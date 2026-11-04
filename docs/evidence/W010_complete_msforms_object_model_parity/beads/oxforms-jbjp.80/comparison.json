@@ -1,0 +1,47 @@
+{
+  "schema": "calcforms.greeter_real_input.v1",
+  "excel_pid": 49844,
+  "excel_launches": 1,
+  "input": "Computer Use real pointer and Ctrl+A; type_text uses OS clipboard/Ctrl+V as shown by the runtime trace",
+  "observations": [
+    {
+      "probe": "real-greet-confirmed",
+      "excel_state": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+      "calcforms_state": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+      "equal": true,
+      "images": []
+    },
+    {
+      "probe": "real-shortcut-fixed",
+      "excel_state": "Initialize|Change:Lin;text=Lin;caption=(ready);loud=False",
+      "calcforms_state": "Initialize|Change:Lin;text=Lin;caption=(ready);loud=False",
+      "equal": true,
+      "images": [
+        {
+          "file": "real-shortcut-fixed-excel.png",
+          "sha256": "0dda3ec4e8529596b9422889c5a6b4c095566e3d5ac64e5e2e754f40aed63142"
+        },
+        {
+          "file": "real-shortcut-fixed-calcforms.png",
+          "sha256": "a7fd839504e58fa96e8b628f30d9ed84ba614db532c13f4b220730979d72c4ae"
+        }
+      ]
+    },
+    {
+      "probe": "real-final-uppercase",
+      "excel_state": "Initialize|Change:Lin|Click:Hello, Lin|Check:True|Click:HELLO, LIN;text=Lin;caption=HELLO, LIN;loud=True",
+      "calcforms_state": "Initialize|Change:Lin|Click:Hello, Lin|Check:True|Click:HELLO, LIN;text=Lin;caption=HELLO, LIN;loud=True",
+      "equal": true,
+      "images": [
+        {
+          "file": "real-final-uppercase-excel.png",
+          "sha256": "e44c30d7d1156f775aa4cb6f8e37de714b6eb1ddb7afd59d69875fee2a4c1dfa"
+        },
+        {
+          "file": "real-final-uppercase-calcforms.png",
+          "sha256": "aeae092043231bbacc826ad4d4de8ea44563e3ff7f2e739f064a00f6fe65d3c8"
+        }
+      ]
+    }
+  ]
+}

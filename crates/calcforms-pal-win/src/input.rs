@@ -361,6 +361,25 @@ mod tests {
     }
 
     #[test]
+    fn modified_text_preserves_altgr_but_does_not_insert_shortcut_controls() {
+        let ctrl = KeyboardModifiers {
+            control: true,
+            ..KeyboardModifiers::default()
+        };
+        // The Windows text-with-all-modifiers contract for Ctrl+A/C/V/Z.
+        for text in ["\u{1}", "\u{3}", "\u{16}", "\u{1a}"] {
+            assert!(character_input(UiEventId(8), text, ctrl).is_none());
+        }
+        let altgr = KeyboardModifiers { alt: true, ..ctrl };
+        let event = character_input(UiEventId(9), "€", altgr)
+            .expect("printable AltGr text remains text, even with Ctrl and Alt set");
+        match event.kind {
+            UiEventKind::CharacterInput(event) => assert_eq!(event.text, "€"),
+            other => panic!("expected CharacterInput, got {other:?}"),
+        }
+    }
+
+    #[test]
     fn form_logical_is_client_divided_by_device_scale() {
         // At 3x device scale, a click at client (60,36) lands at logical (20,12).
         let coords = with_form_logical(client_coords(60.0, 36.0, dpi()), 3.0, 3.0);

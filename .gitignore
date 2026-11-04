@@ -4,6 +4,9 @@ target/
 .env
 .env.*
 
+# Office's transient owner files are not workbook fixtures.
+~$*
+
 # Local Cargo overrides may point at sibling checkouts such as ../OxVba during
 # coordinated development. Keep those machine-specific paths out of shared state.
 /.cargo/config

@@ -1,0 +1,42 @@
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_READY pid=68304 form=WorkbookGreeter controls=5 width=288 height=130.5
+CALCFORMS_WORKBOOK_TURN action=mouse_move:44,44 effects=mousemove:InputName focus= text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_down:44,44 effects=enter:InputName|mousedown:InputName|repaint focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_up:44,44 effects=mouseup:InputName|repaint focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_down:0:2 effects=keydown:InputName focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_down:65:2 effects=keydown:InputName|repaint focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_up:65:2 effects=keyup:InputName focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_up:0:0 effects=keyup:InputName focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_down:0:2 effects=keydown:InputName focus=InputName text=Ada
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=paste:clipboard effects=keydown:InputName|paste:InputName|repaint focus=InputName text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin;text=Lin;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_up:86:2 effects=keyup:InputName focus=InputName text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin;text=Lin;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=key_up:0:0 effects=keyup:InputName focus=InputName text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin;text=Lin;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_move:232,48 effects=mousemove:Greet focus=InputName text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin;text=Lin;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_down:232,48 effects=beforeupdate:InputName|afterupdate:InputName|exit:InputName|enter:Greet|mousedown:Greet|press:Greet|repaint focus=Greet text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin;text=Lin;caption=(ready);loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_up:232,48 effects=mouseup:Greet|click:Greet|release:Greet|repaint focus=Greet text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin;text=Lin;caption=Hello, Lin;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_move:18,74 effects=mousemove:Loud focus=Greet text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin;text=Lin;caption=Hello, Lin;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_down:18,74 effects=exit:Greet|enter:Loud|mousedown:Loud|press:Loud|repaint focus=Loud text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin;text=Lin;caption=Hello, Lin;loud=False"}
+CALCFORMS_WORKBOOK_TURN action=mouse_up:18,74 effects=mouseup:Loud|click:Loud|release:Loud|repaint focus=Loud text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin|Check:True;text=Lin;caption=Hello, Lin;loud=True"}
+CALCFORMS_WORKBOOK_TURN action=mouse_move:232,48 effects=mousemove:Greet focus=Loud text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin|Check:True;text=Lin;caption=Hello, Lin;loud=True"}
+CALCFORMS_WORKBOOK_TURN action=mouse_down:232,48 effects=beforeupdate:Loud|afterupdate:Loud|exit:Loud|enter:Greet|mousedown:Greet|press:Greet|repaint focus=Greet text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin|Check:True;text=Lin;caption=Hello, Lin;loud=True"}
+CALCFORMS_WORKBOOK_TURN action=mouse_up:232,48 effects=mouseup:Greet|click:Greet|release:Greet|repaint focus=Greet text=Lin
+CALCFORMS_WORKBOOK_OBSERVATION {"member":"State","state":"Initialize|Change:Lin|Click:Hello, Lin|Check:True|Click:HELLO, LIN;text=Lin;caption=HELLO, LIN;loud=True"}
