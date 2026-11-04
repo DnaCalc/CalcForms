@@ -560,6 +560,11 @@ name = "calcforms-calcvba-adapter"
 version = "0.0.0"
 
 [dependencies]
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-office = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
 calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
 calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
 calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }

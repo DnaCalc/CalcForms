@@ -166,6 +166,7 @@ pub struct OxRuntime {
     session: ProjectRuntimeSession,
     form: ObjectRef,
     host_services: HostServices,
+    member_prefix: &'static str,
 }
 
 impl OxRuntime {
@@ -216,7 +217,15 @@ impl OxRuntime {
             session,
             form,
             host_services,
+            member_prefix: "",
         })
+    }
+
+    /// Office forms use namespaced private host entrypoints. Their original
+    /// public application members and procedure bodies keep their own names.
+    pub(crate) fn with_member_prefix(mut self, prefix: &'static str) -> Self {
+        self.member_prefix = prefix;
+        self
     }
 
     fn invoke(
@@ -225,8 +234,9 @@ impl OxRuntime {
         kind: ProjectMemberKind,
         args: Vec<Variant>,
     ) -> Result<Variant, String> {
+        let member = format!("{}{member}", self.member_prefix);
         self.session
-            .invoke_member_values(self.form.clone(), member, Some(kind), args)
+            .invoke_member_values(self.form.clone(), &member, Some(kind), args)
             .map_err(|err| format!("invoke {member}: {}", err.message()))
     }
 

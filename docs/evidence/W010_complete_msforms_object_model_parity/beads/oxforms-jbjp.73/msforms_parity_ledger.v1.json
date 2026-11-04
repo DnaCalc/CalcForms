@@ -14,27 +14,27 @@
     {
       "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "5255189cb504ceec070b1ee91d55d28ab02f1822247a182ea28b9c22c1973206"
+      "sha256": "17a3c929d78b022444e30900c0a1814094ffd03ef3e06f6345a02412dc7006ff"
     },
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "cf1c0db39c6ed452472c664d85d02dd26b98fba16d805689dde4c3b827e4bf63"
+      "sha256": "45354638c837eb1eccaae5ad6abbb3f96dbddd18a1b3d7bffa08b933d0c10cff"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "693c884e6e561260a91446cfc4b37d690962784024719f312d470c3b377cf4b4"
+      "sha256": "f3e88b78c0ad24c86959d771dfb32916d05cf6df3d9a09e74a3d8df64811b245"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "963cb440334d2ebf9d74f09da5f24bdad03c1052357f17b5b5c268dafb2d3489"
+      "sha256": "537d8d5790d6f0608231be2bb98eb0119ea7c39c2e78d080d1499a5c8902a604"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "be8bbe72655dba9bd81966d8733c20581e440768093ad476074046fbf2f1dd55"
+      "sha256": "5b9d79130adbe345e7209c5bf04f5b40a014cd6ee8fb4c0ef5853f771a4f6198"
     },
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
@@ -1562864,5 +1562864,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "56f18d5d2825f8838c4877f7917b27fc4403122cd593d4c9adc6cee21d14a384"
+  "canonical_sha256": "dea67b52f9a97531a99d54bd8e55f072c2010d34b925d44f5f5d0a1fd37964bb"
 }

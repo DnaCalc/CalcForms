@@ -10,5 +10,7 @@
 #![forbid(unsafe_code)]
 
 pub mod host_services;
+mod library;
+pub mod office;
 pub mod runtime;
 pub mod surface;

@@ -1,0 +1,39 @@
+{
+  "schema": "calcforms.workbook_greeter_oracle.v1",
+  "excel_version": "16.0",
+  "excel_build": 20527.0,
+  "pid": 24196,
+  "launches": 2,
+  "input": "public MSForms Text/Value setters",
+  "observations": [
+    {
+      "action": "initial",
+      "state": "Initialize;text=Ada;caption=(ready);loud=False"
+    },
+    {
+      "action": "greet",
+      "text": "",
+      "state": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False"
+    },
+    {
+      "action": "text",
+      "text": "Lin",
+      "state": "Initialize|Click:Hello, Ada|Change:Lin;text=Lin;caption=Hello, Ada;loud=False"
+    },
+    {
+      "action": "greet",
+      "text": "",
+      "state": "Initialize|Click:Hello, Ada|Change:Lin|Click:Hello, Lin;text=Lin;caption=Hello, Lin;loud=False"
+    },
+    {
+      "action": "check",
+      "text": "",
+      "state": "Initialize|Click:Hello, Ada|Change:Lin|Click:Hello, Lin|Check:True;text=Lin;caption=Hello, Lin;loud=True"
+    },
+    {
+      "action": "greet",
+      "text": "",
+      "state": "Initialize|Click:Hello, Ada|Change:Lin|Click:Hello, Lin|Check:True|Click:HELLO, LIN;text=Lin;caption=HELLO, LIN;loud=True"
+    }
+  ]
+}

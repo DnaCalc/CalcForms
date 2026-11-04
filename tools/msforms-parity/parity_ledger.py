@@ -829,15 +829,15 @@ let mut rt = OxRuntime::attach_with_host_services_and_args(
 # token changes require a deliberate generator + evidence review.
 _LOADER_REVIEWED_TOKEN_SHA256 = {
     "headless_runner_forced": "8ff5772ebea6bf6e0b36a0eb0e5753ed17f85ff511098c2c74ee2114f4890c42",
-    "bootstrap_forced": "65d5cfdbf9ed1017798d1ccf3dc149ab573a0133f318d4c050ad01b0342c3bff",
+    "bootstrap_forced": "258489c671b4953b5a40f5e04d889512c3003ffc87aa94344a68ad5c9e4ae19a",
 }
 
 _ADAPTER_REVIEWED_TOKEN_SHA256 = {
     "crates/calcforms-calcvba-adapter/src/lib.rs": (
-        "674475452a87cf7a41449220b26e73827322d141c564b8d10af710e3efa48426"
+        "e4ca796e6cd6ae447753a3fcb3abeaf75a7d13cab889a7d4e597626b8db3605d"
     ),
     "crates/calcforms-calcvba-adapter/src/runtime.rs": (
-        "61ed5446bdc0dcc943a0bfd65d40a565eee4f9a8f7a62f4689beb013f0bf9307"
+        "0f4d2ec39b8757639f9d0dd7fa00a1f8a72841acaf9241b87ab7eb87ac9f334e"
     ),
 }
 
@@ -870,10 +870,15 @@ _REVIEWED_LOADER_OXVBA_DEPENDENCIES = (
 )
 _REVIEWED_ADAPTER_CRATE = "crates/calcforms-calcvba-adapter"
 _REVIEWED_ADAPTER_OXVBA_DEPENDENCIES = (
+    "calcvba-bind",
     "calcvba-bundle",
     "calcvba-com",
     "calcvba-engine",
+    "calcvba-hal",
+    "calcvba-office",
+    "calcvba-oxir",
     "calcvba-runtime",
+    "calcvba-symbol",
 )
 
 
@@ -980,7 +985,7 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
             or "workspace" in package
             or "autolib" in package
             or "autobins" in package
-            or "default-run" in package
+            or ("default-run" in package and package["default-run"] != target["package"])
             or "build" in package
             or "workspace" in manifest
             or target["target_table"] in manifest

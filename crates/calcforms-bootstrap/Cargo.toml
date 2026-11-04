@@ -1,5 +1,6 @@
 [package]
 name = "calcforms-bootstrap"
+default-run = "calcforms-bootstrap"
 version.workspace = true
 edition.workspace = true
 publish = false

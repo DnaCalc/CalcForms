@@ -1,5 +1,11 @@
 # MSForms object-model parity ledger
 
+The November workbook runtime subset (`oxforms-jbjp.74`) is documented in
+[`../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/README.md`](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/README.md).
+It preserves selected form handler bodies and uses the existing VBA reducer and
+Scene renderer. It does not close the historical full-library ledger or the
+FormModule/default-instance obligations.
+
 Status: deterministic raw-contract/current-overlay baseline established by
 `oxforms-jbjp.4`; reusable live behavior-oracle contract and its replay-valid
 representative canonical capture established by `oxforms-jbjp.5`;
