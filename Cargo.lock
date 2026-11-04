@@ -207,6 +207,7 @@ dependencies = [
  "calcvba-oxir",
  "calcvba-runtime",
  "calcvba-symbol",
+ "serde_json",
 ]
 
 [[package]]

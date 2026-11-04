@@ -15,12 +15,38 @@ use calcforms_pal::{UiEvent, UiEventKind};
 use calcforms_pal_win::{
     load_ui_font, run_scene_window, AbGlyphShaper, FontTable, WindowOptions, WindowSignal,
 };
+use calcvba_bundle::ProjectMemberKind;
+
+fn observe(
+    runtime: &mut calcforms_calcvba_adapter::runtime::OxRuntime,
+    member: Option<&str>,
+) -> Result<(), String> {
+    if let Some(member) = member {
+        let form = runtime.form();
+        let value = runtime
+            .session_mut()
+            .invoke_member_values(form, member, Some(ProjectMemberKind::Method), vec![])
+            .map_err(|error| format!("observe {member}: {error}"))?;
+        let value = value
+            .as_bstr()
+            .ok_or_else(|| format!("observe {member}: expected a String result"))?
+            .as_str();
+        println!(
+            "CALCFORMS_WORKBOOK_OBSERVATION {}",
+            serde_json::json!({"member": member, "state": value})
+        );
+    }
+    Ok(())
+}
 
 fn run() -> Result<(), String> {
     let args: Vec<_> = std::env::args().skip(1).collect();
-    if args.len() != 2 || args.iter().any(|value| value == "--help") {
-        return Err("Usage: calcforms-workbook <workbook.xlsm> <UserFormName>".into());
+    if !(args.len() == 2 || (args.len() == 4 && args[2] == "--observe-member"))
+        || args.iter().any(|value| value == "--help")
+    {
+        return Err("Usage: calcforms-workbook <workbook.xlsm> <UserFormName> [--observe-member <StringFunction>]".into());
     }
+    let observation_member = args.get(3).cloned();
     let form = WorkbookForm::open(&args[0], &args[1])?;
     let font = load_ui_font().map_err(|error| format!("load font: {error}"))?;
     let mut fonts = FontTable::new();
@@ -30,6 +56,7 @@ fn run() -> Result<(), String> {
         HostServices::windows(calcforms_pal_win::read_clipboard_text),
     )?;
     let scene = surface.snapshot()?.scene.ok_or("no initial form Scene")?;
+    observe(&mut runtime, observation_member.as_deref())?;
     let options = WindowOptions::new(
         &form.caption,
         form.width * 96.0 / 72.0,
@@ -99,6 +126,7 @@ fn run() -> Result<(), String> {
                 runtime.read_string("FocusName")?,
                 runtime.read_string("InputText")?
             );
+            observe(&mut runtime, observation_member.as_deref())?;
             Ok(WindowSignal::Redraw)
         };
         match turn() {

@@ -1,0 +1,166 @@
+{
+  "schema": "calcforms.workbook_windows_comparison.v1",
+  "pid": 58680,
+  "launches_this_round": 2,
+  "known_launches_including_round_1": 4,
+  "desktop": "CalcFormsOracle_d141dedb8e3d",
+  "switched_input_desktop": false,
+  "workbook": "C:\\Work\\DnaCalc\\OxForms\\fixtures\\workbooks\\greeter\\workbook-greeter.xlsm",
+  "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+  "security_changes": 0,
+  "excel_version": "16.0",
+  "excel_build": 20527.0,
+  "runtime_pid": 67064,
+  "runtime": "CalcVBA VM3",
+  "input": {
+    "excel": "public Text/Value setters in memory",
+    "calcforms": "PostMessage to owned HWND on private desktop"
+  },
+  "capture": "PrintWindow; no foreground activation",
+  "observations": [
+    {
+      "action": "initial",
+      "excel": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms": "Initialize;text=Ada;caption=(ready);loud=False",
+      "equal": true,
+      "excel_window": {
+        "file": "initial-excel.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 83,
+        "sha256": "34f9c2929ae1c7f997a30bca011dbe712d402b39705bea9dd77b33d706ebce3a"
+      },
+      "calcforms_window": {
+        "file": "initial-calcforms.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 515,
+        "sha256": "dbfde1773f8f09fdedaf7cc0c0a604b4ee890c449bdb3a960add5fc87878f5b2"
+      }
+    },
+    {
+      "action": "greet",
+      "excel": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+      "calcforms": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+      "equal": true,
+      "excel_window": {
+        "file": "greet-excel.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 84,
+        "sha256": "7595a5be478732469acbcf9a5ce1bd2a0308a2aaaaf3a1e445c58283db03ebd4"
+      },
+      "calcforms_window": {
+        "file": "greet-calcforms.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 522,
+        "sha256": "839fbf09e0f0d834a80de67a1de6bc381ae5175519f8b8fbc1d69ccacd54d138"
+      }
+    },
+    {
+      "action": "text",
+      "excel": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin;text=Lin;caption=Hello, Ada;loud=False",
+      "calcforms": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin;text=Lin;caption=Hello, Ada;loud=False",
+      "equal": true,
+      "excel_window": {
+        "file": "text-excel.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 70,
+        "sha256": "e936bd09bb743f614efef33cc3d4cbe90f58b8dc2aedaadf11acf445d234cdba"
+      },
+      "calcforms_window": {
+        "file": "text-calcforms.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 518,
+        "sha256": "c760eb7f44664b4c5aadf4c96834b978824607ee865d3134a7cba6402ee4f521"
+      }
+    },
+    {
+      "action": "greet-lin",
+      "excel": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin|Click:Hello, Lin;text=Lin;caption=Hello, Lin;loud=False",
+      "calcforms": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin|Click:Hello, Lin;text=Lin;caption=Hello, Lin;loud=False",
+      "equal": true,
+      "excel_window": {
+        "file": "greet-lin-excel.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 67,
+        "sha256": "4a256d3d3dc8feb314d49b5cd81aac89d74f0212c998082a5f6702a78b03c903"
+      },
+      "calcforms_window": {
+        "file": "greet-lin-calcforms.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 503,
+        "sha256": "e23d49767cdc8b03c7e4cd1b6df56a07e89f4aa0b711e73991a10947ab956980"
+      }
+    },
+    {
+      "action": "check",
+      "excel": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin|Click:Hello, Lin|Check:True;text=Lin;caption=Hello, Lin;loud=True",
+      "calcforms": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin|Click:Hello, Lin|Check:True;text=Lin;caption=Hello, Lin;loud=True",
+      "equal": true,
+      "excel_window": {
+        "file": "check-excel.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 69,
+        "sha256": "027703e6b492c15e00bb189abb737146506a25e39d533202465b71c75c6167e0"
+      },
+      "calcforms_window": {
+        "file": "check-calcforms.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 503,
+        "sha256": "a4ca573fc5ca449deebee482c656c07c927a5770081152e9530598fcb1247c81"
+      }
+    },
+    {
+      "action": "greet-uppercase",
+      "excel": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin|Click:Hello, Lin|Check:True|Click:HELLO, LIN;text=Lin;caption=HELLO, LIN;loud=True",
+      "calcforms": "Initialize|Click:Hello, Ada|Change:Ad|Change:A|Change:|Change:L|Change:Li|Change:Lin|Click:Hello, Lin|Check:True|Click:HELLO, LIN;text=Lin;caption=HELLO, LIN;loud=True",
+      "equal": true,
+      "excel_window": {
+        "file": "greet-uppercase-excel.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 72,
+        "sha256": "b29033269bbce1f9ba147c8e6ab731cec714b3c030efb8e27e6480a521a9c59c"
+      },
+      "calcforms_window": {
+        "file": "greet-uppercase-calcforms.png",
+        "size": [
+          400,
+          213
+        ],
+        "distinct_colors": 501,
+        "sha256": "7d582c1922aba6959104e7d110ceb37974ac625f82048384e46b198be9380a5c"
+      }
+    }
+  ]
+}

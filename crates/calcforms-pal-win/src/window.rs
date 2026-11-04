@@ -50,6 +50,8 @@ pub struct WindowOptions {
     /// Initial inner size in logical pixels.
     pub logical_width: f64,
     pub logical_height: f64,
+    /// Show without taking keyboard focus from another application.
+    pub activate_on_show: bool,
 }
 
 impl WindowOptions {
@@ -59,6 +61,7 @@ impl WindowOptions {
             title: title.into(),
             logical_width,
             logical_height,
+            activate_on_show: false,
         }
     }
 }
@@ -270,6 +273,7 @@ where
             return;
         }
         let attrs = Window::default_attributes()
+            .with_active(self.options.activate_on_show)
             .with_title(self.options.title.clone())
             .with_inner_size(LogicalSize::new(
                 self.options.logical_width,

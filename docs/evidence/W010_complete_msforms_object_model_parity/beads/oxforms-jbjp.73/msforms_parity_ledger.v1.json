@@ -14,7 +14,7 @@
     {
       "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "17a3c929d78b022444e30900c0a1814094ffd03ef3e06f6345a02412dc7006ff"
+      "sha256": "c1457095de235b9a9bc6f1c96648b42892a2149fd6eb4452b7223732402e3867"
     },
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
@@ -1562864,5 +1562864,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "dea67b52f9a97531a99d54bd8e55f072c2010d34b925d44f5f5d0a1fd37964bb"
+  "canonical_sha256": "af24fd12a6f5317f63073fe381fb21e5311e8bebc3cd95f1fe261050e5aa2ee0"
 }

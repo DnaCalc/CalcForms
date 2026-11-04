@@ -18,6 +18,8 @@ import pythoncom
 import win32com.client
 import win32gui
 import win32process
+import win32service
+import win32api
 
 
 FORM_CODE = '''Option Explicit
@@ -81,8 +83,24 @@ def emit(value: dict) -> None:
     print(json.dumps(value), flush=True)
 
 
+def require_private_desktop() -> None:
+    """Legacy fixture commands must never activate UI on the owner's desktop."""
+    desktop = win32service.GetThreadDesktop(win32api.GetCurrentThreadId())
+    function = ctypes.WinDLL('user32', use_last_error=True).GetUserObjectInformationW
+    function.argtypes = [wintypes.HANDLE, ctypes.c_int, ctypes.c_void_p, wintypes.DWORD,
+                         ctypes.POINTER(wintypes.DWORD)]
+    function.restype = wintypes.BOOL
+    name = ctypes.create_unicode_buffer(256)
+    needed = wintypes.DWORD()
+    if not function(int(desktop), 2, name, ctypes.sizeof(name), ctypes.byref(needed)):
+        raise ctypes.WinError(ctypes.get_last_error())
+    if not name.value.startswith('CalcFormsOracle_'):
+        raise RuntimeError('Use workbook_comparison_session.py on a private desktop; owner-desktop activation is forbidden')
+
+
 def compare_owned(session_dir: Path, output: Path) -> None:
     """Attach through NativeOM to the recorded PID; never activate a new Excel."""
+    require_private_desktop()
     owner = json.loads((session_dir / 'ownership.json').read_text(encoding='utf-8'))
     roots = []
     def collect(hwnd, _):
@@ -130,6 +148,7 @@ def compare_owned(session_dir: Path, output: Path) -> None:
 
 
 def run(directory: Path, session_dir: Path) -> None:
+    require_private_desktop()
     directory = directory.resolve()
     session_dir = session_dir.resolve()
     directory.mkdir(parents=True, exist_ok=True)

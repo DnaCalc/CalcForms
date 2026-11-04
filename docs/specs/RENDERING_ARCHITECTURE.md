@@ -759,6 +759,13 @@ VBA or the Scene model. (v1 is single-threaded; the seam is designed not to requ
 
 ### 16.8 Revisitability
 
+November Windows hosts default to showing without activation
+(`WindowOptions.activate_on_show = false`), so window creation does not take
+keyboard focus from another application. The workbook comparison runs on a
+private Windows desktop without switching the input desktop; captured pixels
+come from PrintWindow and input is addressed to the owned HWND. This changes
+neither the VBA behavior owner nor the Scene rendering contract.
+
 Like §15, this is an intentionally insulated decision. The contracts that hold it
 together — `UiEvent` in, the resident `Scene` snapshot out, `SubmitPatch`/`render_full`
 as the only Re-render/Repaint primitives — mean the frame model can later become

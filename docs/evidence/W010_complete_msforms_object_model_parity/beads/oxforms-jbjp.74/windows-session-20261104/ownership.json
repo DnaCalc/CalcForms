@@ -1,0 +1,13 @@
+{
+  "schema": "calcforms.owned_excel.v1",
+  "pid": 60992,
+  "launches_this_round": 1,
+  "known_launches_including_round_1": 3,
+  "desktop": "CalcFormsOracle_b5ee25362a61",
+  "switched_input_desktop": false,
+  "workbook": "C:\\Work\\DnaCalc\\OxForms\\fixtures\\workbooks\\greeter\\workbook-greeter.xlsm",
+  "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+  "security_changes": 0,
+  "closed": "terminated_owned_handle",
+  "workbook_unchanged": true
+}

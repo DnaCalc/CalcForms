@@ -91,6 +91,7 @@ Invoke-Check -Name 'W010 FRM/FRX export fact pack' -Script 'tools/evidence/Test-
 Invoke-Check -Name 'W010 MSForms parity ledger' -Script 'tools/evidence/Test-W010MSFormsParityLedger.ps1'
 Invoke-Check -Name 'W010 MSForms member oracle' -Script 'tools/evidence/Test-W010MSFormsMemberOracle.ps1'
 Invoke-Check -Name 'W010 MSForms facade contract' -Script 'tools/evidence/Test-W010MSFormsFacadeContract.ps1'
+Invoke-Check -Name 'W010 workbook Windows comparison' -Script 'tools/evidence/Test-W010WorkbookComparison.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

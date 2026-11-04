@@ -6,8 +6,9 @@ Epic: `oxforms-jbjp`
 
 November product slice: `oxforms-jbjp.74` loads the five-control greeter from a
 genuine workbook through `calcvba-office` and runs original handlers on VM3.
-The six-state headless differential is implemented; Windows/owned Excel
-comparison remains in progress. See the [slice evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/README.md).
+The six-state headless and Windows/owned Excel differentials are implemented.
+Original handlers agree; visible paint differences are tracked by `.76`.
+See the [slice evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/README.md).
 Further implementation follows real-form controls/lifecycle/events first;
 exhaustive W010 parity and upstream requests `.75`/`oxforms-o0fp` remain open.
 
