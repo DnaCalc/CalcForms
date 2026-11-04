@@ -9,12 +9,14 @@ now writes the current-source comparison under `oxforms-jbjp.73`, preserving
 the `.4` ledger bytes referenced by the `.5` oracle and `.6` facade contract.
 
 The real-workbook Windows/VM3 greeter slice `.74` is closed. Current work is
-measured layout/painting (`.76`, `.79`) before wider W010 parity; see
+measured layout/painting (`.79`, `.83`) before wider W010 parity; see
 [the comparison contract](specs/LAYOUT_COMPARISON.md) and
 [greeter paint measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.76/README.md).
 Run 3 also supplies the [all-intrinsic two-scale corpus](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/README.md)
 and preserves the saved font face with design-em sizing (`.82`). Its measured
 gaps remain work in the existing control lanes; authored coverage is not parity.
+`.81` fixes lost damage between consecutive Windows input events; VBA's focus
+state was correct. See the [focus-paint evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.81/README.md).
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

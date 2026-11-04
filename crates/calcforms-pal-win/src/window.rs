@@ -170,7 +170,7 @@ where
 
     /// Run the callback for `event` and act on its signal.
     fn dispatch(&mut self, event_loop: &ActiveEventLoop, event: UiEvent) {
-        let signal = (self.on_event)(&event, &mut self.scene);
+        let signal = self.update_scene(&event);
         match signal {
             WindowSignal::Ignore => {}
             WindowSignal::Redraw => {
@@ -180,6 +180,22 @@ where
             }
             WindowSignal::Close => event_loop.exit(),
         }
+    }
+
+    fn update_scene(&mut self, event: &UiEvent) -> WindowSignal {
+        // Several input callbacks can precede one RedrawRequested (notably a
+        // mouse-down/up pair). A producer snapshot carries only its last
+        // patch's damage. Retain every region not yet presented, even when the
+        // newest snapshot is a content-equal resubmit with empty damage.
+        let pending = std::mem::take(&mut self.scene.damage);
+        let signal = (self.on_event)(event, &mut self.scene);
+        self.scene.damage.dirty.extend(pending.dirty);
+        for rect in pending.rects {
+            if !self.scene.damage.rects.contains(&rect) {
+                self.scene.damage.rects.push(rect);
+            }
+        }
+        signal
     }
 
     /// Record a fatal surface error and tear the loop down, mirroring `resumed`'s
@@ -245,12 +261,8 @@ where
                 return;
             }
         };
-        // The ENTIRE retained pixmap is presented every frame. This is what makes incremental
-        // repaint sound even though `scene.damage` is not cleared between frames: a redraw with
-        // no new patch (an OS expose, or a non-mutating event) re-repaints the last patch's
-        // damage region (idempotent — `apply_patch` overwrites damage per patch, so it never
-        // grows) onto the already-correct retained pixmap, then blits the whole thing. If this
-        // blit ever becomes partial/dirty-rect-only, stale damage would have to be cleared.
+        // Present the entire retained pixmap. An expose with no new damage can
+        // reuse those pixels; pending regions are consumed only after success.
         for (dst, src) in buffer.iter_mut().zip(pixmap.data().chunks_exact(4)) {
             // softbuffer wants 0RGB; pixmap is opaque RGBA (premultiplied == straight).
             *dst = (u32::from(src[0]) << 16) | (u32::from(src[1]) << 8) | u32::from(src[2]);
@@ -262,6 +274,7 @@ where
         }
         // Retain the framebuffer for the next frame's incremental repaint.
         self.pixmap = Some(pixmap);
+        self.scene.damage = Default::default();
     }
 }
 
@@ -397,5 +410,105 @@ where
             // follow-on backend work.
             _ => {}
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use calcforms_pal::scene::{
+        NodeEdit, NodeId, Paint, Prim, RectF, SceneNode, ScenePatch, SCENE_PATCH_VERSION,
+    };
+    use calcforms_pal::{Color, SurfaceSize};
+
+    #[test]
+    fn consecutive_input_snapshots_before_one_frame_preserve_all_damage() {
+        let size = SurfaceSize::new(40, 40);
+        let dpi = DpiScale::new(96.0, 96.0);
+        let mut scene = Scene::new(size, dpi, NodeId(0));
+        let mut root = SceneNode::new(NodeId(0));
+        root.bounds = RectF::new(0.0, 0.0, 40.0, 40.0);
+        root.children = vec![NodeId(1), NodeId(2)];
+        root.prims = vec![Prim::FillRect {
+            rect: root.bounds,
+            paint: Paint::Solid(Color::rgba(240, 240, 240, 255)),
+        }];
+        let control = |id: u64, y: f32, color: Color| {
+            let mut node = SceneNode::new(NodeId(id));
+            node.parent = Some(NodeId(0));
+            node.bounds = RectF::new(6.0, y, 12.0, 8.0);
+            node.prims = vec![Prim::FillRect {
+                rect: node.bounds,
+                paint: Paint::Solid(color),
+            }];
+            node
+        };
+        let apply = |scene: &mut Scene, edits| {
+            scene
+                .apply_patch(&ScenePatch {
+                    version: SCENE_PATCH_VERSION,
+                    base_hash: scene.frame_hash,
+                    surface: size,
+                    dpi,
+                    edits,
+                })
+                .expect("valid producer patch");
+        };
+        apply(
+            &mut scene,
+            vec![
+                NodeEdit::Upsert(root),
+                NodeEdit::Upsert(control(1, 6.0, Color::rgba(255, 0, 0, 255))),
+                NodeEdit::Upsert(control(2, 26.0, Color::rgba(0, 0, 255, 255))),
+            ],
+        );
+        let fonts = FontTable::new();
+        let mut retained = tiny_skia::Pixmap::new(60, 60).expect("150% frame");
+        crate::raster::render_scene_to_pixmap(&scene, &mut retained, &fonts);
+        scene.damage = Default::default(); // initial frame was presented
+        let initial = scene.clone();
+        apply(
+            &mut scene,
+            vec![NodeEdit::Upsert(control(
+                1,
+                6.0,
+                Color::rgba(0, 128, 0, 255),
+            ))],
+        );
+        let first = scene.clone();
+        apply(
+            &mut scene,
+            vec![NodeEdit::Upsert(control(
+                2,
+                26.0,
+                Color::rgba(255, 128, 0, 255),
+            ))],
+        );
+        let second = scene.clone();
+        // A content-equal resubmit can be the last callback before RedrawRequested.
+        apply(&mut scene, vec![]);
+        let mut snapshots = vec![first, second, scene].into_iter();
+        let mut app = App::new(
+            WindowOptions::new("test", 60.0, 60.0),
+            initial,
+            fonts,
+            move |_, current| {
+                *current = snapshots.next().expect("producer snapshot");
+                WindowSignal::Redraw
+            },
+        );
+        for id in 1..=3 {
+            assert_eq!(
+                app.update_scene(&input::window_focus(UiEventId(id), true)),
+                WindowSignal::Redraw
+            );
+        }
+        crate::raster::repaint_scene_damage(&app.scene, &mut retained, &app.fonts);
+        let mut full = tiny_skia::Pixmap::new(60, 60).expect("full frame");
+        crate::raster::render_scene_to_pixmap(&app.scene, &mut full, &app.fonts);
+        assert!(
+            retained.data() == full.data(),
+            "coalesced mouse-down/up frames must erase old focus and retain every change"
+        );
     }
 }

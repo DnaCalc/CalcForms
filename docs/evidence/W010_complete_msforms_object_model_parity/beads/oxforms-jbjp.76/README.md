@@ -23,7 +23,7 @@ has equal original Initialize-handler state. The six-state headless workbook
 test still agrees with the earlier owned Excel oracle. This capture does not
 claim six-state physical-input equivalence: the separate input work is ongoing.
 
-Residuals include the wrong selected font face and em sizing, font hinting and
+At this capture, residuals included the wrong selected font face and em sizing, font hinting and
 subpixel antialiasing, label baselines, one- versus two-line border colors,
 solid versus dotted focus outlines, initial focus, and native title bars.
 This is a measured paint improvement, not pixel parity or complete W010 parity.
@@ -36,6 +36,12 @@ desktop and accepts `pair`, `snapshot`, `macro` and `close` JSON commands in
 `commands.jsonl`. Window activation is protected by the shared desktop lock.
 Do not start another session while an existing owned Excel can be reused.
 
+The later [.79 corpus](../oxforms-jbjp.79/README.md) retains Tahoma/design-em
+sizing from `.82` and further palette corrections. Its greeter errors are
+4.77%/3.75%. [.81](../oxforms-jbjp.81/README.md) fixes stale focus pixels.
+The bounded default-color/checkbox correction `.76` is complete; text insets
+continue in `.83`, with other control/border/font details in W010.
+
 Fresh review checked the client crop against both Windows coordinate APIs,
 recomputed image errors, inspected both scales, and retained the original
-handler regression and full checks. `.76` and `.79` remain in progress.
+handler regression and full checks. The broader layout/input work remains open.

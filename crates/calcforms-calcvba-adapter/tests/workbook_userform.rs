@@ -151,3 +151,47 @@ fn mixed_persisted_faces_are_rejected_before_source_composition() {
         .expect_err("one face is currently registered per form")
         .contains("mixed font faces"));
 }
+
+#[test]
+fn workbook_focus_transitions_remove_old_caret_and_checkbox_adorner_from_scene() {
+    use calcforms_pal::scene::{NodeId, Paint, Prim};
+    use calcforms_pal::Color;
+    fn primitives(scene: &calcforms_pal::scene::Scene, id: u64) -> &[Prim] {
+        &scene
+            .nodes
+            .iter()
+            .find(|n| n.id == NodeId(id))
+            .unwrap()
+            .prims
+    }
+    let (mut runtime, surface) = workbook()
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .expect("workbook runtime");
+    click(&mut runtime, 25, 45);
+    let caret_is_present = |scene: &calcforms_pal::scene::Scene| {
+        primitives(scene, 2).iter().any(|p| {
+            matches!(p, Prim::FillRect { paint: Paint::Solid(c), .. }
+                if *c == Color::rgba(0, 0, 0, 255))
+        })
+    };
+    let focused_text = surface.snapshot().unwrap().scene.unwrap();
+    assert!(caret_is_present(&focused_text), "focused text owns a caret");
+    click(&mut runtime, 20, 75);
+    let focused_check = surface.snapshot().unwrap().scene.unwrap();
+    assert!(
+        !caret_is_present(&focused_check),
+        "VBA removes the old caret"
+    );
+    assert!(primitives(&focused_check, 4)
+        .iter()
+        .any(|p| matches!(p, Prim::StrokeRect { .. })));
+    click(&mut runtime, 220, 45);
+    let focused_button = surface.snapshot().unwrap().scene.unwrap();
+    assert!(
+        !primitives(&focused_button, 4)
+            .iter()
+            .any(|p| matches!(p, Prim::StrokeRect { .. })),
+        "VBA removes the old checkbox focus adorner"
+    );
+    assert!(!caret_is_present(&focused_button));
+}

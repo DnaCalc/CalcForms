@@ -1,0 +1,151 @@
+{
+  "schema": "calcforms.focus_paint.v1",
+  "date": "2026-11-05",
+  "pixel_parity_claimed": false,
+  "observations": [
+    {
+      "stage": "before",
+      "zoom": 100,
+      "state": "Initialize|Change:Adaj|Click:Hello, Adaj|Check:True|Click:HELLO, ADAJ;text=Adaj;caption=HELLO, ADAJ;loud=True",
+      "excel_geometry": {
+        "hwnd": 225646308,
+        "pid": 49844,
+        "window_rect": [
+          754,
+          504,
+          1154,
+          717
+        ],
+        "client_size": [
+          384,
+          174
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 2496135296,
+        "extended_style": 257
+      },
+      "runtime_geometry": {
+        "hwnd": 183241608,
+        "pid": 39900,
+        "window_rect": [
+          234,
+          234,
+          634,
+          447
+        ],
+        "client_size": [
+          384,
+          174
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 382664704,
+        "extended_style": 262416
+      },
+      "ownership": {
+        "schema": "calcforms.layout_session.v1",
+        "excel_launches": 1,
+        "interactive": true,
+        "security_changes": 0,
+        "input_desktop_switched": false,
+        "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+        "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+        "excel_launches_by_this_session": 0,
+        "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+        "process_created": 1793828651.878,
+        "excel_pid": 49844,
+        "desktop": "winsta0\\default",
+        "closed": "retained_by_original_session",
+        "workbook_unchanged": true,
+        "cleanup_notes": []
+      },
+      "images": [
+        {
+          "file": "before-excel.png",
+          "sha256": "6b098af902ea064b0fd70703c6e4d4beeb636a27df212e52ddfe80749855ce06"
+        },
+        {
+          "file": "before-calcforms.png",
+          "sha256": "31a1dcf403fc3879b868c931d28a552b28fc80ff135f5441f1d065802a13e57f"
+        }
+      ]
+    },
+    {
+      "stage": "after",
+      "zoom": 100,
+      "state": "Initialize|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+      "excel_geometry": {
+        "hwnd": 140185288,
+        "pid": 49844,
+        "window_rect": [
+          754,
+          504,
+          1154,
+          717
+        ],
+        "client_size": [
+          384,
+          174
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 2496135296,
+        "extended_style": 257
+      },
+      "runtime_geometry": {
+        "hwnd": 7608410,
+        "pid": 63708,
+        "window_rect": [
+          156,
+          156,
+          556,
+          369
+        ],
+        "client_size": [
+          384,
+          174
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 382664704,
+        "extended_style": 262416
+      },
+      "ownership": {
+        "schema": "calcforms.layout_session.v1",
+        "excel_launches": 1,
+        "interactive": true,
+        "security_changes": 0,
+        "input_desktop_switched": false,
+        "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+        "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+        "excel_launches_by_this_session": 0,
+        "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+        "process_created": 1793828651.878,
+        "excel_pid": 49844,
+        "desktop": "winsta0\\default",
+        "closed": "retained_by_original_session",
+        "workbook_unchanged": true,
+        "cleanup_notes": []
+      },
+      "images": [
+        {
+          "file": "after-excel.png",
+          "sha256": "4ffd26f22f6f390789a0ecfdbe367e765c2ae11a1ed4cc24a6305398b8682b78"
+        },
+        {
+          "file": "after-calcforms.png",
+          "sha256": "b01ba1248cfa90ac8ab89ebd22a50862b40063cfdc87f26c590fd161dadbd80f"
+        }
+      ]
+    }
+  ]
+}

@@ -17,10 +17,13 @@ Run 3: `.76` corrects measured greeter colors and checkbox/label geometry;
 [paint evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.76/README.md)
 records equal client sizes and substantially lower pixel errors, with precise
 font, border, focus and input residuals. See the
-[comparison contract](../specs/LAYOUT_COMPARISON.md). Both beads remain in progress.
+[comparison contract](../specs/LAYOUT_COMPARISON.md). The bounded palette/checkbox
+correction `.76` is complete; broader layout and input comparison remains `.79`.
 Real Ctrl+A exposed unwanted shortcut text in the Windows host; `.80` corrects
 the platform text source and records [actual input and matching original-handler state](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.80/README.md).
 Stale focus painting discovered by those clicks is tracked separately in `.81`.
+Its Windows consumer now retains damage from every unpresented input snapshot;
+real clicks and a coalesced 150% frame regression verify that old adorners clear.
 The `.79` command now compares the real greeter plus three authored forms
 covering all 14 intrinsic kinds at both scales. The
 [corpus evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/README.md)

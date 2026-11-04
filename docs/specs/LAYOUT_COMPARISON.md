@@ -75,6 +75,15 @@ ignores Control, so a correct select-all KeyDown was followed by an unwanted
 non-printing control characters. Printable AltGr text remains eligible. This
 normalizes platform input; shortcut/edit semantics continue to belong to VBA.
 
+Real greeter clicks also exposed coalesced-frame damage loss. A Windows input
+callback can replace the consumed Scene several times before RedrawRequested;
+each producer snapshot describes only its latest patch. The consumer must retain
+all damage not yet presented, including across an empty final resubmit, then
+clear it only after a successful presentation. The `.81` regression reproduces
+two independent updates before one 150% frame and compares incremental pixels
+with a full raster. A separate workbook test verifies that VBA removes old
+caret/focus primitives. This fixes stale painting without changing focus rules.
+
 On the owner's input desktop, use the exclusive shared desktop.lock for every
 operation that may activate or inject input. Fail while a live lock exists;
 only a lock older than five minutes is stale. Keep each hold below two minutes
