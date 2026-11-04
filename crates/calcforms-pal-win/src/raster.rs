@@ -22,7 +22,7 @@ use calcforms_pal::scene::{
 use calcforms_pal::Color;
 use tiny_skia as ts;
 
-use crate::text::{FontTable, SceneTextResolver, TextResolver};
+use crate::text::{em_height, FontTable, SceneTextResolver, TextResolver};
 
 /// 4-cubic circle/ellipse approximation constant.
 const KAPPA: f32 = 0.552_284_8;
@@ -473,7 +473,7 @@ impl<'a> SkiaSink<'a> {
         let dev_rect = self.cur.apply_rect(local_rect);
         let sx = self.cur.sx.abs();
         let sy = self.cur.sy.abs();
-        let em = text_run.key.size_milli_pt as f32 / 1000.0;
+        let em = em_height(font, text_run.key.size_milli_pt as f32 / 1000.0);
         let scale = PxScale {
             x: (em * sx).max(1.0),
             y: (em * sy).max(1.0),

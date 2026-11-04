@@ -1,0 +1,67 @@
+{
+  "schema": "calcforms.real_input.v1",
+  "input": "Computer Use SendInput, exclusive desktop.lock; no public setters",
+  "raw_directory": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3-input-final",
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 0,
+    "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+    "process_created": 1793828651.878,
+    "excel_pid": 49844,
+    "desktop": "winsta0\\default",
+    "closed": "retained_by_original_session",
+    "workbook_unchanged": true,
+    "cleanup_notes": []
+  },
+  "observations": [
+    {
+      "action": "physical-letter",
+      "state": "Initialize|Change:Adaj;text=Adaj;caption=(ready);loud=False",
+      "images": [
+        {
+          "file": "physical-letter-excel.png",
+          "sha256": "3da997d2777ce774c2c6409ce52f3b9ab9991e4bd7d255bbbf0b18b717c4d374"
+        },
+        {
+          "file": "physical-letter-calcforms.png",
+          "sha256": "cb8d440833f7b918e12d5930073d39de2e62adc391e98f8f8637288968f8b69c"
+        }
+      ]
+    },
+    {
+      "action": "physical-tab-return",
+      "state": "Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False",
+      "images": [
+        {
+          "file": "physical-tab-return-excel.png",
+          "sha256": "24d0411d4add880a2beaade65a50413109e52fc6bacd94738e15883615c5e98b"
+        },
+        {
+          "file": "physical-tab-return-calcforms.png",
+          "sha256": "b5f02546388fdb7abf61e87724733e41211d1f38d1ab0a87d06579518ed0da04"
+        }
+      ]
+    },
+    {
+      "action": "physical-drag",
+      "state": "Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False",
+      "images": [
+        {
+          "file": "physical-drag-excel.png",
+          "sha256": "24d0411d4add880a2beaade65a50413109e52fc6bacd94738e15883615c5e98b"
+        },
+        {
+          "file": "physical-drag-calcforms.png",
+          "sha256": "6621e078b427eb360289662321448630edc3c19e1e8c6adab54fafc73beaa09a"
+        }
+      ]
+    }
+  ],
+  "limits": "Drag responses are visible, but equal selection ranges are not established. The original greeter has no accelerator. Focus paint remains .81."
+}

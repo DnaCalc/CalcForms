@@ -56,6 +56,7 @@ pub struct PersistedControl {
     pub tab_index: i16,
     pub default_button: bool,
     pub cancel_button: bool,
+    pub font_name: String,
     pub font_size: f64,
 }
 
@@ -71,6 +72,22 @@ pub struct WorkbookForm {
 }
 
 impl WorkbookForm {
+    /// The current host registers one face per form. Reject mixed faces instead
+    /// of silently drawing accepted persisted names with the wrong face.
+    pub fn font_name(&self) -> Result<&str> {
+        let name = self
+            .controls
+            .first()
+            .map_or("Tahoma", |c| c.font_name.as_str());
+        if self
+            .controls
+            .iter()
+            .any(|c| !c.font_name.eq_ignore_ascii_case(name))
+        {
+            return Err("mixed font faces are not supported by this form host".into());
+        }
+        Ok(name)
+    }
     /// Compile the selected form with the embedded VBA library and initialize it
     /// on VM3. Window creation belongs to the host; the returned Scene can also
     /// be inspected and rendered without a desktop.
@@ -226,6 +243,7 @@ impl WorkbookForm {
     /// the original form's declarations and procedure bodies. The VBA compiler
     /// binds the ordinary Name_Event handlers to the actual WithEvents controls.
     pub fn module(&self) -> Result<ModuleUnit> {
+        self.font_name()?;
         if self
             .original_source
             .to_ascii_lowercase()
@@ -777,7 +795,8 @@ fn decode_control(bytes: &[u8], kind: ControlKind) -> Result<PersistedControl> {
     if data.pos != end || width <= 0 || height <= 0 {
         return Err("invalid control property size".into());
     }
-    let font_size = decode_text_props(bytes.get(end..).ok_or("missing text properties")?)?;
+    let (font_name, font_size) =
+        decode_text_props(bytes.get(end..).ok_or("missing text properties")?)?;
     Ok(PersistedControl {
         name: String::new(),
         kind,
@@ -793,11 +812,12 @@ fn decode_control(bytes: &[u8], kind: ControlKind) -> Result<PersistedControl> {
         tab_index: 0,
         default_button: false,
         cancel_button: false,
+        font_name,
         font_size,
     })
 }
 
-fn decode_text_props(bytes: &[u8]) -> Result<f64> {
+fn decode_text_props(bytes: &[u8]) -> Result<(String, f64)> {
     let (mut data, mask, end) = record(bytes, 0x0200, false)?;
     let values = fields(
         &mut data,
@@ -827,5 +847,5 @@ fn decode_text_props(bytes: &[u8]) -> Result<f64> {
     if twips == 0 || twips > 4_294_967 {
         return Err("invalid persisted font height".into());
     }
-    Ok(f64::from(twips) / 20.0)
+    Ok((font, f64::from(twips) / 20.0))
 }

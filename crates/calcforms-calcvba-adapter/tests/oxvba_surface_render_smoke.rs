@@ -268,7 +268,7 @@ fn expected_demo_framebuffer_hash() -> u64 {
     button.prims = vec![
         Prim::FillRect {
             rect: RectF::new(140.0, 12.0, 48.0, 20.0),
-            paint: Paint::Solid(Color::rgba(0xdc, 0xdc, 0xdc, 0xff)),
+            paint: Paint::Solid(Color::rgba(0xf0, 0xf0, 0xf0, 0xff)),
         },
         Prim::DrawEdge {
             rect: RectF::new(140.0, 12.0, 48.0, 20.0),

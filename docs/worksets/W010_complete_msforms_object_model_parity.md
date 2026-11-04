@@ -21,6 +21,13 @@ font, border, focus and input residuals. See the
 Real Ctrl+A exposed unwanted shortcut text in the Windows host; `.80` corrects
 the platform text source and records [actual input and matching original-handler state](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.80/README.md).
 Stale focus painting discovered by those clicks is tracked separately in `.81`.
+The `.79` command now compares the real greeter plus three authored forms
+covering all 14 intrinsic kinds at both scales. The
+[corpus evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/README.md)
+records numeric control geometry, fonts, tab indices and pixels. `.82` preserves
+the saved font face and corrects point-em sizing; further palette corrections
+reduce the greeter difference to 4.77%/3.75%. List rows, radio glyphs, Frame and
+MultiPage painting, TabStrip captions, text insets and focus remain visible gaps.
 
 Depends on:
 

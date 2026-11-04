@@ -17,7 +17,7 @@ Public Function OxThemeFaceColor( _
         ByVal IsPressed As Boolean, _
         ByVal IsEnabled As Boolean) As Long
     If Not IsEnabled Then
-        OxThemeFaceColor = &HD9D9D9
+        OxThemeFaceColor = &HF0F0F0
         Exit Function
     End If
 
@@ -29,18 +29,18 @@ Public Function OxThemeFaceColor( _
         Case oxControlListBox, oxControlComboBox
             OxThemeFaceColor = &HFFFFFF
         Case oxControlImage
-            OxThemeFaceColor = &HFFFFFF
+            OxThemeFaceColor = &HF0F0F0
         Case oxControlCommandButton, oxControlToggleButton
             If IsPressed Then
-                OxThemeFaceColor = &HB8C7DD
+                OxThemeFaceColor = &HF8F8F8
             Else
-                OxThemeFaceColor = &HDCDCDC
+                OxThemeFaceColor = &HF0F0F0
             End If
         Case oxControlSpinButton, oxControlScrollBar
             If IsPressed Then
                 OxThemeFaceColor = &HB8C7DD
             Else
-                OxThemeFaceColor = &HDCDCDC
+                OxThemeFaceColor = &HF0F0F0
             End If
         Case oxControlCheckBox, oxControlOptionButton
             If IsPressed Then
@@ -133,7 +133,7 @@ Public Function OxThemeResolveBorder(ByVal Core As OxControlCore) As Long
 End Function
 
 Public Function OxThemeSelectionBackColor() As Long
-    OxThemeSelectionBackColor = &H0A246A
+    OxThemeSelectionBackColor = &H0078D7
 End Function
 
 Public Function OxThemeSelectionTextColor() As Long

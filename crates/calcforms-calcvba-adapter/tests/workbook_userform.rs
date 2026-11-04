@@ -61,6 +61,14 @@ fn workbook_controls_and_original_handlers_match_owned_excel_headlessly() {
     assert_eq!(form.controls[1].value, "Ada");
     assert!(form.controls[2].default_button);
     assert_eq!(form.controls[4].caption, "(ready)");
+    assert_eq!(
+        form.font_name().expect("homogeneous persisted face"),
+        "Tahoma"
+    );
+    assert!(form
+        .controls
+        .iter()
+        .all(|c| c.font_name == "Tahoma" && c.font_size == 8.25));
     let original = std::fs::read_to_string(root().join("fixtures/workbooks/greeter/form-code.bas"))
         .expect("owned original source");
     assert!(
@@ -132,4 +140,14 @@ fn missing_form_has_a_precise_diagnostic() {
     )
     .expect_err("no invented default form");
     assert!(error.contains("no UserForm"), "{error}");
+}
+
+#[test]
+fn mixed_persisted_faces_are_rejected_before_source_composition() {
+    let mut form = workbook();
+    form.controls[0].font_name = "Microsoft Sans Serif".into();
+    assert!(form
+        .module()
+        .expect_err("one face is currently registered per form")
+        .contains("mixed font faces"));
 }

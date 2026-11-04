@@ -138,7 +138,9 @@ impl TextShaper for AbGlyphShaper {
         // A tiny floor only avoids a zero/degenerate `PxScale`; it does NOT clamp to 1pt
         // (that would distort sub-1pt advances — the renderer floors the *device* px).
         let em = (key.size_milli_pt as f32 / 1000.0).max(f32::MIN_POSITIVE);
-        let scaled = self.font.as_scaled(PxScale::from(em));
+        let scaled = self
+            .font
+            .as_scaled(PxScale::from(em_height(&self.font, em)));
 
         let mut glyphs = Vec::new();
         let mut stops = vec![0.0_f32];
@@ -177,16 +179,50 @@ impl TextShaper for AbGlyphShaper {
     }
 }
 
-/// Candidate platform UI fonts, most MSForms-authentic first. `micross` is
-/// Microsoft Sans Serif (the literal classic MSForms default), `tahoma` the modern
-/// dialog font; the rest are robust fallbacks.
+/// ab_glyph's scale is ascent-to-descent height, whereas a point size describes
+/// the design em. Shape and rasterization must use the same conversion; device
+/// DPI is applied later by the Scene transform, once.
+pub(crate) fn em_height(font: &FontArc, points: f32) -> f32 {
+    points * font.height_unscaled() / font.units_per_em().unwrap_or(font.height_unscaled())
+}
+
+/// Candidate UI faces. The owned Excel 16 greeter's default is Tahoma; hosts
+/// loading a persisted form should select its named face explicitly instead.
 const UI_FONT_CANDIDATES: &[&str] = &[
-    "micross.ttf",
     "tahoma.ttf",
+    "micross.ttf",
     "segoeui.ttf",
     "arial.ttf",
     "verdana.ttf",
 ];
+
+/// Load a persisted family in the current outline-font subset, with no
+/// unrelated fallback. Legacy MS Sans Serif uses a reported outline
+/// substitute; exact bitmap-font parity is outside this backend's subset.
+pub fn load_ui_font_family(family: &str) -> io::Result<FontArc> {
+    let file = if family.eq_ignore_ascii_case("Tahoma") {
+        "tahoma.ttf"
+    } else if family.eq_ignore_ascii_case("Microsoft Sans Serif")
+        || family.eq_ignore_ascii_case("MS Sans Serif")
+    {
+        if family.eq_ignore_ascii_case("MS Sans Serif") {
+            eprintln!(
+                "CALCFORMS_FONT_SUBSTITUTION requested=MS Sans Serif resolved=Microsoft Sans Serif"
+            );
+        }
+        "micross.ttf"
+    } else {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            format!("unsupported font family {family:?}"),
+        ));
+    };
+    let bytes = std::fs::read(font_directory().join(file))?;
+    let font = FontArc::try_from_vec(bytes)
+        .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "font failed to parse"))?;
+    eprintln!("CALCFORMS_FONT requested={family} file={file}");
+    Ok(font)
+}
 
 /// Load the platform UI font face, trying the MSForms-authentic candidates under the
 /// Windows font directory in order. Returns the first that loads and parses.
@@ -300,6 +336,21 @@ mod tests {
         assert_eq!(&*run.source, "Exit");
         assert_eq!(run.accelerator, Some(1));
         assert_eq!(run.glyphs.len(), 4);
+    }
+
+    #[test]
+    fn point_sizes_use_the_font_design_em_not_its_line_height() {
+        let Some(font) = host_font_or_skip() else {
+            return;
+        };
+        let units = font.units_per_em().expect("outline font design units");
+        let expected = font.h_advance_unscaled(font.glyph_id('M')) * 12.0 / units;
+        let run = AbGlyphShaper::new(FontId(1), font).shape(&key(12), "M");
+        assert!((run.metrics.advance - expected).abs() < 0.0001);
+        assert!(
+            (run.metrics.ascent + run.metrics.descent - 12.0).abs() > 0.1,
+            "Tahoma's design em is not its ascent-to-descent height"
+        );
     }
 
     #[test]

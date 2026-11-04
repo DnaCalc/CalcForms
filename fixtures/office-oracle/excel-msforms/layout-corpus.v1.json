@@ -1,0 +1,55 @@
+{
+  "schema": "calcforms.layout_corpus.v1",
+  "font": "Tahoma",
+  "font_size": 8.25,
+  "forms": [
+    {
+      "name": "LayoutCommon",
+      "caption": "CalcForms layout - common",
+      "width": 300,
+      "height": 180,
+      "controls": [
+        {"kind": "Label", "name": "Prompt", "caption": "Your name: AgjpQy", "left": 12, "top": 12, "width": 170, "height": 18},
+        {"kind": "TextBox", "name": "InputName", "text": "Ada", "left": 12, "top": 36, "width": 170, "height": 20},
+        {"kind": "CommandButton", "name": "Greet", "caption": "Greet", "default": true, "left": 198, "top": 36, "width": 84, "height": 24},
+        {"kind": "Label", "name": "Fractional", "caption": "Fractional position", "left": 12.375, "top": 74.625, "width": 123.375, "height": 17.625},
+        {"kind": "Label", "name": "Clipped", "caption": "Long clipped label AgjpQy", "left": 162, "top": 75, "width": 70, "height": 12},
+        {"kind": "TextBox", "name": "LongInput", "text": "A long input with a clipped trailing word", "left": 12, "top": 108, "width": 150, "height": 20},
+        {"kind": "CommandButton", "name": "Disabled", "caption": "Disabled", "enabled": false, "left": 198, "top": 108, "width": 84, "height": 24}
+      ]
+    },
+    {
+      "name": "LayoutSelection",
+      "caption": "CalcForms layout - selection",
+      "width": 330,
+      "height": 210,
+      "controls": [
+        {"kind": "CheckBox", "name": "Unchecked", "caption": "Unchecked", "left": 12, "top": 12, "width": 130, "height": 18},
+        {"kind": "CheckBox", "name": "Checked", "caption": "Checked", "value": true, "left": 174, "top": 12, "width": 130, "height": 18},
+        {"kind": "OptionButton", "name": "OptionOne", "caption": "First option", "value": true, "left": 12, "top": 42, "width": 130, "height": 18},
+        {"kind": "OptionButton", "name": "OptionTwo", "caption": "Second option", "left": 174, "top": 42, "width": 130, "height": 18},
+        {"kind": "ToggleButton", "name": "ToggleOff", "caption": "Toggle off", "left": 12, "top": 72, "width": 130, "height": 24},
+        {"kind": "ToggleButton", "name": "ToggleOn", "caption": "Toggle on", "value": true, "left": 174, "top": 72, "width": 130, "height": 24},
+        {"kind": "ListBox", "name": "Choices", "items": ["Alpha", "Beta", "Gamma"], "left": 12, "top": 114, "width": 130, "height": 72},
+        {"kind": "ComboBox", "name": "Dropdown", "items": ["Alpha", "Beta", "Gamma"], "left": 174, "top": 114, "width": 130, "height": 21}
+      ]
+    },
+    {
+      "name": "LayoutContainers",
+      "caption": "CalcForms layout - containers",
+      "width": 390,
+      "height": 285,
+      "controls": [
+        {"kind": "Frame", "name": "Group", "caption": "Details", "left": 12, "top": 12, "width": 174, "height": 72, "children": [
+          {"kind": "Label", "name": "NestedLabel", "caption": "Inside frame", "left": 12, "top": 18, "width": 138, "height": 18},
+          {"kind": "TextBox", "name": "NestedInput", "text": "Nested", "left": 12, "top": 39, "width": 138, "height": 18}
+        ]},
+        {"kind": "Image", "name": "Picture", "left": 210, "top": 12, "width": 66, "height": 54},
+        {"kind": "SpinButton", "name": "Spinner", "left": 300, "top": 12, "width": 18, "height": 54},
+        {"kind": "ScrollBar", "name": "Slider", "left": 12, "top": 102, "width": 174, "height": 18},
+        {"kind": "TabStrip", "name": "TabsControl", "tabs": ["First", "Second"], "left": 12, "top": 144, "width": 174, "height": 102},
+        {"kind": "MultiPage", "name": "PagesControl", "pages": ["First", "Second"], "left": 210, "top": 102, "width": 162, "height": 144}
+      ]
+    }
+  ]
+}

@@ -29,12 +29,12 @@
     {
       "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "537d8d5790d6f0608231be2bb98eb0119ea7c39c2e78d080d1499a5c8902a604"
+      "sha256": "bc9ea4ed30965ea2508edc0593afce5209a854cb8238ae599d8333fd3fa42e53"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "5b9d79130adbe345e7209c5bf04f5b40a014cd6ee8fb4c0ef5853f771a4f6198"
+      "sha256": "a7fb83d3b3d1b6d1aaffbfdc315eea96869211c56c738b57a09d7004f4b92720"
     },
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "88a2124fae35c41240ffea89d41e835c246258e474fd0cf3baa8318679840d44",
+  "source_surface_sha256": "c7f10c0963dbb02f4ff7640cfa2a0e4c56df4589afcd7146ad4ed209fcff43ae",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -1562864,5 +1562864,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "95e0e9bd0480b40c0973eef8aff33aa711366ffaceb3ebdf15b940bf13c09d46"
+  "canonical_sha256": "a4a5cf90a58b3f3d10e52f9b6209ccdafa22ada079074905c10c40445f3b9c1d"
 }

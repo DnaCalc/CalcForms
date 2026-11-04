@@ -1,0 +1,39 @@
+CALCFORMS_FONT requested=Tahoma file=tahoma.ttf
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_FORM_READY pid=39900 width_pt=288 height_pt=130.5
+CALCFORMS_FORM_TURN action=mouse_move:52,46 effects=mousemove:InputName focus= text=Ada
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_FORM_TURN action=mouse_down:52,46 effects=enter:InputName|mousedown:InputName|repaint focus=InputName text=Ada
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_FORM_TURN action=mouse_up:52,46 effects=mouseup:InputName|repaint focus=InputName text=Ada
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize;text=Ada;caption=(ready);loud=False"}
+CALCFORMS_FORM_TURN action=char:j effects=char:InputName|repaint focus=InputName text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj;text=Adaj;caption=(ready);loud=False"}
+CALCFORMS_FORM_TURN action=key_down:9:0 effects=keydown:InputName|beforeupdate:InputName|afterupdate:InputName|exit:InputName|enter:Greet|repaint focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj;text=Adaj;caption=(ready);loud=False"}
+CALCFORMS_FORM_TURN action=key_up:9:0 effects=keyup:Greet focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj;text=Adaj;caption=(ready);loud=False"}
+CALCFORMS_FORM_TURN action=key_down:13:0 effects=keydown:Greet|click:Greet focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=key_up:13:0 effects=keyup:Greet focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_move:16,46 effects=mousemove:InputName focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_down:16,46 effects=exit:Greet|enter:InputName|mousedown:InputName|repaint focus=InputName text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_move:36,46 effects=mousemove:InputName|repaint focus=InputName text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_up:36,46 effects=mouseup:InputName|repaint focus=InputName text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_move:17,74 effects=mousemove:Loud focus=InputName text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_down:17,74 effects=exit:InputName|enter:Loud|mousedown:Loud|press:Loud|repaint focus=Loud text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj;text=Adaj;caption=Hello, Adaj;loud=False"}
+CALCFORMS_FORM_TURN action=mouse_up:17,74 effects=mouseup:Loud|click:Loud|release:Loud|repaint focus=Loud text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj|Check:True;text=Adaj;caption=Hello, Adaj;loud=True"}
+CALCFORMS_FORM_TURN action=mouse_move:232,47 effects=mousemove:Greet focus=Loud text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj|Check:True;text=Adaj;caption=Hello, Adaj;loud=True"}
+CALCFORMS_FORM_TURN action=mouse_down:232,47 effects=beforeupdate:Loud|afterupdate:Loud|exit:Loud|enter:Greet|mousedown:Greet|press:Greet|repaint focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj|Check:True;text=Adaj;caption=Hello, Adaj;loud=True"}
+CALCFORMS_FORM_TURN action=mouse_up:232,47 effects=mouseup:Greet|click:Greet|release:Greet|repaint focus=Greet text=Adaj
+CALCFORMS_FORM_OBSERVATION {"member":"State","state":"Initialize|Change:Adaj|Click:Hello, Adaj|Check:True|Click:HELLO, ADAJ;text=Adaj;caption=HELLO, ADAJ;loud=True"}

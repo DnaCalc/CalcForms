@@ -14,3 +14,9 @@ mod library;
 pub mod office;
 pub mod runtime;
 pub mod surface;
+
+/// The embedded VBA runtime library, for hosts compiling an authored application.
+/// Office forms and source-form hosts must use this same module roster.
+pub fn library_modules() -> Vec<calcvba_symbol::manifest::ModuleUnit> {
+    library::modules()
+}

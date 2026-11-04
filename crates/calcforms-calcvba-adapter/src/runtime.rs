@@ -223,7 +223,9 @@ impl OxRuntime {
 
     /// Office forms use namespaced private host entrypoints. Their original
     /// public application members and procedure bodies keep their own names.
-    pub(crate) fn with_member_prefix(mut self, prefix: &'static str) -> Self {
+    /// Select the host source provider's private VBA entrypoint prefix.
+    /// This Rust host configuration adds no public MSForms member.
+    pub fn with_member_prefix(mut self, prefix: &'static str) -> Self {
         self.member_prefix = prefix;
         self
     }

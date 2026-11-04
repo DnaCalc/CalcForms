@@ -38,7 +38,7 @@ from workbook_form_session import ORACLE_CODE
 ROOT = Path(__file__).resolve().parents[2]
 WORKBOOK = ROOT / 'fixtures/workbooks/greeter/workbook-greeter.xlsm'
 EXCEL = Path('C:/Program Files/Microsoft Office/Root/Office16/EXCEL.EXE')
-PREFIX = 'CALCFORMS_WORKBOOK_OBSERVATION '
+PREFIX = 'CALCFORMS_FORM_OBSERVATION '
 
 
 def emit(value):

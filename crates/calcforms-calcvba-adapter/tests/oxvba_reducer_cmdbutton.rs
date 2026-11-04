@@ -639,11 +639,11 @@ fn scene_has_node(surface: &Arc<SurfaceFactory>, node: NodeId) -> bool {
     scene.get(node).is_some()
 }
 
-const TEXT_SELECTION_COLOR: Color = Color::rgba(0x0a, 0x24, 0x6a, 0xff);
+const TEXT_SELECTION_COLOR: Color = Color::rgba(0x00, 0x78, 0xd7, 0xff);
 const TEXT_SELECTION_FORE_COLOR: Color = Color::rgba(0xff, 0xff, 0xff, 0xff);
 const TEXT_CARET_COLOR: Color = Color::rgba(0x00, 0x00, 0x00, 0xff);
-const THEME_COMMAND_FACE: Color = Color::rgba(0xdc, 0xdc, 0xdc, 0xff);
-const THEME_COMMAND_PRESSED: Color = Color::rgba(0xb8, 0xc7, 0xdd, 0xff);
+const THEME_COMMAND_FACE: Color = Color::rgba(0xf0, 0xf0, 0xf0, 0xff);
+const THEME_COMMAND_PRESSED: Color = Color::rgba(0xf8, 0xf8, 0xf8, 0xff);
 const THEME_TEXT: Color = Color::rgba(0x00, 0x00, 0x00, 0xff);
 const THEME_DISABLED_TEXT: Color = Color::rgba(0x80, 0x80, 0x80, 0xff);
 

@@ -834,10 +834,10 @@ _LOADER_REVIEWED_TOKEN_SHA256 = {
 
 _ADAPTER_REVIEWED_TOKEN_SHA256 = {
     "crates/calcforms-calcvba-adapter/src/lib.rs": (
-        "e4ca796e6cd6ae447753a3fcb3abeaf75a7d13cab889a7d4e597626b8db3605d"
+        "af626522943592079806fb08bb4d802ccc48dfd8dce0feb241a8f332cf59d319"
     ),
     "crates/calcforms-calcvba-adapter/src/runtime.rs": (
-        "0f4d2ec39b8757639f9d0dd7fa00a1f8a72841acaf9241b87ab7eb87ac9f334e"
+        "1ad34003e81c66d92e548ab422d0590d8457325cdd31887a55f33e1f295f76ff"
     ),
 }
 

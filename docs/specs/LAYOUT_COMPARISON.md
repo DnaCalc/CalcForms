@@ -5,6 +5,12 @@ Capture each engine's complete window with PrintWindow and crop the client area
 using GetClientRect and ClientToScreen. Store both coordinate descriptions;
 never infer the client origin from a screenshot border or compare differently
 sized client areas by stretching them.
+MSForms can omit its populated F3 child server from the parent's WM_PRINT.
+Capture visible child HWNDs owned by that same PID separately and composite
+them in sibling z order, clipped to each parent's client area. Retain the raw
+parent and every child image/hash as well as the composited client reference.
+This needs no activation and prevents blank ListBox content from being mistaken
+for native behavior.
 
 Compare 100% and a second form zoom on the same desktop DPI. The initial second
 zoom is 150%. Excel's Zoom scales contents; enlarge its client area separately
@@ -19,11 +25,32 @@ pixels and mean absolute channel errors. Keep title bars separate from client
 metrics. A lower pixel error is an improvement, not a parity claim. Keep focus,
 caret, active/inactive state and input method explicit when interpreting pixels.
 
-`tools/office-oracle/layout_compare.py` currently captures the real workbook
-greeter at both scales in one owned Excel session. The authored all-intrinsic
-corpus and complete physical-input comparison are `.79` work. The Windows host
-can optionally emit its resident Scene using `--dump-scene`; this is an
-observation of the production runtime, not an alternate control implementation.
+Build `cargo build -p calcforms-bootstrap --bin calcforms-workbook --example
+layout_probe`, then run `python -B tools/office-oracle/layout_compare.py --out
+<fresh-directory>`. This one command captures the real workbook greeter and
+three authored forms at 100% and 150%, covering all 14 intrinsic kinds and
+nested Frame children. `--forms` and `--scales` select a smaller run. The default
+uses a private desktop and one owned Excel, and closes only its own processes.
+The authored source is generated from `layout-corpus.v1.json`; the Windows
+example uses the same VBA library, reducer and window host as the real workbook.
+This exercises live controls, not binary persistence of the authored controls.
+
+Each case records native and VBA bounds, font size, tab indices, nested paint
+origins, retained text-run metrics and text rectangles alongside image errors.
+The real greeter's control names map to its verified persisted site order.
+Duplicate paths are rejected. Native ComboBox height coercion and fractional
+coordinate rounding remain visible in the measurements. Initial Scene exports
+describe the initial state only; later input snapshots must not be interpreted
+as newly exported text geometry.
+
+`--interactive --serve` accepts `pair`, `snapshot`, `macro` and `close` JSON
+commands in its output directory's `commands.jsonl`. An additional capture
+session can use `--interactive --attach-owned <ownership.json> --keep-excel` to
+reuse the live original session. It verifies the exact process path, PID and
+creation time, launches no Excel, closes its authored book and runtime, and
+leaves Excel for the original session to close. Never start another Excel when
+the existing owned instance can be reused. A shared-desktop operation waits
+outside the lock while another worker owns it; each exclusive hold stays short.
 
 The theme/control VBA owns paint and control layout; the PAL retains generic
 primitives, text metrics, rasterization and window services. The November
@@ -31,6 +58,16 @@ greeter correction uses form-background/black labels, top-aligned label text,
 smaller white checkbox glyphs with a check mark, a 13.5pt caption offset and a
 caption-sized focus rectangle. Border style, font rasterization and exact
 focus-dot matching remain separate measured differences.
+
+Workbook font names now survive decoding. A homogeneous form loads its named
+Tahoma or Microsoft Sans Serif face; mixed faces are rejected explicitly until
+per-control font identities are supported. Legacy bitmap MS Sans Serif currently
+uses a reported Microsoft Sans Serif substitution. Point sizes refer to the
+font's design em, so the ab_glyph ascent/descent scale is converted consistently
+for shaping and rasterization. Monitor DPI/form zoom is applied once when the
+Scene is rasterized. This does not claim GDI hinting or exact baseline parity.
+Disabled/button/image faces and selection blue use the observed Windows colors;
+the native pressed-toggle checker pattern is still approximated by a solid fill.
 
 Real Ctrl+A exposed a Windows text normalization error: winit's `KeyEvent.text`
 ignores Control, so a correct select-all KeyDown was followed by an unwanted

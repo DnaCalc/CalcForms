@@ -36,5 +36,7 @@ pub use raster::{
     render_scene_to_pixmap, render_scene_to_png, render_scene_to_rgba, repaint_scene_damage,
     SkiaSink,
 };
-pub use text::{load_ui_font, AbGlyphShaper, FontTable, SceneTextResolver, TextResolver};
+pub use text::{
+    load_ui_font, load_ui_font_family, AbGlyphShaper, FontTable, SceneTextResolver, TextResolver,
+};
 pub use window::{run_scene_window, WindowError, WindowOptions, WindowSignal};

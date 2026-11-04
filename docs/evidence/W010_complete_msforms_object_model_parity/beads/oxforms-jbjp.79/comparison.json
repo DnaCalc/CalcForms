@@ -1,0 +1,4411 @@
+{
+  "schema": "calcforms.intrinsic_layout.v1",
+  "date": "2026-11-05",
+  "raw_directory": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3-composited",
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 0,
+    "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+    "process_created": 1793828651.878,
+    "excel_pid": 49844,
+    "desktop": "winsta0\\default",
+    "closed": "retained_by_original_session",
+    "workbook_unchanged": true,
+    "cleanup_notes": []
+  },
+  "pixel_parity_claimed": false,
+  "observations": [
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "greeter",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            400,
+            213
+          ],
+          "distinct_colors": 83,
+          "sha256": "c5e780f399344b541b3b1f852e05d082441c110d0803dc50a5f67cc7c31ad774"
+        },
+        "children": [
+          {
+            "hwnd": 1705850,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              762,
+              535,
+              1146,
+              709
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              384,
+              174
+            ],
+            "distinct_colors": 72,
+            "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "c5e780f399344b541b3b1f852e05d082441c110d0803dc50a5f67cc7c31ad774"
+        },
+        "geometry": {
+          "hwnd": 23922974,
+          "pid": 49844,
+          "window_rect": [
+            754,
+            504,
+            1154,
+            717
+          ],
+          "client_size": [
+            384,
+            174
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            400,
+            213
+          ],
+          "distinct_colors": 336,
+          "sha256": "61abb76a5573edda841dd961e946d5ca8fc5673357bbf3f74581da94de3f3e03"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "61abb76a5573edda841dd961e946d5ca8fc5673357bbf3f74581da94de3f3e03"
+        },
+        "geometry": {
+          "hwnd": 137301704,
+          "pid": 66872,
+          "window_rect": [
+            78,
+            78,
+            478,
+            291
+          ],
+          "client_size": [
+            384,
+            174
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "34addfe92982029c7608d1e65dda4659b5747de57fe711f75fdb9c3869542cb7"
+        }
+      },
+      "excel_facts": "288;130.5;100\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms_observation": "Initialize;text=Ada;caption=(ready);loud=False",
+      "runtime_sha256": "34e0da6fd85fc43cc0d39f517abd78057c6c744cb6b01d30228ccea82ef7a6eb",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 66816,
+        "different_pixels": 3190,
+        "different_fraction": 0.04774305555555555,
+        "mean_absolute_rgb": [
+          4.019546216475096,
+          4.184611470306513,
+          4.234509698275862
+        ],
+        "luminance_error_above_32": 1743,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "resident Scene, mapped by the verified flat greeter fixture site order",
+        "controls": [
+          {
+            "name": "Greet",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                72.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                72.0,
+                24.009449
+              ]
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.00944900000000004
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "InputName",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                11.990551,
+                36.0,
+                169.9937,
+                20.012598
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              0.0,
+              -0.006300000000010186,
+              0.012598000000000553
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Loud",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                66.0,
+                120.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                11.990551,
+                65.990555,
+                119.990555,
+                18.0
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              -0.009444999999999482,
+              -0.009444999999999482,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Output",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                96.0,
+                258.0,
+                22.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                11.990551,
+                96.009445,
+                258.00946,
+                21.996851
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              0.009444999999999482,
+              0.009459999999990032,
+              -0.0031490000000005125
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Prompt",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                96.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                11.990551,
+                11.990551,
+                96.009445,
+                18.0
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              -0.00944900000000004,
+              0.009444999999999482,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.012598000000000553,
+        "text_runs": [
+          {
+            "text": "(ready)",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 26.590942,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Uppercase",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 37.96692,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Your name",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 39.09082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Ada",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 13.83728,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Greet",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 19.88379,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 10292663832318033308,
+            "rect": {
+              "x": 11.990551,
+              "y": 12.740551,
+              "w": 96.009445,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 17577713339795522223,
+            "rect": {
+              "x": 202.0,
+              "y": 39.0,
+              "w": 64.0,
+              "h": 18.009449
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 8324988711280772442,
+            "rect": {
+              "x": 25.490551,
+              "y": 68.990555,
+              "w": 104.990555,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 3874378463723997908,
+            "rect": {
+              "x": 11.990551,
+              "y": 96.759445,
+              "w": 258.00946,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 2900,
+            "run": 12888563741086152538,
+            "rect": {
+              "x": 15.990551,
+              "y": 39.0,
+              "w": 161.9937,
+              "h": 14.012598
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "greeter-100-excel.png",
+          "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+        },
+        {
+          "file": "greeter-100-calcforms.png",
+          "sha256": "34addfe92982029c7608d1e65dda4659b5747de57fe711f75fdb9c3869542cb7"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "greeter",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            592,
+            300
+          ],
+          "distinct_colors": 69,
+          "sha256": "f7961243ed28d0fc41e7139f3191fb7354887c71ef5ec02099cbdaaf8d6d5c73"
+        },
+        "children": [
+          {
+            "hwnd": 1771386,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              666,
+              491,
+              1242,
+              752
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              576,
+              261
+            ],
+            "distinct_colors": 56,
+            "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "f7961243ed28d0fc41e7139f3191fb7354887c71ef5ec02099cbdaaf8d6d5c73"
+        },
+        "geometry": {
+          "hwnd": 23988510,
+          "pid": 49844,
+          "window_rect": [
+            658,
+            460,
+            1250,
+            760
+          ],
+          "client_size": [
+            576,
+            261
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            592,
+            300
+          ],
+          "distinct_colors": 347,
+          "sha256": "6f303d3244122c0fa9a6c1f56491eee87b3e0054903dd3a2038e4f86590763ed"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "6f303d3244122c0fa9a6c1f56491eee87b3e0054903dd3a2038e4f86590763ed"
+        },
+        "geometry": {
+          "hwnd": 307961590,
+          "pid": 6372,
+          "window_rect": [
+            104,
+            104,
+            696,
+            404
+          ],
+          "client_size": [
+            576,
+            261
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "b1d1d8151dd529b9be47dac5a2d2be2f8d0f077e7757065c32ce145b71526a34"
+        }
+      },
+      "excel_facts": "288;130.5;150\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "calcforms_observation": "Initialize;text=Ada;caption=(ready);loud=False",
+      "runtime_sha256": "34e0da6fd85fc43cc0d39f517abd78057c6c744cb6b01d30228ccea82ef7a6eb",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 150336,
+        "different_pixels": 5640,
+        "different_fraction": 0.03751596424010217,
+        "mean_absolute_rgb": [
+          3.670418263090677,
+          3.6089492869306086,
+          3.5512718177948064
+        ],
+        "luminance_error_above_32": 3417,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "resident Scene, mapped by the verified flat greeter fixture site order",
+        "controls": [
+          {
+            "name": "Greet",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                72.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                72.0,
+                24.009449
+              ]
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.00944900000000004
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "InputName",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                11.990551,
+                36.0,
+                169.9937,
+                20.012598
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              0.0,
+              -0.006300000000010186,
+              0.012598000000000553
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Loud",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                66.0,
+                120.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                11.990551,
+                65.990555,
+                119.990555,
+                18.0
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              -0.009444999999999482,
+              -0.009444999999999482,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Output",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                96.0,
+                258.0,
+                22.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                11.990551,
+                96.009445,
+                258.00946,
+                21.996851
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              0.009444999999999482,
+              0.009459999999990032,
+              -0.0031490000000005125
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Prompt",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                96.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                11.990551,
+                11.990551,
+                96.009445,
+                18.0
+              ]
+            },
+            "delta_pt": [
+              -0.00944900000000004,
+              -0.00944900000000004,
+              0.009444999999999482,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.012598000000000553,
+        "text_runs": [
+          {
+            "text": "(ready)",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 26.590942,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Uppercase",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 37.96692,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Your name",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 39.09082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Ada",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 13.83728,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Greet",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 19.88379,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 10292663832318033308,
+            "rect": {
+              "x": 11.990551,
+              "y": 12.740551,
+              "w": 96.009445,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 17577713339795522223,
+            "rect": {
+              "x": 202.0,
+              "y": 39.0,
+              "w": 64.0,
+              "h": 18.009449
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 8324988711280772442,
+            "rect": {
+              "x": 25.490551,
+              "y": 68.990555,
+              "w": 104.990555,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 3874378463723997908,
+            "rect": {
+              "x": 11.990551,
+              "y": 96.759445,
+              "w": 258.00946,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 2900,
+            "run": 12888563741086152538,
+            "rect": {
+              "x": 15.990551,
+              "y": 39.0,
+              "w": 161.9937,
+              "h": 14.012598
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "greeter-150-excel.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        },
+        {
+          "file": "greeter-150-calcforms.png",
+          "sha256": "b1d1d8151dd529b9be47dac5a2d2be2f8d0f077e7757065c32ce145b71526a34"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            416,
+            279
+          ],
+          "distinct_colors": 223,
+          "sha256": "cd241f74c9efe3cd89b32affa9518c81d3753a8da2587dbe2a0cb23f20819d9f"
+        },
+        "children": [
+          {
+            "hwnd": 2033328,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              777,
+              525,
+              1177,
+              765
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              400,
+              240
+            ],
+            "distinct_colors": 210,
+            "sha256": "8982339af634ebfe13369809ae0f1b9f79f999dce0167bad0aff9390a2c742b2"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "cd241f74c9efe3cd89b32affa9518c81d3753a8da2587dbe2a0cb23f20819d9f"
+        },
+        "geometry": {
+          "hwnd": 23922674,
+          "pid": 49844,
+          "window_rect": [
+            769,
+            494,
+            1185,
+            773
+          ],
+          "client_size": [
+            400,
+            240
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "8982339af634ebfe13369809ae0f1b9f79f999dce0167bad0aff9390a2c742b2"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            416,
+            279
+          ],
+          "distinct_colors": 357,
+          "sha256": "406507aaf1dc8dc55f7f722797d11f83d2b31051da3caafc6f44b553d711373d"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "406507aaf1dc8dc55f7f722797d11f83d2b31051da3caafc6f44b553d711373d"
+        },
+        "geometry": {
+          "hwnd": 12519552,
+          "pid": 64904,
+          "window_rect": [
+            182,
+            182,
+            598,
+            461
+          ],
+          "client_size": [
+            400,
+            240
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "2d40949124a5c3575e3aa36e3ffef84b0be4db3f5a54228b39de18a804717a98"
+        }
+      },
+      "excel_facts": "300;180;100\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "excel_state": null,
+      "calcforms_observation": "Prompt;Label;12;12;170;18;1;12;12;8.25;0\nInputName;TextBox;12;36;170;20;2;12;36;8.25;1\nGreet;CommandButton;198;36;84;24;3;198;36;8.25;2\nFractional;Label;12.375;74.625;123.375;17.625;4;12.375;74.625;8.25;3\nClipped;Label;162;75;70;12;5;162;75;8.25;4\nLongInput;TextBox;12;108;150;20;6;12;108;8.25;5\nDisabled;CommandButton;198;108;84;24;7;198;108;8.25;6\n",
+      "runtime_sha256": "cf3a094f93e85b04a93e97da0da0549c0e34c2530dd554c84d867cf351773bd5",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 96000,
+        "different_pixels": 7346,
+        "different_fraction": 0.07652083333333333,
+        "mean_absolute_rgb": [
+          6.6619375,
+          6.785385416666666,
+          6.623666666666667
+        ],
+        "luminance_error_above_32": 4255,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Clipped",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                162.0,
+                75.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Disabled",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                198.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Fractional",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.4,
+                74.65,
+                123.35,
+                17.65
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.375,
+                74.625,
+                123.375,
+                17.625
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                12.375,
+                74.625
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              -0.025000000000000355,
+              -0.025000000000005684,
+              0.025000000000005684,
+              -0.02499999999999858
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Greet",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                198.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "InputName",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                12.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "LongInput",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                12.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Prompt",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.025000000000005684,
+        "text_runs": [
+          {
+            "text": "Disabled",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.84082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "A long input with a clipped trailing word",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 145.09607,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Fractional position",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 66.13696,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Ada",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 13.83728,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Your name: AgjpQy",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 70.97095,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Long clipped label AgjpQy",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 94.4762,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Greet",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 19.88379,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 15254147454991307802,
+            "rect": {
+              "x": 12.0,
+              "y": 12.75,
+              "w": 170.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 17577713339795522223,
+            "rect": {
+              "x": 202.0,
+              "y": 39.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 12477738865535806340,
+            "rect": {
+              "x": 12.375,
+              "y": 75.375,
+              "w": 123.375,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 15760181691436062255,
+            "rect": {
+              "x": 162.0,
+              "y": 75.75,
+              "w": 70.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7,
+            "run": 2783079197164487730,
+            "rect": {
+              "x": 202.0,
+              "y": 111.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2900,
+            "run": 12888563741086152538,
+            "rect": {
+              "x": 16.0,
+              "y": 39.0,
+              "w": 162.0,
+              "h": 14.0
+            },
+            "clip": false
+          },
+          {
+            "node": 6900,
+            "run": 9315774328096983683,
+            "rect": {
+              "x": 16.0,
+              "y": 111.0,
+              "w": 145.096,
+              "h": 14.0
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "LayoutCommon-100-excel.png",
+          "sha256": "8982339af634ebfe13369809ae0f1b9f79f999dce0167bad0aff9390a2c742b2"
+        },
+        {
+          "file": "LayoutCommon-100-calcforms.png",
+          "sha256": "2d40949124a5c3575e3aa36e3ffef84b0be4db3f5a54228b39de18a804717a98"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            616,
+            399
+          ],
+          "distinct_colors": 203,
+          "sha256": "b3019a877a932ca149bbedc1f6421ab6cafbc3d987cb999d021985661806264d"
+        },
+        "children": [
+          {
+            "hwnd": 2098864,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              677,
+              465,
+              1277,
+              825
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              600,
+              360
+            ],
+            "distinct_colors": 190,
+            "sha256": "4433790acc8341a22f7c884dfa38da27d4f8d1de40c18f192e5b60bfc0ecabd9"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "b3019a877a932ca149bbedc1f6421ab6cafbc3d987cb999d021985661806264d"
+        },
+        "geometry": {
+          "hwnd": 23988210,
+          "pid": 49844,
+          "window_rect": [
+            669,
+            434,
+            1285,
+            833
+          ],
+          "client_size": [
+            600,
+            360
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "4433790acc8341a22f7c884dfa38da27d4f8d1de40c18f192e5b60bfc0ecabd9"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            616,
+            399
+          ],
+          "distinct_colors": 357,
+          "sha256": "f4193439c70a921eebc3ceb292904a7aa229d0c14622bee29c23f869d0ed5746"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "f4193439c70a921eebc3ceb292904a7aa229d0c14622bee29c23f869d0ed5746"
+        },
+        "geometry": {
+          "hwnd": 66326596,
+          "pid": 38348,
+          "window_rect": [
+            208,
+            208,
+            824,
+            607
+          ],
+          "client_size": [
+            600,
+            360
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "bbb53dec894824901d7660872c295575f21b867fef625e55a7fede662e26380e"
+        }
+      },
+      "excel_facts": "300;180;150\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "excel_state": null,
+      "calcforms_observation": "Prompt;Label;12;12;170;18;1;12;12;8.25;0\nInputName;TextBox;12;36;170;20;2;12;36;8.25;1\nGreet;CommandButton;198;36;84;24;3;198;36;8.25;2\nFractional;Label;12.375;74.625;123.375;17.625;4;12.375;74.625;8.25;3\nClipped;Label;162;75;70;12;5;162;75;8.25;4\nLongInput;TextBox;12;108;150;20;6;12;108;8.25;5\nDisabled;CommandButton;198;108;84;24;7;198;108;8.25;6\n",
+      "runtime_sha256": "cf3a094f93e85b04a93e97da0da0549c0e34c2530dd554c84d867cf351773bd5",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 216000,
+        "different_pixels": 13192,
+        "different_fraction": 0.06107407407407407,
+        "mean_absolute_rgb": [
+          5.896805555555556,
+          5.889842592592593,
+          5.900615740740741
+        ],
+        "luminance_error_above_32": 8101,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Clipped",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                162.0,
+                75.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Disabled",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                198.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Fractional",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.4,
+                74.65,
+                123.35,
+                17.65
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.375,
+                74.625,
+                123.375,
+                17.625
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                12.375,
+                74.625
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              -0.025000000000000355,
+              -0.025000000000005684,
+              0.025000000000005684,
+              -0.02499999999999858
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Greet",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                198.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "InputName",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                12.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "LongInput",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                12.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Prompt",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.025000000000005684,
+        "text_runs": [
+          {
+            "text": "Disabled",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.84082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "A long input with a clipped trailing word",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 145.09607,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Fractional position",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 66.13696,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Ada",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 13.83728,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Your name: AgjpQy",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 70.97095,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Long clipped label AgjpQy",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 94.4762,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Greet",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 19.88379,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 15254147454991307802,
+            "rect": {
+              "x": 12.0,
+              "y": 12.75,
+              "w": 170.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 17577713339795522223,
+            "rect": {
+              "x": 202.0,
+              "y": 39.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 12477738865535806340,
+            "rect": {
+              "x": 12.375,
+              "y": 75.375,
+              "w": 123.375,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 15760181691436062255,
+            "rect": {
+              "x": 162.0,
+              "y": 75.75,
+              "w": 70.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7,
+            "run": 2783079197164487730,
+            "rect": {
+              "x": 202.0,
+              "y": 111.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2900,
+            "run": 12888563741086152538,
+            "rect": {
+              "x": 16.0,
+              "y": 39.0,
+              "w": 162.0,
+              "h": 14.0
+            },
+            "clip": false
+          },
+          {
+            "node": 6900,
+            "run": 9315774328096983683,
+            "rect": {
+              "x": 16.0,
+              "y": 111.0,
+              "w": 145.096,
+              "h": 14.0
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "LayoutCommon-150-excel.png",
+          "sha256": "4433790acc8341a22f7c884dfa38da27d4f8d1de40c18f192e5b60bfc0ecabd9"
+        },
+        {
+          "file": "LayoutCommon-150-calcforms.png",
+          "sha256": "bbb53dec894824901d7660872c295575f21b867fef625e55a7fede662e26380e"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            456,
+            319
+          ],
+          "distinct_colors": 137,
+          "sha256": "21da726dd5f0f6c538c2bd6aaa5418b4148cbce39ca452884f75bd7e0c68181c"
+        },
+        "children": [
+          {
+            "hwnd": 518331472,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              757,
+              505,
+              1197,
+              785
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              440,
+              280
+            ],
+            "distinct_colors": 124,
+            "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+          },
+          {
+            "hwnd": 84414798,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              773,
+              657,
+              946,
+              752
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              173,
+              95
+            ],
+            "distinct_colors": 61,
+            "sha256": "f31d4895f2c8003846bb2e25fc444993c6132b32c341c875259d6a0efc9f22d9"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "21da726dd5f0f6c538c2bd6aaa5418b4148cbce39ca452884f75bd7e0c68181c"
+        },
+        "geometry": {
+          "hwnd": 150605678,
+          "pid": 49844,
+          "window_rect": [
+            749,
+            474,
+            1205,
+            793
+          ],
+          "client_size": [
+            440,
+            280
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            456,
+            319
+          ],
+          "distinct_colors": 357,
+          "sha256": "5c6aa46cf91f8e07104ddcc4c2d9d3e5805da2f8380af18cb699e02e17ce6f64"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "5c6aa46cf91f8e07104ddcc4c2d9d3e5805da2f8380af18cb699e02e17ce6f64"
+        },
+        "geometry": {
+          "hwnd": 24053746,
+          "pid": 68900,
+          "window_rect": [
+            234,
+            234,
+            690,
+            553
+          ],
+          "client_size": [
+            440,
+            280
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "0974a9ddd3130be1a46bf57848e17897d2ab284ab78e813dbddafeb09bf5a5f0"
+        }
+      },
+      "excel_facts": "330;210;100\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "excel_state": null,
+      "calcforms_observation": "Unchecked;CheckBox;12;12;130;18;1;12;12;8.25;0\nChecked;CheckBox;174;12;130;18;2;174;12;8.25;1\nOptionOne;OptionButton;12;42;130;18;3;12;42;8.25;2\nOptionTwo;OptionButton;174;42;130;18;4;174;42;8.25;3\nToggleOff;ToggleButton;12;72;130;24;5;12;72;8.25;4\nToggleOn;ToggleButton;174;72;130;24;6;174;72;8.25;5\nChoices;ListBox;12;114;130;72;7;12;114;8.25;6\nDropdown;ComboBox;174;114;130;21;8;174;114;8.25;7\n",
+      "runtime_sha256": "cf3a094f93e85b04a93e97da0da0549c0e34c2530dd554c84d867cf351773bd5",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 123200,
+        "different_pixels": 15318,
+        "different_fraction": 0.12433441558441559,
+        "mean_absolute_rgb": [
+          11.698441558441559,
+          8.828823051948053,
+          6.469724025974026
+        ],
+        "luminance_error_above_32": 7598,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Checked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                174.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Choices",
+            "native": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                71.25
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                72.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                12.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.75
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Dropdown",
+            "native": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "calcforms": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "node_id": 8,
+              "paint_origin": [
+                174.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionOne",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                12.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionTwo",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                174.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOff",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOn",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                174.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Unchecked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.75,
+        "text_runs": [
+          {
+            "text": "Toggle off",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 36.057495,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Unchecked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 39.505737,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "First option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 40.943848,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Checked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Beta",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 16.334839,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Alpha\nBeta\nGamma",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 81.18274,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Toggle on",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Second option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 6499876056816127354,
+            "rect": {
+              "x": 25.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2,
+            "run": 11804432927723802779,
+            "rect": {
+              "x": 187.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 8278848058277314201,
+            "rect": {
+              "x": 28.0,
+              "y": 45.0,
+              "w": 110.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 14421308415448605543,
+            "rect": {
+              "x": 190.0,
+              "y": 45.0,
+              "w": 110.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 2772520233285191379,
+            "rect": {
+              "x": 16.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 13024755655796459631,
+            "rect": {
+              "x": 178.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 7,
+            "run": 12537571228766422513,
+            "rect": {
+              "x": 17.0,
+              "y": 117.0,
+              "w": 120.0,
+              "h": 66.0
+            },
+            "clip": true
+          },
+          {
+            "node": 8,
+            "run": 12428100500927987912,
+            "rect": {
+              "x": 177.0,
+              "y": 117.0,
+              "w": 106.0,
+              "h": 15.0
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "LayoutSelection-100-excel.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        },
+        {
+          "file": "LayoutSelection-100-calcforms.png",
+          "sha256": "0974a9ddd3130be1a46bf57848e17897d2ab284ab78e813dbddafeb09bf5a5f0"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            676,
+            459
+          ],
+          "distinct_colors": 102,
+          "sha256": "d9d66d1ab8b095c63dcdf2ef42e8116b08efed17eff4ed0c4ef363f6654d6018"
+        },
+        "children": [
+          {
+            "hwnd": 518397008,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              647,
+              435,
+              1307,
+              855
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              660,
+              420
+            ],
+            "distinct_colors": 89,
+            "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+          },
+          {
+            "hwnd": 84480334,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              671,
+              663,
+              931,
+              806
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              260,
+              143
+            ],
+            "distinct_colors": 46,
+            "sha256": "b39b0d2607c9375598126df7f1069e9ff0943d60ba4585147ddb447c0f8fc3d8"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "d9d66d1ab8b095c63dcdf2ef42e8116b08efed17eff4ed0c4ef363f6654d6018"
+        },
+        "geometry": {
+          "hwnd": 150671214,
+          "pid": 49844,
+          "window_rect": [
+            639,
+            404,
+            1315,
+            863
+          ],
+          "client_size": [
+            660,
+            420
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            676,
+            459
+          ],
+          "distinct_colors": 358,
+          "sha256": "e01a60f20739e359856aececaebdfba4584957b096cf864896ed21c6e6f3d4c2"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "e01a60f20739e359856aececaebdfba4584957b096cf864896ed21c6e6f3d4c2"
+        },
+        "geometry": {
+          "hwnd": 1640124,
+          "pid": 50276,
+          "window_rect": [
+            26,
+            26,
+            702,
+            485
+          ],
+          "client_size": [
+            660,
+            420
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "7de2bc593c4096abe6ede9638736eaa7766937e0de663ee04cc15d5fde65df61"
+        }
+      },
+      "excel_facts": "330;210;150\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "excel_state": null,
+      "calcforms_observation": "Unchecked;CheckBox;12;12;130;18;1;12;12;8.25;0\nChecked;CheckBox;174;12;130;18;2;174;12;8.25;1\nOptionOne;OptionButton;12;42;130;18;3;12;42;8.25;2\nOptionTwo;OptionButton;174;42;130;18;4;174;42;8.25;3\nToggleOff;ToggleButton;12;72;130;24;5;12;72;8.25;4\nToggleOn;ToggleButton;174;72;130;24;6;174;72;8.25;5\nChoices;ListBox;12;114;130;72;7;12;114;8.25;6\nDropdown;ComboBox;174;114;130;21;8;174;114;8.25;7\n",
+      "runtime_sha256": "cf3a094f93e85b04a93e97da0da0549c0e34c2530dd554c84d867cf351773bd5",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 277200,
+        "different_pixels": 32797,
+        "different_fraction": 0.11831529581529582,
+        "mean_absolute_rgb": [
+          12.301093073593073,
+          8.971111111111112,
+          6.384747474747475
+        ],
+        "luminance_error_above_32": 16666,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Checked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                174.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Choices",
+            "native": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                71.25
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                72.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                12.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.75
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Dropdown",
+            "native": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "calcforms": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "node_id": 8,
+              "paint_origin": [
+                174.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionOne",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                12.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionTwo",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                174.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOff",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOn",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                174.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Unchecked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.75,
+        "text_runs": [
+          {
+            "text": "Toggle off",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 36.057495,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Unchecked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 39.505737,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "First option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 40.943848,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Checked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Beta",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 16.334839,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Alpha\nBeta\nGamma",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 81.18274,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Toggle on",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Second option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 6499876056816127354,
+            "rect": {
+              "x": 25.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2,
+            "run": 11804432927723802779,
+            "rect": {
+              "x": 187.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 8278848058277314201,
+            "rect": {
+              "x": 28.0,
+              "y": 45.0,
+              "w": 110.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 14421308415448605543,
+            "rect": {
+              "x": 190.0,
+              "y": 45.0,
+              "w": 110.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 2772520233285191379,
+            "rect": {
+              "x": 16.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 13024755655796459631,
+            "rect": {
+              "x": 178.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 7,
+            "run": 12537571228766422513,
+            "rect": {
+              "x": 17.0,
+              "y": 117.0,
+              "w": 120.0,
+              "h": 66.0
+            },
+            "clip": true
+          },
+          {
+            "node": 8,
+            "run": 12428100500927987912,
+            "rect": {
+              "x": 177.0,
+              "y": 117.0,
+              "w": 106.0,
+              "h": 15.0
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "LayoutSelection-150-excel.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        },
+        {
+          "file": "LayoutSelection-150-calcforms.png",
+          "sha256": "7de2bc593c4096abe6ede9638736eaa7766937e0de663ee04cc15d5fde65df61"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            536,
+            419
+          ],
+          "distinct_colors": 110,
+          "sha256": "b6a513ee756ad416471ad280952558bfe28bfc72f0853b48021e107760b7ca00"
+        },
+        "children": [
+          {
+            "hwnd": 335224898,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              717,
+              455,
+              1237,
+              835
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              520,
+              380
+            ],
+            "distinct_colors": 98,
+            "sha256": "8e1487a6a78f955bae15263710315390d21f7d1cd8ba81d1b301dd06ee6c67e6"
+          },
+          {
+            "hwnd": 162338008,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              733,
+              471,
+              965,
+              567
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              232,
+              96
+            ],
+            "distinct_colors": 77,
+            "sha256": "3985ca383d2d975d3c813e87990076957a4e1551b2698d9886af59d5ce1fbdbf"
+          },
+          {
+            "hwnd": 50073150,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              997,
+              591,
+              1213,
+              783
+            ],
+            "file": "excel-child-2.png",
+            "size": [
+              216,
+              192
+            ],
+            "distinct_colors": 39,
+            "sha256": "b107ad76be05f95fac0ab9f925bf0bcf6b47ba3a362eec6c5ffea053e0a5d58b"
+          },
+          {
+            "hwnd": 104077520,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              999,
+              612,
+              1211,
+              781
+            ],
+            "file": "excel-child-3.png",
+            "size": [
+              212,
+              169
+            ],
+            "distinct_colors": 1,
+            "sha256": "84ce4813aba0339818e4af7accadda20feeaa659d1e39e1e6fa0b23da86a8a0d"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "b6a513ee756ad416471ad280952558bfe28bfc72f0853b48021e107760b7ca00"
+        },
+        "geometry": {
+          "hwnd": 225056484,
+          "pid": 49844,
+          "window_rect": [
+            709,
+            424,
+            1245,
+            843
+          ],
+          "client_size": [
+            520,
+            380
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "8e1487a6a78f955bae15263710315390d21f7d1cd8ba81d1b301dd06ee6c67e6"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            536,
+            419
+          ],
+          "distinct_colors": 345,
+          "sha256": "5bf25e8627b3308fb3b4f7c20e73b7727777122a6c71de76446b88bc1cc42bf2"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "5bf25e8627b3308fb3b4f7c20e73b7727777122a6c71de76446b88bc1cc42bf2"
+        },
+        "geometry": {
+          "hwnd": 14288394,
+          "pid": 11576,
+          "window_rect": [
+            52,
+            52,
+            588,
+            471
+          ],
+          "client_size": [
+            520,
+            380
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "e18786d53e604f76a883719ef7dec05b7880844d46291b4c8efc3e576a016ca4"
+        }
+      },
+      "excel_facts": "390;285;100\nGroup;Frame;12;12;174;72;Tahoma;8.25;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+      "excel_state": null,
+      "calcforms_observation": "Group;Frame;12;12;174;72;1;12;12;8.25;0\nGroup.NestedLabel;Label;12;18;138;18;1001;30;48;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;1002;30;69;8.25;1\nPicture;Image;210;12;66;54;2;210;12;8.25;1\nSpinner;SpinButton;300;12;18;54;3;300;12;8.25;2\nSlider;ScrollBar;12;102;174;18;4;12;102;8.25;3\nTabsControl;TabStrip;12;144;174;102;5;12;144;8.25;4\nPagesControl;MultiPage;210;102;162;144;6;210;102;8.25;5\n",
+      "runtime_sha256": "cf3a094f93e85b04a93e97da0da0549c0e34c2530dd554c84d867cf351773bd5",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 197600,
+        "different_pixels": 18109,
+        "different_fraction": 0.09164473684210526,
+        "mean_absolute_rgb": [
+          4.669433198380567,
+          4.678481781376518,
+          4.656472672064777
+        ],
+        "luminance_error_above_32": 5979,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Group",
+            "native": {
+              "kind": "Frame",
+              "bounds": [
+                12.0,
+                12.0,
+                174.0,
+                72.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Frame",
+              "bounds": [
+                12.0,
+                12.0,
+                174.0,
+                72.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Group.NestedInput",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                39.0,
+                138.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                39.0,
+                138.0,
+                18.0
+              ],
+              "node_id": 1002,
+              "paint_origin": [
+                30.0,
+                69.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Group.NestedLabel",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                18.0,
+                138.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                18.0,
+                138.0,
+                18.0
+              ],
+              "node_id": 1001,
+              "paint_origin": [
+                30.0,
+                48.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "PagesControl",
+            "native": {
+              "kind": "MultiPage",
+              "bounds": [
+                210.0,
+                102.0,
+                162.0,
+                144.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "MultiPage",
+              "bounds": [
+                210.0,
+                102.0,
+                162.0,
+                144.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                210.0,
+                102.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Picture",
+            "native": {
+              "kind": "Image",
+              "bounds": [
+                210.0,
+                12.0,
+                66.0,
+                54.0
+              ]
+            },
+            "calcforms": {
+              "kind": "Image",
+              "bounds": [
+                210.0,
+                12.0,
+                66.0,
+                54.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                210.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Slider",
+            "native": {
+              "kind": "ScrollBar",
+              "bounds": [
+                12.0,
+                102.0,
+                174.0,
+                18.0
+              ]
+            },
+            "calcforms": {
+              "kind": "ScrollBar",
+              "bounds": [
+                12.0,
+                102.0,
+                174.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                12.0,
+                102.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Spinner",
+            "native": {
+              "kind": "SpinButton",
+              "bounds": [
+                300.0,
+                12.0,
+                18.0,
+                54.0
+              ]
+            },
+            "calcforms": {
+              "kind": "SpinButton",
+              "bounds": [
+                300.0,
+                12.0,
+                18.0,
+                54.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                300.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "TabsControl",
+            "native": {
+              "kind": "TabStrip",
+              "bounds": [
+                12.0,
+                144.0,
+                174.0,
+                102.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "TabStrip",
+              "bounds": [
+                12.0,
+                144.0,
+                174.0,
+                102.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                144.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.0,
+        "text_runs": [
+          {
+            "text": "Details",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 24.48816,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "First\nSecond",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 50.253296,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Inside frame",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 45.705322,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Nested",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 25.193115,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 1730325150887979784,
+            "rect": {
+              "x": 18.0,
+              "y": 15.0,
+              "w": 162.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 16.0,
+              "y": 149.0,
+              "w": 79.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 103.0,
+              "y": 148.0,
+              "w": 79.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 214.0,
+              "y": 107.0,
+              "w": 73.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 295.0,
+              "y": 106.0,
+              "w": 73.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 1001,
+            "run": 12329757690649629163,
+            "rect": {
+              "x": 30.0,
+              "y": 48.75,
+              "w": 138.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 1002900,
+            "run": 15430170632886510293,
+            "rect": {
+              "x": 34.0,
+              "y": 72.0,
+              "w": 130.0,
+              "h": 12.0
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "LayoutContainers-100-excel.png",
+          "sha256": "8e1487a6a78f955bae15263710315390d21f7d1cd8ba81d1b301dd06ee6c67e6"
+        },
+        {
+          "file": "LayoutContainers-100-calcforms.png",
+          "sha256": "e18786d53e604f76a883719ef7dec05b7880844d46291b4c8efc3e576a016ca4"
+        }
+      ]
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            796,
+            609
+          ],
+          "distinct_colors": 70,
+          "sha256": "736c4dca05fecfe2d05b5c890d849e4ac70120cea88b9dab4632f7b44cbd0fea"
+        },
+        "children": [
+          {
+            "hwnd": 335290434,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              587,
+              360,
+              1367,
+              930
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              780,
+              570
+            ],
+            "distinct_colors": 58,
+            "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+          },
+          {
+            "hwnd": 50138686,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              611,
+              384,
+              959,
+              528
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              348,
+              144
+            ],
+            "distinct_colors": 55,
+            "sha256": "87e29468236fc10b90c2f368c9134872eba86b79864b3a63a9d332d089880f8e"
+          },
+          {
+            "hwnd": 104143056,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              1007,
+              564,
+              1331,
+              852
+            ],
+            "file": "excel-child-2.png",
+            "size": [
+              324,
+              288
+            ],
+            "distinct_colors": 28,
+            "sha256": "9b6d2454a20b85c1bf990cd0e7aa44735bca162972360ff5e6f80a1486f88af5"
+          },
+          {
+            "hwnd": 162403544,
+            "class": "F3 Server ce2e0000",
+            "window_rect": [
+              1010,
+              596,
+              1328,
+              849
+            ],
+            "file": "excel-child-3.png",
+            "size": [
+              318,
+              253
+            ],
+            "distinct_colors": 1,
+            "sha256": "f571e4fc0c34eb534974573b409d29950eb54533902b4de28c8a09cf4b59fcf2"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "736c4dca05fecfe2d05b5c890d849e4ac70120cea88b9dab4632f7b44cbd0fea"
+        },
+        "geometry": {
+          "hwnd": 225122020,
+          "pid": 49844,
+          "window_rect": [
+            579,
+            329,
+            1375,
+            938
+          ],
+          "client_size": [
+            780,
+            570
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            796,
+            609
+          ],
+          "distinct_colors": 354,
+          "sha256": "bcc7354eb4961747bbc0809892f4f470f56883e1365bc86c52ad9b947bc3ef8a"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "bcc7354eb4961747bbc0809892f4f470f56883e1365bc86c52ad9b947bc3ef8a"
+        },
+        "geometry": {
+          "hwnd": 266542558,
+          "pid": 39700,
+          "window_rect": [
+            78,
+            78,
+            874,
+            687
+          ],
+          "client_size": [
+            780,
+            570
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "8908c6972cdd215ee542f548502a15923d7bfa1129edb999ed2c68a83ef6d8da"
+        }
+      },
+      "excel_facts": "390;285;150\nGroup;Frame;12;12;174;72;Tahoma;8.5;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+      "excel_state": null,
+      "calcforms_observation": "Group;Frame;12;12;174;72;1;12;12;8.25;0\nGroup.NestedLabel;Label;12;18;138;18;1001;30;48;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;1002;30;69;8.25;1\nPicture;Image;210;12;66;54;2;210;12;8.25;1\nSpinner;SpinButton;300;12;18;54;3;300;12;8.25;2\nSlider;ScrollBar;12;102;174;18;4;12;102;8.25;3\nTabsControl;TabStrip;12;144;174;102;5;12;144;8.25;4\nPagesControl;MultiPage;210;102;162;144;6;210;102;8.25;5\n",
+      "runtime_sha256": "cf3a094f93e85b04a93e97da0da0549c0e34c2530dd554c84d867cf351773bd5",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 444600,
+        "different_pixels": 40716,
+        "different_fraction": 0.09157894736842105,
+        "mean_absolute_rgb": [
+          4.699700854700855,
+          4.698349077822762,
+          4.700825461088619
+        ],
+        "luminance_error_above_32": 13151,
+        "diff": "difference.png"
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "none; initial handlers only",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Group",
+            "native": {
+              "kind": "Frame",
+              "bounds": [
+                12.0,
+                12.0,
+                174.0,
+                72.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.5,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Frame",
+              "bounds": [
+                12.0,
+                12.0,
+                174.0,
+                72.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Group.NestedInput",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                39.0,
+                138.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                39.0,
+                138.0,
+                18.0
+              ],
+              "node_id": 1002,
+              "paint_origin": [
+                30.0,
+                69.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Group.NestedLabel",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                18.0,
+                138.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                18.0,
+                138.0,
+                18.0
+              ],
+              "node_id": 1001,
+              "paint_origin": [
+                30.0,
+                48.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "PagesControl",
+            "native": {
+              "kind": "MultiPage",
+              "bounds": [
+                210.0,
+                102.0,
+                162.0,
+                144.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "MultiPage",
+              "bounds": [
+                210.0,
+                102.0,
+                162.0,
+                144.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                210.0,
+                102.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Picture",
+            "native": {
+              "kind": "Image",
+              "bounds": [
+                210.0,
+                12.0,
+                66.0,
+                54.0
+              ]
+            },
+            "calcforms": {
+              "kind": "Image",
+              "bounds": [
+                210.0,
+                12.0,
+                66.0,
+                54.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                210.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Slider",
+            "native": {
+              "kind": "ScrollBar",
+              "bounds": [
+                12.0,
+                102.0,
+                174.0,
+                18.0
+              ]
+            },
+            "calcforms": {
+              "kind": "ScrollBar",
+              "bounds": [
+                12.0,
+                102.0,
+                174.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                12.0,
+                102.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Spinner",
+            "native": {
+              "kind": "SpinButton",
+              "bounds": [
+                300.0,
+                12.0,
+                18.0,
+                54.0
+              ]
+            },
+            "calcforms": {
+              "kind": "SpinButton",
+              "bounds": [
+                300.0,
+                12.0,
+                18.0,
+                54.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                300.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "TabsControl",
+            "native": {
+              "kind": "TabStrip",
+              "bounds": [
+                12.0,
+                144.0,
+                174.0,
+                102.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "TabStrip",
+              "bounds": [
+                12.0,
+                144.0,
+                174.0,
+                102.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                144.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.0,
+        "text_runs": [
+          {
+            "text": "Details",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 24.48816,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "First\nSecond",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 50.253296,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Inside frame",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 45.705322,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Nested",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 25.193115,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 1730325150887979784,
+            "rect": {
+              "x": 18.0,
+              "y": 15.0,
+              "w": 162.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 16.0,
+              "y": 149.0,
+              "w": 79.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 103.0,
+              "y": 148.0,
+              "w": 79.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 214.0,
+              "y": 107.0,
+              "w": 73.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 3750671675911123946,
+            "rect": {
+              "x": 295.0,
+              "y": 106.0,
+              "w": 73.0,
+              "h": 14.0
+            },
+            "clip": true
+          },
+          {
+            "node": 1001,
+            "run": 12329757690649629163,
+            "rect": {
+              "x": 30.0,
+              "y": 48.75,
+              "w": 138.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 1002900,
+            "run": 15430170632886510293,
+            "rect": {
+              "x": 34.0,
+              "y": 72.0,
+              "w": 130.0,
+              "h": 12.0
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "images": [
+        {
+          "file": "LayoutContainers-150-excel.png",
+          "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+        },
+        {
+          "file": "LayoutContainers-150-calcforms.png",
+          "sha256": "8908c6972cdd215ee542f548502a15923d7bfa1129edb999ed2c68a83ef6d8da"
+        }
+      ]
+    }
+  ]
+}
