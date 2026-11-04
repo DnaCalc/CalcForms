@@ -1,7 +1,7 @@
 Option Explicit
 
 ' W007 native FM20 class-event gate fixture (oxforms-4pn.2).
-' Declares native FM20-named events and raises them through the ordinary OxVba
+' Declares native FM20-named events and raises them through the ordinary CalcVBA
 ' RaiseEvent path. No generic carrier event is used; the Rust adapter invokes the
 ' Raise* methods directly.
 

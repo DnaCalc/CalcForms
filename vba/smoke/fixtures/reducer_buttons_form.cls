@@ -16,6 +16,16 @@ Private WithEvents mGo As CommandButton
 Private WithEvents mChk As CheckBox
 Private mLog As String
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mField = Nothing
+    Set mOk = Nothing
+    Set mCancelBtn = Nothing
+    Set mGo = Nothing
+    Set mChk = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "btnform"

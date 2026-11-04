@@ -1,0 +1,28 @@
+[package]
+name = "calcforms-bootstrap"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "Thin W007 bootstrap: assembles an CalcVBA runtime (calcforms-calcvba-adapter) and the desktop backend (calcforms-pal-win), invokes the VBA startup, and runs the platform loop. See docs/specs/RENDERING_ARCHITECTURE.md s16."
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+# The bootstrap is a thin assembler: it wires the control-blind backend to the
+# runtime and the CalcVBA host. It holds NO control or demo behavior (that is VBA);
+# it only loads the project, invokes the VBA startup, and runs the platform loop.
+calcforms-pal = { path = "../calcforms-pal" }
+calcforms-calcvba-adapter = { path = "../calcforms-calcvba-adapter" }
+calcforms-pal-win = { path = "../calcforms-pal-win" }
+
+# CalcVBA host stack for loading + running the project closure (the bootstrap's job).
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+# vm3 image pipeline: bind -> calcvba_oxir::elaborate -> OxImage -> Engine::prepare_image_session.
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }

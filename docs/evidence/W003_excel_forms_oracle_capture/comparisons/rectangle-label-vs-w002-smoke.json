@@ -12,7 +12,7 @@
   "status": "calibration_only",
   "linked_report": "docs/evidence/W003_excel_forms_oracle_capture/comparisons/rectangle-label-vs-w002-smoke.md",
   "purpose": "Relate the first live Excel/MSForms rectangle-label oracle capture to the current W002 OxForms rectangle smoke output. This is an observation artifact, not a runtime adapter, compatibility bridge, fallback path, or final pass/fail pixel oracle.",
-  "source_provenance_policy": "Source files that evolve during active development are referenced by path only; their content at capture time is recorded by git at 'recorded.commit' above rather than content-pinned here, which would otherwise drift on every edit. This covers the Rust crate sources (crates/oxforms-pal/...) and, since the W007 rendering work, vba/oxforms/OxForms.basproj — the OxForms project file is now shared by the W002 smoke and the growing control object model, so it changes whenever a control/module is added. Frozen W002 VBA smoke source files (the .bas/.cls smoke modules) and immutable capture artifacts remain SHA-256 pinned.",
+  "source_provenance_policy": "Source files that evolve during active development are referenced by path only; their content at capture time is recorded by git at 'recorded.commit' above rather than content-pinned here, which would otherwise drift on every edit. This covers the Rust crate sources (crates/calcforms-pal/...) and, since the W007 rendering work, vba/calcforms/CalcForms.basproj — the OxForms project file is now shared by the W002 smoke and the growing control object model, so it changes whenever a control/module is added. Frozen W002 VBA smoke source files (the .bas/.cls smoke modules) and immutable capture artifacts remain SHA-256 pinned.",
   "evidence_files": [
     {
       "role": "excel_fixture_input",
@@ -56,22 +56,22 @@
     },
     {
       "role": "w002_oxforms_vba_project",
-      "path": "vba/oxforms/OxForms.basproj",
+      "path": "vba/calcforms/CalcForms.basproj",
       "note": "Path-only: shared, evolving project file (see source_provenance_policy); W002-era content is recorded at recorded.commit."
     },
     {
       "role": "w002_oxforms_vba_library",
-      "path": "vba/oxforms/OxForms.bas",
+      "path": "fixtures/office-oracle/w002-source/OxForms.bas",
       "sha256": "52163ee34d952658d198c219b56c7446396f55715d953c800a6b835a8a5b417e"
     },
     {
       "role": "w002_oxforms_smoke_form",
-      "path": "vba/oxforms/OxFormsSmokeForm.cls",
+      "path": "fixtures/office-oracle/w002-source/OxFormsSmokeForm.cls",
       "sha256": "ca61bcaf8afcf530250f838b4781c127dc5c5476b083516e3fc6f4623362b9c3"
     },
     {
       "role": "w002_pal_renderer",
-      "path": "crates/oxforms-pal/src/lib.rs",
+      "path": "crates/calcforms-pal/src/lib.rs",
       "note": "The W002 immediate display-list renderer (and the visible_rectangle_smoke example) were deleted in oxforms-rq5; this path now holds only shared value types (Color/Rect/SurfaceSize/fnv1a64). The W002 rectangle framebuffer-hash proof is preserved as a Scene-native fixture in the oxforms-pal scene tests."
     }
   ],
@@ -245,18 +245,18 @@
         "sha256": "bd5775c79de115fc2da739ddbda143bfbfb59efbb4415ccef7c3466ec4e926cd"
       },
       {
-        "path": "vba/oxforms/OxForms.basproj"
+        "path": "vba/calcforms/CalcForms.basproj"
       },
       {
-        "path": "vba/oxforms/OxForms.bas",
+        "path": "fixtures/office-oracle/w002-source/OxForms.bas",
         "sha256": "52163ee34d952658d198c219b56c7446396f55715d953c800a6b835a8a5b417e"
       },
       {
-        "path": "vba/oxforms/OxFormsSmokeForm.cls",
+        "path": "fixtures/office-oracle/w002-source/OxFormsSmokeForm.cls",
         "sha256": "ca61bcaf8afcf530250f838b4781c127dc5c5476b083516e3fc6f4623362b9c3"
       },
       {
-        "path": "crates/oxforms-pal/src/lib.rs"
+        "path": "crates/calcforms-pal/src/lib.rs"
       }
     ]
   },

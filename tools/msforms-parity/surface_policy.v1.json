@@ -54,7 +54,7 @@
           "memid": 6,
           "name": "Render",
           "mode": "native_pointer_adapter",
-          "basis": "The final FUNCDESC parameter is pointer(Void), representing a native bounds pointer whose VBA/OxVba source lowering is not encoded by the typelib fact pack; require an explicit adapter instead of inventing a source signature."
+          "basis": "The final FUNCDESC parameter is pointer(Void), representing a native bounds pointer whose VBA/CalcVBA source lowering is not encoded by the typelib fact pack; require an explicit adapter instead of inventing a source signature."
         }
       ]
     }
@@ -63,18 +63,18 @@
     {
       "id": "clean_basproj",
       "kind": "project_manifest",
-      "source_path": "vba/oxforms/OxForms.basproj",
+      "source_path": "vba/calcforms/CalcForms.basproj",
       "exposure_rule": "Option Private Module suppresses every module. Otherwise standard modules are exposed; class modules use source VB_Exposed when present and exact basproj VBExposed as the fallback.",
       "creatable_rule": "Source VB_Creatable overrides exact basproj VBCreatable when present; otherwise the basproj value is used. A recognized creatable Instancing value from exact basproj metadata, or from an exported class header when basproj Instancing is absent, also makes the class creatable."
     },
     {
       "id": "headless_runner_forced",
-      "kind": "manual_oxvba_loader",
-      "source_path": "crates/oxforms-headless-runner/src/lib.rs",
+      "kind": "manual_calcvba_loader",
+      "source_path": "crates/calcforms-headless-runner/src/lib.rs",
       "exposure_rule": "The loader supplies vb_exposed=true to every listed module, but an explicit source VB_Exposed value overrides that fallback; standard modules remain exposed regardless, and Option Private Module suppresses exposure for every module kind.",
       "creatable_rule": "The loader supplies vb_creatable=true to every listed module, but an explicit source VB_Creatable value overrides that fallback.",
       "modules": [
-        "OxFormsModel",
+        "CalcFormsModel",
         "IOxControl",
         "IOxControlHost",
         "IOxControlContainer",
@@ -112,12 +112,12 @@
     },
     {
       "id": "bootstrap_forced",
-      "kind": "manual_oxvba_loader",
-      "source_path": "crates/oxforms-bootstrap/src/main.rs",
+      "kind": "manual_calcvba_loader",
+      "source_path": "crates/calcforms-bootstrap/src/main.rs",
       "exposure_rule": "The loader supplies vb_exposed=true to every listed module, but an explicit source VB_Exposed value overrides that fallback; standard modules remain exposed regardless, and Option Private Module suppresses exposure for every module kind.",
       "creatable_rule": "The loader supplies vb_creatable=true to every listed module, but an explicit source VB_Creatable value overrides that fallback.",
       "modules": [
-        "OxFormsModel",
+        "CalcFormsModel",
         "IOxControl",
         "IOxControlHost",
         "IOxControlContainer",
@@ -162,6 +162,6 @@
     "alias_typedef": "TKIND_ALIAS rows retain exact metadata identity and lower recursively to their canonical VBA source type; they are not class-module obligations.",
     "abi_adapter": "A non-dispatch supporting interface retains exact ABI adapter rows and is never compared directly with VBA-facing source signatures.",
     "external_abi": "stdole ABI structures, aliases, and IUnknown/IDispatch plumbing remain identity/signature-closure rows; Picture is a supporting-object implementation obligation while IPictureDisp lowers to its Picture alias target.",
-    "unexpected_public": "Every declared-public OxForms row not mapped to an accepted contract row is emitted and gates a green result."
+    "unexpected_public": "Every declared-public CalcForms row not mapped to an accepted contract row is emitted and gates a green result."
   }
 }

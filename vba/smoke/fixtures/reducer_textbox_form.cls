@@ -16,6 +16,14 @@ Private mT1ExitVeto As Boolean
 Private mT1BeforeUpdateVeto As Boolean
 Private mT1PasteVeto As Boolean
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mT1 = Nothing
+    Set mT2 = Nothing
+    Set mLbl = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "tbform"

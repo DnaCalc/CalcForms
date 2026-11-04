@@ -5,9 +5,9 @@ W002 VBA rectangle smoke app project.
 
 `rectangle_fillrect_smoke.bas` is intentionally procedural. It does not require
 `.frm` ingestion, `UserForm.Show`, or an MSForms object model. It is loaded by
-`../projects/rectangle_app/RectangleSmokeApp.basproj`, references the OxForms
-VBA library, creates an OxForms smoke form, and records the `Flush` return value.
-The low-level `OxForms.SmokeCanvas` PAL object is created inside the OxForms
+`../projects/rectangle_app/RectangleSmokeApp.basproj`, references the CalcForms
+VBA library, creates an CalcForms smoke form, and records the `Flush` return value.
+The low-level `CalcForms.SmokeCanvas` PAL object is created inside the CalcForms
 library, not by this app fixture.
 
 `full_surface_showcase_form.cls` is the evolving Forms super-app fixture. It is

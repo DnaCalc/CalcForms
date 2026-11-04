@@ -3,7 +3,7 @@ Option Explicit
 ' Reducer-pivot increment 1 hit-routing fixture (oxforms-ih6.1; test infrastructure). Two
 ' OVERLAPPING CommandButtons exercise the part of geometric routing most likely to diverge
 ' from the oracle kernel: OxReducer.HitTest's z-order + last-added tie-break (the VBA port of
-' oxforms-core hit_test_control_tree's max_by_key((z_order, index))), and capture routing of a
+' calcforms-core hit_test_control_tree's max_by_key((z_order, index))), and capture routing of a
 ' MouseUp back to the pressed control across a sibling. WithEvents sinks on both buttons record
 ' which control actually received each native event.
 
@@ -12,6 +12,13 @@ Private mReducer As OxReducer
 Private WithEvents mA As CommandButton
 Private WithEvents mB As CommandButton
 Private mLog As String
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mA = Nothing
+    Set mB = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

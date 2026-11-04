@@ -18,7 +18,7 @@ from vba_surface import SurfaceError, extract_surface  # noqa: E402
 
 
 CURRENT_MODULE_NAMES = [
-    "OxFormsModel",
+    "CalcFormsModel",
     "IOxControl",
     "IOxControlHost",
     "IOxControlContainer",
@@ -53,14 +53,14 @@ CURRENT_MODULE_NAMES = [
     "OxTheme",
     "OxControlPaint",
     "OxSceneBuilder",
-    "OxForms",
-    "OxFormsSmokeForm",
+    "CalcForms",
+    "CalcFormsSmokeForm",
 ]
 
-PROJECT_PREFIX = '''<Project Sdk="OxVba.Sdk/0.1.0">
+PROJECT_PREFIX = '''<Project Sdk="CalcVBA.Sdk/0.1.0">
   <PropertyGroup>
     <OutputType>Library</OutputType>
-    <ProjectName>OxForms</ProjectName>
+    <ProjectName>CalcForms</ProjectName>
   </PropertyGroup>
 '''
 PROJECT_SUFFIX = "</Project>\n"
@@ -371,7 +371,7 @@ End Function
 
     def test_module_attributes_follow_pinned_physical_line_rules(self) -> None:
         cases = {
-            "commented": "Attribute VB_Exposed = True ' not accepted by OxVba",
+            "commented": "Attribute VB_Exposed = True ' not accepted by CalcVBA",
             "continued": "Attribute VB_Exposed = _\nTrue",
         }
         for label, attribute in cases.items():
@@ -469,7 +469,7 @@ Attribute Item.VB_UserMemId = _
         ):
             fixture.extract([("ClassModule", "Typed.cls")])
 
-    def test_default_declaration_modifier_is_not_in_pinned_oxvba_grammar(self) -> None:
+    def test_default_declaration_modifier_is_not_in_pinned_calcvba_grammar(self) -> None:
         fixture = TemporaryVbaProject(self)
         fixture.source(
             "Typed.cls",
@@ -670,7 +670,7 @@ Attribute VB_Name = "Header"
             '''VERSION 1.0 CLASS
 BEGIN
   MultiUse = -1
-END ' a comment makes this differ from OxVba's raw END terminator
+END ' a comment makes this differ from CalcVBA's raw END terminator
 Attribute VB_Name = "Header"
 ''',
         )
@@ -780,7 +780,7 @@ End Sub
     def test_clean_project_sdk_and_library_identity_are_exact(self) -> None:
         mutations = {
             "missing_sdk": PROJECT_PREFIX.replace(
-                ' Sdk="OxVba.Sdk/0.1.0"', ""
+                ' Sdk="CalcVBA.Sdk/0.1.0"', ""
             ),
             "wrong_sdk": PROJECT_PREFIX.replace("0.1.0", "9.9.9"),
             "wrong_output": PROJECT_PREFIX.replace(
@@ -788,12 +788,12 @@ End Sub
                 "<OutputType>Exe</OutputType>",
             ),
             "wrong_name": PROJECT_PREFIX.replace(
-                "<ProjectName>OxForms</ProjectName>",
+                "<ProjectName>CalcForms</ProjectName>",
                 "<ProjectName>Other</ProjectName>",
             ),
             "duplicate_properties": PROJECT_PREFIX.replace(
                 "  </PropertyGroup>",
-                "  </PropertyGroup><PropertyGroup><ProjectName>OxForms</ProjectName></PropertyGroup>",
+                "  </PropertyGroup><PropertyGroup><ProjectName>CalcForms</ProjectName></PropertyGroup>",
             ),
         }
         for label, prefix in mutations.items():
@@ -813,10 +813,10 @@ End Sub
                 ):
                     extract_surface(fixture.root, fixture.project)
 
-    def test_basproj_xml_normalizations_not_shared_by_oxvba_are_rejected(self) -> None:
+    def test_basproj_xml_normalizations_not_shared_by_calcvba_are_rejected(self) -> None:
         mutations = {
             "sdk_character_reference": PROJECT_PREFIX.replace(
-                "OxVba.Sdk/0.1.0", "OxVba.Sdk/&#48;.1.0"
+                "CalcVBA.Sdk/0.1.0", "CalcVBA.Sdk/&#48;.1.0"
             )
             + '<ItemGroup><Module Include="Fixture.bas" /></ItemGroup>'
             + PROJECT_SUFFIX,
@@ -830,8 +830,8 @@ End Sub
             + '<ItemGroup><Module Include="Fixture.bas" /></ItemGroup>'
             + PROJECT_SUFFIX,
             "doctype_entity": PROJECT_PREFIX.replace(
-                '<Project Sdk="OxVba.Sdk/0.1.0">',
-                '<!DOCTYPE Project [<!ENTITY sdk "OxVba.Sdk/0.1.0">]>\n'
+                '<Project Sdk="CalcVBA.Sdk/0.1.0">',
+                '<!DOCTYPE Project [<!ENTITY sdk "CalcVBA.Sdk/0.1.0">]>\n'
                 '<Project Sdk="&sdk;">',
             )
             + '<ItemGroup><Module Include="Fixture.bas" /></ItemGroup>'
@@ -851,10 +851,10 @@ End Sub
         fixture = TemporaryVbaProject(self)
         fixture.source("Fixture.bas", 'Attribute VB_Name = "Fixture"\n')
         fixture.project.write_text(
-            '''<Project Sdk="OxVba.Sdk/0.1.0" xmlns:x="urn:not-oxvba">
+            '''<Project Sdk="CalcVBA.Sdk/0.1.0" xmlns:x="urn:not-oxvba">
   <x:PropertyGroup>
     <x:OutputType>Library</x:OutputType>
-    <x:ProjectName>OxForms</x:ProjectName>
+    <x:ProjectName>CalcForms</x:ProjectName>
   </x:PropertyGroup>
   <x:ItemGroup><x:Module Include="Fixture.bas" /></x:ItemGroup>
 </Project>
@@ -868,8 +868,8 @@ End Sub
     def test_nonwhitespace_basproj_container_text_and_tails_are_rejected(self) -> None:
         for label, manifest in {
             "project_text": PROJECT_PREFIX.replace(
-                '<Project Sdk="OxVba.Sdk/0.1.0">',
-                '<Project Sdk="OxVba.Sdk/0.1.0">garbage',
+                '<Project Sdk="CalcVBA.Sdk/0.1.0">',
+                '<Project Sdk="CalcVBA.Sdk/0.1.0">garbage',
             )
             + '<ItemGroup><Module Include="Fixture.bas" /></ItemGroup>'
             + PROJECT_SUFFIX,
@@ -942,10 +942,10 @@ End Sub
         self.assertEqual(lf_surface, crlf_surface)
 
 
-class CurrentOxFormsSurfaceCensusTests(unittest.TestCase):
+class CurrentCalcFormsSurfaceCensusTests(unittest.TestCase):
     def test_current_basproj_census_is_exact_and_ordered(self) -> None:
         surface = extract_surface(
-            REPO_ROOT, REPO_ROOT / "vba" / "oxforms" / "OxForms.basproj"
+            REPO_ROOT, REPO_ROOT / "vba" / "calcforms" / "CalcForms.basproj"
         )
         self.assertEqual(CURRENT_MODULE_NAMES, [row["name"] for row in surface["modules"]])
         self.assertEqual(
@@ -970,11 +970,11 @@ class CurrentOxFormsSurfaceCensusTests(unittest.TestCase):
             surface["summary"],
         )
         self.assertEqual(
-            "6566f30de60a399131ebe9549f51bb9667054aff1488c79d192d7fa297c3e6f5",
+            "07cee12b9c2f5fd450e9da80e0cad748ee1a21cadef2bf612d1e59a0c9a68005",
             surface["canonical_sha256"],
         )
         by_name = {module["name"]: module for module in surface["modules"]}
-        smoke = by_name["OxFormsSmokeForm"]
+        smoke = by_name["CalcFormsSmokeForm"]
         self.assertEqual("MultiUse", smoke["source_header_instancing"])
         self.assertEqual("MultiUse", smoke["effective_instancing"])
         self.assertTrue(smoke["project_declared_creatable"])

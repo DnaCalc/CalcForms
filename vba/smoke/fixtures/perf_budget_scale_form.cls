@@ -9,6 +9,12 @@ Private mReducer As OxReducer
 Private mFirst As Label
 Private mCount As Long
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mFirst = Nothing
+End Sub
+
 Public Sub Build10()
     BuildCount 10
 End Sub

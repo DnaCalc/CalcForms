@@ -12,6 +12,12 @@ target/
 # bv (beads viewer) local config and caches
 .bv/
 
+# Local lock and migration files produced by current br.
+.beads/*.db-*
+.beads/*.db.fsqlite-*
+.beads/.beads.vacuum.*
+.beads/.br_recovery/
+
 # Capture staging leftovers (canonical capture is the non-dot directory)
 **/.W010*.capture-staging-*/
 **/.designer-band-*.capture-staging-*/

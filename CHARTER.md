@@ -1,45 +1,45 @@
-# OxForms Charter
+# CalcForms Charter
 
 ## 1. Mission
-OxForms is the VBA-first, MSForms-compatible forms runtime for the DNA Calc
+CalcForms is the VBA-first, MSForms-compatible forms runtime for the DNA Calc
 family: `UserForm`, intrinsic controls, form persistence, rendering, input,
 event dispatch, and host extension controls, implemented primarily as VBA that
-runs on OxVba and backed by a small Rust primitive kernel.
+runs on CalcVBA and backed by a small Rust primitive kernel.
 
-OxForms exists for two reasons:
+CalcForms exists for two reasons:
 
-1. To give OxVba and DNA Calc a full-fidelity forms library that can run real
+1. To give CalcVBA and DNA Calc a full-fidelity forms library that can run real
    VBA form code without depending on Microsoft Forms at runtime.
 2. To become a large, realistic optimization and correctness workload for the
-   OxVba compiler, VM, object model, host event path, and future Cranelift JIT.
+   CalcVBA compiler, VM, object model, host event path, and future Cranelift JIT.
 
 The central bet is deliberate: build the high-level forms runtime in VBA first,
-measure it, improve OxVba because of it, and migrate only proven hot paths behind
+measure it, improve CalcVBA because of it, and migrate only proven hot paths behind
 stable contracts.
 
 The eventual compatibility target is unchanged existing VBA projects using
 forms and Microsoft-supplied controls, without depending on the original
 control binaries. This includes Microsoft controls beyond MSForms, such as
 RefEdit and the Common Controls libraries; third-party controls are excluded.
-OxVba, OxDoc and the host must supply their respective language, import and
+CalcVBA, OxDoc and the host must supply their respective language, import and
 application services. W010 establishes MSForms parity; additional Microsoft
 libraries require their own inventories and implementation work.
 
 ## 2. Place In The DNA Calc Program
-OxForms is a sibling repository under the DNA Calc umbrella.
+CalcForms is a sibling repository under the DNA Calc umbrella.
 
 It consumes and collaborates with:
 
-- `OxVba` for parsing, binding, execution, event dispatch, project loading, and
+- `CalcVBA` for parsing, binding, execution, event dispatch, project loading, and
   integration with the VBA runtime.
-- `OxDoc` for Office document container and MS-OFORMS / `vbaProject.bin`
-  conversion work.
+- `calcvba-office` in CalcVBA for Office containers, `vbaProject.bin` and
+  source-folder read/write; CalcForms decodes the MS-OFORMS control graph.
 - `Foundation` for clean-room doctrine, public specifications, and provenance
   discipline.
 - future DNA Calc hosts that need VBA forms, especially Excel-like hosts and
   host-specific controls such as Excel `RefEdit`.
 
-OxForms owns:
+CalcForms owns:
 
 - the forms object model and controls;
 - `.frm` / `.frx` canonical form persistence;
@@ -55,7 +55,7 @@ When values conflict, prefer them in this order:
 1. Compatibility with MSForms and observed VBA behavior.
 2. Robustness and deterministic replayability.
 3. Clean-room evidence and provenance.
-4. OxVba compiler/runtime learning.
+4. CalcVBA compiler/runtime learning.
 5. Performance.
 6. Portability.
 7. Runtime size and implementation convenience.
@@ -64,11 +64,11 @@ Performance matters, but it does not justify guessing. First make behavior
 correct and measurable; then optimize or migrate hot paths with evidence.
 
 ## 3.1 Development Architecture Doctrine
-OxForms is in initial development. Internal OxForms draft APIs, smoke APIs,
+CalcForms is in initial development. Internal CalcForms draft APIs, smoke APIs,
 bridge APIs, temporary projections, scaffolds, and experimental integration
 paths have no backward-compatibility protection. The compatibility target is
 Microsoft Forms / FM20 observed behavior and output, plus supported VBA
-semantics, not earlier OxForms implementation shapes.
+semantics, not earlier CalcForms implementation shapes.
 
 Do not preserve a temporary shape merely because later work has seen it. If a
 scaffold is useful to prove a slice, later work must either replace it with the
@@ -84,7 +84,7 @@ long-term architecture. They must not exist as legacy fallbacks, compatibility
 shims, or bridges kept alive for development convenience.
 
 ## 4. Clean-room Rule
-OxForms development uses only:
+CalcForms development uses only:
 
 - public specifications and documentation;
 - published research;
@@ -106,7 +106,7 @@ Initial scope:
 
 - MSForms runtime compatibility for `UserForm` and intrinsic FM20 controls.
 - VBA-first control implementations with a small Rust primitive kernel.
-- `.frm` / `.frx` load/save as OxForms' canonical project representation.
+- `.frm` / `.frx` load/save as CalcForms' canonical project representation.
 - Reducer-driven form state, retained-Scene primitive rendering, trace/replay, and golden
   artifacts.
 - Windows backend first, with Linux, Web/WASM, and macOS behind the same PAL
@@ -118,13 +118,13 @@ In scope later:
 
 - Forms designer.
 - More host-specific extension controls.
-- Microsoft-supplied control libraries beyond FM20 (`oxforms-tst7` inventory).
+- Microsoft-supplied control libraries beyond FM20 (`calcforms-tst7` inventory).
 - Broader live Office differential harnesses.
 
 Out of scope:
 
-- VBA language/runtime implementation: owned by `OxVba`.
-- Office document containers and `vbaProject.bin`: owned by `OxDoc`.
+- VBA language/runtime implementation: owned by `CalcVBA`.
+- Office document containers and `vbaProject.bin`: owned by CalcVBA (`calcvba-office`).
 - Office application object models: host-provided or owned by the relevant host
   repo.
 - Spreadsheet/calculation engine behavior: owned by `OxCalc`, `OxFml`,
@@ -132,7 +132,7 @@ Out of scope:
 - Reimplementing arbitrary third-party ActiveX/OCX internals.
 
 ## 6. Document Model
-Top-level guidance precedence for OxForms:
+Top-level guidance precedence for CalcForms:
 
 1. `CHARTER.md`
 2. `docs/SPEC.md` and the spec documents it indexes
@@ -145,12 +145,12 @@ This charter defines mission, values, and scope boundaries. The spec owns design
 truth. Worksets and beads own execution shape.
 
 ## 7. Success Criteria
-OxForms succeeds when:
+CalcForms succeeds when:
 
-1. Realistic VBA forms can run on OxVba with MSForms-compatible behavior.
+1. Realistic VBA forms can run on CalcVBA with MSForms-compatible behavior.
 2. Compatibility claims are backed by generated facts, tests, and differential
    evidence.
-3. Forms traces become useful benchmark workloads for the OxVba VM and JIT.
+3. Forms traces become useful benchmark workloads for the CalcVBA VM and JIT.
 4. Host extensions such as Excel `RefEdit` fit cleanly without polluting the
    FM20 parity claim.
 5. The runtime remains portable because platform-specific behavior stays behind

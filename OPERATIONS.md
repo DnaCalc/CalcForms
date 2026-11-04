@@ -1,4 +1,4 @@
-# OxForms Operations
+# CalcForms Operations
 
 How we work in this repo. The process is intentionally light: keep the spec clear,
 partition larger pushes with worksets, and execute real work through `br` beads.
@@ -133,7 +133,7 @@ Normal floors as they become available:
 | Surface | Check |
 |---|---|
 | Rust crates | `cargo fmt --check`, `cargo clippy --workspace --all-targets -- -D warnings`, `cargo test --workspace` |
-| VBA library fixtures | OxVba compile/run fixture or targeted harness |
+| VBA library fixtures | CalcVBA compile/run fixture or targeted harness |
 | Rendering | display-list golden, headless render hash/screenshot, or visual diff |
 | MSForms behavior | generated fact row plus Office/MSForms oracle where available |
 | Evidence artifacts | `pwsh -File tools/Run-EvidenceChecks.ps1` (headless: checksum manifests, trace/replay schema, comparison manifests); per-capture `Test-W0xx*CaptureEvidence.ps1` for live captures |

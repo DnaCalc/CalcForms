@@ -4,12 +4,18 @@ Option Explicit
 ' CheckBox driven through OxReducer. A WithEvents sink records the real FM20 events AND the
 ' control's Value at each, proving the MSForms mouse-toggle order: MouseDown -> MouseUp ->
 ' Change -> Click, with the value flipped BEFORE Change/Click (value-before-Click, the oracle
-' order). No Rust reducer (oxforms-core) in the loop.
+' order). No Rust reducer (calcforms-core) in the loop.
 
 Private mForm As UserForm
 Private mReducer As OxReducer
 Private WithEvents mChk As CheckBox
 Private mLog As String
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mChk = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

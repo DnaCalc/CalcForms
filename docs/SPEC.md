@@ -1,6 +1,12 @@
-# OxForms Spec Index
+# CalcForms Spec Index
 
-This index is the reading order for OxForms requirements, architecture, and
+Restart direction (2026-11-04): [CalcVBA review](CALCVBA_REVIEW_20261104.md).
+UserForms remain a VBA-first library responsibility. Use `calcvba-office` for
+Office ingestion and `calcvba-engine` VM3 object sessions. Active crates use
+`calcforms-*`, the library is `vba/calcforms/CalcForms.basproj`, and retained
+Scene submission uses `CalcForms.Surface`. Historical evidence keeps its names.
+
+This index is the reading order for CalcForms requirements, architecture, and
 planning truth.
 
 ## Core Spec
@@ -38,13 +44,13 @@ planning truth.
 7. [`specs/RENDERING_ARCHITECTURE.md`](specs/RENDERING_ARCHITECTURE.md) - the
    rendering + VBA control-rendering architecture: immediate-mode VBA authoring
    over a control-agnostic keyed retained primitive tree (the Scene) in
-   `oxforms-pal`, the cross-boundary patch protocol, invalidation/damage, text
+   `calcforms-pal`, the cross-boundary patch protocol, invalidation/damage, text
    metrics, determinism invariants, the D7 amendment, the desktop backend stack
    (§15), and the render-invocation/frame model (§16) — the Repaint-vs-Re-render
    split, runtime/backend/bootstrap ownership, the pull/lazy frame loop, and the
    resident-Scene seam.
 8. [`specs/CONTROL_STACK_STRATEGY.md`](specs/CONTROL_STACK_STRATEGY.md) -
-   W009 control-stack reassessment: OxForms keeps `OxRuntime` + OxVba + Scene/PAL
+   W009 control-stack reassessment: CalcForms keeps `OxRuntime` + CalcVBA + Scene/PAL
    as the canonical MSForms runtime, borrows sibling DNA UI stack concepts only
    through explicit service seams, and gates any future DOM/WebView binder behind
    the same runtime contract.
@@ -71,12 +77,12 @@ planning truth.
     unchanged-project target, MSForms identity and exact type/member mapping,
     per-control site and host-event obligations, hidden accessor probes, ProgIDs,
     and one non-public runtime bridge. `.6` acceptance remains blocked by the
-    recorded OxVba and live Office observations.
+    recorded CalcVBA and live Office observations.
 
 ## Source References
 
 1. [`SOURCE_REFERENCES.md`](SOURCE_REFERENCES.md) - current Foundation MS-OFORMS
-   pointer, adjacent MS-OVBA pointer, and the pinned OxVba development baseline
+   pointer, adjacent MS-OVBA pointer, and the pinned CalcVBA development baseline
    policy.
 
 ## Planned Splits

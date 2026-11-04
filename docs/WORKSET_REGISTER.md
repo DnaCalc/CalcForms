@@ -1,4 +1,12 @@
-# OxForms Workset Register
+# CalcForms Workset Register
+
+2026-11-04 owner-directed restart: `oxforms-jbjp.73` restores the renamed crates
+and current CalcVBA build. W010 execution now prioritizes loading a real workbook
+UserForm and running its controls and code-behind on Windows/VM3 before expanding
+member inventories. See [the short review](CALCVBA_REVIEW_20261104.md).
+September raw facts and captures remain historical; the existing parity generator
+now writes the current-source comparison under `oxforms-jbjp.73`, preserving
+the `.4` ledger bytes referenced by the `.5` oracle and `.6` facade contract.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

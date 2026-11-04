@@ -241,7 +241,7 @@ DEFAULT_PATHS = {
     "frm_frx": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.43/frm_frx_export_facts.v1.json",
     "overlay": "tools/msforms-parity/public_overlay.v1.json",
     "policy": "tools/msforms-parity/surface_policy.v1.json",
-    "basproj": "vba/oxforms/OxForms.basproj",
+    "basproj": "vba/calcforms/CalcForms.basproj",
 }
 
 
@@ -550,17 +550,17 @@ def _rust_unwrap(
 def _parse_headless_loader_inventory(
     tokens: list[tuple[str, str]], source_path: str
 ) -> list[dict[str, str]]:
-    body = _rust_function_body(tokens, "oxforms_modules", source_path)
+    body = _rust_function_body(tokens, "calcforms_modules", source_path)
     statements, tail = _rust_statements_and_tail(body, source_path)
     expected_use = ["use", "ModuleKind", ":", ":", "{", "Class", ",", "Procedural", "}"]
     if len(statements) != 2 or _rust_values(statements[0]) != expected_use:
         raise LedgerError(
-            f"loader source {source_path} oxforms_modules no longer has the reviewed direct array shape"
+            f"loader source {source_path} calcforms_modules no longer has the reviewed direct array shape"
         )
     declaration = statements[1]
     if _rust_values(declaration[:3]) != ["let", "modules", "="]:
         raise LedgerError(
-            f"loader source {source_path} oxforms_modules inventory is not its live modules binding"
+            f"loader source {source_path} calcforms_modules inventory is not its live modules binding"
         )
     entries = _rust_split_top_level(
         _rust_unwrap(declaration[3:], "[", "]", source_path), ",", source_path
@@ -603,16 +603,16 @@ def _parse_headless_loader_inventory(
 def _parse_bootstrap_loader_inventory(
     tokens: list[tuple[str, str]], source_path: str, repo_root: Path
 ) -> list[dict[str, str]]:
-    body = _rust_function_body(tokens, "oxforms_modules", source_path)
+    body = _rust_function_body(tokens, "calcforms_modules", source_path)
     statements, tail = _rust_statements_and_tail(body, source_path)
     expected_use = ["use", "ModuleKind", ":", ":", "{", "Class", ",", "Procedural", "}"]
     if len(statements) != 1 or _rust_values(statements[0]) != expected_use:
         raise LedgerError(
-            f"loader source {source_path} oxforms_modules no longer has the reviewed direct vector shape"
+            f"loader source {source_path} calcforms_modules no longer has the reviewed direct vector shape"
         )
     if _rust_values(tail[:3]) != ["vec", "!", "["]:
         raise LedgerError(
-            f"loader source {source_path} oxforms_modules does not directly return its vector"
+            f"loader source {source_path} calcforms_modules does not directly return its vector"
         )
     elements = _rust_split_top_level(
         _rust_unwrap(tail[2:], "[", "]", source_path), ",", source_path
@@ -655,24 +655,24 @@ def _parse_bootstrap_loader_inventory(
         candidate_parts = tuple(part.casefold() for part in candidate.parts)
         repo_parts = tuple(part.casefold() for part in resolved_repo.parts)
         oxforms_parts = tuple(
-            part.casefold() for part in (resolved_repo / "vba" / "oxforms").parts
+            part.casefold() for part in (resolved_repo / "vba" / "calcforms").parts
         )
         if candidate_parts[: len(repo_parts)] != repo_parts:
             raise LedgerError(f"loader source {source_path} include_str escapes the repository")
         if candidate_parts[: len(oxforms_parts)] == oxforms_parts:
             match = re.fullmatch(
-                r"\.\./\.\./\.\./(?P<path>vba/oxforms/[A-Za-z_][A-Za-z0-9_]*\.(?:bas|cls))",
+                r"\.\./\.\./\.\./(?P<path>vba/calcforms/[A-Za-z_][A-Za-z0-9_]*\.(?:bas|cls))",
                 embedded_path,
             )
             if match is None:
                 raise LedgerError(
-                    f"loader source {source_path} has a noncanonical OxForms include_str path"
+                    f"loader source {source_path} has a noncanonical CalcForms include_str path"
                 )
             repo_path = match.group("path")
             canonical_candidate = (resolved_repo / repo_path).resolve()
             if candidate != canonical_candidate or not canonical_candidate.is_file():
                 raise LedgerError(
-                    f"loader source {source_path} OxForms include_str identity differs"
+                    f"loader source {source_path} CalcForms include_str identity differs"
                 )
             inventory.append(
                 {"name": fields[0][0][1], "kind": fields[1][0][1], "path": repo_path}
@@ -741,7 +741,7 @@ def _validate_loader_helper(
 
 _LOADER_BUILD_SESSION_PREFIXES = {
     "headless_runner_forced": '''
-let mut modules = oxforms_modules(repo_root)?;
+let mut modules = calcforms_modules(repo_root)?;
 for fixture in &spec.fixtures {
     modules.push(module_unit(
         repo_root,
@@ -757,20 +757,22 @@ let manifest = SymbolProjectManifest {
     references: Vec::new(),
     reference_projects: Vec::new(),
     conditional_constants: Default::default(),
+    conditional_compilation_target: Default::default(),
 };
-let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
+let program = calcvba_bind::bind_program(&manifest, &calcvba_symbol::CatalogTypeLibResolver)
     .map_err(|err| format!("bind headless project: {err:?}"))?;
 ''',
     "bootstrap_forced": '''
 let manifest = SymbolProjectManifest {
-    project_name: "OxFormsBootstrap".to_string(),
+    project_name: "CalcFormsBootstrap".to_string(),
     project_kind: ProjectKind::Library,
-    modules: oxforms_modules(),
+    modules: calcforms_modules(),
     references: Vec::new(),
     reference_projects: Vec::new(),
     conditional_constants: Default::default(),
+    conditional_compilation_target: Default::default(),
 };
-let program = oxvba_bind::bind_program(&manifest, &oxvba_symbol::CatalogTypeLibResolver)
+let program = calcvba_bind::bind_program(&manifest, &calcvba_symbol::CatalogTypeLibResolver)
     .map_err(|err| BootstrapError::Project(format!("bind: {err:?}")))?;
 ''',
 }
@@ -814,7 +816,7 @@ let mut rt = OxRuntime::attach_with_host_services_and_args(
     demo.form_class,
     demo.build_member,
     build_args,
-    HostServices::windows(oxforms_pal_win::read_clipboard_text),
+    HostServices::windows(calcforms_pal_win::read_clipboard_text),
 )
 .map_err(BootstrapError::Runtime)?;
 ''',
@@ -826,63 +828,63 @@ let mut rt = OxRuntime::attach_with_host_services_and_args(
 # Comments/whitespace may move without changing these identities; executable
 # token changes require a deliberate generator + evidence review.
 _LOADER_REVIEWED_TOKEN_SHA256 = {
-    "headless_runner_forced": "6d5244c45c6adf99ec165b8ba7969e6b19e1028f402a7b782d863227c596c964",
-    "bootstrap_forced": "e73c408c24c7cc0eb8baf9888c1696e40c054116d9f638df61267553f52aacc6",
+    "headless_runner_forced": "8ff5772ebea6bf6e0b36a0eb0e5753ed17f85ff511098c2c74ee2114f4890c42",
+    "bootstrap_forced": "65d5cfdbf9ed1017798d1ccf3dc149ab573a0133f318d4c050ad01b0342c3bff",
 }
 
 _ADAPTER_REVIEWED_TOKEN_SHA256 = {
-    "crates/oxforms-oxvba-adapter/src/lib.rs": (
+    "crates/calcforms-calcvba-adapter/src/lib.rs": (
         "674475452a87cf7a41449220b26e73827322d141c564b8d10af710e3efa48426"
     ),
-    "crates/oxforms-oxvba-adapter/src/runtime.rs": (
-        "efa794645ecd55a8c14f54f250c98a146ce1628e34f33f20622848e6db815be5"
+    "crates/calcforms-calcvba-adapter/src/runtime.rs": (
+        "61ed5446bdc0dcc943a0bfd65d40a565eee4f9a8f7a62f4689beb013f0bf9307"
     ),
 }
 
 _LOADER_CARGO_TARGETS = {
     "headless_runner_forced": {
-        "crate": "crates/oxforms-headless-runner",
-        "package": "oxforms-headless-runner",
+        "crate": "crates/calcforms-headless-runner",
+        "package": "calcforms-headless-runner",
         "default_source": "src/lib.rs",
         "target_table": "lib",
     },
     "bootstrap_forced": {
-        "crate": "crates/oxforms-bootstrap",
-        "package": "oxforms-bootstrap",
+        "crate": "crates/calcforms-bootstrap",
+        "package": "calcforms-bootstrap",
         "default_source": "src/main.rs",
         "target_table": "bin",
     },
 }
 
-_REVIEWED_OXVBA_REPO = "https://github.com/DnaCalc/OxVba.git"
-_REVIEWED_OXVBA_REV = "8f1aeccc683c4d41621bf137574b8a4d11bd9845"
+_REVIEWED_OXVBA_REPO = "https://github.com/DnaCalc/CalcVBA.git"
+_REVIEWED_OXVBA_REV = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
 _REVIEWED_LOADER_OXVBA_DEPENDENCIES = (
-    "oxvba-bind",
-    "oxvba-bundle",
-    "oxvba-com",
-    "oxvba-hal",
-    "oxvba-host",
-    "oxvba-oxir",
-    "oxvba-runtime",
-    "oxvba-symbol",
+    "calcvba-bind",
+    "calcvba-bundle",
+    "calcvba-com",
+    "calcvba-hal",
+    "calcvba-engine",
+    "calcvba-oxir",
+    "calcvba-runtime",
+    "calcvba-symbol",
 )
-_REVIEWED_ADAPTER_CRATE = "crates/oxforms-oxvba-adapter"
+_REVIEWED_ADAPTER_CRATE = "crates/calcforms-calcvba-adapter"
 _REVIEWED_ADAPTER_OXVBA_DEPENDENCIES = (
-    "oxvba-bundle",
-    "oxvba-com",
-    "oxvba-host",
-    "oxvba-runtime",
+    "calcvba-bundle",
+    "calcvba-com",
+    "calcvba-engine",
+    "calcvba-runtime",
 )
 
 
-def _targets_oxvba_dependency(name: Any, specification: Any) -> bool:
+def _targets_calcvba_dependency(name: Any, specification: Any) -> bool:
     return (
         isinstance(name, str)
-        and name.startswith("oxvba-")
+        and name.startswith("calcvba-")
     ) or (
         isinstance(specification, dict)
         and isinstance(specification.get("package"), str)
-        and specification["package"].startswith("oxvba-")
+        and specification["package"].startswith("calcvba-")
     )
 
 
@@ -894,7 +896,7 @@ def _load_toml(path: Path) -> dict[str, Any]:
 
 
 def _validate_loader_cargo_targets(repo_root: Path) -> None:
-    """Prove reviewed Rust files and their OxVba baseline remain live."""
+    """Prove reviewed Rust files and their CalcVBA baseline remain live."""
 
     ignored_walk_directories = {
         ".git",
@@ -918,7 +920,7 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
                 ) from exc
             if has_content:
                 raise LedgerError(
-                    "repo-local Cargo config directory is unsupported by the reviewed OxVba baseline"
+                    "repo-local Cargo config directory is unsupported by the reviewed CalcVBA baseline"
                 )
         child_directories[:] = [
             name
@@ -944,10 +946,10 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
         raise LedgerError("root Cargo workspace members are missing or ambiguous")
     metadata = workspace.get("metadata") if isinstance(workspace, dict) else None
     oxforms_metadata = (
-        metadata.get("oxforms") if isinstance(metadata, dict) else None
+        metadata.get("calcforms") if isinstance(metadata, dict) else None
     )
     baseline = (
-        oxforms_metadata.get("oxvba_baseline")
+        oxforms_metadata.get("calcvba_baseline")
         if isinstance(oxforms_metadata, dict)
         else None
     )
@@ -957,11 +959,11 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
         or baseline.get("rev") != _REVIEWED_OXVBA_REV
     ):
         raise LedgerError(
-            "root Cargo reviewed OxVba baseline repository/revision differs"
+            "root Cargo reviewed CalcVBA baseline repository/revision differs"
         )
     if "patch" in root_manifest or "replace" in root_manifest:
         raise LedgerError(
-            "root Cargo patch/replace overrides are unsupported by the reviewed OxVba baseline"
+            "root Cargo patch/replace overrides are unsupported by the reviewed CalcVBA baseline"
         )
     for target in _LOADER_CARGO_TARGETS.values():
         crate_path = target["crate"]
@@ -994,34 +996,34 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
         ):
             extra_dependencies = manifest.get(extra_dependency_table, {})
             if not isinstance(extra_dependencies, dict) or any(
-                _targets_oxvba_dependency(name, specification)
+                _targets_calcvba_dependency(name, specification)
                 for name, specification in extra_dependencies.items()
             ):
                 raise LedgerError(
-                    f"reviewed loader crate {crate_path} has an alternate OxVba dependency/feature path"
+                    f"reviewed loader crate {crate_path} has an alternate CalcVBA dependency/feature path"
                 )
         dependencies = manifest.get("dependencies")
-        oxvba_dependencies = (
+        calcvba_dependencies = (
             {
                 name: specification
                 for name, specification in dependencies.items()
-                if _targets_oxvba_dependency(name, specification)
+                if _targets_calcvba_dependency(name, specification)
             }
             if isinstance(dependencies, dict)
             else {}
         )
-        if set(oxvba_dependencies) != set(
+        if set(calcvba_dependencies) != set(
             _REVIEWED_LOADER_OXVBA_DEPENDENCIES
         ) or any(
             specification
             != {"git": _REVIEWED_OXVBA_REPO, "rev": _REVIEWED_OXVBA_REV}
-            for specification in oxvba_dependencies.values()
+            for specification in calcvba_dependencies.values()
         ):
             raise LedgerError(
-                f"reviewed loader crate {crate_path} OxVba dependency repository/revision set differs"
+                f"reviewed loader crate {crate_path} CalcVBA dependency repository/revision set differs"
             )
-        if dependencies.get("oxforms-oxvba-adapter") != {
-            "path": "../oxforms-oxvba-adapter"
+        if dependencies.get("calcforms-calcvba-adapter") != {
+            "path": "../calcforms-calcvba-adapter"
         }:
             raise LedgerError(
                 f"reviewed loader crate {crate_path} no longer uses the exact production adapter path dependency"
@@ -1044,7 +1046,7 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
     adapter_build_dependencies = adapter_manifest.get("build-dependencies", {})
     if (
         not isinstance(adapter_package, dict)
-        or adapter_package.get("name") != "oxforms-oxvba-adapter"
+        or adapter_package.get("name") != "calcforms-calcvba-adapter"
         or "workspace" in adapter_package
         or "autolib" in adapter_package
         or "build" in adapter_package
@@ -1054,7 +1056,7 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
         or "target" in adapter_manifest
         or not isinstance(adapter_build_dependencies, dict)
         or any(
-            _targets_oxvba_dependency(name, specification)
+            _targets_calcvba_dependency(name, specification)
             for name, specification in adapter_build_dependencies.items()
         )
     ):
@@ -1062,24 +1064,24 @@ def _validate_loader_cargo_targets(repo_root: Path) -> None:
             "reviewed production adapter Cargo target/dependency shape differs"
         )
     adapter_dependencies = adapter_manifest.get("dependencies")
-    adapter_oxvba_dependencies = (
+    adapter_calcvba_dependencies = (
         {
             name: specification
             for name, specification in adapter_dependencies.items()
-            if _targets_oxvba_dependency(name, specification)
+            if _targets_calcvba_dependency(name, specification)
         }
         if isinstance(adapter_dependencies, dict)
         else {}
     )
-    if set(adapter_oxvba_dependencies) != set(
+    if set(adapter_calcvba_dependencies) != set(
         _REVIEWED_ADAPTER_OXVBA_DEPENDENCIES
     ) or any(
         specification
         != {"git": _REVIEWED_OXVBA_REPO, "rev": _REVIEWED_OXVBA_REV}
-        for specification in adapter_oxvba_dependencies.values()
+        for specification in adapter_calcvba_dependencies.values()
     ):
         raise LedgerError(
-            "reviewed production adapter OxVba dependency repository/revision set differs"
+            "reviewed production adapter CalcVBA dependency repository/revision set differs"
         )
     if not (repo_root / _REVIEWED_ADAPTER_CRATE / "src/lib.rs").is_file():
         raise LedgerError("reviewed production adapter is missing its default src/lib.rs")
@@ -1162,7 +1164,7 @@ def _validate_loader_host_binding(
     expected_prefix = _rust_tokens(expected_source, f"{profile_id} reviewed prefix")
     if body[: len(expected_prefix)] != expected_prefix:
         raise LedgerError(
-            f"loader source {source_path} build_session does not preserve the reviewed oxforms_modules-to-bind_program path"
+            f"loader source {source_path} build_session does not preserve the reviewed calcforms_modules-to-bind_program path"
         )
     caller_body = (
         _rust_public_method_body(tokens, caller["name"], source_path)
@@ -1218,16 +1220,16 @@ def _validate_loader_profiles(
     _validate_loader_cargo_targets(repo_root)
     _validate_loader_adapter_runtime(repo_root)
     expected_profiles = [
-        ("clean_basproj", "project_manifest", "vba/oxforms/OxForms.basproj"),
+        ("clean_basproj", "project_manifest", "vba/calcforms/CalcForms.basproj"),
         (
             "headless_runner_forced",
-            "manual_oxvba_loader",
-            "crates/oxforms-headless-runner/src/lib.rs",
+            "manual_calcvba_loader",
+            "crates/calcforms-headless-runner/src/lib.rs",
         ),
         (
             "bootstrap_forced",
-            "manual_oxvba_loader",
-            "crates/oxforms-bootstrap/src/main.rs",
+            "manual_calcvba_loader",
+            "crates/calcforms-bootstrap/src/main.rs",
         ),
     ]
     profiles = policy.get("effective_loader_profiles")
@@ -1254,7 +1256,7 @@ def _validate_loader_profiles(
     }
     inventories: dict[str, list[dict[str, str]]] = {}
     for profile in profiles:
-        if profile.get("kind") != "manual_oxvba_loader":
+        if profile.get("kind") != "manual_calcvba_loader":
             continue
         profile_id = profile.get("id")
         helper = expected_helpers.get(str(profile_id))
@@ -1288,7 +1290,7 @@ def _validate_loader_profiles(
             suffix = ".cls" if item["kind"] == "Class" else ".bas"
             if (
                 re.fullmatch(
-                    r"vba/oxforms/[A-Za-z_][A-Za-z0-9_]*\.(?:bas|cls)",
+                    r"vba/calcforms/[A-Za-z_][A-Za-z0-9_]*\.(?:bas|cls)",
                     item["path"],
                 )
                 is None
@@ -1943,7 +1945,7 @@ def _index_source(
             "source_path": profile["source_path"],
         }
         for profile in policy_profiles
-        if profile["kind"] == "manual_oxvba_loader"
+        if profile["kind"] == "manual_calcvba_loader"
     }
     clean_source_path = next(
         (
@@ -1951,7 +1953,7 @@ def _index_source(
             for profile in policy_profiles
             if profile["id"] == "clean_basproj"
         ),
-        "vba/oxforms/OxForms.basproj",
+        "vba/calcforms/CalcForms.basproj",
     )
     modules: dict[str, dict[str, Any]] = {}
     declarations_by_owner_name: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
@@ -2289,7 +2291,7 @@ def _accessor_dimension(
         return _dim("not_applicable", f"The canonical contract has no {accessor} accessor.")
     actual = match["accessors"][accessor]
     if actual["status"] == "missing":
-        return _dim("missing", f"No public OxForms {actual['expected_kind']} declaration was found.")
+        return _dim("missing", f"No public CalcForms {actual['expected_kind']} declaration was found.")
     source_id = actual["source_declaration"]["source_declaration_id"]
     if actual["status"] != "compatible_source_shape":
         basis = (
@@ -2426,25 +2428,25 @@ def _default_binding_dimension(
             "partial",
             (
                 f"Source metadata equals canonical VB_UserMemId={expected_memid}, "
-                f"but pinned OxVba {_REVIEWED_OXVBA_REV} recognizes only "
+                f"but pinned CalcVBA {_REVIEWED_OXVBA_REV} recognizes only "
                 "VB_UserMemId=0 as a default-member marker and does not preserve "
                 "arbitrary DISPIDs or _NewEnum=-4."
             ),
             evidence
             + [
-                "Cargo.toml#workspace.metadata.oxforms.oxvba_baseline",
+                "Cargo.toml#workspace.metadata.calcforms.calcvba_baseline",
             ],
         )
     return _dim(
         "implemented_unverified",
         (
             "Every explicit source member identity is VB_UserMemId=0, the "
-            f"default-member marker recognized by pinned OxVba {_REVIEWED_OXVBA_REV}; "
+            f"default-member marker recognized by pinned CalcVBA {_REVIEWED_OXVBA_REV}; "
             "bind-corpus proof remains pending."
         ),
         evidence
         + [
-            "Cargo.toml#workspace.metadata.oxforms.oxvba_baseline",
+            "Cargo.toml#workspace.metadata.calcforms.calcvba_baseline",
         ],
     )
 
@@ -2485,7 +2487,7 @@ def _surface_dimensions(
     ]
     statuses = {item["status"] for item in applicable}
     if not applicable or statuses == {"missing"}:
-        dimensions["bind"] = _dim("missing", "No required accessor has a public OxForms declaration.")
+        dimensions["bind"] = _dim("missing", "No required accessor has a public CalcForms declaration.")
     elif statuses <= {"implemented_unverified"}:
         dimensions["bind"] = _dim(
             "implemented_unverified",
@@ -2516,7 +2518,7 @@ def _surface_dimensions(
     dimensions["persistence"] = (
         _dim(
             "missing",
-            "An exact file-format property/family contract exists, but no OxForms round-trip implementation proof is attached.",
+            "An exact file-format property/family contract exists, but no CalcForms round-trip implementation proof is attached.",
             [persistence_ref],
         )
         if persistence_ref
@@ -2541,7 +2543,7 @@ def _abi_adapter_dimensions(group: dict[str, Any]) -> dict[str, Any]:
     )
     dimensions["bind"] = _dim(
         "missing",
-        "No explicit OxForms non-dispatch ABI adapter and bind evidence is attached.",
+        "No explicit CalcForms non-dispatch ABI adapter and bind evidence is attached.",
     )
     for accessor, dimension_name in (
         ("func", "method"),
@@ -2584,7 +2586,7 @@ def _native_pointer_adapter_dimensions(group: dict[str, Any]) -> dict[str, Any]:
     )
     dimensions["bind"] = _dim(
         "missing",
-        "No source-backed VBA/OxVba lowering or native adapter is specified for pointer(Void).",
+        "No source-backed VBA/CalcVBA lowering or native adapter is specified for pointer(Void).",
     )
     for accessor, dimension_name in (
         ("func", "method"),
@@ -3467,14 +3469,14 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
                 if external and not supporting_stdole:
                     dimensions["bind"] = _dim(
                         "excluded_authoritative",
-                        "External stdole alias is retained for signature closure; OxForms does not reimplement stdole's binder.",
+                        "External stdole alias is retained for signature closure; CalcForms does not reimplement stdole's binder.",
                         [_source_ref(resolved_paths["fm20"], f"type:{type_id}")],
                         rule="external_abi",
                     )
                 else:
                     dimensions["bind"] = _dim(
                         "missing",
-                        "No decisive OxVba/OxForms binder-registry evidence proves this exact named alias identity.",
+                        "No decisive CalcVBA/CalcForms binder-registry evidence proves this exact named alias identity.",
                     )
             elif external and not supporting_stdole:
                 disposition = "external_abi"
@@ -3540,7 +3542,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
                     identity_mismatch_evidence = identity["mismatch_evidence"]
                     identity_mismatches.extend(identity["mismatches"])
                 if actual is None:
-                    dimensions["bind"] = _dim("missing", "No canonical OxForms public type declaration exists.")
+                    dimensions["bind"] = _dim("missing", "No canonical CalcForms public type declaration exists.")
                 elif alias:
                     dimensions["bind"] = _dim(
                         "partial",
@@ -3784,7 +3786,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
                 elif enum_value:
                     if actual_member is None:
                         dimensions["bind"] = _dim(
-                            "missing", "No same-name OxForms enum constant exists."
+                            "missing", "No same-name CalcForms enum constant exists."
                         )
                     else:
                         expected_value = variable.get("union_value", {}).get(
@@ -4127,7 +4129,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
             overlay_type_refs,
         )
         dimensions["bind"] = (
-            _dim("missing", "No OxForms public type implements this host-only identity.")
+            _dim("missing", "No CalcForms public type implements this host-only identity.")
             if module is None
             else _dim(
                 (
@@ -4592,7 +4594,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
         if implementation_bearing:
             dimensions["persistence"] = _dim(
                 "missing",
-                "No decisive OxForms parser/serializer/round-trip implementation proof is attached for this exact fact.",
+                "No decisive CalcForms parser/serializer/round-trip implementation proof is attached for this exact fact.",
             )
             dimensions["tests"] = _dim(
                 "missing", "No decisive fact-level persistence conformance test is attached."
@@ -5107,10 +5109,10 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
         )
         dimensions["persistence"] = _dim(
             "missing",
-            "Canonical file-format facts exist, but OxForms round-trip implementation/evidence is not complete.",
+            "Canonical file-format facts exist, but CalcForms round-trip implementation/evidence is not complete.",
         )
         dimensions["tests"] = _dim(
-            "missing", "No decisive OxForms property/family round-trip test is attached."
+            "missing", "No decisive CalcForms property/family round-trip test is attached."
         )
         rows.append(
             _finalize_row(
@@ -5149,10 +5151,10 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
         )
         dimensions["persistence"] = _dim(
             "missing",
-            "The live export observation is not an OxForms parser/serializer/round-trip implementation claim.",
+            "The live export observation is not an CalcForms parser/serializer/round-trip implementation claim.",
         )
         dimensions["tests"] = _dim(
-            "missing", "No decisive OxForms family-specific round-trip test is attached."
+            "missing", "No decisive CalcForms family-specific round-trip test is attached."
         )
         rows.append(
             _finalize_row(
@@ -5199,7 +5201,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
         dimensions = _dimensions_not_applicable("Unexpected public type has no canonical contract dimensions.")
         dimensions["type_or_declaration"] = _dim(
             "partial",
-            "A public/forced-public OxForms class has no exact canonical MSForms type identity.",
+            "A public/forced-public CalcForms class has no exact canonical MSForms type identity.",
             [module["path"]],
         )
         dimensions["bind"] = _dim(
@@ -5232,7 +5234,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
             continue
         dimensions = _dimensions_not_applicable("Unexpected public member has no canonical contract dimensions.")
         dimensions["type_or_declaration"] = _dim(
-            "partial", "Declared-public OxForms member is not mapped to any accepted canonical row.", [declaration_id]
+            "partial", "Declared-public CalcForms member is not mapped to any accepted canonical row.", [declaration_id]
         )
         dimensions["bind"] = _dim(
             "partial", "The unexpected member is reachable in one or more current exposure profiles."
@@ -6212,7 +6214,7 @@ def build_expected_ledger_manifest(ledger: dict[str, Any]) -> dict[str, Any]:
         "ledger_schema": LEDGER_SCHEMA,
         "artifact_path": (
             "docs/evidence/W010_complete_msforms_object_model_parity/beads/"
-            "oxforms-jbjp.4/msforms_parity_ledger.v1.json"
+            "oxforms-jbjp.73/msforms_parity_ledger.v1.json"
         ),
         "canonical_sha256": ledger["canonical_sha256"],
         "canonical_file_sha256": sha256_bytes(canonical_json_bytes(ledger)),

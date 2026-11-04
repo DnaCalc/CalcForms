@@ -1,7 +1,7 @@
 Option Explicit
 
 ' W007 object-model proving fixture (oxforms-4pn.3). Test infrastructure, not the
-' OxForms library. It exercises the object model the way a real user form (and,
+' CalcForms library. It exercises the object model the way a real user form (and,
 ' later, the .frm loader + runtime) will: build controls through Controls.Add by
 ' Forms 2.0 ProgID, hold them as WithEvents fields, handle native control events with ordinary
 ' VBA handler code. The Perform*/ApplyUserText calls below stand in for the
@@ -24,6 +24,13 @@ Private mBeforeUpdateVeto As Boolean
 ' that proceeds. Armed via ArmPasteVeto to exercise the two-stage paste veto end-to-end:
 ' a vetoing BeforeDropOrPaste suppresses the keyboard Ctrl+V paste (no Change) (oxforms-esq.17).
 Private mPasteVeto As Boolean
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set OkButton = Nothing
+    Set InputField = Nothing
+    Set OutputLabel = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

@@ -32,6 +32,16 @@
 /vba/oxforms/*.bas text eol=lf
 /vba/oxforms/*.cls text eol=lf
 /vba/oxforms/*.basproj text eol=lf
+/vba/calcforms/*.bas text eol=lf
+/vba/calcforms/*.cls text eol=lf
+/vba/calcforms/*.basproj text eol=lf
+/crates/calcforms-headless-runner/src/*.rs text eol=lf
+/crates/calcforms-bootstrap/src/*.rs text eol=lf
+/fixtures/office-oracle/w002-source/* text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.73/* text eol=lf
+/fixtures/workbooks/**/*.frm -text whitespace=-trailing-space
+/fixtures/workbooks/**/*.frx binary
+/fixtures/workbooks/**/*.xlsm binary
 /crates/oxforms-headless-runner/src/*.rs text eol=lf
 /crates/oxforms-bootstrap/src/*.rs text eol=lf
 /fixtures/forms-persistence/**/*.frm -text whitespace=-trailing-space

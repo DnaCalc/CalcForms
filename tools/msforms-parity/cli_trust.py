@@ -11,7 +11,7 @@ from parity_ledger import LedgerError
 
 REVIEWED_ARTIFACT_PATH = (
     "docs/evidence/W010_complete_msforms_object_model_parity/beads/"
-    "oxforms-jbjp.4/msforms_parity_ledger.v1.json"
+    "oxforms-jbjp.73/msforms_parity_ledger.v1.json"
 )
 
 

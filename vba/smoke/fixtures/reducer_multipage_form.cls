@@ -11,6 +11,14 @@ Private WithEvents mAlphaField As TextBox
 Private WithEvents mBetaField As TextBox
 Private mLog As String
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mPages = Nothing
+    Set mAlphaField = Nothing
+    Set mBetaField = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "multipageform"

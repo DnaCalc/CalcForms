@@ -8,6 +8,12 @@ Private mReducer As OxReducer
 Private WithEvents mToggle As ToggleButton
 Private mLog As String
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mToggle = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "toggleform"

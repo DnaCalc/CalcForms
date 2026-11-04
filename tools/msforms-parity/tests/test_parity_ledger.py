@@ -162,10 +162,10 @@ class GeneratedLedgerTestCase(unittest.TestCase):
 
 class LoaderProfileAdversarialTests(unittest.TestCase):
     _HEADLESS_SOURCE = '''
-fn oxforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
+fn calcforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
     use ModuleKind::{Class, Procedural};
     let modules = [
-        ("Label", Class, "vba/oxforms/Label.cls"),
+        ("Label", Class, "vba/calcforms/Label.cls"),
     ];
     modules
         .into_iter()
@@ -214,8 +214,8 @@ fn module_unit(
 
     def test_comments_cannot_supply_inventory_or_forced_attributes(self) -> None:
         comment_only_tuple = self._HEADLESS_SOURCE.replace(
-            '        ("Label", Class, "vba/oxforms/Label.cls"),',
-            '        // ("Label", Class, "vba/oxforms/Label.cls"),',
+            '        ("Label", Class, "vba/calcforms/Label.cls"),',
+            '        // ("Label", Class, "vba/calcforms/Label.cls"),',
         )
         comment_only_assignments = self._HEADLESS_SOURCE.replace(
             "    attributes.vb_exposed = true;\n"
@@ -234,10 +234,10 @@ fn module_unit(
     def test_dead_inventory_and_disconnected_return_mapping_are_rejected(self) -> None:
         disconnected_inventory = self._HEADLESS_SOURCE.replace(
             "    let modules = [\n"
-            '        ("Label", Class, "vba/oxforms/Label.cls"),\n'
+            '        ("Label", Class, "vba/calcforms/Label.cls"),\n'
             "    ];",
             "    let dead_modules = [\n"
-            '        ("Label", Class, "vba/oxforms/Label.cls"),\n'
+            '        ("Label", Class, "vba/calcforms/Label.cls"),\n'
             "    ];\n"
             "    let modules = [];",
         )
@@ -257,7 +257,7 @@ fn module_unit(
                 self.assertLoaderRejected(source, expected)
 
     def test_cfg_or_visibility_modifiers_cannot_disable_reviewed_functions(self) -> None:
-        for function_name in ("oxforms_modules", "module_unit"):
+        for function_name in ("calcforms_modules", "module_unit"):
             with self.subTest(function=function_name):
                 mutated = self._HEADLESS_SOURCE.replace(
                     f"fn {function_name}",
@@ -269,7 +269,7 @@ fn module_unit(
                 )
 
     def test_bootstrap_oxforms_paths_cannot_evade_scope_by_case_or_separator(self) -> None:
-        source_path = "crates/oxforms-bootstrap/src/main.rs"
+        source_path = "crates/calcforms-bootstrap/src/main.rs"
         source = (REPO_ROOT / source_path).read_text(encoding="utf-8")
         original = (
             'include_str!("../../../vba/smoke/fixtures/'
@@ -277,9 +277,9 @@ fn module_unit(
         )
         self.assertIn(original, source)
         replacements = {
-            "case": 'include_str!("../../../VBA/OXFORMS/Label.cls")',
+            "case": 'include_str!("../../../VBA/CALCFORMS/Label.cls")',
             "backslash": (
-                'include_str!(r"..\\..\\..\\VBA\\OXFORMS\\Label.cls")'
+                'include_str!(r"..\\..\\..\\VBA\\CALCFORMS\\Label.cls")'
             ),
         }
         for label, replacement in replacements.items():
@@ -305,7 +305,7 @@ fn module_unit(
                 "kind", "project_manifest"
             ),
             "wrong_path": lambda profiles: profiles[1].__setitem__(
-                "source_path", "crates/oxforms-bootstrap/src/main.rs"
+                "source_path", "crates/calcforms-bootstrap/src/main.rs"
             ),
             "duplicate_nonmanual": lambda profiles: profiles.append(
                 copy.deepcopy(profiles[0])
@@ -321,8 +321,8 @@ fn module_unit(
 
     def test_manual_loader_inventory_reaches_the_bound_host_project(self) -> None:
         sources = {
-            "headless_runner_forced": "crates/oxforms-headless-runner/src/lib.rs",
-            "bootstrap_forced": "crates/oxforms-bootstrap/src/main.rs",
+            "headless_runner_forced": "crates/calcforms-headless-runner/src/lib.rs",
+            "bootstrap_forced": "crates/calcforms-bootstrap/src/main.rs",
         }
         for profile_id, source_path in sources.items():
             with self.subTest(profile=profile_id):
@@ -336,7 +336,7 @@ fn module_unit(
             "headless_inventory_call": (
                 "headless_runner_forced",
                 sources["headless_runner_forced"],
-                "let mut modules = oxforms_modules(repo_root)?;",
+                "let mut modules = calcforms_modules(repo_root)?;",
                 "let mut modules = Vec::new();",
             ),
             "headless_manifest_binding": (
@@ -348,15 +348,15 @@ fn module_unit(
             "bootstrap_inventory_call": (
                 "bootstrap_forced",
                 sources["bootstrap_forced"],
-                "        modules: oxforms_modules(),",
+                "        modules: calcforms_modules(),",
                 "        modules: Vec::new(),",
             ),
             "bootstrap_shadow_manifest": (
                 "bootstrap_forced",
                 sources["bootstrap_forced"],
-                "    let program = oxvba_bind::bind_program",
+                "    let program = calcvba_bind::bind_program",
                 "    let manifest = SymbolProjectManifest { modules: Vec::new(), ..manifest };\n"
-                "    let program = oxvba_bind::bind_program",
+                "    let program = calcvba_bind::bind_program",
             ),
             "bootstrap_entry_call": (
                 "bootstrap_forced",
@@ -374,7 +374,7 @@ fn module_unit(
                 )
                 with self.assertRaisesRegex(
                     ledger_module.LedgerError,
-                    "oxforms_modules-to-bind_program|live build_session caller|full-source token identity",
+                    "calcforms_modules-to-bind_program|live build_session caller|full-source token identity",
                 ):
                     ledger_module._validate_loader_host_binding(
                         tokens, profile_id, source_path
@@ -384,16 +384,16 @@ fn module_unit(
             "headless_shadow_after_bind": (
                 "headless_runner_forced",
                 sources["headless_runner_forced"],
-                "    let bundle = oxvba_oxir::elaborate::elaborate(&program)",
+                "    let bundle = calcvba_oxir::elaborate::elaborate(&program)",
                 "    let program = other_bound_program();\n"
-                "    let bundle = oxvba_oxir::elaborate::elaborate(&program)",
+                "    let bundle = calcvba_oxir::elaborate::elaborate(&program)",
             ),
             "bootstrap_shadow_after_bind": (
                 "bootstrap_forced",
                 sources["bootstrap_forced"],
-                "    let bundle = oxvba_oxir::elaborate::elaborate(&program)",
+                "    let bundle = calcvba_oxir::elaborate::elaborate(&program)",
                 "    let program = other_bound_program();\n"
-                "    let bundle = oxvba_oxir::elaborate::elaborate(&program)",
+                "    let bundle = calcvba_oxir::elaborate::elaborate(&program)",
             ),
             "headless_wrong_impl_owner": (
                 "headless_runner_forced",
@@ -479,7 +479,7 @@ fn dead_entry() {
                 {
                     "name": "Label",
                     "kind": "Class",
-                    "path": "vba/oxforms/Label.cls",
+                    "path": "vba/calcforms/Label.cls",
                 }
             ]
         }
@@ -489,7 +489,7 @@ fn dead_entry() {
                     "name": "Label",
                     "file_stem": "Label",
                     "kind": "class_module",
-                    "path": "vba/oxforms/Label.cls",
+                    "path": "vba/calcforms/Label.cls",
                 }
             ]
         }
@@ -515,23 +515,23 @@ fn dead_entry() {
 
     def test_loader_crates_keep_default_targets_and_workspace_membership(self) -> None:
         def make_repo(root: Path) -> None:
-            (root / "crates/oxforms-headless-runner/src").mkdir(parents=True)
-            (root / "crates/oxforms-bootstrap/src").mkdir(parents=True)
-            (root / "crates/oxforms-oxvba-adapter/src").mkdir(parents=True)
+            (root / "crates/calcforms-headless-runner/src").mkdir(parents=True)
+            (root / "crates/calcforms-bootstrap/src").mkdir(parents=True)
+            (root / "crates/calcforms-calcvba-adapter/src").mkdir(parents=True)
             (root / "Cargo.toml").write_text(
                 '''[workspace]
-members = ["crates/oxforms-headless-runner", "crates/oxforms-bootstrap", "crates/oxforms-oxvba-adapter"]
+members = ["crates/calcforms-headless-runner", "crates/calcforms-bootstrap", "crates/calcforms-calcvba-adapter"]
 resolver = "2"
 
-[workspace.metadata.oxforms.oxvba_baseline]
-repo = "https://github.com/DnaCalc/OxVba.git"
-rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845"
+[workspace.metadata.calcforms.calcvba_baseline]
+repo = "https://github.com/DnaCalc/CalcVBA.git"
+rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
 ''',
                 encoding="utf-8",
             )
             for crate, package, source in (
-                ("oxforms-headless-runner", "oxforms-headless-runner", "lib.rs"),
-                ("oxforms-bootstrap", "oxforms-bootstrap", "main.rs"),
+                ("calcforms-headless-runner", "calcforms-headless-runner", "lib.rs"),
+                ("calcforms-bootstrap", "calcforms-bootstrap", "main.rs"),
             ):
                 crate_root = root / "crates" / crate
                 (crate_root / "Cargo.toml").write_text(
@@ -540,30 +540,30 @@ name = "{package}"
 version = "0.0.0"
 
 [dependencies]
-oxforms-oxvba-adapter = {{ path = "../oxforms-oxvba-adapter" }}
-oxvba-bind = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-bundle = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-com = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-hal = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-host = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-oxir = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-runtime = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
-oxvba-symbol = {{ git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }}
+calcforms-calcvba-adapter = {{ path = "../calcforms-calcvba-adapter" }}
+calcvba-bind = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-bundle = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-com = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-hal = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-engine = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-oxir = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-runtime = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-symbol = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
 ''',
                     encoding="utf-8",
                 )
                 (crate_root / "src" / source).write_text("", encoding="utf-8")
-            adapter_root = root / "crates/oxforms-oxvba-adapter"
+            adapter_root = root / "crates/calcforms-calcvba-adapter"
             (adapter_root / "Cargo.toml").write_text(
                 '''[package]
-name = "oxforms-oxvba-adapter"
+name = "calcforms-calcvba-adapter"
 version = "0.0.0"
 
 [dependencies]
-oxvba-bundle = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
-oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
-oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
 ''',
                 encoding="utf-8",
             )
@@ -588,30 +588,30 @@ oxvba-runtime = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc6
                 root = Path(temporary)
                 make_repo(root)
                 if label == "alternate_lib":
-                    with (root / "crates/oxforms-headless-runner/Cargo.toml").open(
+                    with (root / "crates/calcforms-headless-runner/Cargo.toml").open(
                         "a", encoding="utf-8"
                     ) as stream:
                         stream.write('\n[lib]\npath = "other.rs"\n')
                 elif label == "alternate_bin":
-                    with (root / "crates/oxforms-bootstrap/Cargo.toml").open(
+                    with (root / "crates/calcforms-bootstrap/Cargo.toml").open(
                         "a", encoding="utf-8"
                     ) as stream:
                         stream.write('\n[[bin]]\npath = "other.rs"\n')
                 elif label == "missing_member":
                     (root / "Cargo.toml").write_text(
-                        '[workspace]\nmembers = ["crates/oxforms-headless-runner"]\n',
+                        '[workspace]\nmembers = ["crates/calcforms-headless-runner"]\n',
                         encoding="utf-8",
                     )
                 elif label == "excluded_member":
                     (root / "Cargo.toml").write_text(
                         '''[workspace]
-members = ["crates/oxforms-headless-runner", "crates/oxforms-bootstrap"]
-exclude = ["crates/oxforms-bootstrap"]
+members = ["crates/calcforms-headless-runner", "crates/calcforms-bootstrap"]
+exclude = ["crates/calcforms-bootstrap"]
 ''',
                         encoding="utf-8",
                     )
                 elif label == "redirected_workspace":
-                    path = root / "crates/oxforms-bootstrap/Cargo.toml"
+                    path = root / "crates/calcforms-bootstrap/Cargo.toml"
                     path.write_text(
                         'workspace = "../../other-workspace"\n'
                         + path.read_text(encoding="utf-8"),
@@ -620,12 +620,12 @@ exclude = ["crates/oxforms-bootstrap"]
                 elif label == "typed_members":
                     (root / "Cargo.toml").write_text(
                         '''[workspace]
-members = ["crates/oxforms-headless-runner", "crates/oxforms-bootstrap", false]
+members = ["crates/calcforms-headless-runner", "crates/calcforms-bootstrap", false]
 ''',
                         encoding="utf-8",
                     )
                 elif label == "default_run":
-                    path = root / "crates/oxforms-bootstrap/Cargo.toml"
+                    path = root / "crates/calcforms-bootstrap/Cargo.toml"
                     source = path.read_text(encoding="utf-8")
                     path.write_text(
                         source.replace(
@@ -635,63 +635,63 @@ members = ["crates/oxforms-headless-runner", "crates/oxforms-bootstrap", false]
                         ),
                         encoding="utf-8",
                     )
-                    decoy = root / "crates/oxforms-bootstrap/src/bin/decoy.rs"
+                    decoy = root / "crates/calcforms-bootstrap/src/bin/decoy.rs"
                     decoy.parent.mkdir()
                     decoy.write_text("fn main() {}\n", encoding="utf-8")
                 else:
                     (root / "Cargo.toml").write_text(
                         '''[workspace]
-members = ["crates/oxforms-headless-runner", "crates/oxforms-bootstrap"]
+members = ["crates/calcforms-headless-runner", "crates/calcforms-bootstrap"]
 exclude = false
 ''',
                         encoding="utf-8",
                     )
                 with self.assertRaisesRegex(
                     ledger_module.LedgerError,
-                    "default Cargo target identity|workspace omits|members are missing|reviewed OxVba baseline",
+                    "default Cargo target identity|workspace omits|members are missing|reviewed CalcVBA baseline",
                 ):
                     ledger_module._validate_loader_cargo_targets(root)
 
         revision_mutations = {
             "wrong_root_repo": (
                 "Cargo.toml",
-                "https://github.com/DnaCalc/OxVba.git",
-                "https://example.invalid/OxVba.git",
+                "https://github.com/DnaCalc/CalcVBA.git",
+                "https://example.invalid/CalcVBA.git",
             ),
             "wrong_root_rev": (
                 "Cargo.toml",
-                "8f1aeccc683c4d41621bf137574b8a4d11bd9845",
+                "1590c0895743a26f9a2e1147c5997d0f67f6f3c0",
                 "0000000000000000000000000000000000000000",
             ),
             "wrong_dependency_repo": (
-                "crates/oxforms-headless-runner/Cargo.toml",
-                "https://github.com/DnaCalc/OxVba.git",
-                "https://example.invalid/OxVba.git",
+                "crates/calcforms-headless-runner/Cargo.toml",
+                "https://github.com/DnaCalc/CalcVBA.git",
+                "https://example.invalid/CalcVBA.git",
             ),
             "wrong_dependency_rev": (
-                "crates/oxforms-bootstrap/Cargo.toml",
-                "8f1aeccc683c4d41621bf137574b8a4d11bd9845",
+                "crates/calcforms-bootstrap/Cargo.toml",
+                "1590c0895743a26f9a2e1147c5997d0f67f6f3c0",
                 "0000000000000000000000000000000000000000",
             ),
             "missing_dependency": (
-                "crates/oxforms-bootstrap/Cargo.toml",
-                'oxvba-symbol = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }\n',
+                "crates/calcforms-bootstrap/Cargo.toml",
+                'calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }\n',
                 "",
             ),
             "wrong_adapter_rev": (
-                "crates/oxforms-oxvba-adapter/Cargo.toml",
-                "8f1aeccc683c4d41621bf137574b8a4d11bd9845",
+                "crates/calcforms-calcvba-adapter/Cargo.toml",
+                "1590c0895743a26f9a2e1147c5997d0f67f6f3c0",
                 "0000000000000000000000000000000000000000",
             ),
             "missing_adapter_dependency": (
-                "crates/oxforms-oxvba-adapter/Cargo.toml",
-                'oxvba-host = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }\n',
+                "crates/calcforms-calcvba-adapter/Cargo.toml",
+                'calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }\n',
                 "",
             ),
             "loader_adapter_feature": (
-                "crates/oxforms-headless-runner/Cargo.toml",
-                'oxforms-oxvba-adapter = { path = "../oxforms-oxvba-adapter" }',
-                'oxforms-oxvba-adapter = { path = "../oxforms-oxvba-adapter", features = ["alternate"] }',
+                "crates/calcforms-headless-runner/Cargo.toml",
+                'calcforms-calcvba-adapter = { path = "../calcforms-calcvba-adapter" }',
+                'calcforms-calcvba-adapter = { path = "../calcforms-calcvba-adapter", features = ["alternate"] }',
             ),
             "wrong_workspace_resolver": (
                 "Cargo.toml",
@@ -699,12 +699,12 @@ exclude = false
                 'resolver = "1"',
             ),
             "explicit_loader_build_script": (
-                "crates/oxforms-headless-runner/Cargo.toml",
+                "crates/calcforms-headless-runner/Cargo.toml",
                 'version = "0.0.0"',
                 'version = "0.0.0"\nbuild = "decoy.rs"',
             ),
             "explicit_adapter_build_script": (
-                "crates/oxforms-oxvba-adapter/Cargo.toml",
+                "crates/calcforms-calcvba-adapter/Cargo.toml",
                 'version = "0.0.0"',
                 'version = "0.0.0"\nbuild = "decoy.rs"',
             ),
@@ -721,13 +721,13 @@ exclude = false
                 )
                 with self.assertRaisesRegex(
                     ledger_module.LedgerError,
-                    "reviewed OxVba baseline|OxVba dependency|adapter path dependency|members are missing|target identity|adapter Cargo target",
+                    "reviewed CalcVBA baseline|CalcVBA dependency|adapter path dependency|members are missing|target identity|adapter Cargo target",
                 ):
                     ledger_module._validate_loader_cargo_targets(root)
 
         for crate in (
-            "oxforms-headless-runner",
-            "oxforms-oxvba-adapter",
+            "calcforms-headless-runner",
+            "calcforms-calcvba-adapter",
         ):
             with self.subTest(auto_build_script=crate), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
@@ -744,30 +744,30 @@ exclude = false
         alternate_feature_paths = {
             "package_features": '''
 [features]
-default = ["oxvba-com/fixture-typelibs"]
+default = ["calcvba-com/fixture-typelibs"]
 ''',
             "target_dependency": '''
 [target.'cfg(windows)'.dependencies]
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845", features = ["fixture-typelibs"] }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0", features = ["fixture-typelibs"] }
 ''',
             "build_dependency": '''
 [build-dependencies]
-oxvba-com = { git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
 ''',
             "aliased_dependency": '''
-alternate-com = { package = "oxvba-com", git = "https://github.com/DnaCalc/OxVba.git", rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845", features = ["fixture-typelibs"] }
+alternate-com = { package = "calcvba-com", git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0", features = ["fixture-typelibs"] }
 ''',
         }
         for label, addition in alternate_feature_paths.items():
             with self.subTest(label=label), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
                 make_repo(root)
-                path = root / "crates/oxforms-headless-runner/Cargo.toml"
+                path = root / "crates/calcforms-headless-runner/Cargo.toml"
                 with path.open("a", encoding="utf-8") as stream:
                     stream.write(addition)
                 with self.assertRaisesRegex(
                     ledger_module.LedgerError,
-                    "default Cargo target identity|alternate OxVba dependency|OxVba dependency repository",
+                    "default Cargo target identity|alternate CalcVBA dependency|CalcVBA dependency repository",
                 ):
                     ledger_module._validate_loader_cargo_targets(root)
 
@@ -775,12 +775,12 @@ alternate-com = { package = "oxvba-com", git = "https://github.com/DnaCalc/OxVba
             with self.subTest(adapter_label=label), tempfile.TemporaryDirectory() as temporary:
                 root = Path(temporary)
                 make_repo(root)
-                path = root / "crates/oxforms-oxvba-adapter/Cargo.toml"
+                path = root / "crates/calcforms-calcvba-adapter/Cargo.toml"
                 with path.open("a", encoding="utf-8") as stream:
                     stream.write(addition)
                 with self.assertRaisesRegex(
                     ledger_module.LedgerError,
-                    "production adapter Cargo target/dependency shape|production adapter OxVba dependency",
+                    "production adapter Cargo target/dependency shape|production adapter CalcVBA dependency",
                 ):
                     ledger_module._validate_loader_cargo_targets(root)
 
@@ -789,8 +789,8 @@ alternate-com = { package = "oxvba-com", git = "https://github.com/DnaCalc/OxVba
             make_repo(root)
             with (root / "Cargo.toml").open("a", encoding="utf-8") as stream:
                 stream.write(
-                    '\n[patch."https://github.com/DnaCalc/OxVba.git"]\n'
-                    'oxvba-bind = { path = "../other" }\n'
+                    '\n[patch."https://github.com/DnaCalc/CalcVBA.git"]\n'
+                    'calcvba-bind = { path = "../other" }\n'
                 )
             with self.assertRaisesRegex(
                 ledger_module.LedgerError, "patch/replace overrides"
@@ -799,8 +799,8 @@ alternate-com = { package = "oxvba-com", git = "https://github.com/DnaCalc/OxVba
 
         for relative_config in (
             ".cargo/config.toml",
-            "crates/oxforms-headless-runner/.cargo/config",
-            "crates/oxforms-bootstrap/.CARGO/Config.toml",
+            "crates/calcforms-headless-runner/.cargo/config",
+            "crates/calcforms-bootstrap/.CARGO/Config.toml",
         ):
             with self.subTest(
                 relative_config=relative_config
@@ -810,8 +810,8 @@ alternate-com = { package = "oxvba-com", git = "https://github.com/DnaCalc/OxVba
                 config_path = root / relative_config
                 config_path.parent.mkdir(parents=True, exist_ok=True)
                 config_path.write_text(
-                    '''[patch."https://github.com/DnaCalc/OxVba.git"]
-oxvba-bind = { path = "../other" }
+                    '''[patch."https://github.com/DnaCalc/CalcVBA.git"]
+calcvba-bind = { path = "../other" }
 ''',
                     encoding="utf-8",
                 )
@@ -822,7 +822,7 @@ oxvba-bind = { path = "../other" }
 
     def test_adapter_runtime_attach_handoff_has_reviewed_live_token_identity(self) -> None:
         ledger_module._validate_loader_adapter_runtime(REPO_ROOT)
-        relative_path = "crates/oxforms-oxvba-adapter/src/runtime.rs"
+        relative_path = "crates/calcforms-calcvba-adapter/src/runtime.rs"
         source = (REPO_ROOT / relative_path).read_text(encoding="utf-8")
         original = ".create_class_instance(form_class)"
         self.assertIn(original, source)
@@ -836,10 +836,10 @@ oxvba-bind = { path = "../other" }
                 ),
                 encoding="utf-8",
             )
-            lib_path = root / "crates/oxforms-oxvba-adapter/src/lib.rs"
+            lib_path = root / "crates/calcforms-calcvba-adapter/src/lib.rs"
             lib_path.write_text(
                 (
-                    REPO_ROOT / "crates/oxforms-oxvba-adapter/src/lib.rs"
+                    REPO_ROOT / "crates/calcforms-calcvba-adapter/src/lib.rs"
                 ).read_text(encoding="utf-8"),
                 encoding="utf-8",
             )
@@ -893,7 +893,7 @@ oxvba-bind = { path = "../other" }
             "effective_loader_profiles": [
                 {
                     "id": "manual",
-                    "kind": "manual_oxvba_loader",
+                    "kind": "manual_calcvba_loader",
                     "source_path": "host.rs",
                     "modules": [
                         "Hidden",

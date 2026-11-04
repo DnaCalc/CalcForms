@@ -1,7 +1,7 @@
 Option Explicit
 
 ' Interactive AutoSize demo form (oxforms-rq5.2 live showcase). Test/demo infrastructure,
-' not the OxForms library. A bordered AutoSize label shrink-wraps its caption; a "Grow
+' not the CalcForms library. A bordered AutoSize label shrink-wraps its caption; a "Grow
 ' font" CommandButton's native Click handler bumps the label's font size, so the measure ->
 ' layout -> paint pipeline re-fits the box on screen. Because only the label (and the
 ' button) are invalidated, the runtime re-renders incrementally (rq5.2) -- the form is not
@@ -11,6 +11,12 @@ Option Explicit
 Private mForm As UserForm
 Private WithEvents GrowButton As CommandButton
 Private mLabel As Label
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set GrowButton = Nothing
+    Set mLabel = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

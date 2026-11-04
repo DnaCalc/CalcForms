@@ -1,6 +1,6 @@
 Option Explicit
 
-' rq5.3 crossing-budget probe. Test infrastructure, not the OxForms library. Builds Count
+' rq5.3 crossing-budget probe. Test infrastructure, not the CalcForms library. Builds Count
 ' Label controls so a test can assert the VBA->Rust crossing count of a steady-state change
 ' is INDEPENDENT of the control count (the §6 budget): changing one control crosses one
 ' incremental SubmitPatch + one batched MeasureBatch, regardless of the other controls. This
@@ -8,6 +8,11 @@ Option Explicit
 
 Private mForm As UserForm
 Private mFirst As Label
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mFirst = Nothing
+End Sub
 
 Public Sub Build(ByVal Count As Long)
     Set mForm = New UserForm

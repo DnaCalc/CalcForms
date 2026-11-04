@@ -1,10 +1,10 @@
 Option Explicit
 
 ' Reducer-pivot increment 1 proof fixture (oxforms-ih6.1; test infrastructure, not the
-' OxForms library). Builds a form with one CommandButton, an OxReducer, and a WithEvents sink
+' CalcForms library). Builds a form with one CommandButton, an OxReducer, and a WithEvents sink
 ' that records the REAL FM20 events the reducer raises. A host test drives OxReducer.Dispatch
 ' with normalized pointer input and asserts both the reducer's ordered effect log AND that the
-' native Click fired in order -- with no Rust reducer (oxforms-core) in the loop. The Perform*
+' native Click fired in order -- with no Rust reducer (calcforms-core) in the loop. The Perform*
 ' fixtures used elsewhere stand in for the runtime; here the OxReducer makes the routing +
 ' sequencing decision the Rust reduce() used to make.
 
@@ -12,6 +12,12 @@ Private mForm As UserForm
 Private mReducer As OxReducer
 Private WithEvents mBtn As CommandButton
 Private mLog As String
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mBtn = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

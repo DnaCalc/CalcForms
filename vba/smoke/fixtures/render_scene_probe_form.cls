@@ -1,10 +1,10 @@
 Option Explicit
 
 ' W007 render proving fixture (oxforms-rq5 step 4). Test infrastructure, not the
-' OxForms library. It exercises the self-render path the way the runtime will: build
+' CalcForms library. It exercises the self-render path the way the runtime will: build
 ' a small UserForm + controls through the object model, ask the form to paint itself
 ' into an OxSceneBuilder, and submit the one batched ScenePatch across the injected
-' OxForms.Surface boundary. The Rust side then proves the retained scene rasterizes
+' CalcForms.Surface boundary. The Rust side then proves the retained scene rasterizes
 ' to the intended pixels.
 
 Private mResultToken As String
@@ -42,7 +42,7 @@ Public Sub Run()
 
     ' One BeginScene + one batched SubmitPatch crossing for the whole form.
     Dim Surface As Object
-    Set Surface = CreateObject("OxForms.Surface")
+    Set Surface = CreateObject("CalcForms.Surface")
     Dim BaseToken As String
     BaseToken = Surface.BeginScene(200, 120, 96, 96)
 
@@ -51,12 +51,12 @@ Public Sub Run()
     Dim PatchJson As String
     PatchJson = DemoForm.BuildScenePatch(BaseToken, Builder, Surface, 96, 96)
 
-    mResultToken = Surface.SubmitPatch(PatchJson)
+    mResultToken = Surface.SubmitPatch((PatchJson))
 End Sub
 
 Public Sub RunPrimitiveVocabulary()
     Dim Surface As Object
-    Set Surface = CreateObject("OxForms.Surface")
+    Set Surface = CreateObject("CalcForms.Surface")
     Dim BaseToken As String
     BaseToken = Surface.BeginScene(96, 64, 96, 96)
 

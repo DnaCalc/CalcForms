@@ -1,7 +1,7 @@
 Option Explicit
 
 ' The W007 greeter as a VBA-reducer form-document (oxforms-ih6.7; test + demo infrastructure).
-' Replaces the old oxforms-core materialized RuntimeForm: a TextBox (InputField), a default
+' Replaces the old calcforms-core materialized RuntimeForm: a TextBox (InputField), a default
 ' CommandButton (OkButton), and a Label (OutputLabel), driven entirely by OxReducer. The OK
 ' Click handler reads the typed text and sets the label -- the exact W007 demo behavior -- with
 ' no Rust reducer in the loop. Exposes the reducer facade the Rust OxRuntime drives
@@ -14,6 +14,14 @@ Private WithEvents mInput As TextBox
 Private WithEvents mOk As CommandButton
 Private mOutput As Label
 Private mLog As String
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mInput = Nothing
+    Set mOk = Nothing
+    Set mOutput = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

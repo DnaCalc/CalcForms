@@ -9,6 +9,13 @@ Private WithEvents mScroll As ScrollBar
 Private WithEvents mField As TextBox
 Private mLog As String
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mScroll = Nothing
+    Set mField = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "scrollbarform"

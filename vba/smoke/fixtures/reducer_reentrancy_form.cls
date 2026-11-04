@@ -17,6 +17,15 @@ Private mHidden As Boolean
 Private mUnloaded As Boolean
 Private mQueryCloseVeto As Boolean
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mField = Nothing
+    Set mTarget = Nothing
+    Set mReenter = Nothing
+    Set mStatus = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "reentrancy_form"

@@ -1,0 +1,23 @@
+[package]
+name = "calcforms-headless-runner"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "Headless CalcForms runner for deterministic input, rendering, tracing, and profiling."
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+calcforms-calcvba-adapter = { path = "../calcforms-calcvba-adapter" }
+calcforms-pal = { path = "../calcforms-pal" }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }

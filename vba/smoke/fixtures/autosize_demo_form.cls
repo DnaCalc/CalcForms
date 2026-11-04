@@ -1,16 +1,21 @@
 Option Explicit
 
 ' W007 AutoSize layout proving fixture (oxforms-4pn.14). Test infrastructure, not the
-' OxForms library. A bordered AutoSize label shrink-wraps its caption: the measure ->
-' layout -> paint pipeline derives the label's bounds from OxForms.Surface.MeasureBatch
+' CalcForms library. A bordered AutoSize label shrink-wraps its caption: the measure ->
+' layout -> paint pipeline derives the label's bounds from CalcForms.Surface.MeasureBatch
 ' metrics, so a font-size change re-measures and the box re-fits. This makes the metrics
 ' round-trip load-bearing (a wrong measurement would be a visibly wrong box).
 '
-' Build constructs the form; RenderOnce re-renders it across OxForms.Surface (so the
+' Build constructs the form; RenderOnce re-renders it across CalcForms.Surface (so the
 ' resident scene reflects the current size); GrowFont bumps the label's font size.
 
 Private mForm As UserForm
 Private mLabel As Label
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mLabel = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

@@ -1,8 +1,8 @@
 Option Explicit
 
-' oxforms-lex perf probe (test infrastructure, not the OxForms library). Scaling of
-' VBA-side hit-testing on OxVba vm3, to inform whether hit-testing should be offloaded to
-' the Rust kernel (the deferred OxForms.Surface HitTest crossing). Holds N control rects in
+' oxforms-lex perf probe (test infrastructure, not the CalcForms library). Scaling of
+' VBA-side hit-testing on CalcVBA vm3, to inform whether hit-testing should be offloaded to
+' the Rust kernel (the deferred CalcForms.Surface HitTest crossing). Holds N control rects in
 ' a grid and runs a linear hit-test over them in VBA -- the SAME algorithm the Rust kernel
 ' runs natively -- so the harness can compare per-op cost. Noop isolates the bare VBA
 ' invoke/marshal crossing overhead (the per-input "message-loop tax") from the hit-test

@@ -1,6 +1,6 @@
 Option Explicit
 
-' rq5.2 invalidation-coalescing fixture. Test infrastructure, not the OxForms library.
+' rq5.2 invalidation-coalescing fixture. Test infrastructure, not the CalcForms library.
 ' Proves the SuspendLayout/ResumeLayout band + NodeId dedup: a bulk multi-setter update
 ' inside the band invalidates each touched control exactly once, so the next incremental
 ' render emits one node per CHANGED control (not one per setter, and not the whole form).
@@ -11,6 +11,12 @@ Option Explicit
 Private mForm As UserForm
 Private mLabel1 As Label
 Private mLabel2 As Label
+
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mLabel1 = Nothing
+    Set mLabel2 = Nothing
+End Sub
 
 Public Sub Build()
     Set mForm = New UserForm

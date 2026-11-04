@@ -1,7 +1,7 @@
-"""Deterministic extraction of the declared public OxForms VBA surface.
+"""Deterministic extraction of the declared public CalcForms VBA surface.
 
 The extractor deliberately reads the project manifest rather than globbing the
-directory.  A file on disk is not part of the library until OxForms.basproj
+directory.  A file on disk is not part of the library until CalcForms.basproj
 includes it, and every included module is retained even when its public
 declarations are later classified as an internal leak.
 """
@@ -350,7 +350,7 @@ def _implementation_target(
 def _parse_class_header_instancing(
     text: str, module_kind: str, repo_path: str
 ) -> tuple[str | None, int]:
-    """Mirror OxVba's exported-class-header instancing projection."""
+    """Mirror CalcVBA's exported-class-header instancing projection."""
 
     if module_kind != "class_module":
         return None, 0
@@ -484,7 +484,7 @@ def _parse_module(
                 physical_attribute = physical_source_lines[row["start_line"] - 1]
                 if _strip_comment(physical_attribute) != physical_attribute:
                     raise SurfaceError(
-                        "commented module Attribute differs from pinned OxVba at "
+                        "commented module Attribute differs from pinned CalcVBA at "
                         f"{repo_path}:{row['start_line']}"
                     )
             value = attribute.group(2).strip()
@@ -509,7 +509,7 @@ def _parse_module(
                     and re.fullmatch(r"-0+", value) is not None
                 ):
                     raise SurfaceError(
-                        f"member Attribute {key} in {repo_path} uses signed zero not recognized by pinned OxVba"
+                        f"member Attribute {key} in {repo_path} uses signed zero not recognized by pinned CalcVBA"
                     )
                 target = member_attributes.setdefault(member_name.casefold(), {})
                 if attribute_name.casefold() in {
@@ -721,7 +721,7 @@ def _parse_module(
     def source_attribute_or_manifest(
         source_name: str, manifest_name: str
     ) -> bool:
-        # OxVba uses source_attrs.<field>.unwrap_or(manifest_attrs.<field>): an
+        # CalcVBA uses source_attrs.<field>.unwrap_or(manifest_attrs.<field>): an
         # explicit False in exported VBA metadata overrides basproj True.
         if source_name in attribute_by_folded_name:
             return attribute_by_folded_name[source_name]
@@ -834,7 +834,7 @@ _XML_ENTITY_OR_CHARACTER_REFERENCE_RE = re.compile(
 def _reject_unsupported_basproj_lexical_forms(
     basproj_text: str, basproj_path: Path
 ) -> None:
-    """Reject XML spellings that the pinned OxVba loader does not normalize.
+    """Reject XML spellings that the pinned CalcVBA loader does not normalize.
 
     ElementTree expands these forms before shape validation, while the pinned
     quick_xml loader compares raw attribute values and accepts ordinary text
@@ -887,9 +887,9 @@ def _validate_basproj_shape(root: ET.Element, basproj_path: Path) -> None:
             raise SurfaceError(
                 f"conditional basproj elements are unsupported in {basproj_path}"
             )
-    if root.attrib != {"Sdk": "OxVba.Sdk/0.1.0"}:
+    if root.attrib != {"Sdk": "CalcVBA.Sdk/0.1.0"}:
         raise SurfaceError(
-            f"Project identity in {basproj_path} must use OxVba.Sdk/0.1.0"
+            f"Project identity in {basproj_path} must use CalcVBA.Sdk/0.1.0"
         )
 
     property_groups = [
@@ -904,9 +904,9 @@ def _validate_basproj_shape(root: ET.Element, basproj_path: Path) -> None:
         (_xml_local_name(element.tag), (element.text or "").strip())
         for element in property_group
     ]
-    if exact_properties != [("OutputType", "Library"), ("ProjectName", "OxForms")]:
+    if exact_properties != [("OutputType", "Library"), ("ProjectName", "CalcForms")]:
         raise SurfaceError(
-            f"basproj {basproj_path} must declare OutputType=Library and ProjectName=OxForms exactly"
+            f"basproj {basproj_path} must declare OutputType=Library and ProjectName=CalcForms exactly"
         )
 
     for container in root:

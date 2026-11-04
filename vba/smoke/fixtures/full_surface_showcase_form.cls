@@ -1,7 +1,7 @@
 Option Explicit
 
-' Living OxForms full-surface showcase. This is a runnable form-document, not an oracle:
-' it renders every W009 intrinsic control currently implemented by OxForms, keeps
+' Living CalcForms full-surface showcase. This is a runnable form-document, not an oracle:
+' it renders every W009 intrinsic control currently implemented by CalcForms, keeps
 ' pending-control rows empty at W009 subset depth, and exposes a deterministic RunSelfTest method that drives the current
 ' reducer/event surface end to end. Future control lanes should extend this file rather than
 ' creating one-off demos.
@@ -42,15 +42,40 @@ Private Const OX_KEY_ESCAPE As Integer = 27
 Private Const OX_SHIFT_CTRL As Integer = 2
 Private Const OX_SHIFT_ALT As Integer = 4
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mTitle = Nothing
+    Set mInput = Nothing
+    Set mOk = Nothing
+    Set mCancel = Nothing
+    Set mGo = Nothing
+    Set mCheck = Nothing
+    Set mToggle = Nothing
+    Set mOption = Nothing
+    Set mChoices = Nothing
+    Set mCombo = Nothing
+    Set mFrame = Nothing
+    Set mLogo = Nothing
+    Set mSpin = Nothing
+    Set mScroll = Nothing
+    Set mTabs = Nothing
+    Set mPages = Nothing
+    Set mStatus = Nothing
+    Set mPending1 = Nothing
+    Set mPending2 = Nothing
+    Set mPending3 = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "full_surface_showcase"
-    mForm.Caption = "OxForms Full Surface Showcase"
+    mForm.Caption = "CalcForms Full Surface Showcase"
     mForm.Width = 640
     mForm.Height = 480
 
     Set mTitle = mForm.Controls.Add("Forms.Label.1", "TitleLabel")
-    mTitle.Caption = "OxForms full-surface showcase: Label, TextBox, CommandButton, CheckBox, OptionButton, ToggleButton, ListBox, ComboBox"
+    mTitle.Caption = "CalcForms full-surface showcase: Label, TextBox, CommandButton, CheckBox, OptionButton, ToggleButton, ListBox, ComboBox"
     mTitle.Left = 12
     mTitle.Top = 8
     mTitle.Width = 610
@@ -263,7 +288,7 @@ Public Sub Build()
 
     Dim Usage As Label
     Set Usage = mForm.Controls.Add("Forms.Label.1", "UsageLabel")
-    Usage.Caption = "Launch: cargo run -p oxforms-bootstrap -- showcase"
+    Usage.Caption = "Launch: cargo run -p calcforms-bootstrap -- showcase"
     Usage.Left = 16
     Usage.Top = 368
     Usage.Width = 600
@@ -494,7 +519,7 @@ End Property
 
 Public Property Get ConformanceDashboard() As String
     ConformanceDashboard = _
-        "OXFORMS_CONFORMANCE_DASHBOARD version=1;source=FullSurfaceShowcaseForm;runtime=OxRuntime/OxReducer/OxForms.Surface/Scene" & vbLf & _
+        "CALCFORMS_CONFORMANCE_DASHBOARD version=1;source=FullSurfaceShowcaseForm;runtime=OxRuntime/OxReducer/CalcForms.Surface/Scene" & vbLf & _
         "supported.controls=UserForm,Controls,Label,TextBox,CommandButton,CheckBox,OptionButton,ToggleButton,ListBox,ComboBox,Frame,Image,SpinButton,ScrollBar,TabStrip,Tabs,Tab,MultiPage,Pages,Page" & vbLf & _
         "supported.properties=TextBox.Text,TextBox.Value,TextBox.SelStart,TextBox.SelLength,TextBox.SelText,TextBox.HideSelection,TextBox.MultiLine,TextBox.CanUndo,TextBox.CanRedo,TextBox.CompositionActive,TextBox.CompositionText,CheckBox.Value,OptionButton.Value,OptionButton.GroupName,ToggleButton.Value,ListBox.ListCount,ListBox.ListIndex,ListBox.Value,ListBox.MultiSelect,ListBox.Selected,ListBox.ColumnCount,ListBox.BoundColumn,ComboBox.Text,ComboBox.Value,ComboBox.ListCount,ComboBox.ListIndex,ComboBox.DropDownOpen,Frame.Caption,Image.Picture,Image.PictureHandle,Image.PictureSizeMode,SpinButton.Value,SpinButton.Min,SpinButton.Max,SpinButton.SmallChange,ScrollBar.Value,ScrollBar.Min,ScrollBar.Max,ScrollBar.SmallChange,ScrollBar.LargeChange,TabStrip.Value,TabStrip.ListIndex,TabStrip.SelectedCaption,Tabs.Count,Tab.Caption,Tab.Selected,MultiPage.Value,MultiPage.ListIndex,MultiPage.SelectedCaption,Pages.Count,Page.Caption,Page.Selected,Page.Controls,CommandButton.Default,CommandButton.Cancel" & vbLf & _
         "supported.methods=Controls.Add,Controls.Item,UserForm.Render,Dispatch,DispatchKey,DispatchChar,DispatchDrop,SetClipboardText,DispatchTimer,RunSelfTest,TextBox.Undo,TextBox.Redo,TextBox.BeginComposition,TextBox.UpdateComposition,TextBox.CommitComposition,TextBox.CancelComposition,TextBoxDiagnostics,OptionButtonDiagnostics,ToggleButtonDiagnostics,ListBoxDiagnostics,ComboBoxDiagnostics,FrameDiagnostics,ImageDiagnostics,SpinButtonDiagnostics,ScrollBarDiagnostics,TabStripDiagnostics,MultiPageDiagnostics,AccessibilitySnapshot" & vbLf & _

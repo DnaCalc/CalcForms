@@ -2,7 +2,7 @@ Option Explicit
 
 ' W007 native FM20 class-event gate fixture (oxforms-4pn.2).
 ' Ordinary VBA WithEvents sink: handler procedures follow the native
-' Source_Event shape with no generic carrier. Proves OxVba routes native
+' Source_Event shape with no generic carrier. Proves CalcVBA routes native
 ' FM20-named events to attached WithEvents handlers.
 
 Private WithEvents EventSource As W006NativeFm20EventSource

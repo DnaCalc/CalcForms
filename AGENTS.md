@@ -1,4 +1,4 @@
-# AGENTS.md - OxForms
+# AGENTS.md - CalcForms
 
 Thin startup instructions for agents working in this repo.
 
@@ -12,7 +12,7 @@ Read in this order:
 5. `br ready --json` and `br list --json` for live execution state
 
 ## Repo Boundary
-- You may read sibling repos under `..` for context: especially `OxVba`,
+- You may read sibling repos under `..` for context: especially `OxVba` (CalcVBA),
   `OxDoc`, `Foundation`, and DNA Calc hosts.
 - Do not write outside this repo. Use `docs/handovers/` for cross-repo asks.
 

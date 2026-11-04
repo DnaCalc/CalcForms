@@ -1,10 +1,10 @@
 [workspace]
 members = [
-    "crates/oxforms-pal",
-    "crates/oxforms-oxvba-adapter",
-    "crates/oxforms-headless-runner",
-    "crates/oxforms-pal-win",
-    "crates/oxforms-bootstrap",
+    "crates/calcforms-pal",
+    "crates/calcforms-calcvba-adapter",
+    "crates/calcforms-headless-runner",
+    "crates/calcforms-pal-win",
+    "crates/calcforms-bootstrap",
 ]
 resolver = "2"
 
@@ -12,9 +12,9 @@ resolver = "2"
 version = "0.0.0"
 edition = "2021"
 
-[workspace.metadata.oxforms.oxvba_baseline]
-repo = "https://github.com/DnaCalc/OxVba.git"
-rev = "8f1aeccc683c4d41621bf137574b8a4d11bd9845"
+[workspace.metadata.calcforms.calcvba_baseline]
+repo = "https://github.com/DnaCalc/CalcVBA.git"
+rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
 branch = "master"
-note = "Pinned to OxVba master 8f1aecc (pushed), vm3-only. Includes the previously validated ROUND-2 ARRAY FIX: O(1) class-field dynamic-array element access (array loops O(N)) — supersedes round 1 (019a39df), which made general dynamic arrays O(1) but left class-field access O(N). Validated by the OxForms probe (crates/oxforms-oxvba-adapter/tests/oxvba_lex_hittest_bench.rs): per-array-read flat ~3.9us across a 16x N sweep (N=50..800), vs 25.6..322us at round 1; HitTestAll loop now O(N) (was O(N^2)). The array-perf handover (docs/handovers/HANDOVER_OxVba_vm3_dynamic_array_access_perf.md) is RESOLVED and bead oxforms-bqr is unblocked. Also carries the vm3-gap fixes (Seek/Loc 1-based, real Err.Number 429/432, For-counter overflow, Option Compare Text, RGB/QBColor, financial intrinsics), plus @/! suffix literal subtypes, Date subtype preservation, implicit String-to-Boolean, and unsafe-block documentation for clippy in runtime/com/hal. Session type is ProjectRuntimeSession. Re-pin when master advances."
-policy = "Committed manifests use pinned git dependencies for OxVba crates; mutable ../OxVba path overrides are local-only."
+note = "Published CalcVBA master 1590c089; VM3 object sessions use calcvba-engine. calcvba-host is the separate procedure embedding API. Historical September evidence retains its original baseline."
+policy = "Committed manifests use pinned git dependencies for CalcVBA crates; mutable ../OxVba path overrides are local-only."

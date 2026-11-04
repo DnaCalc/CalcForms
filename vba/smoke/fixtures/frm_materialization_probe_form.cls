@@ -9,6 +9,13 @@ Private mForm As UserForm
 Private mReducer As OxReducer
 Private mInput As TextBox
 
+Private Sub Class_Initialize()
+    Set mMaterializer = Nothing
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mInput = Nothing
+End Sub
+
 Public Sub BuildFromText(ByVal FrmText As String)
     Set mMaterializer = New OxFrmMaterializer
     Set mForm = mMaterializer.Materialize(FrmText)

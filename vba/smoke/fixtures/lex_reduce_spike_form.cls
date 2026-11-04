@@ -1,18 +1,18 @@
 Option Explicit
 
-' oxforms-lex feasibility spike (test infrastructure, not the OxForms library).
+' oxforms-lex feasibility spike (test infrastructure, not the CalcForms library).
 '
-' Proves a VBA-side REDUCE runs on OxVba vm3 with the intended path
+' Proves a VBA-side REDUCE runs on CalcVBA vm3 with the intended path
 '   input -> VBA reduce -> effects -> pal Scene
-' and NO Rust reducer (oxforms-core) anywhere in the loop. The form owns one button
+' and NO Rust reducer (calcforms-core) anywhere in the loop. The form owns one button
 ' rect plus a Pressed boolean. Reduce(X, Y) hit-tests the click IN VBA, toggles Pressed
-' when the point is inside the button, and re-renders through the injected OxForms.Surface.
+' when the point is inside the button, and re-renders through the injected CalcForms.Surface.
 ' The button paints gray (up) / blue (pressed), so the resident Scene reflects the
 ' VBA-decided state change and the Rust harness can read the FillRect colour back.
 '
 ' This is the smallest faithful demonstration of moving the reducer (hit-test + state
-' transition + effect) into VBA. See memory oxforms-reducer-home-decision; per
-' oxvba-vm3-handover-policy any vm3 limitation hit here is filed as an OxVba handover,
+' transition + effect) into VBA. See memory calcforms-reducer-home-decision; per
+' calcvba-vm3-handover-policy any vm3 limitation hit here is filed as an CalcVBA handover,
 ' not worked around.
 
 Private Const SURFACE_W As Long = 120
@@ -32,7 +32,8 @@ Private mPressed As Boolean
 Private mSurface As Object
 
 Private Sub Class_Initialize()
-    Set mSurface = CreateObject("OxForms.Surface")
+    Set mSurface = Nothing
+    Set mSurface = CreateObject("CalcForms.Surface")
     mPressed = False
 End Sub
 
@@ -66,7 +67,7 @@ Private Function HitButton(ByVal X As Long, ByVal Y As Long) As Boolean
                 (Y >= BTN_Y) And (Y < BTN_Y + BTN_H)
 End Function
 
-' Render the current state as one batched ScenePatch across OxForms.Surface.
+' Render the current state as one batched ScenePatch across CalcForms.Surface.
 Private Sub RenderFull()
     Dim BaseToken As String
     BaseToken = mSurface.BeginScene(SURFACE_W, SURFACE_H, 96, 96)

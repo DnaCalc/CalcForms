@@ -10,6 +10,14 @@ Private WithEvents mTwo As OptionButtonControl
 Private WithEvents mOther As OptionButtonControl
 Private mLog As String
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mOne = Nothing
+    Set mTwo = Nothing
+    Set mOther = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "optionform"

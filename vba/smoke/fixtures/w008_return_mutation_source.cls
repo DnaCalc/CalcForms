@@ -4,7 +4,7 @@ Option Explicit
 ' MSForms Return* pattern: a mutable helper OBJECT is passed into a native event,
 ' a WithEvents handler writes its .Value, and the value is read back after
 ' RaiseEvent returns. The Rust adapter creates the helper, invokes Raise*, then
-' reads the helper's .Value -- mirroring what the OxForms runtime must do for
+' reads the helper's .Value -- mirroring what the CalcForms runtime must do for
 ' Cancel/KeyCode helper-mutation semantics (QueryClose, key events).
 
 Public Event KeyDownLike(ByVal KeyCode As W008ReturnValue, ByVal Shift As Integer)

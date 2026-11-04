@@ -1,0 +1,32 @@
+[package]
+name = "calcforms-calcvba-adapter"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "CalcVBA-specific adapter that projects CalcForms PAL services into CalcVBA."
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+calcforms-pal = { path = "../calcforms-pal" }
+serde_json = "1.0"
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+# The runtime effect runner drives an CalcVBA session (creates instances, invokes
+# native control members), so the host + bundle crates are runtime dependencies.
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+
+[dev-dependencies]
+calcvba-host = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+# Desktop backend (shaper + rasterizer) used ONLY by the end-to-end glyph-coverage
+# test, which drives a real VBA self-render through the real AbGlyphShaper and asserts
+# captions rasterize. The production adapter stays backend-independent.
+calcforms-pal-win = { path = "../calcforms-pal-win" }
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-project = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+# vm3 image pipeline (tests build sessions via calcvba_oxir::elaborate + OxImage).
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }

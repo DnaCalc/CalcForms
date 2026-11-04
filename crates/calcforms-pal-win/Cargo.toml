@@ -1,0 +1,26 @@
+[package]
+name = "calcforms-pal-win"
+version.workspace = true
+edition.workspace = true
+publish = false
+description = "CalcForms desktop PAL backend (Windows-first): winit window + softbuffer present + tiny-skia raster + ab_glyph text. See docs/specs/RENDERING_ARCHITECTURE.md s15."
+
+[lints.rust]
+unsafe_code = "forbid"
+
+[dependencies]
+# Control-blind by construction: this backend depends only on the host-neutral
+# PAL (Scene primitives + normalized input). It deliberately does NOT depend on
+# the CalcVBA adapter/runtime; control and routing policy live in VBA, and the
+# bootstrap exe wires normalized PAL input to that runtime.
+calcforms-pal = { path = "../calcforms-pal" }
+tiny-skia = "0.11"
+ab_glyph = "0.2"
+winit = "0.30"
+softbuffer = "0.4"
+
+# Live OS clipboard read for the keyboard Ctrl+V paste (oxforms-esq.16). Windows-only,
+# safe wrappers (the unsafe Win32 clipboard calls are encapsulated in the crate, so this
+# backend keeps its forbid(unsafe_code) stance). Non-Windows targets return None.
+[target.'cfg(windows)'.dependencies]
+clipboard-win = "5"

@@ -12,6 +12,16 @@ Private WithEvents mClipped As TextBox
 Private WithEvents mOuter As TextBox
 Private mLog As String
 
+Private Sub Class_Initialize()
+    Set mForm = Nothing
+    Set mReducer = Nothing
+    Set mFrame = Nothing
+    Set mInner = Nothing
+    Set mInnerButton = Nothing
+    Set mClipped = Nothing
+    Set mOuter = Nothing
+End Sub
+
 Public Sub Build()
     Set mForm = New UserForm
     mForm.Name = "frameform"

@@ -6,42 +6,42 @@
     {
       "path": "Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "5b8fbff3ea89a3b9c4f71016dc8c3342eef17491923473e2121720978074d5a9"
+      "sha256": "c84747109badeace3cdb8066e7b6d57df14788444de53c14d72dda9e2eecab6d"
     },
     {
-      "path": "crates/oxforms-bootstrap/Cargo.toml",
+      "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "d523fcdf10495dd6e43ed60afa023a0f7124cf1547428f76ca22a22bfca724e7"
+      "sha256": "5255189cb504ceec070b1ee91d55d28ab02f1822247a182ea28b9c22c1973206"
     },
     {
-      "path": "crates/oxforms-bootstrap/src/main.rs",
+      "path": "crates/calcforms-bootstrap/src/main.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "b3192b37b25206e23cfc5ea45d34930560664d87bd4bde869796cd1bbf612a35"
+      "sha256": "cf1c0db39c6ed452472c664d85d02dd26b98fba16d805689dde4c3b827e4bf63"
     },
     {
-      "path": "crates/oxforms-headless-runner/Cargo.toml",
+      "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "a843c85bd5c9723643b8c130977574a46128caa3540f85f066da300f01bd82a7"
+      "sha256": "693c884e6e561260a91446cfc4b37d690962784024719f312d470c3b377cf4b4"
     },
     {
-      "path": "crates/oxforms-headless-runner/src/lib.rs",
+      "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "200508b06f013fd22bfa497396f5219d84b71a65d2759689cfe6343051bd1583"
+      "sha256": "963cb440334d2ebf9d74f09da5f24bdad03c1052357f17b5b5c268dafb2d3489"
     },
     {
-      "path": "crates/oxforms-oxvba-adapter/Cargo.toml",
+      "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "c354535bbcfd41a26c4ba8252a5d8e02e3b726117eae5ab005e0cff550aa0155"
+      "sha256": "be8bbe72655dba9bd81966d8733c20581e440768093ad476074046fbf2f1dd55"
     },
     {
-      "path": "crates/oxforms-oxvba-adapter/src/lib.rs",
+      "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "a554a99d8ca3bea2c38ff71467d9c3e0ab346b08474b40f3c7b8b3b397e8e226"
+      "sha256": "1b3f056fe74ad276785246be6ed191ade8105b8b1d1bec311dea91fba929a4b1"
     },
     {
-      "path": "crates/oxforms-oxvba-adapter/src/runtime.rs",
+      "path": "crates/calcforms-headless-runner/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "dfcbd5bee6387173382777bbf18dcf4250ea2b9b9a8d6480ad747cbc2fd94e83"
+      "sha256": "8a701439d3d71b6156b9ff1ca1f4550e58782d8b325f0320fb03c506014ef231"
     },
     {
       "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv",
@@ -91,17 +91,17 @@
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "deb51ae20d2059675a68bcfcf076c8491a9d29cdb1239a56ed081d9178a999ff"
+      "sha256": "828e75c6a0b31bb90d2bc0a318450eeadcd8b77333cba7a805869a7b7bfa16c5"
     },
     {
       "path": "tools/msforms-parity/cli_trust.py",
       "hash_mode": "utf8_lf",
-      "sha256": "523970706cd4c518aeee8df5e64019ed897205facdadc892260e57f707f4b7b4"
+      "sha256": "5411ed06a492e7a75eb83f648d3cc8f990a33a2e5b81d08c71213ceafd400976"
     },
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "e5db2ff652b6e1250baaf7b6fff5e8e36d28b80b308822384be5fb7c2388e9f2"
+      "sha256": "9a7c66c201be0c87559183a7a7311e715ee140860b648313dd56ff7c383c71da"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -111,7 +111,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "7ff931ede0ae104907119d76d9d77d460f9205070c9213742e2192749981b703"
+      "sha256": "45abf47fa9fbcbe487e11aa8488350fc89d2ee632c204f2332c4a461bb7061b0"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -121,7 +121,7 @@
     {
       "path": "tools/msforms-parity/surface_policy.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "3fdb5731139eb79c5418d010dc93a1312a8e5fa5faa867a500b708ed69811f13"
+      "sha256": "2ee478f2759c983cc306780954cbeaef0b30313dee1eb3ad66b6343dbd7e3794"
     },
     {
       "path": "tools/msforms-parity/tests/test_cli_trust.py",
@@ -131,12 +131,12 @@
     {
       "path": "tools/msforms-parity/tests/test_parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "3d82b8eb56efd34869fb60e00c3f49d2925c1f9af74f4ccb333886e1c68f2c56"
+      "sha256": "533ea3824a2c8bf26260149a2d8049ce5f38db2db8b1893cd89fc4c1947d28a6"
     },
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "37ebe9e9df3dd5edd3565805c545d4830ca025b4468647ef1daa796c6179c327"
+      "sha256": "c982569e2c3b1fe512c7472bdbf5b4f2375512887d11ccf7ca6bd043cecad105"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -146,239 +146,239 @@
     {
       "path": "tools/msforms-parity/vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "1e06608762a30fc7984468be88421ec3efbb32a9ce1c428d96dcdfba011d6536"
+      "sha256": "94eb0e4ca8ecda89205f33c6c767e48e84d3a7b8987e436047a2c4a2e0cba6e9"
     },
     {
-      "path": "vba/oxforms/CheckBox.cls",
+      "path": "vba/calcforms/CalcForms.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "d8583e8c1e103fc058177a669d2e638b22993a7ccc247088201ba072728e46d7"
+      "sha256": "c476d3e07360185f617373cf8f97ca93e962e145c13d3ba7fcc762c4d84792d2"
     },
     {
-      "path": "vba/oxforms/ComboBox.cls",
+      "path": "vba/calcforms/CalcForms.basproj",
       "hash_mode": "utf8_lf",
-      "sha256": "8001362faae073a6eeca308267ad2fdb02320ec2e83f2b219f7c81812a4f386d"
+      "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     },
     {
-      "path": "vba/oxforms/CommandButton.cls",
+      "path": "vba/calcforms/CalcFormsModel.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "c22aeaeb1110af1cc618b8727b3d2ebc046a8dfc3a29ff42aef4967830eda321"
+      "sha256": "d51015a6fdbafa755c4f8cda2b346d397edc68a54398057c4430319476cd3868"
     },
     {
-      "path": "vba/oxforms/Controls.cls",
+      "path": "vba/calcforms/CalcFormsSmokeForm.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "5bdfb39de7a9a014af3a0ae9c981b47095ed6b53f470cd695526d38409d10793"
+      "sha256": "73ddc265a839ccc20dff12e322a488c67257a088f20c21d53ee21154edbfe891"
     },
     {
-      "path": "vba/oxforms/Frame.cls",
+      "path": "vba/calcforms/CheckBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "c81e195509c6743d6ac68179d9c5e859e3390356bed0eccca1922ca35a6915ac"
+      "sha256": "9c1c05f74de81e4436291c41e3248176603833099c78d5a1702b67fa8500082a"
     },
     {
-      "path": "vba/oxforms/IOxControl.cls",
+      "path": "vba/calcforms/ComboBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "061918a92928aaca5f919cc350cd60bc54bfce50d23598f2086c45fd105578df"
+      "sha256": "ca91bd95818d1bc8e4324c16ef57d0d013074bdd92c9f78f0c883b06bdfb8403"
     },
     {
-      "path": "vba/oxforms/IOxControlContainer.cls",
+      "path": "vba/calcforms/CommandButton.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "4e777b9e0f0a2d670195f90cd3aa34e2d9eafd0d7a8b245ea3adbdcca1dbd59e"
+    },
+    {
+      "path": "vba/calcforms/Controls.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "353124c5732fb483e96fb1847b8eae0597524a013629d8d9a25e5d1fae66a017"
+    },
+    {
+      "path": "vba/calcforms/Frame.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "23cbb9c767d712e931b7b6e89a58bd95808f02d3f3339ff2a40d4f4ec3bc222e"
+    },
+    {
+      "path": "vba/calcforms/IOxControl.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "3d0cead5ac6c1196a65c6d0204c33f301ec999dc09a409396ae9b3385bbdff87"
+    },
+    {
+      "path": "vba/calcforms/IOxControlContainer.cls",
       "hash_mode": "utf8_lf",
       "sha256": "3d9ed3971b66f21124ada3f1312d6b3d4c8d8e4c9831a34a7a1de6d4c3e0396b"
     },
     {
-      "path": "vba/oxforms/IOxControlHost.cls",
+      "path": "vba/calcforms/IOxControlHost.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "b331cd55f53db3da2dc81db6bfa618c70f03f2a4ce7ff0964f7cd9209b5b62dd"
+      "sha256": "44e3b9e04edae7ec38a221887d4b0ab06cab2128e7e53a1c984a146e4d012756"
     },
     {
-      "path": "vba/oxforms/Image.cls",
+      "path": "vba/calcforms/Image.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "7f90f2e94edc1714c6ca52a6f2c8ea735b39ee6dcdaebfcc3cac97d89864eded"
+      "sha256": "4676a46a6eb28b95b100a909ba958e3dee20184059cdd4aedbb98edf050fb5db"
     },
     {
-      "path": "vba/oxforms/Label.cls",
+      "path": "vba/calcforms/Label.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "b66d3bc0111d6eb706e2befe6c082aa9247f81c2eddba65a40e868ba14968924"
+      "sha256": "7276379399c4ee7b07bc245dd100809fafa00558e9f950f2eb3d9ab3bcc54e1a"
     },
     {
-      "path": "vba/oxforms/ListBox.cls",
+      "path": "vba/calcforms/ListBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "6e9e7972176cce3ee7eef5c86c40f373c0deaad25909eb0b79991a69c59ae2b5"
+      "sha256": "543d4ee323976836fbec34790a3102e43478d59eee69501e9465eb8f0954f3a0"
     },
     {
-      "path": "vba/oxforms/MultiPage.cls",
+      "path": "vba/calcforms/MultiPage.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "6eeda2aacb5c2d00eab18b65bf7c7b68c3743bfc897e8237c82d845c07e64d72"
+      "sha256": "fea4ba193f53382012cbe6f497c6d65a220eb2d07a2bdc8252914526c5f2325c"
     },
     {
-      "path": "vba/oxforms/OptionButtonControl.cls",
+      "path": "vba/calcforms/OptionButtonControl.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "f0954436fa5c49eadc35dabc510c408f3306c9f2184d07701b37ceb37aad9d26"
+      "sha256": "6cc2c9a1dcc9ba0031ec403d5ecca8d7af126c1ef5eea0e858efa86037f34857"
     },
     {
-      "path": "vba/oxforms/OxAccessibilityService.cls",
+      "path": "vba/calcforms/OxAccessibilityService.cls",
       "hash_mode": "utf8_lf",
       "sha256": "f1ae2fa07a46dd6e3f0caea664977992c71f7213e22f333c2c0628049d48330f"
     },
     {
-      "path": "vba/oxforms/OxControlCore.cls",
+      "path": "vba/calcforms/OxControlCore.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "913fb652e9d583b60b4df0ba2560ae02be4bc9d67424b00d9f2f30b62d6e320d"
+      "sha256": "eba5881c00478e5135530d60b83aec47b1a9f762acf0dea0bd37f5e9f9c66485"
     },
     {
-      "path": "vba/oxforms/OxControlPaint.bas",
+      "path": "vba/calcforms/OxControlPaint.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "6f6b246bfe988fc512a85dd196881e6aceed89b078632e6569880d6df70dfb38"
+      "sha256": "b8e8602b2dfe5e87b75d8f162f73a7d80ccdd2d6884a7fb6f12551200ffda56f"
     },
     {
-      "path": "vba/oxforms/OxForms.bas",
+      "path": "vba/calcforms/OxFrmMaterializer.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "52163ee34d952658d198c219b56c7446396f55715d953c800a6b835a8a5b417e"
+      "sha256": "ec78dcb79dddea39dc9fabaa6ecfd01bf9a700929c588f4bc13bb1c2e8d3fb5a"
     },
     {
-      "path": "vba/oxforms/OxForms.basproj",
+      "path": "vba/calcforms/OxInteractionManager.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "9a971c8e81f23aa652b0c69d42804ecbd4b1f616ff351676d23c05b0435d84a3"
+      "sha256": "8da6b7b9179cf7661ebdc23b0db33abba840e8c6c7ab44d55c771f408809dadd"
     },
     {
-      "path": "vba/oxforms/OxFormsModel.bas",
+      "path": "vba/calcforms/OxReducer.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "0eef28b64d7602981f647c914dfa6a62d662a433963d9ea04181773142b07add"
+      "sha256": "1ad5bc1f0e5a2968b08d80c734b0e3d6cbeadf4ca601aa808d62b50892cabbcb"
     },
     {
-      "path": "vba/oxforms/OxFormsSmokeForm.cls",
+      "path": "vba/calcforms/OxSceneBuilder.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "ca61bcaf8afcf530250f838b4781c127dc5c5476b083516e3fc6f4623362b9c3"
+      "sha256": "1c5cb5c0db2eb4f82b3a3c49d009298fe1d253c9854a8e7b769dda81c67789a2"
     },
     {
-      "path": "vba/oxforms/OxFrmMaterializer.cls",
+      "path": "vba/calcforms/OxTextService.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "7ba15ad02d0b9ac90070d8bff12b1448d80e265c2df0d455893eaf1f9db7f117"
+      "sha256": "5ea0d8481e05152849f5dbf283c549f8710671ff217d4ff2a3d48b5a541f365a"
     },
     {
-      "path": "vba/oxforms/OxInteractionManager.cls",
+      "path": "vba/calcforms/OxTheme.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "40e397d140755472bcf5b082641279fd185c6ad00352cc6c717e01d217dc5287"
+      "sha256": "1eb056e6fafe3ab1510f4e22ad9d0eea3a5d50d8f361bed33524ba1cb3dc92e5"
     },
     {
-      "path": "vba/oxforms/OxReducer.cls",
+      "path": "vba/calcforms/Page.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "23a0fd61b16ceb7b5b05859283c02a62b8603bbae405f4f0dbb852c314afb82b"
+      "sha256": "d217376dda193f77cb883fcf8bb6e1c6a4abb50ccc514ab387b60198d1cbe156"
     },
     {
-      "path": "vba/oxforms/OxSceneBuilder.cls",
+      "path": "vba/calcforms/Pages.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "b658e998f60f7f9632d602f45eb25c5e7c7ff8693ae8c06d9fcc3d23985f199e"
+      "sha256": "d8ebb84796a98968d5649d9c71fdf09057ce4e309008f1544974df285c4c3beb"
     },
     {
-      "path": "vba/oxforms/OxTextService.cls",
+      "path": "vba/calcforms/ReturnBoolean.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "3e5b109072271d7ea82dd3c64879ca16d1f1dd53ac1809bf8c38f0dcd31753ec"
+      "sha256": "20d115552c070a0f537efbb3f0ad163759e3b027ff22b7531fef7c596a00357a"
     },
     {
-      "path": "vba/oxforms/OxTheme.bas",
+      "path": "vba/calcforms/ReturnInteger.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "4be84a697b14f7225b9b0effafcc9faeed96624d5395e0d20626b3911fd62c8d"
+      "sha256": "f1090c87c633ce2cb9c13f231ccbb1bf6a31043643bea93c0f7f2fe2a7d2ce6f"
     },
     {
-      "path": "vba/oxforms/Page.cls",
+      "path": "vba/calcforms/ScrollBar.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "bca8b23b5e4a4dd28951f36aca391ddf2161a8df05d607d89386f0c8b615b56c"
+      "sha256": "44fb629ff6ec26fa04dd82d2696c6f24223a75b17a0b5138afe70a8fd08be770"
     },
     {
-      "path": "vba/oxforms/Pages.cls",
+      "path": "vba/calcforms/SpinButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "dc1c7f22e73a68607af6349612ecee1888c2a5cae66e30dff090f166ebc059bd"
+      "sha256": "24049b9f74a4d0a8716bbc9b88a5e199ec39e915e76f65973c9b58a7bc6c1bb9"
     },
     {
-      "path": "vba/oxforms/ReturnBoolean.cls",
+      "path": "vba/calcforms/Tab.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "b9400d3e8652f47766db91ac024e44ed9774c831e21f767411c23c33db9f07fe"
+      "sha256": "6630ec8528695a15e47176c384e74a5fc63ecefad753b77250489f90371889d4"
     },
     {
-      "path": "vba/oxforms/ReturnInteger.cls",
+      "path": "vba/calcforms/TabStrip.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "a0dca14790941f4815ac4deeb8379547a80d071e8b7cbc0c95ca789770e049d3"
+      "sha256": "7ce1dc2c620ca0dcde874ba385ddede2518f924e757cc30e5826d45bba4e5833"
     },
     {
-      "path": "vba/oxforms/ScrollBar.cls",
+      "path": "vba/calcforms/Tabs.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "d7aa8c734a56f1c166a6b03459c4af008dce8b7e1db7f41fd24474c0c37633b2"
+      "sha256": "bef6146c093a7fb200efe0e2fe29e912452aadaf175a38cca5e24ad7c473dece"
     },
     {
-      "path": "vba/oxforms/SpinButton.cls",
+      "path": "vba/calcforms/TextBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "6384b5734f794c7160a65f30fa08e27bc881aaa532ef69742c9f3a487754859e"
+      "sha256": "d8740446610e6f1492e9bde8dcac34f507905eea09819acc087ae24a23170be6"
     },
     {
-      "path": "vba/oxforms/Tab.cls",
+      "path": "vba/calcforms/ToggleButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "4cb8feca5d4170ecebcf622d055a17c6cf37aa07344f16ad71082d931f3f0ea6"
+      "sha256": "a85ecc8fbfe6c07358da9e457fb658c2567dcbb81d0750557eccd7aa1f77b42b"
     },
     {
-      "path": "vba/oxforms/TabStrip.cls",
+      "path": "vba/calcforms/UserForm.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "860ab44d8b320facfc910d18925f72cfa01a31f5414fc95409d1d15318b9415e"
-    },
-    {
-      "path": "vba/oxforms/Tabs.cls",
-      "hash_mode": "utf8_lf",
-      "sha256": "5c0da6bb67d061e3476ef3206cad0d9b8eb94357760acefb0c33e1f4b17be43f"
-    },
-    {
-      "path": "vba/oxforms/TextBox.cls",
-      "hash_mode": "utf8_lf",
-      "sha256": "0a31fb2c29be3929bc90b14539c7367615e53c6b660314b737cdfd9d55b4c623"
-    },
-    {
-      "path": "vba/oxforms/ToggleButton.cls",
-      "hash_mode": "utf8_lf",
-      "sha256": "6560a5bdd871350221d9cf6b71558cf5e79207e436563859e740c4e6efe5ed2a"
-    },
-    {
-      "path": "vba/oxforms/UserForm.cls",
-      "hash_mode": "utf8_lf",
-      "sha256": "3bb778165119714598364cea302cb891a4255bdb589c1c1ea74e041c159f0907"
+      "sha256": "eef2bdcc63d8bd5cbee7770a1733a8a6633141510494ebdc6e74b44596643013"
     }
   ],
   "ledger_inputs": [
     {
       "path": "Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "5b8fbff3ea89a3b9c4f71016dc8c3342eef17491923473e2121720978074d5a9"
+      "sha256": "c84747109badeace3cdb8066e7b6d57df14788444de53c14d72dda9e2eecab6d"
     },
     {
-      "path": "crates/oxforms-bootstrap/Cargo.toml",
+      "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "d523fcdf10495dd6e43ed60afa023a0f7124cf1547428f76ca22a22bfca724e7"
+      "sha256": "5255189cb504ceec070b1ee91d55d28ab02f1822247a182ea28b9c22c1973206"
     },
     {
-      "path": "crates/oxforms-bootstrap/src/main.rs",
+      "path": "crates/calcforms-bootstrap/src/main.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "b3192b37b25206e23cfc5ea45d34930560664d87bd4bde869796cd1bbf612a35"
+      "sha256": "cf1c0db39c6ed452472c664d85d02dd26b98fba16d805689dde4c3b827e4bf63"
     },
     {
-      "path": "crates/oxforms-headless-runner/Cargo.toml",
+      "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "a843c85bd5c9723643b8c130977574a46128caa3540f85f066da300f01bd82a7"
+      "sha256": "693c884e6e561260a91446cfc4b37d690962784024719f312d470c3b377cf4b4"
     },
     {
-      "path": "crates/oxforms-headless-runner/src/lib.rs",
+      "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "200508b06f013fd22bfa497396f5219d84b71a65d2759689cfe6343051bd1583"
+      "sha256": "963cb440334d2ebf9d74f09da5f24bdad03c1052357f17b5b5c268dafb2d3489"
     },
     {
-      "path": "crates/oxforms-oxvba-adapter/Cargo.toml",
+      "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "c354535bbcfd41a26c4ba8252a5d8e02e3b726117eae5ab005e0cff550aa0155"
+      "sha256": "be8bbe72655dba9bd81966d8733c20581e440768093ad476074046fbf2f1dd55"
     },
     {
-      "path": "crates/oxforms-oxvba-adapter/src/lib.rs",
+      "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "a554a99d8ca3bea2c38ff71467d9c3e0ab346b08474b40f3c7b8b3b397e8e226"
+      "sha256": "1b3f056fe74ad276785246be6ed191ade8105b8b1d1bec311dea91fba929a4b1"
     },
     {
-      "path": "crates/oxforms-oxvba-adapter/src/runtime.rs",
+      "path": "crates/calcforms-headless-runner/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "dfcbd5bee6387173382777bbf18dcf4250ea2b9b9a8d6480ad747cbc2fd94e83"
+      "sha256": "8a701439d3d71b6156b9ff1ca1f4550e58782d8b325f0320fb03c506014ef231"
     },
     {
       "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv",
@@ -428,12 +428,12 @@
     {
       "path": "tools/msforms-parity/surface_policy.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "3fdb5731139eb79c5418d010dc93a1312a8e5fa5faa867a500b708ed69811f13"
+      "sha256": "2ee478f2759c983cc306780954cbeaef0b30313dee1eb3ad66b6343dbd7e3794"
     },
     {
-      "path": "vba/oxforms/OxForms.basproj",
+      "path": "vba/calcforms/CalcForms.basproj",
       "hash_mode": "utf8_lf",
-      "sha256": "9a971c8e81f23aa652b0c69d42804ecbd4b1f616ff351676d23c05b0435d84a3"
+      "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ]
 }

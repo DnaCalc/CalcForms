@@ -38,6 +38,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "allocator-api2"
+version = "0.2.21"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923"
+
+[[package]]
 name = "android-activity"
 version = "0.6.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -61,6 +67,18 @@ name = "android-properties"
 version = "0.2.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fc7eb209b1518d6bb87b283c20095f5228ecda460da70b44f0802523dea6da04"
+
+[[package]]
+name = "anyhow"
+version = "1.0.104"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
+
+[[package]]
+name = "arbitrary"
+version = "1.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3bc62ac97cc33321f50863d514c3bc38a453947a8f9e781137e47c7401020aed"
 
 [[package]]
 name = "arrayref"
@@ -112,6 +130,9 @@ name = "bumpalo"
 version = "3.20.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "72f5acc6cb2ba439de613abc23857ec3d78374d8ed5ac84e9d11336e87da8649"
+dependencies = [
+ "allocator-api2",
+]
 
 [[package]]
 name = "bytecheck"
@@ -161,6 +182,320 @@ name = "bytes"
 version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "8ae3f5d315924270530207e2a68396c3cc547f6dca3fbdca317cfb1a51edb593"
+
+[[package]]
+name = "calcforms-bootstrap"
+version = "0.0.0"
+dependencies = [
+ "calcforms-calcvba-adapter",
+ "calcforms-pal",
+ "calcforms-pal-win",
+ "calcvba-bind",
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-engine",
+ "calcvba-hal",
+ "calcvba-oxir",
+ "calcvba-runtime",
+ "calcvba-symbol",
+]
+
+[[package]]
+name = "calcforms-calcvba-adapter"
+version = "0.0.0"
+dependencies = [
+ "calcforms-pal",
+ "calcforms-pal-win",
+ "calcvba-bind",
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-engine",
+ "calcvba-hal",
+ "calcvba-host",
+ "calcvba-oxir",
+ "calcvba-project",
+ "calcvba-runtime",
+ "calcvba-symbol",
+ "serde_json",
+]
+
+[[package]]
+name = "calcforms-headless-runner"
+version = "0.0.0"
+dependencies = [
+ "calcforms-calcvba-adapter",
+ "calcforms-pal",
+ "calcvba-bind",
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-engine",
+ "calcvba-hal",
+ "calcvba-oxir",
+ "calcvba-runtime",
+ "calcvba-symbol",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "calcforms-pal"
+version = "0.0.0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "calcforms-pal-win"
+version = "0.0.0"
+dependencies = [
+ "ab_glyph",
+ "calcforms-pal",
+ "clipboard-win",
+ "softbuffer",
+ "tiny-skia",
+ "winit",
+]
+
+[[package]]
+name = "calcvba-bind"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-diagnostics",
+ "calcvba-runtime",
+ "calcvba-symbol",
+ "calcvba-syntax",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-bundle"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-com",
+ "calcvba-runtime",
+ "serde",
+]
+
+[[package]]
+name = "calcvba-com"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-diagnostics",
+ "calcvba-host-api",
+ "calcvba-runtime",
+ "libc",
+ "libffi",
+ "serde",
+ "thiserror 2.0.18",
+ "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "calcvba-diagnostics"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "calcvba-engine"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bind",
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-diagnostics",
+ "calcvba-hal",
+ "calcvba-jit",
+ "calcvba-oxir",
+ "calcvba-rt-abi",
+ "calcvba-runtime",
+ "calcvba-symbol",
+ "calcvba-vm3",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-eval"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-runtime",
+]
+
+[[package]]
+name = "calcvba-hal"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-com",
+ "calcvba-diagnostics",
+ "calcvba-host-api",
+ "calcvba-runtime",
+ "libc",
+ "thiserror 2.0.18",
+ "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "calcvba-host"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bind",
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-eval",
+ "calcvba-hal",
+ "calcvba-host-api",
+ "calcvba-jit",
+ "calcvba-lib",
+ "calcvba-oxir",
+ "calcvba-rt-abi",
+ "calcvba-runtime",
+ "calcvba-symbol",
+ "calcvba-vm3",
+ "self_cell",
+ "serde_json",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-host-api"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-runtime",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-jit"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-eval",
+ "calcvba-hal",
+ "calcvba-host-api",
+ "calcvba-oxir",
+ "calcvba-rt-abi",
+ "calcvba-runtime",
+ "cranelift-codegen",
+ "cranelift-frontend",
+ "cranelift-jit",
+ "cranelift-module",
+ "cranelift-native",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-lib"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-hal",
+ "calcvba-runtime",
+]
+
+[[package]]
+name = "calcvba-oxir"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "calcvba-project"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-diagnostics",
+ "calcvba-symbol",
+ "quick-xml 0.37.5",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-rt-abi"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-eval",
+ "calcvba-hal",
+ "calcvba-host-api",
+ "calcvba-lib",
+ "calcvba-oxir",
+ "calcvba-runtime",
+]
+
+[[package]]
+name = "calcvba-runtime"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "rkyv",
+ "serde",
+ "thiserror 2.0.18",
+ "windows-sys 0.59.0",
+]
+
+[[package]]
+name = "calcvba-symbol"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-diagnostics",
+ "calcvba-runtime",
+ "calcvba-syntax",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-syntax"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-diagnostics",
+ "thiserror 2.0.18",
+]
+
+[[package]]
+name = "calcvba-vm3"
+version = "0.1.2"
+source = "git+https://github.com/DnaCalc/CalcVBA.git?rev=1590c0895743a26f9a2e1147c5997d0f67f6f3c0#1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+dependencies = [
+ "calcvba-bundle",
+ "calcvba-com",
+ "calcvba-eval",
+ "calcvba-hal",
+ "calcvba-host-api",
+ "calcvba-lib",
+ "calcvba-oxir",
+ "calcvba-rt-abi",
+ "calcvba-runtime",
+]
 
 [[package]]
 name = "calloop"
@@ -279,6 +614,175 @@ dependencies = [
  "core-foundation",
  "libc",
 ]
+
+[[package]]
+name = "cranelift-assembler-x64"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0aadfd45214f09461ba0406f7dacecce5cac39bf0bdb4890eeb468f4ef090e07"
+dependencies = [
+ "cranelift-assembler-x64-meta",
+]
+
+[[package]]
+name = "cranelift-assembler-x64-meta"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "57069faede9bd1f926364b4cf69ccc9bebc6f4af5ab897083581b7bc991bf20a"
+dependencies = [
+ "cranelift-srcgen",
+]
+
+[[package]]
+name = "cranelift-bforest"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0b1221450f2f9efaa996d916bf53a0a4d13346a4a75468afb828390209a4fdd4"
+dependencies = [
+ "cranelift-entity",
+ "wasmtime-internal-core",
+]
+
+[[package]]
+name = "cranelift-bitset"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "97706f2b466d67bdf0f69d1cf5c5c4a5cd31087cf1fa2e8e5fe0450dddc8661d"
+dependencies = [
+ "wasmtime-internal-core",
+]
+
+[[package]]
+name = "cranelift-codegen"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "432246ee44b2fc0140b412dca55801d200d6fb25d2d7d18c44bb29e8cd71268b"
+dependencies = [
+ "bumpalo",
+ "cranelift-assembler-x64",
+ "cranelift-bforest",
+ "cranelift-bitset",
+ "cranelift-codegen-meta",
+ "cranelift-codegen-shared",
+ "cranelift-control",
+ "cranelift-entity",
+ "cranelift-isle",
+ "gimli",
+ "hashbrown 0.17.1",
+ "libm",
+ "log",
+ "regalloc2",
+ "rustc-hash",
+ "serde",
+ "smallvec",
+ "target-lexicon",
+ "wasmtime-internal-core",
+]
+
+[[package]]
+name = "cranelift-codegen-meta"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b5aa51eff0949f06a5c8f3d5adefef94a12ea99f71cd8985047b91d45f367150"
+dependencies = [
+ "cranelift-assembler-x64-meta",
+ "cranelift-codegen-shared",
+ "cranelift-srcgen",
+ "heck",
+]
+
+[[package]]
+name = "cranelift-codegen-shared"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6095e7095930b6169490138b4262fe7ec24290d3f604d7fe62e1e3138e740daa"
+
+[[package]]
+name = "cranelift-control"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e61dfa0766c0eadf42b3febd145a35f81f31086e207f534e5fb406fc3d08fc47"
+dependencies = [
+ "arbitrary",
+]
+
+[[package]]
+name = "cranelift-entity"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e93867a79a06dd5d9ffeb96f7563dc7b6b142b5d89e42ab77e458a408a8aa9d5"
+dependencies = [
+ "cranelift-bitset",
+ "wasmtime-internal-core",
+]
+
+[[package]]
+name = "cranelift-frontend"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d1991dc32fefa54f14d2a63570d1e963826257605e478558733f83450b7e7661"
+dependencies = [
+ "cranelift-codegen",
+ "hashbrown 0.17.1",
+ "log",
+ "smallvec",
+ "target-lexicon",
+]
+
+[[package]]
+name = "cranelift-isle"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "784546de9988ff6e1df0fd4d2450760469a7607344156c661e69ec28082c5da4"
+
+[[package]]
+name = "cranelift-jit"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "94a5a0f87a3dbfb2bfec13f903f80141fb51c061f2c1b9b13b2874da7477d75a"
+dependencies = [
+ "anyhow",
+ "cranelift-codegen",
+ "cranelift-control",
+ "cranelift-entity",
+ "cranelift-module",
+ "cranelift-native",
+ "libc",
+ "log",
+ "memmap2 0.2.3",
+ "region",
+ "target-lexicon",
+ "wasmtime-internal-jit-icache-coherence",
+ "windows-sys 0.61.2",
+]
+
+[[package]]
+name = "cranelift-module"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0d169439e152238c300df1704bff6bdcef51e02ea756369688f3adec1097de97"
+dependencies = [
+ "anyhow",
+ "cranelift-codegen",
+ "cranelift-control",
+]
+
+[[package]]
+name = "cranelift-native"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7107a4ae4a2ba48b5df8648365e638b08322fa1da11e86206bf5eddb862b21dd"
+dependencies = [
+ "cranelift-codegen",
+ "libc",
+ "target-lexicon",
+]
+
+[[package]]
+name = "cranelift-srcgen"
+version = "0.133.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4b3f161aa81ee5dd8d7b0eb8828988f57baf2f78d288e62b6b3714b37aa6d6a1"
 
 [[package]]
 name = "crc32fast"
@@ -447,6 +951,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "fnv"
+version = "1.0.7"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f9eec918d3f24069decb9af1554cad7c880e2da24a9afd88aca000531ab82c1"
+
+[[package]]
+name = "foldhash"
+version = "0.2.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "77ce24cb58228fbb8aa041425bb1050850ac19177686ea6e0f41a70416f56fdb"
+
+[[package]]
 name = "foreign-types"
 version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -520,10 +1036,37 @@ dependencies = [
 ]
 
 [[package]]
+name = "gimli"
+version = "0.33.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "0bf7f043f89559805f8c7cacc432749b2fa0d0a0a9ee46ce47164ed5ba7f126c"
+dependencies = [
+ "fnv",
+ "hashbrown 0.16.1",
+ "indexmap",
+ "stable_deref_trait",
+]
+
+[[package]]
+name = "hashbrown"
+version = "0.16.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "841d1cc9bed7f9236f321df977030373f4a4163ae1a7dbfe1a51a2c1a51d9100"
+
+[[package]]
 name = "hashbrown"
 version = "0.17.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ed5909b6e89a2db4456e54cd5f673791d7eca6732202bbf2a9cc504fe2f9b84a"
+dependencies = [
+ "foldhash",
+]
+
+[[package]]
+name = "heck"
+version = "0.5.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2304e00983f87ffb38b55b444b5e3b60a884b5d30c0fca7d82fe33449bbe55ea"
 
 [[package]]
 name = "hermit-abi"
@@ -538,7 +1081,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d466e9454f08e4a911e14806c24e16fba1b4c121d1ea474396f396069cf949d9"
 dependencies = [
  "equivalent",
- "hashbrown",
+ "hashbrown 0.17.1",
 ]
 
 [[package]]
@@ -662,6 +1205,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "libm"
+version = "0.2.16"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b6d2cec3eae94f9f509c767b45932f1ada8350c4bdb85af2fcab4a3c14807981"
+
+[[package]]
 name = "libredox"
 version = "0.1.17"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -698,10 +1247,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "0ceec5bc11778974d1bcb055b18002eba7f4b3518b6a0081b3af5f21666da9ad"
 
 [[package]]
+name = "mach2"
+version = "0.4.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d640282b302c0bb0a2a8e0233ead9035e3bed871f0b7e81fe4a1ec829765db44"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "memchr"
 version = "2.8.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "88904434abc2901f197fe8cc55f0445e7ded921dba5911dad2e2b39b48e663c4"
+
+[[package]]
+name = "memmap2"
+version = "0.2.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "723e3ebdcdc5c023db1df315364573789f8857c11b631a2fdfad7c00f5c046b4"
+dependencies = [
+ "libc",
+]
 
 [[package]]
 name = "memmap2"
@@ -1090,246 +1657,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "oxforms-bootstrap"
-version = "0.0.0"
-dependencies = [
- "oxforms-oxvba-adapter",
- "oxforms-pal",
- "oxforms-pal-win",
- "oxvba-bind",
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-hal",
- "oxvba-host",
- "oxvba-oxir",
- "oxvba-runtime",
- "oxvba-symbol",
-]
-
-[[package]]
-name = "oxforms-headless-runner"
-version = "0.0.0"
-dependencies = [
- "oxforms-oxvba-adapter",
- "oxforms-pal",
- "oxvba-bind",
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-hal",
- "oxvba-host",
- "oxvba-oxir",
- "oxvba-runtime",
- "oxvba-symbol",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "oxforms-oxvba-adapter"
-version = "0.0.0"
-dependencies = [
- "oxforms-pal",
- "oxforms-pal-win",
- "oxvba-bind",
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-hal",
- "oxvba-host",
- "oxvba-oxir",
- "oxvba-project",
- "oxvba-runtime",
- "oxvba-symbol",
- "serde_json",
-]
-
-[[package]]
-name = "oxforms-pal"
-version = "0.0.0"
-dependencies = [
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "oxforms-pal-win"
-version = "0.0.0"
-dependencies = [
- "ab_glyph",
- "clipboard-win",
- "oxforms-pal",
- "softbuffer",
- "tiny-skia",
- "winit",
-]
-
-[[package]]
-name = "oxvba-bind"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-diagnostics",
- "oxvba-runtime",
- "oxvba-symbol",
- "oxvba-syntax",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "oxvba-bundle"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-com",
- "oxvba-runtime",
- "serde",
-]
-
-[[package]]
-name = "oxvba-com"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "libc",
- "libffi",
- "oxvba-diagnostics",
- "oxvba-runtime",
- "serde",
- "thiserror 2.0.18",
- "windows-sys 0.59.0",
-]
-
-[[package]]
-name = "oxvba-diagnostics"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "oxvba-eval"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bundle",
- "oxvba-runtime",
-]
-
-[[package]]
-name = "oxvba-hal"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-com",
- "oxvba-diagnostics",
- "oxvba-runtime",
- "serde",
- "serde_json",
- "thiserror 2.0.18",
- "windows-sys 0.59.0",
-]
-
-[[package]]
-name = "oxvba-host"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bind",
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-diagnostics",
- "oxvba-hal",
- "oxvba-oxir",
- "oxvba-runtime",
- "oxvba-symbol",
- "oxvba-vm3",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "oxvba-lib"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-hal",
- "oxvba-runtime",
-]
-
-[[package]]
-name = "oxvba-oxir"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bundle",
- "oxvba-com",
- "serde",
- "serde_json",
-]
-
-[[package]]
-name = "oxvba-project"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-diagnostics",
- "oxvba-symbol",
- "quick-xml 0.37.5",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "oxvba-runtime"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "rkyv",
- "serde",
- "thiserror 2.0.18",
- "windows-sys 0.59.0",
-]
-
-[[package]]
-name = "oxvba-symbol"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-diagnostics",
- "oxvba-runtime",
- "oxvba-syntax",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "oxvba-syntax"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-diagnostics",
- "thiserror 2.0.18",
-]
-
-[[package]]
-name = "oxvba-vm3"
-version = "0.1.2"
-source = "git+https://github.com/DnaCalc/OxVba.git?rev=8f1aeccc683c4d41621bf137574b8a4d11bd9845#8f1aeccc683c4d41621bf137574b8a4d11bd9845"
-dependencies = [
- "oxvba-bundle",
- "oxvba-com",
- "oxvba-eval",
- "oxvba-hal",
- "oxvba-lib",
- "oxvba-oxir",
- "oxvba-runtime",
-]
-
-[[package]]
 name = "percent-encoding"
 version = "2.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1514,6 +1841,32 @@ dependencies = [
 ]
 
 [[package]]
+name = "regalloc2"
+version = "0.15.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "757712e8e61590d6d4f5d563483755538b5aa13467837a3b41cd9832509a7f85"
+dependencies = [
+ "allocator-api2",
+ "bumpalo",
+ "hashbrown 0.17.1",
+ "log",
+ "rustc-hash",
+ "smallvec",
+]
+
+[[package]]
+name = "region"
+version = "3.0.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "e6b6ebd13bc009aef9cd476c1310d49ac354d36e240cf1bd753290f3dc7199a7"
+dependencies = [
+ "bitflags 1.3.2",
+ "libc",
+ "mach2",
+ "windows-sys 0.52.0",
+]
+
+[[package]]
 name = "rend"
 version = "0.5.3"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1530,7 +1883,7 @@ checksum = "73389e0c99e664f919275ab5b5b0471391fe9a8de61e1dff9b1eaf56a90f16e3"
 dependencies = [
  "bytecheck",
  "bytes",
- "hashbrown",
+ "hashbrown 0.17.1",
  "indexmap",
  "munge",
  "ptr_meta",
@@ -1551,6 +1904,12 @@ dependencies = [
  "quote",
  "syn",
 ]
+
+[[package]]
+name = "rustc-hash"
+version = "2.1.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6b1e7f9a428571be2dc5bc0505c13fb6bf936822b894ec87abf8a08a4e51742d"
 
 [[package]]
 name = "rustc_version"
@@ -1616,10 +1975,16 @@ checksum = "b6277f0217056f77f1d8f49f2950ac6c278c0d607c45f5ee99328d792ede24ec"
 dependencies = [
  "ab_glyph",
  "log",
- "memmap2",
+ "memmap2 0.9.11",
  "smithay-client-toolkit",
  "tiny-skia",
 ]
+
+[[package]]
+name = "self_cell"
+version = "1.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "2ab42ca02749e120097e328d91d415325bdf43b1c72c4c8badf37375fe40a813"
 
 [[package]]
 name = "semver"
@@ -1722,7 +2087,7 @@ dependencies = [
  "cursor-icon",
  "libc",
  "log",
- "memmap2",
+ "memmap2 0.9.11",
  "rustix 0.38.44",
  "thiserror 1.0.69",
  "wayland-backend",
@@ -1755,7 +2120,7 @@ dependencies = [
  "drm",
  "fastrand",
  "js-sys",
- "memmap2",
+ "memmap2 0.9.11",
  "ndk",
  "objc2 0.6.4",
  "objc2-core-foundation",
@@ -1777,6 +2142,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "stable_deref_trait"
+version = "1.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "6ce2be8dc25455e1f91df71bfa12ad37d7af1092ae736f3a6cd0e37bc7810596"
+
+[[package]]
 name = "strict-num"
 version = "0.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1792,6 +2163,12 @@ dependencies = [
  "quote",
  "unicode-ident",
 ]
+
+[[package]]
+name = "target-lexicon"
+version = "0.13.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "adb6935a6f5c20170eeceb1a3835a49e12e19d792f6dd344ccc76a985ca5a6ca"
 
 [[package]]
 name = "thiserror"
@@ -2039,6 +2416,28 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "23939e44bb9a5d7576fa2b563dc2e136628f1224e88a8deed09e04858b77871f"
 dependencies = [
  "unicode-ident",
+]
+
+[[package]]
+name = "wasmtime-internal-core"
+version = "46.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "93b097389e5fad89c8ff8ee0aeafd16447b5a288d52aa1131f17ab4c19fd5be3"
+dependencies = [
+ "hashbrown 0.17.1",
+ "libm",
+]
+
+[[package]]
+name = "wasmtime-internal-jit-icache-coherence"
+version = "46.0.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ee3a381a9dd1ffe3893507733300b420605f465655d78c7a75a965a09d7b43d5"
+dependencies = [
+ "cfg-if",
+ "libc",
+ "wasmtime-internal-core",
+ "windows-sys 0.61.2",
 ]
 
 [[package]]
@@ -2297,7 +2696,7 @@ dependencies = [
  "dpi",
  "js-sys",
  "libc",
- "memmap2",
+ "memmap2 0.9.11",
  "ndk",
  "objc2 0.5.2",
  "objc2-app-kit",

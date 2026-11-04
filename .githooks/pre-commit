@@ -1,5 +1,5 @@
 #!/bin/sh
-# OxForms pre-commit hook.
+# CalcForms pre-commit hook.
 #
 # Enforces the cheap parts of the verification floor so cosmetic and lint
 # defects never reach a commit (they previously cost dedicated "Repair

@@ -1,15 +1,19 @@
 Option Explicit
 
-' oxforms-98v spike: exercise the OxForms.Surface.MeasureBatch typed-record round-trip
-' directly, end to end through the real OxVba dispatch. Test infrastructure, not the OxForms
+' oxforms-98v spike: exercise the CalcForms.Surface.MeasureBatch typed-record round-trip
+' directly, end to end through the real CalcVBA dispatch. Test infrastructure, not the CalcForms
 ' library. Build an OxMeasureRequest() array (UDT SAFEARRAY in), call MeasureBatch once, and
 ' read back an OxMeasureResult() array (UDT SAFEARRAY out) — proving captions cross as native
 ' String fields and metrics as typed Longs, with no string packing on either side.
 
 Private mSurface As Object
 
+Private Sub Class_Initialize()
+    Set mSurface = Nothing
+End Sub
+
 Public Sub Build()
-    Set mSurface = CreateObject("OxForms.Surface")
+    Set mSurface = CreateObject("CalcForms.Surface")
 End Sub
 
 ' Measure two captions in ONE crossing. Return a test-parseable
@@ -26,7 +30,7 @@ Public Function ProbeTwo() As String
     reqs(1).Caption = "Hi"
 
     Dim res() As OxMeasureResult
-    res = mSurface.MeasureBatch(reqs)
+    res = mSurface.MeasureBatch((reqs))
 
     ProbeTwo = _
         res(0).RunId & "," & CStr(res(0).AdvanceMilliPt) & "," & _
