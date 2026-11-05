@@ -1,5 +1,41 @@
 # Windows form layout comparison
 
+Owner target, run 6 (2026-11-05): **FORMS PARITY** is the headline. Text rendering
+will use another stack; identical antialiasing is not a compatibility goal.
+Prioritize measured layout, spacing and behaviour failures. Pixel differences
+are a coarse regression guard, never a control ranking or acceptance score.
+
+Each form and control has pass/fail rows with native/runtime measurements,
+maximum difference, units and tolerance. Layout edges, client sizes and
+twips-to-pixel rounding allow 1 px at 100% and 150% form zoom. Visible text ink
+allows 2 px for font rendering; baseline, alignment, clipping/wrap offsets and
+exact line breaks are separate checks. Line-break offsets and ordered behaviour
+must agree exactly. Record insets, row heights, tab sizes, Frame caption gap,
+check/radio glyph size and caption gap, focus rectangle, border thickness and
+colour classes. Record event order, actual tab traversal, Enter/default,
+Esc/cancel, accelerators, hit tests, selection, scrolling, value changes and
+Show/Hide/Unload state. A matching TabIndex alone does not establish traversal.
+
+An absent measurement is **fail**, with measurement_count=0 and null values;
+it is a coverage failure, not an observed product mismatch. Do not invent a
+baseline from an ink box or infer exact wrap offsets from a matching line count.
+Colour masks on the saved client images measure visible ink in explicit ROIs,
+including separate list captions where unambiguous. They ignore light
+antialias coverage and keep selected white text separate from white background.
+Unmeasured native parent origins prevent nested image measurements. Historical
+captures without native qualification retain a failed qualification row.
+
+Replay `python -B tools/office-oracle/forms_parity.py --reference
+docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/comparison.json
+--out <report.json>` to create JSON and a readable `.md` report. The committed
+[first report](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.96/forms-parity.md)
+reuses the existing eight compare inputs; it describes those historical builds.
+Live `layout_compare.py` snapshots and v2 summaries now use the same report.
+Never use Computer Use, SendInput, a real pointer/keyboard, a foreground-window
+call, or a desktop switch. Use per-window capture and in-process/UI Automation
+driving. Keep one owned hidden Excel, reuse it, count launches and stop only
+the owned process before ending. The default private desktop supports this.
+
 The compatibility reference is the same owned/authored form in Excel MSForms.
 Capture each engine's complete window with PrintWindow and crop the client area
 using GetClientRect and ClientToScreen. Store both coordinate descriptions;
@@ -43,13 +79,14 @@ coordinate rounding remain visible in the measurements. Initial Scene exports
 describe the initial state only; later input snapshots must not be interpreted
 as newly exported text geometry.
 
-Each new comparison also ranks root-control regions by total absolute RGB
-error. Use the union of native/runtime bounds, round outward, and clip to the
-client. Derive pixels per point from the native client/form dimensions.
-Regions may overlap and their errors must not be added. Exclude nested sites
+Historical run 3/4 comparisons ranked root-control regions by total absolute RGB
+error. Their replay remains a historical regression check. It used the union
+of native/runtime bounds, rounded outward, and clipped to the client. It derived
+pixels per point from native client/form dimensions. Regions may overlap and
+their errors must not be added. It excluded nested sites
 until the native parent client origin is measured; never infer it from the
 runtime or guess an inset. Unequal clients or failed native qualification
-produce no ranking. Session summaries include the three largest regions.
+produced no ranking. These rankings no longer drive new session summaries.
 `layout_pixels.py --reference <intrinsic-comparison.json> --out <ranking.json>`
 replays saved references without Office or desktop use. Preserve a missing
 historical qualification flag as null rather than claiming new live validation.
@@ -150,7 +187,8 @@ and visible header/border positions; native Page.Left/Top are absent. The
 VBA child tree and input share these margins. Exact border shades remain
 different, including a small 100% error increase despite restored painting.
 
-On the owner's input desktop, use the exclusive shared desktop.lock for every
+Historical run 3/4 input-desktop protocol (superseded by run 6's no-owner-input
+requirement): use the exclusive shared desktop.lock for every
 operation that may activate or inject input. Fail while a live lock exists;
 only a lock older than five minutes is stale. Keep each hold below two minutes
 and perform no input outside the owner window (stop by 06:55 machine time).

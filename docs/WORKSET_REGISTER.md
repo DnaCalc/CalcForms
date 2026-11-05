@@ -52,6 +52,14 @@ programmatic Text/Value/SelText Change notifications and same-value suppression.
 `.77` remains open: `.95` tracks non-creating default lookup and exact held-object
 release/Terminate behavior. No Computer Use or owner input/focus is used in run 5.
 
+Run 6 changes the target to FORMS PARITY (`.96`): layout/text geometry, spacing,
+colour classes and ordered behaviour at 100%/150% replace pixel priorities.
+The [first replay report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.96/forms-parity.md)
+uses the existing eight comparisons. Missing native measurements fail coverage;
+it does not claim a measured mismatch or parity for absent evidence. New live
+summaries use the same report. Historical pixel rankings remain replayable only
+as regression evidence. No Computer Use or owner pointer/keyboard/focus is allowed.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

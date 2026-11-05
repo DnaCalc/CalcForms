@@ -18,8 +18,9 @@ planning truth.
 ## Focused Specs
 
 November layout work: [`LAYOUT_COMPARISON.md`](specs/LAYOUT_COMPARISON.md)
-defines client/window captures, two-scale pixel measurements, owned Excel reuse
-and the measured greeter paint subset.
+defines FORMS PARITY reports at 100%/150%, layout/text/spacing/colour/behaviour
+measurements, failed missing coverage, per-window capture and owned hidden
+Excel reuse. Pixels remain a coarse regression guard.
 
 1. [`specs/INPUT_INTERACTION_MODEL.md`](specs/INPUT_INTERACTION_MODEL.md) -
    W005 input/event architecture surface for normalized `UiEvent`, interaction
