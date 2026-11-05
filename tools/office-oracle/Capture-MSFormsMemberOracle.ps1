@@ -688,6 +688,30 @@ function Start-PrivateProcessWatchdog {
             throw "Watchdog log remained unavailable for 2 seconds: $($lastWriteFailure.Exception.Message)"
         }
 
+        function Get-WatchdogProcessIdentity {
+            param([Parameter(Mandatory = $true)]$Process)
+            try {
+                $Process.Refresh()
+                if ($Process.HasExited) { return $null }
+                $start = $Process.StartTime.ToUniversalTime()
+                # MainModule can become null between Get-Process and this read.
+                # Do not dereference it under StrictMode until it is present.
+                $module = $Process.MainModule
+                if ($null -eq $module) {
+                    throw 'Process main module was unavailable during identity observation.'
+                }
+                $path = [System.IO.Path]::GetFullPath([string]$module.FileName)
+                return @{ Start = $start; Path = $path }
+            } catch {
+                $identityFailure = $_
+                $Process.Refresh()
+                # An exit is an observation, never permission to kill or to
+                # acknowledge an expected exit. Live/unknown errors still fail.
+                if ($Process.HasExited) { return $null }
+                throw $identityFailure
+            }
+        }
+
         function Test-ExpectedExitAuthorization {
             if (-not (Test-Path -LiteralPath $DisarmPath -PathType Leaf)) { return $false }
             $authorization = [System.IO.File]::ReadAllText($DisarmPath, $utf8NoBom)
@@ -705,15 +729,13 @@ function Start-PrivateProcessWatchdog {
                 return $false
             }
             try {
-                $authorizationProcess.Refresh()
-                if ($authorizationProcess.HasExited) {
+                $identity = Get-WatchdogProcessIdentity $authorizationProcess
+                if ($null -eq $identity) {
                     Write-WatchdogLine "PROCESS_EXITED operation=$OperationName pid=$OwnedProcessId reason=unexpected_exit"
                     return $false
                 }
-                $authorizationStart = $authorizationProcess.StartTime.ToUniversalTime()
-                $authorizationPath = [System.IO.Path]::GetFullPath([string]$authorizationProcess.MainModule.FileName)
-                if ($authorizationStart -ne $expectedStart -or
-                    -not $authorizationPath.Equals($expectedFullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
+                if ($identity.Start -ne $expectedStart -or
+                    -not $identity.Path.Equals($expectedFullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
                     Write-WatchdogLine "IDENTITY_MISMATCH operation=$OperationName pid=$OwnedProcessId reason=authorization_identity_changed"
                     throw 'Watchdog refused expected-exit authorization because PID/start/path identity changed.'
                 }
@@ -765,10 +787,14 @@ function Start-PrivateProcessWatchdog {
                 return
             }
             try {
-                $observedStart = $observed.StartTime.ToUniversalTime()
-                $observedPath = [System.IO.Path]::GetFullPath([string]$observed.MainModule.FileName)
-                if ($observedStart -ne $expectedStart -or
-                    -not $observedPath.Equals($expectedFullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
+                $identity = Get-WatchdogProcessIdentity $observed
+                if ($null -eq $identity) {
+                    $exitReason = if ($ExpectedTerminalMode -eq 'expected_exit' -and $exitAuthorized) { 'expected_exit' } else { 'unexpected_exit' }
+                    Write-WatchdogLine "PROCESS_EXITED operation=$OperationName pid=$OwnedProcessId reason=$exitReason"
+                    return
+                }
+                if ($identity.Start -ne $expectedStart -or
+                    -not $identity.Path.Equals($expectedFullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
                     Write-WatchdogLine "IDENTITY_MISMATCH operation=$OperationName pid=$OwnedProcessId reason=poll_identity_changed"
                     throw 'Watchdog observed a changed PID/start/path identity.'
                 }
@@ -813,10 +839,14 @@ function Start-PrivateProcessWatchdog {
             return
         }
         try {
-            $actualStart = $owned.StartTime.ToUniversalTime()
-            $actualPath = [System.IO.Path]::GetFullPath([string]$owned.MainModule.FileName)
-            if ($actualStart -ne $expectedStart -or
-                -not $actualPath.Equals($expectedFullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
+            $identity = Get-WatchdogProcessIdentity $owned
+            if ($null -eq $identity) {
+                $exitReason = if ($ExpectedTerminalMode -eq 'expected_exit' -and $exitAuthorized) { 'expected_exit' } else { 'unexpected_exit' }
+                Write-WatchdogLine "PROCESS_EXITED operation=$OperationName pid=$OwnedProcessId reason=$exitReason"
+                return
+            }
+            if ($identity.Start -ne $expectedStart -or
+                -not $identity.Path.Equals($expectedFullPath, [System.StringComparison]::OrdinalIgnoreCase)) {
                 Write-WatchdogLine "IDENTITY_MISMATCH operation=$OperationName pid=$OwnedProcessId"
                 throw 'Watchdog refused to terminate a process whose identity changed.'
             }

@@ -348,6 +348,77 @@ fn list_rows_measure_separately_clip_and_rebuild_without_old_text() {
 }
 
 #[test]
+fn label_wraps_measured_words_reflows_and_keeps_explicit_breaks_without_extra_crossings() {
+    let source = r#"Option Explicit
+Private F As UserForm
+Private L As Label
+Public Sub Build()
+    Set F = New UserForm
+    F.Width = 160
+    F.Height = 100
+    Set L = F.Controls.Add("Forms.Label.1", "Wrapped")
+    L.Left = 12
+    L.Top = 12
+    L.Width = 45
+    L.Height = 48
+    L.Core.FontSize = 10
+    L.Caption = "one two three"
+End Sub
+Public Sub RenderOnce()
+    F.Render 96, 96
+End Sub
+Public Sub Widen()
+    L.Width = 80
+End Sub
+Public Sub ExplicitBreaks()
+    L.Caption = "one" & vbCrLf & "two" & vbLf & "three"
+    L.WordWrap = False
+End Sub
+Public Sub Clear()
+    L.Caption = ""
+End Sub
+"#;
+    let (mut session, form, surface) = fixture(source);
+    let mut call = |name: &str| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), vec![])
+            .unwrap()
+    };
+    call("Build");
+    call("RenderOnce");
+    let snapshot = surface.snapshot().unwrap();
+    assert_eq!(
+        snapshot
+            .calls
+            .iter()
+            .filter(|c| c.starts_with("MeasureBatch:"))
+            .count(),
+        1
+    );
+    let text = rows(&snapshot.scene.unwrap());
+    assert_eq!(
+        text.iter().map(|r| (r.0.as_str(), r.1)).collect::<Vec<_>>(),
+        [("one", 12.75), ("two", 12.75), ("three", 22.75)]
+    );
+    call("Widen");
+    call("RenderOnce");
+    assert_eq!(
+        rows(&surface.snapshot().unwrap().scene.unwrap())[0].0,
+        "one two three"
+    );
+    call("ExplicitBreaks");
+    call("RenderOnce");
+    let text = rows(&surface.snapshot().unwrap().scene.unwrap());
+    assert_eq!(
+        text.iter().map(|r| (r.0.as_str(), r.1)).collect::<Vec<_>>(),
+        [("one", 12.75), ("two", 22.75), ("three", 32.75)]
+    );
+    call("Clear");
+    call("RenderOnce");
+    assert!(surface.snapshot().unwrap().scene.unwrap().text.is_empty());
+}
+
+#[test]
 fn tab_captions_have_individual_metrics_and_refresh_after_mutation() {
     let source = r#"Option Explicit
 Private F As UserForm

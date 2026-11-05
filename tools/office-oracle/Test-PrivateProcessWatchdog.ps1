@@ -33,6 +33,7 @@ foreach ($functionName in @(
     'Open-HashPinnedWorkbook',
     'Add-CleanupFailure',
     'ConvertTo-ExactUtcDateTimeOffset',
+    'Get-WatchdogProcessIdentity',
     'Start-PrivateProcessWatchdog',
     'Authorize-PrivateProcessExpectedExit',
     'Complete-PrivateProcessWatchdog',
@@ -60,6 +61,39 @@ $exactJsonUtc = ConvertTo-ExactUtcDateTimeOffset -Value $jsonUtc -Label 'JSON UT
 $exactStringUtc = ConvertTo-ExactUtcDateTimeOffset -Value '2026-08-23T23:39:10.7676857Z' -Label 'String UTC regression fixture'
 if ($exactJsonUtc.UtcTicks -ne 639231251507676857 -or $exactStringUtc.UtcTicks -ne $exactJsonUtc.UtcTicks) {
     throw 'Exact UTC conversion lost fractional ticks or applied the local timezone twice.'
+}
+
+# Deterministically reproduce exit during the MainModule read, rather than
+# hoping that an OS scheduling race happens during the disposable-process cases.
+$oldReadFailure = $null
+try { $missingModule = $null; [void]$missingModule.FileName } catch { $oldReadFailure = $_ }
+if ($null -eq $oldReadFailure -or $oldReadFailure.Exception.Message -notmatch "property 'FileName' cannot be found") {
+    throw 'StrictMode regression did not reproduce the original null-module FileName failure.'
+}
+foreach ($throwDuringRead in @($false, $true)) {
+    $raceProcess = [pscustomobject]@{ HasExited = $false; StartTime = [DateTime]::UtcNow; ThrowDuringRead = $throwDuringRead }
+    $raceProcess | Add-Member ScriptMethod Refresh { }
+    $raceProcess | Add-Member ScriptProperty MainModule {
+        $this.HasExited = $true
+        if ($this.ThrowDuringRead) { throw [System.InvalidOperationException]::new('Process exited during module read') }
+        return $null
+    }
+    if ($null -ne (Get-WatchdogProcessIdentity $raceProcess)) {
+        throw 'Exit during identity read must return no live identity.'
+    }
+}
+$liveProcess = [pscustomobject]@{ HasExited = $false; StartTime = [DateTime]::UtcNow; MainModule = $null }
+$liveProcess | Add-Member ScriptMethod Refresh { }
+$liveFailure = $null
+try { [void](Get-WatchdogProcessIdentity $liveProcess) } catch { $liveFailure = $_ }
+if ($null -eq $liveFailure -or $liveFailure.Exception.Message -notmatch 'main module was unavailable') {
+    throw 'A live process without module identity must still fail closed.'
+}
+$liveProcess.MainModule = [pscustomobject]@{ FileName = (Join-Path $PSHOME 'pwsh.exe') }
+$liveIdentity = Get-WatchdogProcessIdentity $liveProcess
+if ($liveIdentity.Start -ne $liveProcess.StartTime.ToUniversalTime() -or
+    $liveIdentity.Path -cne $liveProcess.MainModule.FileName) {
+    throw 'Live process identity must preserve exact start time and executable path.'
 }
 
 foreach ($callerName in @('New-OracleWorkbook', 'Invoke-LiveOracle')) {

@@ -56,6 +56,7 @@ pub struct PersistedControl {
     pub tab_index: i16,
     pub default_button: bool,
     pub cancel_button: bool,
+    pub word_wrap: bool,
     pub font_name: String,
     pub font_size: f64,
 }
@@ -398,8 +399,9 @@ impl WorkbookForm {
                     ));
                 }
                 ControlKind::Label => build.push_str(&format!(
-                    "    {name}.Caption = {}\n",
-                    literal(&control.caption)
+                    "    {name}.Caption = {}\n    {name}.WordWrap = {}\n",
+                    literal(&control.caption),
+                    boolean(control.word_wrap)
                 )),
                 ControlKind::CommandButton => build.push_str(&format!(
                     "    {name}.Caption = {}\n    {name}.Default = {}\n    {name}.Cancel = {}\n",
@@ -903,6 +905,7 @@ fn decode_control(bytes: &[u8], kind: ControlKind) -> Result<PersistedControl> {
         tab_index: 0,
         default_button: false,
         cancel_button: false,
+        word_wrap: various & (1 << 23) != 0,
         font_name,
         font_size,
     })

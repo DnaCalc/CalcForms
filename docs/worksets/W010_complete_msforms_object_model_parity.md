@@ -4,6 +4,20 @@ Status: `IN PROGRESS`
 
 Epic: `oxforms-jbjp`
 
+Run 6 uses [measured FORMS PARITY](../specs/LAYOUT_COMPARISON.md) instead of
+pixel rankings. `.96` reports the existing eight comparison inputs; `.97`
+corrects measured ComboBox insets/button geometry; `.90` preserves literal
+ampersands and separates explicit accelerators. `.99` adds measured Label
+word wrapping with the observed two-line break at offset 19 at both scales.
+Its [evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.99/README.md)
+retains failed font-width rows. Default-instance work `.77` has implemented
+the eight-row native lifetime transcript and QueryClose veto subset; `.95`
+tracks absent-default and held-reference residuals. None closes W010 parity.
+Recovery also fixes `.78`: watchdog identity observation treats a confirmed
+process exit during MainModule access as an exit, while live/unknown identity
+failures still fail. Deterministic race cases supplement process containment
+and authorization checks; no Excel is started by those checks.
+
 Run 4 `.87` corrects the largest recorded region, ListBox Choices: separate
 row runs in one text batch, measured default spacing, white selection text
 and clipped rows. See [the measurements](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.87/README.md).

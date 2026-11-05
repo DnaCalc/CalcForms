@@ -61,6 +61,11 @@ fn workbook_controls_and_original_handlers_match_owned_excel_headlessly() {
     assert_eq!(form.controls[1].value, "Ada");
     assert!(form.controls[2].default_button);
     assert_eq!(form.controls[4].caption, "(ready)");
+    assert!(form
+        .controls
+        .iter()
+        .filter(|c| c.kind == ControlKind::Label)
+        .all(|c| c.word_wrap));
     assert_eq!(
         form.font_name().expect("homogeneous persisted face"),
         "Tahoma"

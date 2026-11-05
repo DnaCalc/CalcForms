@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "6b3b531cf8cacb887d6b46f21e7954ce485367314737fca5237e7cef1a6e34e5",
+  "source_surface_sha256": "d8d8b0223b0aa5d1973b6798663bcd328e60ad83bdbecec2776f4b3afcd66f65",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -22100,7 +22100,7 @@
           "file_stem": "Label",
           "kind": "class_module",
           "path": "vba/calcforms/Label.cls",
-          "normalized_text_sha256": "7276379399c4ee7b07bc245dd100809fafa00558e9f950f2eb3d9ab3bcc54e1a",
+          "normalized_text_sha256": "1a738c8ee3f259f93f2b87df21a026924ac83ac0b3defddaeb414e5ad9a01246",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -22277,8 +22277,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 26,
-                "end_line": 26,
+                "start_line": 30,
+                "end_line": 30,
                 "text": "Public Property Get Core() As OxControlCore"
               },
               "member_attributes": {}
@@ -22295,8 +22295,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 44,
-                "end_line": 44,
+                "start_line": 54,
+                "end_line": 54,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -22325,9 +22325,57 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 47,
-                "end_line": 47,
+                "start_line": 57,
+                "end_line": 57,
                 "text": "Public Property Let Caption(ByVal Value As String)"
+              },
+              "member_attributes": {}
+            },
+            {
+              "kind": "property_get",
+              "visibility": "public",
+              "explicit_visibility": true,
+              "name": "WordWrap",
+              "bracketed_name": false,
+              "default_member": false,
+              "static": false,
+              "parameters": [],
+              "return_type": "Boolean",
+              "source": {
+                "path": "vba/calcforms/Label.cls",
+                "start_line": 63,
+                "end_line": 63,
+                "text": "Public Property Get WordWrap() As Boolean"
+              },
+              "member_attributes": {}
+            },
+            {
+              "kind": "property_let",
+              "visibility": "public",
+              "explicit_visibility": true,
+              "name": "WordWrap",
+              "bracketed_name": false,
+              "default_member": false,
+              "static": false,
+              "parameters": [
+                {
+                  "index": 0,
+                  "name": "Value",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Boolean",
+                  "default": null,
+                  "raw": "ByVal Value As Boolean"
+                }
+              ],
+              "return_type": null,
+              "source": {
+                "path": "vba/calcforms/Label.cls",
+                "start_line": 66,
+                "end_line": 66,
+                "text": "Public Property Let WordWrap(ByVal Value As Boolean)"
               },
               "member_attributes": {}
             },
@@ -22343,8 +22391,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 51,
-                "end_line": 51,
+                "start_line": 154,
+                "end_line": 154,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -22361,8 +22409,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 55,
-                "end_line": 55,
+                "start_line": 158,
+                "end_line": 158,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -22391,8 +22439,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 58,
-                "end_line": 58,
+                "start_line": 161,
+                "end_line": 161,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -22409,8 +22457,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 62,
-                "end_line": 62,
+                "start_line": 165,
+                "end_line": 165,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -22439,8 +22487,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 65,
-                "end_line": 65,
+                "start_line": 168,
+                "end_line": 168,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -22457,8 +22505,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 69,
-                "end_line": 69,
+                "start_line": 172,
+                "end_line": 172,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -22487,8 +22535,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 72,
-                "end_line": 72,
+                "start_line": 175,
+                "end_line": 175,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -22505,8 +22553,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 76,
-                "end_line": 76,
+                "start_line": 179,
+                "end_line": 179,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -22535,8 +22583,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 79,
-                "end_line": 79,
+                "start_line": 182,
+                "end_line": 182,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -22553,8 +22601,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 83,
-                "end_line": 83,
+                "start_line": 186,
+                "end_line": 186,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -22583,8 +22631,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 86,
-                "end_line": 86,
+                "start_line": 189,
+                "end_line": 189,
                 "text": "Public Property Let Visible(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -22601,8 +22649,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 90,
-                "end_line": 90,
+                "start_line": 193,
+                "end_line": 193,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -22631,8 +22679,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 93,
-                "end_line": 93,
+                "start_line": 196,
+                "end_line": 196,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -22649,8 +22697,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 98,
-                "end_line": 98,
+                "start_line": 201,
+                "end_line": 201,
                 "text": "Public Sub PerformClick()"
               },
               "member_attributes": {}
@@ -22712,8 +22760,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 102,
-                "end_line": 102,
+                "start_line": 205,
+                "end_line": 205,
                 "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -22775,8 +22823,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 106,
-                "end_line": 106,
+                "start_line": 209,
+                "end_line": 209,
                 "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -22795,8 +22843,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 20,
-                "end_line": 20,
+                "start_line": 24,
+                "end_line": 24,
                 "text": "Private Property Get IOxControl_Core() As OxControlCore"
               },
               "interface": "IOxControl",
@@ -22827,8 +22875,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 31,
-                "end_line": 31,
+                "start_line": 35,
+                "end_line": 35,
                 "text": "Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)"
               },
               "interface": "IOxControl",
@@ -22847,8 +22895,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 35,
-                "end_line": 35,
+                "start_line": 45,
+                "end_line": 45,
                 "text": "Private Property Get IOxControl_HasChildren() As Boolean"
               },
               "interface": "IOxControl",
@@ -22867,8 +22915,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 39,
-                "end_line": 39,
+                "start_line": 49,
+                "end_line": 49,
                 "text": "Private Property Get IOxControl_Children() As Controls"
               },
               "interface": "IOxControl",
@@ -22932,8 +22980,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 111,
-                "end_line": 111,
+                "start_line": 214,
+                "end_line": 214,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -22997,8 +23045,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 115,
-                "end_line": 115,
+                "start_line": 218,
+                "end_line": 218,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -23062,8 +23110,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 119,
-                "end_line": 119,
+                "start_line": 222,
+                "end_line": 222,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -23082,8 +23130,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 122,
-                "end_line": 122,
+                "start_line": 225,
+                "end_line": 225,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -23102,8 +23150,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 127,
-                "end_line": 127,
+                "start_line": 230,
+                "end_line": 230,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -23122,8 +23170,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 131,
-                "end_line": 131,
+                "start_line": 234,
+                "end_line": 234,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -23165,8 +23213,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 137,
-                "end_line": 137,
+                "start_line": 240,
+                "end_line": 240,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -23208,8 +23256,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 141,
-                "end_line": 141,
+                "start_line": 244,
+                "end_line": 244,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -23240,8 +23288,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 145,
-                "end_line": 145,
+                "start_line": 248,
+                "end_line": 248,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -23260,8 +23308,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 148,
-                "end_line": 148,
+                "start_line": 251,
+                "end_line": 251,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -23280,8 +23328,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 151,
-                "end_line": 151,
+                "start_line": 254,
+                "end_line": 254,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -23300,8 +23348,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 155,
-                "end_line": 155,
+                "start_line": 258,
+                "end_line": 258,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -23320,8 +23368,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 159,
-                "end_line": 159,
+                "start_line": 262,
+                "end_line": 262,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -23340,8 +23388,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 162,
-                "end_line": 162,
+                "start_line": 265,
+                "end_line": 265,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -23360,8 +23408,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 166,
-                "end_line": 166,
+                "start_line": 269,
+                "end_line": 269,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -23380,8 +23428,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 170,
-                "end_line": 170,
+                "start_line": 273,
+                "end_line": 273,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -23400,8 +23448,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 174,
-                "end_line": 174,
+                "start_line": 277,
+                "end_line": 277,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -23454,8 +23502,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 178,
-                "end_line": 178,
+                "start_line": 281,
+                "end_line": 281,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -23508,8 +23556,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 182,
-                "end_line": 182,
+                "start_line": 285,
+                "end_line": 285,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -23528,8 +23576,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 186,
-                "end_line": 186,
+                "start_line": 289,
+                "end_line": 289,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -23548,8 +23596,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 190,
-                "end_line": 190,
+                "start_line": 293,
+                "end_line": 293,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -23568,8 +23616,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 194,
-                "end_line": 194,
+                "start_line": 297,
+                "end_line": 297,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -23588,8 +23636,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 198,
-                "end_line": 198,
+                "start_line": 301,
+                "end_line": 301,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -23608,8 +23656,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 202,
-                "end_line": 202,
+                "start_line": 305,
+                "end_line": 305,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -23628,8 +23676,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 206,
-                "end_line": 206,
+                "start_line": 309,
+                "end_line": 309,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -23648,8 +23696,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 210,
-                "end_line": 210,
+                "start_line": 313,
+                "end_line": 313,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -23668,8 +23716,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 214,
-                "end_line": 214,
+                "start_line": 317,
+                "end_line": 317,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -23688,8 +23736,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 218,
-                "end_line": 218,
+                "start_line": 321,
+                "end_line": 321,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -23708,8 +23756,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 222,
-                "end_line": 222,
+                "start_line": 325,
+                "end_line": 325,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -23728,8 +23776,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 226,
-                "end_line": 226,
+                "start_line": 329,
+                "end_line": 329,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -23748,8 +23796,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 230,
-                "end_line": 230,
+                "start_line": 333,
+                "end_line": 333,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -573165,8 +573213,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 47,
-                "end_line": 47,
+                "start_line": 57,
+                "end_line": 57,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {},
@@ -573201,8 +573249,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 44,
-                "end_line": 44,
+                "start_line": 54,
+                "end_line": 54,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
@@ -573489,12 +573537,12 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 93,
-                "end_line": 93,
+                "start_line": 196,
+                "end_line": 196,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:008:0018",
+              "source_declaration_id": "source:008:0020",
               "owner": "Label",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -573525,12 +573573,12 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/Label.cls",
-                "start_line": 90,
-                "end_line": 90,
+                "start_line": 193,
+                "end_line": 193,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:008:0017",
+              "source_declaration_id": "source:008:0019",
               "owner": "Label",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -573568,14 +573616,14 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:008:0017"
+            "source:008:0019"
           ]
         },
         "put": {
           "status": "partial",
           "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
-            "source:008:0018"
+            "source:008:0020"
           ]
         },
         "putref": {
@@ -577842,16 +577890,86 @@
         ],
         "accessors": {
           "put": {
-            "status": "missing",
+            "status": "unresolved_source_lowering",
             "expected_kind": "property_let",
-            "source_declaration": null,
-            "same_name_wrong_kinds": []
+            "source_declaration": {
+              "kind": "property_let",
+              "visibility": "public",
+              "explicit_visibility": true,
+              "name": "WordWrap",
+              "bracketed_name": false,
+              "default_member": false,
+              "static": false,
+              "parameters": [
+                {
+                  "index": 0,
+                  "name": "Value",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Boolean",
+                  "default": null,
+                  "raw": "ByVal Value As Boolean"
+                }
+              ],
+              "return_type": null,
+              "source": {
+                "path": "vba/calcforms/Label.cls",
+                "start_line": 66,
+                "end_line": 66,
+                "text": "Public Property Let WordWrap(ByVal Value As Boolean)"
+              },
+              "member_attributes": {},
+              "source_declaration_id": "source:008:0007",
+              "owner": "Label",
+              "owner_profiles": [
+                "headless_runner_forced",
+                "bootstrap_forced"
+              ]
+            },
+            "signature_comparison": {
+              "status": "unresolved_source_lowering",
+              "mismatches": [],
+              "unresolved": [
+                "parameter 0 name is not reported by canonical metadata"
+              ],
+              "non_claim": "Only unambiguous COM parameter flags and array metadata are lowered; weak cases remain unresolved."
+            }
           },
           "get": {
-            "status": "missing",
+            "status": "compatible_source_shape",
             "expected_kind": "property_get",
-            "source_declaration": null,
-            "same_name_wrong_kinds": []
+            "source_declaration": {
+              "kind": "property_get",
+              "visibility": "public",
+              "explicit_visibility": true,
+              "name": "WordWrap",
+              "bracketed_name": false,
+              "default_member": false,
+              "static": false,
+              "parameters": [],
+              "return_type": "Boolean",
+              "source": {
+                "path": "vba/calcforms/Label.cls",
+                "start_line": 63,
+                "end_line": 63,
+                "text": "Public Property Get WordWrap() As Boolean"
+              },
+              "member_attributes": {},
+              "source_declaration_id": "source:008:0006",
+              "owner": "Label",
+              "owner_profiles": [
+                "headless_runner_forced",
+                "bootstrap_forced"
+              ]
+            },
+            "signature_comparison": {
+              "status": "compatible_source_shape",
+              "mismatches": [],
+              "unresolved": [],
+              "non_claim": "Only unambiguous COM parameter flags and array metadata are lowered; weak cases remain unresolved."
+            }
           }
         }
       },
@@ -577864,8 +577982,8 @@
           ]
         },
         "bind": {
-          "status": "missing",
-          "basis": "No required accessor has a public CalcForms declaration.",
+          "status": "partial",
+          "basis": "At least one required accessor is missing, mismatched, alias-only, or not clean-path exposed.",
           "evidence": []
         },
         "method": {
@@ -577874,14 +577992,18 @@
           "evidence": []
         },
         "get": {
-          "status": "missing",
-          "basis": "No public CalcForms property_get declaration was found.",
-          "evidence": []
+          "status": "partial",
+          "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
+          "evidence": [
+            "source:008:0006"
+          ]
         },
         "put": {
-          "status": "missing",
-          "basis": "No public CalcForms property_let declaration was found.",
-          "evidence": []
+          "status": "partial",
+          "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
+          "evidence": [
+            "source:008:0007"
+          ]
         },
         "putref": {
           "status": "not_applicable",
@@ -1467845,8 +1467967,8 @@
         "return_type": "OxControlCore",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 26,
-          "end_line": 26,
+          "start_line": 30,
+          "end_line": 30,
           "text": "Public Property Get Core() As OxControlCore"
         },
         "member_attributes": {},
@@ -1467929,13 +1468051,13 @@
       "row_status": "unexpected_public"
     },
     {
-      "row_id": "unexpected-public-member:source:008:0006",
+      "row_id": "unexpected-public-member:source:008:0008",
       "row_kind": "unexpected_public_member",
       "source_authority": "oxforms_vba_surface",
       "facade_owner_type_id": null,
       "declaration_owner_type_id": null,
       "source_refs": [
-        "source:008:0006"
+        "source:008:0008"
       ],
       "exact_name": "Name",
       "memid": null,
@@ -1467961,253 +1468083,9 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 51,
-          "end_line": 51,
+          "start_line": 154,
+          "end_line": 154,
           "text": "Public Property Get Name() As String"
-        },
-        "member_attributes": {},
-        "source_declaration_id": "source:008:0006",
-        "owner": "Label",
-        "owner_profiles": [
-          "headless_runner_forced",
-          "bootstrap_forced"
-        ]
-      },
-      "dimensions": {
-        "type_or_declaration": {
-          "status": "partial",
-          "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
-          "evidence": [
-            "source:008:0006"
-          ]
-        },
-        "bind": {
-          "status": "partial",
-          "basis": "The unexpected member is reachable in one or more current exposure profiles.",
-          "evidence": []
-        },
-        "method": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "get": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "put": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "putref": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "default_binding": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "error_coercion": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "event": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "render": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "persistence": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "oracle": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "tests": {
-          "status": "missing",
-          "basis": "No boundary test proves the unexpected member is inaccessible.",
-          "evidence": []
-        }
-      },
-      "row_status": "unexpected_public"
-    },
-    {
-      "row_id": "unexpected-public-member:source:008:0007",
-      "row_kind": "unexpected_public_member",
-      "source_authority": "oxforms_vba_surface",
-      "facade_owner_type_id": null,
-      "declaration_owner_type_id": null,
-      "source_refs": [
-        "source:008:0007"
-      ],
-      "exact_name": "Left",
-      "memid": null,
-      "visibility": {
-        "hidden": false,
-        "nonbrowsable": false,
-        "restricted": false,
-        "type_flags": [],
-        "member_flags": []
-      },
-      "disposition": "unexpected_public",
-      "disposition_basis": "Every unmapped public declaration remains a failing row.",
-      "contract": null,
-      "actual": {
-        "kind": "property_get",
-        "visibility": "public",
-        "explicit_visibility": true,
-        "name": "Left",
-        "bracketed_name": false,
-        "default_member": false,
-        "static": false,
-        "parameters": [],
-        "return_type": "Single",
-        "source": {
-          "path": "vba/calcforms/Label.cls",
-          "start_line": 55,
-          "end_line": 55,
-          "text": "Public Property Get Left() As Single"
-        },
-        "member_attributes": {},
-        "source_declaration_id": "source:008:0007",
-        "owner": "Label",
-        "owner_profiles": [
-          "headless_runner_forced",
-          "bootstrap_forced"
-        ]
-      },
-      "dimensions": {
-        "type_or_declaration": {
-          "status": "partial",
-          "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
-          "evidence": [
-            "source:008:0007"
-          ]
-        },
-        "bind": {
-          "status": "partial",
-          "basis": "The unexpected member is reachable in one or more current exposure profiles.",
-          "evidence": []
-        },
-        "method": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "get": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "put": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "putref": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "default_binding": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "error_coercion": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "event": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "render": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "persistence": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "oracle": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "tests": {
-          "status": "missing",
-          "basis": "No boundary test proves the unexpected member is inaccessible.",
-          "evidence": []
-        }
-      },
-      "row_status": "unexpected_public"
-    },
-    {
-      "row_id": "unexpected-public-member:source:008:0008",
-      "row_kind": "unexpected_public_member",
-      "source_authority": "oxforms_vba_surface",
-      "facade_owner_type_id": null,
-      "declaration_owner_type_id": null,
-      "source_refs": [
-        "source:008:0008"
-      ],
-      "exact_name": "Left",
-      "memid": null,
-      "visibility": {
-        "hidden": false,
-        "nonbrowsable": false,
-        "restricted": false,
-        "type_flags": [],
-        "member_flags": []
-      },
-      "disposition": "unexpected_public",
-      "disposition_basis": "Every unmapped public declaration remains a failing row.",
-      "contract": null,
-      "actual": {
-        "kind": "property_let",
-        "visibility": "public",
-        "explicit_visibility": true,
-        "name": "Left",
-        "bracketed_name": false,
-        "default_member": false,
-        "static": false,
-        "parameters": [
-          {
-            "index": 0,
-            "name": "Value",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Single",
-            "default": null,
-            "raw": "ByVal Value As Single"
-          }
-        ],
-        "return_type": null,
-        "source": {
-          "path": "vba/calcforms/Label.cls",
-          "start_line": 58,
-          "end_line": 58,
-          "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0008",
@@ -1468297,7 +1468175,7 @@
       "source_refs": [
         "source:008:0009"
       ],
-      "exact_name": "Top",
+      "exact_name": "Left",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1468313,7 +1468191,7 @@
         "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Top",
+        "name": "Left",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1468321,9 +1468199,9 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 62,
-          "end_line": 62,
-          "text": "Public Property Get Top() As Single"
+          "start_line": 158,
+          "end_line": 158,
+          "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0009",
@@ -1468413,7 +1468291,7 @@
       "source_refs": [
         "source:008:0010"
       ],
-      "exact_name": "Top",
+      "exact_name": "Left",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1468429,7 +1468307,7 @@
         "kind": "property_let",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Top",
+        "name": "Left",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1468449,9 +1468327,9 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 65,
-          "end_line": 65,
-          "text": "Public Property Let Top(ByVal Value As Single)"
+          "start_line": 161,
+          "end_line": 161,
+          "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0010",
@@ -1468541,7 +1468419,7 @@
       "source_refs": [
         "source:008:0011"
       ],
-      "exact_name": "Width",
+      "exact_name": "Top",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1468557,7 +1468435,7 @@
         "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Width",
+        "name": "Top",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1468565,9 +1468443,9 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 69,
-          "end_line": 69,
-          "text": "Public Property Get Width() As Single"
+          "start_line": 165,
+          "end_line": 165,
+          "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0011",
@@ -1468657,7 +1468535,7 @@
       "source_refs": [
         "source:008:0012"
       ],
-      "exact_name": "Width",
+      "exact_name": "Top",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1468673,7 +1468551,7 @@
         "kind": "property_let",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Width",
+        "name": "Top",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1468693,9 +1468571,9 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 72,
-          "end_line": 72,
-          "text": "Public Property Let Width(ByVal Value As Single)"
+          "start_line": 168,
+          "end_line": 168,
+          "text": "Public Property Let Top(ByVal Value As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0012",
@@ -1468785,7 +1468663,7 @@
       "source_refs": [
         "source:008:0013"
       ],
-      "exact_name": "Height",
+      "exact_name": "Width",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1468801,7 +1468679,7 @@
         "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Height",
+        "name": "Width",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1468809,9 +1468687,9 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 76,
-          "end_line": 76,
-          "text": "Public Property Get Height() As Single"
+          "start_line": 172,
+          "end_line": 172,
+          "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0013",
@@ -1468901,7 +1468779,7 @@
       "source_refs": [
         "source:008:0014"
       ],
-      "exact_name": "Height",
+      "exact_name": "Width",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1468917,7 +1468795,7 @@
         "kind": "property_let",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Height",
+        "name": "Width",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1468937,9 +1468815,9 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 79,
-          "end_line": 79,
-          "text": "Public Property Let Height(ByVal Value As Single)"
+          "start_line": 175,
+          "end_line": 175,
+          "text": "Public Property Let Width(ByVal Value As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0014",
@@ -1469029,7 +1468907,7 @@
       "source_refs": [
         "source:008:0015"
       ],
-      "exact_name": "Visible",
+      "exact_name": "Height",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1469045,17 +1468923,17 @@
         "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Visible",
+        "name": "Height",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [],
-        "return_type": "Boolean",
+        "return_type": "Single",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 83,
-          "end_line": 83,
-          "text": "Public Property Get Visible() As Boolean"
+          "start_line": 179,
+          "end_line": 179,
+          "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0015",
@@ -1469145,7 +1469023,7 @@
       "source_refs": [
         "source:008:0016"
       ],
-      "exact_name": "Visible",
+      "exact_name": "Height",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1469161,7 +1469039,7 @@
         "kind": "property_let",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Visible",
+        "name": "Height",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1469173,17 +1469051,17 @@
             "optional": false,
             "param_array": false,
             "array": false,
-            "type": "Boolean",
+            "type": "Single",
             "default": null,
-            "raw": "ByVal Value As Boolean"
+            "raw": "ByVal Value As Single"
           }
         ],
         "return_type": null,
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 86,
-          "end_line": 86,
-          "text": "Public Property Let Visible(ByVal Value As Boolean)"
+          "start_line": 182,
+          "end_line": 182,
+          "text": "Public Property Let Height(ByVal Value As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:008:0016",
@@ -1469265,15 +1469143,15 @@
       "row_status": "unexpected_public"
     },
     {
-      "row_id": "unexpected-public-member:source:008:0019",
+      "row_id": "unexpected-public-member:source:008:0017",
       "row_kind": "unexpected_public_member",
       "source_authority": "oxforms_vba_surface",
       "facade_owner_type_id": null,
       "declaration_owner_type_id": null,
       "source_refs": [
-        "source:008:0019"
+        "source:008:0017"
       ],
-      "exact_name": "PerformClick",
+      "exact_name": "Visible",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1469286,23 +1469164,23 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "sub",
+        "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "PerformClick",
+        "name": "Visible",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [],
-        "return_type": null,
+        "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 98,
-          "end_line": 98,
-          "text": "Public Sub PerformClick()"
+          "start_line": 186,
+          "end_line": 186,
+          "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
-        "source_declaration_id": "source:008:0019",
+        "source_declaration_id": "source:008:0017",
         "owner": "Label",
         "owner_profiles": [
           "headless_runner_forced",
@@ -1469314,7 +1469192,7 @@
           "status": "partial",
           "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
           "evidence": [
-            "source:008:0019"
+            "source:008:0017"
           ]
         },
         "bind": {
@@ -1469381,15 +1469259,15 @@
       "row_status": "unexpected_public"
     },
     {
-      "row_id": "unexpected-public-member:source:008:0020",
+      "row_id": "unexpected-public-member:source:008:0018",
       "row_kind": "unexpected_public_member",
       "source_authority": "oxforms_vba_surface",
       "facade_owner_type_id": null,
       "declaration_owner_type_id": null,
       "source_refs": [
-        "source:008:0020"
+        "source:008:0018"
       ],
-      "exact_name": "PerformMouseDown",
+      "exact_name": "Visible",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1469402,68 +1469280,35 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "sub",
+        "kind": "property_let",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "PerformMouseDown",
+        "name": "Visible",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [
           {
             "index": 0,
-            "name": "Button",
+            "name": "Value",
             "passing": "byval",
             "optional": false,
             "param_array": false,
             "array": false,
-            "type": "Integer",
+            "type": "Boolean",
             "default": null,
-            "raw": "ByVal Button As Integer"
-          },
-          {
-            "index": 1,
-            "name": "Shift",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Integer",
-            "default": null,
-            "raw": "ByVal Shift As Integer"
-          },
-          {
-            "index": 2,
-            "name": "X",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Single",
-            "default": null,
-            "raw": "ByVal X As Single"
-          },
-          {
-            "index": 3,
-            "name": "Y",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Single",
-            "default": null,
-            "raw": "ByVal Y As Single"
+            "raw": "ByVal Value As Boolean"
           }
         ],
         "return_type": null,
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 102,
-          "end_line": 102,
-          "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
+          "start_line": 189,
+          "end_line": 189,
+          "text": "Public Property Let Visible(ByVal Value As Boolean)"
         },
         "member_attributes": {},
-        "source_declaration_id": "source:008:0020",
+        "source_declaration_id": "source:008:0018",
         "owner": "Label",
         "owner_profiles": [
           "headless_runner_forced",
@@ -1469475,7 +1469320,7 @@
           "status": "partial",
           "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
           "evidence": [
-            "source:008:0020"
+            "source:008:0018"
           ]
         },
         "bind": {
@@ -1469550,6 +1469395,283 @@
       "source_refs": [
         "source:008:0021"
       ],
+      "exact_name": "PerformClick",
+      "memid": null,
+      "visibility": {
+        "hidden": false,
+        "nonbrowsable": false,
+        "restricted": false,
+        "type_flags": [],
+        "member_flags": []
+      },
+      "disposition": "unexpected_public",
+      "disposition_basis": "Every unmapped public declaration remains a failing row.",
+      "contract": null,
+      "actual": {
+        "kind": "sub",
+        "visibility": "public",
+        "explicit_visibility": true,
+        "name": "PerformClick",
+        "bracketed_name": false,
+        "default_member": false,
+        "static": false,
+        "parameters": [],
+        "return_type": null,
+        "source": {
+          "path": "vba/calcforms/Label.cls",
+          "start_line": 201,
+          "end_line": 201,
+          "text": "Public Sub PerformClick()"
+        },
+        "member_attributes": {},
+        "source_declaration_id": "source:008:0021",
+        "owner": "Label",
+        "owner_profiles": [
+          "headless_runner_forced",
+          "bootstrap_forced"
+        ]
+      },
+      "dimensions": {
+        "type_or_declaration": {
+          "status": "partial",
+          "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
+          "evidence": [
+            "source:008:0021"
+          ]
+        },
+        "bind": {
+          "status": "partial",
+          "basis": "The unexpected member is reachable in one or more current exposure profiles.",
+          "evidence": []
+        },
+        "method": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "get": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "put": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "putref": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "default_binding": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "error_coercion": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "event": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "render": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "persistence": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "oracle": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "tests": {
+          "status": "missing",
+          "basis": "No boundary test proves the unexpected member is inaccessible.",
+          "evidence": []
+        }
+      },
+      "row_status": "unexpected_public"
+    },
+    {
+      "row_id": "unexpected-public-member:source:008:0022",
+      "row_kind": "unexpected_public_member",
+      "source_authority": "oxforms_vba_surface",
+      "facade_owner_type_id": null,
+      "declaration_owner_type_id": null,
+      "source_refs": [
+        "source:008:0022"
+      ],
+      "exact_name": "PerformMouseDown",
+      "memid": null,
+      "visibility": {
+        "hidden": false,
+        "nonbrowsable": false,
+        "restricted": false,
+        "type_flags": [],
+        "member_flags": []
+      },
+      "disposition": "unexpected_public",
+      "disposition_basis": "Every unmapped public declaration remains a failing row.",
+      "contract": null,
+      "actual": {
+        "kind": "sub",
+        "visibility": "public",
+        "explicit_visibility": true,
+        "name": "PerformMouseDown",
+        "bracketed_name": false,
+        "default_member": false,
+        "static": false,
+        "parameters": [
+          {
+            "index": 0,
+            "name": "Button",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Integer",
+            "default": null,
+            "raw": "ByVal Button As Integer"
+          },
+          {
+            "index": 1,
+            "name": "Shift",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Integer",
+            "default": null,
+            "raw": "ByVal Shift As Integer"
+          },
+          {
+            "index": 2,
+            "name": "X",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Single",
+            "default": null,
+            "raw": "ByVal X As Single"
+          },
+          {
+            "index": 3,
+            "name": "Y",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Single",
+            "default": null,
+            "raw": "ByVal Y As Single"
+          }
+        ],
+        "return_type": null,
+        "source": {
+          "path": "vba/calcforms/Label.cls",
+          "start_line": 205,
+          "end_line": 205,
+          "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
+        },
+        "member_attributes": {},
+        "source_declaration_id": "source:008:0022",
+        "owner": "Label",
+        "owner_profiles": [
+          "headless_runner_forced",
+          "bootstrap_forced"
+        ]
+      },
+      "dimensions": {
+        "type_or_declaration": {
+          "status": "partial",
+          "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
+          "evidence": [
+            "source:008:0022"
+          ]
+        },
+        "bind": {
+          "status": "partial",
+          "basis": "The unexpected member is reachable in one or more current exposure profiles.",
+          "evidence": []
+        },
+        "method": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "get": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "put": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "putref": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "default_binding": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "error_coercion": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "event": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "render": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "persistence": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "oracle": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "tests": {
+          "status": "missing",
+          "basis": "No boundary test proves the unexpected member is inaccessible.",
+          "evidence": []
+        }
+      },
+      "row_status": "unexpected_public"
+    },
+    {
+      "row_id": "unexpected-public-member:source:008:0023",
+      "row_kind": "unexpected_public_member",
+      "source_authority": "oxforms_vba_surface",
+      "facade_owner_type_id": null,
+      "declaration_owner_type_id": null,
+      "source_refs": [
+        "source:008:0023"
+      ],
       "exact_name": "PerformMouseUp",
       "memid": null,
       "visibility": {
@@ -1469619,12 +1469741,12 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/Label.cls",
-          "start_line": 106,
-          "end_line": 106,
+          "start_line": 209,
+          "end_line": 209,
           "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
-        "source_declaration_id": "source:008:0021",
+        "source_declaration_id": "source:008:0023",
         "owner": "Label",
         "owner_profiles": [
           "headless_runner_forced",
@@ -1469636,7 +1469758,7 @@
           "status": "partial",
           "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
           "evidence": [
-            "source:008:0021"
+            "source:008:0023"
           ]
         },
         "bind": {
@@ -1528269,9 +1528391,9 @@
       "bind": {
         "excluded_authoritative": 1397,
         "implemented_unverified": 13,
-        "missing": 1933,
+        "missing": 1932,
         "not_applicable": 3586,
-        "partial": 825
+        "partial": 826
       },
       "method": {
         "excluded_authoritative": 441,
@@ -1528281,15 +1528403,15 @@
       },
       "get": {
         "excluded_authoritative": 441,
-        "missing": 1038,
+        "missing": 1037,
         "not_applicable": 6192,
-        "partial": 83
+        "partial": 84
       },
       "put": {
         "excluded_authoritative": 441,
-        "missing": 923,
+        "missing": 922,
         "not_applicable": 6325,
-        "partial": 65
+        "partial": 66
       },
       "putref": {
         "excluded_authoritative": 441,
@@ -1549874,8 +1549996,8 @@
           },
           "bind": {
             "excluded_authoritative": 7,
-            "missing": 29,
-            "partial": 6
+            "missing": 28,
+            "partial": 7
           },
           "method": {
             "excluded_authoritative": 7,
@@ -1549883,15 +1550005,15 @@
           },
           "get": {
             "excluded_authoritative": 7,
-            "missing": 23,
+            "missing": 22,
             "not_applicable": 10,
-            "partial": 2
+            "partial": 3
           },
           "put": {
             "excluded_authoritative": 7,
-            "missing": 23,
+            "missing": 22,
             "not_applicable": 10,
-            "partial": 2
+            "partial": 3
           },
           "putref": {
             "excluded_authoritative": 7,
@@ -1555897,9 +1556019,9 @@
           },
           "bind": {
             "excluded_authoritative": 7,
-            "missing": 29,
+            "missing": 28,
             "not_applicable": 13,
-            "partial": 6
+            "partial": 7
           },
           "method": {
             "excluded_authoritative": 7,
@@ -1555907,15 +1556029,15 @@
           },
           "get": {
             "excluded_authoritative": 7,
-            "missing": 23,
+            "missing": 22,
             "not_applicable": 23,
-            "partial": 2
+            "partial": 3
           },
           "put": {
             "excluded_authoritative": 7,
-            "missing": 23,
+            "missing": 22,
             "not_applicable": 23,
-            "partial": 2
+            "partial": 3
           },
           "putref": {
             "excluded_authoritative": 7,
@@ -1563114,7 +1563236,7 @@
       "class_modules": 33,
       "standard_modules": 4,
       "project_declared_exposed_modules": 5,
-      "public_declarations": 834,
+      "public_declarations": 836,
       "public_events": 114,
       "public_enum_constants": 25,
       "public_type_fields": 10,
@@ -1563128,5 +1563250,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "54eb767ed6c5cc43bec9bc58e77507c787595a1ebd9fc30ae1481bfac871c7b8"
+  "canonical_sha256": "7070c94509899b34b28bc05b6f36b50181686861ea6db228edb39d338b6f1224"
 }

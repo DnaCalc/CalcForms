@@ -9,11 +9,15 @@ Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X 
 Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 
 Private mCore As OxControlCore
+Private mTokens As Collection
+Private mWordWrap As Boolean
 
 Private Sub Class_Initialize()
     Set mCore = Nothing
     Set mCore = New OxControlCore
     mCore.Init oxControlLabel
+    Set mTokens = New Collection
+    mWordWrap = True
 End Sub
 
 ' --- IOxControl ---
@@ -29,7 +33,13 @@ End Property
 
 ' Display-only flat face + left-aligned caption (no edge: Label defaults Flat).
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxPaintStandardControl mCore, Surface, "left"
+    If InStr(1, Caption, vbCr) = 0 And InStr(1, Caption, vbLf) = 0 Then
+        If Not mWordWrap Or mCore.MeasuredWidth <= mCore.Width Or mCore.AutoSize Then
+            OxPaintStandardControl mCore, Surface, "left"
+            Exit Sub
+        End If
+    End If
+    PaintLines Surface
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -45,8 +55,101 @@ Public Property Get Caption() As String
     Caption = mCore.DisplayText
 End Property
 Public Property Let Caption(ByVal Value As String)
+    If mCore.DisplayText = Value Then Exit Property
     mCore.DisplayText = Value
+    RebuildTextParts
 End Property
+
+Public Property Get WordWrap() As Boolean
+    WordWrap = mWordWrap
+End Property
+Public Property Let WordWrap(ByVal Value As Boolean)
+    If mWordWrap = Value Then Exit Property
+    mWordWrap = Value
+    mCore.MarkDirty
+End Property
+
+' The whole caption remains part 0 for AutoSize and the common unwrapped path.
+' Tokens share the form's one measurement batch; layout stays in the VBA control.
+Private Sub RebuildTextParts()
+    Set mTokens = New Collection
+    Dim I As Long, Ch As String, Token As String, Space As Boolean, WasSpace As Boolean
+    I = 1
+    Do While I <= Len(Caption)
+        Ch = Mid$(Caption, I, 1)
+        If Ch = vbCr Or Ch = vbLf Then
+            If Len(Token) > 0 Then mTokens.Add Token
+            Token = ""
+            If Ch = vbCr And Mid$(Caption, I + 1, 1) = vbLf Then
+                Ch = vbCrLf
+                I = I + 1
+            End If
+            mTokens.Add Ch
+        Else
+            Space = (Ch = " " Or Ch = vbTab)
+            If Len(Token) > 0 And Space <> WasSpace Then
+                mTokens.Add Token
+                Token = ""
+            End If
+            Token = Token & Ch
+            WasSpace = Space
+        End If
+        I = I + 1
+    Loop
+    If Len(Token) > 0 Then mTokens.Add Token
+    Dim Parts As Collection
+    Set Parts = New Collection
+    If Len(Caption) > 0 Then
+        Parts.Add Caption
+        For I = 1 To mTokens.Count
+            Parts.Add CStr(mTokens.Item(I))
+        Next I
+    End If
+    mCore.SetTextParts Parts
+End Sub
+
+Private Sub PaintLines(ByVal Surface As OxSceneBuilder)
+    Surface.OpenNode mCore.NodeId, True, mCore.PaintParentId, mCore.ZOrder, _
+        mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, mCore.Visible
+    OxThemePaintControlFrame mCore, Surface
+    Dim I As Long, Token As String, X As Single, Y As Single, Pending As Single
+    Dim W As Single, HasWord As Boolean, LineHeight As Single
+    Y = mCore.PaintTop + 0.75
+    LineHeight = mCore.MeasuredHeight
+    If LineHeight < 1 Then LineHeight = 1
+    For I = 1 To mTokens.Count
+        Token = CStr(mTokens.Item(I))
+        If Token = vbCr Or Token = vbLf Or Token = vbCrLf Then
+            X = 0
+            Pending = 0
+            HasWord = False
+            Y = Y + LineHeight
+        ElseIf Left$(Token, 1) = " " Or Left$(Token, 1) = vbTab Then
+            If HasWord Then
+                Pending = Pending + mCore.TextPartWidth(I)
+            Else
+                X = X + mCore.TextPartWidth(I)
+            End If
+        Else
+            W = mCore.TextPartWidth(I)
+            If mWordWrap And HasWord And X + Pending + W > mCore.Width Then
+                X = 0
+                Pending = 0
+                HasWord = False
+                Y = Y + LineHeight
+            End If
+            X = X + Pending
+            Pending = 0
+            If Y < mCore.PaintTop + mCore.Height And W > 0 Then
+                OxThemePaintTextRun mCore, Surface, mCore.PaintLeft + X, Y, W, LineHeight, _
+                    mCore.TextPartRunId(I), "left", False, True, False
+            End If
+            X = X + W
+            HasWord = True
+        End If
+    Next I
+    Surface.CloseNode
+End Sub
 
 Public Property Get Name() As String
     Name = mCore.Name

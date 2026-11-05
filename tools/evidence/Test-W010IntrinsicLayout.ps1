@@ -17,3 +17,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Forms parity replay failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'ComboBox spacing replay failed.' }
 & python -B (Join-Path $root 'tools/office-oracle/literal_text_reference.py')
 if ($LASTEXITCODE -ne 0) { throw 'Literal text replay failed.' }
+& python -B (Join-Path $root 'tools/office-oracle/label_wrap_reference.py')
+if ($LASTEXITCODE -ne 0) { throw 'Label wrap replay failed.' }

@@ -954,7 +954,7 @@ class CurrentCalcFormsSurfaceCensusTests(unittest.TestCase):
                 "class_modules": 33,
                 "standard_modules": 4,
                 "project_declared_exposed_modules": 5,
-                "public_declarations": 834,
+                "public_declarations": 836,
                 "public_events": 114,
                 "public_enum_constants": 25,
                 "public_type_fields": 10,
@@ -970,7 +970,7 @@ class CurrentCalcFormsSurfaceCensusTests(unittest.TestCase):
             surface["summary"],
         )
         self.assertEqual(
-            "6b3b531cf8cacb887d6b46f21e7954ce485367314737fca5237e7cef1a6e34e5",
+            "d8d8b0223b0aa5d1973b6798663bcd328e60ad83bdbecec2776f4b3afcd66f65",
             surface["canonical_sha256"],
         )
         by_name = {module["name"]: module for module in surface["modules"]}

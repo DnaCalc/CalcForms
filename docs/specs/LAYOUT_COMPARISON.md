@@ -157,6 +157,15 @@ The retained run keeps the literal string and its complete caret positions;
 generic shaping receives a separate explicit accelerator index. Captured
 text/value reads and two-scale images are retained with the before/after reports.
 
+Label WordWrap defaults to True and survives workbook decoding. Captions with
+explicit breaks or overflowing words use individually measured tokens in the
+same form text batch. The observed 70pt label breaks before character offset
+19 at both scales, matching native lines `Long clipped label` / `AgjpQy`.
+The first line keeps its top origin when another line is clipped. These facts
+establish the recorded word-boundary case, not arbitrary long-word, tab or
+mixed-script wrapping. The saved ink-width mismatch remains a failed text row;
+line breaks must be evaluated separately from font advance differences.
+
 ListBox rows now provide separate text fragments through Core's project-internal
 Friend methods. UserForm measures all fragments in its existing one batch;
 no row-level Rust control logic or extra crossing is introduced. The measured
