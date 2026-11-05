@@ -31,6 +31,7 @@ from desktop_lease import desktop_lease
 from layout_corpus import author_excel, load_corpus
 from probe_source import validate_probe_source
 from layout_measurements import measure
+from layout_pixels import rank_controls
 from capture_qualification import choose_capture
 from workbook_comparison_session import (EXCEL, PREFIX, ROOT, WORKBOOK, capture,
     command_lines, emit, launch, native_excel, stop_owned, wait_for, windows)
@@ -375,10 +376,12 @@ End Function
                 'capture': 'PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen',
                 'input': 'none; initial handlers only' if label == 'initial' else 'see session input log'}
         data['measurements'] = measure(data, json.loads(self.scene_path.read_text(encoding='utf-8')))
+        data['control_pixels'] = rank_controls(data, native, runtime)
         (directory / 'comparison.json').write_text(json.dumps(data, indent=2) + '\n')
         self.comparisons.append({'form': self.selected_form, 'zoom': self.zoom,
                                  'comparison': str((directory / 'comparison.json').relative_to(self.output)),
                                  'pixels': data['pixels'], 'max_abs_delta_pt': data['measurements']['max_abs_delta_pt'],
+                                 'largest_control_regions': data['control_pixels']['ranked'][:3],
                                  'client_size_equal': data['measurements']['client_size_equal']})
         self.save_summary()
         emit({'stage': 'snapshot', 'path': str(directory / 'comparison.json'), 'pixels': data['pixels']})

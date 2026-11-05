@@ -7,3 +7,5 @@ $root = (Resolve-Path -LiteralPath (Join-Path $PSScriptRoot '../..')).Path
 if ($LASTEXITCODE -ne 0) { throw 'Layout comparator unit tests failed.' }
 & python -B (Join-Path $root 'tools/office-oracle/validate_layout_reference.py')
 if ($LASTEXITCODE -ne 0) { throw 'Intrinsic layout references failed.' }
+& python -B (Join-Path $root 'tools/office-oracle/layout_pixels.py') --reference (Join-Path $root 'docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/comparison.json') --check (Join-Path $root 'docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.86/control-ranking.json')
+if ($LASTEXITCODE -ne 0) { throw 'Control pixel ranking replay failed.' }

@@ -25,6 +25,9 @@ pixels, selecting a whole captured image or rejecting an invalid comparison.
 `.85` restores Frame caption/border painting and aligns nested child origins;
 its separate child clip and two-scale pixel improvements are recorded in
 [the Frame evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.85/README.md).
+`.86` adds root-control pixel rankings and Office-independent replay; the
+recorded corpus puts ListBox row painting first at both scales. Its source
+cause and measurement limits remain recorded in the `.23`/`.33` lanes.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

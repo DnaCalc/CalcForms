@@ -1,0 +1,1142 @@
+{
+  "schema": "calcforms.control_pixel_ranking.v1",
+  "pixel_parity_claimed": false,
+  "reference": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/comparison.json",
+  "reference_canonical_json_sha256": "bba653531ff579a3e4b229c1321785292289d825911ed12d9d6dec46b7019608",
+  "observations": [
+    {
+      "form": "greeter",
+      "zoom": 100,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "Greet",
+            "kind": "CommandButton",
+            "roi_px": [
+              264,
+              48,
+              360,
+              81
+            ],
+            "pixels": 3168,
+            "different_pixels": 926,
+            "different_fraction": 0.2922979797979798,
+            "mean_absolute_rgb": [
+              29.851641414141415,
+              30.66256313131313,
+              30.63415404040404
+            ],
+            "absolute_rgb_error": 288758
+          },
+          {
+            "name": "InputName",
+            "kind": "TextBox",
+            "roi_px": [
+              15,
+              48,
+              243,
+              75
+            ],
+            "pixels": 6156,
+            "different_pixels": 1216,
+            "different_fraction": 0.19753086419753085,
+            "mean_absolute_rgb": [
+              13.251624431448993,
+              13.230994152046783,
+              13.203703703703704
+            ],
+            "absolute_rgb_error": 244309
+          },
+          {
+            "name": "Loud",
+            "kind": "CheckBox",
+            "roi_px": [
+              15,
+              87,
+              176,
+              112
+            ],
+            "pixels": 4025,
+            "different_pixels": 447,
+            "different_fraction": 0.11105590062111802,
+            "mean_absolute_rgb": [
+              8.64944099378882,
+              10.045714285714286,
+              10.077267080745342
+            ],
+            "absolute_rgb_error": 115809
+          },
+          {
+            "name": "Prompt",
+            "kind": "Label",
+            "roi_px": [
+              15,
+              15,
+              144,
+              40
+            ],
+            "pixels": 3225,
+            "different_pixels": 329,
+            "different_fraction": 0.102015503875969,
+            "mean_absolute_rgb": [
+              10.150077519379845,
+              10.766511627906977,
+              11.07906976744186
+            ],
+            "absolute_rgb_error": 103186
+          },
+          {
+            "name": "Output",
+            "kind": "Label",
+            "roi_px": [
+              15,
+              128,
+              361,
+              158
+            ],
+            "pixels": 10380,
+            "different_pixels": 272,
+            "different_fraction": 0.026204238921001925,
+            "mean_absolute_rgb": [
+              2.3964354527938343,
+              2.490751445086705,
+              2.727456647398844
+            ],
+            "absolute_rgb_error": 79040
+          }
+        ],
+        "skipped": [],
+        "scale_px_per_pt": [
+          1.3333333333333333,
+          1.3333333333333333
+        ]
+      }
+    },
+    {
+      "form": "greeter",
+      "zoom": 150,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "InputName",
+            "kind": "TextBox",
+            "roi_px": [
+              23,
+              72,
+              364,
+              113
+            ],
+            "pixels": 13981,
+            "different_pixels": 1941,
+            "different_fraction": 0.13883127101065731,
+            "mean_absolute_rgb": [
+              10.794935984550461,
+              10.7314212145054,
+              10.616336456619699
+            ],
+            "absolute_rgb_error": 449387
+          },
+          {
+            "name": "Greet",
+            "kind": "CommandButton",
+            "roi_px": [
+              396,
+              72,
+              540,
+              121
+            ],
+            "pixels": 7056,
+            "different_pixels": 1612,
+            "different_fraction": 0.22845804988662133,
+            "mean_absolute_rgb": [
+              20.67800453514739,
+              20.900793650793652,
+              21.598497732426303
+            ],
+            "absolute_rgb_error": 445779
+          },
+          {
+            "name": "Loud",
+            "kind": "CheckBox",
+            "roi_px": [
+              23,
+              131,
+              264,
+              168
+            ],
+            "pixels": 8917,
+            "different_pixels": 914,
+            "different_fraction": 0.10250084109005271,
+            "mean_absolute_rgb": [
+              11.586407984748234,
+              11.458786587417293,
+              11.51216776942918
+            ],
+            "absolute_rgb_error": 308148
+          },
+          {
+            "name": "Prompt",
+            "kind": "Label",
+            "roi_px": [
+              23,
+              23,
+              216,
+              60
+            ],
+            "pixels": 7141,
+            "different_pixels": 645,
+            "different_fraction": 0.09032348410586752,
+            "mean_absolute_rgb": [
+              11.87494748634645,
+              11.410306679736731,
+              10.503010782803528
+            ],
+            "absolute_rgb_error": 241282
+          },
+          {
+            "name": "Output",
+            "kind": "Label",
+            "roi_px": [
+              23,
+              192,
+              541,
+              237
+            ],
+            "pixels": 23310,
+            "different_pixels": 528,
+            "different_fraction": 0.02265122265122265,
+            "mean_absolute_rgb": [
+              2.867996567996568,
+              2.633376233376233,
+              2.3767481767481766
+            ],
+            "absolute_rgb_error": 183639
+          }
+        ],
+        "skipped": [],
+        "scale_px_per_pt": [
+          2.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "LongInput",
+            "kind": "TextBox",
+            "roi_px": [
+              16,
+              144,
+              216,
+              171
+            ],
+            "pixels": 5400,
+            "different_pixels": 2405,
+            "different_fraction": 0.44537037037037036,
+            "mean_absolute_rgb": [
+              40.96888888888889,
+              41.17981481481481,
+              39.5787037037037
+            ],
+            "absolute_rgb_error": 657328
+          },
+          {
+            "name": "Greet",
+            "kind": "CommandButton",
+            "roi_px": [
+              264,
+              48,
+              376,
+              80
+            ],
+            "pixels": 3584,
+            "different_pixels": 1022,
+            "different_fraction": 0.28515625,
+            "mean_absolute_rgb": [
+              29.162388392857142,
+              29.885323660714285,
+              29.861328125
+            ],
+            "absolute_rgb_error": 318650
+          },
+          {
+            "name": "InputName",
+            "kind": "TextBox",
+            "roi_px": [
+              16,
+              48,
+              243,
+              75
+            ],
+            "pixels": 6129,
+            "different_pixels": 1203,
+            "different_fraction": 0.19627998042094957,
+            "mean_absolute_rgb": [
+              13.141948115516398,
+              13.124490128895415,
+              13.096753140806005
+            ],
+            "absolute_rgb_error": 241257
+          },
+          {
+            "name": "Clipped",
+            "kind": "Label",
+            "roi_px": [
+              216,
+              100,
+              310,
+              116
+            ],
+            "pixels": 1504,
+            "different_pixels": 701,
+            "different_fraction": 0.4660904255319149,
+            "mean_absolute_rgb": [
+              48.808510638297875,
+              50.744680851063826,
+              50.18882978723404
+            ],
+            "absolute_rgb_error": 225212
+          },
+          {
+            "name": "Prompt",
+            "kind": "Label",
+            "roi_px": [
+              16,
+              16,
+              243,
+              40
+            ],
+            "pixels": 5448,
+            "different_pixels": 667,
+            "different_fraction": 0.1224302496328928,
+            "mean_absolute_rgb": [
+              12.873898678414097,
+              13.45319383259912,
+              13.19988986784141
+            ],
+            "absolute_rgb_error": 215343
+          },
+          {
+            "name": "Fractional",
+            "kind": "Label",
+            "roi_px": [
+              16,
+              99,
+              181,
+              124
+            ],
+            "pixels": 4125,
+            "different_pixels": 586,
+            "different_fraction": 0.14206060606060605,
+            "mean_absolute_rgb": [
+              12.064727272727273,
+              12.411636363636363,
+              11.545454545454545
+            ],
+            "absolute_rgb_error": 148590
+          },
+          {
+            "name": "Disabled",
+            "kind": "CommandButton",
+            "roi_px": [
+              264,
+              144,
+              376,
+              176
+            ],
+            "pixels": 3584,
+            "different_pixels": 762,
+            "different_fraction": 0.21261160714285715,
+            "mean_absolute_rgb": [
+              11.143136160714286,
+              11.346540178571429,
+              11.113839285714286
+            ],
+            "absolute_rgb_error": 120435
+          }
+        ],
+        "skipped": [],
+        "scale_px_per_pt": [
+          1.3333333333333333,
+          1.3333333333333333
+        ]
+      }
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "LongInput",
+            "kind": "TextBox",
+            "roi_px": [
+              24,
+              216,
+              324,
+              256
+            ],
+            "pixels": 12000,
+            "different_pixels": 4285,
+            "different_fraction": 0.3570833333333333,
+            "mean_absolute_rgb": [
+              40.05283333333333,
+              40.65141666666667,
+              40.00416666666667
+            ],
+            "absolute_rgb_error": 1448501
+          },
+          {
+            "name": "Fractional",
+            "kind": "Label",
+            "roi_px": [
+              24,
+              149,
+              272,
+              185
+            ],
+            "pixels": 8928,
+            "different_pixels": 1336,
+            "different_fraction": 0.1496415770609319,
+            "mean_absolute_rgb": [
+              18.23902329749104,
+              18.442428315412187,
+              18.58467741935484
+            ],
+            "absolute_rgb_error": 493416
+          },
+          {
+            "name": "Prompt",
+            "kind": "Label",
+            "roi_px": [
+              24,
+              24,
+              364,
+              60
+            ],
+            "pixels": 12240,
+            "different_pixels": 1320,
+            "different_fraction": 0.10784313725490197,
+            "mean_absolute_rgb": [
+              13.633660130718955,
+              13.54485294117647,
+              13.12671568627451
+            ],
+            "absolute_rgb_error": 493336
+          },
+          {
+            "name": "Greet",
+            "kind": "CommandButton",
+            "roi_px": [
+              396,
+              72,
+              564,
+              120
+            ],
+            "pixels": 8064,
+            "different_pixels": 1781,
+            "different_fraction": 0.2208581349206349,
+            "mean_absolute_rgb": [
+              19.998015873015873,
+              20.192708333333332,
+              20.809151785714285
+            ],
+            "absolute_rgb_error": 491903
+          },
+          {
+            "name": "InputName",
+            "kind": "TextBox",
+            "roi_px": [
+              24,
+              72,
+              364,
+              112
+            ],
+            "pixels": 13600,
+            "different_pixels": 1841,
+            "different_fraction": 0.13536764705882354,
+            "mean_absolute_rgb": [
+              10.202720588235294,
+              10.136838235294118,
+              10.021470588235294
+            ],
+            "absolute_rgb_error": 412910
+          },
+          {
+            "name": "Clipped",
+            "kind": "Label",
+            "roi_px": [
+              324,
+              150,
+              464,
+              174
+            ],
+            "pixels": 3360,
+            "different_pixels": 1187,
+            "different_fraction": 0.35327380952380955,
+            "mean_absolute_rgb": [
+              32.86875,
+              28.651785714285715,
+              30.586607142857144
+            ],
+            "absolute_rgb_error": 309480
+          },
+          {
+            "name": "Disabled",
+            "kind": "CommandButton",
+            "roi_px": [
+              396,
+              216,
+              564,
+              264
+            ],
+            "pixels": 8064,
+            "different_pixels": 1442,
+            "different_fraction": 0.17881944444444445,
+            "mean_absolute_rgb": [
+              6.560267857142857,
+              7.06609623015873,
+              7.566964285714286
+            ],
+            "absolute_rgb_error": 170903
+          }
+        ],
+        "skipped": [],
+        "scale_px_per_pt": [
+          2.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "Choices",
+            "kind": "ListBox",
+            "roi_px": [
+              16,
+              152,
+              190,
+              248
+            ],
+            "pixels": 16704,
+            "different_pixels": 5012,
+            "different_fraction": 0.3000478927203065,
+            "mean_absolute_rgb": [
+              56.393498563218394,
+              34.30423850574713,
+              17.255926724137932
+            ],
+            "absolute_rgb_error": 1803258
+          },
+          {
+            "name": "ToggleOff",
+            "kind": "ToggleButton",
+            "roi_px": [
+              16,
+              96,
+              190,
+              128
+            ],
+            "pixels": 5568,
+            "different_pixels": 1193,
+            "different_fraction": 0.21426005747126436,
+            "mean_absolute_rgb": [
+              20.644576149425287,
+              21.077406609195403,
+              20.52747844827586
+            ],
+            "absolute_rgb_error": 346605
+          },
+          {
+            "name": "ToggleOn",
+            "kind": "ToggleButton",
+            "roi_px": [
+              232,
+              96,
+              406,
+              128
+            ],
+            "pixels": 5568,
+            "different_pixels": 5504,
+            "different_fraction": 0.9885057471264368,
+            "mean_absolute_rgb": [
+              16.02137212643678,
+              16.373563218390803,
+              16.576688218390803
+            ],
+            "absolute_rgb_error": 272674
+          },
+          {
+            "name": "Dropdown",
+            "kind": "ComboBox",
+            "roi_px": [
+              232,
+              152,
+              406,
+              180
+            ],
+            "pixels": 4872,
+            "different_pixels": 1326,
+            "different_fraction": 0.27216748768472904,
+            "mean_absolute_rgb": [
+              18.016830870279147,
+              18.01518883415435,
+              17.776272577996718
+            ],
+            "absolute_rgb_error": 262154
+          },
+          {
+            "name": "OptionOne",
+            "kind": "OptionButton",
+            "roi_px": [
+              16,
+              56,
+              190,
+              80
+            ],
+            "pixels": 4176,
+            "different_pixels": 643,
+            "different_fraction": 0.1539750957854406,
+            "mean_absolute_rgb": [
+              14.930555555555555,
+              15.11111111111111,
+              14.578544061302683
+            ],
+            "absolute_rgb_error": 186334
+          },
+          {
+            "name": "OptionTwo",
+            "kind": "OptionButton",
+            "roi_px": [
+              232,
+              56,
+              406,
+              80
+            ],
+            "pixels": 4176,
+            "different_pixels": 694,
+            "different_fraction": 0.16618773946360152,
+            "mean_absolute_rgb": [
+              14.910919540229886,
+              15.252155172413794,
+              14.23419540229885
+            ],
+            "absolute_rgb_error": 185403
+          },
+          {
+            "name": "Unchecked",
+            "kind": "CheckBox",
+            "roi_px": [
+              16,
+              16,
+              190,
+              40
+            ],
+            "pixels": 4176,
+            "different_pixels": 539,
+            "different_fraction": 0.12907088122605365,
+            "mean_absolute_rgb": [
+              13.868295019157088,
+              15.287595785440613,
+              14.933908045977011
+            ],
+            "absolute_rgb_error": 184119
+          },
+          {
+            "name": "Checked",
+            "kind": "CheckBox",
+            "roi_px": [
+              232,
+              16,
+              406,
+              40
+            ],
+            "pixels": 4176,
+            "different_pixels": 407,
+            "different_fraction": 0.09746168582375479,
+            "mean_absolute_rgb": [
+              5.9351053639846745,
+              6.647030651340996,
+              7.887691570881226
+            ],
+            "absolute_rgb_error": 85482
+          }
+        ],
+        "skipped": [],
+        "scale_px_per_pt": [
+          1.3333333333333333,
+          1.3333333333333333
+        ]
+      }
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "Choices",
+            "kind": "ListBox",
+            "roi_px": [
+              24,
+              228,
+              284,
+              372
+            ],
+            "pixels": 37440,
+            "different_pixels": 11205,
+            "different_fraction": 0.29927884615384615,
+            "mean_absolute_rgb": [
+              60.12689636752137,
+              35.939049145299144,
+              17.277430555555554
+            ],
+            "absolute_rgb_error": 4243576
+          },
+          {
+            "name": "ToggleOff",
+            "kind": "ToggleButton",
+            "roi_px": [
+              24,
+              144,
+              284,
+              192
+            ],
+            "pixels": 12480,
+            "different_pixels": 2428,
+            "different_fraction": 0.19455128205128205,
+            "mean_absolute_rgb": [
+              21.504326923076924,
+              20.90673076923077,
+              20.383092948717948
+            ],
+            "absolute_rgb_error": 783671
+          },
+          {
+            "name": "ToggleOn",
+            "kind": "ToggleButton",
+            "roi_px": [
+              348,
+              144,
+              608,
+              192
+            ],
+            "pixels": 12480,
+            "different_pixels": 11862,
+            "different_fraction": 0.9504807692307692,
+            "mean_absolute_rgb": [
+              15.788060897435898,
+              15.363782051282051,
+              14.678685897435898
+            ],
+            "absolute_rgb_error": 571965
+          },
+          {
+            "name": "Dropdown",
+            "kind": "ComboBox",
+            "roi_px": [
+              348,
+              228,
+              608,
+              270
+            ],
+            "pixels": 10920,
+            "different_pixels": 2703,
+            "different_fraction": 0.24752747252747254,
+            "mean_absolute_rgb": [
+              16.56419413919414,
+              16.538003663003664,
+              16.58562271062271
+            ],
+            "absolute_rgb_error": 542591
+          },
+          {
+            "name": "OptionTwo",
+            "kind": "OptionButton",
+            "roi_px": [
+              348,
+              84,
+              608,
+              120
+            ],
+            "pixels": 9360,
+            "different_pixels": 1413,
+            "different_fraction": 0.15096153846153845,
+            "mean_absolute_rgb": [
+              15.914957264957264,
+              15.426923076923076,
+              14.71068376068376
+            ],
+            "absolute_rgb_error": 431052
+          },
+          {
+            "name": "OptionOne",
+            "kind": "OptionButton",
+            "roi_px": [
+              24,
+              84,
+              284,
+              120
+            ],
+            "pixels": 9360,
+            "different_pixels": 1325,
+            "different_fraction": 0.14155982905982906,
+            "mean_absolute_rgb": [
+              14.60181623931624,
+              14.68301282051282,
+              15.130662393162392
+            ],
+            "absolute_rgb_error": 415729
+          },
+          {
+            "name": "Unchecked",
+            "kind": "CheckBox",
+            "roi_px": [
+              24,
+              24,
+              284,
+              60
+            ],
+            "pixels": 9360,
+            "different_pixels": 1044,
+            "different_fraction": 0.11153846153846154,
+            "mean_absolute_rgb": [
+              14.35576923076923,
+              14.32948717948718,
+              14.172435897435898
+            ],
+            "absolute_rgb_error": 401148
+          },
+          {
+            "name": "Checked",
+            "kind": "CheckBox",
+            "roi_px": [
+              348,
+              24,
+              608,
+              60
+            ],
+            "pixels": 9360,
+            "different_pixels": 817,
+            "different_fraction": 0.08728632478632478,
+            "mean_absolute_rgb": [
+              9.873397435897436,
+              9.832264957264957,
+              9.864316239316238
+            ],
+            "absolute_rgb_error": 276775
+          }
+        ],
+        "skipped": [],
+        "scale_px_per_pt": [
+          2.0,
+          2.0
+        ]
+      }
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "Group",
+            "kind": "Frame",
+            "roi_px": [
+              16,
+              16,
+              248,
+              112
+            ],
+            "pixels": 22272,
+            "different_pixels": 6159,
+            "different_fraction": 0.27653556034482757,
+            "mean_absolute_rgb": [
+              13.683683548850574,
+              13.712239583333334,
+              13.582345545977011
+            ],
+            "absolute_rgb_error": 912668
+          },
+          {
+            "name": "TabsControl",
+            "kind": "TabStrip",
+            "roi_px": [
+              16,
+              192,
+              248,
+              328
+            ],
+            "pixels": 31552,
+            "different_pixels": 4770,
+            "different_fraction": 0.1511790060851927,
+            "mean_absolute_rgb": [
+              8.524847870182557,
+              8.549093559837727,
+              8.525862068965518
+            ],
+            "absolute_rgb_error": 807725
+          },
+          {
+            "name": "PagesControl",
+            "kind": "MultiPage",
+            "roi_px": [
+              280,
+              136,
+              496,
+              328
+            ],
+            "pixels": 41472,
+            "different_pixels": 2032,
+            "different_fraction": 0.048996913580246916,
+            "mean_absolute_rgb": [
+              3.3194685570987654,
+              3.3288001543209877,
+              3.311366705246914
+            ],
+            "absolute_rgb_error": 413046
+          },
+          {
+            "name": "Slider",
+            "kind": "ScrollBar",
+            "roi_px": [
+              16,
+              136,
+              248,
+              160
+            ],
+            "pixels": 5568,
+            "different_pixels": 4316,
+            "different_fraction": 0.7751436781609196,
+            "mean_absolute_rgb": [
+              23.789152298850574,
+              23.789152298850574,
+              23.789152298850574
+            ],
+            "absolute_rgb_error": 397374
+          },
+          {
+            "name": "Picture",
+            "kind": "Image",
+            "roi_px": [
+              280,
+              16,
+              368,
+              88
+            ],
+            "pixels": 6336,
+            "different_pixels": 316,
+            "different_fraction": 0.049873737373737376,
+            "mean_absolute_rgb": [
+              6.982323232323233,
+              6.982323232323233,
+              6.982323232323233
+            ],
+            "absolute_rgb_error": 132720
+          },
+          {
+            "name": "Spinner",
+            "kind": "SpinButton",
+            "roi_px": [
+              400,
+              16,
+              424,
+              88
+            ],
+            "pixels": 1728,
+            "different_pixels": 516,
+            "different_fraction": 0.2986111111111111,
+            "mean_absolute_rgb": [
+              20.010416666666668,
+              20.010416666666668,
+              20.010416666666668
+            ],
+            "absolute_rgb_error": 103734
+          }
+        ],
+        "skipped": [
+          {
+            "name": "Group.NestedInput",
+            "reason": "native parent client origin not measured"
+          },
+          {
+            "name": "Group.NestedLabel",
+            "reason": "native parent client origin not measured"
+          }
+        ],
+        "scale_px_per_pt": [
+          1.3333333333333333,
+          1.3333333333333333
+        ]
+      }
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "control_pixels": {
+        "comparable": true,
+        "native_qualification": null,
+        "scope": "root control union bounds; regions can overlap and errors must not be added",
+        "ranked": [
+          {
+            "name": "Group",
+            "kind": "Frame",
+            "roi_px": [
+              24,
+              24,
+              372,
+              168
+            ],
+            "pixels": 50112,
+            "different_pixels": 14026,
+            "different_fraction": 0.27989303959131545,
+            "mean_absolute_rgb": [
+              13.558848180076629,
+              13.557710727969349,
+              13.57245769476373
+            ],
+            "absolute_rgb_error": 2039008
+          },
+          {
+            "name": "TabsControl",
+            "kind": "TabStrip",
+            "roi_px": [
+              24,
+              288,
+              372,
+              492
+            ],
+            "pixels": 70992,
+            "different_pixels": 10972,
+            "different_fraction": 0.15455262564796032,
+            "mean_absolute_rgb": [
+              9.222053189091728,
+              9.218447148974532,
+              9.223095560063106
+            ],
+            "absolute_rgb_error": 1963894
+          },
+          {
+            "name": "PagesControl",
+            "kind": "MultiPage",
+            "roi_px": [
+              420,
+              204,
+              744,
+              492
+            ],
+            "pixels": 93312,
+            "different_pixels": 4174,
+            "different_fraction": 0.04473165294924554,
+            "mean_absolute_rgb": [
+              3.439096793552812,
+              3.436010373799726,
+              3.4363533093278464
+            ],
+            "absolute_rgb_error": 962183
+          },
+          {
+            "name": "Slider",
+            "kind": "ScrollBar",
+            "roi_px": [
+              24,
+              204,
+              372,
+              240
+            ],
+            "pixels": 12528,
+            "different_pixels": 9929,
+            "different_fraction": 0.792544699872286,
+            "mean_absolute_rgb": [
+              24.412436143039592,
+              24.412436143039592,
+              24.412436143039592
+            ],
+            "absolute_rgb_error": 917517
+          },
+          {
+            "name": "Picture",
+            "kind": "Image",
+            "roi_px": [
+              420,
+              24,
+              552,
+              132
+            ],
+            "pixels": 14256,
+            "different_pixels": 476,
+            "different_fraction": 0.03338945005611672,
+            "mean_absolute_rgb": [
+              4.674523007856341,
+              4.674523007856341,
+              4.674523007856341
+            ],
+            "absolute_rgb_error": 199920
+          },
+          {
+            "name": "Spinner",
+            "kind": "SpinButton",
+            "roi_px": [
+              600,
+              24,
+              636,
+              132
+            ],
+            "pixels": 3888,
+            "different_pixels": 1139,
+            "different_fraction": 0.29295267489711935,
+            "mean_absolute_rgb": [
+              15.93261316872428,
+              15.93261316872428,
+              15.93261316872428
+            ],
+            "absolute_rgb_error": 185838
+          }
+        ],
+        "skipped": [
+          {
+            "name": "Group.NestedInput",
+            "reason": "native parent client origin not measured"
+          },
+          {
+            "name": "Group.NestedLabel",
+            "reason": "native parent client origin not measured"
+          }
+        ],
+        "scale_px_per_pt": [
+          2.0,
+          2.0
+        ]
+      }
+    }
+  ]
+}

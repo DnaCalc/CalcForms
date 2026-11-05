@@ -43,6 +43,17 @@ coordinate rounding remain visible in the measurements. Initial Scene exports
 describe the initial state only; later input snapshots must not be interpreted
 as newly exported text geometry.
 
+Each new comparison also ranks root-control regions by total absolute RGB
+error. Use the union of native/runtime bounds, round outward, and clip to the
+client. Derive pixels per point from the native client/form dimensions.
+Regions may overlap and their errors must not be added. Exclude nested sites
+until the native parent client origin is measured; never infer it from the
+runtime or guess an inset. Unequal clients or failed native qualification
+produce no ranking. Session summaries include the three largest regions.
+`layout_pixels.py --reference <intrinsic-comparison.json> --out <ranking.json>`
+replays saved references without Office or desktop use. Preserve a missing
+historical qualification flag as null rather than claiming new live validation.
+
 `--interactive --serve` accepts `pair`, `snapshot`, `macro` and `close` JSON
 commands in its output directory's `commands.jsonl`. An additional capture
 session can use `--interactive --attach-owned <ownership.json> --keep-excel` to

@@ -41,6 +41,10 @@ client margins, reducing container differences to 7.83%/7.19%. Child-local
 bounds remain unchanged; a 0.025pt native top-inset residual and full `.55`
 parity remain explicit. See the
 [Frame measurements](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.85/README.md).
+`.86` ranks control regions from the same references, preserving native capture
+qualification and explicit nested-origin exclusions. ListBox has the largest
+recorded RGB error at both scales; `.23` owns separate row text runs and native
+row-spacing/selection-color comparison, with related tab captions in `.33`.
 
 Depends on:
 
