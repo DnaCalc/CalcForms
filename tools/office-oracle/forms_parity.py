@@ -336,6 +336,10 @@ def control_report(control, data, native, actual, scale, definition):
             continue
         facts = data.get('parity_measurements', {}).get(name, {}).get(metric, {})
         rows.append(check('colours', metric, facts.get('native'), facts.get('calcforms'), unit='class'))
+    for metric, facts in sorted(data.get('spacing_measurements', {}).get(name, {}).items()):
+        rows.append(check('spacing', metric, facts.get('native'), facts.get('calcforms'), LAYOUT_TOLERANCE_PX))
+    for metric, facts in sorted(data.get('colour_measurements', {}).get(name, {}).items()):
+        rows.append(check('colours', metric, facts.get('native'), facts.get('calcforms'), unit='class'))
     for metric in BEHAVIOURS:
         facts = data.get('behaviour_measurements', {}).get(name, {}).get(metric, {})
         if metric == 'tab_order' and 'tab_index' in expected and 'tab_index' in observed:

@@ -1,0 +1,1897 @@
+{
+  "schema": "calcforms.combo_spacing.v1",
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 23192,
+    "desktop": "CalcFormsOracle_41abe35c61bd"
+  },
+  "observations": [
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            456,
+            319
+          ],
+          "distinct_colors": 135,
+          "sha256": "c2e54e77034f99ecf4385fdab0acadb00ff8443d39842f177919f715f4584ec0"
+        },
+        "children": [
+          {
+            "hwnd": 9112008,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              630,
+              378,
+              1070,
+              658
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              440,
+              280
+            ],
+            "distinct_colors": 124,
+            "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+          },
+          {
+            "hwnd": 35332138,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              646,
+              530,
+              819,
+              625
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              173,
+              95
+            ],
+            "distinct_colors": 61,
+            "sha256": "f31d4895f2c8003846bb2e25fc444993c6132b32c341c875259d6a0efc9f22d9"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "c2e54e77034f99ecf4385fdab0acadb00ff8443d39842f177919f715f4584ec0"
+        },
+        "geometry": {
+          "hwnd": 5835216,
+          "pid": 23192,
+          "window_rect": [
+            622,
+            347,
+            1078,
+            666
+          ],
+          "client_size": [
+            440,
+            280
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            456,
+            319
+          ],
+          "distinct_colors": 448,
+          "sha256": "331e4e9536972bfa16c476c8f9bd56fd19432015b8c320cfb54f107205101691"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "331e4e9536972bfa16c476c8f9bd56fd19432015b8c320cfb54f107205101691"
+        },
+        "geometry": {
+          "hwnd": 316675760,
+          "pid": 14012,
+          "window_rect": [
+            156,
+            156,
+            612,
+            475
+          ],
+          "client_size": [
+            440,
+            280
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "69c660c7001ec1a76aabc4f051d111227a9c7ace59cc9b3312661f947663e8ea"
+        }
+      },
+      "excel_facts": "330;210;100\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "excel_state": null,
+      "calcforms_observation": "Unchecked;CheckBox;12;12;130;18;1;12;12;8.25;0\nChecked;CheckBox;174;12;130;18;2;174;12;8.25;1\nOptionOne;OptionButton;12;42;130;18;3;12;42;8.25;2\nOptionTwo;OptionButton;174;42;130;18;4;174;42;8.25;3\nToggleOff;ToggleButton;12;72;130;24;5;12;72;8.25;4\nToggleOn;ToggleButton;174;72;130;24;6;174;72;8.25;5\nChoices;ListBox;12;114;130;72;7;12;114;8.25;6\nDropdown;ComboBox;174;114;130;21;8;174;114;8.25;7\n",
+      "scene_file": "scene-1793858070193263900.json",
+      "runtime_sha256": "b7612d8da35b11c2f1917dec1293c3a5342a1721fe3fa8f796a4bb2a704d9d1c",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 123200,
+        "different_pixels": 11199,
+        "different_fraction": 0.09090097402597402,
+        "mean_absolute_rgb": [
+          4.3009172077922075,
+          4.436404220779221,
+          4.424618506493506
+        ],
+        "luminance_error_above_32": 3696,
+        "diff": "difference.png"
+      },
+      "native_paint_facts": "",
+      "native_capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "see session input log",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Checked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                174.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Choices",
+            "native": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                71.25
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                72.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                12.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.75
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Dropdown",
+            "native": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "calcforms": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "node_id": 8,
+              "paint_origin": [
+                174.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionOne",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                12.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionTwo",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                174.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOff",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOn",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                174.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Unchecked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.75,
+        "text_runs": [
+          {
+            "text": "Toggle off",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 36.057495,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Gamma",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 28.025024,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Alpha",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 20.322876,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Unchecked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 39.505737,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "First option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 40.943848,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Checked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Beta",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 16.334839,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Toggle on",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Second option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 6499876056816127354,
+            "rect": {
+              "x": 25.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2,
+            "run": 11804432927723802779,
+            "rect": {
+              "x": 187.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 8278848058277314201,
+            "rect": {
+              "x": 25.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 14421308415448605543,
+            "rect": {
+              "x": 187.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 2772520233285191379,
+            "rect": {
+              "x": 16.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 13024755655796459631,
+            "rect": {
+              "x": 178.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 8,
+            "run": 12428100500927987912,
+            "rect": {
+              "x": 183.0,
+              "y": 117.0,
+              "w": 103.5,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 4382064746465576066,
+            "rect": {
+              "x": 20.25,
+              "y": 115.5,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 12428100500927987912,
+            "rect": {
+              "x": 20.25,
+              "y": 125.25,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 3583835791851724691,
+            "rect": {
+              "x": 20.25,
+              "y": 135.0,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          }
+        ],
+        "client_size_equal": true
+      },
+      "source_capture": "target/forms-run6/live/LayoutSelection-combo-aligned-100",
+      "images": [
+        {
+          "file": "LayoutSelection-100-excel.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        },
+        {
+          "file": "LayoutSelection-100-calcforms.png",
+          "sha256": "69c660c7001ec1a76aabc4f051d111227a9c7ace59cc9b3312661f947663e8ea"
+        }
+      ],
+      "parity_scene_nodes": [
+        {
+          "id": 8,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 174.0,
+            "y": 114.0,
+            "w": 130.0,
+            "h": 21.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 174.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 21.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 174.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 21.0
+              },
+              "effect": "sunken",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 289.5,
+                "y": 115.5,
+                "w": 13.5,
+                "h": 18.5
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 289.5,
+                "y": 115.5,
+                "w": 13.5,
+                "h": 18.5
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 293.125,
+                "y": 123.0,
+                "w": 5.25,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 293.875,
+                "y": 123.75,
+                "w": 3.75,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 294.625,
+                "y": 124.5,
+                "w": 2.25,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 295.375,
+                "y": 125.25,
+                "w": 0.75,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 12428100500927987912,
+              "rect": {
+                "x": 183.0,
+                "y": 117.0,
+                "w": 103.5,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "spacing_measurements": {
+        "Dropdown": {
+          "drop_button_rectangle": {
+            "native": [
+              386,
+              154,
+              404,
+              179
+            ],
+            "calcforms": [
+              386.0,
+              154.0,
+              404.0,
+              178.66666666666666
+            ]
+          },
+          "drop_arrow_bounds": {
+            "native": [
+              391,
+              164,
+              398,
+              168
+            ],
+            "calcforms": [
+              390,
+              164,
+              397,
+              168
+            ]
+          },
+          "drop_button_fill_bounds": {
+            "native": [
+              388,
+              156,
+              401,
+              176
+            ],
+            "calcforms": [
+              387,
+              155,
+              404,
+              177
+            ]
+          }
+        }
+      },
+      "colour_measurements": {
+        "Dropdown": {
+          "drop_button_fill_class": {
+            "native": "control-face",
+            "calcforms": "control-face"
+          }
+        }
+      }
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            676,
+            459
+          ],
+          "distinct_colors": 102,
+          "sha256": "d9d66d1ab8b095c63dcdf2ef42e8116b08efed17eff4ed0c4ef363f6654d6018"
+        },
+        "children": [
+          {
+            "hwnd": 9177544,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              520,
+              308,
+              1180,
+              728
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              660,
+              420
+            ],
+            "distinct_colors": 89,
+            "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+          },
+          {
+            "hwnd": 35397674,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              544,
+              536,
+              804,
+              679
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              260,
+              143
+            ],
+            "distinct_colors": 46,
+            "sha256": "b39b0d2607c9375598126df7f1069e9ff0943d60ba4585147ddb447c0f8fc3d8"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "d9d66d1ab8b095c63dcdf2ef42e8116b08efed17eff4ed0c4ef363f6654d6018"
+        },
+        "geometry": {
+          "hwnd": 5900752,
+          "pid": 23192,
+          "window_rect": [
+            512,
+            277,
+            1188,
+            736
+          ],
+          "client_size": [
+            660,
+            420
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            676,
+            459
+          ],
+          "distinct_colors": 498,
+          "sha256": "2f221ac48908fa3357de0355ac39a0fe4b597813432bbee29062ff9828a4e740"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "2f221ac48908fa3357de0355ac39a0fe4b597813432bbee29062ff9828a4e740"
+        },
+        "geometry": {
+          "hwnd": 316741296,
+          "pid": 33828,
+          "window_rect": [
+            182,
+            182,
+            858,
+            641
+          ],
+          "client_size": [
+            660,
+            420
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "841217f2c04e53f5ab3c74755f0c0d67a3908a7ff046d47ff031a20501a45eee"
+        }
+      },
+      "excel_facts": "330;210;150\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "excel_state": null,
+      "calcforms_observation": "Unchecked;CheckBox;12;12;130;18;1;12;12;8.25;0\nChecked;CheckBox;174;12;130;18;2;174;12;8.25;1\nOptionOne;OptionButton;12;42;130;18;3;12;42;8.25;2\nOptionTwo;OptionButton;174;42;130;18;4;174;42;8.25;3\nToggleOff;ToggleButton;12;72;130;24;5;12;72;8.25;4\nToggleOn;ToggleButton;174;72;130;24;6;174;72;8.25;5\nChoices;ListBox;12;114;130;72;7;12;114;8.25;6\nDropdown;ComboBox;174;114;130;21;8;174;114;8.25;7\n",
+      "scene_file": "scene-1793858076424848800.json",
+      "runtime_sha256": "b7612d8da35b11c2f1917dec1293c3a5342a1721fe3fa8f796a4bb2a704d9d1c",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 277200,
+        "different_pixels": 23962,
+        "different_fraction": 0.08644300144300145,
+        "mean_absolute_rgb": [
+          5.354256854256854,
+          5.004686147186147,
+          4.699274891774892
+        ],
+        "luminance_error_above_32": 8759,
+        "diff": "difference.png"
+      },
+      "native_paint_facts": "",
+      "native_capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "see session input log",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Checked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                174.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Choices",
+            "native": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                71.25
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                72.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                12.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.75
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Dropdown",
+            "native": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "calcforms": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "node_id": 8,
+              "paint_origin": [
+                174.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionOne",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                12.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionTwo",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                174.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOff",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOn",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                174.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Unchecked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.75,
+        "text_runs": [
+          {
+            "text": "Toggle off",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 36.057495,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Gamma",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 28.025024,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Alpha",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 20.322876,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Unchecked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 39.505737,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "First option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 40.943848,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Checked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Beta",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 16.334839,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Toggle on",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Second option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 6499876056816127354,
+            "rect": {
+              "x": 25.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2,
+            "run": 11804432927723802779,
+            "rect": {
+              "x": 187.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 8278848058277314201,
+            "rect": {
+              "x": 25.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 14421308415448605543,
+            "rect": {
+              "x": 187.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 2772520233285191379,
+            "rect": {
+              "x": 16.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 13024755655796459631,
+            "rect": {
+              "x": 178.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 8,
+            "run": 12428100500927987912,
+            "rect": {
+              "x": 183.0,
+              "y": 117.0,
+              "w": 103.5,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 4382064746465576066,
+            "rect": {
+              "x": 20.25,
+              "y": 115.5,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 12428100500927987912,
+            "rect": {
+              "x": 20.25,
+              "y": 125.25,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 3583835791851724691,
+            "rect": {
+              "x": 20.25,
+              "y": 135.0,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          }
+        ],
+        "client_size_equal": true
+      },
+      "source_capture": "target/forms-run6/live/LayoutSelection-combo-aligned-150",
+      "images": [
+        {
+          "file": "LayoutSelection-150-excel.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        },
+        {
+          "file": "LayoutSelection-150-calcforms.png",
+          "sha256": "841217f2c04e53f5ab3c74755f0c0d67a3908a7ff046d47ff031a20501a45eee"
+        }
+      ],
+      "parity_scene_nodes": [
+        {
+          "id": 8,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 174.0,
+            "y": 114.0,
+            "w": 130.0,
+            "h": 21.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 174.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 21.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 174.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 21.0
+              },
+              "effect": "sunken",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 289.5,
+                "y": 115.5,
+                "w": 13.5,
+                "h": 18.5
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 289.5,
+                "y": 115.5,
+                "w": 13.5,
+                "h": 18.5
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 293.125,
+                "y": 123.0,
+                "w": 5.25,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 293.875,
+                "y": 123.75,
+                "w": 3.75,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 294.625,
+                "y": 124.5,
+                "w": 2.25,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 295.375,
+                "y": 125.25,
+                "w": 0.75,
+                "h": 0.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 12428100500927987912,
+              "rect": {
+                "x": 183.0,
+                "y": 117.0,
+                "w": 103.5,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "spacing_measurements": {
+        "Dropdown": {
+          "drop_button_rectangle": {
+            "native": [
+              579,
+              231,
+              606,
+              268
+            ],
+            "calcforms": [
+              579.0,
+              231.0,
+              606.0,
+              268.0
+            ]
+          },
+          "drop_arrow_bounds": {
+            "native": [
+              586,
+              246,
+              597,
+              252
+            ],
+            "calcforms": [
+              586,
+              246,
+              596,
+              251
+            ]
+          },
+          "drop_button_fill_bounds": {
+            "native": [
+              582,
+              234,
+              602,
+              264
+            ],
+            "calcforms": [
+              581,
+              233,
+              604,
+              266
+            ]
+          }
+        }
+      },
+      "colour_measurements": {
+        "Dropdown": {
+          "drop_button_fill_class": {
+            "native": "control-face",
+            "calcforms": "control-face"
+          }
+        }
+      }
+    }
+  ]
+}

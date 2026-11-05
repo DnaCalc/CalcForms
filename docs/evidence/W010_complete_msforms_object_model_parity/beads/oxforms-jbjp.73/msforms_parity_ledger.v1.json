@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "69ea3038eae07cf36cb56a8337d4c948ba8f8d6e37dbcb6b7ccbee660464d56d",
+  "source_surface_sha256": "af918320276706c30f069b2e9eab8c78ee558a5f7e792036dc47cd8a112a5626",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -32556,7 +32556,7 @@
           "file_stem": "ComboBox",
           "kind": "class_module",
           "path": "vba/calcforms/ComboBox.cls",
-          "normalized_text_sha256": "ca91bd95818d1bc8e4324c16ef57d0d013074bdd92c9f78f0c883b06bdfb8403",
+          "normalized_text_sha256": "86cde8f89a88d2c5540e7202e4d738add73958c4ab543c74e387ca7a91a17c87",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -33029,8 +33029,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 57,
-                "end_line": 57,
+                "start_line": 54,
+                "end_line": 54,
                 "text": "Public Property Get Core() As OxControlCore"
               },
               "member_attributes": {}
@@ -33047,8 +33047,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 73,
-                "end_line": 73,
+                "start_line": 70,
+                "end_line": 70,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -33065,8 +33065,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 77,
-                "end_line": 77,
+                "start_line": 74,
+                "end_line": 74,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -33095,8 +33095,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 80,
-                "end_line": 80,
+                "start_line": 77,
+                "end_line": 77,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -33113,8 +33113,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 84,
-                "end_line": 84,
+                "start_line": 81,
+                "end_line": 81,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -33143,8 +33143,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 87,
-                "end_line": 87,
+                "start_line": 84,
+                "end_line": 84,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -33161,8 +33161,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 91,
-                "end_line": 91,
+                "start_line": 88,
+                "end_line": 88,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -33191,8 +33191,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 94,
-                "end_line": 94,
+                "start_line": 91,
+                "end_line": 91,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -33209,8 +33209,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 98,
-                "end_line": 98,
+                "start_line": 95,
+                "end_line": 95,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -33239,8 +33239,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 101,
-                "end_line": 101,
+                "start_line": 98,
+                "end_line": 98,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -33257,8 +33257,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 105,
-                "end_line": 105,
+                "start_line": 102,
+                "end_line": 102,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -33287,8 +33287,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 108,
-                "end_line": 108,
+                "start_line": 105,
+                "end_line": 105,
                 "text": "Public Property Let Visible(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -33305,8 +33305,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 112,
-                "end_line": 112,
+                "start_line": 109,
+                "end_line": 109,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -33335,8 +33335,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 115,
-                "end_line": 115,
+                "start_line": 112,
+                "end_line": 112,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -33353,8 +33353,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 119,
-                "end_line": 119,
+                "start_line": 116,
+                "end_line": 116,
                 "text": "Public Property Get Text() As String"
               },
               "member_attributes": {}
@@ -33383,8 +33383,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 122,
-                "end_line": 122,
+                "start_line": 119,
+                "end_line": 119,
                 "text": "Public Property Let Text(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -33401,8 +33401,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Get Value() As String"
               },
               "member_attributes": {}
@@ -33431,8 +33431,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 131,
-                "end_line": 131,
+                "start_line": 128,
+                "end_line": 128,
                 "text": "Public Property Let Value(ByVal NewValue As String)"
               },
               "member_attributes": {}
@@ -33449,8 +33449,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 132,
+                "end_line": 132,
                 "text": "Public Property Get ListCount() As Long"
               },
               "member_attributes": {}
@@ -33467,8 +33467,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 139,
-                "end_line": 139,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Get ListIndex() As Long"
               },
               "member_attributes": {}
@@ -33497,8 +33497,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 142,
-                "end_line": 142,
+                "start_line": 139,
+                "end_line": 139,
                 "text": "Public Property Let ListIndex(ByVal Value As Long)"
               },
               "member_attributes": {}
@@ -33527,8 +33527,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 146,
-                "end_line": 146,
+                "start_line": 143,
+                "end_line": 143,
                 "text": "Public Property Get List(ByVal Index As Long) As String"
               },
               "member_attributes": {}
@@ -33545,8 +33545,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 154,
-                "end_line": 154,
+                "start_line": 151,
+                "end_line": 151,
                 "text": "Public Property Get DropDownOpen() As Boolean"
               },
               "member_attributes": {}
@@ -33575,8 +33575,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 158,
-                "end_line": 158,
+                "start_line": 155,
+                "end_line": 155,
                 "text": "Public Sub AddItem(ByVal Item As String)"
               },
               "member_attributes": {}
@@ -33593,8 +33593,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 163,
-                "end_line": 163,
+                "start_line": 160,
+                "end_line": 160,
                 "text": "Public Sub Clear()"
               },
               "member_attributes": {}
@@ -33611,8 +33611,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 169,
-                "end_line": 169,
+                "start_line": 166,
+                "end_line": 166,
                 "text": "Public Sub DropDown()"
               },
               "member_attributes": {}
@@ -33629,8 +33629,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 173,
-                "end_line": 173,
+                "start_line": 170,
+                "end_line": 170,
                 "text": "Public Sub CloseDropDown()"
               },
               "member_attributes": {}
@@ -33647,8 +33647,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 177,
-                "end_line": 177,
+                "start_line": 174,
+                "end_line": 174,
                 "text": "Public Function Diagnostics() As String"
               },
               "member_attributes": {}
@@ -33688,8 +33688,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 356,
-                "end_line": 356,
+                "start_line": 353,
+                "end_line": 353,
                 "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -33729,8 +33729,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 364,
-                "end_line": 364,
+                "start_line": 361,
+                "end_line": 361,
                 "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -33759,8 +33759,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 372,
-                "end_line": 372,
+                "start_line": 369,
+                "end_line": 369,
                 "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
               },
               "member_attributes": {}
@@ -33777,8 +33777,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 380,
-                "end_line": 380,
+                "start_line": 377,
+                "end_line": 377,
                 "text": "Public Function PerformExit() As Boolean"
               },
               "member_attributes": {}
@@ -33795,8 +33795,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 387,
-                "end_line": 387,
+                "start_line": 384,
+                "end_line": 384,
                 "text": "Public Function PerformBeforeUpdate() As Boolean"
               },
               "member_attributes": {}
@@ -33836,8 +33836,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 394,
-                "end_line": 394,
+                "start_line": 391,
+                "end_line": 391,
                 "text": "Public Function PerformBeforeDropOrPaste(ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "member_attributes": {}
@@ -33856,8 +33856,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 53,
-                "end_line": 53,
+                "start_line": 50,
+                "end_line": 50,
                 "text": "Private Property Get IOxControl_Core() As OxControlCore"
               },
               "interface": "IOxControl",
@@ -33888,8 +33888,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 61,
-                "end_line": 61,
+                "start_line": 58,
+                "end_line": 58,
                 "text": "Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)"
               },
               "interface": "IOxControl",
@@ -33908,8 +33908,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 65,
-                "end_line": 65,
+                "start_line": 62,
+                "end_line": 62,
                 "text": "Private Property Get IOxControl_HasChildren() As Boolean"
               },
               "interface": "IOxControl",
@@ -33928,8 +33928,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 69,
-                "end_line": 69,
+                "start_line": 66,
+                "end_line": 66,
                 "text": "Private Property Get IOxControl_Children() As Controls"
               },
               "interface": "IOxControl",
@@ -33993,8 +33993,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 188,
-                "end_line": 188,
+                "start_line": 185,
+                "end_line": 185,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -34058,8 +34058,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 197,
-                "end_line": 197,
+                "start_line": 194,
+                "end_line": 194,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -34123,8 +34123,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 198,
+                "end_line": 198,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -34143,8 +34143,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 204,
-                "end_line": 204,
+                "start_line": 201,
+                "end_line": 201,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -34163,8 +34163,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 208,
-                "end_line": 208,
+                "start_line": 205,
+                "end_line": 205,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -34183,8 +34183,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 212,
-                "end_line": 212,
+                "start_line": 209,
+                "end_line": 209,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -34226,8 +34226,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 216,
-                "end_line": 216,
+                "start_line": 213,
+                "end_line": 213,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -34269,8 +34269,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 240,
-                "end_line": 240,
+                "start_line": 237,
+                "end_line": 237,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -34301,8 +34301,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 244,
-                "end_line": 244,
+                "start_line": 241,
+                "end_line": 241,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -34321,8 +34321,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 253,
-                "end_line": 253,
+                "start_line": 250,
+                "end_line": 250,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -34341,8 +34341,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 261,
-                "end_line": 261,
+                "start_line": 258,
+                "end_line": 258,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -34361,8 +34361,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 272,
-                "end_line": 272,
+                "start_line": 269,
+                "end_line": 269,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -34381,8 +34381,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 276,
-                "end_line": 276,
+                "start_line": 273,
+                "end_line": 273,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -34401,8 +34401,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 281,
-                "end_line": 281,
+                "start_line": 278,
+                "end_line": 278,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -34421,8 +34421,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 285,
-                "end_line": 285,
+                "start_line": 282,
+                "end_line": 282,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -34441,8 +34441,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 289,
-                "end_line": 289,
+                "start_line": 286,
+                "end_line": 286,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -34461,8 +34461,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 293,
-                "end_line": 293,
+                "start_line": 290,
+                "end_line": 290,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -34515,8 +34515,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 297,
-                "end_line": 297,
+                "start_line": 294,
+                "end_line": 294,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -34569,8 +34569,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 301,
-                "end_line": 301,
+                "start_line": 298,
+                "end_line": 298,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -34589,8 +34589,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 307,
-                "end_line": 307,
+                "start_line": 304,
+                "end_line": 304,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -34609,8 +34609,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 311,
-                "end_line": 311,
+                "start_line": 308,
+                "end_line": 308,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -34629,8 +34629,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 316,
-                "end_line": 316,
+                "start_line": 313,
+                "end_line": 313,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -34649,8 +34649,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 320,
-                "end_line": 320,
+                "start_line": 317,
+                "end_line": 317,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -34669,8 +34669,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 324,
-                "end_line": 324,
+                "start_line": 321,
+                "end_line": 321,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -34689,8 +34689,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 328,
-                "end_line": 328,
+                "start_line": 325,
+                "end_line": 325,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -34709,8 +34709,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 332,
-                "end_line": 332,
+                "start_line": 329,
+                "end_line": 329,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -34729,8 +34729,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 336,
-                "end_line": 336,
+                "start_line": 333,
+                "end_line": 333,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -34749,8 +34749,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 340,
-                "end_line": 340,
+                "start_line": 337,
+                "end_line": 337,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -34769,8 +34769,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 344,
-                "end_line": 344,
+                "start_line": 341,
+                "end_line": 341,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -34789,8 +34789,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 348,
-                "end_line": 348,
+                "start_line": 345,
+                "end_line": 345,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -34809,8 +34809,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 352,
-                "end_line": 352,
+                "start_line": 349,
+                "end_line": 349,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -623363,8 +623363,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 115,
-                "end_line": 115,
+                "start_line": 112,
+                "end_line": 112,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {},
@@ -623399,8 +623399,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 112,
-                "end_line": 112,
+                "start_line": 109,
+                "end_line": 109,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -626523,8 +626523,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 132,
+                "end_line": 132,
                 "text": "Public Property Get ListCount() As Long"
               },
               "member_attributes": {},
@@ -627078,8 +627078,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 142,
-                "end_line": 142,
+                "start_line": 139,
+                "end_line": 139,
                 "text": "Public Property Let ListIndex(ByVal Value As Long)"
               },
               "member_attributes": {},
@@ -627116,8 +627116,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 139,
-                "end_line": 139,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Get ListIndex() As Long"
               },
               "member_attributes": {},
@@ -631741,8 +631741,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 122,
-                "end_line": 122,
+                "start_line": 119,
+                "end_line": 119,
                 "text": "Public Property Let Text(ByVal Value As String)"
               },
               "member_attributes": {},
@@ -631777,8 +631777,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 119,
-                "end_line": 119,
+                "start_line": 116,
+                "end_line": 116,
                 "text": "Public Property Get Text() As String"
               },
               "member_attributes": {},
@@ -633194,8 +633194,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 131,
-                "end_line": 131,
+                "start_line": 128,
+                "end_line": 128,
                 "text": "Public Property Let Value(ByVal NewValue As String)"
               },
               "member_attributes": {},
@@ -633232,8 +633232,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Get Value() As String"
               },
               "member_attributes": {},
@@ -633992,8 +633992,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 146,
-                "end_line": 146,
+                "start_line": 143,
+                "end_line": 143,
                 "text": "Public Property Get List(ByVal Index As Long) As String"
               },
               "member_attributes": {},
@@ -634272,8 +634272,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 158,
-                "end_line": 158,
+                "start_line": 155,
+                "end_line": 155,
                 "text": "Public Sub AddItem(ByVal Item As String)"
               },
               "member_attributes": {},
@@ -634478,8 +634478,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 163,
-                "end_line": 163,
+                "start_line": 160,
+                "end_line": 160,
                 "text": "Public Sub Clear()"
               },
               "member_attributes": {},
@@ -634682,8 +634682,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ComboBox.cls",
-                "start_line": 169,
-                "end_line": 169,
+                "start_line": 166,
+                "end_line": 166,
                 "text": "Public Sub DropDown()"
               },
               "member_attributes": {},
@@ -1484476,8 +1484476,8 @@
         "return_type": "OxControlCore",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 57,
-          "end_line": 57,
+          "start_line": 54,
+          "end_line": 54,
           "text": "Public Property Get Core() As OxControlCore"
         },
         "member_attributes": {},
@@ -1484592,8 +1484592,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 73,
-          "end_line": 73,
+          "start_line": 70,
+          "end_line": 70,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1484708,8 +1484708,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 77,
-          "end_line": 77,
+          "start_line": 74,
+          "end_line": 74,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1484836,8 +1484836,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 80,
-          "end_line": 80,
+          "start_line": 77,
+          "end_line": 77,
           "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1484952,8 +1484952,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 84,
-          "end_line": 84,
+          "start_line": 81,
+          "end_line": 81,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1485080,8 +1485080,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 87,
-          "end_line": 87,
+          "start_line": 84,
+          "end_line": 84,
           "text": "Public Property Let Top(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1485196,8 +1485196,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 91,
-          "end_line": 91,
+          "start_line": 88,
+          "end_line": 88,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1485324,8 +1485324,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 94,
-          "end_line": 94,
+          "start_line": 91,
+          "end_line": 91,
           "text": "Public Property Let Width(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1485440,8 +1485440,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 98,
-          "end_line": 98,
+          "start_line": 95,
+          "end_line": 95,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1485568,8 +1485568,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 101,
-          "end_line": 101,
+          "start_line": 98,
+          "end_line": 98,
           "text": "Public Property Let Height(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1485684,8 +1485684,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 105,
-          "end_line": 105,
+          "start_line": 102,
+          "end_line": 102,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1485812,8 +1485812,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 108,
-          "end_line": 108,
+          "start_line": 105,
+          "end_line": 105,
           "text": "Public Property Let Visible(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1485928,8 +1485928,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 154,
-          "end_line": 154,
+          "start_line": 151,
+          "end_line": 151,
           "text": "Public Property Get DropDownOpen() As Boolean"
         },
         "member_attributes": {},
@@ -1486044,8 +1486044,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 173,
-          "end_line": 173,
+          "start_line": 170,
+          "end_line": 170,
           "text": "Public Sub CloseDropDown()"
         },
         "member_attributes": {},
@@ -1486160,8 +1486160,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 177,
-          "end_line": 177,
+          "start_line": 174,
+          "end_line": 174,
           "text": "Public Function Diagnostics() As String"
         },
         "member_attributes": {},
@@ -1486299,8 +1486299,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 356,
-          "end_line": 356,
+          "start_line": 353,
+          "end_line": 353,
           "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1486438,8 +1486438,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 364,
-          "end_line": 364,
+          "start_line": 361,
+          "end_line": 361,
           "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1486566,8 +1486566,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 372,
-          "end_line": 372,
+          "start_line": 369,
+          "end_line": 369,
           "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1486682,8 +1486682,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 380,
-          "end_line": 380,
+          "start_line": 377,
+          "end_line": 377,
           "text": "Public Function PerformExit() As Boolean"
         },
         "member_attributes": {},
@@ -1486798,8 +1486798,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 387,
-          "end_line": 387,
+          "start_line": 384,
+          "end_line": 384,
           "text": "Public Function PerformBeforeUpdate() As Boolean"
         },
         "member_attributes": {},
@@ -1486937,8 +1486937,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ComboBox.cls",
-          "start_line": 394,
-          "end_line": 394,
+          "start_line": 391,
+          "end_line": 391,
           "text": "Public Function PerformBeforeDropOrPaste(ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
         },
         "member_attributes": {},
@@ -1520981,14 +1520981,25 @@
             "type": "Long",
             "default": null,
             "raw": "ByVal RowCount As Long"
+          },
+          {
+            "index": 6,
+            "name": "ButtonWidth",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Single",
+            "default": null,
+            "raw": "ByVal ButtonWidth As Single"
           }
         ],
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
           "start_line": 271,
-          "end_line": 277,
-          "text": "Public Sub OxThemePaintComboBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal DropDownOpen As Boolean, ByVal RowCount As Long)"
+          "end_line": 278,
+          "text": "Public Sub OxThemePaintComboBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal DropDownOpen As Boolean, ByVal RowCount As Long, ByVal ButtonWidth As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:032:0017",
@@ -1521225,8 +1521236,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 344,
-          "end_line": 349,
+          "start_line": 348,
+          "end_line": 353,
           "text": "Public Sub OxThemePaintTextRun( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, ByVal RunId As String, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, ByVal UnderlineAccelerator As Boolean)"
         },
         "member_attributes": {},
@@ -1521387,8 +1521398,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 354,
-          "end_line": 358,
+          "start_line": 358,
+          "end_line": 362,
           "text": "Public Sub OxThemePaintCheckBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1521549,8 +1521560,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 409,
-          "end_line": 413,
+          "start_line": 413,
+          "end_line": 417,
           "text": "Public Sub OxThemePaintOptionButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1562875,5 +1562886,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "e27f5e5b9d8cbaeff2bbf3bb7eeba3c98814454ca564c53fcc3989acdf645d3b"
+  "canonical_sha256": "fc1c050e9ad857b97d9cf2a2060bf91bc59d71bfbfb286d6c24f6a8d298cde50"
 }

@@ -59,6 +59,10 @@ uses the existing eight comparisons. Missing native measurements fail coverage;
 it does not claim a measured mismatch or parity for absent evidence. New live
 summaries use the same report. Historical pixel rankings remain replayable only
 as regression evidence. No Computer Use or owner pointer/keyboard/focus is allowed.
+Fresh `.97` [ComboBox measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.97/README.md)
+reduce text origin errors from 7/13px to 1px at both scales, align the outer drop
+button/arrow and share its width with hit testing. The inner border fill boundary
+still fails by 2–3px; broader ComboBox parity and clipped-label wrapping remain open.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

@@ -140,6 +140,16 @@ the native top alignment. Measure empty TextBox runs too: clearing a field must
 retain the same font line and caret height. Configurable SelectionMargin,
 gutter-selection behavior and full multiline rendering remain W010 work.
 
+The run-6 ComboBox edit line uses a 9pt left inset and a 3pt top inset, with
+one measured line height. It clips before the drop button. The measured
+drop-button site occupies the last 14.5pt; its painted rectangle has a 1.5pt
+top and 1pt right/bottom inset. The same width drives VBA pointer routing.
+The arrow is 5.25×3pt. At both scales, text ink, outer button edges and arrow
+bounds now agree within their 2px/1px tolerances. The inner multi-shade edge
+still has a measured 2–3px fill-boundary mismatch and is a failed spacing row.
+Current native height readback is 21pt at both scales; the historical 21.75pt
+readback is not treated as a general coercion rule.
+
 ListBox rows now provide separate text fragments through Core's project-internal
 Friend methods. UserForm measures all fragments in its existing one batch;
 no row-level Rust control logic or extra crossing is introduced. The measured

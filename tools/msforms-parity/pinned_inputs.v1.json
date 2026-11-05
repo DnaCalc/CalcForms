@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "a3eb651a7c22fa7570377eaedc8349952bab1ef0da7fd84f79faa65f771b5260"
+      "sha256": "d22b4cc2676a346e8f8a265f95d3b6f1a79f8f9cf684c60edfc1a55978e6094b"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "1246de0c52f5ce4391d73ccc1b9332dc4982e5777effeeaca38da1ca9a915bc5"
+      "sha256": "1cccf4014c1c00e1b715c232bf698a922f7920ad743793cbc63b74a03912fbc2"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -176,7 +176,7 @@
     {
       "path": "vba/calcforms/ComboBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "ca91bd95818d1bc8e4324c16ef57d0d013074bdd92c9f78f0c883b06bdfb8403"
+      "sha256": "86cde8f89a88d2c5540e7202e4d738add73958c4ab543c74e387ca7a91a17c87"
     },
     {
       "path": "vba/calcforms/CommandButton.cls",
@@ -276,7 +276,7 @@
     {
       "path": "vba/calcforms/OxTheme.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "bea7886f7f14b2bdf6fdec6967a6d9638e6388ad0967dfb31f5587ed14ef93f3"
+      "sha256": "cb610344ded709a6d85042656a7929553591d8f7bda58542f0e964275dd797c4"
     },
     {
       "path": "vba/calcforms/Page.cls",

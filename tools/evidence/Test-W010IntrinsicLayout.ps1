@@ -13,3 +13,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Intrinsic layout references failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'Control pixel ranking replay failed.' }
 & python -B (Join-Path $root 'tools/office-oracle/forms_parity.py') --reference (Join-Path $root 'docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/comparison.json') --check (Join-Path $root 'docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.96/forms-parity.json')
 if ($LASTEXITCODE -ne 0) { throw 'Forms parity replay failed.' }
+& python -B (Join-Path $root 'tools/office-oracle/combo_spacing.py')
+if ($LASTEXITCODE -ne 0) { throw 'ComboBox spacing replay failed.' }

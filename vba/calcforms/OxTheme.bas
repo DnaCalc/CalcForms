@@ -274,9 +274,10 @@ Public Sub OxThemePaintComboBox( _
         ByVal ListIndex As Long, _
         ByVal Focused As Boolean, _
         ByVal DropDownOpen As Boolean, _
-        ByVal RowCount As Long)
+        ByVal RowCount As Long, _
+        ByVal ButtonWidth As Single)
     Const Inset As Single = 3
-    Const ButtonWidth As Single = 18
+    Const TextInsetX As Single = 9
     Const RowHeight As Single = 14
 
     Dim PopupHeight As Single
@@ -290,19 +291,19 @@ Public Sub OxThemePaintComboBox( _
 
     Dim ButtonLeft As Single
     ButtonLeft = Core.PaintLeft + Core.Width - ButtonWidth
-    Surface.FillRect ButtonLeft, Core.PaintTop + 1, ButtonWidth - 1, Core.Height - 2, _
-        &HDCDCDC, 255
-    Surface.DrawEdge ButtonLeft, Core.PaintTop + 1, ButtonWidth - 1, Core.Height - 2, "raised", _
+    Surface.FillRect ButtonLeft, Core.PaintTop + 1.5, ButtonWidth - 1, Core.Height - 2.5, _
+        OxThemeFaceColor(oxControlCommandButton, False, Core.Enabled), 255
+    Surface.DrawEdge ButtonLeft, Core.PaintTop + 1.5, ButtonWidth - 1, Core.Height - 2.5, "raised", _
         OxThemeEdgeLight(), OxThemeEdgeShadow()
 
     Dim ArrowX As Single
     Dim ArrowY As Single
-    ArrowX = ButtonLeft + 6
-    ArrowY = Core.PaintTop + (Core.Height / 2) - 1
-    Surface.FillRect ArrowX, ArrowY, 7, 1, OxThemeResolveText(Core), 255
-    Surface.FillRect ArrowX + 1, ArrowY + 1, 5, 1, OxThemeResolveText(Core), 255
-    Surface.FillRect ArrowX + 2, ArrowY + 2, 3, 1, OxThemeResolveText(Core), 255
-    Surface.FillRect ArrowX + 3, ArrowY + 3, 1, 1, OxThemeResolveText(Core), 255
+    ArrowX = ButtonLeft + (ButtonWidth - 1 - 5.25) / 2 - 0.5
+    ArrowY = Core.PaintTop + (Core.Height / 2) - 1.5
+    Surface.FillRect ArrowX, ArrowY, 5.25, 0.75, OxThemeResolveText(Core), 255
+    Surface.FillRect ArrowX + 0.75, ArrowY + 0.75, 3.75, 0.75, OxThemeResolveText(Core), 255
+    Surface.FillRect ArrowX + 1.5, ArrowY + 1.5, 2.25, 0.75, OxThemeResolveText(Core), 255
+    Surface.FillRect ArrowX + 2.25, ArrowY + 2.25, 0.75, 0.75, OxThemeResolveText(Core), 255
 
     If Focused Then
         Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
@@ -313,12 +314,15 @@ Public Sub OxThemePaintComboBox( _
         Dim RunId As String
         RunId = Core.RunId
         If Len(RunId) = 0 Then RunId = "0"
-        Dim TextW As Single
-        TextW = Core.Width - ButtonWidth - (Inset * 2)
+        Dim TextW As Single, TextH As Single
+        TextW = Core.Width - ButtonWidth - TextInsetX - Inset
         If TextW < 1 Then TextW = 1
+        TextH = Core.MeasuredHeight
+        If TextH > Core.Height - Inset - 1.5 Then TextH = Core.Height - Inset - 1.5
+        If TextH < 1 Then TextH = 1
         OxThemePaintTextRun Core, Surface, _
-            Core.PaintLeft + Inset, Core.PaintTop + Inset, TextW, Core.Height - (Inset * 2), _
-            RunId, "left", False, False, False
+            Core.PaintLeft + TextInsetX, Core.PaintTop + Inset, TextW, TextH, _
+            RunId, "left", False, True, False
     End If
 
     If DropDownOpen Then

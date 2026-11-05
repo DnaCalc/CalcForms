@@ -87,6 +87,67 @@ fn rows(scene: &Scene) -> Vec<(String, f32, Color)> {
         .collect()
 }
 
+#[test]
+fn combobox_uses_a_measured_line_clips_text_and_shares_drop_button_hit_bounds() {
+    let source = r#"Option Explicit
+Private F As UserForm
+Private C As ComboBox
+Private R As OxReducer
+Public Sub Build()
+    Set F = New UserForm
+    F.Width = 160
+    F.Height = 100
+    Set C = F.Controls.Add("Forms.ComboBox.1", "Dropdown")
+    C.Left = 12
+    C.Top = 12
+    C.Width = 130
+    C.Height = 21
+    C.Core.FontSize = 8.25
+    C.Text = "A long editable value extending beyond the button"
+    Set R = New OxReducer
+    R.Init F
+End Sub
+Public Sub RenderOnce()
+    F.Render 96, 96
+End Sub
+Public Sub PressAt(ByVal X As Long)
+    R.Dispatch "mousedown", X, 20, 1, 0
+    R.Dispatch "mouseup", X, 20, 1, 0
+End Sub
+Public Function Opened() As Boolean
+    Opened = C.DropDownOpen
+End Function
+"#;
+    let (mut session, form, surface) = fixture(source);
+    let mut call = |name: &str, args: Vec<Variant>| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), args)
+            .unwrap()
+    };
+    call("Build", vec![]);
+    call("RenderOnce", vec![]);
+    let scene = surface.snapshot().unwrap().scene.unwrap();
+    let (rect, run, clip) = scene
+        .nodes
+        .iter()
+        .flat_map(|node| &node.prims)
+        .find_map(|prim| match prim {
+            Prim::DrawText {
+                rect, run, clip, ..
+            } => Some((rect, run, clip)),
+            _ => None,
+        })
+        .unwrap();
+    assert_eq!((rect.x, rect.y), (21.0, 15.0));
+    assert!(clip, "long values must stop before the drop button");
+    assert!((rect.h - scene.text_run(*run).unwrap().metrics.line_height()).abs() < 0.002);
+    assert!(rect.x + rect.w < 127.5);
+    call("PressAt", vec![Variant::from_i32(127)]);
+    assert_eq!(call("Opened", vec![]).as_bool(), Some(false));
+    call("PressAt", vec![Variant::from_i32(128)]);
+    assert_eq!(call("Opened", vec![]).as_bool(), Some(true));
+}
+
 fn fixture(
     source: &str,
 ) -> (

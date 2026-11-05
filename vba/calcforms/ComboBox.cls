@@ -26,10 +26,7 @@ Private Const OX_KEY_UP As Integer = 38
 Private Const OX_KEY_DOWN As Integer = 40
 Private Const OX_KEY_F4 As Integer = 115
 Private Const OX_SHIFT_ALT As Integer = 4
-Private Const BUTTON_WIDTH As Single = 18
-Private Const TEXT_INSET_X As Single = 4
-Private Const TEXT_INSET_Y As Single = 3
-Private Const ROW_HEIGHT As Single = 14
+Private Const BUTTON_WIDTH As Single = 14.5
 
 Private mCore As OxControlCore
 Private mItems As Collection
@@ -59,7 +56,7 @@ Public Property Get Core() As OxControlCore
 End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxThemePaintComboBox mCore, Surface, mListIndex, mFocused, mDropDownOpen, mItems.Count
+    OxThemePaintComboBox mCore, Surface, mListIndex, mFocused, mDropDownOpen, mItems.Count, BUTTON_WIDTH
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
