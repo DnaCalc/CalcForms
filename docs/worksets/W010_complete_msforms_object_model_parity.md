@@ -17,6 +17,11 @@ Recovery also fixes `.78`: watchdog identity observation treats a confirmed
 process exit during MainModule access as an exit, while live/unknown identity
 failures still fail. Deterministic race cases supplement process containment
 and authorization checks; no Excel is started by those checks.
+`.100` reads live native text properties and rejects incomplete text regions
+before selecting a capture. Its [replay](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.100/README.md)
+rejects the interrupted parent/composite and qualifies both new scales.
+Subpixel colour masks can misclassify black ClearType text; `.102` tracks
+property/paint-based colour classes so antialiasing does not become a target.
 
 Run 4 `.87` corrects the largest recorded region, ListBox Choices: separate
 row runs in one text batch, measured default spacing, white selection text

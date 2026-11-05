@@ -1,0 +1,4095 @@
+{
+  "schema": "calcforms.text_capture_qualification.v1",
+  "live_owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 20232,
+    "desktop": "CalcFormsOracle_c8f782743d07"
+  },
+  "interrupted_corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+  "cases": [
+    {
+      "name": "live-greeter-100",
+      "form": "greeter",
+      "zoom": 100,
+      "native_facts": "288;130.5;100\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "images": [
+        {
+          "file": "live-greeter-100-composite.png",
+          "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+        },
+        {
+          "file": "live-greeter-100-parent.png",
+          "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  16,
+                  16,
+                  144,
+                  40
+                ],
+                "ink_bounds_px": [
+                  18,
+                  19,
+                  66,
+                  27
+                ],
+                "line_bands_px": [
+                  [
+                    19,
+                    27
+                  ]
+                ],
+                "ink_pixels": 51,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  19,
+                  51,
+                  240,
+                  72
+                ],
+                "ink_bounds_px": [
+                  29,
+                  56,
+                  45,
+                  63
+                ],
+                "line_bands_px": [
+                  [
+                    56,
+                    63
+                  ]
+                ],
+                "ink_pixels": 26,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  267,
+                  51,
+                  357,
+                  77
+                ],
+                "ink_bounds_px": [
+                  298,
+                  60,
+                  324,
+                  68
+                ],
+                "line_bands_px": [
+                  [
+                    60,
+                    68
+                  ]
+                ],
+                "ink_pixels": 41,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Loud",
+                "roi_px": [
+                  31,
+                  88,
+                  176,
+                  112
+                ],
+                "ink_bounds_px": [
+                  34,
+                  98,
+                  84,
+                  104
+                ],
+                "line_bands_px": [
+                  [
+                    98,
+                    104
+                  ]
+                ],
+                "ink_pixels": 82,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Output",
+                "roi_px": [
+                  16,
+                  128,
+                  360,
+                  157
+                ],
+                "ink_bounds_px": [
+                  17,
+                  130,
+                  49,
+                  141
+                ],
+                "line_bands_px": [
+                  [
+                    130,
+                    141
+                  ]
+                ],
+                "ink_pixels": 41,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  16,
+                  16,
+                  144,
+                  40
+                ],
+                "ink_bounds_px": [
+                  18,
+                  19,
+                  66,
+                  27
+                ],
+                "line_bands_px": [
+                  [
+                    19,
+                    27
+                  ]
+                ],
+                "ink_pixels": 51,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  19,
+                  51,
+                  240,
+                  72
+                ],
+                "ink_bounds_px": [
+                  29,
+                  56,
+                  45,
+                  63
+                ],
+                "line_bands_px": [
+                  [
+                    56,
+                    63
+                  ]
+                ],
+                "ink_pixels": 26,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  267,
+                  51,
+                  357,
+                  77
+                ],
+                "ink_bounds_px": [
+                  298,
+                  60,
+                  324,
+                  68
+                ],
+                "line_bands_px": [
+                  [
+                    60,
+                    68
+                  ]
+                ],
+                "ink_pixels": 41,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Loud",
+                "roi_px": [
+                  31,
+                  88,
+                  176,
+                  112
+                ],
+                "ink_bounds_px": [
+                  34,
+                  98,
+                  84,
+                  104
+                ],
+                "line_bands_px": [
+                  [
+                    98,
+                    104
+                  ]
+                ],
+                "ink_pixels": 82,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Output",
+                "roi_px": [
+                  16,
+                  128,
+                  360,
+                  157
+                ],
+                "ink_bounds_px": [
+                  17,
+                  130,
+                  49,
+                  141
+                ],
+                "line_bands_px": [
+                  [
+                    130,
+                    141
+                  ]
+                ],
+                "ink_pixels": 41,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Prompt",
+            "sources": [
+              "Your name"
+            ],
+            "disabled": false,
+            "roi_px": [
+              16.0,
+              16.0,
+              144.0,
+              40.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "InputName",
+            "sources": [
+              "Ada"
+            ],
+            "disabled": false,
+            "roi_px": [
+              18.666666666666668,
+              50.666666666666664,
+              240.0,
+              71.99999999999999
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Greet",
+            "sources": [
+              "Greet"
+            ],
+            "disabled": false,
+            "roi_px": [
+              266.6666666666667,
+              50.666666666666664,
+              357.3333333333333,
+              77.33333333333333
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Loud",
+            "sources": [
+              "Uppercase"
+            ],
+            "disabled": false,
+            "roi_px": [
+              30.666666666666664,
+              88.0,
+              176.0,
+              112.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Output",
+            "sources": [
+              "(ready)"
+            ],
+            "disabled": false,
+            "roi_px": [
+              16.0,
+              128.0,
+              360.0,
+              157.33333333333331
+            ],
+            "font_height_px": 11.0
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-greeter-150",
+      "form": "greeter",
+      "zoom": 150,
+      "native_facts": "288;130.5;150\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+      "images": [
+        {
+          "file": "live-greeter-150-composite.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        },
+        {
+          "file": "live-greeter-150-parent.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  24,
+                  24,
+                  216,
+                  60
+                ],
+                "ink_bounds_px": [
+                  25,
+                  29,
+                  103,
+                  41
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    41
+                  ]
+                ],
+                "ink_pixels": 138,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  28,
+                  76,
+                  360,
+                  108
+                ],
+                "ink_bounds_px": [
+                  43,
+                  81,
+                  69,
+                  94
+                ],
+                "line_bands_px": [
+                  [
+                    81,
+                    94
+                  ]
+                ],
+                "ink_pixels": 76,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  400,
+                  76,
+                  536,
+                  116
+                ],
+                "ink_bounds_px": [
+                  449,
+                  90,
+                  486,
+                  102
+                ],
+                "line_bands_px": [
+                  [
+                    90,
+                    102
+                  ]
+                ],
+                "ink_pixels": 96,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Loud",
+                "roi_px": [
+                  46,
+                  132,
+                  264,
+                  168
+                ],
+                "ink_bounds_px": [
+                  50,
+                  144,
+                  125,
+                  156
+                ],
+                "line_bands_px": [
+                  [
+                    144,
+                    156
+                  ]
+                ],
+                "ink_pixels": 151,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Output",
+                "roi_px": [
+                  24,
+                  192,
+                  540,
+                  236
+                ],
+                "ink_bounds_px": [
+                  25,
+                  196,
+                  78,
+                  212
+                ],
+                "line_bands_px": [
+                  [
+                    196,
+                    212
+                  ]
+                ],
+                "ink_pixels": 114,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  24,
+                  24,
+                  216,
+                  60
+                ],
+                "ink_bounds_px": [
+                  25,
+                  29,
+                  103,
+                  41
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    41
+                  ]
+                ],
+                "ink_pixels": 138,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  28,
+                  76,
+                  360,
+                  108
+                ],
+                "ink_bounds_px": [
+                  43,
+                  81,
+                  69,
+                  94
+                ],
+                "line_bands_px": [
+                  [
+                    81,
+                    94
+                  ]
+                ],
+                "ink_pixels": 76,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  400,
+                  76,
+                  536,
+                  116
+                ],
+                "ink_bounds_px": [
+                  449,
+                  90,
+                  486,
+                  102
+                ],
+                "line_bands_px": [
+                  [
+                    90,
+                    102
+                  ]
+                ],
+                "ink_pixels": 96,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Loud",
+                "roi_px": [
+                  46,
+                  132,
+                  264,
+                  168
+                ],
+                "ink_bounds_px": [
+                  50,
+                  144,
+                  125,
+                  156
+                ],
+                "line_bands_px": [
+                  [
+                    144,
+                    156
+                  ]
+                ],
+                "ink_pixels": 151,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Output",
+                "roi_px": [
+                  24,
+                  192,
+                  540,
+                  236
+                ],
+                "ink_bounds_px": [
+                  25,
+                  196,
+                  78,
+                  212
+                ],
+                "line_bands_px": [
+                  [
+                    196,
+                    212
+                  ]
+                ],
+                "ink_pixels": 114,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Prompt",
+            "sources": [
+              "Your name"
+            ],
+            "disabled": false,
+            "roi_px": [
+              24.0,
+              24.0,
+              216.0,
+              60.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "InputName",
+            "sources": [
+              "Ada"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              76.0,
+              360.0,
+              108.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Greet",
+            "sources": [
+              "Greet"
+            ],
+            "disabled": false,
+            "roi_px": [
+              400.0,
+              76.0,
+              536.0,
+              116.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Loud",
+            "sources": [
+              "Uppercase"
+            ],
+            "disabled": false,
+            "roi_px": [
+              46.0,
+              132.0,
+              264.0,
+              168.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Output",
+            "sources": [
+              "(ready)"
+            ],
+            "disabled": false,
+            "roi_px": [
+              24.0,
+              192.0,
+              540.0,
+              236.0
+            ],
+            "font_height_px": 16.5
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-LayoutCommon-100",
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "native_facts": "300;180;100\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "images": [
+        {
+          "file": "live-LayoutCommon-100-composite.png",
+          "sha256": "8982339af634ebfe13369809ae0f1b9f79f999dce0167bad0aff9390a2c742b2"
+        },
+        {
+          "file": "live-LayoutCommon-100-parent.png",
+          "sha256": "8982339af634ebfe13369809ae0f1b9f79f999dce0167bad0aff9390a2c742b2"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  16,
+                  16,
+                  243,
+                  40
+                ],
+                "ink_bounds_px": [
+                  18,
+                  19,
+                  109,
+                  29
+                ],
+                "line_bands_px": [
+                  [
+                    19,
+                    29
+                  ]
+                ],
+                "ink_pixels": 107,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  19,
+                  51,
+                  240,
+                  72
+                ],
+                "ink_bounds_px": [
+                  29,
+                  52,
+                  48,
+                  65
+                ],
+                "line_bands_px": [
+                  [
+                    52,
+                    65
+                  ]
+                ],
+                "ink_pixels": 39,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  267,
+                  51,
+                  373,
+                  77
+                ],
+                "ink_bounds_px": [
+                  306,
+                  60,
+                  332,
+                  68
+                ],
+                "line_bands_px": [
+                  [
+                    60,
+                    68
+                  ]
+                ],
+                "ink_pixels": 41,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Fractional",
+                "roi_px": [
+                  17,
+                  100,
+                  181,
+                  123
+                ],
+                "ink_bounds_px": [
+                  17,
+                  103,
+                  102,
+                  111
+                ],
+                "line_bands_px": [
+                  [
+                    103,
+                    111
+                  ]
+                ],
+                "ink_pixels": 108,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Clipped",
+                "roi_px": [
+                  216,
+                  100,
+                  309,
+                  116
+                ],
+                "ink_bounds_px": [
+                  216,
+                  105,
+                  297,
+                  113
+                ],
+                "line_bands_px": [
+                  [
+                    105,
+                    113
+                  ]
+                ],
+                "ink_pixels": 112,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "LongInput",
+                "roi_px": [
+                  19,
+                  147,
+                  213,
+                  168
+                ],
+                "ink_bounds_px": [
+                  29,
+                  152,
+                  213,
+                  161
+                ],
+                "line_bands_px": [
+                  [
+                    152,
+                    161
+                  ]
+                ],
+                "ink_pixels": 189,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Disabled",
+                "roi_px": [
+                  267,
+                  147,
+                  373,
+                  173
+                ],
+                "ink_bounds_px": [
+                  299,
+                  156,
+                  337,
+                  164
+                ],
+                "line_bands_px": [
+                  [
+                    156,
+                    164
+                  ]
+                ],
+                "ink_pixels": 43,
+                "foreground_classes": [
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  16,
+                  16,
+                  243,
+                  40
+                ],
+                "ink_bounds_px": [
+                  18,
+                  19,
+                  109,
+                  29
+                ],
+                "line_bands_px": [
+                  [
+                    19,
+                    29
+                  ]
+                ],
+                "ink_pixels": 107,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  19,
+                  51,
+                  240,
+                  72
+                ],
+                "ink_bounds_px": [
+                  29,
+                  52,
+                  48,
+                  65
+                ],
+                "line_bands_px": [
+                  [
+                    52,
+                    65
+                  ]
+                ],
+                "ink_pixels": 39,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  267,
+                  51,
+                  373,
+                  77
+                ],
+                "ink_bounds_px": [
+                  306,
+                  60,
+                  332,
+                  68
+                ],
+                "line_bands_px": [
+                  [
+                    60,
+                    68
+                  ]
+                ],
+                "ink_pixels": 41,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Fractional",
+                "roi_px": [
+                  17,
+                  100,
+                  181,
+                  123
+                ],
+                "ink_bounds_px": [
+                  17,
+                  103,
+                  102,
+                  111
+                ],
+                "line_bands_px": [
+                  [
+                    103,
+                    111
+                  ]
+                ],
+                "ink_pixels": 108,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Clipped",
+                "roi_px": [
+                  216,
+                  100,
+                  309,
+                  116
+                ],
+                "ink_bounds_px": [
+                  216,
+                  105,
+                  297,
+                  113
+                ],
+                "line_bands_px": [
+                  [
+                    105,
+                    113
+                  ]
+                ],
+                "ink_pixels": 112,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "LongInput",
+                "roi_px": [
+                  19,
+                  147,
+                  213,
+                  168
+                ],
+                "ink_bounds_px": [
+                  29,
+                  152,
+                  213,
+                  161
+                ],
+                "line_bands_px": [
+                  [
+                    152,
+                    161
+                  ]
+                ],
+                "ink_pixels": 189,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Disabled",
+                "roi_px": [
+                  267,
+                  147,
+                  373,
+                  173
+                ],
+                "ink_bounds_px": [
+                  299,
+                  156,
+                  337,
+                  164
+                ],
+                "line_bands_px": [
+                  [
+                    156,
+                    164
+                  ]
+                ],
+                "ink_pixels": 43,
+                "foreground_classes": [
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Prompt",
+            "sources": [
+              "Your name: AgjpQy"
+            ],
+            "disabled": false,
+            "roi_px": [
+              16.0,
+              16.0,
+              242.66666666666666,
+              40.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "InputName",
+            "sources": [
+              "Ada"
+            ],
+            "disabled": false,
+            "roi_px": [
+              18.666666666666668,
+              50.666666666666664,
+              240.0,
+              71.99999999999999
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Greet",
+            "sources": [
+              "Greet"
+            ],
+            "disabled": false,
+            "roi_px": [
+              266.6666666666667,
+              50.666666666666664,
+              373.3333333333333,
+              77.33333333333333
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Fractional",
+            "sources": [
+              "Fractional position"
+            ],
+            "disabled": false,
+            "roi_px": [
+              16.53333333333333,
+              99.53333333333333,
+              181.0,
+              123.06666666666668
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Clipped",
+            "sources": [
+              "Long clipped label AgjpQy"
+            ],
+            "disabled": false,
+            "roi_px": [
+              216.0,
+              100.0,
+              309.3333333333333,
+              116.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "LongInput",
+            "sources": [
+              "A long input with a clipped trailing word"
+            ],
+            "disabled": false,
+            "roi_px": [
+              18.666666666666668,
+              146.66666666666666,
+              213.33333333333334,
+              168.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Disabled",
+            "sources": [
+              "Disabled"
+            ],
+            "disabled": true,
+            "roi_px": [
+              266.6666666666667,
+              146.66666666666666,
+              373.3333333333333,
+              173.33333333333334
+            ],
+            "font_height_px": 11.0
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-LayoutCommon-150",
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "native_facts": "300;180;150\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "images": [
+        {
+          "file": "live-LayoutCommon-150-composite.png",
+          "sha256": "378dd5c05bd615e457915d5b4bd657a4b7026f2aac0460b4acff65e9fd264ae2"
+        },
+        {
+          "file": "live-LayoutCommon-150-parent.png",
+          "sha256": "378dd5c05bd615e457915d5b4bd657a4b7026f2aac0460b4acff65e9fd264ae2"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  24,
+                  24,
+                  364,
+                  60
+                ],
+                "ink_bounds_px": [
+                  25,
+                  29,
+                  168,
+                  44
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    44
+                  ]
+                ],
+                "ink_pixels": 270,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  28,
+                  76,
+                  360,
+                  108
+                ],
+                "ink_bounds_px": [
+                  43,
+                  81,
+                  69,
+                  94
+                ],
+                "line_bands_px": [
+                  [
+                    81,
+                    94
+                  ]
+                ],
+                "ink_pixels": 76,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  400,
+                  76,
+                  560,
+                  116
+                ],
+                "ink_bounds_px": [
+                  461,
+                  90,
+                  498,
+                  102
+                ],
+                "line_bands_px": [
+                  [
+                    90,
+                    102
+                  ]
+                ],
+                "ink_pixels": 96,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Fractional",
+                "roi_px": [
+                  25,
+                  149,
+                  272,
+                  185
+                ],
+                "ink_bounds_px": [
+                  27,
+                  154,
+                  160,
+                  166
+                ],
+                "line_bands_px": [
+                  [
+                    154,
+                    166
+                  ]
+                ],
+                "ink_pixels": 249,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Clipped",
+                "roi_px": [
+                  324,
+                  150,
+                  464,
+                  174
+                ],
+                "ink_bounds_px": [
+                  326,
+                  154,
+                  451,
+                  170
+                ],
+                "line_bands_px": [
+                  [
+                    154,
+                    170
+                  ]
+                ],
+                "ink_pixels": 228,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "LongInput",
+                "roi_px": [
+                  28,
+                  220,
+                  320,
+                  252
+                ],
+                "ink_bounds_px": [
+                  43,
+                  225,
+                  319,
+                  241
+                ],
+                "line_bands_px": [
+                  [
+                    225,
+                    241
+                  ]
+                ],
+                "ink_pixels": 611,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Disabled",
+                "roi_px": [
+                  400,
+                  220,
+                  560,
+                  260
+                ],
+                "ink_bounds_px": [
+                  451,
+                  233,
+                  508,
+                  246
+                ],
+                "line_bands_px": [
+                  [
+                    233,
+                    246
+                  ]
+                ],
+                "ink_pixels": 104,
+                "foreground_classes": [
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  24,
+                  24,
+                  364,
+                  60
+                ],
+                "ink_bounds_px": [
+                  25,
+                  29,
+                  168,
+                  44
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    44
+                  ]
+                ],
+                "ink_pixels": 270,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  28,
+                  76,
+                  360,
+                  108
+                ],
+                "ink_bounds_px": [
+                  43,
+                  81,
+                  69,
+                  94
+                ],
+                "line_bands_px": [
+                  [
+                    81,
+                    94
+                  ]
+                ],
+                "ink_pixels": 76,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  400,
+                  76,
+                  560,
+                  116
+                ],
+                "ink_bounds_px": [
+                  461,
+                  90,
+                  498,
+                  102
+                ],
+                "line_bands_px": [
+                  [
+                    90,
+                    102
+                  ]
+                ],
+                "ink_pixels": 96,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Fractional",
+                "roi_px": [
+                  25,
+                  149,
+                  272,
+                  185
+                ],
+                "ink_bounds_px": [
+                  27,
+                  154,
+                  160,
+                  166
+                ],
+                "line_bands_px": [
+                  [
+                    154,
+                    166
+                  ]
+                ],
+                "ink_pixels": 249,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Clipped",
+                "roi_px": [
+                  324,
+                  150,
+                  464,
+                  174
+                ],
+                "ink_bounds_px": [
+                  326,
+                  154,
+                  451,
+                  170
+                ],
+                "line_bands_px": [
+                  [
+                    154,
+                    170
+                  ]
+                ],
+                "ink_pixels": 228,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "LongInput",
+                "roi_px": [
+                  28,
+                  220,
+                  320,
+                  252
+                ],
+                "ink_bounds_px": [
+                  43,
+                  225,
+                  319,
+                  241
+                ],
+                "line_bands_px": [
+                  [
+                    225,
+                    241
+                  ]
+                ],
+                "ink_pixels": 611,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Disabled",
+                "roi_px": [
+                  400,
+                  220,
+                  560,
+                  260
+                ],
+                "ink_bounds_px": [
+                  451,
+                  233,
+                  508,
+                  246
+                ],
+                "line_bands_px": [
+                  [
+                    233,
+                    246
+                  ]
+                ],
+                "ink_pixels": 104,
+                "foreground_classes": [
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Prompt",
+            "sources": [
+              "Your name: AgjpQy"
+            ],
+            "disabled": false,
+            "roi_px": [
+              24.0,
+              24.0,
+              364.0,
+              60.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "InputName",
+            "sources": [
+              "Ada"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              76.0,
+              360.0,
+              108.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Greet",
+            "sources": [
+              "Greet"
+            ],
+            "disabled": false,
+            "roi_px": [
+              400.0,
+              76.0,
+              560.0,
+              116.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Fractional",
+            "sources": [
+              "Fractional position"
+            ],
+            "disabled": false,
+            "roi_px": [
+              24.8,
+              149.3,
+              271.5,
+              184.60000000000002
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Clipped",
+            "sources": [
+              "Long clipped label AgjpQy"
+            ],
+            "disabled": false,
+            "roi_px": [
+              324.0,
+              150.0,
+              464.0,
+              174.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "LongInput",
+            "sources": [
+              "A long input with a clipped trailing word"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              220.0,
+              320.0,
+              252.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Disabled",
+            "sources": [
+              "Disabled"
+            ],
+            "disabled": true,
+            "roi_px": [
+              400.0,
+              220.0,
+              560.0,
+              260.0
+            ],
+            "font_height_px": 16.5
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-LayoutContainers-100",
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "native_facts": "390;285;100\nGroup;Frame;12;12;174;72;Tahoma;8.25;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+      "images": [
+        {
+          "file": "live-LayoutContainers-100-composite.png",
+          "sha256": "ea8ae1f30f4d451d05d44adc0939fb4e1c39df56dc7b811063891d6aadc793bf"
+        },
+        {
+          "file": "live-LayoutContainers-100-parent.png",
+          "sha256": "ea8ae1f30f4d451d05d44adc0939fb4e1c39df56dc7b811063891d6aadc793bf"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "kind": "Frame",
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              244,
+              108
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "kind": "MultiPage",
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              388,
+              232
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Group",
+                "roi_px": [
+                  21,
+                  16,
+                  243,
+                  32
+                ],
+                "ink_bounds_px": [
+                  30,
+                  19,
+                  61,
+                  27
+                ],
+                "line_bands_px": [
+                  [
+                    19,
+                    27
+                  ]
+                ],
+                "ink_pixels": 49,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "TabsControl",
+                "roi_px": [
+                  20,
+                  195,
+                  244,
+                  209
+                ],
+                "ink_bounds_px": [
+                  24,
+                  195,
+                  98,
+                  209
+                ],
+                "line_bands_px": [
+                  [
+                    195,
+                    209
+                  ]
+                ],
+                "ink_pixels": 91,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "roi_px": [
+                  284,
+                  139,
+                  492,
+                  153
+                ],
+                "ink_bounds_px": [
+                  288,
+                  139,
+                  362,
+                  153
+                ],
+                "line_bands_px": [
+                  [
+                    139,
+                    153
+                  ]
+                ],
+                "ink_pixels": 91,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Group",
+                "roi_px": [
+                  21,
+                  16,
+                  243,
+                  32
+                ],
+                "ink_bounds_px": [
+                  30,
+                  19,
+                  61,
+                  27
+                ],
+                "line_bands_px": [
+                  [
+                    19,
+                    27
+                  ]
+                ],
+                "ink_pixels": 49,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "TabsControl",
+                "roi_px": [
+                  20,
+                  195,
+                  244,
+                  209
+                ],
+                "ink_bounds_px": [
+                  24,
+                  195,
+                  98,
+                  209
+                ],
+                "line_bands_px": [
+                  [
+                    195,
+                    209
+                  ]
+                ],
+                "ink_pixels": 91,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "roi_px": [
+                  284,
+                  139,
+                  492,
+                  153
+                ],
+                "ink_bounds_px": [
+                  288,
+                  139,
+                  362,
+                  153
+                ],
+                "line_bands_px": [
+                  [
+                    139,
+                    153
+                  ]
+                ],
+                "ink_pixels": 91,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Group",
+            "sources": [
+              "Details"
+            ],
+            "disabled": false,
+            "roi_px": [
+              21.333333333333332,
+              16.0,
+              242.66666666666666,
+              32.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "TabsControl",
+            "sources": [
+              "First",
+              "Second"
+            ],
+            "disabled": false,
+            "roi_px": [
+              20.0,
+              194.66666666666666,
+              244.0,
+              209.33333333333331
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "PagesControl",
+            "sources": [
+              "First",
+              "Second"
+            ],
+            "disabled": false,
+            "roi_px": [
+              284.0,
+              138.66666666666666,
+              492.0,
+              153.33333333333331
+            ],
+            "font_height_px": 11.0
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-LayoutContainers-150",
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "native_facts": "390;285;150\nGroup;Frame;12;12;174;72;Tahoma;8.5;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+      "images": [
+        {
+          "file": "live-LayoutContainers-150-composite.png",
+          "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+        },
+        {
+          "file": "live-LayoutContainers-150-parent.png",
+          "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "kind": "Frame",
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              366,
+              162
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "kind": "MultiPage",
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Group",
+                "roi_px": [
+                  32,
+                  24,
+                  364,
+                  48
+                ],
+                "ink_bounds_px": [
+                  47,
+                  29,
+                  96,
+                  41
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    41
+                  ]
+                ],
+                "ink_pixels": 115,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "TabsControl",
+                "roi_px": [
+                  30,
+                  292,
+                  366,
+                  314
+                ],
+                "ink_bounds_px": [
+                  38,
+                  292,
+                  147,
+                  311
+                ],
+                "line_bands_px": [
+                  [
+                    292,
+                    294
+                  ],
+                  [
+                    296,
+                    311
+                  ]
+                ],
+                "ink_pixels": 187,
+                "foreground_classes": [
+                  "dark-text",
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "roi_px": [
+                  426,
+                  208,
+                  738,
+                  230
+                ],
+                "ink_bounds_px": [
+                  434,
+                  208,
+                  543,
+                  227
+                ],
+                "line_bands_px": [
+                  [
+                    208,
+                    210
+                  ],
+                  [
+                    212,
+                    227
+                  ]
+                ],
+                "ink_pixels": 187,
+                "foreground_classes": [
+                  "dark-text",
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Group",
+                "roi_px": [
+                  32,
+                  24,
+                  364,
+                  48
+                ],
+                "ink_bounds_px": [
+                  47,
+                  29,
+                  96,
+                  41
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    41
+                  ]
+                ],
+                "ink_pixels": 115,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "TabsControl",
+                "roi_px": [
+                  30,
+                  292,
+                  366,
+                  314
+                ],
+                "ink_bounds_px": [
+                  38,
+                  292,
+                  147,
+                  311
+                ],
+                "line_bands_px": [
+                  [
+                    292,
+                    294
+                  ],
+                  [
+                    296,
+                    311
+                  ]
+                ],
+                "ink_pixels": 187,
+                "foreground_classes": [
+                  "dark-text",
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "roi_px": [
+                  426,
+                  208,
+                  738,
+                  230
+                ],
+                "ink_bounds_px": [
+                  434,
+                  208,
+                  543,
+                  227
+                ],
+                "line_bands_px": [
+                  [
+                    208,
+                    210
+                  ],
+                  [
+                    212,
+                    227
+                  ]
+                ],
+                "ink_pixels": 187,
+                "foreground_classes": [
+                  "dark-text",
+                  "shadow-or-disabled"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Group",
+            "sources": [
+              "Details"
+            ],
+            "disabled": false,
+            "roi_px": [
+              32.0,
+              24.0,
+              364.0,
+              48.0
+            ],
+            "font_height_px": 17.0
+          },
+          {
+            "control": "TabsControl",
+            "sources": [
+              "First",
+              "Second"
+            ],
+            "disabled": false,
+            "roi_px": [
+              30.0,
+              292.0,
+              366.0,
+              314.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "PagesControl",
+            "sources": [
+              "First",
+              "Second"
+            ],
+            "disabled": false,
+            "roi_px": [
+              426.0,
+              208.0,
+              738.0,
+              230.0
+            ],
+            "font_height_px": 16.5
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-LayoutSelection-100",
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "native_facts": "330;210;100\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "images": [
+        {
+          "file": "live-LayoutSelection-100-composite.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        },
+        {
+          "file": "live-LayoutSelection-100-parent.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Unchecked",
+                "roi_px": [
+                  31,
+                  16,
+                  189,
+                  40
+                ],
+                "ink_bounds_px": [
+                  34,
+                  26,
+                  84,
+                  32
+                ],
+                "line_bands_px": [
+                  [
+                    26,
+                    32
+                  ]
+                ],
+                "ink_pixels": 61,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Checked",
+                "roi_px": [
+                  247,
+                  16,
+                  405,
+                  40
+                ],
+                "ink_bounds_px": [
+                  250,
+                  24,
+                  289,
+                  32
+                ],
+                "line_bands_px": [
+                  [
+                    24,
+                    32
+                  ]
+                ],
+                "ink_pixels": 58,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionOne",
+                "roi_px": [
+                  31,
+                  56,
+                  189,
+                  80
+                ],
+                "ink_bounds_px": [
+                  34,
+                  64,
+                  86,
+                  72
+                ],
+                "line_bands_px": [
+                  [
+                    64,
+                    72
+                  ]
+                ],
+                "ink_pixels": 67,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionTwo",
+                "roi_px": [
+                  247,
+                  56,
+                  405,
+                  80
+                ],
+                "ink_bounds_px": [
+                  250,
+                  64,
+                  316,
+                  72
+                ],
+                "line_bands_px": [
+                  [
+                    64,
+                    72
+                  ]
+                ],
+                "ink_pixels": 92,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOff",
+                "roi_px": [
+                  19,
+                  99,
+                  187,
+                  125
+                ],
+                "ink_bounds_px": [
+                  77,
+                  107,
+                  126,
+                  118
+                ],
+                "line_bands_px": [
+                  [
+                    107,
+                    118
+                  ]
+                ],
+                "ink_pixels": 75,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOn",
+                "roi_px": [
+                  235,
+                  99,
+                  403,
+                  125
+                ],
+                "ink_bounds_px": [
+                  295,
+                  109,
+                  340,
+                  119
+                ],
+                "line_bands_px": [
+                  [
+                    109,
+                    119
+                  ]
+                ],
+                "ink_pixels": 63,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Choices",
+                "roi_px": [
+                  19,
+                  155,
+                  187,
+                  244
+                ],
+                "ink_bounds_px": [
+                  28,
+                  158,
+                  61,
+                  191
+                ],
+                "line_bands_px": [
+                  [
+                    158,
+                    165
+                  ],
+                  [
+                    170,
+                    175
+                  ],
+                  [
+                    177,
+                    178
+                  ],
+                  [
+                    183,
+                    191
+                  ]
+                ],
+                "ink_pixels": 99,
+                "foreground_classes": [
+                  "dark-text",
+                  "white"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Dropdown",
+                "roi_px": [
+                  235,
+                  155,
+                  383,
+                  177
+                ],
+                "ink_bounds_px": [
+                  244,
+                  159,
+                  264,
+                  167
+                ],
+                "line_bands_px": [
+                  [
+                    159,
+                    167
+                  ]
+                ],
+                "ink_pixels": 40,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Unchecked",
+                "roi_px": [
+                  31,
+                  16,
+                  189,
+                  40
+                ],
+                "ink_bounds_px": [
+                  34,
+                  26,
+                  84,
+                  32
+                ],
+                "line_bands_px": [
+                  [
+                    26,
+                    32
+                  ]
+                ],
+                "ink_pixels": 61,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Checked",
+                "roi_px": [
+                  247,
+                  16,
+                  405,
+                  40
+                ],
+                "ink_bounds_px": [
+                  250,
+                  24,
+                  289,
+                  32
+                ],
+                "line_bands_px": [
+                  [
+                    24,
+                    32
+                  ]
+                ],
+                "ink_pixels": 58,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionOne",
+                "roi_px": [
+                  31,
+                  56,
+                  189,
+                  80
+                ],
+                "ink_bounds_px": [
+                  34,
+                  64,
+                  86,
+                  72
+                ],
+                "line_bands_px": [
+                  [
+                    64,
+                    72
+                  ]
+                ],
+                "ink_pixels": 67,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionTwo",
+                "roi_px": [
+                  247,
+                  56,
+                  405,
+                  80
+                ],
+                "ink_bounds_px": [
+                  250,
+                  64,
+                  316,
+                  72
+                ],
+                "line_bands_px": [
+                  [
+                    64,
+                    72
+                  ]
+                ],
+                "ink_pixels": 92,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOff",
+                "roi_px": [
+                  19,
+                  99,
+                  187,
+                  125
+                ],
+                "ink_bounds_px": [
+                  77,
+                  107,
+                  126,
+                  118
+                ],
+                "line_bands_px": [
+                  [
+                    107,
+                    118
+                  ]
+                ],
+                "ink_pixels": 75,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOn",
+                "roi_px": [
+                  235,
+                  99,
+                  403,
+                  125
+                ],
+                "ink_bounds_px": [
+                  295,
+                  109,
+                  340,
+                  119
+                ],
+                "line_bands_px": [
+                  [
+                    109,
+                    119
+                  ]
+                ],
+                "ink_pixels": 63,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Choices",
+                "roi_px": [
+                  19,
+                  155,
+                  187,
+                  244
+                ],
+                "ink_bounds_px": [
+                  28,
+                  158,
+                  61,
+                  191
+                ],
+                "line_bands_px": [
+                  [
+                    158,
+                    165
+                  ],
+                  [
+                    170,
+                    175
+                  ],
+                  [
+                    177,
+                    178
+                  ],
+                  [
+                    183,
+                    191
+                  ]
+                ],
+                "ink_pixels": 99,
+                "foreground_classes": [
+                  "dark-text",
+                  "white"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Dropdown",
+                "roi_px": [
+                  235,
+                  155,
+                  383,
+                  177
+                ],
+                "ink_bounds_px": [
+                  244,
+                  159,
+                  264,
+                  167
+                ],
+                "line_bands_px": [
+                  [
+                    159,
+                    167
+                  ]
+                ],
+                "ink_pixels": 40,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Unchecked",
+            "sources": [
+              "Unchecked"
+            ],
+            "disabled": false,
+            "roi_px": [
+              30.666666666666664,
+              16.0,
+              189.33333333333331,
+              40.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Checked",
+            "sources": [
+              "Checked"
+            ],
+            "disabled": false,
+            "roi_px": [
+              246.66666666666666,
+              16.0,
+              405.3333333333333,
+              40.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "OptionOne",
+            "sources": [
+              "First option"
+            ],
+            "disabled": false,
+            "roi_px": [
+              30.666666666666664,
+              56.0,
+              189.33333333333331,
+              80.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "OptionTwo",
+            "sources": [
+              "Second option"
+            ],
+            "disabled": false,
+            "roi_px": [
+              246.66666666666666,
+              56.0,
+              405.3333333333333,
+              80.0
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "ToggleOff",
+            "sources": [
+              "Toggle off"
+            ],
+            "disabled": false,
+            "roi_px": [
+              18.666666666666668,
+              98.66666666666667,
+              186.66666666666666,
+              125.33333333333333
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "ToggleOn",
+            "sources": [
+              "Toggle on"
+            ],
+            "disabled": false,
+            "roi_px": [
+              234.66666666666666,
+              98.66666666666667,
+              402.66666666666663,
+              125.33333333333333
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Choices",
+            "sources": [
+              "Alpha",
+              "Beta",
+              "Gamma"
+            ],
+            "disabled": false,
+            "roi_px": [
+              18.666666666666668,
+              154.66666666666666,
+              186.66666666666666,
+              244.33333333333334
+            ],
+            "font_height_px": 11.0
+          },
+          {
+            "control": "Dropdown",
+            "sources": [
+              "Beta"
+            ],
+            "disabled": false,
+            "roi_px": [
+              234.66666666666666,
+              154.66666666666666,
+              382.66666666666663,
+              177.33333333333334
+            ],
+            "font_height_px": 11.0
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "live-LayoutSelection-150",
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "native_facts": "330;210;150\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "images": [
+        {
+          "file": "live-LayoutSelection-150-composite.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        },
+        {
+          "file": "live-LayoutSelection-150-parent.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        }
+      ],
+      "qualification": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Unchecked",
+                "roi_px": [
+                  46,
+                  24,
+                  284,
+                  60
+                ],
+                "ink_bounds_px": [
+                  46,
+                  35,
+                  131,
+                  54
+                ],
+                "line_bands_px": [
+                  [
+                    35,
+                    54
+                  ]
+                ],
+                "ink_pixels": 225,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Checked",
+                "roi_px": [
+                  370,
+                  24,
+                  608,
+                  60
+                ],
+                "ink_bounds_px": [
+                  373,
+                  35,
+                  433,
+                  48
+                ],
+                "line_bands_px": [
+                  [
+                    35,
+                    48
+                  ]
+                ],
+                "ink_pixels": 158,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionOne",
+                "roi_px": [
+                  46,
+                  84,
+                  284,
+                  120
+                ],
+                "ink_bounds_px": [
+                  50,
+                  96,
+                  131,
+                  108
+                ],
+                "line_bands_px": [
+                  [
+                    96,
+                    108
+                  ]
+                ],
+                "ink_pixels": 146,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionTwo",
+                "roi_px": [
+                  370,
+                  84,
+                  608,
+                  120
+                ],
+                "ink_bounds_px": [
+                  373,
+                  95,
+                  475,
+                  108
+                ],
+                "line_bands_px": [
+                  [
+                    95,
+                    108
+                  ]
+                ],
+                "ink_pixels": 223,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOff",
+                "roi_px": [
+                  28,
+                  148,
+                  280,
+                  188
+                ],
+                "ink_bounds_px": [
+                  117,
+                  161,
+                  190,
+                  177
+                ],
+                "line_bands_px": [
+                  [
+                    161,
+                    177
+                  ]
+                ],
+                "ink_pixels": 183,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOn",
+                "roi_px": [
+                  352,
+                  148,
+                  604,
+                  188
+                ],
+                "ink_bounds_px": [
+                  442,
+                  162,
+                  512,
+                  178
+                ],
+                "line_bands_px": [
+                  [
+                    162,
+                    178
+                  ]
+                ],
+                "ink_pixels": 171,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Choices",
+                "roi_px": [
+                  28,
+                  232,
+                  280,
+                  367
+                ],
+                "ink_bounds_px": [
+                  43,
+                  235,
+                  98,
+                  287
+                ],
+                "line_bands_px": [
+                  [
+                    235,
+                    248
+                  ],
+                  [
+                    256,
+                    257
+                  ],
+                  [
+                    259,
+                    268
+                  ],
+                  [
+                    275,
+                    287
+                  ]
+                ],
+                "ink_pixels": 257,
+                "foreground_classes": [
+                  "dark-text",
+                  "white"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Dropdown",
+                "roi_px": [
+                  352,
+                  232,
+                  574,
+                  266
+                ],
+                "ink_bounds_px": [
+                  368,
+                  239,
+                  399,
+                  251
+                ],
+                "line_bands_px": [
+                  [
+                    239,
+                    251
+                  ]
+                ],
+                "ink_pixels": 89,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": true,
+            "text_samples": [
+              {
+                "control": "Unchecked",
+                "roi_px": [
+                  46,
+                  24,
+                  284,
+                  60
+                ],
+                "ink_bounds_px": [
+                  46,
+                  35,
+                  131,
+                  54
+                ],
+                "line_bands_px": [
+                  [
+                    35,
+                    54
+                  ]
+                ],
+                "ink_pixels": 225,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Checked",
+                "roi_px": [
+                  370,
+                  24,
+                  608,
+                  60
+                ],
+                "ink_bounds_px": [
+                  373,
+                  35,
+                  433,
+                  48
+                ],
+                "line_bands_px": [
+                  [
+                    35,
+                    48
+                  ]
+                ],
+                "ink_pixels": 158,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionOne",
+                "roi_px": [
+                  46,
+                  84,
+                  284,
+                  120
+                ],
+                "ink_bounds_px": [
+                  50,
+                  96,
+                  131,
+                  108
+                ],
+                "line_bands_px": [
+                  [
+                    96,
+                    108
+                  ]
+                ],
+                "ink_pixels": 146,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "OptionTwo",
+                "roi_px": [
+                  370,
+                  84,
+                  608,
+                  120
+                ],
+                "ink_bounds_px": [
+                  373,
+                  95,
+                  475,
+                  108
+                ],
+                "line_bands_px": [
+                  [
+                    95,
+                    108
+                  ]
+                ],
+                "ink_pixels": 223,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOff",
+                "roi_px": [
+                  28,
+                  148,
+                  280,
+                  188
+                ],
+                "ink_bounds_px": [
+                  117,
+                  161,
+                  190,
+                  177
+                ],
+                "line_bands_px": [
+                  [
+                    161,
+                    177
+                  ]
+                ],
+                "ink_pixels": 183,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "ToggleOn",
+                "roi_px": [
+                  352,
+                  148,
+                  604,
+                  188
+                ],
+                "ink_bounds_px": [
+                  442,
+                  162,
+                  512,
+                  178
+                ],
+                "line_bands_px": [
+                  [
+                    162,
+                    178
+                  ]
+                ],
+                "ink_pixels": 171,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Choices",
+                "roi_px": [
+                  28,
+                  232,
+                  280,
+                  367
+                ],
+                "ink_bounds_px": [
+                  43,
+                  235,
+                  98,
+                  287
+                ],
+                "line_bands_px": [
+                  [
+                    235,
+                    248
+                  ],
+                  [
+                    256,
+                    257
+                  ],
+                  [
+                    259,
+                    268
+                  ],
+                  [
+                    275,
+                    287
+                  ]
+                ],
+                "ink_pixels": 257,
+                "foreground_classes": [
+                  "dark-text",
+                  "white"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Dropdown",
+                "roi_px": [
+                  352,
+                  232,
+                  574,
+                  266
+                ],
+                "ink_bounds_px": [
+                  368,
+                  239,
+                  399,
+                  251
+                ],
+                "line_bands_px": [
+                  [
+                    239,
+                    251
+                  ]
+                ],
+                "ink_pixels": 89,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Unchecked",
+            "sources": [
+              "Unchecked"
+            ],
+            "disabled": false,
+            "roi_px": [
+              46.0,
+              24.0,
+              284.0,
+              60.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Checked",
+            "sources": [
+              "Checked"
+            ],
+            "disabled": false,
+            "roi_px": [
+              370.0,
+              24.0,
+              608.0,
+              60.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "OptionOne",
+            "sources": [
+              "First option"
+            ],
+            "disabled": false,
+            "roi_px": [
+              46.0,
+              84.0,
+              284.0,
+              120.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "OptionTwo",
+            "sources": [
+              "Second option"
+            ],
+            "disabled": false,
+            "roi_px": [
+              370.0,
+              84.0,
+              608.0,
+              120.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "ToggleOff",
+            "sources": [
+              "Toggle off"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              148.0,
+              280.0,
+              188.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "ToggleOn",
+            "sources": [
+              "Toggle on"
+            ],
+            "disabled": false,
+            "roi_px": [
+              352.0,
+              148.0,
+              604.0,
+              188.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Choices",
+            "sources": [
+              "Alpha",
+              "Beta",
+              "Gamma"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              232.0,
+              280.0,
+              366.5
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Dropdown",
+            "sources": [
+              "Beta"
+            ],
+            "disabled": false,
+            "roi_px": [
+              352.0,
+              232.0,
+              574.0,
+              266.0
+            ],
+            "font_height_px": 16.5
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    },
+    {
+      "name": "interrupted-150",
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "native_facts": "300;180;150\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;30;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "images": [
+        {
+          "file": "interrupted-150-composite.png",
+          "sha256": "009fd95820f0c220072e93c7fa74dfa3111d5217bdceacdffbc2efc6d5edfb7e"
+        },
+        {
+          "file": "interrupted-150-parent.png",
+          "sha256": "5fbef8cab744ba6d730c2d639d7ca6b2196e6dd2281717e2e8ec008c966cb1e3"
+        }
+      ],
+      "qualification": {
+        "verified": false,
+        "selected": null,
+        "scope": "recorded background probes and visible nonempty root text regions",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": false,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  24,
+                  24,
+                  364,
+                  60
+                ],
+                "ink_bounds_px": [
+                  25,
+                  29,
+                  168,
+                  44
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    44
+                  ]
+                ],
+                "ink_pixels": 270,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  28,
+                  76,
+                  360,
+                  108
+                ],
+                "ink_bounds_px": [
+                  43,
+                  81,
+                  69,
+                  94
+                ],
+                "line_bands_px": [
+                  [
+                    81,
+                    94
+                  ]
+                ],
+                "ink_pixels": 76,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  400,
+                  76,
+                  560,
+                  116
+                ],
+                "ink_bounds_px": null,
+                "line_bands_px": [],
+                "ink_pixels": 0,
+                "matches": false
+              },
+              {
+                "control": "Fractional",
+                "roi_px": [
+                  25,
+                  149,
+                  272,
+                  185
+                ],
+                "ink_bounds_px": null,
+                "line_bands_px": [],
+                "ink_pixels": 0,
+                "matches": false
+              },
+              {
+                "control": "Clipped",
+                "roi_px": [
+                  324,
+                  150,
+                  464,
+                  210
+                ],
+                "ink_bounds_px": null,
+                "line_bands_px": [],
+                "ink_pixels": 0,
+                "matches": false
+              },
+              {
+                "control": "LongInput",
+                "roi_px": [
+                  28,
+                  220,
+                  320,
+                  252
+                ],
+                "ink_bounds_px": null,
+                "line_bands_px": [],
+                "ink_pixels": 0,
+                "matches": false
+              },
+              {
+                "control": "Disabled",
+                "roi_px": [
+                  400,
+                  220,
+                  560,
+                  260
+                ],
+                "ink_bounds_px": null,
+                "line_bands_px": [],
+                "ink_pixels": 0,
+                "matches": false
+              }
+            ]
+          },
+          "parent": {
+            "samples": [],
+            "matches": false,
+            "text_samples": [
+              {
+                "control": "Prompt",
+                "roi_px": [
+                  24,
+                  24,
+                  364,
+                  60
+                ],
+                "ink_bounds_px": [
+                  25,
+                  29,
+                  168,
+                  44
+                ],
+                "line_bands_px": [
+                  [
+                    29,
+                    44
+                  ]
+                ],
+                "ink_pixels": 270,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "InputName",
+                "roi_px": [
+                  28,
+                  76,
+                  360,
+                  108
+                ],
+                "ink_bounds_px": [
+                  43,
+                  81,
+                  69,
+                  94
+                ],
+                "line_bands_px": [
+                  [
+                    81,
+                    94
+                  ]
+                ],
+                "ink_pixels": 76,
+                "foreground_classes": [
+                  "selection-blue"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Greet",
+                "roi_px": [
+                  400,
+                  76,
+                  560,
+                  116
+                ],
+                "ink_bounds_px": [
+                  461,
+                  90,
+                  498,
+                  102
+                ],
+                "line_bands_px": [
+                  [
+                    90,
+                    102
+                  ]
+                ],
+                "ink_pixels": 96,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Fractional",
+                "roi_px": [
+                  25,
+                  149,
+                  272,
+                  185
+                ],
+                "ink_bounds_px": [
+                  27,
+                  154,
+                  160,
+                  166
+                ],
+                "line_bands_px": [
+                  [
+                    154,
+                    166
+                  ]
+                ],
+                "ink_pixels": 249,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Clipped",
+                "roi_px": [
+                  324,
+                  150,
+                  464,
+                  210
+                ],
+                "ink_bounds_px": [
+                  325,
+                  154,
+                  451,
+                  191
+                ],
+                "line_bands_px": [
+                  [
+                    154,
+                    170
+                  ],
+                  [
+                    176,
+                    191
+                  ]
+                ],
+                "ink_pixels": 352,
+                "foreground_classes": [
+                  "dark-text"
+                ],
+                "matches": true
+              },
+              {
+                "control": "LongInput",
+                "roi_px": [
+                  28,
+                  220,
+                  320,
+                  252
+                ],
+                "ink_bounds_px": [
+                  43,
+                  225,
+                  319,
+                  241
+                ],
+                "line_bands_px": [
+                  [
+                    225,
+                    241
+                  ]
+                ],
+                "ink_pixels": 611,
+                "foreground_classes": [
+                  "chromatic"
+                ],
+                "matches": true
+              },
+              {
+                "control": "Disabled",
+                "roi_px": [
+                  400,
+                  220,
+                  560,
+                  260
+                ],
+                "ink_bounds_px": null,
+                "line_bands_px": [],
+                "ink_pixels": 0,
+                "matches": false
+              }
+            ]
+          }
+        },
+        "text_probes": [
+          {
+            "control": "Prompt",
+            "sources": [
+              "Your name: AgjpQy"
+            ],
+            "disabled": false,
+            "roi_px": [
+              24.0,
+              24.0,
+              364.0,
+              60.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "InputName",
+            "sources": [
+              "Ada"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              76.0,
+              360.0,
+              108.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Greet",
+            "sources": [
+              "Greet"
+            ],
+            "disabled": false,
+            "roi_px": [
+              400.0,
+              76.0,
+              560.0,
+              116.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Fractional",
+            "sources": [
+              "Fractional position"
+            ],
+            "disabled": false,
+            "roi_px": [
+              24.8,
+              149.3,
+              271.5,
+              184.60000000000002
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Clipped",
+            "sources": [
+              "Long clipped label AgjpQy"
+            ],
+            "disabled": false,
+            "roi_px": [
+              324.0,
+              150.0,
+              464.0,
+              210.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "LongInput",
+            "sources": [
+              "A long input with a clipped trailing word"
+            ],
+            "disabled": false,
+            "roi_px": [
+              28.0,
+              220.0,
+              320.0,
+              252.0
+            ],
+            "font_height_px": 16.5
+          },
+          {
+            "control": "Disabled",
+            "sources": [
+              "Disabled"
+            ],
+            "disabled": true,
+            "roi_px": [
+              400.0,
+              220.0,
+              560.0,
+              260.0
+            ],
+            "font_height_px": 16.5
+          }
+        ],
+        "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+      }
+    }
+  ]
+}

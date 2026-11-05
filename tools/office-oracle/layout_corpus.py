@@ -180,6 +180,13 @@ Public Function LayoutFacts() As String
     S = CStr(LayoutForm.InsideWidth) & ";" & CStr(LayoutForm.InsideHeight) & ";" & CStr(LayoutForm.Zoom)
     LayoutFacts = S & vbLf & ControlFacts(LayoutForm, "")
 End Function
+Public Function LayoutCaptureForm() As Object
+    On Error GoTo Failed
+    Set LayoutCaptureForm = LayoutForm
+    Exit Function
+Failed:
+    Set LayoutCaptureForm = Nothing
+End Function
 Public Sub LayoutHide()
     If Not LayoutForm Is Nothing Then
         Unload LayoutForm

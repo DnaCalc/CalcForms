@@ -11,3 +11,5 @@ foreach ($pattern in @('test_desktop_lease.py', 'test_probe_source.py', 'test_ca
 if ($LASTEXITCODE -ne 0) { throw 'Native capture qualification references failed.' }
 & python -B (Join-Path $root 'tools/office-oracle/validate_frame_capture_reference.py')
 if ($LASTEXITCODE -ne 0) { throw 'Native Frame capture qualification references failed.' }
+& python -B (Join-Path $root 'tools/office-oracle/validate_text_capture_reference.py')
+if ($LASTEXITCODE -ne 0) { throw 'Native text capture qualification references failed.' }

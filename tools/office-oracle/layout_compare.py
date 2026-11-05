@@ -30,8 +30,8 @@ from PIL import Image, ImageChops, ImageStat
 from desktop_lease import desktop_lease
 from layout_corpus import author_excel, load_corpus
 from probe_source import validate_probe_source
-from layout_measurements import measure
-from forms_parity import report_observation, summarize
+from layout_measurements import measure, native_controls
+from forms_parity import report_observation, summarize, edges, text_roi, TEXTLESS
 from capture_qualification import choose_capture
 from workbook_comparison_session import (EXCEL, PREFIX, ROOT, WORKBOOK, capture,
     command_lines, emit, launch, native_excel, stop_owned, wait_for, windows)
@@ -119,6 +119,39 @@ def pixel_compare(excel, runtime, output):
             'different_pixels': unequal, 'different_fraction': unequal / (excel.width * excel.height),
             'mean_absolute_rgb': ImageStat.Stat(diff).mean,
             'luminance_error_above_32': sum(histogram[33:]), 'diff': output.name}
+
+
+def native_text_probes(form, facts, form_name, size):
+    """Read actual public native values, independently of the runtime/reference image."""
+    if form is None:
+        raise RuntimeError('Native capture form could not be read')
+    width, height = map(float, facts.splitlines()[0].split(';')[:2])
+    scale = [size[0] / width, size[1] / height]
+    probes = []
+    for name, control in native_controls(facts, form_name).items():
+        kind = control['kind']
+        if '.' in name or kind in TEXTLESS:
+            continue
+        native = form.Controls.Item(name)
+        if not native.Visible:
+            continue
+        if kind in {'TextBox', 'ComboBox'}:
+            sources = [str(native.Text)]
+        elif kind == 'ListBox':
+            member = native._oleobj_.GetIDsOfNames('List')
+            sources = [str(native._oleobj_.Invoke(member, 0, pythoncom.DISPATCH_PROPERTYGET, 1, i, 0))
+                       for i in range(native.ListCount)]
+        elif kind in {'TabStrip', 'MultiPage'}:
+            items = native.Tabs if kind == 'TabStrip' else native.Pages
+            sources = [str(items.Item(i).Caption) for i in range(items.Count)]
+        else:
+            sources = [str(native.Caption)]
+        if not any(text.strip() for text in sources):
+            continue
+        probes.append(dict(control=name, sources=sources, disabled=not native.Enabled,
+                           roi_px=text_roi(edges(control['bounds'], scale), kind, scale),
+                           font_height_px=control.get('font_size', 8.25) * scale[1]))
+    return probes
 
 
 class Session:
@@ -261,6 +294,13 @@ Public Function LayoutFacts() As String
     Next
     LayoutFacts = S
 End Function
+Public Function LayoutCaptureForm() As Object
+    On Error GoTo Failed
+    Set LayoutCaptureForm = WorkbookGreeter
+    Exit Function
+Failed:
+    Set LayoutCaptureForm = Nothing
+End Function
 ''')
         emit({'stage': 'ready', **self.owner})
 
@@ -360,13 +400,15 @@ End Function
         parent = Image.open(directory / 'excel.png').convert('RGB')
         x, y = native_info['geometry']['client_offset']
         parent = parent.crop((x, y, x + native.width, y + native.height))
-        qualification = choose_capture(native, parent, probes)
+        with self.lease('read owned native text'):
+            text_probes = native_text_probes(self.macro('LayoutCaptureForm'), facts, self.selected_form, native.size)
+        qualification = choose_capture(native, parent, probes, text_probes)
         if qualification['selected'] == 'parent':
             native = parent
             native.save(directory / 'excel-client.png')
             native_info['client']['sha256'] = hashlib.sha256((directory / 'excel-client.png').read_bytes()).hexdigest()
         pixels = pixel_compare(native, runtime, directory / 'difference.png') if qualification['verified'] else {
-            'comparable': False, 'reason': 'Native container background disagrees with its live BackColor; capture unverified'}
+            'comparable': False, 'reason': 'Native background or nonempty text region failed qualification; capture unverified'}
         data = {'schema': 'calcforms.layout_comparison.v2', 'form': self.selected_form, 'zoom': self.zoom,
                 'excel_version': self.excel.Version, 'excel_build': self.excel.Build,
                 'excel': native_info, 'calcforms': runtime_info,

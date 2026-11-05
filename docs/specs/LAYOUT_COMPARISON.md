@@ -48,6 +48,17 @@ parent and every child image/hash as well as the composited client reference.
 This needs no activation and prevents blank ListBox content from being mistaken
 for native behavior.
 
+Live qualification also reads the shown form through its public Controls
+collection. Every visible, nonempty root caption/edit/list/tab region must
+contain foreground ink in its recorded text ROI. Disabled grey and selected
+white text are included; dotted focus and long straight borders are excluded.
+Choose only a complete parent/composite candidate satisfying all applicable
+background and text probes. A failed candidate stays unverified; never patch
+missing content into it. This checks text presence in each root region, not
+complete glyph identity, every list row, or unmeasured nested text origins.
+The `.100` replay rejects both interrupted 150% variants and passes new native
+100%/150% clients without owner input or another Excel launch.
+
 Compare 100% and a second form zoom on the same desktop DPI. The initial second
 zoom is 150%. Excel's Zoom scales contents; enlarge its client area separately
 using InsideWidth/InsideHeight. The CalcForms host's `--scale` changes window
