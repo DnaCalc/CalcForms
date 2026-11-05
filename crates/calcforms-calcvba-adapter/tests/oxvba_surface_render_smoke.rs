@@ -244,10 +244,10 @@ fn expected_demo_framebuffer_hash() -> u64 {
     let mut input_text = SceneNode::new(NodeId(1900));
     input_text.parent = Some(NodeId(1));
     input_text.bounds = RectF::new(12.0, 12.0, 120.0, 18.0);
-    input_text.clip = Some(RectF::new(16.0, 15.0, 112.0, 12.0));
+    input_text.clip = Some(RectF::new(21.0, 15.0, 108.0, 8.0));
     input_text.prims = vec![Prim::DrawText {
         run: text_run_id(&text_key(8), "Hi"),
-        rect: RectF::new(16.0, 15.0, 112.0, 12.0),
+        rect: RectF::new(21.0, 15.0, 108.0, 8.0),
         align: TextAlign::Left,
         wrap: false,
         clip: false,
@@ -260,7 +260,7 @@ fn expected_demo_framebuffer_hash() -> u64 {
     input_selection.z = 1;
     input_selection.bounds = RectF::new(12.0, 12.0, 120.0, 18.0);
     input_selection.visible = false;
-    input_selection.clip = Some(RectF::new(16.0, 15.0, 0.0, 12.0));
+    input_selection.clip = Some(RectF::new(21.0, 15.0, 0.0, 8.0));
 
     let mut button = SceneNode::new(NodeId(2));
     button.parent = Some(NodeId(0));

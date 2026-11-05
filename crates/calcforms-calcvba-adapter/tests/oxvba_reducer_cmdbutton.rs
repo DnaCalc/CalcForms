@@ -1647,6 +1647,10 @@ fn textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text() {
     let (run_id, text_rect) = draw_text_prim(&text_node.prims).expect("normal DrawText prim");
     let run = scene.text_run(run_id).expect("projected shaped text run");
     assert_eq!(&*run.source, "iiiiWW");
+    assert!(
+        (text_rect.h - run.metrics.ascent - run.metrics.descent).abs() < 0.002,
+        "the text/selection rectangle must use one measured font line, not the field height"
+    );
 
     let widths: Vec<f32> = run.caret.stops.windows(2).map(|w| w[1] - w[0]).collect();
     if (widths[0] - widths[4]).abs() <= 0.1 {
@@ -1688,6 +1692,31 @@ fn textbox_selection_geometry_uses_shaped_caret_stops_and_recolors_text() {
 }
 
 #[test]
+fn textbox_empty_and_populated_fields_keep_the_same_measured_caret_height() {
+    let (mut session, surface) = prepare_session();
+    let form = build_form(&mut session, "ReducerTextBoxForm");
+    focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
+    let caret = || {
+        let scene = surface.snapshot().unwrap().scene.unwrap();
+        fill_rect_with_color(&scene.get(NodeId(1)).unwrap().prims, TEXT_CARET_COLOR)
+            .expect("focused empty or populated field has a caret")
+    };
+    let empty = caret();
+    dispatch_char(&mut session, &form, "A");
+    let populated = caret();
+    assert_eq!(empty.y, populated.y);
+    assert_eq!(empty.h, populated.h);
+    assert!(
+        populated.x > empty.x,
+        "typing advances the caret on the same line"
+    );
+    dispatch_key_shift(&mut session, &form, "keydown", KEY_A, SHIFT_CTRL);
+    dispatch_key(&mut session, &form, "keydown", KEY_BACKSPACE);
+    let cleared = caret();
+    assert_rect_close(cleared, empty, "clearing restores the empty caret geometry");
+}
+
+#[test]
 fn textbox_textservice_scrolls_and_clips_long_text_to_caret() {
     let (mut session, surface) = prepare_session();
     let form = build_form(&mut session, "ReducerTextBoxForm");
@@ -1702,7 +1731,7 @@ fn textbox_textservice_scrolls_and_clips_long_text_to_caret() {
     let clip = text_node.clip.expect("TextBox text viewport clip");
     assert_rect_close(
         clip,
-        RectF::new(24.0, 23.0, 92.0, 12.0),
+        RectF::new(29.0, 23.0, 88.0, 8.0),
         "TextBox viewport clip",
     );
     let (_run_id, text_rect) = draw_text_prim(&text_node.prims).expect("long text DrawText");
@@ -1741,7 +1770,7 @@ fn textbox_mouse_down_places_caret_from_control_local_x() {
     dispatch_key(&mut session, &form, "keydown", KEY_END);
     invoke_sub(&mut session, &form, "ClearLog");
 
-    let log = dispatch(&mut session, &form, "mousedown", 32, T1_IN.1);
+    let log = dispatch(&mut session, &form, "mousedown", 37, T1_IN.1);
     assert_eq!(log, "mousedown:T1|repaint");
     assert_eq!(
         i32_get(&mut session, &form, "T1SelStart"),
@@ -1759,17 +1788,17 @@ fn textbox_mouse_drag_extends_selection_through_mousemove_capture() {
     set_t1_text(&mut session, &form, "abcdef");
     invoke_sub(&mut session, &form, "Render");
 
-    let down = dispatch(&mut session, &form, "mousedown", 28, T1_IN.1);
+    let down = dispatch(&mut session, &form, "mousedown", 33, T1_IN.1);
     assert_eq!(down, "enter:T1|mousedown:T1|repaint");
     assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
 
-    let drag = dispatch_mouse(&mut session, &form, "mousemove", 39, T1_IN.1, 1, 0);
+    let drag = dispatch_mouse(&mut session, &form, "mousemove", 44, T1_IN.1, 1, 0);
     assert_eq!(drag, "mousemove:T1|repaint");
     assert_eq!(i32_get(&mut session, &form, "T1SelStart"), 1);
     assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 3);
     assert_eq!(string_get(&mut session, &form, "T1SelText"), "bcd");
 
-    let up = dispatch(&mut session, &form, "mouseup", 39, T1_IN.1);
+    let up = dispatch(&mut session, &form, "mouseup", 44, T1_IN.1);
     assert_eq!(up, "mouseup:T1|repaint");
     assert_eq!(
         string_get(&mut session, &form, "T1SelText"),

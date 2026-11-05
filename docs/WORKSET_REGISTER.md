@@ -17,6 +17,10 @@ and preserves the saved font face with design-em sizing (`.82`). Its measured
 gaps remain work in the existing control lanes; authored coverage is not parity.
 `.81` fixes lost damage between consecutive Windows input events; VBA's focus
 state was correct. See the [focus-paint evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.81/README.md).
+`.83` aligns the default textbox line and measured empty-field caret; see
+[its two-scale evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.83/README.md).
+`.84` audits variable native MultiPage backgrounds before trusting container
+pixel totals as stable baselines.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

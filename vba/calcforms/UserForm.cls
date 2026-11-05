@@ -228,13 +228,14 @@ End Sub
 ' SINGLE CalcForms.Surface.MeasureBatch crossing (the §8 measure step, batched per §6). Captions
 ' ride to Rust as native String record fields and metrics return as typed Longs (OxMeasureRequest
 ' / OxMeasureResult in CalcFormsModel) -- no string packing or parsing. Controls with no caption
-' need no measurement (empty run, zero size) and take no request slot; if the set has no text at
-' all, no crossing happens.
+' need no measurement (empty run, zero size), except TextBox: an empty field still
+' needs the real font line height for its caret. If no control needs metrics,
+' no crossing happens.
 Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
     Dim I As Long, Control As IOxControl, TextCount As Long
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        If Len(Control.Core.DisplayText) > 0 Then
+        If Len(Control.Core.DisplayText) > 0 Or Control.Core.Kind = oxControlTextBox Then
             TextCount = TextCount + 1
         Else
             Control.Core.RunId = ""
@@ -252,7 +253,7 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
     Dim J As Long
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        If Len(Control.Core.DisplayText) > 0 Then
+        If Len(Control.Core.DisplayText) > 0 Or Control.Core.Kind = oxControlTextBox Then
             Reqs(J).FontId = OX_DEFAULT_FONT_ID
             Reqs(J).SizeMilliPt = CLng(Control.Core.FontSize * 1000)
             Reqs(J).Caption = Control.Core.DisplayText

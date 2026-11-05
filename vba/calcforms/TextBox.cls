@@ -68,7 +68,10 @@ Private Const OX_KEY_A As Integer = 65
 Private Const OX_KEY_Y As Integer = 89
 Private Const OX_KEY_Z As Integer = 90
 Private Const OX_BUTTON_LEFT As Integer = 1
-Private Const OX_TEXT_INSET_X As Single = 4
+' Default MSForms SelectionMargin=True: 3pt base plus a 6pt selection area.
+' Configurable SelectionMargin is still a separate public-parity task.
+Private Const OX_TEXT_INSET_LEFT As Single = 9
+Private Const OX_TEXT_INSET_RIGHT As Single = 3
 Private Const OX_TEXT_INSET_Y As Single = 3
 
 Private Sub Class_Initialize()
@@ -119,11 +122,13 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     OxThemePaintControlFrame mCore, Surface
 
     Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-    Tx = mCore.PaintLeft + OX_TEXT_INSET_X
+    Tx = mCore.PaintLeft + OX_TEXT_INSET_LEFT
     Ty = mCore.PaintTop + OX_TEXT_INSET_Y
-    Tw = mCore.Width - (OX_TEXT_INSET_X * 2)
+    Tw = TextViewportWidth()
     If Tw < 1 Then Tw = 1
-    Th = mCore.Height - (OX_TEXT_INSET_Y * 2)
+    ' A single text line starts at the inset; it is not centered in a tall field.
+    Th = mCore.MeasuredHeight
+    If Th > mCore.Height - (OX_TEXT_INSET_Y * 2) Then Th = mCore.Height - (OX_TEXT_INSET_Y * 2)
     If Th < 1 Then Th = 1
 
     Dim SelectionVisible As Boolean
@@ -508,11 +513,11 @@ Private Sub SelectAll()
 End Sub
 
 Private Function IndexFromPoint(ByVal X As Single) As Long
-    IndexFromPoint = mTextService.IndexFromX(mCore, X - OX_TEXT_INSET_X + mScrollX, TextLength())
+    IndexFromPoint = mTextService.IndexFromX(mCore, X - OX_TEXT_INSET_LEFT + mScrollX, TextLength())
 End Function
 
 Private Function TextViewportWidth() As Single
-    TextViewportWidth = mCore.Width - (OX_TEXT_INSET_X * 2)
+    TextViewportWidth = mCore.Width - OX_TEXT_INSET_LEFT - OX_TEXT_INSET_RIGHT
     If TextViewportWidth < 1 Then TextViewportWidth = 1
 End Function
 

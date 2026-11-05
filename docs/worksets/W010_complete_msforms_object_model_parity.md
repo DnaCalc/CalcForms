@@ -31,6 +31,10 @@ records numeric control geometry, fonts, tab indices and pixels. `.82` preserves
 the saved font face and corrects point-em sizing; further palette corrections
 reduce the greeter difference to 4.77%/3.75%. List rows, radio glyphs, Frame and
 MultiPage painting, TabStrip captions, text insets and focus remain visible gaps.
+`.83` corrects the default textbox's six-point selection margin and top-aligned
+font line, reducing greeter differences further to 4.69%/3.68%. Empty fields use
+the same measured caret height. Native MultiPage background capture variance is
+being checked in `.84`; the earlier container pixel totals are provisional.
 
 Depends on:
 

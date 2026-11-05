@@ -13,6 +13,11 @@ they grant no binary-persistence or full API parity credit.
 | Selection and lists | 440×280 / 660×420 | 12.43% / 11.83% | 0.75pt |
 | Containers and navigation | 520×380 / 780×570 | 9.16% / 9.16% | 0pt |
 
+The container pixel totals are provisional: a later unchanged native fixture
+capture showed a white MultiPage body where these show grey. `.84` is checking
+the live page color and child-server capture. Geometry/control coverage remains
+measured, but these container totals are not yet a stable paint baseline.
+
 Native ComboBox coerces requested Height=21 to 21.75pt. Fractional Label bounds
 12.375/74.625/123.375/17.625 become 12.4/74.65/123.35/17.65 in Excel. The tool
 reports these differences; no unproved universal rounding rule was added.

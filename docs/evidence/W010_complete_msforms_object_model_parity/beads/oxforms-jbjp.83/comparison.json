@@ -1,0 +1,321 @@
+{
+  "schema": "calcforms.textbox_layout.v1",
+  "date": "2026-11-05",
+  "pixel_parity_claimed": false,
+  "native_properties": "SelectionMargin=True;MultiLine=False;TextAlign=1;SpecialEffect=2;BorderStyle=0;EnterFieldBehavior=0;Font=Tahoma;Size=8.25",
+  "margin_calibration": [
+    {
+      "zoom": 100,
+      "text_left_dark_pixel": {
+        "true": 29,
+        "false": 21
+      },
+      "shift_pixels": 8,
+      "images": [
+        {
+          "file": "margin-true-100-excel.png",
+          "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+        },
+        {
+          "file": "margin-false-100-excel.png",
+          "sha256": "d1425b4a666f897e3ab0823eeb5ae38f5cbee52542c3cf5dd44f84c2fa8310bc"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "text_left_dark_pixel": {
+        "true": 43,
+        "false": 31
+      },
+      "shift_pixels": 12,
+      "images": [
+        {
+          "file": "margin-true-150-excel.png",
+          "sha256": "7dfaebc2e67f4babe4f5d03539bc60760f4940a93396f16eae302016f81da818"
+        },
+        {
+          "file": "margin-false-150-excel.png",
+          "sha256": "2d6189580d2e806ded119dcd61e2a948a921184d6532e4af2986c27f95a89ad3"
+        }
+      ]
+    }
+  ],
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 0,
+    "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+    "process_created": 1793828651.878,
+    "excel_pid": 49844,
+    "desktop": "winsta0\\default",
+    "closed": "retained_by_original_session",
+    "workbook_unchanged": true,
+    "cleanup_notes": []
+  },
+  "observations": [
+    {
+      "zoom": 100,
+      "state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "before_runtime": {
+        "file": "../oxforms-jbjp.79/greeter-100-calcforms.png",
+        "sha256": "34addfe92982029c7608d1e65dda4659b5747de57fe711f75fdb9c3869542cb7"
+      },
+      "excel_geometry": {
+        "hwnd": 15664962,
+        "pid": 49844,
+        "window_rect": [
+          754,
+          504,
+          1154,
+          717
+        ],
+        "client_size": [
+          384,
+          174
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 2496135296,
+        "extended_style": 257
+      },
+      "runtime_geometry": {
+        "hwnd": 275845740,
+        "pid": 65560,
+        "window_rect": [
+          78,
+          78,
+          478,
+          291
+        ],
+        "client_size": [
+          384,
+          174
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 382664704,
+        "extended_style": 262416
+      },
+      "textbox_interior": [
+        19,
+        51,
+        240,
+        72
+      ],
+      "text_geometry": [
+        {
+          "node": 2900,
+          "run": 12888563741086152538,
+          "rect": {
+            "x": 20.990551,
+            "y": 39.0,
+            "w": 157.9937,
+            "h": 9.958
+          },
+          "clip": false
+        }
+      ],
+      "pixels_before": {
+        "comparable": true,
+        "pixels": 66816,
+        "different_pixels": 3190,
+        "different_fraction": 0.04774305555555555,
+        "mean_absolute_rgb": [
+          4.019546216475096,
+          4.184611470306513,
+          4.234509698275862
+        ],
+        "luminance_error_above_32": 1743,
+        "diff": "before-difference.png"
+      },
+      "pixels_after": {
+        "comparable": true,
+        "pixels": 66816,
+        "different_pixels": 3131,
+        "different_fraction": 0.04686003352490421,
+        "mean_absolute_rgb": [
+          3.754953903256705,
+          3.9314535440613025,
+          4.052053400383142
+        ],
+        "luminance_error_above_32": 1658,
+        "diff": "after-difference.png"
+      },
+      "textbox_before": {
+        "comparable": true,
+        "pixels": 4641,
+        "different_pixels": 190,
+        "different_fraction": 0.04093945270415859,
+        "mean_absolute_rgb": [
+          4.584141348847231,
+          4.556776556776557,
+          4.520577461753932
+        ],
+        "luminance_error_above_32": 153,
+        "diff": "before-text-difference.png"
+      },
+      "textbox_after": {
+        "comparable": true,
+        "pixels": 4641,
+        "different_pixels": 131,
+        "different_fraction": 0.028226675285498815,
+        "mean_absolute_rgb": [
+          0.7748330101271278,
+          0.9120879120879121,
+          1.8937728937728937
+        ],
+        "luminance_error_above_32": 68,
+        "diff": "after-text-difference.png"
+      },
+      "images": [
+        {
+          "file": "100-excel.png",
+          "sha256": "d49eb9ed0a8fb80269ce3ab5d39cc9ede342b2a6366eff1f5a741b1fd390b077"
+        },
+        {
+          "file": "100-calcforms.png",
+          "sha256": "f01eb0147c30964b45fcf6915282a123a574a115424d6176045a6cfb43864a74"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "before_runtime": {
+        "file": "../oxforms-jbjp.79/greeter-150-calcforms.png",
+        "sha256": "b1d1d8151dd529b9be47dac5a2d2be2f8d0f077e7757065c32ce145b71526a34"
+      },
+      "excel_geometry": {
+        "hwnd": 15730498,
+        "pid": 49844,
+        "window_rect": [
+          658,
+          460,
+          1250,
+          760
+        ],
+        "client_size": [
+          576,
+          261
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 2496135296,
+        "extended_style": 257
+      },
+      "runtime_geometry": {
+        "hwnd": 77858700,
+        "pid": 35728,
+        "window_rect": [
+          104,
+          104,
+          696,
+          404
+        ],
+        "client_size": [
+          576,
+          261
+        ],
+        "client_offset": [
+          8,
+          31
+        ],
+        "style": 382664704,
+        "extended_style": 262416
+      },
+      "textbox_interior": [
+        28,
+        76,
+        360,
+        108
+      ],
+      "text_geometry": [
+        {
+          "node": 2900,
+          "run": 12888563741086152538,
+          "rect": {
+            "x": 20.990551,
+            "y": 39.0,
+            "w": 157.9937,
+            "h": 9.958
+          },
+          "clip": false
+        }
+      ],
+      "pixels_before": {
+        "comparable": true,
+        "pixels": 150336,
+        "different_pixels": 5640,
+        "different_fraction": 0.03751596424010217,
+        "mean_absolute_rgb": [
+          3.670418263090677,
+          3.6089492869306086,
+          3.5512718177948064
+        ],
+        "luminance_error_above_32": 3417,
+        "diff": "before-difference.png"
+      },
+      "pixels_after": {
+        "comparable": true,
+        "pixels": 150336,
+        "different_pixels": 5534,
+        "different_fraction": 0.03681087696892295,
+        "mean_absolute_rgb": [
+          3.564967805449127,
+          3.469109195402299,
+          3.37229273094934
+        ],
+        "luminance_error_above_32": 3325,
+        "diff": "after-difference.png"
+      },
+      "textbox_before": {
+        "comparable": true,
+        "pixels": 10624,
+        "different_pixels": 373,
+        "different_fraction": 0.03510918674698795,
+        "mean_absolute_rgb": [
+          5.080007530120482,
+          4.9964231927710845,
+          4.844973644578313
+        ],
+        "luminance_error_above_32": 326,
+        "diff": "before-text-difference.png"
+      },
+      "textbox_after": {
+        "comparable": true,
+        "pixels": 10624,
+        "different_pixels": 267,
+        "different_fraction": 0.025131777108433735,
+        "mean_absolute_rgb": [
+          3.587820030120482,
+          3.017601656626506,
+          2.3123117469879517
+        ],
+        "luminance_error_above_32": 234,
+        "diff": "after-text-difference.png"
+      },
+      "images": [
+        {
+          "file": "150-excel.png",
+          "sha256": "69fb8a6ad6eb2d2d7ea4a7654628efa86673bd9a8f7e2fbf7a8751f7076e57a8"
+        },
+        {
+          "file": "150-calcforms.png",
+          "sha256": "7fd0716d0c28deb17d9670bc729c0dc4c7a7e330b060c3761fb161dfc76018d4"
+        }
+      ]
+    }
+  ]
+}

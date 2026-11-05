@@ -84,6 +84,19 @@ two independent updates before one 150% frame and compares incremental pixels
 with a full raster. A separate workbook test verifies that VBA removes old
 caret/focus primitives. This fixes stale painting without changing focus rules.
 
+The default single-line TextBox uses a 3pt base inset plus the observed 6pt
+selection margin on the left, and 3pt top/right insets. Text, caret, selection
+and scroll hit testing share that viewport. Its text rectangle is one measured
+font line rather than the full field interior, which places its baseline near
+the native top alignment. Measure empty TextBox runs too: clearing a field must
+retain the same font line and caret height. Configurable SelectionMargin,
+gutter-selection behavior and full multiline rendering remain W010 work.
+
+Native MultiPage page backgrounds have varied between parent/child PrintWindow
+captures despite unchanged authored data. `.84` must establish the live page
+color and capture fidelity before container pixel scores become stable
+baselines. This does not affect the separate five-control greeter comparisons.
+
 On the owner's input desktop, use the exclusive shared desktop.lock for every
 operation that may activate or inject input. Fail while a live lock exists;
 only a lock older than five minutes is stale. Keep each hold below two minutes

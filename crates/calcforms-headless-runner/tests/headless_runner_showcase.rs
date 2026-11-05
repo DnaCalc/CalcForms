@@ -208,7 +208,7 @@ fn runner_accessibility_snapshot_tracks_focus_value_and_selection() {
 
     runner
         .dispatch(InputAction::MouseDown {
-            x: 24,
+            x: 29,
             y: 98,
             button: 1,
             shift: 0,
@@ -216,7 +216,7 @@ fn runner_accessibility_snapshot_tracks_focus_value_and_selection() {
         .expect("mouse down");
     runner
         .dispatch(InputAction::MouseMove {
-            x: 35,
+            x: 40,
             y: 98,
             button: 1,
             shift: 0,
@@ -235,7 +235,7 @@ fn runner_accessibility_snapshot_tracks_focus_value_and_selection() {
 
     runner
         .dispatch(InputAction::MouseUp {
-            x: 35,
+            x: 40,
             y: 98,
             button: 1,
             shift: 0,
@@ -1073,7 +1073,7 @@ fn runner_mouse_drag_selects_textbox_text_through_mousemove() {
 
     let down = runner
         .dispatch(InputAction::MouseDown {
-            x: 24,
+            x: 29,
             y: 98,
             button: 1,
             shift: 0,
@@ -1087,7 +1087,7 @@ fn runner_mouse_drag_selects_textbox_text_through_mousemove() {
 
     let drag = runner
         .dispatch(InputAction::MouseMove {
-            x: 35,
+            x: 40,
             y: 98,
             button: 1,
             shift: 0,
@@ -1106,7 +1106,7 @@ fn runner_mouse_drag_selects_textbox_text_through_mousemove() {
 
     runner
         .dispatch(InputAction::MouseUp {
-            x: 35,
+            x: 40,
             y: 98,
             button: 1,
             shift: 0,
@@ -1116,7 +1116,7 @@ fn runner_mouse_drag_selects_textbox_text_through_mousemove() {
         runner
             .trace_jsonl()
             .expect("trace jsonl")
-            .contains("\"action\":\"mouse_move:35,98\""),
+            .contains("\"action\":\"mouse_move:40,98\""),
         "mousemove should be a first-class trace row"
     );
 }
