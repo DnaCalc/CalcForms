@@ -85,7 +85,7 @@ EXPECTED_COUNTS = {
     "persistence_aggregate": 19,
     "unexpected_public_type": 12,
     "unexpected_public_member": 583,
-    "unexpected_public_nested_member": 24,
+    "unexpected_public_nested_member": 25,
 }
 
 ALLOWED_ROW_KINDS = set(EXPECTED_COUNTS)
@@ -95,10 +95,10 @@ EXPECTED_SOURCE_SUMMARY = {
     "class_modules": 33,
     "standard_modules": 4,
     "project_declared_exposed_modules": 5,
-    "public_declarations": 832,
+    "public_declarations": 834,
     "public_events": 114,
     "public_enum_constants": 25,
-    "public_type_fields": 9,
+    "public_type_fields": 10,
     "multiline_public_signatures": 36,
     "bracketed_public_names": 11,
     "optional_parameters": 2,
@@ -6114,19 +6114,19 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
         and isinstance(row.get("actual"), dict)
     }
     if (
-        len(mapped_declarations) != 249
+        len(mapped_declarations) != 251
         or len(unexpected_declarations) != 583
         or mapped_declarations & unexpected_declarations
-        or len(mapped_declarations | unexpected_declarations) != 832
+        or len(mapped_declarations | unexpected_declarations) != 834
     ):
-        errors.append("public source declaration partition differs from 249+583=832")
+        errors.append("public source declaration partition differs from 251+583=834")
     if (
         len(mapped_nested) != 10
-        or len(unexpected_nested) != 24
+        or len(unexpected_nested) != 25
         or mapped_nested & unexpected_nested
-        or len(mapped_nested | unexpected_nested) != 34
+        or len(mapped_nested | unexpected_nested) != 35
     ):
-        errors.append("public nested-member partition differs from 10+24=34")
+        errors.append("public nested-member partition differs from 10+25=35")
 
     ms_categories = Counter(
         row.get("contract", {}).get("category")

@@ -271,30 +271,17 @@ Private Property Get IOxControl_IsCancel() As Boolean
     IOxControl_IsCancel = mCore.CancelButtonEligible And mCancel
 End Property
 
-' Parse the caption's '&X' accelerator mnemonic (uppercased); "" if none. '&&' is a literal
-' ampersand, not a mnemonic.
+Public Property Get Accelerator() As String
+    Accelerator = mCore.Accelerator
+End Property
+Public Property Let Accelerator(ByVal Value As String)
+    mCore.Accelerator = Value
+End Property
+
+' MSForms stores Accelerator separately; ampersands in Caption are literal.
 Private Property Get IOxControl_AcceleratorKey() As String
     If Not mCore.AcceleratorEligible Then Exit Property
-
-    Dim Caption As String, I As Long, Ch As String
-    Caption = mCore.DisplayText
-    I = 1
-    Do While I < Len(Caption)
-        Ch = Mid$(Caption, I, 1)
-        If Ch = "&" Then
-            Dim NextCh As String
-            NextCh = Mid$(Caption, I + 1, 1)
-            If NextCh = "&" Then
-                I = I + 2   ' escaped '&&' -- skip both
-            Else
-                IOxControl_AcceleratorKey = UCase$(NextCh)
-                Exit Property
-            End If
-        Else
-            I = I + 1
-        End If
-    Loop
-    IOxControl_AcceleratorKey = ""
+    IOxControl_AcceleratorKey = UCase$(mCore.Accelerator)
 End Property
 
 ' A focused CommandButton's Enter/Space is handled via the form default-button path, not here.

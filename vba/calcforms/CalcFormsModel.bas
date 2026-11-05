@@ -71,6 +71,7 @@ Public Type OxMeasureRequest
     FontId As Long
     SizeMilliPt As Long
     Caption As String
+    Accelerator As String
 End Type
 
 Public Type OxMeasureResult

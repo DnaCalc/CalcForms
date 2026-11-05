@@ -189,6 +189,110 @@ fn fixture(
 }
 
 #[test]
+fn literal_ampersands_keep_text_list_and_caret_indices_and_explicit_button_accelerator() {
+    let source = r#"Option Explicit
+Private F As UserForm
+Private T As TextBox
+Private L As ListBox
+Private WithEvents B As CommandButton
+Private R As OxReducer
+Private Clicks As Long
+Public Sub Build()
+    Set F = New UserForm
+    F.Width = 300
+    F.Height = 180
+    Set T = F.Controls.Add("Forms.TextBox.1", "Text")
+    T.Width = 130
+    T.Height = 21
+    T.Text = "A&B && C&"
+    T.SelStart = 1
+    T.SelLength = 1
+    Set L = F.Controls.Add("Forms.ListBox.1", "List")
+    L.Top = 30
+    L.Width = 130
+    L.Height = 60
+    L.AddItem "A&B"
+    L.AddItem "A&&B"
+    L.AddItem "tail&"
+    Set B = F.Controls.Add("Forms.CommandButton.1", "Button")
+    B.Left = 160
+    B.Width = 80
+    B.Height = 24
+    B.Caption = "A&B && C&"
+    Set R = New OxReducer
+    R.Init F
+    R.DispatchKey "keydown", 9, 0
+End Sub
+Public Sub RenderOnce()
+    F.Render 96, 96
+End Sub
+Public Function SelectedText() As String
+    SelectedText = T.SelText
+End Function
+Public Sub SetAccelerator(ByVal Value As String)
+    B.Accelerator = Value
+End Sub
+Public Function Accelerator() As String
+    Accelerator = B.Accelerator
+End Function
+Public Function PressB() As Long
+    R.DispatchKey "keydown", 66, 4
+    PressB = Clicks
+End Function
+Private Sub B_Click()
+    Clicks = Clicks + 1
+End Sub
+"#;
+    let (mut session, form, surface) = fixture(source);
+    let mut call = |name: &str, args: Vec<Variant>| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), args)
+            .unwrap()
+    };
+    call("Build", vec![]);
+    call("RenderOnce", vec![]);
+    assert_eq!(
+        call("SelectedText", vec![]).as_bstr().unwrap().as_str(),
+        "&"
+    );
+    assert_eq!(
+        call("PressB", vec![]).as_i32(),
+        Some(0),
+        "Caption contains no implicit accelerator"
+    );
+    let scene = surface.snapshot().unwrap().scene.unwrap();
+    let literal = scene
+        .text
+        .values()
+        .find(|run| &*run.source == "A&B && C&")
+        .unwrap();
+    assert_eq!(literal.glyphs.len(), 9);
+    assert_eq!(literal.caret.stops.len(), 10);
+    for text in ["A&B", "A&&B", "tail&"] {
+        assert!(scene.text.values().any(|run| &*run.source == text));
+    }
+    // The four native FM20 property observations keep case and truncate to one character.
+    for value in ["b", "BC", "&", ""] {
+        call("SetAccelerator", vec![Variant::from_string(value)]);
+        assert_eq!(
+            call("Accelerator", vec![]).as_bstr().unwrap().as_str(),
+            value.chars().take(1).collect::<String>()
+        );
+    }
+    call("SetAccelerator", vec![Variant::from_string("b")]);
+    assert_eq!(call("PressB", vec![]).as_i32(), Some(1));
+    call("RenderOnce", vec![]);
+    assert!(surface
+        .snapshot()
+        .unwrap()
+        .scene
+        .unwrap()
+        .text
+        .values()
+        .any(|run| &*run.source == "A&B && C&" && run.accelerator == Some(2)));
+}
+
+#[test]
 fn list_rows_measure_separately_clip_and_rebuild_without_old_text() {
     let (mut session, form, surface) = fixture(SOURCE);
     let mut call = |name: &str, args: Vec<Variant>| {

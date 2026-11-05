@@ -18,8 +18,8 @@ use std::io;
 
 use ab_glyph::{Font, FontArc, PxScale, ScaleFont};
 use calcforms_pal::scene::{
-    parse_accelerator, text_run_id, CaretTable, FontId, PositionedGlyph, RunMetrics, Scene,
-    TextKey, TextRun, TextRunId, TextShaper,
+    text_run_id, CaretTable, FontId, PositionedGlyph, RunMetrics, Scene, TextKey, TextRun,
+    TextRunId, TextShaper,
 };
 
 /// Resolves the opaque handles a Scene carries (run ids, font ids) into the resident
@@ -130,9 +130,12 @@ impl TextShaper for AbGlyphShaper {
             "AbGlyphShaper face {:?} does not match the requested key font {:?}",
             self.font_id, key.font
         );
-        // The id is over the raw caption (so "&OK" and "OK" differ); glyphs/caret/metrics
-        // are over the display text with the accelerator marker removed.
-        let (display, accelerator) = parse_accelerator(text);
+        // MSForms Caption/Text/list strings are literal. Underlining is explicit.
+        let display = text;
+        let accelerator = key
+            .accelerator_index
+            .map(|index| index as usize)
+            .filter(|index| *index < display.chars().count());
         // Shape at the true logical em (1pt == 1px in logical space); ab_glyph advances
         // scale linearly, so the renderer multiplies positions + em by the device scale.
         // A tiny floor only avoids a zero/degenerate `PxScale`; it does NOT clamp to 1pt
@@ -297,6 +300,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: size_pt * 1000,
             wrap_width_milli_pt: None,
+            accelerator_index: None,
         }
     }
 
@@ -332,10 +336,12 @@ mod tests {
             return;
         };
         let shaper = AbGlyphShaper::new(FontId(1), font);
-        let run = shaper.shape(&key(12), "E&xit");
-        assert_eq!(&*run.source, "Exit");
-        assert_eq!(run.accelerator, Some(1));
-        assert_eq!(run.glyphs.len(), 4);
+        let mut key = key(12);
+        key.accelerator_index = Some(2);
+        let run = shaper.shape(&key, "E&xit");
+        assert_eq!(&*run.source, "E&xit");
+        assert_eq!(run.accelerator, Some(2));
+        assert_eq!(run.glyphs.len(), 5);
     }
 
     #[test]

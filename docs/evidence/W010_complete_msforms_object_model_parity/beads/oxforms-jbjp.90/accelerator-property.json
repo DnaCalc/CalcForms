@@ -1,0 +1,27 @@
+{
+  "excel_pid": 23192,
+  "additional_launches": 0,
+  "source": "native FM20 designer control property",
+  "observations": [
+    {
+      "value": "b",
+      "result": "b",
+      "error": null
+    },
+    {
+      "value": "BC",
+      "result": "B",
+      "error": null
+    },
+    {
+      "value": "&",
+      "result": "&",
+      "error": null
+    },
+    {
+      "value": "",
+      "result": "",
+      "error": null
+    }
+  ]
+}

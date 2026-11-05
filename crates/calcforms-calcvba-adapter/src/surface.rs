@@ -346,7 +346,7 @@ impl SurfaceDispatch {
             format!("{SURFACE_PROG_ID}.MeasureText called without a registered text shaper")
         })?;
 
-        let run = shape_run(shaper, font_id, size_milli_pt, &caption);
+        let run = shape_run(shaper, font_id, size_milli_pt, &caption, None);
         let line = format_measure(&run);
         let mut state = self.lock()?;
         store_run(&mut state, run);
@@ -356,7 +356,7 @@ impl SurfaceDispatch {
     /// `MeasureBatch(requests) -> results` — the BATCHED §8 text-metrics crossing
     /// (RENDERING_ARCHITECTURE.md §6/§8). One crossing measures EVERY run a frame needs:
     /// `requests` is a `SAFEARRAY` of `OxMeasureRequest` records `(FontId, SizeMilliPt,
-    /// Caption)`; the return is an index-aligned `SAFEARRAY` of `OxMeasureResult` records
+    /// Caption, Accelerator)`; the return is an index-aligned `SAFEARRAY` of `OxMeasureResult` records
     /// `(RunId, AdvanceMilliPt, AscentMilliPt, DescentMilliPt, LineGapMilliPt,
     /// CaretStopsMilliPtCsv)`. Captions ride as native `String` record fields
     /// (never packed/escaped); metrics return as typed `Long`s, and caret stops return as
@@ -387,7 +387,20 @@ impl SurfaceDispatch {
             let font_id = record_u32(&record, REQ_FONT_ID, "FontId", row)?;
             let size_milli_pt = record_u32(&record, REQ_SIZE_MILLI_PT, "SizeMilliPt", row)?;
             let caption = record_string(&record, REQ_CAPTION, "Caption", row)?;
-            runs.push(shape_run(shaper, font_id, size_milli_pt, &caption));
+            let accelerator = record_string(&record, REQ_ACCELERATOR, "Accelerator", row)?;
+            let accelerator_index = accelerator.chars().next().and_then(|key| {
+                caption
+                    .chars()
+                    .position(|ch| ch.eq_ignore_ascii_case(&key))
+                    .map(|index| index as u32)
+            });
+            runs.push(shape_run(
+                shaper,
+                font_id,
+                size_milli_pt,
+                &caption,
+                accelerator_index,
+            ));
         }
 
         // Store the whole batch under one lock, then build the index-aligned result array.
@@ -544,6 +557,7 @@ fn milli_pt_i32(points: f32) -> Result<i32, String> {
 const REQ_FONT_ID: usize = 0;
 const REQ_SIZE_MILLI_PT: usize = 1;
 const REQ_CAPTION: usize = 2;
+const REQ_ACCELERATOR: usize = 3;
 const RES_RUN_ID: usize = 0;
 const RES_ADVANCE: usize = 1;
 const RES_ASCENT: usize = 2;
@@ -554,11 +568,18 @@ const RES_CARET_STOPS: usize = 5;
 /// Shape one run via the injected shaper (pure — no store mutation). Shared by the single
 /// `MeasureText` and the batched `MeasureBatch` so a content-hash id never depends on which
 /// path measured it.
-fn shape_run(shaper: &SharedShaper, font_id: u32, size_milli_pt: u32, caption: &str) -> TextRun {
+fn shape_run(
+    shaper: &SharedShaper,
+    font_id: u32,
+    size_milli_pt: u32,
+    caption: &str,
+    accelerator_index: Option<u32>,
+) -> TextRun {
     let key = TextKey {
         font: FontId(u64::from(font_id)),
         size_milli_pt,
         wrap_width_milli_pt: None,
+        accelerator_index,
     };
     shaper.shape(&key, caption)
 }
@@ -960,6 +981,7 @@ mod tests {
                 font: FontId(1),
                 size_milli_pt: 12_000,
                 wrap_width_milli_pt: None,
+                accelerator_index: None,
             },
             "OK",
         );
@@ -1058,6 +1080,7 @@ mod tests {
                 VbaRecordFieldSpec::named("FontId", VbaRecordFieldKind::Long),
                 VbaRecordFieldSpec::named("SizeMilliPt", VbaRecordFieldKind::Long),
                 VbaRecordFieldSpec::named("Caption", VbaRecordFieldKind::String),
+                VbaRecordFieldSpec::named("Accelerator", VbaRecordFieldKind::String),
             ])
             .expect("request layout"),
         );
@@ -1111,6 +1134,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: 12_000,
             wrap_width_milli_pt: None,
+            accelerator_index: None,
         };
         let row0 = rows[0].as_vba_record().expect("result record 0");
         // RunId is a String field (the content hash); metrics are typed Long fields. StubShaper

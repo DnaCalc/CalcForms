@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "d22b4cc2676a346e8f8a265f95d3b6f1a79f8f9cf684c60edfc1a55978e6094b"
+      "sha256": "a9d526be0054c5b642a0e3f4c682a3b70d5e48483e6c13fab59d54cc3c55b2ff"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -111,7 +111,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "f4015a733a5ab89f84baaf806c2bd54b52dfea54120c9acee88fa1158d2678b1"
+      "sha256": "1b97f482d04a5f8dad10ba4c57a8d2d32c2c944c22cc3a10a3bc3f4386946c56"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "1cccf4014c1c00e1b715c232bf698a922f7920ad743793cbc63b74a03912fbc2"
+      "sha256": "4f167f86102a149372fae62d44746cabad891138f5388697d9dd5084fcd26f82"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -161,7 +161,7 @@
     {
       "path": "vba/calcforms/CalcFormsModel.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "d51015a6fdbafa755c4f8cda2b346d397edc68a54398057c4430319476cd3868"
+      "sha256": "e8a18f380702364a63c061934db8107ae3eb3c9024fb05b38eb5d6a969939333"
     },
     {
       "path": "vba/calcforms/CalcFormsSmokeForm.cls",
@@ -181,7 +181,7 @@
     {
       "path": "vba/calcforms/CommandButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "4e777b9e0f0a2d670195f90cd3aa34e2d9eafd0d7a8b245ea3adbdcca1dbd59e"
+      "sha256": "122a8ef4728dbae8add2f12d409753592d11308d7cae44972122495a46f26229"
     },
     {
       "path": "vba/calcforms/Controls.cls",
@@ -241,7 +241,7 @@
     {
       "path": "vba/calcforms/OxControlCore.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "8c61233c762e5ec8688746588d22beb07b1a76b530dfb1b1f5daf6c4f79071aa"
+      "sha256": "d57667a4f6d0be3d7f44bb7138433df7abb0c0751f0f23568ecd7256f3ab5fba"
     },
     {
       "path": "vba/calcforms/OxControlPaint.bas",
@@ -336,7 +336,7 @@
     {
       "path": "vba/calcforms/UserForm.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "0ed357a9cf8ddd3a9f0fa7523749e605d47f2c3ac4410b08c2d4858ab50b941a"
+      "sha256": "50c16a8e492c5ddd48a1c67033a274f7fe1f87ce914046123f3b66d804977520"
     }
   ],
   "ledger_inputs": [

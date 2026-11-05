@@ -1,0 +1,4905 @@
+{
+  "schema": "calcforms.literal_text.v1",
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 23192,
+    "desktop": "CalcFormsOracle_41abe35c61bd"
+  },
+  "observations": [
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            416,
+            279
+          ],
+          "distinct_colors": 106,
+          "sha256": "ca1a93b0e49472f86d891422a73ead2e9ab4f0210e1a28bdfcbd0938f0a8575f"
+        },
+        "children": [
+          {
+            "hwnd": 317134512,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              650,
+              398,
+              1050,
+              638
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              400,
+              240
+            ],
+            "distinct_colors": 209,
+            "sha256": "f158c482b93066ef27936b7534bddb6e8fd4707e0d1bc0c7ff058cf5470704ea"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "9fbfbd3426ac4507c7060adb6dac6e2f652baede99330f6ead411f09ba0e8ce8"
+        },
+        "geometry": {
+          "hwnd": 9243154,
+          "pid": 23192,
+          "window_rect": [
+            642,
+            367,
+            1058,
+            646
+          ],
+          "client_size": [
+            400,
+            240
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "f158c482b93066ef27936b7534bddb6e8fd4707e0d1bc0c7ff058cf5470704ea"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            416,
+            279
+          ],
+          "distinct_colors": 357,
+          "sha256": "2f1cde3a2d02078e03493143cc6eefcbe82031edf0d1fc8d4d86625c5c294eb5"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "2f1cde3a2d02078e03493143cc6eefcbe82031edf0d1fc8d4d86625c5c294eb5"
+        },
+        "geometry": {
+          "hwnd": 12519900,
+          "pid": 63436,
+          "window_rect": [
+            26,
+            26,
+            442,
+            305
+          ],
+          "client_size": [
+            400,
+            240
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "108dc5238e145ab6e4b0488dcefd3a776c1df64ee80facd6423e0358e16d3662"
+        }
+      },
+      "excel_facts": "300;180;100\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "excel_state": null,
+      "calcforms_observation": "Prompt;Label;12;12;170;18;1;12;12;8.25;0\nInputName;TextBox;12;36;170;20;2;12;36;8.25;1\nGreet;CommandButton;198;36;84;24;3;198;36;8.25;2\nFractional;Label;12.375;74.625;123.375;17.625;4;12.375;74.625;8.25;3\nClipped;Label;162;75;70;12;5;162;75;8.25;4\nLongInput;TextBox;12;108;150;20;6;12;108;8.25;5\nDisabled;CommandButton;198;108;84;24;7;198;108;8.25;6\n",
+      "scene_file": "scene-1793859792963005700.json",
+      "runtime_sha256": "b7612d8da35b11c2f1917dec1293c3a5342a1721fe3fa8f796a4bb2a704d9d1c",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 96000,
+        "different_pixels": 7155,
+        "different_fraction": 0.07453125,
+        "mean_absolute_rgb": [
+          6.249875,
+          6.342979166666667,
+          6.235354166666666
+        ],
+        "luminance_error_above_32": 3980,
+        "diff": "difference.png"
+      },
+      "native_paint_facts": "",
+      "native_capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "see session input log",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Clipped",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                162.0,
+                75.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Disabled",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                198.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Fractional",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.4,
+                74.65,
+                123.35,
+                17.65
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.375,
+                74.625,
+                123.375,
+                17.625
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                12.375,
+                74.625
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              -0.025000000000000355,
+              -0.025000000000005684,
+              0.025000000000005684,
+              -0.02499999999999858
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Greet",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                198.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "InputName",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                12.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "LongInput",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                12.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Prompt",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.025000000000005684,
+        "text_runs": [
+          {
+            "text": "AB & C",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Disabled",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.84082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "A long input with a clipped trailing word",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 145.09607,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Fractional position",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 66.13696,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Long clipped label AgjpQy",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 94.4762,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 12.0,
+              "y": 12.75,
+              "w": 170.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 202.0,
+              "y": 39.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 12477738865535806340,
+            "rect": {
+              "x": 12.375,
+              "y": 75.375,
+              "w": 123.375,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 15760181691436062255,
+            "rect": {
+              "x": 162.0,
+              "y": 75.75,
+              "w": 70.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7,
+            "run": 2783079197164487730,
+            "rect": {
+              "x": 202.0,
+              "y": 111.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2900,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 21.0,
+              "y": 39.0,
+              "w": 158.0,
+              "h": 9.958
+            },
+            "clip": false
+          },
+          {
+            "node": 6900,
+            "run": 9315774328096983683,
+            "rect": {
+              "x": 21.0,
+              "y": 111.0,
+              "w": 145.096,
+              "h": 9.958
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "source_capture": "target/forms-run6/live/LayoutCommon-amp-before-painted-100",
+      "images": [
+        {
+          "file": "LayoutCommon-100-excel.png",
+          "sha256": "f158c482b93066ef27936b7534bddb6e8fd4707e0d1bc0c7ff058cf5470704ea"
+        },
+        {
+          "file": "LayoutCommon-100-calcforms.png",
+          "sha256": "108dc5238e145ab6e4b0488dcefd3a776c1df64ee80facd6423e0358e16d3662"
+        }
+      ],
+      "retained_text": {
+        "2635126122701880124": {
+          "id": 2635126122701880124,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 9.80896,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 9,
+              "x": 12.387085,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 17.946167,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 38,
+              "x": 20.524292,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              9.80896,
+              12.387085,
+              17.946167,
+              20.524292,
+              25.479126
+            ]
+          },
+          "accelerator": 1,
+          "source": "AB & C"
+        },
+        "2783079197164487730": {
+          "id": 2783079197164487730,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 39,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 5.595337,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 86,
+              "x": 7.480591,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 11.162476,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 69,
+              "x": 15.49292,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 20.052979,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 21.938232,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 26.280762,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 30.84082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              5.595337,
+              7.480591,
+              11.162476,
+              15.49292,
+              20.052979,
+              21.938232,
+              26.280762,
+              30.84082
+            ]
+          },
+          "accelerator": null,
+          "source": "Disabled"
+        },
+        "9315774328096983683": {
+          "id": 9315774328096983683,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 7.5249023,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 9.410156,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 13.889648,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 18.48999,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 23.050049,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 25.628174,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 27.513428,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 32.11377,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 88,
+              "x": 36.67383,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 41.27417,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 44.03357,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 90,
+              "x": 46.611694,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 52.73474,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 54.63611,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 75,
+              "x": 57.395508,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 61.99585,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 64.573975,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 68.90442,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 71.482544,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 75.28931,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 77.18262,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 79.06787,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 83.62793,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 88.18799,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 92.53052,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 97.090576,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 99.6687,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 102.4281,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 105.26001,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 109.590454,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 111.483765,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 113.377075,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 115.26233,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 119.86267,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 124.42273,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 90,
+              "x": 127.000854,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 133.1239,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 137.6034,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 140.53601,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 145.09607,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              7.5249023,
+              9.410156,
+              13.889648,
+              18.48999,
+              23.050049,
+              25.628174,
+              27.513428,
+              32.11377,
+              36.67383,
+              41.27417,
+              44.03357,
+              46.611694,
+              52.73474,
+              54.619995,
+              57.395508,
+              61.99585,
+              64.573975,
+              68.90442,
+              71.482544,
+              75.28931,
+              77.17456,
+              79.06787,
+              83.62793,
+              88.18799,
+              92.53052,
+              97.090576,
+              99.6687,
+              102.4281,
+              105.401,
+              109.590454,
+              111.47571,
+              113.36902,
+              115.26233,
+              119.86267,
+              124.42273,
+              127.000854,
+              133.1239,
+              137.6034,
+              140.5763,
+              145.09607
+            ]
+          },
+          "accelerator": null,
+          "source": "A long input with a clipped trailing word"
+        },
+        "12477738865535806340": {
+          "id": 12477738865535806340,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 41,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 4.302246,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 7.1341553,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 11.4646,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 15.271362,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 18.030762,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 19.916016,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 24.395508,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 28.99585,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 33.326294,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 35.211548,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 37.789673,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 42.34973,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 86,
+              "x": 46.829224,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 50.51111,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 52.412476,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 55.171875,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 57.05713,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 61.53662,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 66.13696,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.302246,
+              7.2751465,
+              11.4646,
+              15.271362,
+              18.030762,
+              19.916016,
+              24.395508,
+              28.99585,
+              33.326294,
+              35.211548,
+              37.789673,
+              42.34973,
+              46.829224,
+              50.51111,
+              52.396362,
+              55.171875,
+              57.05713,
+              61.53662,
+              66.13696
+            ]
+          },
+          "accelerator": null,
+          "source": "Fractional position"
+        },
+        "15760181691436062255": {
+          "id": 15760181691436062255,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 47,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 4.1048584,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 8.584351,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 13.184692,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 17.744751,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 20.322876,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 24.129639,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 26.02295,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 27.908203,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 32.46826,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 37.02832,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 41.37085,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 45.93091,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 48.509033,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 50.394287,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 69,
+              "x": 54.72473,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 59.28479,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 63.62732,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 65.51257,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 36,
+              "x": 68.0907,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 73.037476,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 77,
+              "x": 77.645874,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 79.970215,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 52,
+              "x": 84.53027,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 92,
+              "x": 90.36731,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 94.4762,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.1048584,
+              8.584351,
+              13.184692,
+              17.744751,
+              20.322876,
+              24.129639,
+              26.014893,
+              27.908203,
+              32.46826,
+              37.02832,
+              41.37085,
+              45.93091,
+              48.509033,
+              50.394287,
+              54.72473,
+              59.28479,
+              63.62732,
+              65.51257,
+              68.0907,
+              73.037476,
+              77.597534,
+              79.970215,
+              84.53027,
+              90.36731,
+              94.4762
+            ]
+          },
+          "accelerator": null,
+          "source": "Long clipped label AgjpQy"
+        }
+      },
+      "text_sources": {
+        "Prompt": [
+          "A&B && C&"
+        ],
+        "InputName": [
+          "A&B && C&"
+        ],
+        "Greet": [
+          "A&B && C&"
+        ]
+      },
+      "literal_text_measurements": {
+        "Prompt": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "InputName": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "Greet": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            616,
+            399
+          ],
+          "distinct_colors": 230,
+          "sha256": "e7e798ac369d0c45fd5a68599bf60965f4d34ba61017667828dca82af704fc55"
+        },
+        "children": [
+          {
+            "hwnd": 316872368,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              550,
+              338,
+              1150,
+              698
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              600,
+              360
+            ],
+            "distinct_colors": 217,
+            "sha256": "568714fc788e5a2c809ccb3de3f56d2b1240b765d3d6349db80c609e57f1240d"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "e7e798ac369d0c45fd5a68599bf60965f4d34ba61017667828dca82af704fc55"
+        },
+        "geometry": {
+          "hwnd": 8981010,
+          "pid": 23192,
+          "window_rect": [
+            542,
+            307,
+            1158,
+            706
+          ],
+          "client_size": [
+            600,
+            360
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "568714fc788e5a2c809ccb3de3f56d2b1240b765d3d6349db80c609e57f1240d"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            616,
+            399
+          ],
+          "distinct_colors": 357,
+          "sha256": "c3016de1eca2908c6a043c36db82327d770c9d6e0878206207c38d8b83790e71"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "c3016de1eca2908c6a043c36db82327d770c9d6e0878206207c38d8b83790e71"
+        },
+        "geometry": {
+          "hwnd": 64557598,
+          "pid": 47508,
+          "window_rect": [
+            52,
+            52,
+            668,
+            451
+          ],
+          "client_size": [
+            600,
+            360
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "e360a3eb46f2eea67fb25c8a8fb3ff759a7aa4c9a63eb359dba5d2a5c611d5bd"
+        }
+      },
+      "excel_facts": "300;180;150\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "excel_state": null,
+      "calcforms_observation": "Prompt;Label;12;12;170;18;1;12;12;8.25;0\nInputName;TextBox;12;36;170;20;2;12;36;8.25;1\nGreet;CommandButton;198;36;84;24;3;198;36;8.25;2\nFractional;Label;12.375;74.625;123.375;17.625;4;12.375;74.625;8.25;3\nClipped;Label;162;75;70;12;5;162;75;8.25;4\nLongInput;TextBox;12;108;150;20;6;12;108;8.25;5\nDisabled;CommandButton;198;108;84;24;7;198;108;8.25;6\n",
+      "scene_file": "scene-1793859269842542800.json",
+      "runtime_sha256": "b7612d8da35b11c2f1917dec1293c3a5342a1721fe3fa8f796a4bb2a704d9d1c",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 216000,
+        "different_pixels": 12778,
+        "different_fraction": 0.05915740740740741,
+        "mean_absolute_rgb": [
+          5.450560185185185,
+          5.359199074074074,
+          5.322625
+        ],
+        "luminance_error_above_32": 7735,
+        "diff": "difference.png"
+      },
+      "native_paint_facts": "",
+      "native_capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "see session input log",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Clipped",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                162.0,
+                75.0,
+                70.0,
+                12.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                162.0,
+                75.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Disabled",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                108.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                198.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Fractional",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.4,
+                74.65,
+                123.35,
+                17.65
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.375,
+                74.625,
+                123.375,
+                17.625
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                12.375,
+                74.625
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              -0.025000000000000355,
+              -0.025000000000005684,
+              0.025000000000005684,
+              -0.02499999999999858
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Greet",
+            "native": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "CommandButton",
+              "bounds": [
+                198.0,
+                36.0,
+                84.0,
+                24.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                198.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "InputName",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                36.0,
+                170.0,
+                20.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                12.0,
+                36.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "LongInput",
+            "native": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "TextBox",
+              "bounds": [
+                12.0,
+                108.0,
+                150.0,
+                20.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                12.0,
+                108.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Prompt",
+            "native": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "Label",
+              "bounds": [
+                12.0,
+                12.0,
+                170.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.025000000000005684,
+        "text_runs": [
+          {
+            "text": "AB & C",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Disabled",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.84082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "A long input with a clipped trailing word",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 145.09607,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Fractional position",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 66.13696,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Long clipped label AgjpQy",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 94.4762,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 12.0,
+              "y": 12.75,
+              "w": 170.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 202.0,
+              "y": 39.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 12477738865535806340,
+            "rect": {
+              "x": 12.375,
+              "y": 75.375,
+              "w": 123.375,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 15760181691436062255,
+            "rect": {
+              "x": 162.0,
+              "y": 75.75,
+              "w": 70.0,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7,
+            "run": 2783079197164487730,
+            "rect": {
+              "x": 202.0,
+              "y": 111.0,
+              "w": 76.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2900,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 21.0,
+              "y": 39.0,
+              "w": 158.0,
+              "h": 9.958
+            },
+            "clip": false
+          },
+          {
+            "node": 6900,
+            "run": 9315774328096983683,
+            "rect": {
+              "x": 21.0,
+              "y": 111.0,
+              "w": 145.096,
+              "h": 9.958
+            },
+            "clip": false
+          }
+        ],
+        "client_size_equal": true
+      },
+      "source_capture": "target/forms-run6/live/LayoutCommon-amp-before-150",
+      "images": [
+        {
+          "file": "LayoutCommon-150-excel.png",
+          "sha256": "568714fc788e5a2c809ccb3de3f56d2b1240b765d3d6349db80c609e57f1240d"
+        },
+        {
+          "file": "LayoutCommon-150-calcforms.png",
+          "sha256": "e360a3eb46f2eea67fb25c8a8fb3ff759a7aa4c9a63eb359dba5d2a5c611d5bd"
+        }
+      ],
+      "retained_text": {
+        "2635126122701880124": {
+          "id": 2635126122701880124,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 9.80896,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 9,
+              "x": 12.387085,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 17.946167,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 38,
+              "x": 20.524292,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              9.80896,
+              12.387085,
+              17.946167,
+              20.524292,
+              25.479126
+            ]
+          },
+          "accelerator": 1,
+          "source": "AB & C"
+        },
+        "2783079197164487730": {
+          "id": 2783079197164487730,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 39,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 5.595337,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 86,
+              "x": 7.480591,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 11.162476,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 69,
+              "x": 15.49292,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 20.052979,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 21.938232,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 26.280762,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 30.84082,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              5.595337,
+              7.480591,
+              11.162476,
+              15.49292,
+              20.052979,
+              21.938232,
+              26.280762,
+              30.84082
+            ]
+          },
+          "accelerator": null,
+          "source": "Disabled"
+        },
+        "9315774328096983683": {
+          "id": 9315774328096983683,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 7.5249023,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 9.410156,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 13.889648,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 18.48999,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 23.050049,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 25.628174,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 27.513428,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 32.11377,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 88,
+              "x": 36.67383,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 41.27417,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 44.03357,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 90,
+              "x": 46.611694,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 52.73474,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 54.63611,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 75,
+              "x": 57.395508,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 61.99585,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 64.573975,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 68.90442,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 71.482544,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 75.28931,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 77.18262,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 79.06787,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 83.62793,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 88.18799,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 92.53052,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 97.090576,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 99.6687,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 102.4281,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 105.26001,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 109.590454,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 111.483765,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 113.377075,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 115.26233,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 119.86267,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 124.42273,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 90,
+              "x": 127.000854,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 133.1239,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 137.6034,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 140.53601,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 145.09607,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              7.5249023,
+              9.410156,
+              13.889648,
+              18.48999,
+              23.050049,
+              25.628174,
+              27.513428,
+              32.11377,
+              36.67383,
+              41.27417,
+              44.03357,
+              46.611694,
+              52.73474,
+              54.619995,
+              57.395508,
+              61.99585,
+              64.573975,
+              68.90442,
+              71.482544,
+              75.28931,
+              77.17456,
+              79.06787,
+              83.62793,
+              88.18799,
+              92.53052,
+              97.090576,
+              99.6687,
+              102.4281,
+              105.401,
+              109.590454,
+              111.47571,
+              113.36902,
+              115.26233,
+              119.86267,
+              124.42273,
+              127.000854,
+              133.1239,
+              137.6034,
+              140.5763,
+              145.09607
+            ]
+          },
+          "accelerator": null,
+          "source": "A long input with a clipped trailing word"
+        },
+        "12477738865535806340": {
+          "id": 12477738865535806340,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 41,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 4.302246,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 7.1341553,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 11.4646,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 15.271362,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 18.030762,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 19.916016,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 24.395508,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 28.99585,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 33.326294,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 35.211548,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 37.789673,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 42.34973,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 86,
+              "x": 46.829224,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 50.51111,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 52.412476,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 55.171875,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 57.05713,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 61.53662,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 66.13696,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.302246,
+              7.2751465,
+              11.4646,
+              15.271362,
+              18.030762,
+              19.916016,
+              24.395508,
+              28.99585,
+              33.326294,
+              35.211548,
+              37.789673,
+              42.34973,
+              46.829224,
+              50.51111,
+              52.396362,
+              55.171875,
+              57.05713,
+              61.53662,
+              66.13696
+            ]
+          },
+          "accelerator": null,
+          "source": "Fractional position"
+        },
+        "15760181691436062255": {
+          "id": 15760181691436062255,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 47,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 4.1048584,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 8.584351,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 13.184692,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 17.744751,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 20.322876,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 24.129639,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 26.02295,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 27.908203,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 32.46826,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 37.02832,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 41.37085,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 45.93091,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 48.509033,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 50.394287,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 69,
+              "x": 54.72473,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 59.28479,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 63.62732,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 65.51257,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 36,
+              "x": 68.0907,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 73.037476,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 77,
+              "x": 77.645874,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 79.970215,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 52,
+              "x": 84.53027,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 92,
+              "x": 90.36731,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 94.4762,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.1048584,
+              8.584351,
+              13.184692,
+              17.744751,
+              20.322876,
+              24.129639,
+              26.014893,
+              27.908203,
+              32.46826,
+              37.02832,
+              41.37085,
+              45.93091,
+              48.509033,
+              50.394287,
+              54.72473,
+              59.28479,
+              63.62732,
+              65.51257,
+              68.0907,
+              73.037476,
+              77.597534,
+              79.970215,
+              84.53027,
+              90.36731,
+              94.4762
+            ]
+          },
+          "accelerator": null,
+          "source": "Long clipped label AgjpQy"
+        }
+      },
+      "text_sources": {
+        "Prompt": [
+          "A&B && C&"
+        ],
+        "InputName": [
+          "A&B && C&"
+        ],
+        "Greet": [
+          "A&B && C&"
+        ]
+      },
+      "literal_text_measurements": {
+        "Prompt": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "InputName": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "Greet": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            456,
+            319
+          ],
+          "distinct_colors": 145,
+          "sha256": "0f051d8c26d5127a642a5848fb9816083b9332f28f5fd70dd9f81cc53dbcc6d5"
+        },
+        "children": [
+          {
+            "hwnd": 316937904,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              630,
+              378,
+              1070,
+              658
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              440,
+              280
+            ],
+            "distinct_colors": 132,
+            "sha256": "89e34ee8a46437970913173da67dc1ee0ea06653932f22f61e3ce66e0df2e4f0"
+          },
+          {
+            "hwnd": 6162896,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              646,
+              530,
+              819,
+              625
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              173,
+              95
+            ],
+            "distinct_colors": 4,
+            "sha256": "a467c9652bdd3f442d01950419209d726ace83b71f4202ba0ae014291773f3fc"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "7043860d9a1f3c18fae74d0cbd40b953888cb3464adc386eba3ca56d8c7121ca"
+        },
+        "geometry": {
+          "hwnd": 9046546,
+          "pid": 23192,
+          "window_rect": [
+            622,
+            347,
+            1078,
+            666
+          ],
+          "client_size": [
+            440,
+            280
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "a654ba93def8e919a15f538933d94ace290bec96beec0e0e9ee7b48fd6641d49"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            456,
+            319
+          ],
+          "distinct_colors": 458,
+          "sha256": "084966a95f30c61867ce757c51c2cbf18b5f5176afdf89909f6581deb94c01e8"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "084966a95f30c61867ce757c51c2cbf18b5f5176afdf89909f6581deb94c01e8"
+        },
+        "geometry": {
+          "hwnd": 757798580,
+          "pid": 12232,
+          "window_rect": [
+            78,
+            78,
+            534,
+            397
+          ],
+          "client_size": [
+            440,
+            280
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "f6e92b7630542c28062943342243bdf60ebda68b7c346595f50eaddc23724189"
+        }
+      },
+      "excel_facts": "330;210;100\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "excel_state": null,
+      "calcforms_observation": "Unchecked;CheckBox;12;12;130;18;1;12;12;8.25;0\nChecked;CheckBox;174;12;130;18;2;174;12;8.25;1\nOptionOne;OptionButton;12;42;130;18;3;12;42;8.25;2\nOptionTwo;OptionButton;174;42;130;18;4;174;42;8.25;3\nToggleOff;ToggleButton;12;72;130;24;5;12;72;8.25;4\nToggleOn;ToggleButton;174;72;130;24;6;174;72;8.25;5\nChoices;ListBox;12;114;130;72;7;12;114;8.25;6\nDropdown;ComboBox;174;114;130;21;8;174;114;8.25;7\n",
+      "scene_file": "scene-1793859272604634800.json",
+      "runtime_sha256": "b7612d8da35b11c2f1917dec1293c3a5342a1721fe3fa8f796a4bb2a704d9d1c",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 123200,
+        "different_pixels": 12967,
+        "different_fraction": 0.10525162337662337,
+        "mean_absolute_rgb": [
+          8.611396103896103,
+          6.6233198051948055,
+          5.072694805194805
+        ],
+        "luminance_error_above_32": 5681,
+        "diff": "difference.png"
+      },
+      "native_paint_facts": "",
+      "native_capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "see session input log",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Checked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                174.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Choices",
+            "native": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                71.25
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                72.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                12.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.75
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Dropdown",
+            "native": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "calcforms": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "node_id": 8,
+              "paint_origin": [
+                174.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionOne",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                12.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionTwo",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                174.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOff",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOn",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                174.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Unchecked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.75,
+        "text_runs": [
+          {
+            "text": "AB & C",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "tail",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 10.868408,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "A&B",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 15.368042,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Checked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "AB",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 9.80896,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Toggle on",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Second option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 25.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2,
+            "run": 11804432927723802779,
+            "rect": {
+              "x": 187.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 25.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 14421308415448605543,
+            "rect": {
+              "x": 187.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 16.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 13024755655796459631,
+            "rect": {
+              "x": 178.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 8,
+            "run": 10820401303379833793,
+            "rect": {
+              "x": 183.0,
+              "y": 117.0,
+              "w": 103.5,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 12951806550416732197,
+            "rect": {
+              "x": 20.25,
+              "y": 115.5,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 10820401303379833793,
+            "rect": {
+              "x": 20.25,
+              "y": 125.25,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 7528375751289521182,
+            "rect": {
+              "x": 20.25,
+              "y": 135.0,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          }
+        ],
+        "client_size_equal": true
+      },
+      "source_capture": "target/forms-run6/live/LayoutSelection-amp-before-100",
+      "images": [
+        {
+          "file": "LayoutSelection-100-excel.png",
+          "sha256": "a654ba93def8e919a15f538933d94ace290bec96beec0e0e9ee7b48fd6641d49"
+        },
+        {
+          "file": "LayoutSelection-100-calcforms.png",
+          "sha256": "f6e92b7630542c28062943342243bdf60ebda68b7c346595f50eaddc23724189"
+        }
+      ],
+      "retained_text": {
+        "2635126122701880124": {
+          "id": 2635126122701880124,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 9.80896,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 9,
+              "x": 12.387085,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 17.946167,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 38,
+              "x": 20.524292,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              9.80896,
+              12.387085,
+              17.946167,
+              20.524292,
+              25.479126
+            ]
+          },
+          "accelerator": 1,
+          "source": "AB & C"
+        },
+        "7528375751289521182": {
+          "id": 7528375751289521182,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 87,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 2.7593994,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 7.0898438,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 8.983154,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 10.868408,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              2.7593994,
+              7.0898438,
+              8.975098,
+              10.868408
+            ]
+          },
+          "accelerator": null,
+          "source": "tail"
+        },
+        "10820401303379833793": {
+          "id": 10820401303379833793,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 9,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 10.505859,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 15.368042,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              10.505859,
+              15.368042
+            ]
+          },
+          "accelerator": null,
+          "source": "A&B"
+        },
+        "11804432927723802779": {
+          "id": 11804432927723802779,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 38,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 75,
+              "x": 4.954834,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 9.555176,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 13.897705,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 78,
+              "x": 17.704468,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 21.740845,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 26.083374,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.954834,
+              9.555176,
+              13.897705,
+              17.704468,
+              21.813354,
+              26.083374,
+              30.643433
+            ]
+          },
+          "accelerator": null,
+          "source": "Checked"
+        },
+        "12951806550416732197": {
+          "id": 12951806550416732197,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 4.9467773,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 9.80896,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              9.80896
+            ]
+          },
+          "accelerator": 1,
+          "source": "AB"
+        },
+        "13024755655796459631": {
+          "id": 13024755655796459631,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 55,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 3.9759521,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 8.455444,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 13.015503,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 17.575562,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 19.460815,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 23.803345,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 26.38147,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 30.860962,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.817871,
+              8.455444,
+              13.015503,
+              17.575562,
+              19.460815,
+              23.803345,
+              26.38147,
+              30.860962,
+              35.461304
+            ]
+          },
+          "accelerator": null,
+          "source": "Toggle on"
+        },
+        "14421308415448605543": {
+          "id": 14421308415448605543,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 54,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 4.6124268,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 8.954956,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 12.761719,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 17.24121,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 21.841553,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 26.401611,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 28.979736,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 33.45923,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 38.019287,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 40.778687,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 42.66394,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 47.143433,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.5963135,
+              8.954956,
+              12.761719,
+              17.24121,
+              21.841553,
+              26.401611,
+              28.979736,
+              33.45923,
+              38.019287,
+              40.778687,
+              42.66394,
+              47.143433,
+              51.743774
+            ]
+          },
+          "accelerator": null,
+          "source": "Second option"
+        }
+      },
+      "text_sources": {
+        "Unchecked": [
+          "A&B && C&"
+        ],
+        "OptionOne": [
+          "A&B && C&"
+        ],
+        "ToggleOff": [
+          "A&B && C&"
+        ],
+        "Choices": [
+          "A&B",
+          "A&&B",
+          "tail&"
+        ],
+        "Dropdown": [
+          "A&&B"
+        ]
+      },
+      "literal_text_measurements": {
+        "Unchecked": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "OptionOne": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "ToggleOff": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "Choices": [
+          {
+            "native": "A&B",
+            "calcforms": "AB"
+          },
+          {
+            "native": "A&&B",
+            "calcforms": "A&B"
+          },
+          {
+            "native": "tail&",
+            "calcforms": "tail"
+          }
+        ],
+        "Dropdown": [
+          {
+            "native": "A&&B",
+            "calcforms": "A&B"
+          }
+        ]
+      }
+    },
+    {
+      "schema": "calcforms.layout_comparison.v2",
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "excel_version": "16.0",
+      "excel_build": 20527.0,
+      "excel": {
+        "window": {
+          "file": "excel.png",
+          "size": [
+            676,
+            459
+          ],
+          "distinct_colors": 112,
+          "sha256": "cfbaab43971e8047ebf1c26563e90c906dddbac80324842955b3681f2644561e"
+        },
+        "children": [
+          {
+            "hwnd": 317003440,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              520,
+              308,
+              1180,
+              728
+            ],
+            "file": "excel-child-0.png",
+            "size": [
+              660,
+              420
+            ],
+            "distinct_colors": 102,
+            "sha256": "414c3f358451e54cf27609fdc19a3f395b8d34a0f2b19d4aa73098a1b608cd63"
+          },
+          {
+            "hwnd": 6228432,
+            "class": "F3 Server d9060000",
+            "window_rect": [
+              544,
+              536,
+              804,
+              679
+            ],
+            "file": "excel-child-1.png",
+            "size": [
+              260,
+              143
+            ],
+            "distinct_colors": 53,
+            "sha256": "de847f0a46cb22650afcdae957d21b4d6a9b9709b33cb885e94e4d91a0f8856e"
+          }
+        ],
+        "composite": {
+          "file": "excel-composited.png",
+          "sha256": "cfbaab43971e8047ebf1c26563e90c906dddbac80324842955b3681f2644561e"
+        },
+        "geometry": {
+          "hwnd": 9112082,
+          "pid": 23192,
+          "window_rect": [
+            512,
+            277,
+            1188,
+            736
+          ],
+          "client_size": [
+            660,
+            420
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 2496135296,
+          "extended_style": 257
+        },
+        "client": {
+          "file": "excel-client.png",
+          "sha256": "414c3f358451e54cf27609fdc19a3f395b8d34a0f2b19d4aa73098a1b608cd63"
+        }
+      },
+      "calcforms": {
+        "window": {
+          "file": "calcforms.png",
+          "size": [
+            676,
+            459
+          ],
+          "distinct_colors": 504,
+          "sha256": "533567ddf94d2ec1df91a2650bbb7c6ab852773d05e4d75a3d8300c85623c72e"
+        },
+        "children": [],
+        "composite": {
+          "file": "calcforms-composited.png",
+          "sha256": "533567ddf94d2ec1df91a2650bbb7c6ab852773d05e4d75a3d8300c85623c72e"
+        },
+        "geometry": {
+          "hwnd": 35659818,
+          "pid": 15720,
+          "window_rect": [
+            104,
+            104,
+            780,
+            563
+          ],
+          "client_size": [
+            660,
+            420
+          ],
+          "client_offset": [
+            8,
+            31
+          ],
+          "style": 382664704,
+          "extended_style": 262416
+        },
+        "client": {
+          "file": "calcforms-client.png",
+          "sha256": "866455cd4d8501e2761b624699ab8b0a317604ca5f107f1d8163a8cb02e78cdf"
+        }
+      },
+      "excel_facts": "330;210;150\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "excel_state": null,
+      "calcforms_observation": "Unchecked;CheckBox;12;12;130;18;1;12;12;8.25;0\nChecked;CheckBox;174;12;130;18;2;174;12;8.25;1\nOptionOne;OptionButton;12;42;130;18;3;12;42;8.25;2\nOptionTwo;OptionButton;174;42;130;18;4;174;42;8.25;3\nToggleOff;ToggleButton;12;72;130;24;5;12;72;8.25;4\nToggleOn;ToggleButton;174;72;130;24;6;174;72;8.25;5\nChoices;ListBox;12;114;130;72;7;12;114;8.25;6\nDropdown;ComboBox;174;114;130;21;8;174;114;8.25;7\n",
+      "scene_file": "scene-1793859275178397800.json",
+      "runtime_sha256": "b7612d8da35b11c2f1917dec1293c3a5342a1721fe3fa8f796a4bb2a704d9d1c",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "pixels": {
+        "comparable": true,
+        "pixels": 277200,
+        "different_pixels": 23923,
+        "different_fraction": 0.0863023088023088,
+        "mean_absolute_rgb": [
+          5.4366341991341995,
+          5.059375901875902,
+          4.712839105339105
+        ],
+        "luminance_error_above_32": 8653,
+        "diff": "difference.png"
+      },
+      "native_paint_facts": "",
+      "native_capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+      "input": "see session input log",
+      "measurements": {
+        "bounds_source": "live production VBA controls, read by the authored fixture observation",
+        "controls": [
+          {
+            "name": "Checked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                174.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 2,
+              "paint_origin": [
+                174.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 1
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Choices",
+            "native": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                71.25
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "calcforms": {
+              "kind": "ListBox",
+              "bounds": [
+                12.0,
+                114.0,
+                130.0,
+                72.0
+              ],
+              "node_id": 7,
+              "paint_origin": [
+                12.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 6
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.75
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Dropdown",
+            "native": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "calcforms": {
+              "kind": "ComboBox",
+              "bounds": [
+                174.0,
+                114.0,
+                130.0,
+                21.0
+              ],
+              "node_id": 8,
+              "paint_origin": [
+                174.0,
+                114.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 7
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionOne",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                12.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 3,
+              "paint_origin": [
+                12.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 2
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "OptionTwo",
+            "native": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "calcforms": {
+              "kind": "OptionButton",
+              "bounds": [
+                174.0,
+                42.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 4,
+              "paint_origin": [
+                174.0,
+                42.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 3
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOff",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                12.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 5,
+              "paint_origin": [
+                12.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 4
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "ToggleOn",
+            "native": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "calcforms": {
+              "kind": "ToggleButton",
+              "bounds": [
+                174.0,
+                72.0,
+                130.0,
+                24.0
+              ],
+              "node_id": 6,
+              "paint_origin": [
+                174.0,
+                72.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 5
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          },
+          {
+            "name": "Unchecked",
+            "native": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "font": "Tahoma",
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "calcforms": {
+              "kind": "CheckBox",
+              "bounds": [
+                12.0,
+                12.0,
+                130.0,
+                18.0
+              ],
+              "node_id": 1,
+              "paint_origin": [
+                12.0,
+                12.0
+              ],
+              "font_size": 8.25,
+              "tab_index": 0
+            },
+            "delta_pt": [
+              0.0,
+              0.0,
+              0.0,
+              0.0
+            ],
+            "kind_equal": true
+          }
+        ],
+        "missing_in_calcforms": [],
+        "missing_in_excel": [],
+        "max_abs_delta_pt": 0.75,
+        "text_runs": [
+          {
+            "text": "AB & C",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "tail",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 10.868408,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "A&B",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 15.368042,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Checked",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "AB",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 9.80896,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Toggle on",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          {
+            "text": "Second option",
+            "font_id": 1,
+            "size_pt": 8.25,
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          }
+        ],
+        "text_rects": [
+          {
+            "node": 1,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 25.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 2,
+            "run": 11804432927723802779,
+            "rect": {
+              "x": 187.5,
+              "y": 15.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 3,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 25.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 4,
+            "run": 14421308415448605543,
+            "rect": {
+              "x": 187.5,
+              "y": 45.0,
+              "w": 115.0,
+              "h": 12.0
+            },
+            "clip": true
+          },
+          {
+            "node": 5,
+            "run": 2635126122701880124,
+            "rect": {
+              "x": 16.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 6,
+            "run": 13024755655796459631,
+            "rect": {
+              "x": 178.0,
+              "y": 75.0,
+              "w": 122.0,
+              "h": 18.0
+            },
+            "clip": true
+          },
+          {
+            "node": 8,
+            "run": 10820401303379833793,
+            "rect": {
+              "x": 183.0,
+              "y": 117.0,
+              "w": 103.5,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 12951806550416732197,
+            "rect": {
+              "x": 20.25,
+              "y": 115.5,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 10820401303379833793,
+            "rect": {
+              "x": 20.25,
+              "y": 125.25,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          },
+          {
+            "node": 7903,
+            "run": 7528375751289521182,
+            "rect": {
+              "x": 20.25,
+              "y": 135.0,
+              "w": 120.25,
+              "h": 9.958
+            },
+            "clip": true
+          }
+        ],
+        "client_size_equal": true
+      },
+      "source_capture": "target/forms-run6/live/LayoutSelection-amp-before-150",
+      "images": [
+        {
+          "file": "LayoutSelection-150-excel.png",
+          "sha256": "414c3f358451e54cf27609fdc19a3f395b8d34a0f2b19d4aa73098a1b608cd63"
+        },
+        {
+          "file": "LayoutSelection-150-calcforms.png",
+          "sha256": "866455cd4d8501e2761b624699ab8b0a317604ca5f107f1d8163a8cb02e78cdf"
+        }
+      ],
+      "retained_text": {
+        "2635126122701880124": {
+          "id": 2635126122701880124,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 9.80896,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 9,
+              "x": 12.387085,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 17.946167,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 38,
+              "x": 20.524292,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 25.479126,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              9.80896,
+              12.387085,
+              17.946167,
+              20.524292,
+              25.479126
+            ]
+          },
+          "accelerator": 1,
+          "source": "AB & C"
+        },
+        "7528375751289521182": {
+          "id": 7528375751289521182,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 87,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 68,
+              "x": 2.7593994,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 7.0898438,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 8.983154,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 10.868408,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              2.7593994,
+              7.0898438,
+              8.975098,
+              10.868408
+            ]
+          },
+          "accelerator": null,
+          "source": "tail"
+        },
+        "10820401303379833793": {
+          "id": 10820401303379833793,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 9,
+              "x": 4.9467773,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 10.505859,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 15.368042,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              10.505859,
+              15.368042
+            ]
+          },
+          "accelerator": null,
+          "source": "A&B"
+        },
+        "11804432927723802779": {
+          "id": 11804432927723802779,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 38,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 75,
+              "x": 4.954834,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 9.555176,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 13.897705,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 78,
+              "x": 17.704468,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 21.740845,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 26.083374,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 30.643433,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.954834,
+              9.555176,
+              13.897705,
+              17.704468,
+              21.813354,
+              26.083374,
+              30.643433
+            ]
+          },
+          "accelerator": null,
+          "source": "Checked"
+        },
+        "12951806550416732197": {
+          "id": 12951806550416732197,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 36,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 37,
+              "x": 4.9467773,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 9.80896,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.9467773,
+              9.80896
+            ]
+          },
+          "accelerator": 1,
+          "source": "AB"
+        },
+        "13024755655796459631": {
+          "id": 13024755655796459631,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 55,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 3.9759521,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 8.455444,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 74,
+              "x": 13.015503,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 79,
+              "x": 17.575562,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 19.460815,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 23.803345,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 26.38147,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 30.860962,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 35.461304,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.817871,
+              8.455444,
+              13.015503,
+              17.575562,
+              19.460815,
+              23.803345,
+              26.38147,
+              30.860962,
+              35.461304
+            ]
+          },
+          "accelerator": null,
+          "source": "Toggle on"
+        },
+        "14421308415448605543": {
+          "id": 14421308415448605543,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 54,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 4.6124268,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 8.954956,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 12.761719,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 17.24121,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 21.841553,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 3,
+              "x": 26.401611,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 28.979736,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 83,
+              "x": 33.45923,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 38.019287,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 40.778687,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 42.66394,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 47.143433,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 51.743774,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.5963135,
+              8.954956,
+              12.761719,
+              17.24121,
+              21.841553,
+              26.401611,
+              28.979736,
+              33.45923,
+              38.019287,
+              40.778687,
+              42.66394,
+              47.143433,
+              51.743774
+            ]
+          },
+          "accelerator": null,
+          "source": "Second option"
+        }
+      },
+      "text_sources": {
+        "Unchecked": [
+          "A&B && C&"
+        ],
+        "OptionOne": [
+          "A&B && C&"
+        ],
+        "ToggleOff": [
+          "A&B && C&"
+        ],
+        "Choices": [
+          "A&B",
+          "A&&B",
+          "tail&"
+        ],
+        "Dropdown": [
+          "A&&B"
+        ]
+      },
+      "literal_text_measurements": {
+        "Unchecked": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "OptionOne": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "ToggleOff": [
+          {
+            "native": "A&B && C&",
+            "calcforms": "AB & C"
+          }
+        ],
+        "Choices": [
+          {
+            "native": "A&B",
+            "calcforms": "AB"
+          },
+          {
+            "native": "A&&B",
+            "calcforms": "A&B"
+          },
+          {
+            "native": "tail&",
+            "calcforms": "tail"
+          }
+        ],
+        "Dropdown": [
+          {
+            "native": "A&&B",
+            "calcforms": "A&B"
+          }
+        ]
+      }
+    }
+  ]
+}

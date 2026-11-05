@@ -107,7 +107,8 @@ Public Sub Build()
     mInput.Core.TabIndex = 0
 
     Set mOk = mForm.Controls.Add("Forms.CommandButton.1", "OkButton")
-    mOk.Caption = "&Log"
+    mOk.Caption = "Log"
+    mOk.Accelerator = "L"
     mOk.Default = True
     mOk.Left = 244
     mOk.Top = 88
@@ -125,7 +126,8 @@ Public Sub Build()
     mCancel.Core.TabIndex = 2
 
     Set mGo = mForm.Controls.Add("Forms.CommandButton.1", "GoButton")
-    mGo.Caption = "&Go"
+    mGo.Caption = "Go"
+    mGo.Accelerator = "G"
     mGo.Left = 402
     mGo.Top = 88
     mGo.Width = 70

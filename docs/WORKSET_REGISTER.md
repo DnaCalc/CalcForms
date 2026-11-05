@@ -63,6 +63,12 @@ Fresh `.97` [ComboBox measurements](evidence/W010_complete_msforms_object_model_
 reduce text origin errors from 7/13px to 1px at both scales, align the outer drop
 button/arrow and share its width with hit testing. The inner border fill boundary
 still fails by 2–3px; broader ComboBox parity and clipped-label wrapping remain open.
+`.90` now preserves literal ampersands across captions/edit/list strings. Native
+observations establish that Accelerator is separate; CommandButton now exposes
+that property and shaping receives an explicit generic index. The [paired report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.90/README.md)
+covers two forms at both scales. Remaining caption spacing and full keyboard-cue
+behaviour stay open. Current ledger: 2,452 verified / 4,682 gaps / 620 unexpected
+public rows (7,754 total); it remains red.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

@@ -37,6 +37,7 @@ Private mDefaultButtonEligible As Boolean
 Private mCancelButtonEligible As Boolean
 Private mMousePointer As Long
 Private mDisplayText As String
+Private mAccelerator As String
 Private mDirty As Boolean
 ' Transient interaction visual: True while a press is armed on this control (mouse-down
 ' inside a pressable control until the matching up). Render-affecting (the classic theme
@@ -106,6 +107,7 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mCancelButtonEligible = False
     mMousePointer = 0
     mDisplayText = ""
+    mAccelerator = ""
     mNodeId = 0
     mBackColor = oxColorAuto
     mForeColor = oxColorAuto
@@ -534,6 +536,17 @@ Public Property Let DisplayText(ByVal Value As String)
         MarkDirty
         If mAcceleratorEligible Or mAutoSize Then MarkInteractionDirty
     End If
+End Property
+
+Friend Property Get Accelerator() As String
+    Accelerator = mAccelerator
+End Property
+Friend Property Let Accelerator(ByVal Value As String)
+    Value = Left$(Value, 1)
+    If mAccelerator = Value Then Exit Property
+    mAccelerator = Value
+    MarkDirty
+    MarkInteractionDirty
 End Property
 
 ' Font size in points (MSForms units; default 8). Part of the text-run identity, so a

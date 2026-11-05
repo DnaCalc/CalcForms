@@ -150,6 +150,13 @@ still has a measured 2–3px fill-boundary mismatch and is a failed spacing row.
 Current native height readback is 21pt at both scales; the historical 21.75pt
 readback is not treated as a general coercion rule.
 
+Native `.90` captures show literal `&`, `&&` and trailing `&` in Label,
+CommandButton, CheckBox, OptionButton, ToggleButton, TextBox, ListBox and
+ComboBox strings. Accelerator is a separate property, not Caption markup.
+The retained run keeps the literal string and its complete caret positions;
+generic shaping receives a separate explicit accelerator index. Captured
+text/value reads and two-scale images are retained with the before/after reports.
+
 ListBox rows now provide separate text fragments through Core's project-internal
 Friend methods. UserForm measures all fragments in its existing one batch;
 no row-level Rust control logic or extra crossing is introduced. The measured

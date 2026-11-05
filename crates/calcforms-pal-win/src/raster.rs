@@ -857,6 +857,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: 24_000,
             wrap_width_milli_pt: None,
+            accelerator_index: None,
         };
         let mut fonts = FontTable::new();
         fonts.add(FontId(1), font.clone());
@@ -1565,8 +1566,10 @@ mod tests {
         let Some(font) = crate::text::host_font_or_skip() else {
             return;
         };
-        // "&File" → accelerator on F (the shaper parses the marker).
-        let (run, fonts) = shaped(&font, "&File");
+        let (plain, fonts) = shaped(&font, "File");
+        let mut key = plain.key;
+        key.accelerator_index = Some(0);
+        let run = AbGlyphShaper::new(key.font, font.clone()).shape(&key, "File");
         let run_id = run.id;
         assert_eq!(run.accelerator, Some(0), "F is the accelerator");
 

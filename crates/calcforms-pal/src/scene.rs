@@ -288,6 +288,9 @@ pub struct TextKey {
     pub size_milli_pt: u32,
     /// Wrap width in 1/1000 pt; `None` = single line / no wrap.
     pub wrap_width_milli_pt: Option<u32>,
+    /// Explicit display-character index to underline. Text itself is always literal.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub accelerator_index: Option<u32>,
 }
 
 /// A shaped, retained text run — the SkTextBlob / cosmic-`Buffer` analog (glyph-run
@@ -301,11 +304,11 @@ pub struct TextRun {
     pub glyphs: Vec<PositionedGlyph>,
     pub metrics: RunMetrics,
     pub caret: CaretTable,
-    /// Glyph index of the accelerator (the char after a single `&` in the caption, to
-    /// be underlined when `DrawText` requests it). `None` = no accelerator. v1 assumes
+    /// Explicit accelerator index, underlined when `DrawText` requests it.
+    /// `None` = no accelerator. v1 assumes
     /// 1:1 char↔glyph, so this is also the display-char index.
     pub accelerator: Option<usize>,
-    /// Display string (the `&` accelerator markers removed), retained for re-shape
+    /// Literal display string, retained for re-shape
     /// (DPI/size change) and caret/a11y only — never the draw payload (the glyphs are).
     /// Owned: the shaper copies on register.
     pub source: Box<str>,
@@ -348,56 +351,32 @@ impl TextRun {
 /// runs astronomically unlikely; the residual is documented on [`Scene::text`] and
 /// guarded by [`Scene::upsert_text_run`].
 ///
-/// Encoding (little-endian): full `font` id `u64`, `size_milli_pt` `u32`, a wrap
-/// discriminant byte (`0` = none, `1` = some) then the wrap width `u32` when present,
-/// then the UTF-8 bytes of `text`.
+/// Encoding (little-endian): font `u64`, size `u32`, a flags byte (bit 0 = wrap
+/// width present, bit 1 = explicit accelerator index present), then each present
+/// width/index as `u32`, then the literal UTF-8 text. Unadorned run ids retain
+/// their existing encoding; explicit underline indices cannot alias that domain.
 #[must_use]
 pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
     let mut buf: Vec<u8> = Vec::new();
     buf.extend_from_slice(&key.font.0.to_le_bytes());
     buf.extend_from_slice(&key.size_milli_pt.to_le_bytes());
+    let accelerator_flag = if key.accelerator_index.is_some() {
+        2
+    } else {
+        0
+    };
     match key.wrap_width_milli_pt {
-        None => buf.push(0),
+        None => buf.push(accelerator_flag),
         Some(w) => {
-            buf.push(1);
+            buf.push(accelerator_flag | 1);
             buf.extend_from_slice(&w.to_le_bytes());
         }
     }
+    if let Some(index) = key.accelerator_index {
+        buf.extend_from_slice(&index.to_le_bytes());
+    }
     buf.extend_from_slice(text.as_bytes());
     TextRunId(fnv1a64(&buf))
-}
-
-/// Parse the MSForms accelerator convention out of a caption: a single `&` marks the
-/// next character as the accelerator (to underline); `&&` is a literal `&`; a trailing
-/// `&` is ignored. Returns the display string (markers removed) and the accelerator's
-/// **char index** in that display string (v1 treats it as the glyph index too).
-#[must_use]
-pub fn parse_accelerator(caption: &str) -> (String, Option<usize>) {
-    let mut display = String::with_capacity(caption.len());
-    let mut accelerator = None;
-    let mut chars = caption.chars().peekable();
-    let mut display_len = 0usize;
-    while let Some(c) = chars.next() {
-        if c == '&' {
-            match chars.peek() {
-                Some('&') => {
-                    chars.next();
-                    display.push('&');
-                    display_len += 1;
-                }
-                Some(_) => {
-                    if accelerator.is_none() {
-                        accelerator = Some(display_len);
-                    }
-                }
-                None => {}
-            }
-        } else {
-            display.push(c);
-            display_len += 1;
-        }
-    }
-    (display, accelerator)
 }
 
 /// Shapes a string into a retained [`TextRun`]. The backend owns the font engine
@@ -417,9 +396,11 @@ pub struct StubShaper;
 
 impl TextShaper for StubShaper {
     fn shape(&self, key: &TextKey, text: &str) -> TextRun {
-        // The id is over the raw caption (so "&OK" and "OK" differ); glyphs/caret are
-        // over the display text (accelerator markers removed).
-        let (display, accelerator) = parse_accelerator(text);
+        let display = text;
+        let accelerator = key
+            .accelerator_index
+            .map(|index| index as usize)
+            .filter(|index| *index < display.chars().count());
         let em = key.size_milli_pt as f32 / 1000.0;
         let advance_per = em * 0.5;
         let mut glyphs = Vec::new();
@@ -1666,6 +1647,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: size_pt * 1000,
             wrap_width_milli_pt: None,
+            accelerator_index: None,
         }
     }
 
@@ -1695,35 +1677,38 @@ mod tests {
             font: FontId(1),
             size_milli_pt: 12_000,
             wrap_width_milli_pt: None,
+            accelerator_index: None,
         };
         assert_eq!(text_run_id(&key, "OK").0, 150_257_306_305_228_244);
     }
 
     #[test]
-    fn parse_accelerator_handles_the_msforms_ampersand_convention() {
-        assert_eq!(parse_accelerator("OK"), ("OK".to_string(), None));
-        assert_eq!(parse_accelerator("&Save"), ("Save".to_string(), Some(0)));
-        assert_eq!(parse_accelerator("E&xit"), ("Exit".to_string(), Some(1)));
-        // `&&` is a literal ampersand, not an accelerator.
-        assert_eq!(parse_accelerator("A && B"), ("A & B".to_string(), None));
-        // First `&` wins; a trailing `&` is ignored.
-        assert_eq!(parse_accelerator("&a&b"), ("ab".to_string(), Some(0)));
-        assert_eq!(parse_accelerator("done&"), ("done".to_string(), None));
+    fn ampersands_are_literal_and_keep_caret_indices() {
+        let key = text_key(12);
+        for text in ["A&B", "A&&B", "tail&", "A&B && C&"] {
+            let run = StubShaper.shape(&key, text);
+            assert_eq!(&*run.source, text);
+            assert_eq!(run.glyphs.len(), text.chars().count());
+            assert_eq!(run.caret.stops.len(), text.chars().count() + 1);
+            assert_eq!(run.accelerator, None);
+        }
     }
 
     #[test]
-    fn stub_shaper_marks_the_accelerator_and_strips_the_marker() {
-        let key = text_key(12);
+    fn stub_shaper_marks_only_an_explicit_accelerator() {
+        let mut key = text_key(12);
+        let plain_id = text_run_id(&key, "E&xit");
+        key.accelerator_index = Some(2);
         let run = StubShaper.shape(&key, "E&xit");
-        assert_eq!(
-            &*run.source, "Exit",
-            "the & marker is stripped from the display"
-        );
-        assert_eq!(run.glyphs.len(), 4, "glyphs are over the display text");
-        assert_eq!(run.accelerator, Some(1), "x is the accelerator");
+        assert_eq!(&*run.source, "E&xit");
+        assert_eq!(run.glyphs.len(), 5);
+        assert_eq!(run.accelerator, Some(2), "x is the explicit accelerator");
         // The id is over the RAW caption, so the accelerator variant is distinct.
         assert_eq!(run.id, text_run_id(&key, "E&xit"));
-        assert_ne!(run.id, text_run_id(&key, "Exit"));
+        assert_ne!(
+            run.id, plain_id,
+            "underline policy belongs to the content key"
+        );
     }
 
     #[test]

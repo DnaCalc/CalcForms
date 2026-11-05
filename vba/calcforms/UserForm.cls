@@ -255,6 +255,7 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
             Reqs(J).FontId = OX_DEFAULT_FONT_ID
             Reqs(J).SizeMilliPt = CLng(Control.Core.FontSize * 1000)
             Reqs(J).Caption = Control.Core.MeasureText(Part)
+            Reqs(J).Accelerator = Control.Core.Accelerator
             J = J + 1
         Next Part
     Next I

@@ -255,7 +255,14 @@ The crossings (flat Variants, serde-shaped payload):
 - `MeasureBatch(requests) -> results[]` — one batched call measuring every run a frame
   needs (oxforms-98v): typed `SAFEARRAY`s of `OxMeasureRequest`/`OxMeasureResult` records, so
   captions cross as native `String` fields (no packing/escaping) and metrics return as typed
-  `Long`s (no VBA-side parsing). As of `oxforms-zhz.11`, results also carry the shaped run's
+  `Long`s (no VBA-side parsing). Run 6 `.90` observes that MSForms Caption, Text
+  and list strings preserve every ampersand literally. Requests now carry a
+  separate Accelerator string; the adapter resolves its first matching display
+  character to a generic optional index in TextKey. The shaper never interprets
+  ampersand markup. The content key includes that index, and the painter still
+  controls whether keyboard cues are shown. CommandButton stores Accelerator
+  separately and truncates assignments to their first character, as observed.
+  As of `oxforms-zhz.11`, results also carry the shaped run's
   caret stops as a milli-point CSV field; as of `oxforms-zhz.16`, VBA `OxTextService`
   consumes those results for TextBox caret placement, selection geometry, x-to-index
   hit-testing, and horizontal scroll/clipped single-line draw. The single-run

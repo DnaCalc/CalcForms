@@ -55,7 +55,8 @@ Public Sub Build()
     mCancelBtn.Height = 20
 
     Set mGo = mForm.Controls.Add("Forms.CommandButton.1", "Go")
-    mGo.Caption = "&Go"
+    mGo.Caption = "Go"
+    mGo.Accelerator = "G"
     mGo.Left = 20
     mGo.Top = 70
     mGo.Width = 60

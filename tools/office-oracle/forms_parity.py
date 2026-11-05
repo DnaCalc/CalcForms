@@ -268,6 +268,10 @@ def control_report(control, data, native, actual, scale, definition):
         if kind == 'ComboBox' and definition.get('items'):
             captions = [definition['items'][1]]  # saved corpus explicitly selects row 1
     textless = kind in TEXTLESS
+    if name in data.get('text_sources', {}):
+        captions = data['text_sources'][name]
+        if not isinstance(captions, list) or not all(isinstance(c, str) for c in captions):
+            raise ValueError('Text sources must be a list of literal strings')
     text_measurements = None
     if usable and not textless:
         nf, af = dotted_rectangle(native, nbox), dotted_rectangle(actual, abox)
@@ -340,6 +344,11 @@ def control_report(control, data, native, actual, scale, definition):
         rows.append(check('spacing', metric, facts.get('native'), facts.get('calcforms'), LAYOUT_TOLERANCE_PX))
     for metric, facts in sorted(data.get('colour_measurements', {}).get(name, {}).items()):
         rows.append(check('colours', metric, facts.get('native'), facts.get('calcforms'), unit='class'))
+    for index, facts in enumerate(data.get('literal_text_measurements', {}).get(name, [])):
+        rows.append(check('text', f'caption_{index}_literal_source', facts.get('native'), facts.get('calcforms'), unit='literal text'))
+        rows.append(check('text', f'caption_{index}_retained_characters',
+                          len(facts['native']), len(facts['calcforms']) if facts.get('calcforms') is not None else None,
+                          unit='characters'))
     for metric in BEHAVIOURS:
         facts = data.get('behaviour_measurements', {}).get(name, {}).get(metric, {})
         if metric == 'tab_order' and 'tab_index' in expected and 'tab_index' in observed:

@@ -3088,7 +3088,7 @@ fn interaction_index_caches_tab_default_cancel_and_accelerator_maps() {
     );
     assert!(
         summary.contains(";alt+G=Go"),
-        "summary should cache the &Go accelerator: {summary}"
+        "summary should cache Go's explicit Accelerator property: {summary}"
     );
     assert_eq!(
         i32_get(&mut session, &form, "InteractionIndexBuildCount"),
