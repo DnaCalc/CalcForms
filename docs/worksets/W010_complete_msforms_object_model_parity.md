@@ -34,7 +34,8 @@ MultiPage painting, TabStrip captions, text insets and focus remain visible gaps
 `.83` corrects the default textbox's six-point selection margin and top-aligned
 font line, reducing greeter differences further to 4.69%/3.68%. Empty fields use
 the same measured caret height. Native MultiPage background capture variance is
-being checked in `.84`; the earlier container pixel totals are provisional.
+checked in `.84`; the command selects a captured variant that matches the live
+background or reports unverified pixels. The grey `.79` page is corroborated.
 
 Depends on:
 

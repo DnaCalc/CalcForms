@@ -92,15 +92,27 @@ the native top alignment. Measure empty TextBox runs too: clearing a field must
 retain the same font line and caret height. Configurable SelectionMargin,
 gutter-selection behavior and full multiline rendering remain W010 work.
 
-Native MultiPage page backgrounds have varied between parent/child PrintWindow
-captures despite unchanged authored data. `.84` must establish the live page
-color and capture fidelity before container pixel scores become stable
-baselines. This does not affect the separate five-control greeter comparisons.
+Native MultiPage page backgrounds can differ between parent/child PrintWindow
+captures despite unchanged authored data. Read MultiPage.BackColor (Page has no
+BackColor member) and resolve system colors on the live Windows host. At the
+center of an empty authored page, require the captured pixel to match that
+color. Prefer the complete child-composited image when it passes; otherwise
+select the complete parent capture if it passes. Retain both raw images and
+the chosen source. If neither passes, report the pixel comparison as unverified.
+Never paint an expected color into a reference. `.84` records a visible native
+capture and replay of the white-child/grey-parent failure.
 
 On the owner's input desktop, use the exclusive shared desktop.lock for every
 operation that may activate or inject input. Fail while a live lock exists;
 only a lock older than five minutes is stale. Keep each hold below two minutes
 and perform no input outside the owner window (stop by 06:55 machine time).
+The file lease independently expires after 110 seconds or at the input cutoff;
+the returned guard rejects further desktop operations after expiry. A blocked
+Excel call is not cancelled by this timer. New native probe entries must contain
+their own local On Error handler; an outer Application.Run handler did not
+prevent a native error dialog. Source validation rejects unprotected entries
+before adding a module. Capture helpers return explicit errors rather than
+silently accepting failed property reads.
 Prefer private-desktop batch capture when physical input is unnecessary. Never
 change Office security, registrations or another process's state. Record the
 owned Excel launch count and final exact-process cleanup.

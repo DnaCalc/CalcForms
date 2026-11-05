@@ -29,7 +29,9 @@ from PIL import Image, ImageChops, ImageStat
 
 from desktop_lease import desktop_lease
 from layout_corpus import author_excel, load_corpus
+from probe_source import validate_probe_source
 from layout_measurements import measure
+from capture_qualification import choose_capture
 from workbook_comparison_session import (EXCEL, PREFIX, ROOT, WORKBOOK, capture,
     command_lines, emit, launch, native_excel, stop_owned, wait_for, windows)
 from workbook_form_session import ORACLE_CODE
@@ -127,6 +129,7 @@ class Session:
         self.runtime_hwnd = None
         self.corpus_book = None
         self.selected_form = None
+        self.active_lease_guard = None
         self.corpus = load_corpus()
         self.comparisons = []
         self.workbook_hash = hashlib.sha256(WORKBOOK.read_bytes()).hexdigest()
@@ -146,7 +149,7 @@ class Session:
         while True:
             lease = desktop_lease(operation)
             try:
-                lease.__enter__()
+                guard = lease.__enter__()
                 break
             except RuntimeError as error:
                 if 'Desktop is in use' not in str(error) or time.monotonic() >= deadline:
@@ -157,9 +160,17 @@ class Session:
                 pythoncom.PumpWaitingMessages()
                 time.sleep(0.2)
         try:
+            self.active_lease_guard = guard
             yield
         finally:
+            self.active_lease_guard = None
             lease.__exit__(None, None, None)
+
+    def check_lease(self):
+        if self.args.interactive:
+            if self.active_lease_guard is None:
+                raise RuntimeError('Desktop operation requires an active lease')
+            self.active_lease_guard()
 
     def save_owner(self):
         (self.output / 'ownership.json').write_text(json.dumps(self.owner, indent=2) + '\n')
@@ -193,6 +204,7 @@ class Session:
                 self.owner.update(excel_launches=proof['excel_launches'], excel_launches_by_this_session=0,
                                   source_owner=str(source), process_created=created)
             else:
+                self.check_lease()
                 self.excel_process, self.excel_pid = launch(
                     [EXCEL, '/x', '/automation', '/r', WORKBOOK], self.desktop_name,
                     self.output / 'excel-stdout.txt')
@@ -250,7 +262,12 @@ End Function
         emit({'stage': 'ready', **self.owner})
 
     def macro(self, name, *args):
-        return self.excel.Run("'" + self.book.Name + "'!" + name, *args)
+        self.check_lease()
+        prefix = "'" + self.book.Name + "'!"
+        result = self.excel.Run(prefix + name, *args)
+        if isinstance(result, str) and result.startswith('CALCFORMS_NATIVE_ERROR:'):
+            raise RuntimeError(result)
+        return result
 
     def start_pair(self, zoom, form_name='greeter'):
         if type(zoom) is not int or not 50 <= zoom <= 200:
@@ -293,6 +310,7 @@ End Function
             copied.parent.mkdir(parents=True, exist_ok=True)
             if not copied.exists():
                 shutil.copyfile(binary, copied)
+            self.check_lease()
             self.runtime, self.runtime_pid = launch(
                 [copied, *arguments],
                 self.desktop_name, self.runtime_log)
@@ -316,10 +334,35 @@ End Function
             raise ValueError('Use a simple capture label')
         directory = self.output / (self.selected_form + '-' + label + '-' + str(self.zoom))
         directory.mkdir(exist_ok=False)
-        facts = self.macro('LayoutFacts')
-        state = self.macro('GreeterState') if self.selected_form == 'greeter' else None
+        with self.lease('read owned layout observations'):
+            facts = self.macro('LayoutFacts')
+            state = self.macro('GreeterState') if self.selected_form == 'greeter' else None
+            paint_facts = self.macro('LayoutPaintFacts') if self.selected_form != 'greeter' else ''
         native, native_info = client_capture(self.native_hwnd, directory / 'excel.png', self.excel_pid)
         runtime, runtime_info = client_capture(self.runtime_hwnd, directory / 'calcforms.png', self.runtime_pid)
+        probes = []
+        if paint_facts:
+            definition = next(f for f in self.corpus['forms'] if f['name'] == self.selected_form)
+            scale_x = native.width / definition['width']
+            scale_y = native.height / definition['height']
+            for line in paint_facts.splitlines():
+                control, color, x, y = line.split(';')
+                color = int(color) & 0xffffffff
+                resolved = win32api.GetSysColor(color & 0xff) if color & 0x80000000 else color
+                probes.append({'control': control, 'ole_color': color,
+                               'point': [float(x), float(y)],
+                               'pixel': [round(float(x) * scale_x), round(float(y) * scale_y)],
+                               'expected_rgb': [resolved & 255, (resolved >> 8) & 255, (resolved >> 16) & 255]})
+        parent = Image.open(directory / 'excel.png').convert('RGB')
+        x, y = native_info['geometry']['client_offset']
+        parent = parent.crop((x, y, x + native.width, y + native.height))
+        qualification = choose_capture(native, parent, probes)
+        if qualification['selected'] == 'parent':
+            native = parent
+            native.save(directory / 'excel-client.png')
+            native_info['client']['sha256'] = hashlib.sha256((directory / 'excel-client.png').read_bytes()).hexdigest()
+        pixels = pixel_compare(native, runtime, directory / 'difference.png') if qualification['verified'] else {
+            'comparable': False, 'reason': 'Native page background disagrees with live MultiPage.BackColor; capture unverified'}
         data = {'schema': 'calcforms.layout_comparison.v2', 'form': self.selected_form, 'zoom': self.zoom,
                 'excel_version': self.excel.Version, 'excel_build': self.excel.Build,
                 'excel': native_info, 'calcforms': runtime_info,
@@ -327,7 +370,8 @@ End Function
                 'excel_state': state,
                 'calcforms_observation': self.runtime_state(), 'scene_file': self.scene_path.name,
                 'runtime_sha256': self.runtime_digest, 'corpus_sha256': self.owner['corpus_sha256'],
-                'pixels': pixel_compare(native, runtime, directory / 'difference.png'),
+                'pixels': pixels, 'native_paint_facts': paint_facts,
+                'native_capture_validation': qualification,
                 'capture': 'PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen',
                 'input': 'none; initial handlers only' if label == 'initial' else 'see session input log'}
         data['measurements'] = measure(data, json.loads(self.scene_path.read_text(encoding='utf-8')))
@@ -361,10 +405,13 @@ End Function
             if self.excel is not None:
                 with self.lease('close owned Excel'):
                     if self.corpus_book is not None:
+                        self.check_lease()
                         self.corpus_book.Close(False)
                         self.corpus_book = None
                     if not self.args.keep_excel:
+                        self.check_lease()
                         self.greeter_book.Close(False)
+                        self.check_lease()
                         self.excel.Quit()
         except Exception as error:
             failures.append(repr(error))
@@ -428,6 +475,7 @@ def main():
                         elif command['command'] == 'macro':
                             with session.lease('owned Excel macro'):
                                 if 'source' in command:
+                                    validate_probe_source(command['source'])
                                     component = session.book.VBProject.VBComponents.Add(1)
                                     component.Name = command['module']
                                     component.CodeModule.AddFromString(command['source'])

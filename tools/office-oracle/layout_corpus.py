@@ -17,6 +17,7 @@ KINDS = {'Label', 'TextBox', 'CommandButton', 'CheckBox', 'OptionButton',
 TEXT_KINDS = KINDS - {'Image', 'SpinButton', 'ScrollBar'}
 
 
+
 def walk(controls):
     for control in controls:
         yield control
@@ -185,6 +186,22 @@ Public Sub LayoutHide()
         Set LayoutForm = Nothing
     End If
 End Sub
+Public Function LayoutPaintFacts() As String
+    On Error GoTo Failed
+    Dim C As Object, P As Object, S As String
+    For Each C In LayoutForm.Controls
+        If TypeName(C) = "MultiPage" And C.Parent Is LayoutForm Then
+            Set P = C.Pages(C.Value)
+            If P.Controls.Count = 0 Then
+                S = S & C.Name & ";" & CStr(C.BackColor) & ";" & CStr(C.Left + C.Width / 2) & ";" & CStr(C.Top + C.Height / 2) & vbLf
+            End If
+        End If
+    Next
+    LayoutPaintFacts = S
+    Exit Function
+Failed:
+    LayoutPaintFacts = "CALCFORMS_NATIVE_ERROR:" & CStr(Err.Number) & ":" & Err.Description
+End Function
 Private Function ControlFacts(ByVal Owner As Object, ByVal Prefix As String) As String
     Dim C As Object, S As String
     For Each C In Owner.Controls

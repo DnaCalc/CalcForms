@@ -1,0 +1,591 @@
+{
+  "schema": "calcforms.capture_qualification.v1",
+  "date": "2026-11-05",
+  "native_readback": "MultiPageBackColor=-2147483633;Pages=2;Selected=0;Caption=First;Children=0",
+  "known_case": {
+    "qualification": {
+      "verified": true,
+      "selected": "parent",
+      "scope": "live background at the center of an empty authored MultiPage",
+      "probes": [
+        {
+          "control": "PagesControl",
+          "ole_color": 2147483663,
+          "point": [
+            291,
+            174
+          ],
+          "pixel": [
+            582,
+            348
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ]
+        }
+      ],
+      "candidates": {
+        "composite": {
+          "samples": [
+            {
+              "control": "PagesControl",
+              "pixel": [
+                582,
+                348
+              ],
+              "expected_rgb": [
+                240,
+                240,
+                240
+              ],
+              "actual_rgb": [
+                255,
+                255,
+                255
+              ],
+              "matches": false
+            }
+          ],
+          "matches": false
+        },
+        "parent": {
+          "samples": [
+            {
+              "control": "PagesControl",
+              "pixel": [
+                582,
+                348
+              ],
+              "expected_rgb": [
+                240,
+                240,
+                240
+              ],
+              "actual_rgb": [
+                240,
+                240,
+                240
+              ],
+              "matches": true
+            }
+          ],
+          "matches": true
+        }
+      }
+    },
+    "geometry": {
+      "hwnd": 88869066,
+      "pid": 49844,
+      "window_rect": [
+        579,
+        329,
+        1375,
+        938
+      ],
+      "client_size": [
+        780,
+        570
+      ],
+      "client_offset": [
+        8,
+        31
+      ],
+      "style": 2496135296,
+      "extended_style": 257
+    },
+    "pixels_with_bad_composite": {
+      "comparable": true,
+      "pixels": 444600,
+      "different_pixels": 121185,
+      "different_fraction": 0.27257085020242916,
+      "mean_absolute_rgb": [
+        7.426655420602789,
+        7.425303643724696,
+        7.427780026990553
+      ],
+      "luminance_error_above_32": 13192,
+      "diff": "bad-reference-error.png"
+    },
+    "pixels_with_parent": {
+      "comparable": true,
+      "pixels": 444600,
+      "different_pixels": 40731,
+      "different_fraction": 0.09161268556005397,
+      "mean_absolute_rgb": [
+        4.712282950967161,
+        4.710931174089069,
+        4.713407557354926
+      ],
+      "luminance_error_above_32": 13192,
+      "diff": "parent-reference-error.png"
+    }
+  },
+  "visible": {
+    "source": "Computer Use owned native transient window, screenshot-1",
+    "origin": [
+      586,
+      329
+    ],
+    "geometry": {
+      "hwnd": 17368586,
+      "pid": 49844,
+      "window_rect": [
+        579,
+        329,
+        1375,
+        938
+      ],
+      "client_size": [
+        780,
+        570
+      ],
+      "client_offset": [
+        8,
+        31
+      ],
+      "style": 2496135296,
+      "extended_style": 257
+    },
+    "sample": [
+      583,
+      379
+    ],
+    "rgb": [
+      240,
+      240,
+      240
+    ]
+  },
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 0,
+    "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+    "process_created": 1793828651.878,
+    "excel_pid": 49844,
+    "desktop": "winsta0\\default",
+    "closed": "retained_by_original_session",
+    "workbook_unchanged": true,
+    "cleanup_notes": []
+  },
+  "comparisons": [
+    {
+      "form": "greeter",
+      "zoom": 100,
+      "native_paint_facts": "",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 66816,
+        "different_pixels": 3144,
+        "different_fraction": 0.04705459770114943,
+        "mean_absolute_rgb": [
+          3.8045677681992336,
+          3.9810674090038316,
+          4.101667265325671
+        ],
+        "luminance_error_above_32": 1671,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "greeter",
+      "zoom": 150,
+      "native_paint_facts": "",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 150336,
+        "different_pixels": 5534,
+        "different_fraction": 0.03681087696892295,
+        "mean_absolute_rgb": [
+          3.564967805449127,
+          3.469109195402299,
+          3.37229273094934
+        ],
+        "luminance_error_above_32": 3325,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "native_paint_facts": "",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 96000,
+        "different_pixels": 7067,
+        "different_fraction": 0.07361458333333333,
+        "mean_absolute_rgb": [
+          6.03646875,
+          6.210020833333333,
+          6.11284375
+        ],
+        "luminance_error_above_32": 3897,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "native_paint_facts": "",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 216000,
+        "different_pixels": 12475,
+        "different_fraction": 0.05775462962962963,
+        "mean_absolute_rgb": [
+          5.246060185185185,
+          5.161189814814815,
+          5.124407407407407
+        ],
+        "luminance_error_above_32": 7466,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "native_paint_facts": "",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 123200,
+        "different_pixels": 15318,
+        "different_fraction": 0.12433441558441559,
+        "mean_absolute_rgb": [
+          11.698441558441559,
+          8.828823051948053,
+          6.469724025974026
+        ],
+        "luminance_error_above_32": 7598,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "native_paint_facts": "",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 277200,
+        "different_pixels": 32797,
+        "different_fraction": 0.11831529581529582,
+        "mean_absolute_rgb": [
+          12.301093073593073,
+          8.971111111111112,
+          6.384747474747475
+        ],
+        "luminance_error_above_32": 16666,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "native_paint_facts": "PagesControl;-2147483633;291;174\n",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              388,
+              232
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 197600,
+        "different_pixels": 18118,
+        "different_fraction": 0.09169028340080972,
+        "mean_absolute_rgb": [
+          4.691381578947368,
+          4.70043016194332,
+          4.678421052631579
+        ],
+        "luminance_error_above_32": 6004,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "native_paint_facts": "PagesControl;-2147483633;291;174\n",
+      "validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          }
+        }
+      },
+      "pixels": {
+        "comparable": true,
+        "pixels": 444600,
+        "different_pixels": 40731,
+        "different_fraction": 0.09161268556005397,
+        "mean_absolute_rgb": [
+          4.712282950967161,
+          4.710931174089069,
+          4.713407557354926
+        ],
+        "luminance_error_above_32": 13192,
+        "diff": "difference.png"
+      },
+      "client_size_equal": true
+    }
+  ],
+  "images": [
+    {
+      "file": "known-composite-150.png",
+      "sha256": "2a3dbfce19870aede632ec3ce7a24e25dbf4174e04a3265bb7446b23a60b8a09"
+    },
+    {
+      "file": "known-parent-150.png",
+      "sha256": "38f749626ed25e6336fbe07b398cbc0269818e8a7b6ab2ba28d339988be047b4"
+    },
+    {
+      "file": "known-runtime-150.png",
+      "sha256": "f3ad7e035d7cbb57bc09a9c11d58352cebbdbcb8ee0761cf33e76e86015bf5cc"
+    },
+    {
+      "file": "native-visible-150.png",
+      "sha256": "40a5ddb19571c600a59d6c0bb2fd8b816a0b9f43c298a56fd5564b9ec0b430a6"
+    }
+  ],
+  "pixel_parity_claimed": false
+}
