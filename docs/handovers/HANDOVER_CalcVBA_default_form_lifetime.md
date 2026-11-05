@@ -1,0 +1,5 @@
+Status: Open
+Target: CalcVBA (read-only sibling OxVba)
+Ask: Provide a non-creating default-instance identity/reset operation or a canonical host form-lifecycle hook, and establish final-reference termination in cyclic control/event graphs.
+Context: CalcForms now attaches the Windows host to the same compiler-owned predeclared singleton as original workbook entry code. VBA Unload can reset that singleton with Set FormName = Nothing after QueryClose permits it. Testing whether Me is FormName creates the default when only an explicit New form existed; no source-provider rewrite should silently change original procedure bodies to hide this.
+Evidence: oxforms-jbjp.95; docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/; crates/calcforms-calcvba-adapter/tests/workbook_userform.rs. The original eight native lifetime rows and new private-desktop QueryClose veto now agree. Held references retain identity; precise released-control and last-reference Terminate behavior remain unproved.

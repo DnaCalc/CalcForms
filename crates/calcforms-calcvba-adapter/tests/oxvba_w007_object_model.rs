@@ -292,7 +292,7 @@ fn object_model_supports_the_w007_demo_shape() {
         Vec::new(),
     );
 
-    // User edit into the TextBox raises Change (programmatic .Text would not).
+    // A user edit raises Change through the same sink as programmatic Text changes.
     call(
         &mut session,
         form.clone(),

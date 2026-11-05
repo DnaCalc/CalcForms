@@ -837,7 +837,7 @@ _ADAPTER_REVIEWED_TOKEN_SHA256 = {
         "af626522943592079806fb08bb4d802ccc48dfd8dce0feb241a8f332cf59d319"
     ),
     "crates/calcforms-calcvba-adapter/src/runtime.rs": (
-        "1ad34003e81c66d92e548ab422d0590d8457325cdd31887a55f33e1f295f76ff"
+        "e1a6487e25e618f678ae4d622be3520d8cb06fafe4874c6d13162af0634158b1"
     ),
 }
 

@@ -2,7 +2,6 @@
 ' are invoked by the owning CalcVBA session, not added to the MSForms facade.
 Private CalcFormsHostForm As UserForm
 Private CalcFormsHostReducer As OxReducer
-
 Private Sub CalcFormsHostBuild()
 %BUILD%
 End Sub

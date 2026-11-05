@@ -61,11 +61,14 @@ pub fn run_form_window(
         .map_err(|e| e.to_string())?;
     }
     observe(&mut runtime, observation_member.as_deref())?;
-    let options = WindowOptions::new(
+    let mut options = WindowOptions::new(
         &configuration.title,
         configuration.width_pt * 96.0 / 72.0 * scale,
         configuration.height_pt * 96.0 / 72.0 * scale,
     );
+    if let Some((_, visible)) = runtime.form_window_state()? {
+        options.visible = visible;
+    }
     let (width, height) = (
         f64::from(scene.surface.width),
         f64::from(scene.surface.height),
@@ -83,11 +86,9 @@ pub fn run_form_window(
         let mut turn = || -> Result<WindowSignal, String> {
             match &event.kind {
                 UiEventKind::CloseRequest(_) => {
-                    if runtime.perform_query_close(0)? != 0 {
+                    if !runtime.close_form(0)? {
                         return Ok(WindowSignal::Ignore);
                     }
-                    runtime.perform("PerformDeactivate")?;
-                    runtime.perform("PerformTerminate")?;
                     return Ok(WindowSignal::Close);
                 }
                 UiEventKind::Activate(_) => {
@@ -110,6 +111,14 @@ pub fn run_form_window(
             let Some(turn) = input::dispatch_event(&mut runtime, event, scale)? else {
                 return Ok(WindowSignal::Ignore);
             };
+            if let Some((loaded, visible)) = runtime.form_window_state()? {
+                if !loaded {
+                    return Ok(WindowSignal::Close);
+                }
+                if !visible {
+                    return Ok(WindowSignal::Visibility(false));
+                }
+            }
             if turn.effect_log.is_empty()
                 || (!turn.repainted && input::is_deferred_plain_text_key(event))
             {

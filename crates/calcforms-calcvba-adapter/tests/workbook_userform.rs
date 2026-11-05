@@ -143,6 +143,147 @@ fn missing_form_has_a_precise_diagnostic() {
 }
 
 #[test]
+fn original_workbook_entry_and_host_share_the_default_instance() {
+    let (mut runtime, _) = workbook()
+        .runtime_with_entry(
+            Arc::new(StubShaper),
+            HostServices::headless(),
+            Some("ShowGreeter"),
+        )
+        .expect("original standard-module entry");
+    let instance = runtime.form();
+    let visible = runtime
+        .session_mut()
+        .invoke_member_values(
+            instance,
+            "Visible",
+            Some(ProjectMemberKind::PropertyGet),
+            vec![],
+        )
+        .unwrap();
+    assert_eq!(visible.as_bool(), Some(true));
+    assert_eq!(
+        state(&mut runtime),
+        "Initialize;text=Ada;caption=(ready);loud=False"
+    );
+}
+
+#[test]
+fn original_native_lifetime_observer_matches_on_vm3() {
+    use calcvba_symbol::manifest::{ModuleAttributes, ModuleKind, ModuleUnit};
+    let mut form = workbook();
+    form.project_modules.push(ModuleUnit {
+        module_name: "LifetimeObserver".into(), module_kind: ModuleKind::Class,
+        attributes: ModuleAttributes::named("LifetimeObserver"),
+        source: format!("{}\nPrivate Function Observe() As String\n    Observe = Run4Lifetime()\nEnd Function\n", std::fs::read_to_string(root().join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/observer.bas")).unwrap()),
+    });
+    let (mut runtime, _) = form
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .expect("lifetime runtime");
+    let observer = runtime
+        .session_mut()
+        .create_class_instance("LifetimeObserver")
+        .unwrap();
+    let result = runtime
+        .session_mut()
+        .invoke_member_values(observer, "Observe", Some(ProjectMemberKind::Method), vec![])
+        .unwrap();
+    let expected: Value = serde_json::from_slice(&std::fs::read(root().join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/observations.json")).unwrap()).unwrap();
+    assert_eq!(
+        result.as_bstr().unwrap().as_str(),
+        expected["result"].as_str().unwrap()
+    );
+    runtime
+        .render()
+        .expect("host resolves a fresh default after workbook unload");
+    assert_eq!(
+        state(&mut runtime),
+        "Initialize;text=Ada;caption=(ready);loud=False"
+    );
+}
+
+fn run_native_probe(mut form: WorkbookForm, source: &str, procedure: &str) -> String {
+    use calcvba_symbol::manifest::{ModuleAttributes, ModuleKind, ModuleUnit};
+    form.project_modules.push(ModuleUnit {
+        module_name: "Run5Probe".into(),
+        module_kind: ModuleKind::Procedural,
+        attributes: ModuleAttributes::named("Run5Probe"),
+        source: source.into(),
+    });
+    form.project_modules.push(ModuleUnit {
+        module_name: "Run5Driver".into(),
+        module_kind: ModuleKind::Class,
+        attributes: ModuleAttributes::named("Run5Driver"),
+        source: format!(
+            "Private Function Observe() As String\n    Observe = {procedure}()\nEnd Function\n"
+        ),
+    });
+    let (mut runtime, _) = form
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .unwrap();
+    let driver = runtime
+        .session_mut()
+        .create_class_instance("Run5Driver")
+        .unwrap();
+    runtime
+        .session_mut()
+        .invoke_member_values(driver, "Observe", Some(ProjectMemberKind::Method), vec![])
+        .unwrap()
+        .as_bstr()
+        .unwrap()
+        .as_str()
+}
+
+#[test]
+fn query_close_veto_and_allowed_unload_match_private_desktop_excel() {
+    let directory = root()
+        .join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5");
+    let mut form = workbook();
+    form.original_source
+        .push_str(&std::fs::read_to_string(directory.join("event-handlers.bas")).unwrap());
+    let source = std::fs::read_to_string(directory.join("query-close.bas")).unwrap();
+    let expected = std::fs::read_to_string(directory.join("native-query-close.txt"))
+        .unwrap()
+        .replace("\r\n", "\n");
+    assert_eq!(run_native_probe(form, &source, "Run5QueryClose"), expected);
+}
+
+#[test]
+fn text_value_and_seltext_assignment_events_match_private_desktop_excel() {
+    let directory = root()
+        .join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5");
+    let source = std::fs::read_to_string(directory.join("text-assignments.bas")).unwrap();
+    let expected = std::fs::read_to_string(directory.join("native-text-assignments.txt"))
+        .unwrap()
+        .replace("\r\n", "\n");
+    assert_eq!(
+        run_native_probe(workbook(), &source, "Run5TextAssignments"),
+        expected
+    );
+}
+
+#[test]
+fn code_behind_hide_and_unload_preserve_window_lifetime_readback() {
+    for (statement, expected) in [("Me.Hide", (true, false)), ("Unload Me", (false, false))] {
+        let mut form = workbook();
+        form.original_source = form
+            .original_source
+            .replace("Output.Caption = \"Hello, \" & InputName.Text", statement);
+        let (mut runtime, _) = form
+            .runtime(Arc::new(StubShaper), HostServices::headless())
+            .unwrap();
+        runtime.show_modeless().unwrap();
+        assert_eq!(runtime.form_window_state().unwrap(), Some((true, true)));
+        click(&mut runtime, 220, 45);
+        assert_eq!(
+            runtime.form_window_state().unwrap(),
+            Some(expected),
+            "{statement} must not mint a replacement default while the window decides what to do"
+        );
+    }
+}
+
+#[test]
 fn mixed_persisted_faces_are_rejected_before_source_composition() {
     let mut form = workbook();
     form.controls[0].font_name = "Microsoft Sans Serif".into();

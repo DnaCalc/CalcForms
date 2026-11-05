@@ -6,16 +6,18 @@ use calcforms_pal_win::{load_ui_font_family, AbGlyphShaper, FontTable};
 use std::sync::Arc;
 fn run() -> Result<(), String> {
     let args: Vec<_> = std::env::args().skip(1).collect();
-    let usage = "Usage: calcforms-workbook <workbook.xlsm> <UserFormName> [--observe-member <StringFunction>] [--scale <factor>] [--dump-scene <file.json>]";
+    let usage = "Usage: calcforms-workbook <workbook.xlsm> <UserFormName> [--entry <Procedure>] [--observe-member <StringFunction>] [--scale <factor>] [--dump-scene <file.json>]";
     if args.len() < 2 || args.iter().any(|value| value == "--help") {
         return Err(usage.into());
     }
     let mut observation_member = None;
+    let mut entry = None;
     let mut scale = 1.0_f64;
     let mut scene_path = None;
     let mut options = args[2..].chunks_exact(2);
     for option in &mut options {
         match option[0].as_str() {
+            "--entry" => entry = Some(option[1].clone()),
             "--observe-member" => observation_member = Some(option[1].clone()),
             "--scale" => {
                 scale = option[1].parse().map_err(|_| "invalid scale")?;
@@ -35,10 +37,14 @@ fn run() -> Result<(), String> {
         load_ui_font_family(form.font_name()?).map_err(|error| format!("load font: {error}"))?;
     let mut fonts = FontTable::new();
     fonts.add(FontId(1), font.clone());
-    let (runtime, surface) = form.runtime(
+    let (mut runtime, surface) = form.runtime_with_entry(
         Arc::new(AbGlyphShaper::new(FontId(1), font)),
         HostServices::windows(calcforms_pal_win::read_clipboard_text),
+        entry.as_deref(),
     )?;
+    if entry.is_none() {
+        runtime.show_modeless()?;
+    }
     calcforms_bootstrap::run_form_window(
         runtime,
         surface,

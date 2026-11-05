@@ -167,6 +167,7 @@ pub struct OxRuntime {
     form: ObjectRef,
     host_services: HostServices,
     member_prefix: &'static str,
+    default_host: Option<ObjectRef>,
 }
 
 impl OxRuntime {
@@ -218,7 +219,40 @@ impl OxRuntime {
             form,
             host_services,
             member_prefix: "",
+            default_host: None,
         })
+    }
+
+    /// Resolve the same compiler-owned singleton used by original workbook modules.
+    pub(crate) fn attach_default(
+        mut session: ProjectRuntimeSession,
+        host: ObjectRef,
+        host_services: HostServices,
+    ) -> Result<Self, String> {
+        let form = Self::resolve_default(&mut session, &host)?;
+        Ok(Self {
+            session,
+            form,
+            host_services,
+            member_prefix: "",
+            default_host: Some(host),
+        })
+    }
+
+    fn resolve_default(
+        session: &mut ProjectRuntimeSession,
+        host: &ObjectRef,
+    ) -> Result<ObjectRef, String> {
+        session
+            .invoke_member_values(
+                host.clone(),
+                "DefaultForm",
+                Some(ProjectMemberKind::Method),
+                vec![],
+            )
+            .map_err(|error| format!("resolve default form: {}", error.message()))?
+            .as_object_ref()
+            .ok_or_else(|| "default form resolver returned no object".into())
     }
 
     /// Office forms use namespaced private host entrypoints. Their original
@@ -236,6 +270,9 @@ impl OxRuntime {
         kind: ProjectMemberKind,
         args: Vec<Variant>,
     ) -> Result<Variant, String> {
+        if let Some(host) = &self.default_host {
+            self.form = Self::resolve_default(&mut self.session, host)?;
+        }
         let member = format!("{}{member}", self.member_prefix);
         self.session
             .invoke_member_values(self.form.clone(), &member, Some(kind), args)
@@ -525,6 +562,61 @@ impl OxRuntime {
             )?
             .as_i16()
             .unwrap_or(0))
+    }
+
+    /// Ask the VBA lifetime owner to unload. A veto leaves the same instance loaded.
+    pub fn close_form(&mut self, close_mode: i16) -> Result<bool, String> {
+        if self.default_host.is_some() {
+            return Ok(self
+                .invoke(
+                    "Unload",
+                    ProjectMemberKind::Method,
+                    vec![Variant::from_i16(close_mode)],
+                )?
+                .as_bool()
+                .unwrap_or(false));
+        }
+        if self.perform_query_close(close_mode)? != 0 {
+            return Ok(false);
+        }
+        self.perform("PerformDeactivate")?;
+        self.perform("PerformTerminate")?;
+        Ok(true)
+    }
+
+    pub fn show_modeless(&mut self) -> Result<(), String> {
+        if self.default_host.is_some() {
+            self.session
+                .invoke_member_values(
+                    self.form.clone(),
+                    "Show",
+                    Some(ProjectMemberKind::Method),
+                    vec![Variant::from_i32(0)],
+                )
+                .map_err(|error| format!("show default form: {}", error.message()))?;
+        }
+        Ok(())
+    }
+
+    /// None for the older authored host facade; otherwise loaded/visible from VBA.
+    pub fn form_window_state(&mut self) -> Result<Option<(bool, bool)>, String> {
+        if self.default_host.is_none() {
+            return Ok(None);
+        }
+        // Read the held object, without resolving a new default after Unload.
+        let mut read = |name| {
+            self.session
+                .invoke_member_values(
+                    self.form.clone(),
+                    name,
+                    Some(ProjectMemberKind::PropertyGet),
+                    vec![],
+                )
+                .map_err(|error| format!("read form lifetime: {}", error.message()))
+        };
+        let loaded = read("CalcFormsHostIsLoaded")?.as_bool().unwrap_or(false);
+        let visible = read("Visible")?.as_bool().unwrap_or(false);
+        Ok(Some((loaded, visible)))
     }
 
     /// Drive the form's VBA self-render across `CalcForms.Surface`.

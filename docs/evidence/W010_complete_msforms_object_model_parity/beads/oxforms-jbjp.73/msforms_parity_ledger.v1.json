@@ -34,7 +34,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "a7fb83d3b3d1b6d1aaffbfdc315eea96869211c56c738b57a09d7004f4b92720"
+      "sha256": "ae6485d588b3be660a5984d989012a7c7f26f83fef2149b39218aa90eeaec397"
     },
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "7add4da2340fbcee2f791343e9a4881dc60c4aaad2d437436c937f90ebd85de0",
+  "source_surface_sha256": "69ea3038eae07cf36cb56a8337d4c948ba8f8d6e37dbcb6b7ccbee660464d56d",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -26550,7 +26550,7 @@
           "file_stem": "TextBox",
           "kind": "class_module",
           "path": "vba/calcforms/TextBox.cls",
-          "normalized_text_sha256": "6d04ab5f9721344f28c4763e62712321d60332d59b606e42eac2f1b2db7aec48",
+          "normalized_text_sha256": "5c9a50d5ced80ba3ee8a76b7710cdd18a16fdd7ae71ced75e7e98aff5b8ef85d",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -26583,8 +26583,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 10,
-                "end_line": 10,
+                "start_line": 9,
+                "end_line": 9,
                 "text": "Public Event Change()"
               },
               "member_attributes": {}
@@ -26646,8 +26646,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 11,
-                "end_line": 11,
+                "start_line": 10,
+                "end_line": 10,
                 "text": "Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -26709,8 +26709,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 12,
-                "end_line": 12,
+                "start_line": 11,
+                "end_line": 11,
                 "text": "Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -26772,8 +26772,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 13,
-                "end_line": 13,
+                "start_line": 12,
+                "end_line": 12,
                 "text": "Public Event MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -26813,8 +26813,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 14,
-                "end_line": 14,
+                "start_line": 13,
+                "end_line": 13,
                 "text": "Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)"
               },
               "member_attributes": {}
@@ -26854,8 +26854,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 15,
-                "end_line": 15,
+                "start_line": 14,
+                "end_line": 14,
                 "text": "Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)"
               },
               "member_attributes": {}
@@ -26884,8 +26884,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 18,
-                "end_line": 18,
+                "start_line": 17,
+                "end_line": 17,
                 "text": "Public Event KeyPress(ByVal KeyAscii As ReturnInteger)"
               },
               "member_attributes": {}
@@ -26914,8 +26914,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 23,
-                "end_line": 23,
+                "start_line": 22,
+                "end_line": 22,
                 "text": "Public Event [Exit](ByVal Cancel As ReturnBoolean)"
               },
               "member_attributes": {}
@@ -26932,8 +26932,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 26,
-                "end_line": 26,
+                "start_line": 25,
+                "end_line": 25,
                 "text": "Public Event Enter()"
               },
               "member_attributes": {}
@@ -26962,8 +26962,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 30,
-                "end_line": 30,
+                "start_line": 29,
+                "end_line": 29,
                 "text": "Public Event BeforeUpdate(ByVal Cancel As ReturnBoolean)"
               },
               "member_attributes": {}
@@ -26980,8 +26980,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 31,
-                "end_line": 31,
+                "start_line": 30,
+                "end_line": 30,
                 "text": "Public Event AfterUpdate()"
               },
               "member_attributes": {}
@@ -27032,8 +27032,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 37,
-                "end_line": 37,
+                "start_line": 36,
+                "end_line": 36,
                 "text": "Public Event BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)"
               },
               "member_attributes": {}
@@ -27050,8 +27050,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 107,
-                "end_line": 107,
+                "start_line": 106,
+                "end_line": 106,
                 "text": "Public Property Get Core() As OxControlCore"
               },
               "member_attributes": {}
@@ -27068,8 +27068,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 202,
-                "end_line": 202,
+                "start_line": 200,
+                "end_line": 200,
                 "text": "Public Property Get Text() As String"
               },
               "member_attributes": {}
@@ -27098,8 +27098,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 205,
-                "end_line": 205,
+                "start_line": 203,
+                "end_line": 203,
                 "text": "Public Property Let Text(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -28390,8 +28390,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 101,
-                "end_line": 101,
+                "start_line": 100,
+                "end_line": 100,
                 "text": "Private Property Get IOxControl_Core() As OxControlCore"
               },
               "interface": "IOxControl",
@@ -28422,8 +28422,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 114,
-                "end_line": 114,
+                "start_line": 113,
+                "end_line": 113,
                 "text": "Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)"
               },
               "interface": "IOxControl",
@@ -28442,8 +28442,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 191,
-                "end_line": 191,
+                "start_line": 190,
+                "end_line": 190,
                 "text": "Private Property Get IOxControl_HasChildren() As Boolean"
               },
               "interface": "IOxControl",
@@ -28462,8 +28462,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 195,
-                "end_line": 195,
+                "start_line": 194,
+                "end_line": 194,
                 "text": "Private Property Get IOxControl_Children() As Controls"
               },
               "interface": "IOxControl",
@@ -600319,8 +600319,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 205,
-                "end_line": 205,
+                "start_line": 203,
+                "end_line": 203,
                 "text": "Public Property Let Text(ByVal Value As String)"
               },
               "member_attributes": {},
@@ -600355,8 +600355,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 202,
-                "end_line": 202,
+                "start_line": 200,
+                "end_line": 200,
                 "text": "Public Property Get Text() As String"
               },
               "member_attributes": {},
@@ -978095,8 +978095,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 37,
-                "end_line": 37,
+                "start_line": 36,
+                "end_line": 36,
                 "text": "Public Event BeforeDropOrPaste(ByVal Cancel As ReturnBoolean, ByVal Action As Integer, ByVal Shift As Integer)"
               },
               "member_attributes": {},
@@ -978319,8 +978319,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 10,
-                "end_line": 10,
+                "start_line": 9,
+                "end_line": 9,
                 "text": "Public Event Change()"
               },
               "member_attributes": {},
@@ -979387,8 +979387,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 14,
-                "end_line": 14,
+                "start_line": 13,
+                "end_line": 13,
                 "text": "Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)"
               },
               "member_attributes": {},
@@ -979653,8 +979653,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 18,
-                "end_line": 18,
+                "start_line": 17,
+                "end_line": 17,
                 "text": "Public Event KeyPress(ByVal KeyAscii As ReturnInteger)"
               },
               "member_attributes": {},
@@ -979951,8 +979951,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 15,
-                "end_line": 15,
+                "start_line": 14,
+                "end_line": 14,
                 "text": "Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)"
               },
               "member_attributes": {},
@@ -980299,8 +980299,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 11,
-                "end_line": 11,
+                "start_line": 10,
+                "end_line": 10,
                 "text": "Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {},
@@ -980647,8 +980647,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 13,
-                "end_line": 13,
+                "start_line": 12,
+                "end_line": 12,
                 "text": "Public Event MouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {},
@@ -980995,8 +980995,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 12,
-                "end_line": 12,
+                "start_line": 11,
+                "end_line": 11,
                 "text": "Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {},
@@ -1073717,8 +1073717,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 26,
-                "end_line": 26,
+                "start_line": 25,
+                "end_line": 25,
                 "text": "Public Event Enter()"
               },
               "member_attributes": {},
@@ -1073978,8 +1073978,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 23,
-                "end_line": 23,
+                "start_line": 22,
+                "end_line": 22,
                 "text": "Public Event [Exit](ByVal Cancel As ReturnBoolean)"
               },
               "member_attributes": {},
@@ -1074239,8 +1074239,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 30,
-                "end_line": 30,
+                "start_line": 29,
+                "end_line": 29,
                 "text": "Public Event BeforeUpdate(ByVal Cancel As ReturnBoolean)"
               },
               "member_attributes": {},
@@ -1074452,8 +1074452,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TextBox.cls",
-                "start_line": 31,
-                "end_line": 31,
+                "start_line": 30,
+                "end_line": 30,
                 "text": "Public Event AfterUpdate()"
               },
               "member_attributes": {},
@@ -1470673,8 +1470673,8 @@
         "return_type": "OxControlCore",
         "source": {
           "path": "vba/calcforms/TextBox.cls",
-          "start_line": 107,
-          "end_line": 107,
+          "start_line": 106,
+          "end_line": 106,
           "text": "Public Property Get Core() As OxControlCore"
         },
         "member_attributes": {},
@@ -1562875,5 +1562875,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "c1b6ed28ae1e16dac05287f8a88dba6b0134e9811ac11bffdee8cf46adbd1516"
+  "canonical_sha256": "e27f5e5b9d8cbaeff2bbf3bb7eeba3c98814454ca564c53fcc3989acdf645d3b"
 }

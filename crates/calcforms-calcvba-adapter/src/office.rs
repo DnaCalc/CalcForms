@@ -69,6 +69,8 @@ pub struct WorkbookForm {
     pub height: f64,
     pub controls: Vec<PersistedControl>,
     pub original_source: String,
+    /// Self-contained standard modules from the same Office project.
+    pub project_modules: Vec<ModuleUnit>,
 }
 
 impl WorkbookForm {
@@ -96,6 +98,16 @@ impl WorkbookForm {
         shaper: SharedShaper,
         host_services: HostServices,
     ) -> Result<(OxRuntime, Arc<SurfaceFactory>)> {
+        self.runtime_with_entry(shaper, host_services, None)
+    }
+
+    /// Run an original, parameterless workbook entry before attaching its default form.
+    pub fn runtime_with_entry(
+        &self,
+        shaper: SharedShaper,
+        host_services: HostServices,
+        entry: Option<&str>,
+    ) -> Result<(OxRuntime, Arc<SurfaceFactory>)> {
         let mut modules = crate::library::modules();
         if modules
             .iter()
@@ -107,6 +119,52 @@ impl WorkbookForm {
             ));
         }
         modules.push(self.module()?);
+        if modules.iter().any(|module| {
+            ["CalcFormsWorkbookHost", "CalcFormsWorkbookLifetime"]
+                .iter()
+                .any(|reserved| module.module_name.eq_ignore_ascii_case(reserved))
+        }) {
+            return Err("workbook uses a reserved host module name".into());
+        }
+        for module in &self.project_modules {
+            if ["CalcFormsWorkbookHost", "CalcFormsWorkbookLifetime"]
+                .iter()
+                .any(|reserved| module.module_name.eq_ignore_ascii_case(reserved))
+            {
+                return Err("workbook uses a reserved host module name".into());
+            }
+            if modules
+                .iter()
+                .any(|m| m.module_name.eq_ignore_ascii_case(&module.module_name))
+            {
+                return Err(format!(
+                    "workbook module name collision: {}",
+                    module.module_name
+                ));
+            }
+            modules.push(module.clone());
+        }
+        let entry = entry
+            .map(|name| {
+                if !name.split('.').all(valid_name) || name.split('.').count() > 2 {
+                    return Err("invalid workbook entry procedure".to_string());
+                }
+                Ok(format!("    Call {name}\n"))
+            })
+            .transpose()?
+            .unwrap_or_default();
+        modules.push(ModuleUnit {
+            module_name: "CalcFormsWorkbookHost".into(),
+            module_kind: calcvba_symbol::manifest::ModuleKind::Class,
+            attributes: ModuleAttributes::named("CalcFormsWorkbookHost"),
+            source: format!("Option Explicit\nPrivate Sub Start()\n{entry}End Sub\nPrivate Function DefaultForm() As {}\n    Set DefaultForm = {}\nEnd Function\n", self.name, self.name),
+        });
+        modules.push(ModuleUnit {
+            module_name: "CalcFormsWorkbookLifetime".into(),
+            module_kind: calcvba_symbol::manifest::ModuleKind::Procedural,
+            attributes: ModuleAttributes::named("CalcFormsWorkbookLifetime"),
+            source: include_str!("../../../vba/calcforms/runtime/WorkbookLifetime.vba").into(),
+        });
         let manifest = calcvba_symbol::manifest::SymbolProjectManifest {
             project_name: "CalcFormsWorkbook".into(),
             project_kind: calcvba_symbol::manifest::ProjectKind::Library,
@@ -129,17 +187,22 @@ impl WorkbookForm {
             .with_host_policy(calcvba_hal::model::HostPolicy::native());
         let engine = calcvba_engine::Engine::new(calcvba_engine::HostConfig::vm3())
             .with_host_profile_provider(profile);
-        let session = engine
+        let mut session = engine
             .prepare_image_session(calcvba_oxir::OxImage::new(vec![bundle]))
             .map_err(|error| format!("prepare UserForm VM3: {error}"))?;
-        let mut runtime = OxRuntime::attach_with_host_services(
-            session,
-            &self.name,
-            "CalcFormsHostBuild",
-            host_services,
-        )?
-        .with_member_prefix("CalcFormsHost");
-        runtime.perform("PerformInitialize")?;
+        let host = session
+            .create_class_instance("CalcFormsWorkbookHost")
+            .map_err(|error| format!("create workbook host: {}", error.message()))?;
+        session
+            .invoke_member_values(
+                host.clone(),
+                "Start",
+                Some(calcvba_bundle::ProjectMemberKind::Method),
+                vec![],
+            )
+            .map_err(|error| format!("workbook entry: {}", error.message()))?;
+        let mut runtime = OxRuntime::attach_default(session, host, host_services)?
+            .with_member_prefix("CalcFormsHost");
         runtime.render()?;
         Ok((runtime, surface))
     }
@@ -168,7 +231,25 @@ impl WorkbookForm {
             .map_err(|error| error.to_string())?;
         let frx = std::fs::read(folder.join(format!("{}.frx", module.name)))
             .map_err(|error| error.to_string())?;
-        Self::from_export(&module.name, &module.source, &frm, &frx)
+        let mut form = Self::from_export(&module.name, &module.source, &frm, &frx)?;
+        form.project_modules = office
+            .project
+            .modules
+            .iter()
+            .filter(|module| module.kind == ModuleKind::Standard)
+            .map(|module| ModuleUnit {
+                module_name: module.name.clone(),
+                module_kind: calcvba_symbol::manifest::ModuleKind::Procedural,
+                attributes: ModuleAttributes::named(&module.name),
+                source: module
+                    .source
+                    .lines()
+                    .filter(|line| !line.trim_start().starts_with("Attribute VB_"))
+                    .collect::<Vec<_>>()
+                    .join("\n"),
+            })
+            .collect();
+        Ok(form)
     }
 
     fn from_export(name: &str, source: &str, frm: &str, frx: &[u8]) -> Result<Self> {
@@ -236,6 +317,7 @@ impl WorkbookForm {
             height: dimension("ClientHeight")?,
             controls,
             original_source: source.into(),
+            project_modules: vec![],
         })
     }
 
@@ -352,6 +434,11 @@ impl WorkbookForm {
             } else {
                 format!("    {handler}")
             };
+            let call = match name {
+                "Activate" => format!("    If CalcFormsHostActive Then Exit Sub\n    CalcFormsHostActive = True\n{call}"),
+                "Deactivate" => format!("    If Not CalcFormsHostActive Then Exit Sub\n    CalcFormsHostActive = False\n{call}"),
+                _ => call,
+            };
             host = host.replace(&format!("%{token}%"), &call);
         }
         let input = self
@@ -361,6 +448,10 @@ impl WorkbookForm {
             .map(|control| format!("{}.Text", control.name))
             .unwrap_or_else(|| "\"\"".into());
         host = host.replace("%INPUT%", &input);
+        host.push_str(
+            &include_str!("../../../vba/calcforms/runtime/WorkbookFormLifetime.vba")
+                .replace("%FORM_NAME%", &self.name),
+        );
         let mut attributes = ModuleAttributes::named(&self.name);
         attributes.vb_predeclared_id = true;
         // CalcVBA currently persists FormModule items but does not emit their

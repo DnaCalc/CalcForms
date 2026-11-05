@@ -1301,8 +1301,8 @@ fn textbox_character_input_replaces_selection_and_moves_caret() {
         string_get(&mut session, &form, "HandlerLog")
             .lines()
             .collect::<Vec<_>>(),
-        vec!["T1.KeyPress", "T1.Change"],
-        "user character input fires KeyPress before the replacement Change"
+        vec!["T1.Change", "T1.KeyPress", "T1.Change"],
+        "programmatic setup changes first, then user KeyPress precedes replacement Change"
     );
 }
 
@@ -1313,7 +1313,7 @@ fn textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe() {
 
     focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
     set_t1_value(&mut session, &form, "abcdef");
-    assert_eq!(string_get(&mut session, &form, "HandlerLog"), "");
+    assert_eq!(string_get(&mut session, &form, "HandlerLog"), "T1.Change");
     assert_eq!(string_get(&mut session, &form, "T1Text"), "abcdef");
     assert_eq!(string_get(&mut session, &form, "T1Value"), "abcdef");
 
@@ -1333,8 +1333,8 @@ fn textbox_programmatic_value_selection_and_diagnostics_are_side_effect_safe() {
     assert_eq!(i32_get(&mut session, &form, "T1SelLength"), 0);
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog"),
-        "",
-        "programmatic Value/SelText/selection setters should not raise Change"
+        "T1.Change\nT1.Change",
+        "Value and SelText changes notify; selection-only changes do not"
     );
 
     set_t1_hide_selection(&mut session, &form, false);

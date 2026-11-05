@@ -1,0 +1,4 @@
+Initialize|Change:A&B;text=A&B;caption=(ready);loud=False
+Initialize|Change:A&B;text=A&B;caption=(ready);loud=False
+Initialize|Change:A&B|Change:A&&B;text=A&&B;caption=(ready);loud=False
+Initialize|Change:A&B|Change:A&&B|Change:A&B;text=A&B;caption=(ready);loud=False

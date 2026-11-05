@@ -45,6 +45,13 @@ workbook identity/Hide/Show/Unload observations but no runtime implementation.
 `.91` retains prepared input probes; physical accelerator and drag parity
 remain unproved. Owned Excel/runtime were stopped; workbook bytes are unchanged.
 
+Run 5 implements `.77`'s shared workbook default singleton, standard-module entry,
+modeless Show/Hide/Unload and QueryClose-veto subset. Native eight-row lifetime
+and private-desktop veto observations now pass on VM3. `.94` also fixes native
+programmatic Text/Value/SelText Change notifications and same-value suppression.
+`.77` remains open: `.95` tracks non-creating default lookup and exact held-object
+release/Terminate behavior. No Computer Use or owner input/focus is used in run 5.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

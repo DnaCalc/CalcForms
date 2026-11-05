@@ -31,7 +31,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "a7fb83d3b3d1b6d1aaffbfdc315eea96869211c56c738b57a09d7004f4b92720"
+      "sha256": "ae6485d588b3be660a5984d989012a7c7f26f83fef2149b39218aa90eeaec397"
     },
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "d73b6a788b915e29cdb1df09c0d8c8f4cba352fffc976ae5aa17f21eb9793516"
+      "sha256": "a3eb651a7c22fa7570377eaedc8349952bab1ef0da7fd84f79faa65f771b5260"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -111,7 +111,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "6ba656864adfe36b74d4f1f747d69ae2655e20b871495b74b20de7f8eb6c165a"
+      "sha256": "f4015a733a5ab89f84baaf806c2bd54b52dfea54120c9acee88fa1158d2678b1"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "6573044de72ba7afbb3b8b009195ec7a4ed37b3bbfbfb8c1b91a4ad7854cba0f"
+      "sha256": "1246de0c52f5ce4391d73ccc1b9332dc4982e5777effeeaca38da1ca9a915bc5"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -326,7 +326,7 @@
     {
       "path": "vba/calcforms/TextBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "6d04ab5f9721344f28c4763e62712321d60332d59b606e42eac2f1b2db7aec48"
+      "sha256": "5c9a50d5ced80ba3ee8a76b7710cdd18a16fdd7ae71ced75e7e98aff5b8ef85d"
     },
     {
       "path": "vba/calcforms/ToggleButton.cls",
@@ -368,7 +368,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/src/runtime.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "a7fb83d3b3d1b6d1aaffbfdc315eea96869211c56c738b57a09d7004f4b92720"
+      "sha256": "ae6485d588b3be660a5984d989012a7c7f26f83fef2149b39218aa90eeaec397"
     },
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",

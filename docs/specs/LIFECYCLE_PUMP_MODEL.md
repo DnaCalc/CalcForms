@@ -14,6 +14,24 @@ dispatch, visible-smoke, trace/replay, and comparison beads. It is not an
 implementation of full `UserForm.Show` parity, and it does not claim final
 MSForms ordering without live oracle evidence.
 
+November workbook subset (`oxforms-jbjp.77`): Office standard modules compile
+alongside the selected form. The host resolves CalcVBA's predeclared singleton,
+including after original code unloads it, rather than constructing another
+explicit instance. The VBA source provider builds controls and calls Initialize
+once per load. Hide/Show retains state; a permitted Unload resets the default.
+Show accepts modeless mode; modal mode reports an unsupported-operation error.
+QueryClose veto preserves the loaded, visible instance. Window close uses the
+same unload decision. Code-behind Hide changes only that window's visibility.
+Activation comes from window activation, rather than every Show call.
+
+The [native and VM3 probes](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/README.md)
+cover the original eight-row lifetime observer, code-unload veto and the absence
+of activation on the private desktop. They do not prove modal pumping, multiple
+live windows, global UserForms enumeration, or final-reference Terminate timing.
+`oxforms-jbjp.95` retains the non-creating default lookup and held-reference work:
+comparing an explicit instance with an absent predeclared instance can create
+that default. `.77` remains open for the remaining accepted lifetime details.
+
 ## 1. Anchors
 
 - [`INPUT_INTERACTION_MODEL.md`](INPUT_INTERACTION_MODEL.md), sections 3, 7, 8,

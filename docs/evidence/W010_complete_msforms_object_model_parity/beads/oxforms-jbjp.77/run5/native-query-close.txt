@@ -1,0 +1,2 @@
+veto;visible=True;|QueryClose:1
+allowed;|QueryClose:1|QueryClose:1

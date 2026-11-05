@@ -40,6 +40,8 @@ pub enum WindowSignal {
     Ignore,
     /// Scene changed; schedule a repaint.
     Redraw,
+    /// Change this window's visibility without activating it.
+    Visibility(bool),
     /// Tear the window down and return from [`run_scene_window`].
     Close,
 }
@@ -53,6 +55,7 @@ pub struct WindowOptions {
     pub logical_height: f64,
     /// Show without taking keyboard focus from another application.
     pub activate_on_show: bool,
+    pub visible: bool,
 }
 
 impl WindowOptions {
@@ -63,6 +66,7 @@ impl WindowOptions {
             logical_width,
             logical_height,
             activate_on_show: false,
+            visible: true,
         }
     }
 }
@@ -179,6 +183,14 @@ where
                 }
             }
             WindowSignal::Close => event_loop.exit(),
+            WindowSignal::Visibility(visible) => {
+                if let Some(window) = &self.window {
+                    window.set_visible(visible);
+                    if visible {
+                        window.request_redraw();
+                    }
+                }
+            }
         }
     }
 
@@ -288,6 +300,7 @@ where
         }
         let attrs = Window::default_attributes()
             .with_active(self.options.activate_on_show)
+            .with_visible(self.options.visible)
             .with_title(self.options.title.clone())
             .with_inner_size(LogicalSize::new(
                 self.options.logical_width,

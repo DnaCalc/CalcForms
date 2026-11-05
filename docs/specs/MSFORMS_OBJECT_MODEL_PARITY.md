@@ -6,6 +6,14 @@ It preserves selected form handler bodies and uses the existing VBA reducer and
 Scene renderer. It does not close the historical full-library ledger or the
 FormModule/default-instance obligations.
 
+`oxforms-jbjp.77` now connects original standard-module entry procedures to the
+host's default singleton and implements a measured modeless lifetime subset;
+its [native/VM3 evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/README.md)
+retains the exact limits. `.94` corrects programmatic TextBox Text/Value/SelText
+Change events, including same-value suppression, against native observations.
+Selection-only changes remain silent; user-only validation dirty/undo state
+remains separate. No full TextBox property-signature or lifetime parity follows.
+
 Status: deterministic raw-contract/current-overlay baseline established by
 `oxforms-jbjp.4`; reusable live behavior-oracle contract and its replay-valid
 representative canonical capture established by `oxforms-jbjp.5`;

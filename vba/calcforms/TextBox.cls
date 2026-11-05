@@ -3,9 +3,8 @@ Implements IOxControl
 
 ' MSForms-shaped TextBox. Focusable; Text value, selection, undo/redo,
 ' composition-preedit state, Change/keyboard/mouse/focus events. Note the
-' MSForms semantic split: setting .Text in code is programmatic and does NOT
-' raise Change, while a user edit (driven by the runtime from real keystrokes)
-' updates the text AND raises Change.
+' Assigning a different Text/Value raises Change, including programmatic edits.
+' Only user edits mark the value dirty for focus-out validation and undo.
 
 Public Event Change()
 Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
@@ -197,15 +196,16 @@ Private Property Get IOxControl_Children() As Controls
 End Property
 
 ' --- User-facing properties ---
-' Programmatic assignment updates the value and requests repaint; user Change
-' dispatch remains owned by reducer input paths in the current local model.
+' Programmatic edits notify the same WithEvents sink as user edits.
 Public Property Get Text() As String
     Text = mCore.DisplayText
 End Property
 Public Property Let Text(ByVal Value As String)
+    If mCore.DisplayText = Value Then Exit Property
     mCore.DisplayText = Value
     ClampSelectionToText
     EnsureCaretVisible
+    RaiseEvent Change
 End Property
 
 Public Property Get Value() As String
@@ -472,8 +472,8 @@ Private Sub ReplaceSelection(ByVal NewText As String, ByVal IsUserEdit As Boolea
     CollapseSelection Start + Len(NewText)
     If IsUserEdit Then
         mEditDirty = True
-        RaiseEvent Change
     End If
+    If NextText <> OldText Then RaiseEvent Change
 End Sub
 
 Private Sub DeleteBack()
