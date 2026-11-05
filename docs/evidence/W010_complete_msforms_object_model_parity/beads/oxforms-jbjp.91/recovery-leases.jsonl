@@ -1,0 +1,4 @@
+{"operation":"inspect owned VBA error","started":"2026-11-05T04:09:53.401Z","ended":"2026-11-05T04:10:03.602Z"}
+{"operation":"inspect native probe error location","started":"2026-11-05T04:11:08.584Z","ended":"2026-11-05T04:11:11.650Z"}
+{"operation":"end owned native probe failure","started":"2026-11-05T04:11:56.249Z","ended":"2026-11-05T04:11:59.378Z"}
+{"operation":"confirm End in owned VBA error","started":"2026-11-05T04:12:16.129Z","ended":"2026-11-05T04:12:19.003Z"}

@@ -970,7 +970,7 @@ class CurrentCalcFormsSurfaceCensusTests(unittest.TestCase):
             surface["summary"],
         )
         self.assertEqual(
-            "cc31c3b8ead193802227e5363e493c10d4286e598e1876bd2317a84a640a6931",
+            "7add4da2340fbcee2f791343e9a4881dc60c4aaad2d437436c937f90ebd85de0",
             surface["canonical_sha256"],
         )
         by_name = {module["name"]: module for module in surface["modules"]}

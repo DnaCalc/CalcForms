@@ -1,0 +1,9 @@
+{
+  "schema": "calcforms.native_workbook_lifetime.v1",
+  "excel_pid": 56892,
+  "additional_excel_launches": 0,
+  "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+  "workbook_unchanged": true,
+  "observer_retained_until_owned_workbook_close": true,
+  "result": "loaded;same=True;Initialize;text=Ada;caption=(ready);loud=False\nhidden;visible=False;Initialize|Change:Lifetime;text=Lifetime;caption=(ready);loud=False\nreshown;same=True;visible=True;Initialize|Change:Lifetime;text=Lifetime;caption=(ready);loud=False\nunloaded-held;same=True\ndefault-after-unload;same=False;Initialize;text=Ada;caption=(ready);loud=False\nexplicit-new;same-default=False;Initialize;text=Ada;caption=(ready);loud=False\ndefault-after-explicit;Initialize;text=Ada;caption=(ready);loud=False\nexplicit-edited;Initialize|Change:Explicit;text=Explicit;caption=(ready);loud=False\n"
+}

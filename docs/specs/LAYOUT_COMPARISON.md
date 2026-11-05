@@ -141,6 +141,15 @@ does not select the final tab. The measured default header band is 15pt, with
 10.5pt caption padding. Exact second-tab padding, overflow, alternate styles
 and focus/border details remain the full TabStrip lane's work.
 
+OptionButton uses circular highlight/ring/dot primitives and the measured
+caption offset. MultiPage's own clip covers its complete site, while its
+selected Page keeps a separate client clip. For the authored 162×144pt case,
+native Page.InsideWidth/InsideHeight are 159/126.75pt. Symmetric 1.5pt side/
+bottom margins and a 15.75pt top origin are inferred from those dimensions
+and visible header/border positions; native Page.Left/Top are absent. The
+VBA child tree and input share these margins. Exact border shades remain
+different, including a small 100% error increase despite restored painting.
+
 On the owner's input desktop, use the exclusive shared desktop.lock for every
 operation that may activate or inject input. Fail while a live lock exists;
 only a lock older than five minutes is stale. Keep each hold below two minutes

@@ -550,3 +550,10 @@ the downstream bead it blocks.
 `oxforms-0a0.10` keeps the grouped unknowns above live, but splits their next
 evidence/implementation work into `oxforms-0a0.19` through `oxforms-0a0.22`
 instead of allowing a broad modal/runtime bead to infer behavior.
+
+The [run-4 original-workbook observations](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/README.md)
+narrow the default-instance subset: modeless Hide/Show retains edited state
+and identity, Unload then Load produces a fresh default separate from held
+references, and explicit New remains separate. They do not establish exact
+Terminate timing, QueryClose veto, unloaded-control access or CalcForms
+implementation. The `.77` implementation remains open.

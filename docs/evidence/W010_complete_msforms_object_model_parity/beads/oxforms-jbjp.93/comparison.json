@@ -1,0 +1,969 @@
+{
+  "schema": "calcforms.paint_subset.93.v1",
+  "pixel_parity_claimed": false,
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 56892,
+    "desktop": "winsta0\\default"
+  },
+  "observations": [
+    {
+      "zoom": 100,
+      "images": [
+        {
+          "file": "100-excel.png",
+          "sha256": "ea8ae1f30f4d451d05d44adc0939fb4e1c39df56dc7b811063891d6aadc793bf"
+        },
+        {
+          "file": "100-before.png",
+          "sha256": "92913ead56748a4c6f7c35fdf29fb5bcb4873f4bf63644ec23ee05bc9e44b3cd"
+        },
+        {
+          "file": "100-after.png",
+          "sha256": "8566f1f7074ba40d0f799ac09ae4ddc12e71325ee1cecbe28a197edf1649b484"
+        }
+      ],
+      "regions": [
+        {
+          "name": "PagesControl",
+          "roi": [
+            280,
+            136,
+            496,
+            328
+          ],
+          "before": {
+            "pixels": 41472,
+            "different_pixels": 2032,
+            "mean_absolute_rgb": [
+              3.3194685570987654,
+              3.3288001543209877,
+              3.311366705246914
+            ]
+          },
+          "after": {
+            "pixels": 41472,
+            "different_pixels": 2083,
+            "mean_absolute_rgb": [
+              3.4477961033950617,
+              3.479648919753086,
+              3.431785300925926
+            ]
+          }
+        }
+      ],
+      "pixels_before": {
+        "pixels": 197600,
+        "different_pixels": 12677,
+        "mean_absolute_rgb": [
+          3.873092105263158,
+          3.9299746963562754,
+          3.910647773279352
+        ]
+      },
+      "pixels_after": {
+        "pixels": 197600,
+        "different_pixels": 12728,
+        "mean_absolute_rgb": [
+          3.9000253036437247,
+          3.9616346153846154,
+          3.935921052631579
+        ]
+      },
+      "nodes": [
+        {
+          "id": 6,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 210.0,
+            "y": 102.0,
+            "w": 162.0,
+            "h": 144.0
+          },
+          "bounds": {
+            "x": 210.0,
+            "y": 102.0,
+            "w": 162.0,
+            "h": 144.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 210.0,
+                "y": 117.0,
+                "w": 162.0,
+                "h": 129.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 210.0,
+                "y": 117.0,
+                "w": 162.0,
+                "h": 129.0
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 210.0,
+                "y": 102.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 210.0,
+                "y": 102.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 211.5,
+                "y": 115.5,
+                "w": 23.102001,
+                "h": 3.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 11221961646396053824,
+              "rect": {
+                "x": 211.5,
+                "y": 104.25,
+                "w": 23.102001,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 236.102,
+                "y": 104.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 236.102,
+                "y": 104.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 4361098107681936198,
+              "rect": {
+                "x": 237.602,
+                "y": 105.75,
+                "w": 33.902,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": [
+            6001
+          ]
+        },
+        {
+          "id": 6001,
+          "parent": 6,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 211.5,
+            "y": 117.75,
+            "w": 159.0,
+            "h": 126.75
+          },
+          "bounds": {
+            "x": 211.5,
+            "y": 117.75,
+            "w": 159.0,
+            "h": 126.75
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 211.5,
+                "y": 117.75,
+                "w": 159.0,
+                "h": 126.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              244,
+              108
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              388,
+              232
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          }
+        }
+      },
+      "runtime_sha256": "4af731e5732dc677a4a388401b2a0fad697ac6bfc5c460ef792f809c0ec706a4"
+    },
+    {
+      "zoom": 150,
+      "images": [
+        {
+          "file": "150-excel.png",
+          "sha256": "38f749626ed25e6336fbe07b398cbc0269818e8a7b6ab2ba28d339988be047b4"
+        },
+        {
+          "file": "150-before.png",
+          "sha256": "644ca233e3c3efc49e8edb431d886459780b4c41245c51b5504a863eb8ac45cb"
+        },
+        {
+          "file": "150-after.png",
+          "sha256": "07b21a3de9b29e6bca63059037c19d58b56cf3bf9ada31d238e7ce7834a96bc0"
+        }
+      ],
+      "regions": [
+        {
+          "name": "PagesControl",
+          "roi": [
+            420,
+            204,
+            744,
+            492
+          ],
+          "before": {
+            "pixels": 93312,
+            "different_pixels": 4174,
+            "mean_absolute_rgb": [
+              3.439096793552812,
+              3.436010373799726,
+              3.4363533093278464
+            ]
+          },
+          "after": {
+            "pixels": 93312,
+            "different_pixels": 3504,
+            "mean_absolute_rgb": [
+              2.4272226508916326,
+              2.3508337620027433,
+              2.278131430041152
+            ]
+          }
+        }
+      ],
+      "pixels_before": {
+        "pixels": 444600,
+        "different_pixels": 24518,
+        "mean_absolute_rgb": [
+          3.086941070625281,
+          3.018535762483131,
+          2.9894152046783624
+        ]
+      },
+      "pixels_after": {
+        "pixels": 444600,
+        "different_pixels": 23848,
+        "mean_absolute_rgb": [
+          2.874570400359874,
+          2.7907804768331084,
+          2.7463292847503373
+        ]
+      },
+      "nodes": [
+        {
+          "id": 6,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 210.0,
+            "y": 102.0,
+            "w": 162.0,
+            "h": 144.0
+          },
+          "bounds": {
+            "x": 210.0,
+            "y": 102.0,
+            "w": 162.0,
+            "h": 144.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 210.0,
+                "y": 117.0,
+                "w": 162.0,
+                "h": 129.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 210.0,
+                "y": 117.0,
+                "w": 162.0,
+                "h": 129.0
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 210.0,
+                "y": 102.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 210.0,
+                "y": 102.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 211.5,
+                "y": 115.5,
+                "w": 23.102001,
+                "h": 3.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 11221961646396053824,
+              "rect": {
+                "x": 211.5,
+                "y": 104.25,
+                "w": 23.102001,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 236.102,
+                "y": 104.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 236.102,
+                "y": 104.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 4361098107681936198,
+              "rect": {
+                "x": 237.602,
+                "y": 105.75,
+                "w": 33.902,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": [
+            6001
+          ]
+        },
+        {
+          "id": 6001,
+          "parent": 6,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 211.5,
+            "y": 117.75,
+            "w": 159.0,
+            "h": 126.75
+          },
+          "bounds": {
+            "x": 211.5,
+            "y": 117.75,
+            "w": 159.0,
+            "h": 126.75
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 211.5,
+                "y": 117.75,
+                "w": 159.0,
+                "h": 126.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              366,
+              162
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ]
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          }
+        }
+      },
+      "runtime_sha256": "4af731e5732dc677a4a388401b2a0fad697ac6bfc5c460ef792f809c0ec706a4"
+    }
+  ],
+  "native_page_readback": {
+    "control_width": 162,
+    "control_height": 144,
+    "inside_width": 159,
+    "inside_height": 126.75,
+    "side_margins": 1.5,
+    "top_margin_inferred": 15.75,
+    "bottom_margin": 1.5,
+    "unavailable_members": {
+      "MultiPage.ClientLeft": 438,
+      "MultiPage.ClientTop": 438,
+      "Page.Left": 438,
+      "Page.Top": 438,
+      "Page.Width": 438,
+      "Page.Height": 438
+    }
+  }
+}

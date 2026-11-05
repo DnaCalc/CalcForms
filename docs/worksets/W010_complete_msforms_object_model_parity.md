@@ -12,6 +12,14 @@ The full ListBox lane `.23` remains open.
 the [measured regions](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.88/README.md)
 improve at both scales. `.89` extends capture qualification to the authored
 Frame, excluding blank references. Full `.33`/`.35` parity remains open.
+`.92` paints round OptionButton glyphs. `.93` restores MultiPage paint outside
+the Page clip and uses observed interior dimensions with explicitly inferred
+origins. The [two-scale evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.93/README.md)
+keeps the small 100% border regression visible; full `.21`/`.35` remain open.
+Run 4 [native lifetime observations](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/README.md)
+are inputs to `.77`, not its implementation. User stopped Computer Use before
+the prepared `.91` accelerator/drag comparison. Both lanes remain open, and
+owned Excel/runtime cleanup is recorded with the unchanged workbook hash.
 
 November product slice: `oxforms-jbjp.74` loads the five-control greeter from a
 genuine workbook through `calcvba-office` and runs original handlers on VM3.

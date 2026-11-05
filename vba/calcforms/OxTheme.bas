@@ -411,29 +411,30 @@ Public Sub OxThemePaintOptionButton( _
         ByVal Surface As OxSceneBuilder, _
         ByVal Checked As Boolean, _
         ByVal Focused As Boolean)
-    Const DotSize As Single = 6
-    Const GlyphSize As Single = 12
+    Const DotSize As Single = 4.5
+    Const GlyphSize As Single = 9.75
 
     Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
         Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
 
     Dim GlyphX As Single, GlyphY As Single
-    GlyphX = Core.PaintLeft
-    GlyphY = Core.PaintTop + (Core.Height - GlyphSize) / 2
+    GlyphX = Core.PaintLeft + 1.5
+    GlyphY = Core.PaintTop + (Core.Height - GlyphSize) / 2 - 0.75
 
-    Surface.FillRect GlyphX, GlyphY, GlyphSize, GlyphSize, OxThemeResolveFace(Core), 255
-    Surface.DrawEdge GlyphX, GlyphY, GlyphSize, GlyphSize, _
-        "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    Surface.Ellipse GlyphX, GlyphY, GlyphSize, GlyphSize, _
+        OxThemeEdgeLight(), 255, OxThemeEdgeLight(), 255, 0
+    Surface.Ellipse GlyphX, GlyphY, GlyphSize - 1.5, GlyphSize - 1.5, _
+        OxThemeResolveFace(Core), 255, OxThemeEdgeShadow(), 255, 0.75
     If Checked Then
-        Surface.FillRect GlyphX + 3, GlyphY + 3, DotSize, DotSize, _
-            OxThemeResolveText(Core), 255
+        Surface.Ellipse GlyphX + 2.25, GlyphY + 2.25, DotSize, DotSize, _
+            OxThemeResolveText(Core), 255, OxThemeResolveText(Core), 255, 0
     End If
 
     If Len(Core.DisplayText) > 0 Then
         Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
-        Tx = Core.PaintLeft + GlyphSize + 4
+        Tx = Core.PaintLeft + 13.5
         Ty = Core.PaintTop + 3
-        Tw = Core.Width - GlyphSize - 8
+        Tw = Core.Width - 15
         If Tw < 1 Then Tw = 1
         Th = Core.Height - 6
         If Th < 1 Then Th = 1

@@ -1,0 +1,6 @@
+{
+  "reason": "User stopped Computer Use with physical Escape before accelerator/drag comparison",
+  "runtime_source_restored": true,
+  "restored_sha256": "fc3da45a8b872495f80594c5384c3b48b9555b712829461f2f589fdab0e710bd",
+  "native_changes": "Discarded by closing owned workbook without saving"
+}

@@ -23,11 +23,11 @@ Private Const OX_KEY_RIGHT As Integer = 39
 Private Const OX_KEY_DOWN As Integer = 40
 Private Const OX_KEY_HOME As Integer = 36
 Private Const OX_KEY_END As Integer = 35
-Private Const TAB_HEIGHT As Single = 20
-Private Const CLIENT_LEFT As Single = 4
-Private Const CLIENT_RIGHT As Single = 4
-Private Const CLIENT_BOTTOM As Single = 4
-Private Const MIN_PAGE_TAB_WIDTH As Single = 42
+Private Const TAB_HEIGHT As Single = 15
+Private Const CLIENT_LEFT As Single = 1.5
+Private Const CLIENT_RIGHT As Single = 1.5
+Private Const CLIENT_BOTTOM As Single = 1.5
+Private Const TAB_PADDING As Single = 10.5
 
 Private mCore As OxControlCore
 Private mPages As Pages
@@ -43,7 +43,7 @@ Private Sub Class_Initialize()
     Set mPageControls = Nothing
     Set mCore = New OxControlCore
     mCore.Init oxControlMultiPage
-    mCore.SetChildClipMargins CLIENT_LEFT, TAB_HEIGHT, CLIENT_RIGHT, CLIENT_BOTTOM
+    mCore.SetChildClipMargins CLIENT_LEFT, TAB_HEIGHT + 0.75, CLIENT_RIGHT, CLIENT_BOTTOM
     Set mPages = New Pages
     mPages.Init Me
     Set mPageControls = New Controls
@@ -75,16 +75,16 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
 
     Surface.OpenNodeClipped mCore.NodeId, True, mCore.PaintParentId, mCore.ZOrder, _
         mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, mCore.Visible, _
-        ClientPaintLeft(), ClientPaintTop(), ClientWidth(), ClientHeight()
+        mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height
 
     Dim SelectedPage As Page
     Set SelectedPage = CurrentPage()
     If Not SelectedPage Is Nothing Then Surface.AddChild SelectedPage.Core.NodeId
 
-    Surface.FillRect mCore.PaintLeft, mCore.PaintTop + TAB_HEIGHT - 1, _
-        mCore.Width, mCore.Height - TAB_HEIGHT + 1, OxThemeFaceColor(oxControlFrame, False, mCore.Enabled), 255
-    Surface.DrawEdge mCore.PaintLeft, mCore.PaintTop + TAB_HEIGHT - 1, _
-        mCore.Width, mCore.Height - TAB_HEIGHT + 1, "sunken", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    Surface.FillRect mCore.PaintLeft, mCore.PaintTop + TAB_HEIGHT, _
+        mCore.Width, mCore.Height - TAB_HEIGHT, OxThemeFaceColor(oxControlFrame, False, mCore.Enabled), 255
+    Surface.DrawEdge mCore.PaintLeft, mCore.PaintTop + TAB_HEIGHT, _
+        mCore.Width, mCore.Height - TAB_HEIGHT, "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
 
     Dim I As Long
     For I = 0 To mPages.Count - 1
@@ -201,7 +201,7 @@ Public Sub RegisterPage(ByVal Page As Page)
 End Sub
 
 Public Sub NotifyPageChanged()
-    mCore.DisplayText = mPages.JoinedCaptions(vbLf)
+    SyncCaptions
     SyncPageGeometry
     mCore.MarkDirty
     mCore.MarkInteractionDirty
@@ -211,15 +211,29 @@ Public Sub NotifyPagesCleared()
     mValue = -1
     Set mPageControls = New Controls
     mPageControls.Bind Me
-    mCore.DisplayText = ""
+    SyncCaptions
     mCore.MarkDirty
     mCore.MarkInteractionDirty
+End Sub
+
+Private Sub SyncCaptions()
+    mCore.DisplayText = mPages.JoinedCaptions(vbLf)
+    Dim Parts As Collection, I As Long
+    Set Parts = New Collection
+    For I = 0 To mPages.Count - 1
+        Parts.Add mPages.CaptionAt(I)
+    Next I
+    mCore.SetTextParts Parts
 End Sub
 
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     RaiseEvent MouseDown(Button, Shift, X, Y)
     If Button <> OX_BUTTON_LEFT Then Exit Sub
-    If Y >= 0 And Y < TAB_HEIGHT Then SelectFromUser PageIndexFromX(X)
+    If Y >= 0 And Y < TAB_HEIGHT Then
+        Dim Index As Long
+        Index = PageIndexFromX(X)
+        If Index >= 0 Then SelectFromUser Index
+    End If
 End Sub
 
 Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
@@ -460,7 +474,7 @@ Private Sub SyncPageGeometry()
     For I = 0 To mPages.Count - 1
         Set P = mPages.Item(I)
         P.Left = CLIENT_LEFT
-        P.Top = TAB_HEIGHT
+        P.Top = TAB_HEIGHT + 0.75
         P.Width = ClientWidth()
         P.Height = ClientHeight()
         P.Visible = (I = mValue)
@@ -469,42 +483,45 @@ Private Sub SyncPageGeometry()
 End Sub
 
 Private Function PageIndexFromX(ByVal X As Single) As Long
-    If mPages.Count = 0 Then
-        PageIndexFromX = -1
-        Exit Function
-    End If
-    PageIndexFromX = CLng(Int(X / PageTabWidth()))
-    If PageIndexFromX >= mPages.Count Then PageIndexFromX = mPages.Count - 1
+    PageIndexFromX = -1
+    If X < 0 Then Exit Function
+    Dim I As Long, RightX As Single
+    For I = 0 To mPages.Count - 1
+        RightX = RightX + PageTabWidth(I)
+        If X < RightX Then
+            PageIndexFromX = I
+            Exit Function
+        End If
+    Next I
 End Function
 
-Private Function PageTabWidth() As Single
-    If mPages.Count = 0 Then
-        PageTabWidth = MIN_PAGE_TAB_WIDTH
-    Else
-        PageTabWidth = mCore.Width / mPages.Count
-        If PageTabWidth < MIN_PAGE_TAB_WIDTH Then PageTabWidth = MIN_PAGE_TAB_WIDTH
-    End If
+Private Function PageTabWidth(ByVal Index As Long) As Single
+    PageTabWidth = mCore.TextPartWidth(Index) + TAB_PADDING
 End Function
 
 Private Sub PaintPageTab(ByVal Surface As OxSceneBuilder, ByVal Index As Long)
     Dim W As Single
-    W = PageTabWidth()
-    Dim X As Single
-    X = mCore.PaintLeft + (Index * W)
+    W = PageTabWidth(Index)
+    Dim X As Single, I As Long
+    X = mCore.PaintLeft
+    For I = 0 To Index - 1
+        X = X + PageTabWidth(I)
+    Next I
     Dim Selected As Boolean
     Selected = (Index = mValue)
     Dim TopY As Single
-    TopY = mCore.PaintTop
-    If Selected Then TopY = TopY + 1
+    TopY = mCore.PaintTop + 2.25
+    If Selected Then TopY = mCore.PaintTop + 0.75
 
-    Surface.FillRect X, TopY, W, TAB_HEIGHT, OxThemeFaceColor(oxControlCommandButton, Selected, mCore.Enabled), 255
-    Surface.DrawEdge X, TopY, W, TAB_HEIGHT, "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    Surface.FillRect X, TopY, W, mCore.PaintTop + TAB_HEIGHT - TopY, OxThemeFormBackColor(), 255
+    Surface.DrawEdge X, TopY, W, mCore.PaintTop + TAB_HEIGHT - TopY, "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    If Selected Then Surface.FillRect X + 1.5, mCore.PaintTop + TAB_HEIGHT - 1.5, W - 3, 3, OxThemeFormBackColor(), 255
 
     Dim RunId As String
-    RunId = mCore.RunId
+    RunId = mCore.TextPartRunId(Index)
     If Len(RunId) = 0 Then RunId = "0"
-    OxThemePaintTextRun mCore, Surface, X + 4, TopY + 4, W - 8, TAB_HEIGHT - 6, _
-        RunId, "left", False, True, False
+    OxThemePaintTextRun mCore, Surface, X + 1.5, TopY + 1.5, W - 3, mCore.TextPartHeight(Index), _
+        RunId, "center", False, True, False
 End Sub
 
 Private Function ClientPaintLeft() As Single

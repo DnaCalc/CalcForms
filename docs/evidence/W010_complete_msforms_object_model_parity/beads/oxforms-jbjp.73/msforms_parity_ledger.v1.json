@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "cc31c3b8ead193802227e5363e493c10d4286e598e1876bd2317a84a640a6931",
+  "source_surface_sha256": "7add4da2340fbcee2f791343e9a4881dc60c4aaad2d437436c937f90ebd85de0",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -56350,7 +56350,7 @@
           "file_stem": "MultiPage",
           "kind": "class_module",
           "path": "vba/calcforms/MultiPage.cls",
-          "normalized_text_sha256": "fea4ba193f53382012cbe6f497c6d65a220eb2d07a2bdc8252914526c5f2325c",
+          "normalized_text_sha256": "367e5c536f6848a203df825d9b1e742222741add6d2edd5e5a01656a9010da72",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -57229,8 +57229,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 369,
-                "end_line": 369,
+                "start_line": 383,
+                "end_line": 383,
                 "text": "Public Sub RegisterControl(ByVal Control As IOxControl)"
               },
               "member_attributes": {}
@@ -57259,8 +57259,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 375,
-                "end_line": 375,
+                "start_line": 389,
+                "end_line": 389,
                 "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
               },
               "member_attributes": {}
@@ -57416,8 +57416,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 219,
-                "end_line": 219,
+                "start_line": 229,
+                "end_line": 229,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -57481,8 +57481,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 225,
-                "end_line": 225,
+                "start_line": 239,
+                "end_line": 239,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -57546,8 +57546,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 229,
-                "end_line": 229,
+                "start_line": 243,
+                "end_line": 243,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -57566,8 +57566,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 232,
-                "end_line": 232,
+                "start_line": 246,
+                "end_line": 246,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -57586,8 +57586,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 235,
-                "end_line": 235,
+                "start_line": 249,
+                "end_line": 249,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -57606,8 +57606,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 239,
-                "end_line": 239,
+                "start_line": 253,
+                "end_line": 253,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -57649,8 +57649,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 243,
-                "end_line": 243,
+                "start_line": 257,
+                "end_line": 257,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -57692,8 +57692,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 261,
-                "end_line": 261,
+                "start_line": 275,
+                "end_line": 275,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -57724,8 +57724,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 265,
-                "end_line": 265,
+                "start_line": 279,
+                "end_line": 279,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -57744,8 +57744,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 268,
-                "end_line": 268,
+                "start_line": 282,
+                "end_line": 282,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -57764,8 +57764,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 276,
-                "end_line": 276,
+                "start_line": 290,
+                "end_line": 290,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -57784,8 +57784,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 289,
-                "end_line": 289,
+                "start_line": 303,
+                "end_line": 303,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -57804,8 +57804,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 293,
-                "end_line": 293,
+                "start_line": 307,
+                "end_line": 307,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -57824,8 +57824,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 297,
-                "end_line": 297,
+                "start_line": 311,
+                "end_line": 311,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -57844,8 +57844,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 301,
-                "end_line": 301,
+                "start_line": 315,
+                "end_line": 315,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -57864,8 +57864,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 305,
-                "end_line": 305,
+                "start_line": 319,
+                "end_line": 319,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -57884,8 +57884,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 309,
-                "end_line": 309,
+                "start_line": 323,
+                "end_line": 323,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -57938,8 +57938,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 313,
-                "end_line": 313,
+                "start_line": 327,
+                "end_line": 327,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -57992,8 +57992,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 317,
-                "end_line": 317,
+                "start_line": 331,
+                "end_line": 331,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -58012,8 +58012,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 321,
-                "end_line": 321,
+                "start_line": 335,
+                "end_line": 335,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -58032,8 +58032,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 325,
-                "end_line": 325,
+                "start_line": 339,
+                "end_line": 339,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -58052,8 +58052,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 329,
-                "end_line": 329,
+                "start_line": 343,
+                "end_line": 343,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -58072,8 +58072,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 333,
-                "end_line": 333,
+                "start_line": 347,
+                "end_line": 347,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -58092,8 +58092,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 337,
-                "end_line": 337,
+                "start_line": 351,
+                "end_line": 351,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -58112,8 +58112,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 341,
-                "end_line": 341,
+                "start_line": 355,
+                "end_line": 355,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -58132,8 +58132,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 345,
-                "end_line": 345,
+                "start_line": 359,
+                "end_line": 359,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -58152,8 +58152,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 349,
-                "end_line": 349,
+                "start_line": 363,
+                "end_line": 363,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -58172,8 +58172,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 353,
-                "end_line": 353,
+                "start_line": 367,
+                "end_line": 367,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -58192,8 +58192,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 357,
-                "end_line": 357,
+                "start_line": 371,
+                "end_line": 371,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -58212,8 +58212,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 361,
-                "end_line": 361,
+                "start_line": 375,
+                "end_line": 375,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -58232,8 +58232,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 365,
-                "end_line": 365,
+                "start_line": 379,
+                "end_line": 379,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -58264,8 +58264,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 381,
-                "end_line": 381,
+                "start_line": 395,
+                "end_line": 395,
                 "text": "Private Sub IOxControlContainer_RegisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -58296,8 +58296,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 385,
-                "end_line": 385,
+                "start_line": 399,
+                "end_line": 399,
                 "text": "Private Sub IOxControlContainer_UnregisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -58328,8 +58328,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 389,
-                "end_line": 389,
+                "start_line": 403,
+                "end_line": 403,
                 "text": "Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -58360,8 +58360,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 393,
-                "end_line": 393,
+                "start_line": 407,
+                "end_line": 407,
                 "text": "Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -1494436,8 +1494436,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 369,
-          "end_line": 369,
+          "start_line": 383,
+          "end_line": 383,
           "text": "Public Sub RegisterControl(ByVal Control As IOxControl)"
         },
         "member_attributes": {},
@@ -1494564,8 +1494564,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 375,
-          "end_line": 375,
+          "start_line": 389,
+          "end_line": 389,
           "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
         },
         "member_attributes": {},
@@ -1562875,5 +1562875,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "3a9c0ba4e05efbca4367a61b3a27585c5795bce0182aae2e7b475d732956f884"
+  "canonical_sha256": "c1b6ed28ae1e16dac05287f8a88dba6b0134e9811ac11bffdee8cf46adbd1516"
 }

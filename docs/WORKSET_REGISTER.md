@@ -36,6 +36,14 @@ Full ListBox parity remains `.23`.
 differences to 6.27%/4.97%; `.33` remains open. `.89` rejects blank Frame
 captures even when the page background passes. See the [tab measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.88/README.md)
 and [capture replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.89/README.md).
+`.92` replaces square radio glyphs with ellipses, improving both scales.
+`.93` restores MultiPage headers/border outside its selected Page clip and
+matches measured interior dimensions. Its 100% border error rises slightly;
+150% improves. See [the measured limits](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.93/README.md).
+Run 4 ended after the user stopped Computer Use. `.77` now has native original-
+workbook identity/Hide/Show/Unload observations but no runtime implementation.
+`.91` retains prepared input probes; physical accelerator and drag parity
+remain unproved. Owned Excel/runtime were stopped; workbook bytes are unchanged.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

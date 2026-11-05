@@ -602,7 +602,7 @@ Public Function RunSelfTest() As String
     DriveMouse 546, 174      ' SpinButton up half: single-step value/event path.
     DriveMouse 552, 241      ' ScrollBar right button: Scroll before Change.
     DriveMouse 492, 266      ' Caption-sized TabStrip second tab: Change path.
-    DriveMouse 532, 320      ' MultiPage second page: page-switch Change path.
+    DriveMouse 492, 320      ' Caption-sized MultiPage second page: Change path.
     DriveMouse 40, 98        ' TextBox: Enter/MouseDown/MouseUp.
     DriveKey OX_KEY_A, 0, "a"
 

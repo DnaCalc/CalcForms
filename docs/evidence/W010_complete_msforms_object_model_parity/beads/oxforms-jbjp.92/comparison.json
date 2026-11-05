@@ -1,0 +1,706 @@
+{
+  "schema": "calcforms.paint_subset.92.v1",
+  "pixel_parity_claimed": false,
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 56892,
+    "desktop": "winsta0\\default"
+  },
+  "observations": [
+    {
+      "zoom": 100,
+      "images": [
+        {
+          "file": "100-excel.png",
+          "sha256": "82d606e23390b36bc0a68016bedf19a473ed2fc6e2a0a4306b6a8bfa430d0227"
+        },
+        {
+          "file": "100-before.png",
+          "sha256": "682399c4230b243a4c6de621111c2a8ae896c0519842a7e04dafd151d737d88b"
+        },
+        {
+          "file": "100-after.png",
+          "sha256": "780c50c55ecab1b046b139b3a7dde4060a2397cbac802efd250d29ba98ffdffd"
+        }
+      ],
+      "regions": [
+        {
+          "name": "OptionOne",
+          "roi": [
+            16,
+            56,
+            190,
+            80
+          ],
+          "before": {
+            "pixels": 4176,
+            "different_pixels": 643,
+            "mean_absolute_rgb": [
+              14.930555555555555,
+              15.11111111111111,
+              14.578544061302683
+            ]
+          },
+          "after": {
+            "pixels": 4176,
+            "different_pixels": 500,
+            "mean_absolute_rgb": [
+              9.999281609195402,
+              11.159243295019158,
+              11.051005747126437
+            ]
+          }
+        },
+        {
+          "name": "OptionTwo",
+          "roi": [
+            232,
+            56,
+            406,
+            80
+          ],
+          "before": {
+            "pixels": 4176,
+            "different_pixels": 694,
+            "mean_absolute_rgb": [
+              14.910919540229886,
+              15.252155172413794,
+              14.23419540229885
+            ]
+          },
+          "after": {
+            "pixels": 4176,
+            "different_pixels": 572,
+            "mean_absolute_rgb": [
+              10.121647509578544,
+              11.856561302681992,
+              11.918103448275861
+            ]
+          }
+        }
+      ],
+      "pixels_before": {
+        "pixels": 123200,
+        "different_pixels": 11812,
+        "mean_absolute_rgb": [
+          4.739748376623377,
+          4.766258116883117,
+          4.675413961038961
+        ]
+      },
+      "pixels_after": {
+        "pixels": 123200,
+        "different_pixels": 11547,
+        "mean_absolute_rgb": [
+          4.4102597402597405,
+          4.517207792207792,
+          4.477337662337662
+        ]
+      },
+      "nodes": [
+        {
+          "id": 3,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 12.0,
+            "y": 42.0,
+            "w": 130.0,
+            "h": 18.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 13.5,
+                "y": 45.375,
+                "w": 9.75,
+                "h": 9.75
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 255,
+                    "green": 255,
+                    "blue": 255,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.0
+              }
+            },
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 13.5,
+                "y": 45.375,
+                "w": 8.25,
+                "h": 8.25
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 128,
+                    "green": 128,
+                    "blue": 128,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.75
+              }
+            },
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 15.75,
+                "y": 47.625,
+                "w": 4.5,
+                "h": 4.5
+              },
+              "fill": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.0
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 8278848058277314201,
+              "rect": {
+                "x": 25.5,
+                "y": 45.0,
+                "w": 115.0,
+                "h": 12.0
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": 4,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 174.0,
+            "y": 42.0,
+            "w": 130.0,
+            "h": 18.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 175.5,
+                "y": 45.375,
+                "w": 9.75,
+                "h": 9.75
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 255,
+                    "green": 255,
+                    "blue": 255,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.0
+              }
+            },
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 175.5,
+                "y": 45.375,
+                "w": 8.25,
+                "h": 8.25
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 128,
+                    "green": 128,
+                    "blue": 128,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.75
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 14421308415448605543,
+              "rect": {
+                "x": 187.5,
+                "y": 45.0,
+                "w": 115.0,
+                "h": 12.0
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "runtime_sha256": "994bfe74c15fc56839d99ecdd2e9cc8db8d73b06ff263f139012549fe4876358"
+    },
+    {
+      "zoom": 150,
+      "images": [
+        {
+          "file": "150-excel.png",
+          "sha256": "ef6b670aa6ba18f127035787265c8ec66dc9eccafe8358a5ad8fd9c913fbc536"
+        },
+        {
+          "file": "150-before.png",
+          "sha256": "fea00f5874dc3f0ae6a2c37633398e3a7087fef3425d11e8db0adc5f9955a500"
+        },
+        {
+          "file": "150-after.png",
+          "sha256": "35fb8e3b1a90265cdc7e30d127e04e7126f737493cb0d49233e6cdc480b37f18"
+        }
+      ],
+      "regions": [
+        {
+          "name": "OptionOne",
+          "roi": [
+            24,
+            84,
+            284,
+            120
+          ],
+          "before": {
+            "pixels": 9360,
+            "different_pixels": 1325,
+            "mean_absolute_rgb": [
+              14.60181623931624,
+              14.68301282051282,
+              15.130662393162392
+            ]
+          },
+          "after": {
+            "pixels": 9360,
+            "different_pixels": 1011,
+            "mean_absolute_rgb": [
+              10.21923076923077,
+              11.466666666666667,
+              12.431410256410256
+            ]
+          }
+        },
+        {
+          "name": "OptionTwo",
+          "roi": [
+            348,
+            84,
+            608,
+            120
+          ],
+          "before": {
+            "pixels": 9360,
+            "different_pixels": 1413,
+            "mean_absolute_rgb": [
+              15.914957264957264,
+              15.426923076923076,
+              14.71068376068376
+            ]
+          },
+          "after": {
+            "pixels": 9360,
+            "different_pixels": 1257,
+            "mean_absolute_rgb": [
+              15.403205128205128,
+              15.194444444444445,
+              14.80982905982906
+            ]
+          }
+        }
+      ],
+      "pixels_before": {
+        "pixels": 277200,
+        "different_pixels": 25191,
+        "mean_absolute_rgb": [
+          5.611847041847041,
+          5.2368722943722945,
+          4.91326479076479
+        ]
+      },
+      "pixels_after": {
+        "pixels": 277200,
+        "different_pixels": 24721,
+        "mean_absolute_rgb": [
+          5.446583694083694,
+          5.12041847041847,
+          4.825468975468976
+        ]
+      },
+      "nodes": [
+        {
+          "id": 3,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 12.0,
+            "y": 42.0,
+            "w": 130.0,
+            "h": 18.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 13.5,
+                "y": 45.375,
+                "w": 9.75,
+                "h": 9.75
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 255,
+                    "green": 255,
+                    "blue": 255,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.0
+              }
+            },
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 13.5,
+                "y": 45.375,
+                "w": 8.25,
+                "h": 8.25
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 128,
+                    "green": 128,
+                    "blue": 128,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.75
+              }
+            },
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 15.75,
+                "y": 47.625,
+                "w": 4.5,
+                "h": 4.5
+              },
+              "fill": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 0,
+                    "green": 0,
+                    "blue": 0,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.0
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 8278848058277314201,
+              "rect": {
+                "x": 25.5,
+                "y": 45.0,
+                "w": 115.0,
+                "h": 12.0
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        },
+        {
+          "id": 4,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 174.0,
+            "y": 42.0,
+            "w": 130.0,
+            "h": 18.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 175.5,
+                "y": 45.375,
+                "w": 9.75,
+                "h": 9.75
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 255,
+                    "green": 255,
+                    "blue": 255,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.0
+              }
+            },
+            {
+              "op": "ellipse",
+              "rect": {
+                "x": 175.5,
+                "y": 45.375,
+                "w": 8.25,
+                "h": 8.25
+              },
+              "fill": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "stroke": {
+                "paint": {
+                  "Solid": {
+                    "red": 128,
+                    "green": 128,
+                    "blue": 128,
+                    "alpha": 255
+                  }
+                },
+                "width": 0.75
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 14421308415448605543,
+              "rect": {
+                "x": 187.5,
+                "y": 45.0,
+                "w": 115.0,
+                "h": 12.0
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "capture_validation": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live background at the center of an empty authored MultiPage",
+        "probes": [],
+        "candidates": {
+          "composite": {
+            "samples": [],
+            "matches": true
+          },
+          "parent": {
+            "samples": [],
+            "matches": true
+          }
+        }
+      },
+      "runtime_sha256": "994bfe74c15fc56839d99ecdd2e9cc8db8d73b06ff263f139012549fe4876358"
+    }
+  ]
+}

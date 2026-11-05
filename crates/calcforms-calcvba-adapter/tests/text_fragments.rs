@@ -284,3 +284,139 @@ End Function
     call("RenderOnce", vec![]);
     assert_eq!(rows(&surface.snapshot().unwrap().scene.unwrap())[0].0, "");
 }
+
+#[test]
+fn multipage_headers_paint_outside_the_measured_page_child_clip() {
+    let source = r#"Option Explicit
+Private F As UserForm
+Private M As MultiPage
+Public Sub Build()
+    Set F = New UserForm
+    F.Width = 200
+    F.Height = 180
+    Set M = F.Controls.Add("Forms.MultiPage.1", "Pages")
+    M.Left = 12
+    M.Top = 12
+    M.Width = 162
+    M.Height = 144
+    M.Core.FontSize = 8.25
+    M.Pages.Add "First"
+    M.Pages.Add "Second"
+    Dim L As Label
+    Set L = M.Pages.Item(0).Controls.Add("Forms.Label.1", "InsideFirst")
+    L.Left = 5
+    L.Top = 6
+    L.Width = 60
+    L.Height = 18
+    L.Caption = "Inside"
+    Set L = M.Pages.Item(1).Controls.Add("Forms.Label.1", "InsideSecond")
+    L.Left = 5
+    L.Top = 6
+    L.Width = 60
+    L.Height = 18
+    L.Caption = "Other"
+End Sub
+Public Sub RenderOnce()
+    F.Render 96, 96
+End Sub
+Public Sub ChooseSecond()
+    M.Value = 1
+End Sub
+"#;
+    let (mut session, form, surface) = fixture(source);
+    let mut call = |name: &str| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), vec![])
+            .unwrap()
+    };
+    call("Build");
+    call("RenderOnce");
+    let scene = surface.snapshot().unwrap().scene.unwrap();
+    let parent = scene.get(NodeId(1)).unwrap();
+    assert_eq!(parent.clip, Some(parent.bounds));
+    let page = scene.get(NodeId(1001)).unwrap();
+    let clip = page.clip.unwrap();
+    assert_eq!(
+        (clip.x, clip.y, clip.w, clip.h),
+        (13.5, 27.75, 159.0, 126.75)
+    );
+    let captions: Vec<_> = parent
+        .prims
+        .iter()
+        .filter_map(|p| match p {
+            Prim::DrawText { rect, run, .. } => {
+                Some((rect, scene.text_run(*run).unwrap().source.as_ref()))
+            }
+            _ => None,
+        })
+        .collect();
+    assert_eq!(
+        captions.iter().map(|p| p.1).collect::<Vec<_>>(),
+        ["First", "Second"]
+    );
+    assert!(
+        captions.iter().all(|p| p.0.y < clip.y),
+        "header paint is outside the page's child clip"
+    );
+    let child = scene.get(NodeId(1001001)).unwrap();
+    assert_eq!((child.bounds.x, child.bounds.y), (18.5, 33.75));
+    assert!(scene.get(NodeId(1002001)).is_none());
+    call("ChooseSecond");
+    call("RenderOnce");
+    let scene = surface.snapshot().unwrap().scene.unwrap();
+    assert!(scene.get(NodeId(1001001)).is_none());
+    assert_eq!(scene.get(NodeId(1002)).unwrap().clip, Some(clip));
+    assert!(scene.get(NodeId(1002001)).is_some());
+}
+
+#[test]
+fn option_button_uses_ellipses_for_the_ring_and_selected_dot() {
+    let source = r#"Option Explicit
+Private F As UserForm
+Public Sub Build()
+    Set F = New UserForm
+    F.Width = 160
+    F.Height = 60
+    Dim O As OptionButtonControl
+    Set O = F.Controls.Add("Forms.OptionButton.1", "Option")
+    O.Left = 12
+    O.Top = 12
+    O.Width = 130
+    O.Height = 18
+    O.Caption = "First option"
+    O.Value = True
+End Sub
+Public Sub RenderOnce()
+    F.Render 96, 96
+End Sub
+"#;
+    let (mut session, form, surface) = fixture(source);
+    for name in ["Build", "RenderOnce"] {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), vec![])
+            .unwrap();
+    }
+    let scene = surface.snapshot().unwrap().scene.unwrap();
+    let node = scene.get(NodeId(1)).unwrap();
+    let rings: Vec<_> = node
+        .prims
+        .iter()
+        .filter_map(|p| match p {
+            Prim::Ellipse { rect, .. } => Some(rect),
+            _ => None,
+        })
+        .collect();
+    assert_eq!(rings.len(), 3);
+    assert_eq!(
+        rings.iter().map(|r| r.w).collect::<Vec<_>>(),
+        [9.75, 8.25, 4.5]
+    );
+    assert!(rings.iter().all(|r| r.w == r.h));
+    assert!(
+        !node
+            .prims
+            .iter()
+            .any(|p| matches!(p, Prim::FillRect { .. })),
+        "no square selection glyph remains"
+    );
+}
