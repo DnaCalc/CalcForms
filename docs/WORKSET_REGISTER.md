@@ -28,6 +28,10 @@ its separate child clip and two-scale pixel improvements are recorded in
 `.86` adds root-control pixel rankings and Office-independent replay; the
 recorded corpus puts ListBox row painting first at both scales. Its source
 cause and measurement limits remain recorded in the `.23`/`.33` lanes.
+Run 4 `.87` fixes separate ListBox row runs through the same measurement batch,
+selected text and clipping; its [two-scale measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.87/README.md)
+reduce the ranked Choices region from about 30% to 9.45%/9.90% different pixels.
+Full ListBox parity remains `.23`.
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

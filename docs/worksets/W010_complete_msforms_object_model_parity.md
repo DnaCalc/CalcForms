@@ -4,6 +4,11 @@ Status: `IN PROGRESS`
 
 Epic: `oxforms-jbjp`
 
+Run 4 `.87` corrects the largest recorded region, ListBox Choices: separate
+row runs in one text batch, measured default spacing, white selection text
+and clipped rows. See [the measurements](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.87/README.md).
+The full ListBox lane `.23` remains open.
+
 November product slice: `oxforms-jbjp.74` loads the five-control greeter from a
 genuine workbook through `calcvba-office` and runs original handlers on VM3.
 The six-state headless and Windows/owned Excel differentials are implemented.

@@ -6,6 +6,9 @@ parity ledger (`oxforms-jbjp.4`), plus the replay-valid canonical representative
 live member-oracle capture (`oxforms-jbjp.5`). W010 remains in progress beyond
 that representative slice.
 
+Run 4 ListBox row correction: [`.87` measurements](beads/oxforms-jbjp.87/README.md),
+with the same native pixels before/after at both scales and a VM3 batch/clip regression.
+
 This directory indexes the generated facts, oracle captures, differential
 artifacts, conformance ledger, and closure evidence for W010. W010 supersedes no
 earlier evidence: W005/W006/W008 event captures and W009 representative-control

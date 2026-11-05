@@ -103,6 +103,15 @@ the native top alignment. Measure empty TextBox runs too: clearing a field must
 retain the same font line and caret height. Configurable SelectionMargin,
 gutter-selection behavior and full multiline rendering remain W010 work.
 
+ListBox rows now provide separate text fragments through Core's project-internal
+Friend methods. UserForm measures all fragments in its existing one batch;
+no row-level Rust control logic or extra crossing is introduced. The measured
+Tahoma 8.25 subset uses FontSize+1.5pt row spacing, a 1.5pt inner border and an
+8.25pt text origin. Paint and hit testing share the spacing. Selected text is
+white on the observed blue, with rows clipped inside a separate child node.
+Empty rows keep their spacing. Exact font/device metrics, borders, focus,
+columns and scrolling remain the full ListBox lane's work.
+
 The default Frame uses an etched edge and separates its full-site paint clip
 from a generic clipped child group. Native Tahoma 8.25 readback gives 1.5pt
 side/bottom margins and an inferred 5.65pt top margin. VBA currently uses a

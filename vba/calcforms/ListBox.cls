@@ -25,8 +25,7 @@ Private Const OX_KEY_END As Integer = 35
 Private Const OX_KEY_SPACE As Integer = 32
 Private Const SHIFT_MASK As Integer = 1
 Private Const CTRL_MASK As Integer = 2
-Private Const ROW_HEIGHT As Single = 14
-Private Const ROW_INSET As Single = 3
+Private Const ROW_INSET As Single = 1.5
 
 Private mCore As OxControlCore
 Private mItems As Collection
@@ -65,7 +64,7 @@ Public Property Get Core() As OxControlCore
 End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxThemePaintListBox mCore, Surface, mListIndex, mFocused, mSelectedCsv, mItems.Count
+    OxThemePaintListBox mCore, Surface, mListIndex, mFocused, mSelectedCsv, mItems.Count, RowHeight()
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -455,9 +454,14 @@ Public Function PerformBeforeUpdate() As Boolean
     PerformBeforeUpdate = cancel.Value
 End Function
 
+Private Function RowHeight() As Single
+    ' Owned Tahoma 8.25: selected row measures 13px/19px solid blue at 100%/150%.
+    RowHeight = mCore.FontSize + 1.5
+End Function
+
 Private Sub SelectRowAt(ByVal Y As Single, ByVal Shift As Integer)
     Dim Row As Long
-    Row = CLng(Int((Y - ROW_INSET) / ROW_HEIGHT))
+    Row = CLng(Int((Y - ROW_INSET) / RowHeight()))
     If Row >= 0 And Row < mItems.Count Then SelectIndexFromUser Row, Shift
 End Sub
 
@@ -519,6 +523,12 @@ End Sub
 
 Private Sub SyncDisplayText()
     mCore.DisplayText = JoinedDisplayText()
+    Dim Parts As Collection, I As Long
+    Set Parts = New Collection
+    For I = 1 To mItems.Count
+        Parts.Add RowDisplayText(CStr(mItems.Item(I)))
+    Next I
+    mCore.SetTextParts Parts
     If mListIndex >= mItems.Count Then mListIndex = -1
     TrimSelectedToCount
     mCore.MarkDirty

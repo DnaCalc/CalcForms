@@ -439,8 +439,8 @@ fn showcase_catalog_lists_current_live_surface_and_empty_pending_rows() {
     rt.render().expect("render showcase");
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 30,
-        "root node plus 23 root controls, the Frame client clip, container children, and the TextBox text/selection nodes should be resident"
+        snap.node_count, 31,
+        "root plus controls, Frame client, ListBox rows, container children and TextBox text/selection nodes"
     );
     assert!(
         snap.scene

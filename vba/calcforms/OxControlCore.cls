@@ -58,6 +58,10 @@ Private mAutoSize As Boolean
 ' obtained from CalcForms.Surface.MeasureBatch (a decimal u64 as a String, since it does
 ' not fit a Long). Set each render, read by OxControlPaint; never persisted state.
 Private mRunId As String
+Private mTextParts As Collection
+Private mPartRunIds() As String
+Private mPartWidths() As Single
+Private mPartHeights() As Single
 ' Transient per-render scratch: the caption's measured size in points (advance width,
 ' and ascent+descent height), from the MeasureBatch result. The layout pass reads
 ' these to shrink-wrap an AutoSize control before it paints.
@@ -82,6 +86,7 @@ Private Sub Class_Initialize()
     Set mHost = Nothing
     Set mOwner = Nothing
     Set mPeerControls = Nothing
+    Set mTextParts = Nothing
 End Sub
 
 Public Sub Init(ByVal Kind As OxControlKind)
@@ -566,6 +571,62 @@ End Property
 Public Property Let RunId(ByVal Value As String)
     mRunId = Value
 End Property
+
+' Controls with separate rows/captions supply independent text fragments. The
+' form measures all fragments in its existing single batch; layout stays here
+' in VBA and Rust receives only ordinary text runs.
+Friend Sub SetTextParts(ByVal Parts As Collection)
+    Set mTextParts = Parts
+    Dim Count As Long
+    Count = Parts.Count
+    If Count < 1 Then Count = 1
+    ReDim mPartRunIds(0 To Count - 1)
+    ReDim mPartWidths(0 To Count - 1)
+    ReDim mPartHeights(0 To Count - 1)
+End Sub
+
+Friend Property Get MeasureTextCount() As Long
+    If Not mTextParts Is Nothing Then
+        MeasureTextCount = mTextParts.Count
+    ElseIf Len(mDisplayText) > 0 Or mKind = oxControlTextBox Then
+        MeasureTextCount = 1
+    End If
+End Property
+
+Friend Function MeasureText(ByVal Index As Long) As String
+    If mTextParts Is Nothing Then
+        MeasureText = mDisplayText
+    Else
+        MeasureText = CStr(mTextParts.Item(Index + 1))
+    End If
+End Function
+
+Friend Sub SetMeasuredText(ByVal Index As Long, ByVal Id As String, _
+        ByVal W As Single, ByVal H As Single, ByVal CaretStops As String)
+    If Not mTextParts Is Nothing Then
+        mPartRunIds(Index) = Id
+        mPartWidths(Index) = W
+        mPartHeights(Index) = H
+    End If
+    If Index = 0 Then
+        mRunId = Id
+        mMeasuredWidth = W
+        mMeasuredHeight = H
+        mCaretStopsMilliPtCsv = CaretStops
+    End If
+End Sub
+
+Friend Function TextPartRunId(ByVal Index As Long) As String
+    TextPartRunId = mPartRunIds(Index)
+End Function
+
+Friend Function TextPartWidth(ByVal Index As Long) As Single
+    TextPartWidth = mPartWidths(Index)
+End Function
+
+Friend Function TextPartHeight(ByVal Index As Long) As Single
+    TextPartHeight = mPartHeights(Index)
+End Function
 
 ' Render-internal geometry write for the AutoSize layout pass: set Width/Height WITHOUT
 ' MarkDirty, because shrink-wrap bounds are render-DERIVED, not user/handler state.

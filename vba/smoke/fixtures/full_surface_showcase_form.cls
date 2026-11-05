@@ -630,7 +630,7 @@ Public Function RunSelfTest() As String
     DispatchKey "keyup", OX_KEY_SPACE, 0
     DispatchChar "o"
 
-    DriveMouse 40, 192           ' Dirty CheckBox focus-out; ListBox mouse focus/select.
+    DriveMouse 40, 180           ' ListBox second row center with the measured shorter pitch.
     DispatchKey "keydown", 40, 0
     DispatchKey "keyup", 40, 0
     DispatchChar "l"

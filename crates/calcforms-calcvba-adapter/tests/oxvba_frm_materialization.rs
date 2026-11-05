@@ -420,8 +420,8 @@ fn representative_frm_materializes_into_live_vba_object_model() {
     );
     let snap = surface.snapshot().expect("surface snapshot");
     assert_eq!(
-        snap.node_count, 17,
-        "root plus fourteen materialized controls plus TextBox text/selection nodes should be resident"
+        snap.node_count, 18,
+        "root plus fourteen controls, ListBox rows and TextBox text/selection nodes"
     );
     let scene = snap.scene.as_ref().expect("resident scene");
     assert!(

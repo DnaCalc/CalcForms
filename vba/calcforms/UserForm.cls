@@ -232,11 +232,11 @@ End Sub
 ' needs the real font line height for its caret. If no control needs metrics,
 ' no crossing happens.
 Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
-    Dim I As Long, Control As IOxControl, TextCount As Long
+    Dim I As Long, Control As IOxControl, TextCount As Long, Part As Long
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        If Len(Control.Core.DisplayText) > 0 Or Control.Core.Kind = oxControlTextBox Then
-            TextCount = TextCount + 1
+        If Control.Core.MeasureTextCount > 0 Then
+            TextCount = TextCount + Control.Core.MeasureTextCount
         Else
             Control.Core.RunId = ""
             Control.Core.MeasuredWidth = 0
@@ -248,30 +248,29 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
 
     Dim Reqs() As OxMeasureRequest
     ReDim Reqs(0 To TextCount - 1)
-    Dim Measured As Collection
-    Set Measured = New Collection
     Dim J As Long
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        If Len(Control.Core.DisplayText) > 0 Or Control.Core.Kind = oxControlTextBox Then
+        For Part = 0 To Control.Core.MeasureTextCount - 1
             Reqs(J).FontId = OX_DEFAULT_FONT_ID
             Reqs(J).SizeMilliPt = CLng(Control.Core.FontSize * 1000)
-            Reqs(J).Caption = Control.Core.DisplayText
-            Measured.Add Control
+            Reqs(J).Caption = Control.Core.MeasureText(Part)
             J = J + 1
-        End If
+        Next Part
     Next I
 
     Dim Res() As OxMeasureResult
     Res = Surface.MeasureBatch((Reqs))
 
-    For J = 0 To TextCount - 1
-        Set Control = Measured.Item(J + 1)
-        Control.Core.RunId = Res(J).RunId
-        Control.Core.MeasuredWidth = Res(J).AdvanceMilliPt / 1000
-        Control.Core.MeasuredHeight = (Res(J).AscentMilliPt + Res(J).DescentMilliPt) / 1000
-        Control.Core.CaretStopsMilliPtCsv = Res(J).CaretStopsMilliPtCsv
-    Next J
+    J = 0
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        For Part = 0 To Control.Core.MeasureTextCount - 1
+            Control.Core.SetMeasuredText Part, Res(J).RunId, Res(J).AdvanceMilliPt / 1000, _
+                (Res(J).AscentMilliPt + Res(J).DescentMilliPt) / 1000, Res(J).CaretStopsMilliPtCsv
+            J = J + 1
+        Next Part
+    Next I
 End Sub
 
 ' Pass 2 -- layout + paint: no crossing. An AutoSize control with a caption shrink-wraps its

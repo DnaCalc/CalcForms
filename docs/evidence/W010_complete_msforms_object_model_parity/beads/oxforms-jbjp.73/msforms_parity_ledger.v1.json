@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "d8b85f284b869c26803aa34dd9cce085bda2aee9ac257e2a1721e00d034d16eb",
+  "source_surface_sha256": "1a6a7cb9782dd24b42cef9971b76a557ecfead949e723ea453d00450a11bc6d2",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -8760,7 +8760,7 @@
           "file_stem": "UserForm",
           "kind": "class_module",
           "path": "vba/calcforms/UserForm.cls",
-          "normalized_text_sha256": "c75ecff3d1da912d9ffecea5e4d733893694d718537057fa0254b38c887cd8f8",
+          "normalized_text_sha256": "0ed357a9cf8ddd3a9f0fa7523749e605d47f2c3ac4410b08c2d4858ab50b941a",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -9119,8 +9119,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 315,
-                "end_line": 315,
+                "start_line": 314,
+                "end_line": 314,
                 "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
               },
               "member_attributes": {}
@@ -9137,8 +9137,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 374,
-                "end_line": 374,
+                "start_line": 373,
+                "end_line": 373,
                 "text": "Public Property Get LastSceneToken() As String"
               },
               "member_attributes": {}
@@ -9155,8 +9155,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 381,
-                "end_line": 381,
+                "start_line": 380,
+                "end_line": 380,
                 "text": "Public Property Get InteractionRevision() As Long"
               },
               "member_attributes": {}
@@ -9173,8 +9173,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 385,
-                "end_line": 385,
+                "start_line": 384,
+                "end_line": 384,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -9203,8 +9203,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 388,
-                "end_line": 388,
+                "start_line": 387,
+                "end_line": 387,
                 "text": "Public Property Let Name(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -9221,8 +9221,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 392,
-                "end_line": 392,
+                "start_line": 391,
+                "end_line": 391,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -9251,8 +9251,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 395,
-                "end_line": 395,
+                "start_line": 394,
+                "end_line": 394,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -9269,8 +9269,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 399,
-                "end_line": 399,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -9299,8 +9299,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 402,
-                "end_line": 402,
+                "start_line": 401,
+                "end_line": 401,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9317,8 +9317,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 406,
-                "end_line": 406,
+                "start_line": 405,
+                "end_line": 405,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -9347,8 +9347,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 409,
-                "end_line": 409,
+                "start_line": 408,
+                "end_line": 408,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9365,8 +9365,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 413,
-                "end_line": 413,
+                "start_line": 412,
+                "end_line": 412,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -9395,8 +9395,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 416,
-                "end_line": 416,
+                "start_line": 415,
+                "end_line": 415,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9413,8 +9413,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 420,
-                "end_line": 420,
+                "start_line": 419,
+                "end_line": 419,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -9443,8 +9443,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 423,
-                "end_line": 423,
+                "start_line": 422,
+                "end_line": 422,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9475,8 +9475,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 431,
-                "end_line": 431,
+                "start_line": 430,
+                "end_line": 430,
                 "text": "Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -9507,8 +9507,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 435,
-                "end_line": 435,
+                "start_line": 434,
+                "end_line": 434,
                 "text": "Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -9539,8 +9539,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 439,
-                "end_line": 439,
+                "start_line": 438,
+                "end_line": 438,
                 "text": "Private Sub IOxControlContainer_RegisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -9571,8 +9571,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 443,
-                "end_line": 443,
+                "start_line": 442,
+                "end_line": 442,
                 "text": "Private Sub IOxControlContainer_UnregisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -29718,7 +29718,7 @@
           "file_stem": "ListBox",
           "kind": "class_module",
           "path": "vba/calcforms/ListBox.cls",
-          "normalized_text_sha256": "543d4ee323976836fbec34790a3102e43478d59eee69501e9465eb8f0954f3a0",
+          "normalized_text_sha256": "17f634be17723538c2e0ddcb60b7ba9b76a436afc133389cb4b0b9a19ebbde5d",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -30121,8 +30121,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 63,
-                "end_line": 63,
+                "start_line": 62,
+                "end_line": 62,
                 "text": "Public Property Get Core() As OxControlCore"
               },
               "member_attributes": {}
@@ -30139,8 +30139,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 80,
-                "end_line": 80,
+                "start_line": 79,
+                "end_line": 79,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -30157,8 +30157,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 84,
-                "end_line": 84,
+                "start_line": 83,
+                "end_line": 83,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -30187,8 +30187,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 87,
-                "end_line": 87,
+                "start_line": 86,
+                "end_line": 86,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -30205,8 +30205,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 91,
-                "end_line": 91,
+                "start_line": 90,
+                "end_line": 90,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -30235,8 +30235,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 94,
-                "end_line": 94,
+                "start_line": 93,
+                "end_line": 93,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -30253,8 +30253,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 98,
-                "end_line": 98,
+                "start_line": 97,
+                "end_line": 97,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -30283,8 +30283,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 101,
-                "end_line": 101,
+                "start_line": 100,
+                "end_line": 100,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -30301,8 +30301,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 105,
-                "end_line": 105,
+                "start_line": 104,
+                "end_line": 104,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -30331,8 +30331,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 108,
-                "end_line": 108,
+                "start_line": 107,
+                "end_line": 107,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -30349,8 +30349,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 112,
-                "end_line": 112,
+                "start_line": 111,
+                "end_line": 111,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -30379,8 +30379,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 115,
-                "end_line": 115,
+                "start_line": 114,
+                "end_line": 114,
                 "text": "Public Property Let Visible(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -30397,8 +30397,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 119,
-                "end_line": 119,
+                "start_line": 118,
+                "end_line": 118,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -30427,8 +30427,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 122,
-                "end_line": 122,
+                "start_line": 121,
+                "end_line": 121,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -30445,8 +30445,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 126,
-                "end_line": 126,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Get ListCount() As Long"
               },
               "member_attributes": {}
@@ -30463,8 +30463,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 130,
-                "end_line": 130,
+                "start_line": 129,
+                "end_line": 129,
                 "text": "Public Property Get ListIndex() As Long"
               },
               "member_attributes": {}
@@ -30493,8 +30493,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 133,
-                "end_line": 133,
+                "start_line": 132,
+                "end_line": 132,
                 "text": "Public Property Let ListIndex(ByVal Value As Long)"
               },
               "member_attributes": {}
@@ -30511,8 +30511,8 @@
               "return_type": "fmMultiSelect",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 137,
-                "end_line": 137,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Get MultiSelect() As fmMultiSelect"
               },
               "member_attributes": {}
@@ -30541,8 +30541,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 140,
-                "end_line": 140,
+                "start_line": 139,
+                "end_line": 139,
                 "text": "Public Property Let MultiSelect(ByVal Value As fmMultiSelect)"
               },
               "member_attributes": {}
@@ -30559,8 +30559,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 151,
-                "end_line": 151,
+                "start_line": 150,
+                "end_line": 150,
                 "text": "Public Property Get ColumnCount() As Long"
               },
               "member_attributes": {}
@@ -30589,8 +30589,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 154,
-                "end_line": 154,
+                "start_line": 153,
+                "end_line": 153,
                 "text": "Public Property Let ColumnCount(ByVal Value As Long)"
               },
               "member_attributes": {}
@@ -30607,8 +30607,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 163,
-                "end_line": 163,
+                "start_line": 162,
+                "end_line": 162,
                 "text": "Public Property Get BoundColumn() As Long"
               },
               "member_attributes": {}
@@ -30637,8 +30637,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 166,
-                "end_line": 166,
+                "start_line": 165,
+                "end_line": 165,
                 "text": "Public Property Let BoundColumn(ByVal Value As Long)"
               },
               "member_attributes": {}
@@ -30655,8 +30655,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 172,
-                "end_line": 172,
+                "start_line": 171,
+                "end_line": 171,
                 "text": "Public Property Get Value() As String"
               },
               "member_attributes": {}
@@ -30685,8 +30685,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 179,
-                "end_line": 179,
+                "start_line": 178,
+                "end_line": 178,
                 "text": "Public Property Let Value(ByVal NewValue As String)"
               },
               "member_attributes": {}
@@ -30715,8 +30715,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 190,
-                "end_line": 190,
+                "start_line": 189,
+                "end_line": 189,
                 "text": "Public Property Get List(ByVal Index As Long) As String"
               },
               "member_attributes": {}
@@ -30756,8 +30756,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 194,
-                "end_line": 194,
+                "start_line": 193,
+                "end_line": 193,
                 "text": "Public Property Get Column(ByVal Index As Long, ByVal ColumnIndex As Long) As String"
               },
               "member_attributes": {}
@@ -30786,8 +30786,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 198,
-                "end_line": 198,
+                "start_line": 197,
+                "end_line": 197,
                 "text": "Public Property Get Selected(ByVal Index As Long) As Boolean"
               },
               "member_attributes": {}
@@ -30827,8 +30827,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 200,
+                "end_line": 200,
                 "text": "Public Property Let Selected(ByVal Index As Long, ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -30857,8 +30857,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 229,
-                "end_line": 229,
+                "start_line": 228,
+                "end_line": 228,
                 "text": "Public Sub AddItem(ByVal Item As String)"
               },
               "member_attributes": {}
@@ -30898,8 +30898,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 234,
-                "end_line": 234,
+                "start_line": 233,
+                "end_line": 233,
                 "text": "Public Sub AddRow(ByVal FirstColumn As String, ByVal SecondColumn As String)"
               },
               "member_attributes": {}
@@ -30916,8 +30916,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 238,
-                "end_line": 238,
+                "start_line": 237,
+                "end_line": 237,
                 "text": "Public Sub Clear()"
               },
               "member_attributes": {}
@@ -30934,8 +30934,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 246,
-                "end_line": 246,
+                "start_line": 245,
+                "end_line": 245,
                 "text": "Public Function Diagnostics() As String"
               },
               "member_attributes": {}
@@ -30997,8 +30997,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 412,
-                "end_line": 412,
+                "start_line": 411,
+                "end_line": 411,
                 "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -31060,8 +31060,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 416,
-                "end_line": 416,
+                "start_line": 415,
+                "end_line": 415,
                 "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -31101,8 +31101,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 420,
-                "end_line": 420,
+                "start_line": 419,
+                "end_line": 419,
                 "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -31142,8 +31142,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 428,
-                "end_line": 428,
+                "start_line": 427,
+                "end_line": 427,
                 "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -31172,8 +31172,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 436,
-                "end_line": 436,
+                "start_line": 435,
+                "end_line": 435,
                 "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
               },
               "member_attributes": {}
@@ -31190,8 +31190,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 444,
-                "end_line": 444,
+                "start_line": 443,
+                "end_line": 443,
                 "text": "Public Function PerformExit() As Boolean"
               },
               "member_attributes": {}
@@ -31208,8 +31208,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 451,
-                "end_line": 451,
+                "start_line": 450,
+                "end_line": 450,
                 "text": "Public Function PerformBeforeUpdate() As Boolean"
               },
               "member_attributes": {}
@@ -31228,8 +31228,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 59,
-                "end_line": 59,
+                "start_line": 58,
+                "end_line": 58,
                 "text": "Private Property Get IOxControl_Core() As OxControlCore"
               },
               "interface": "IOxControl",
@@ -31260,8 +31260,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 67,
-                "end_line": 67,
+                "start_line": 66,
+                "end_line": 66,
                 "text": "Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)"
               },
               "interface": "IOxControl",
@@ -31280,8 +31280,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 71,
-                "end_line": 71,
+                "start_line": 70,
+                "end_line": 70,
                 "text": "Private Property Get IOxControl_HasChildren() As Boolean"
               },
               "interface": "IOxControl",
@@ -31300,8 +31300,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 75,
-                "end_line": 75,
+                "start_line": 74,
+                "end_line": 74,
                 "text": "Private Property Get IOxControl_Children() As Controls"
               },
               "interface": "IOxControl",
@@ -31365,8 +31365,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 260,
-                "end_line": 260,
+                "start_line": 259,
+                "end_line": 259,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -31430,8 +31430,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 265,
-                "end_line": 265,
+                "start_line": 264,
+                "end_line": 264,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -31495,8 +31495,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 269,
-                "end_line": 269,
+                "start_line": 268,
+                "end_line": 268,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -31515,8 +31515,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 272,
-                "end_line": 272,
+                "start_line": 271,
+                "end_line": 271,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -31535,8 +31535,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 276,
-                "end_line": 276,
+                "start_line": 275,
+                "end_line": 275,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -31555,8 +31555,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 280,
-                "end_line": 280,
+                "start_line": 279,
+                "end_line": 279,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -31598,8 +31598,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 284,
-                "end_line": 284,
+                "start_line": 283,
+                "end_line": 283,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -31641,8 +31641,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 304,
-                "end_line": 304,
+                "start_line": 303,
+                "end_line": 303,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -31673,8 +31673,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 308,
-                "end_line": 308,
+                "start_line": 307,
+                "end_line": 307,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -31693,8 +31693,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 312,
-                "end_line": 312,
+                "start_line": 311,
+                "end_line": 311,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -31713,8 +31713,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 320,
-                "end_line": 320,
+                "start_line": 319,
+                "end_line": 319,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -31733,8 +31733,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 330,
-                "end_line": 330,
+                "start_line": 329,
+                "end_line": 329,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -31753,8 +31753,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 334,
-                "end_line": 334,
+                "start_line": 333,
+                "end_line": 333,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -31773,8 +31773,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 339,
-                "end_line": 339,
+                "start_line": 338,
+                "end_line": 338,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -31793,8 +31793,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 343,
-                "end_line": 343,
+                "start_line": 342,
+                "end_line": 342,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -31813,8 +31813,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 347,
-                "end_line": 347,
+                "start_line": 346,
+                "end_line": 346,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -31833,8 +31833,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 351,
-                "end_line": 351,
+                "start_line": 350,
+                "end_line": 350,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -31887,8 +31887,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 355,
-                "end_line": 355,
+                "start_line": 354,
+                "end_line": 354,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -31941,8 +31941,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 359,
-                "end_line": 359,
+                "start_line": 358,
+                "end_line": 358,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -31961,8 +31961,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 363,
-                "end_line": 363,
+                "start_line": 362,
+                "end_line": 362,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -31981,8 +31981,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 367,
-                "end_line": 367,
+                "start_line": 366,
+                "end_line": 366,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -32001,8 +32001,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 371,
-                "end_line": 371,
+                "start_line": 370,
+                "end_line": 370,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -32021,8 +32021,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 375,
-                "end_line": 375,
+                "start_line": 374,
+                "end_line": 374,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -32041,8 +32041,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 379,
-                "end_line": 379,
+                "start_line": 378,
+                "end_line": 378,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -32061,8 +32061,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 383,
-                "end_line": 383,
+                "start_line": 382,
+                "end_line": 382,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -32081,8 +32081,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 387,
-                "end_line": 387,
+                "start_line": 386,
+                "end_line": 386,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -32101,8 +32101,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 391,
-                "end_line": 391,
+                "start_line": 390,
+                "end_line": 390,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -32121,8 +32121,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 395,
-                "end_line": 395,
+                "start_line": 394,
+                "end_line": 394,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -32141,8 +32141,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 399,
-                "end_line": 399,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -32161,8 +32161,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 403,
-                "end_line": 403,
+                "start_line": 402,
+                "end_line": 402,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -32181,8 +32181,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 407,
-                "end_line": 407,
+                "start_line": 406,
+                "end_line": 406,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -541709,8 +541709,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 395,
-                "end_line": 395,
+                "start_line": 394,
+                "end_line": 394,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {},
@@ -541745,8 +541745,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 392,
-                "end_line": 392,
+                "start_line": 391,
+                "end_line": 391,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
@@ -606272,8 +606272,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 166,
-                "end_line": 166,
+                "start_line": 165,
+                "end_line": 165,
                 "text": "Public Property Let BoundColumn(ByVal Value As Long)"
               },
               "member_attributes": {},
@@ -606310,8 +606310,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 163,
-                "end_line": 163,
+                "start_line": 162,
+                "end_line": 162,
                 "text": "Public Property Get BoundColumn() As Long"
               },
               "member_attributes": {},
@@ -606597,8 +606597,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 154,
-                "end_line": 154,
+                "start_line": 153,
+                "end_line": 153,
                 "text": "Public Property Let ColumnCount(ByVal Value As Long)"
               },
               "member_attributes": {},
@@ -606633,8 +606633,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 151,
-                "end_line": 151,
+                "start_line": 150,
+                "end_line": 150,
                 "text": "Public Property Get ColumnCount() As Long"
               },
               "member_attributes": {},
@@ -607408,8 +607408,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 122,
-                "end_line": 122,
+                "start_line": 121,
+                "end_line": 121,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {},
@@ -607444,8 +607444,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 119,
-                "end_line": 119,
+                "start_line": 118,
+                "end_line": 118,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -610390,8 +610390,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 126,
-                "end_line": 126,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Get ListCount() As Long"
               },
               "member_attributes": {},
@@ -610945,8 +610945,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 133,
-                "end_line": 133,
+                "start_line": 132,
+                "end_line": 132,
                 "text": "Public Property Let ListIndex(ByVal Value As Long)"
               },
               "member_attributes": {},
@@ -610983,8 +610983,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 130,
-                "end_line": 130,
+                "start_line": 129,
+                "end_line": 129,
                 "text": "Public Property Get ListIndex() As Long"
               },
               "member_attributes": {},
@@ -612937,8 +612937,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 140,
-                "end_line": 140,
+                "start_line": 139,
+                "end_line": 139,
                 "text": "Public Property Let MultiSelect(ByVal Value As fmMultiSelect)"
               },
               "member_attributes": {},
@@ -612973,8 +612973,8 @@
               "return_type": "fmMultiSelect",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 137,
-                "end_line": 137,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Get MultiSelect() As fmMultiSelect"
               },
               "member_attributes": {},
@@ -614462,8 +614462,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 179,
-                "end_line": 179,
+                "start_line": 178,
+                "end_line": 178,
                 "text": "Public Property Let Value(ByVal NewValue As String)"
               },
               "member_attributes": {},
@@ -614500,8 +614500,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 172,
-                "end_line": 172,
+                "start_line": 171,
+                "end_line": 171,
                 "text": "Public Property Get Value() As String"
               },
               "member_attributes": {},
@@ -614912,8 +614912,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 194,
-                "end_line": 194,
+                "start_line": 193,
+                "end_line": 193,
                 "text": "Public Property Get Column(ByVal Index As Long, ByVal ColumnIndex As Long) As String"
               },
               "member_attributes": {},
@@ -615321,8 +615321,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 190,
-                "end_line": 190,
+                "start_line": 189,
+                "end_line": 189,
                 "text": "Public Property Get List(ByVal Index As Long) As String"
               },
               "member_attributes": {},
@@ -615664,8 +615664,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 198,
-                "end_line": 198,
+                "start_line": 197,
+                "end_line": 197,
                 "text": "Public Property Get Selected(ByVal Index As Long) As Boolean"
               },
               "member_attributes": {},
@@ -615724,8 +615724,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 200,
+                "end_line": 200,
                 "text": "Public Property Let Selected(ByVal Index As Long, ByVal Value As Boolean)"
               },
               "member_attributes": {},
@@ -616002,8 +616002,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 229,
-                "end_line": 229,
+                "start_line": 228,
+                "end_line": 228,
                 "text": "Public Sub AddItem(ByVal Item As String)"
               },
               "member_attributes": {},
@@ -616208,8 +616208,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ListBox.cls",
-                "start_line": 238,
-                "end_line": 238,
+                "start_line": 237,
+                "end_line": 237,
                 "text": "Public Sub Clear()"
               },
               "member_attributes": {},
@@ -1069656,8 +1069656,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 385,
-                "end_line": 385,
+                "start_line": 384,
+                "end_line": 384,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {},
@@ -1069911,8 +1069911,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 399,
-                "end_line": 399,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {},
@@ -1069957,8 +1069957,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 402,
-                "end_line": 402,
+                "start_line": 401,
+                "end_line": 401,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1070217,8 +1070217,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 406,
-                "end_line": 406,
+                "start_line": 405,
+                "end_line": 405,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {},
@@ -1070263,8 +1070263,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 409,
-                "end_line": 409,
+                "start_line": 408,
+                "end_line": 408,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1070523,8 +1070523,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 413,
-                "end_line": 413,
+                "start_line": 412,
+                "end_line": 412,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {},
@@ -1070569,8 +1070569,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 416,
-                "end_line": 416,
+                "start_line": 415,
+                "end_line": 415,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1070829,8 +1070829,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 420,
-                "end_line": 420,
+                "start_line": 419,
+                "end_line": 419,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {},
@@ -1070875,8 +1070875,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 423,
-                "end_line": 423,
+                "start_line": 422,
+                "end_line": 422,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1442965,7 +1442965,7 @@
         "file_stem": "OxControlCore",
         "kind": "class_module",
         "path": "vba/calcforms/OxControlCore.cls",
-        "normalized_text_sha256": "f5341919943ab745358930430837f92809c03dcfcaf2be6590c11084d496dcde",
+        "normalized_text_sha256": "8c61233c762e5ec8688746588d22beb07b1a76b530dfb1b1f5daf6c4f79071aa",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1443008,8 +1443008,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 87,
-              "end_line": 87,
+              "start_line": 92,
+              "end_line": 92,
               "text": "Public Sub Init(ByVal Kind As OxControlKind)"
             },
             "member_attributes": {}
@@ -1443049,8 +1443049,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 229,
-              "end_line": 229,
+              "start_line": 234,
+              "end_line": 234,
               "text": "Public Sub Bind(ByVal Host As IOxControlHost, ByVal Owner As IOxControl)"
             },
             "member_attributes": {}
@@ -1443067,8 +1443067,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 236,
-              "end_line": 236,
+              "start_line": 241,
+              "end_line": 241,
               "text": "Public Sub Unbind()"
             },
             "member_attributes": {}
@@ -1443085,8 +1443085,8 @@
             "return_type": "Controls",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 242,
-              "end_line": 242,
+              "start_line": 247,
+              "end_line": 247,
               "text": "Public Property Get PeerControls() As Controls"
             },
             "member_attributes": {}
@@ -1443115,8 +1443115,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 245,
-              "end_line": 245,
+              "start_line": 250,
+              "end_line": 250,
               "text": "Public Property Set PeerControls(ByVal Value As Controls)"
             },
             "member_attributes": {}
@@ -1443133,8 +1443133,8 @@
             "return_type": "OxControlKind",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 249,
-              "end_line": 249,
+              "start_line": 254,
+              "end_line": 254,
               "text": "Public Property Get Kind() As OxControlKind"
             },
             "member_attributes": {}
@@ -1443151,8 +1443151,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 253,
-              "end_line": 253,
+              "start_line": 258,
+              "end_line": 258,
               "text": "Public Property Get Name() As String"
             },
             "member_attributes": {}
@@ -1443181,8 +1443181,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 256,
-              "end_line": 256,
+              "start_line": 261,
+              "end_line": 261,
               "text": "Public Property Let Name(ByVal Value As String)"
             },
             "member_attributes": {}
@@ -1443199,8 +1443199,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 263,
-              "end_line": 263,
+              "start_line": 268,
+              "end_line": 268,
               "text": "Public Property Get Left() As Single"
             },
             "member_attributes": {}
@@ -1443229,8 +1443229,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 266,
-              "end_line": 266,
+              "start_line": 271,
+              "end_line": 271,
               "text": "Public Property Let Left(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1443247,8 +1443247,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 274,
-              "end_line": 274,
+              "start_line": 279,
+              "end_line": 279,
               "text": "Public Property Get Top() As Single"
             },
             "member_attributes": {}
@@ -1443277,8 +1443277,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 277,
-              "end_line": 277,
+              "start_line": 282,
+              "end_line": 282,
               "text": "Public Property Let Top(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1443295,8 +1443295,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 285,
-              "end_line": 285,
+              "start_line": 290,
+              "end_line": 290,
               "text": "Public Property Get PaintLeft() As Single"
             },
             "member_attributes": {}
@@ -1443313,8 +1443313,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 289,
-              "end_line": 289,
+              "start_line": 294,
+              "end_line": 294,
               "text": "Public Property Get PaintTop() As Single"
             },
             "member_attributes": {}
@@ -1443354,8 +1443354,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 293,
-              "end_line": 293,
+              "start_line": 298,
+              "end_line": 298,
               "text": "Public Sub SetRenderOffset(ByVal OffsetX As Single, ByVal OffsetY As Single)"
             },
             "member_attributes": {}
@@ -1443384,8 +1443384,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 298,
-              "end_line": 298,
+              "start_line": 303,
+              "end_line": 303,
               "text": "Public Sub SetRenderParentId(ByVal ParentId As Long)"
             },
             "member_attributes": {}
@@ -1443402,8 +1443402,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 302,
-              "end_line": 302,
+              "start_line": 307,
+              "end_line": 307,
               "text": "Public Property Get PaintParentId() As Long"
             },
             "member_attributes": {}
@@ -1443465,8 +1443465,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 306,
-              "end_line": 308,
+              "start_line": 311,
+              "end_line": 313,
               "text": "Public Sub SetChildClipMargins( ByVal LeftMargin As Single, ByVal TopMargin As Single, ByVal RightMargin As Single, ByVal BottomMargin As Single)"
             },
             "member_attributes": {}
@@ -1443483,8 +1443483,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 319,
-              "end_line": 319,
+              "start_line": 324,
+              "end_line": 324,
               "text": "Public Property Get ChildClipLeft() As Single"
             },
             "member_attributes": {}
@@ -1443501,8 +1443501,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 323,
-              "end_line": 323,
+              "start_line": 328,
+              "end_line": 328,
               "text": "Public Property Get ChildClipTop() As Single"
             },
             "member_attributes": {}
@@ -1443519,8 +1443519,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 327,
-              "end_line": 327,
+              "start_line": 332,
+              "end_line": 332,
               "text": "Public Property Get ChildClipWidth() As Single"
             },
             "member_attributes": {}
@@ -1443537,8 +1443537,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 332,
-              "end_line": 332,
+              "start_line": 337,
+              "end_line": 337,
               "text": "Public Property Get ChildClipHeight() As Single"
             },
             "member_attributes": {}
@@ -1443578,8 +1443578,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 337,
-              "end_line": 337,
+              "start_line": 342,
+              "end_line": 342,
               "text": "Public Function ContainsChildHitPoint(ByVal X As Single, ByVal Y As Single) As Boolean"
             },
             "member_attributes": {}
@@ -1443596,8 +1443596,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 347,
-              "end_line": 347,
+              "start_line": 352,
+              "end_line": 352,
               "text": "Public Property Get Width() As Single"
             },
             "member_attributes": {}
@@ -1443626,8 +1443626,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 350,
-              "end_line": 350,
+              "start_line": 355,
+              "end_line": 355,
               "text": "Public Property Let Width(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1443644,8 +1443644,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 358,
-              "end_line": 358,
+              "start_line": 363,
+              "end_line": 363,
               "text": "Public Property Get Height() As Single"
             },
             "member_attributes": {}
@@ -1443674,8 +1443674,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 361,
-              "end_line": 361,
+              "start_line": 366,
+              "end_line": 366,
               "text": "Public Property Let Height(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1443692,8 +1443692,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 369,
-              "end_line": 369,
+              "start_line": 374,
+              "end_line": 374,
               "text": "Public Property Get ZOrder() As Long"
             },
             "member_attributes": {}
@@ -1443722,8 +1443722,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 372,
-              "end_line": 372,
+              "start_line": 377,
+              "end_line": 377,
               "text": "Public Property Let ZOrder(ByVal Value As Long)"
             },
             "member_attributes": {}
@@ -1443740,8 +1443740,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 380,
-              "end_line": 380,
+              "start_line": 385,
+              "end_line": 385,
               "text": "Public Property Get Visible() As Boolean"
             },
             "member_attributes": {}
@@ -1443770,8 +1443770,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 383,
-              "end_line": 383,
+              "start_line": 388,
+              "end_line": 388,
               "text": "Public Property Let Visible(ByVal Value As Boolean)"
             },
             "member_attributes": {}
@@ -1443788,8 +1443788,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 391,
-              "end_line": 391,
+              "start_line": 396,
+              "end_line": 396,
               "text": "Public Property Get Enabled() As Boolean"
             },
             "member_attributes": {}
@@ -1443818,8 +1443818,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 394,
-              "end_line": 394,
+              "start_line": 399,
+              "end_line": 399,
               "text": "Public Property Let Enabled(ByVal Value As Boolean)"
             },
             "member_attributes": {}
@@ -1443836,8 +1443836,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 402,
-              "end_line": 402,
+              "start_line": 407,
+              "end_line": 407,
               "text": "Public Property Get Focusable() As Boolean"
             },
             "member_attributes": {}
@@ -1443854,8 +1443854,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 406,
-              "end_line": 406,
+              "start_line": 411,
+              "end_line": 411,
               "text": "Public Property Get TabStop() As Boolean"
             },
             "member_attributes": {}
@@ -1443884,8 +1443884,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 409,
-              "end_line": 409,
+              "start_line": 414,
+              "end_line": 414,
               "text": "Public Property Let TabStop(ByVal Value As Boolean)"
             },
             "member_attributes": {}
@@ -1443902,8 +1443902,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 416,
-              "end_line": 416,
+              "start_line": 421,
+              "end_line": 421,
               "text": "Public Property Get TabIndex() As Long"
             },
             "member_attributes": {}
@@ -1443932,8 +1443932,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 419,
-              "end_line": 419,
+              "start_line": 424,
+              "end_line": 424,
               "text": "Public Property Let TabIndex(ByVal Value As Long)"
             },
             "member_attributes": {}
@@ -1443950,8 +1443950,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 426,
-              "end_line": 426,
+              "start_line": 431,
+              "end_line": 431,
               "text": "Public Property Get SupportsClick() As Boolean"
             },
             "member_attributes": {}
@@ -1443968,8 +1443968,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 430,
-              "end_line": 430,
+              "start_line": 435,
+              "end_line": 435,
               "text": "Public Property Get HasPressedVisual() As Boolean"
             },
             "member_attributes": {}
@@ -1443986,8 +1443986,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 434,
-              "end_line": 434,
+              "start_line": 439,
+              "end_line": 439,
               "text": "Public Property Get AcceptsTextEditing() As Boolean"
             },
             "member_attributes": {}
@@ -1444004,8 +1444004,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 438,
-              "end_line": 438,
+              "start_line": 443,
+              "end_line": 443,
               "text": "Public Property Get AcceptsPaste() As Boolean"
             },
             "member_attributes": {}
@@ -1444022,8 +1444022,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 442,
-              "end_line": 442,
+              "start_line": 447,
+              "end_line": 447,
               "text": "Public Property Get ValueEditable() As Boolean"
             },
             "member_attributes": {}
@@ -1444040,8 +1444040,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 446,
-              "end_line": 446,
+              "start_line": 451,
+              "end_line": 451,
               "text": "Public Property Get Toggleable() As Boolean"
             },
             "member_attributes": {}
@@ -1444058,8 +1444058,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 450,
-              "end_line": 450,
+              "start_line": 455,
+              "end_line": 455,
               "text": "Public Property Get AcceleratorEligible() As Boolean"
             },
             "member_attributes": {}
@@ -1444076,8 +1444076,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 454,
-              "end_line": 454,
+              "start_line": 459,
+              "end_line": 459,
               "text": "Public Property Get DefaultButtonEligible() As Boolean"
             },
             "member_attributes": {}
@@ -1444094,8 +1444094,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 458,
-              "end_line": 458,
+              "start_line": 463,
+              "end_line": 463,
               "text": "Public Property Get CancelButtonEligible() As Boolean"
             },
             "member_attributes": {}
@@ -1444112,8 +1444112,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 462,
-              "end_line": 462,
+              "start_line": 467,
+              "end_line": 467,
               "text": "Public Property Get MousePointer() As Long"
             },
             "member_attributes": {}
@@ -1444130,8 +1444130,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 466,
-              "end_line": 466,
+              "start_line": 471,
+              "end_line": 471,
               "text": "Public Function CapabilityDescriptor() As String"
             },
             "member_attributes": {}
@@ -1444148,8 +1444148,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 523,
-              "end_line": 523,
+              "start_line": 528,
+              "end_line": 528,
               "text": "Public Property Get DisplayText() As String"
             },
             "member_attributes": {}
@@ -1444178,8 +1444178,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 526,
-              "end_line": 526,
+              "start_line": 531,
+              "end_line": 531,
               "text": "Public Property Let DisplayText(ByVal Value As String)"
             },
             "member_attributes": {}
@@ -1444196,8 +1444196,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 536,
-              "end_line": 536,
+              "start_line": 541,
+              "end_line": 541,
               "text": "Public Property Get FontSize() As Single"
             },
             "member_attributes": {}
@@ -1444226,8 +1444226,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 539,
-              "end_line": 539,
+              "start_line": 544,
+              "end_line": 544,
               "text": "Public Property Let FontSize(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1444244,8 +1444244,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 550,
-              "end_line": 550,
+              "start_line": 555,
+              "end_line": 555,
               "text": "Public Property Get AutoSize() As Boolean"
             },
             "member_attributes": {}
@@ -1444274,8 +1444274,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 553,
-              "end_line": 553,
+              "start_line": 558,
+              "end_line": 558,
               "text": "Public Property Let AutoSize(ByVal Value As Boolean)"
             },
             "member_attributes": {}
@@ -1444292,8 +1444292,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 563,
-              "end_line": 563,
+              "start_line": 568,
+              "end_line": 568,
               "text": "Public Property Get RunId() As String"
             },
             "member_attributes": {}
@@ -1444322,8 +1444322,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 566,
-              "end_line": 566,
+              "start_line": 571,
+              "end_line": 571,
               "text": "Public Property Let RunId(ByVal Value As String)"
             },
             "member_attributes": {}
@@ -1444363,8 +1444363,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 575,
-              "end_line": 575,
+              "start_line": 636,
+              "end_line": 636,
               "text": "Public Sub SetAutoSizeBounds(ByVal NewWidth As Single, ByVal NewHeight As Single)"
             },
             "member_attributes": {}
@@ -1444381,8 +1444381,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 585,
-              "end_line": 585,
+              "start_line": 646,
+              "end_line": 646,
               "text": "Public Property Get MeasuredWidth() As Single"
             },
             "member_attributes": {}
@@ -1444411,8 +1444411,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 588,
-              "end_line": 588,
+              "start_line": 649,
+              "end_line": 649,
               "text": "Public Property Let MeasuredWidth(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1444429,8 +1444429,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 591,
-              "end_line": 591,
+              "start_line": 652,
+              "end_line": 652,
               "text": "Public Property Get MeasuredHeight() As Single"
             },
             "member_attributes": {}
@@ -1444459,8 +1444459,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 594,
-              "end_line": 594,
+              "start_line": 655,
+              "end_line": 655,
               "text": "Public Property Let MeasuredHeight(ByVal Value As Single)"
             },
             "member_attributes": {}
@@ -1444477,8 +1444477,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 598,
-              "end_line": 598,
+              "start_line": 659,
+              "end_line": 659,
               "text": "Public Property Get CaretStopsMilliPtCsv() As String"
             },
             "member_attributes": {}
@@ -1444507,8 +1444507,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 601,
-              "end_line": 601,
+              "start_line": 662,
+              "end_line": 662,
               "text": "Public Property Let CaretStopsMilliPtCsv(ByVal Value As String)"
             },
             "member_attributes": {}
@@ -1444525,8 +1444525,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 608,
-              "end_line": 608,
+              "start_line": 669,
+              "end_line": 669,
               "text": "Public Property Get NodeId() As Long"
             },
             "member_attributes": {}
@@ -1444555,8 +1444555,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 611,
-              "end_line": 611,
+              "start_line": 672,
+              "end_line": 672,
               "text": "Public Property Let NodeId(ByVal Value As Long)"
             },
             "member_attributes": {}
@@ -1444573,8 +1444573,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 619,
-              "end_line": 619,
+              "start_line": 680,
+              "end_line": 680,
               "text": "Public Property Get BackColor() As Long"
             },
             "member_attributes": {}
@@ -1444603,8 +1444603,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 622,
-              "end_line": 622,
+              "start_line": 683,
+              "end_line": 683,
               "text": "Public Property Let BackColor(ByVal Value As Long)"
             },
             "member_attributes": {}
@@ -1444621,8 +1444621,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 629,
-              "end_line": 629,
+              "start_line": 690,
+              "end_line": 690,
               "text": "Public Property Get ForeColor() As Long"
             },
             "member_attributes": {}
@@ -1444651,8 +1444651,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 632,
-              "end_line": 632,
+              "start_line": 693,
+              "end_line": 693,
               "text": "Public Property Let ForeColor(ByVal Value As Long)"
             },
             "member_attributes": {}
@@ -1444669,8 +1444669,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 639,
-              "end_line": 639,
+              "start_line": 700,
+              "end_line": 700,
               "text": "Public Property Get BorderColor() As Long"
             },
             "member_attributes": {}
@@ -1444699,8 +1444699,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 642,
-              "end_line": 642,
+              "start_line": 703,
+              "end_line": 703,
               "text": "Public Property Let BorderColor(ByVal Value As Long)"
             },
             "member_attributes": {}
@@ -1444717,8 +1444717,8 @@
             "return_type": "fmSpecialEffect",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 649,
-              "end_line": 649,
+              "start_line": 710,
+              "end_line": 710,
               "text": "Public Property Get SpecialEffect() As fmSpecialEffect"
             },
             "member_attributes": {}
@@ -1444747,8 +1444747,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 652,
-              "end_line": 652,
+              "start_line": 713,
+              "end_line": 713,
               "text": "Public Property Let SpecialEffect(ByVal Value As fmSpecialEffect)"
             },
             "member_attributes": {}
@@ -1444765,8 +1444765,8 @@
             "return_type": "fmBorderStyle",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 659,
-              "end_line": 659,
+              "start_line": 720,
+              "end_line": 720,
               "text": "Public Property Get BorderStyle() As fmBorderStyle"
             },
             "member_attributes": {}
@@ -1444795,8 +1444795,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 662,
-              "end_line": 662,
+              "start_line": 723,
+              "end_line": 723,
               "text": "Public Property Let BorderStyle(ByVal Value As fmBorderStyle)"
             },
             "member_attributes": {}
@@ -1444813,8 +1444813,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 672,
-              "end_line": 672,
+              "start_line": 733,
+              "end_line": 733,
               "text": "Public Property Get Pressed() As Boolean"
             },
             "member_attributes": {}
@@ -1444843,8 +1444843,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 675,
-              "end_line": 675,
+              "start_line": 736,
+              "end_line": 736,
               "text": "Public Property Let Pressed(ByVal Value As Boolean)"
             },
             "member_attributes": {}
@@ -1444861,8 +1444861,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 682,
-              "end_line": 682,
+              "start_line": 743,
+              "end_line": 743,
               "text": "Public Property Get Dirty() As Boolean"
             },
             "member_attributes": {}
@@ -1444879,8 +1444879,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 686,
-              "end_line": 686,
+              "start_line": 747,
+              "end_line": 747,
               "text": "Public Sub ClearDirty()"
             },
             "member_attributes": {}
@@ -1444897,8 +1444897,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 692,
-              "end_line": 692,
+              "start_line": 753,
+              "end_line": 753,
               "text": "Public Sub MarkDirty()"
             },
             "member_attributes": {}
@@ -1444915,8 +1444915,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxControlCore.cls",
-              "start_line": 700,
-              "end_line": 700,
+              "start_line": 761,
+              "end_line": 761,
               "text": "Public Sub MarkInteractionDirty()"
             },
             "member_attributes": {}
@@ -1457227,8 +1457227,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 87,
-          "end_line": 87,
+          "start_line": 92,
+          "end_line": 92,
           "text": "Public Sub Init(ByVal Kind As OxControlKind)"
         },
         "member_attributes": {},
@@ -1457366,8 +1457366,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 229,
-          "end_line": 229,
+          "start_line": 234,
+          "end_line": 234,
           "text": "Public Sub Bind(ByVal Host As IOxControlHost, ByVal Owner As IOxControl)"
         },
         "member_attributes": {},
@@ -1457482,8 +1457482,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 236,
-          "end_line": 236,
+          "start_line": 241,
+          "end_line": 241,
           "text": "Public Sub Unbind()"
         },
         "member_attributes": {},
@@ -1457598,8 +1457598,8 @@
         "return_type": "Controls",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 242,
-          "end_line": 242,
+          "start_line": 247,
+          "end_line": 247,
           "text": "Public Property Get PeerControls() As Controls"
         },
         "member_attributes": {},
@@ -1457726,8 +1457726,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 245,
-          "end_line": 245,
+          "start_line": 250,
+          "end_line": 250,
           "text": "Public Property Set PeerControls(ByVal Value As Controls)"
         },
         "member_attributes": {},
@@ -1457842,8 +1457842,8 @@
         "return_type": "OxControlKind",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 249,
-          "end_line": 249,
+          "start_line": 254,
+          "end_line": 254,
           "text": "Public Property Get Kind() As OxControlKind"
         },
         "member_attributes": {},
@@ -1457958,8 +1457958,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 253,
-          "end_line": 253,
+          "start_line": 258,
+          "end_line": 258,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1458086,8 +1458086,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 256,
-          "end_line": 256,
+          "start_line": 261,
+          "end_line": 261,
           "text": "Public Property Let Name(ByVal Value As String)"
         },
         "member_attributes": {},
@@ -1458202,8 +1458202,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 263,
-          "end_line": 263,
+          "start_line": 268,
+          "end_line": 268,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1458330,8 +1458330,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 266,
-          "end_line": 266,
+          "start_line": 271,
+          "end_line": 271,
           "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1458446,8 +1458446,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 274,
-          "end_line": 274,
+          "start_line": 279,
+          "end_line": 279,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1458574,8 +1458574,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 277,
-          "end_line": 277,
+          "start_line": 282,
+          "end_line": 282,
           "text": "Public Property Let Top(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1458690,8 +1458690,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 285,
-          "end_line": 285,
+          "start_line": 290,
+          "end_line": 290,
           "text": "Public Property Get PaintLeft() As Single"
         },
         "member_attributes": {},
@@ -1458806,8 +1458806,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 289,
-          "end_line": 289,
+          "start_line": 294,
+          "end_line": 294,
           "text": "Public Property Get PaintTop() As Single"
         },
         "member_attributes": {},
@@ -1458945,8 +1458945,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 293,
-          "end_line": 293,
+          "start_line": 298,
+          "end_line": 298,
           "text": "Public Sub SetRenderOffset(ByVal OffsetX As Single, ByVal OffsetY As Single)"
         },
         "member_attributes": {},
@@ -1459073,8 +1459073,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 298,
-          "end_line": 298,
+          "start_line": 303,
+          "end_line": 303,
           "text": "Public Sub SetRenderParentId(ByVal ParentId As Long)"
         },
         "member_attributes": {},
@@ -1459189,8 +1459189,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 302,
-          "end_line": 302,
+          "start_line": 307,
+          "end_line": 307,
           "text": "Public Property Get PaintParentId() As Long"
         },
         "member_attributes": {},
@@ -1459350,8 +1459350,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 306,
-          "end_line": 308,
+          "start_line": 311,
+          "end_line": 313,
           "text": "Public Sub SetChildClipMargins( ByVal LeftMargin As Single, ByVal TopMargin As Single, ByVal RightMargin As Single, ByVal BottomMargin As Single)"
         },
         "member_attributes": {},
@@ -1459466,8 +1459466,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 319,
-          "end_line": 319,
+          "start_line": 324,
+          "end_line": 324,
           "text": "Public Property Get ChildClipLeft() As Single"
         },
         "member_attributes": {},
@@ -1459582,8 +1459582,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 323,
-          "end_line": 323,
+          "start_line": 328,
+          "end_line": 328,
           "text": "Public Property Get ChildClipTop() As Single"
         },
         "member_attributes": {},
@@ -1459698,8 +1459698,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 327,
-          "end_line": 327,
+          "start_line": 332,
+          "end_line": 332,
           "text": "Public Property Get ChildClipWidth() As Single"
         },
         "member_attributes": {},
@@ -1459814,8 +1459814,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 332,
-          "end_line": 332,
+          "start_line": 337,
+          "end_line": 337,
           "text": "Public Property Get ChildClipHeight() As Single"
         },
         "member_attributes": {},
@@ -1459953,8 +1459953,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 337,
-          "end_line": 337,
+          "start_line": 342,
+          "end_line": 342,
           "text": "Public Function ContainsChildHitPoint(ByVal X As Single, ByVal Y As Single) As Boolean"
         },
         "member_attributes": {},
@@ -1460069,8 +1460069,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 347,
-          "end_line": 347,
+          "start_line": 352,
+          "end_line": 352,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1460197,8 +1460197,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 350,
-          "end_line": 350,
+          "start_line": 355,
+          "end_line": 355,
           "text": "Public Property Let Width(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1460313,8 +1460313,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 358,
-          "end_line": 358,
+          "start_line": 363,
+          "end_line": 363,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1460441,8 +1460441,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 361,
-          "end_line": 361,
+          "start_line": 366,
+          "end_line": 366,
           "text": "Public Property Let Height(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1460557,8 +1460557,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 369,
-          "end_line": 369,
+          "start_line": 374,
+          "end_line": 374,
           "text": "Public Property Get ZOrder() As Long"
         },
         "member_attributes": {},
@@ -1460685,8 +1460685,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 372,
-          "end_line": 372,
+          "start_line": 377,
+          "end_line": 377,
           "text": "Public Property Let ZOrder(ByVal Value As Long)"
         },
         "member_attributes": {},
@@ -1460801,8 +1460801,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 380,
-          "end_line": 380,
+          "start_line": 385,
+          "end_line": 385,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1460929,8 +1460929,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 383,
-          "end_line": 383,
+          "start_line": 388,
+          "end_line": 388,
           "text": "Public Property Let Visible(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1461045,8 +1461045,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 391,
-          "end_line": 391,
+          "start_line": 396,
+          "end_line": 396,
           "text": "Public Property Get Enabled() As Boolean"
         },
         "member_attributes": {},
@@ -1461173,8 +1461173,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 394,
-          "end_line": 394,
+          "start_line": 399,
+          "end_line": 399,
           "text": "Public Property Let Enabled(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1461289,8 +1461289,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 402,
-          "end_line": 402,
+          "start_line": 407,
+          "end_line": 407,
           "text": "Public Property Get Focusable() As Boolean"
         },
         "member_attributes": {},
@@ -1461405,8 +1461405,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 406,
-          "end_line": 406,
+          "start_line": 411,
+          "end_line": 411,
           "text": "Public Property Get TabStop() As Boolean"
         },
         "member_attributes": {},
@@ -1461533,8 +1461533,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 409,
-          "end_line": 409,
+          "start_line": 414,
+          "end_line": 414,
           "text": "Public Property Let TabStop(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1461649,8 +1461649,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 416,
-          "end_line": 416,
+          "start_line": 421,
+          "end_line": 421,
           "text": "Public Property Get TabIndex() As Long"
         },
         "member_attributes": {},
@@ -1461777,8 +1461777,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 419,
-          "end_line": 419,
+          "start_line": 424,
+          "end_line": 424,
           "text": "Public Property Let TabIndex(ByVal Value As Long)"
         },
         "member_attributes": {},
@@ -1461893,8 +1461893,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 426,
-          "end_line": 426,
+          "start_line": 431,
+          "end_line": 431,
           "text": "Public Property Get SupportsClick() As Boolean"
         },
         "member_attributes": {},
@@ -1462009,8 +1462009,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 430,
-          "end_line": 430,
+          "start_line": 435,
+          "end_line": 435,
           "text": "Public Property Get HasPressedVisual() As Boolean"
         },
         "member_attributes": {},
@@ -1462125,8 +1462125,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 434,
-          "end_line": 434,
+          "start_line": 439,
+          "end_line": 439,
           "text": "Public Property Get AcceptsTextEditing() As Boolean"
         },
         "member_attributes": {},
@@ -1462241,8 +1462241,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 438,
-          "end_line": 438,
+          "start_line": 443,
+          "end_line": 443,
           "text": "Public Property Get AcceptsPaste() As Boolean"
         },
         "member_attributes": {},
@@ -1462357,8 +1462357,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 442,
-          "end_line": 442,
+          "start_line": 447,
+          "end_line": 447,
           "text": "Public Property Get ValueEditable() As Boolean"
         },
         "member_attributes": {},
@@ -1462473,8 +1462473,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 446,
-          "end_line": 446,
+          "start_line": 451,
+          "end_line": 451,
           "text": "Public Property Get Toggleable() As Boolean"
         },
         "member_attributes": {},
@@ -1462589,8 +1462589,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 450,
-          "end_line": 450,
+          "start_line": 455,
+          "end_line": 455,
           "text": "Public Property Get AcceleratorEligible() As Boolean"
         },
         "member_attributes": {},
@@ -1462705,8 +1462705,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 454,
-          "end_line": 454,
+          "start_line": 459,
+          "end_line": 459,
           "text": "Public Property Get DefaultButtonEligible() As Boolean"
         },
         "member_attributes": {},
@@ -1462821,8 +1462821,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 458,
-          "end_line": 458,
+          "start_line": 463,
+          "end_line": 463,
           "text": "Public Property Get CancelButtonEligible() As Boolean"
         },
         "member_attributes": {},
@@ -1462937,8 +1462937,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 462,
-          "end_line": 462,
+          "start_line": 467,
+          "end_line": 467,
           "text": "Public Property Get MousePointer() As Long"
         },
         "member_attributes": {},
@@ -1463053,8 +1463053,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 466,
-          "end_line": 466,
+          "start_line": 471,
+          "end_line": 471,
           "text": "Public Function CapabilityDescriptor() As String"
         },
         "member_attributes": {},
@@ -1463169,8 +1463169,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 523,
-          "end_line": 523,
+          "start_line": 528,
+          "end_line": 528,
           "text": "Public Property Get DisplayText() As String"
         },
         "member_attributes": {},
@@ -1463297,8 +1463297,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 526,
-          "end_line": 526,
+          "start_line": 531,
+          "end_line": 531,
           "text": "Public Property Let DisplayText(ByVal Value As String)"
         },
         "member_attributes": {},
@@ -1463413,8 +1463413,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 536,
-          "end_line": 536,
+          "start_line": 541,
+          "end_line": 541,
           "text": "Public Property Get FontSize() As Single"
         },
         "member_attributes": {},
@@ -1463541,8 +1463541,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 539,
-          "end_line": 539,
+          "start_line": 544,
+          "end_line": 544,
           "text": "Public Property Let FontSize(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1463657,8 +1463657,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 550,
-          "end_line": 550,
+          "start_line": 555,
+          "end_line": 555,
           "text": "Public Property Get AutoSize() As Boolean"
         },
         "member_attributes": {},
@@ -1463785,8 +1463785,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 553,
-          "end_line": 553,
+          "start_line": 558,
+          "end_line": 558,
           "text": "Public Property Let AutoSize(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1463901,8 +1463901,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 563,
-          "end_line": 563,
+          "start_line": 568,
+          "end_line": 568,
           "text": "Public Property Get RunId() As String"
         },
         "member_attributes": {},
@@ -1464029,8 +1464029,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 566,
-          "end_line": 566,
+          "start_line": 571,
+          "end_line": 571,
           "text": "Public Property Let RunId(ByVal Value As String)"
         },
         "member_attributes": {},
@@ -1464168,8 +1464168,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 575,
-          "end_line": 575,
+          "start_line": 636,
+          "end_line": 636,
           "text": "Public Sub SetAutoSizeBounds(ByVal NewWidth As Single, ByVal NewHeight As Single)"
         },
         "member_attributes": {},
@@ -1464284,8 +1464284,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 585,
-          "end_line": 585,
+          "start_line": 646,
+          "end_line": 646,
           "text": "Public Property Get MeasuredWidth() As Single"
         },
         "member_attributes": {},
@@ -1464412,8 +1464412,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 588,
-          "end_line": 588,
+          "start_line": 649,
+          "end_line": 649,
           "text": "Public Property Let MeasuredWidth(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1464528,8 +1464528,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 591,
-          "end_line": 591,
+          "start_line": 652,
+          "end_line": 652,
           "text": "Public Property Get MeasuredHeight() As Single"
         },
         "member_attributes": {},
@@ -1464656,8 +1464656,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 594,
-          "end_line": 594,
+          "start_line": 655,
+          "end_line": 655,
           "text": "Public Property Let MeasuredHeight(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1464772,8 +1464772,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 598,
-          "end_line": 598,
+          "start_line": 659,
+          "end_line": 659,
           "text": "Public Property Get CaretStopsMilliPtCsv() As String"
         },
         "member_attributes": {},
@@ -1464900,8 +1464900,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 601,
-          "end_line": 601,
+          "start_line": 662,
+          "end_line": 662,
           "text": "Public Property Let CaretStopsMilliPtCsv(ByVal Value As String)"
         },
         "member_attributes": {},
@@ -1465016,8 +1465016,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 608,
-          "end_line": 608,
+          "start_line": 669,
+          "end_line": 669,
           "text": "Public Property Get NodeId() As Long"
         },
         "member_attributes": {},
@@ -1465144,8 +1465144,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 611,
-          "end_line": 611,
+          "start_line": 672,
+          "end_line": 672,
           "text": "Public Property Let NodeId(ByVal Value As Long)"
         },
         "member_attributes": {},
@@ -1465260,8 +1465260,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 619,
-          "end_line": 619,
+          "start_line": 680,
+          "end_line": 680,
           "text": "Public Property Get BackColor() As Long"
         },
         "member_attributes": {},
@@ -1465388,8 +1465388,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 622,
-          "end_line": 622,
+          "start_line": 683,
+          "end_line": 683,
           "text": "Public Property Let BackColor(ByVal Value As Long)"
         },
         "member_attributes": {},
@@ -1465504,8 +1465504,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 629,
-          "end_line": 629,
+          "start_line": 690,
+          "end_line": 690,
           "text": "Public Property Get ForeColor() As Long"
         },
         "member_attributes": {},
@@ -1465632,8 +1465632,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 632,
-          "end_line": 632,
+          "start_line": 693,
+          "end_line": 693,
           "text": "Public Property Let ForeColor(ByVal Value As Long)"
         },
         "member_attributes": {},
@@ -1465748,8 +1465748,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 639,
-          "end_line": 639,
+          "start_line": 700,
+          "end_line": 700,
           "text": "Public Property Get BorderColor() As Long"
         },
         "member_attributes": {},
@@ -1465876,8 +1465876,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 642,
-          "end_line": 642,
+          "start_line": 703,
+          "end_line": 703,
           "text": "Public Property Let BorderColor(ByVal Value As Long)"
         },
         "member_attributes": {},
@@ -1465992,8 +1465992,8 @@
         "return_type": "fmSpecialEffect",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 649,
-          "end_line": 649,
+          "start_line": 710,
+          "end_line": 710,
           "text": "Public Property Get SpecialEffect() As fmSpecialEffect"
         },
         "member_attributes": {},
@@ -1466120,8 +1466120,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 652,
-          "end_line": 652,
+          "start_line": 713,
+          "end_line": 713,
           "text": "Public Property Let SpecialEffect(ByVal Value As fmSpecialEffect)"
         },
         "member_attributes": {},
@@ -1466236,8 +1466236,8 @@
         "return_type": "fmBorderStyle",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 659,
-          "end_line": 659,
+          "start_line": 720,
+          "end_line": 720,
           "text": "Public Property Get BorderStyle() As fmBorderStyle"
         },
         "member_attributes": {},
@@ -1466364,8 +1466364,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 662,
-          "end_line": 662,
+          "start_line": 723,
+          "end_line": 723,
           "text": "Public Property Let BorderStyle(ByVal Value As fmBorderStyle)"
         },
         "member_attributes": {},
@@ -1466480,8 +1466480,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 672,
-          "end_line": 672,
+          "start_line": 733,
+          "end_line": 733,
           "text": "Public Property Get Pressed() As Boolean"
         },
         "member_attributes": {},
@@ -1466608,8 +1466608,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 675,
-          "end_line": 675,
+          "start_line": 736,
+          "end_line": 736,
           "text": "Public Property Let Pressed(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1466724,8 +1466724,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 682,
-          "end_line": 682,
+          "start_line": 743,
+          "end_line": 743,
           "text": "Public Property Get Dirty() As Boolean"
         },
         "member_attributes": {},
@@ -1466840,8 +1466840,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 686,
-          "end_line": 686,
+          "start_line": 747,
+          "end_line": 747,
           "text": "Public Sub ClearDirty()"
         },
         "member_attributes": {},
@@ -1466956,8 +1466956,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 692,
-          "end_line": 692,
+          "start_line": 753,
+          "end_line": 753,
           "text": "Public Sub MarkDirty()"
         },
         "member_attributes": {},
@@ -1467072,8 +1467072,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlCore.cls",
-          "start_line": 700,
-          "end_line": 700,
+          "start_line": 761,
+          "end_line": 761,
           "text": "Public Sub MarkInteractionDirty()"
         },
         "member_attributes": {},
@@ -1481321,8 +1481321,8 @@
         "return_type": "OxControlCore",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 63,
-          "end_line": 63,
+          "start_line": 62,
+          "end_line": 62,
           "text": "Public Property Get Core() As OxControlCore"
         },
         "member_attributes": {},
@@ -1481437,8 +1481437,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 80,
-          "end_line": 80,
+          "start_line": 79,
+          "end_line": 79,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1481553,8 +1481553,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 84,
-          "end_line": 84,
+          "start_line": 83,
+          "end_line": 83,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1481681,8 +1481681,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 87,
-          "end_line": 87,
+          "start_line": 86,
+          "end_line": 86,
           "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1481797,8 +1481797,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 91,
-          "end_line": 91,
+          "start_line": 90,
+          "end_line": 90,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1481925,8 +1481925,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 94,
-          "end_line": 94,
+          "start_line": 93,
+          "end_line": 93,
           "text": "Public Property Let Top(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1482041,8 +1482041,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 98,
-          "end_line": 98,
+          "start_line": 97,
+          "end_line": 97,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1482169,8 +1482169,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 101,
-          "end_line": 101,
+          "start_line": 100,
+          "end_line": 100,
           "text": "Public Property Let Width(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1482285,8 +1482285,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 105,
-          "end_line": 105,
+          "start_line": 104,
+          "end_line": 104,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1482413,8 +1482413,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 108,
-          "end_line": 108,
+          "start_line": 107,
+          "end_line": 107,
           "text": "Public Property Let Height(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1482529,8 +1482529,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 112,
-          "end_line": 112,
+          "start_line": 111,
+          "end_line": 111,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1482657,8 +1482657,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 115,
-          "end_line": 115,
+          "start_line": 114,
+          "end_line": 114,
           "text": "Public Property Let Visible(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1482796,8 +1482796,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 234,
-          "end_line": 234,
+          "start_line": 233,
+          "end_line": 233,
           "text": "Public Sub AddRow(ByVal FirstColumn As String, ByVal SecondColumn As String)"
         },
         "member_attributes": {},
@@ -1482912,8 +1482912,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 246,
-          "end_line": 246,
+          "start_line": 245,
+          "end_line": 245,
           "text": "Public Function Diagnostics() As String"
         },
         "member_attributes": {},
@@ -1483073,8 +1483073,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 412,
-          "end_line": 412,
+          "start_line": 411,
+          "end_line": 411,
           "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1483234,8 +1483234,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 416,
-          "end_line": 416,
+          "start_line": 415,
+          "end_line": 415,
           "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1483373,8 +1483373,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 420,
-          "end_line": 420,
+          "start_line": 419,
+          "end_line": 419,
           "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1483512,8 +1483512,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 428,
-          "end_line": 428,
+          "start_line": 427,
+          "end_line": 427,
           "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1483640,8 +1483640,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 436,
-          "end_line": 436,
+          "start_line": 435,
+          "end_line": 435,
           "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1483756,8 +1483756,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 444,
-          "end_line": 444,
+          "start_line": 443,
+          "end_line": 443,
           "text": "Public Function PerformExit() As Boolean"
         },
         "member_attributes": {},
@@ -1483872,8 +1483872,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ListBox.cls",
-          "start_line": 451,
-          "end_line": 451,
+          "start_line": 450,
+          "end_line": 450,
           "text": "Public Function PerformBeforeUpdate() As Boolean"
         },
         "member_attributes": {},
@@ -1512910,8 +1512910,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 315,
-          "end_line": 315,
+          "start_line": 314,
+          "end_line": 314,
           "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
         },
         "member_attributes": {},
@@ -1513026,8 +1513026,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 374,
-          "end_line": 374,
+          "start_line": 373,
+          "end_line": 373,
           "text": "Public Property Get LastSceneToken() As String"
         },
         "member_attributes": {},
@@ -1513142,8 +1513142,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 381,
-          "end_line": 381,
+          "start_line": 380,
+          "end_line": 380,
           "text": "Public Property Get InteractionRevision() As Long"
         },
         "member_attributes": {},
@@ -1513270,8 +1513270,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 388,
-          "end_line": 388,
+          "start_line": 387,
+          "end_line": 387,
           "text": "Public Property Let Name(ByVal Value As String)"
         },
         "member_attributes": {},
@@ -1520769,23 +1520769,34 @@
             "index": 4,
             "name": "SelectedRowsCsv",
             "passing": "byval",
-            "optional": true,
+            "optional": false,
             "param_array": false,
             "array": false,
             "type": "String",
-            "default": "\"\"",
-            "raw": "Optional ByVal SelectedRowsCsv As String = \"\""
+            "default": null,
+            "raw": "ByVal SelectedRowsCsv As String"
           },
           {
             "index": 5,
             "name": "RowCount",
             "passing": "byval",
-            "optional": true,
+            "optional": false,
             "param_array": false,
             "array": false,
             "type": "Long",
-            "default": "256",
-            "raw": "Optional ByVal RowCount As Long = 256"
+            "default": null,
+            "raw": "ByVal RowCount As Long"
+          },
+          {
+            "index": 6,
+            "name": "RowHeight",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Single",
+            "default": null,
+            "raw": "ByVal RowHeight As Single"
           }
         ],
         "return_type": null,
@@ -1520793,7 +1520804,7 @@
           "path": "vba/calcforms/OxTheme.bas",
           "start_line": 213,
           "end_line": 219,
-          "text": "Public Sub OxThemePaintListBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, Optional ByVal SelectedRowsCsv As String = \"\", Optional ByVal RowCount As Long = 256)"
+          "text": "Public Sub OxThemePaintListBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal SelectedRowsCsv As String, ByVal RowCount As Long, ByVal RowHeight As Single)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:032:0016",
@@ -1520975,8 +1520986,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 268,
-          "end_line": 274,
+          "start_line": 271,
+          "end_line": 277,
           "text": "Public Sub OxThemePaintComboBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal DropDownOpen As Boolean, ByVal RowCount As Long)"
         },
         "member_attributes": {},
@@ -1521214,8 +1521225,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 341,
-          "end_line": 346,
+          "start_line": 344,
+          "end_line": 349,
           "text": "Public Sub OxThemePaintTextRun( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, ByVal RunId As String, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, ByVal UnderlineAccelerator As Boolean)"
         },
         "member_attributes": {},
@@ -1521376,8 +1521387,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 351,
-          "end_line": 355,
+          "start_line": 354,
+          "end_line": 358,
           "text": "Public Sub OxThemePaintCheckBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1521538,8 +1521549,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 406,
-          "end_line": 410,
+          "start_line": 409,
+          "end_line": 413,
           "text": "Public Sub OxThemePaintOptionButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1562856,7 +1562867,7 @@
       "public_type_fields": 9,
       "multiline_public_signatures": 36,
       "bracketed_public_names": 11,
-      "optional_parameters": 4,
+      "optional_parameters": 2,
       "param_arrays": 1,
       "module_attributes": 5,
       "implements_clauses": 23,
@@ -1562864,5 +1562875,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "cba50bbb995de8f354452710138c84d11d40c077c42b630e9f6acda23cdd8fff"
+  "canonical_sha256": "3b0dec83fe9aabed747cc3f9a07b45067435a2b76492e883e673bac608f0d023"
 }

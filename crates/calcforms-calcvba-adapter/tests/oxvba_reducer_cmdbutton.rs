@@ -2032,7 +2032,7 @@ fn label_click_routes_without_taking_focus() {
 const FIELD_IN: (i32, i32) = (40, 28);
 const CHK2_IN: (i32, i32) = (40, 104);
 const LIST_RED_IN: (i32, i32) = (42, 28);
-const LIST_GREEN_IN: (i32, i32) = (42, 42);
+const LIST_GREEN_IN: (i32, i32) = (42, 35);
 const FRAME_INNER_IN: (i32, i32) = (38, 50);
 const FRAME_CLIPPED_VISIBLE_IN: (i32, i32) = (38, 86);
 const FRAME_CLIPPED_OUTSIDE_CLIENT_IN: (i32, i32) = (38, 109);
@@ -2110,7 +2110,7 @@ fn listbox_mouse_click_selects_a_row_and_renders_selection() {
 
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
-    let list = scene.get(NodeId(1)).expect("list scene node");
+    let list = scene.get(NodeId(1903)).expect("clipped list rows");
     assert!(
         fill_rect_with_color(&list.prims, TEXT_SELECTION_COLOR).is_some(),
         "selected row should paint through the ThemePainter selection color"
@@ -2257,7 +2257,7 @@ fn listbox_multiselect_mouse_and_space_toggle_rows() {
 
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
-    let list = scene.get(NodeId(1)).expect("list scene node");
+    let list = scene.get(NodeId(1903)).expect("clipped list rows");
     let selected_rects = list
         .prims
         .iter()

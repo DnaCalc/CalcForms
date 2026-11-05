@@ -1,0 +1,537 @@
+{
+  "schema": "calcforms.list_rows.v1",
+  "pixel_parity_claimed": false,
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 56892,
+    "desktop": "winsta0\\default"
+  },
+  "raw_directory": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round4-live",
+  "observations": [
+    {
+      "zoom": 100,
+      "images": [
+        {
+          "file": "100-excel.png",
+          "sha256": "1066692b64112ea4ffdc8ef2f2f5ca0c20fd9b2207e3a13e1ec6afbae2fb8921"
+        },
+        {
+          "file": "100-before.png",
+          "sha256": "0974a9ddd3130be1a46bf57848e17897d2ab284ab78e813dbddafeb09bf5a5f0"
+        },
+        {
+          "file": "100-after.png",
+          "sha256": "682399c4230b243a4c6de621111c2a8ae896c0519842a7e04dafd151d737d88b"
+        }
+      ],
+      "roi": [
+        16,
+        152,
+        190,
+        248
+      ],
+      "pixels_before": {
+        "pixels": 123200,
+        "different_pixels": 15318,
+        "mean_absolute_rgb": [
+          11.698441558441559,
+          8.828823051948053,
+          6.469724025974026
+        ]
+      },
+      "pixels_after": {
+        "pixels": 123200,
+        "different_pixels": 11884,
+        "mean_absolute_rgb": [
+          4.880008116883117,
+          4.906517857142857,
+          4.815673701298701
+        ]
+      },
+      "region_before": {
+        "pixels": 16704,
+        "different_pixels": 5012,
+        "mean_absolute_rgb": [
+          56.393498563218394,
+          34.30423850574713,
+          17.255926724137932
+        ]
+      },
+      "region_after": {
+        "pixels": 16704,
+        "different_pixels": 1578,
+        "mean_absolute_rgb": [
+          6.104286398467433,
+          5.375359195402299,
+          5.056513409961686
+        ]
+      },
+      "native_selection_band": [
+        [
+          167,
+          180,
+          18,
+          187
+        ]
+      ],
+      "nodes": [
+        {
+          "id": 7,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 12.0,
+            "y": 114.0,
+            "w": 130.0,
+            "h": 72.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 12.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 72.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 12.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 72.0
+              },
+              "effect": "sunken",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            }
+          ],
+          "children": [
+            7903
+          ]
+        },
+        {
+          "id": 7903,
+          "parent": 7,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 13.5,
+            "y": 115.5,
+            "w": 127.0,
+            "h": 69.0
+          },
+          "bounds": {
+            "x": 12.0,
+            "y": 114.0,
+            "w": 130.0,
+            "h": 72.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "draw_text",
+              "run": 4382064746465576066,
+              "rect": {
+                "x": 20.25,
+                "y": 115.5,
+                "w": 120.25,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 13.5,
+                "y": 125.25,
+                "w": 127.0,
+                "h": 9.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 120,
+                  "blue": 215,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 12428100500927987912,
+              "rect": {
+                "x": 20.25,
+                "y": 125.25,
+                "w": 120.25,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 3583835791851724691,
+              "rect": {
+                "x": 20.25,
+                "y": 135.0,
+                "w": 120.25,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "excel_facts": "330;210;100\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "runtime_sha256": "b511dee749c71e68e3061b46c99d520df6dcf313b3801fe6d796082d6fc2cff9"
+    },
+    {
+      "zoom": 150,
+      "images": [
+        {
+          "file": "150-excel.png",
+          "sha256": "651100934839990803bbfb593ebf0d07c527f2e06afb5df2e079ab68b0ff1d19"
+        },
+        {
+          "file": "150-before.png",
+          "sha256": "7de2bc593c4096abe6ede9638736eaa7766937e0de663ee04cc15d5fde65df61"
+        },
+        {
+          "file": "150-after.png",
+          "sha256": "fea00f5874dc3f0ae6a2c37633398e3a7087fef3425d11e8db0adc5f9955a500"
+        }
+      ],
+      "roi": [
+        24,
+        228,
+        284,
+        372
+      ],
+      "pixels_before": {
+        "pixels": 277200,
+        "different_pixels": 32797,
+        "mean_absolute_rgb": [
+          12.301093073593073,
+          8.971111111111112,
+          6.384747474747475
+        ]
+      },
+      "pixels_after": {
+        "pixels": 277200,
+        "different_pixels": 25299,
+        "mean_absolute_rgb": [
+          5.705353535353535,
+          5.330378787878788,
+          5.006771284271284
+        ]
+      },
+      "region_before": {
+        "pixels": 37440,
+        "different_pixels": 11205,
+        "mean_absolute_rgb": [
+          60.12689636752137,
+          35.939049145299144,
+          17.277430555555554
+        ]
+      },
+      "region_after": {
+        "pixels": 37440,
+        "different_pixels": 3707,
+        "mean_absolute_rgb": [
+          11.293055555555556,
+          8.983627136752137,
+          7.075106837606838
+        ]
+      },
+      "native_selection_band": [
+        [
+          251,
+          270,
+          27,
+          281
+        ]
+      ],
+      "nodes": [
+        {
+          "id": 7,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": null,
+          "bounds": {
+            "x": 12.0,
+            "y": 114.0,
+            "w": 130.0,
+            "h": 72.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 12.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 72.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 12.0,
+                "y": 114.0,
+                "w": 130.0,
+                "h": 72.0
+              },
+              "effect": "sunken",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            }
+          ],
+          "children": [
+            7903
+          ]
+        },
+        {
+          "id": 7903,
+          "parent": 7,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 13.5,
+            "y": 115.5,
+            "w": 127.0,
+            "h": 69.0
+          },
+          "bounds": {
+            "x": 12.0,
+            "y": 114.0,
+            "w": 130.0,
+            "h": 72.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "draw_text",
+              "run": 4382064746465576066,
+              "rect": {
+                "x": 20.25,
+                "y": 115.5,
+                "w": 120.25,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 13.5,
+                "y": 125.25,
+                "w": 127.0,
+                "h": 9.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 120,
+                  "blue": 215,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 12428100500927987912,
+              "rect": {
+                "x": 20.25,
+                "y": 125.25,
+                "w": 120.25,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 255,
+                  "green": 255,
+                  "blue": 255,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 3583835791851724691,
+              "rect": {
+                "x": 20.25,
+                "y": 135.0,
+                "w": 120.25,
+                "h": 9.958
+              },
+              "align": "left",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "excel_facts": "330;210;150\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "runtime_sha256": "b511dee749c71e68e3061b46c99d520df6dcf313b3801fe6d796082d6fc2cff9"
+    }
+  ]
+}
