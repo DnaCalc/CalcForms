@@ -25,6 +25,15 @@ antialias coverage and keep selected white text separate from white background.
 Unmeasured native parent origins prevent nested image measurements. Historical
 captures without native qualification retain a failed qualification row.
 
+New colour parity rows use actual native BackColor/ForeColor and live system
+colour resolution, compared with opaque retained Scene paint. Disabled text
+uses the observed system grey-text colour; selected ListBox text uses the
+system highlight-text colour. Transparent controls inherit an enclosing Scene
+fill. Keep raw OLE_COLOR/RGB and paint provenance in the report inputs. Ink masks
+remain geometry diagnostics: ClearType fringe colours must not turn black text
+into a chromatic-colour compatibility failure. Historical reports retain their
+original mask-based method; `.102` supplies the fresh eight-input report.
+
 Replay `python -B tools/office-oracle/forms_parity.py --reference
 docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/comparison.json
 --out <report.json>` to create JSON and a readable `.md` report. The committed

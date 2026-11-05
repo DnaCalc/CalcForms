@@ -19,3 +19,5 @@ if ($LASTEXITCODE -ne 0) { throw 'ComboBox spacing replay failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'Literal text replay failed.' }
 & python -B (Join-Path $root 'tools/office-oracle/label_wrap_reference.py')
 if ($LASTEXITCODE -ne 0) { throw 'Label wrap replay failed.' }
+& python -B (Join-Path $root 'tools/office-oracle/validate_colour_reference.py')
+if ($LASTEXITCODE -ne 0) { throw 'Property/paint colour replay failed.' }

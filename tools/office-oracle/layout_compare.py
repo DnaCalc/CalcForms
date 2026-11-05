@@ -33,6 +33,8 @@ from probe_source import validate_probe_source
 from layout_measurements import measure, native_controls
 from forms_parity import report_observation, summarize, edges, text_roi, TEXTLESS
 from capture_qualification import choose_capture
+from capture_colour_properties import read_colours
+from colour_measurements import paired_colours, scene_colours
 from workbook_comparison_session import (EXCEL, PREFIX, ROOT, WORKBOOK, capture,
     command_lines, emit, launch, native_excel, stop_owned, wait_for, windows)
 from workbook_form_session import ORACLE_CODE
@@ -401,7 +403,10 @@ End Function
         x, y = native_info['geometry']['client_offset']
         parent = parent.crop((x, y, x + native.width, y + native.height))
         with self.lease('read owned native text'):
-            text_probes = native_text_probes(self.macro('LayoutCaptureForm'), facts, self.selected_form, native.size)
+            native_form = self.macro('LayoutCaptureForm')
+            text_probes = native_text_probes(native_form, facts, self.selected_form, native.size)
+            native_colours = read_colours(native_form, facts, self.selected_form)
+            native_form = None
         qualification = choose_capture(native, parent, probes, text_probes)
         if qualification['selected'] == 'parent':
             native = parent
@@ -420,7 +425,11 @@ End Function
                 'native_capture_validation': qualification,
                 'capture': 'PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen',
                 'input': 'none; initial handlers only' if label == 'initial' else 'see session input log'}
-        data['measurements'] = measure(data, json.loads(self.scene_path.read_text(encoding='utf-8')))
+        scene = json.loads(self.scene_path.read_text(encoding='utf-8'))
+        data['measurements'] = measure(data, scene)
+        data['native_colour_properties'] = native_colours
+        data['calcforms_colour_paint'] = scene_colours(data, scene)
+        data['colour_measurements'] = paired_colours(data, scene, native_colours)
         data['forms_parity'] = report_observation(data, native, runtime)
         (directory / 'comparison.json').write_text(json.dumps(data, indent=2) + '\n')
         self.comparisons.append({'form': self.selected_form, 'zoom': self.zoom,

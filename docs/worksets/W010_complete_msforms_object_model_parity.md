@@ -22,6 +22,10 @@ before selecting a capture. Its [replay](../evidence/W010_complete_msforms_objec
 rejects the interrupted parent/composite and qualifies both new scales.
 Subpixel colour masks can misclassify black ClearType text; `.102` tracks
 property/paint-based colour classes so antialiasing does not become a target.
+`.102` supplies that [fresh report](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.102/forms-parity.md):
+all text colour classes agree across eight inputs, while `.103` records the
+pressed ToggleButton's white/control-face fill mismatch. Geometry, exact text
+breaks and missing behavioural measurements keep their own pass/fail rows.
 
 Run 4 `.87` corrects the largest recorded region, ListBox Choices: separate
 row runs in one text batch, measured default spacing, white selection text

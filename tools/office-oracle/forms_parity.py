@@ -253,6 +253,7 @@ def control_report(control, data, native, actual, scale, definition):
     name = control['name']
     expected, observed = control['native'], control['calcforms']
     kind = expected['kind']
+    colour_facts = data.get('colour_measurements', {}).get(name, {})
     nbox, abox = edges(expected['bounds'], scale), edges(observed['bounds'], scale)
     rows = [check('layout', 'rectangle_edges', nbox, abox, LAYOUT_TOLERANCE_PX),
             check('layout', 'twips_to_pixel_rounding', rounded(nbox), rounded(abox), LAYOUT_TOLERANCE_PX),
@@ -298,7 +299,8 @@ def control_report(control, data, native, actual, scale, definition):
                               [ai[0] - abox[0], ai[1] - abox[1]], TEXT_TOLERANCE_PX))
             rows.append(check('spacing', 'insets', [ni[0] - nbox[0], ni[1] - nbox[1], nbox[2] - ni[2], nbox[3] - ni[3]],
                               [ai[0] - abox[0], ai[1] - abox[1], abox[2] - ai[2], abox[3] - ai[3]], TEXT_TOLERANCE_PX))
-        rows.append(check('colours', 'text_class', ntext.get('foreground_classes'), atext.get('foreground_classes'), unit='class'))
+        text_colours = colour_facts.get('text_class', dict(native=ntext.get('foreground_classes'), calcforms=atext.get('foreground_classes')))
+        rows.append(check('colours', 'text_class', text_colours.get('native'), text_colours.get('calcforms'), unit='class'))
         if nf or af:
             rows.append(check('spacing', 'focus_rectangle', nf or [], af or [], LAYOUT_TOLERANCE_PX,
                               reason='dotted focus rectangle detected from repeated border marks'))
@@ -311,8 +313,9 @@ def control_report(control, data, native, actual, scale, definition):
         rows.append(check('text', 'caption_count', 0, 0, unit='captions'))
     else:
         rows.append(check('text', 'ink_bounds', reason='native parent paint origin absent' if nested else 'client capture is unqualified or sizes differ'))
-    rows.append(check('colours', 'fill_class', dominant_class(native, nbox) if usable else None,
-                      dominant_class(actual, abox) if usable else None, unit='class'))
+    fill_colours = colour_facts.get('fill_class', dict(native=dominant_class(native, nbox) if usable else None,
+                                                    calcforms=dominant_class(actual, abox) if usable else None))
+    rows.append(check('colours', 'fill_class', fill_colours.get('native'), fill_colours.get('calcforms'), unit='class'))
     if not textless:
         for metric in ('baseline', 'clipping_point', 'wrap_point', 'exact_line_breaks'):
             facts = data.get('parity_measurements', {}).get(name, {}).get(metric, {})
@@ -338,11 +341,13 @@ def control_report(control, data, native, actual, scale, definition):
             continue
         if (metric == 'text_class' and textless) or (metric == 'border_class' and kind == 'Label'):
             continue
-        facts = data.get('parity_measurements', {}).get(name, {}).get(metric, {})
+        facts = colour_facts.get(metric, data.get('parity_measurements', {}).get(name, {}).get(metric, {}))
         rows.append(check('colours', metric, facts.get('native'), facts.get('calcforms'), unit='class'))
     for metric, facts in sorted(data.get('spacing_measurements', {}).get(name, {}).items()):
         rows.append(check('spacing', metric, facts.get('native'), facts.get('calcforms'), LAYOUT_TOLERANCE_PX))
     for metric, facts in sorted(data.get('colour_measurements', {}).get(name, {}).items()):
+        if any(r['category'] == 'colours' and r['metric'] == metric for r in rows):
+            continue
         rows.append(check('colours', metric, facts.get('native'), facts.get('calcforms'), unit='class'))
     for index, facts in enumerate(data.get('literal_text_measurements', {}).get(name, [])):
         rows.append(check('text', f'caption_{index}_literal_source', facts.get('native'), facts.get('calcforms'), unit='literal text'))

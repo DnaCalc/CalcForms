@@ -23,6 +23,23 @@ class FormsParityTests(unittest.TestCase):
                     native_capture_validation=dict(verified=True), pixels=dict(different_fraction=0),
                     measurements=dict(controls=[control], missing_in_calcforms=[], missing_in_excel=[]))
 
+    def test_property_colours_override_subpixel_masks_without_duplicating_rows(self):
+        data = self.case()
+        native = Image.new('RGB', (20, 15), 'white')
+        actual = native.copy()
+        ImageDraw.Draw(native).rectangle((2, 2, 5, 4), fill=(0, 70, 100))
+        ImageDraw.Draw(actual).rectangle((2, 2, 5, 4), fill='black')
+        before = report_observation(data, native, actual)['controls'][0]
+        self.assertEqual('fail', next(r for r in before['items'] if r['metric'] == 'text_class')['status'])
+        data['colour_measurements'] = {'Prompt': {'text_class': dict(native=['dark-text'], calcforms=['dark-text']),
+                                                'fill_class': dict(native='white', calcforms='white')}}
+        after = report_observation(data, native, actual)['controls'][0]
+        for metric in ('text_class', 'fill_class'):
+            rows = [r for r in after['items'] if r['metric'] == metric]
+            self.assertEqual(1, len(rows))
+            self.assertEqual('pass', rows[0]['status'])
+        self.assertEqual(before['text_measurements'], after['text_measurements'])
+
     def test_missing_measurements_and_different_vector_lengths_fail(self):
         self.assertEqual('fail', check('text', 'baseline', actual=12)['status'])
         self.assertEqual(0, check('text', 'baseline', actual=12)['measurement_count'])
