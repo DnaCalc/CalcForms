@@ -97,6 +97,7 @@ Invoke-Check -Name 'W010 intrinsic layout comparison' -Script 'tools/evidence/Te
 Invoke-Check -Name 'W010 focus paint comparison' -Script 'tools/evidence/Test-W010FocusPaint.ps1'
 Invoke-Check -Name 'W010 TextBox layout comparison' -Script 'tools/evidence/Test-W010TextBoxLayout.ps1'
 Invoke-Check -Name 'W010 native capture qualification' -Script 'tools/evidence/Test-W010CaptureQualification.ps1'
+Invoke-Check -Name 'W010 Frame layout comparison' -Script 'tools/evidence/Test-W010FrameLayout.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

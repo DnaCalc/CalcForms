@@ -36,6 +36,11 @@ font line, reducing greeter differences further to 4.69%/3.68%. Empty fields use
 the same measured caret height. Native MultiPage background capture variance is
 checked in `.84`; the command selects a captured variant that matches the live
 background or reports unverified pixels. The grey `.79` page is corroborated.
+`.85` separates Frame paint from child clipping and uses measured default
+client margins, reducing container differences to 7.83%/7.19%. Child-local
+bounds remain unchanged; a 0.025pt native top-inset residual and full `.55`
+parity remain explicit. See the
+[Frame measurements](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.85/README.md).
 
 Depends on:
 

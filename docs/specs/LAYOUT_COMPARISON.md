@@ -92,6 +92,15 @@ the native top alignment. Measure empty TextBox runs too: clearing a field must
 retain the same font line and caret height. Configurable SelectionMargin,
 gutter-selection behavior and full multiline rendering remain W010 work.
 
+The default Frame uses an etched edge and separates its full-site paint clip
+from a generic clipped child group. Native Tahoma 8.25 readback gives 1.5pt
+side/bottom margins and an inferred 5.65pt top margin. VBA currently uses a
+half-em plus 1.5pt top margin (5.625pt), retaining the 0.025pt residual in the
+comparison. Children retain local Left/Top values; paint and hit testing add
+the client origin. Changed clip margins invalidate interaction geometry.
+The caption/border remain outside the child clip. This measured default case
+does not establish alternate effects, scrolling or complete Frame parity.
+
 Native MultiPage page backgrounds can differ between parent/child PrintWindow
 captures despite unchanged authored data. Read MultiPage.BackColor (Page has no
 BackColor member) and resolve system colors on the live Windows host. At the

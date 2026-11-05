@@ -7,10 +7,9 @@ Implements IOxControlContainer
 ' its children keep local Left/Top object-model coordinates, while render/input
 ' use OxControlCore's transient paint offset to place them in the parent form.
 
-Private Const CLIENT_LEFT As Single = 6
-Private Const CLIENT_TOP As Single = 18
-Private Const CLIENT_RIGHT As Single = 6
-Private Const CLIENT_BOTTOM As Single = 6
+Private Const CLIENT_LEFT As Single = 1.5
+Private Const CLIENT_RIGHT As Single = 1.5
+Private Const CLIENT_BOTTOM As Single = 1.5
 
 Private mCore As OxControlCore
 Private mControls As Controls
@@ -21,7 +20,7 @@ Private Sub Class_Initialize()
     Set mControls = Nothing
     Set mCore = New OxControlCore
     mCore.Init oxControlFrame
-    mCore.SetChildClipMargins CLIENT_LEFT, CLIENT_TOP, CLIENT_RIGHT, CLIENT_BOTTOM
+    mCore.SetChildClipMargins CLIENT_LEFT, ClientTopMargin(), CLIENT_RIGHT, CLIENT_BOTTOM
     Set mControls = New Controls
     mControls.Bind Me
     mNextChildNodeId = 1
@@ -45,37 +44,72 @@ Private Property Get IOxControl_Children() As Controls
 End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
+    mCore.SetChildClipMargins CLIENT_LEFT, ClientTopMargin(), CLIENT_RIGHT, CLIENT_BOTTOM
+    ' The frame paint uses its whole site. Only the child group uses the client clip.
     Surface.OpenNodeClipped mCore.NodeId, True, mCore.PaintParentId, mCore.ZOrder, _
         mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, mCore.Visible, _
-        ClientPaintLeft(), ClientPaintTop(), ClientWidth(), ClientHeight()
+        mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height
+    Surface.AddChild ClientNodeId()
 
     Dim I As Long
     Dim Child As IOxControl
-    For I = 1 To mControls.Count
-        Set Child = mControls.Item(I)
-        Surface.AddChild Child.Core.NodeId
-    Next I
-
-    OxThemePaintControlFrame mCore, Surface
+    Surface.FillRect mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, OxThemeResolveFace(mCore), 255
+    Dim BorderTop As Single, BorderHeight As Single, EdgeName As String
+    BorderTop = mCore.PaintTop + mCore.FontSize / 2
+    BorderHeight = mCore.Height - mCore.FontSize / 2
+    If BorderHeight < 1 Then BorderHeight = 1
+    EdgeName = OxThemeEdgeName(mCore.SpecialEffect)
+    If Len(EdgeName) > 0 Then
+        Surface.DrawEdge mCore.PaintLeft, BorderTop, mCore.Width, BorderHeight, _
+            EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
+    ElseIf mCore.BorderStyle = fmBorderStyleSingle Then
+        Surface.StrokeRect mCore.PaintLeft, BorderTop, mCore.Width, BorderHeight, OxThemeResolveBorder(mCore), 255, 1
+    End If
     If Len(mCore.DisplayText) > 0 Then
-        Dim RunId As String
+        Dim RunId As String, CaptionWidth As Single, CaptionHeight As Single, TextWidth As Single
         RunId = mCore.RunId
         If Len(RunId) = 0 Then RunId = "0"
+        CaptionWidth = mCore.MeasuredWidth + 3
+        If CaptionWidth > mCore.Width - 15 Then CaptionWidth = mCore.Width - 15
+        If CaptionWidth < 1 Then CaptionWidth = 1
+        CaptionHeight = mCore.MeasuredHeight
+        If CaptionHeight < 1 Then CaptionHeight = 1
+        TextWidth = CaptionWidth - 1.5
+        If TextWidth < 1 Then TextWidth = 1
+        Surface.FillRect mCore.PaintLeft + 9, mCore.PaintTop, CaptionWidth, CaptionHeight + 1.5, OxThemeResolveFace(mCore), 255
         OxThemePaintTextRun mCore, Surface, _
-            mCore.PaintLeft + CLIENT_LEFT, mCore.PaintTop + 3, _
-            mCore.Width - CLIENT_LEFT - CLIENT_RIGHT, 12, _
+            mCore.PaintLeft + 10.5, mCore.PaintTop + 0.75, _
+            TextWidth, CaptionHeight, _
             RunId, "left", False, True, False
     End If
     Surface.CloseNode
 
+    Surface.OpenNodeClipped ClientNodeId(), True, mCore.NodeId, 0, _
+        ClientPaintLeft(), ClientPaintTop(), ClientWidth(), ClientHeight(), mCore.Visible, _
+        ClientPaintLeft(), ClientPaintTop(), ClientWidth(), ClientHeight()
+    For I = 1 To mControls.Count
+        Set Child = mControls.Item(I)
+        Surface.AddChild Child.Core.NodeId
+    Next I
+    Surface.CloseNode
     For I = 1 To mControls.Count
         Set Child = mControls.Item(I)
         Child.Core.SetRenderOffset ClientPaintLeft(), ClientPaintTop()
-        Child.Core.SetRenderParentId mCore.NodeId
+        Child.Core.SetRenderParentId ClientNodeId()
         Child.Render Surface
         Child.Core.ClearDirty
     Next I
 End Sub
+
+Private Function ClientNodeId() As Long
+    ClientNodeId = mCore.NodeId * 1000 + 902
+End Function
+
+Private Function ClientTopMargin() As Single
+    ' Owned Tahoma 8.25 Frame: InsideWidth=Width-3, InsideHeight=Height-7.15.
+    ' The half-em plus border gives 5.625pt top, within 0.025pt of native rounding.
+    ClientTopMargin = mCore.FontSize / 2 + 1.5
+End Function
 
 ' --- User-facing properties ---
 Public Property Get Controls() As Controls

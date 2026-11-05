@@ -164,7 +164,7 @@ Public Sub Init(ByVal Kind As OxControlKind)
         Case oxControlFrame
             mFocusable = False
             mTabStop = False
-            mSpecialEffect = fmSpecialEffectFlat
+            mSpecialEffect = fmSpecialEffectEtched
         Case oxControlImage
             mFocusable = False
             mTabStop = False
@@ -306,11 +306,14 @@ End Property
 Public Sub SetChildClipMargins( _
         ByVal LeftMargin As Single, ByVal TopMargin As Single, _
         ByVal RightMargin As Single, ByVal BottomMargin As Single)
+    If mHasChildClip And mChildClipLeft = LeftMargin And mChildClipTop = TopMargin And _
+            mChildClipRight = RightMargin And mChildClipBottom = BottomMargin Then Exit Sub
     mHasChildClip = True
     mChildClipLeft = LeftMargin
     mChildClipTop = TopMargin
     mChildClipRight = RightMargin
     mChildClipBottom = BottomMargin
+    MarkInteractionDirty
 End Sub
 
 Public Property Get ChildClipLeft() As Single

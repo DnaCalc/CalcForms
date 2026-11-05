@@ -1,0 +1,38 @@
+{
+  "schema": "calcforms.run3_cleanup.v1",
+  "verified_at": "2026-11-05T02:50:30.1590489+02:00",
+  "original_session": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "excel_pid": 49844,
+    "desktop": "winsta0\\default",
+    "closed": "terminated_owned_handle",
+    "workbook_unchanged": true
+  },
+  "attached_session": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 0,
+    "source_owner": "C:\\Work\\DnaCalc\\codex-runs\\forms-captures\\round3\\ownership.json",
+    "process_created": 1793828651.878,
+    "excel_pid": 49844,
+    "desktop": "winsta0\\default",
+    "closed": "retained_by_original_session",
+    "workbook_unchanged": true,
+    "cleanup_notes": []
+  },
+  "excel_process_absent": true,
+  "final_runtime_process_absent": true,
+  "final_runtime_pid": 4828,
+  "excel_launches_this_run": 1,
+  "other_processes_stopped": 0
+}

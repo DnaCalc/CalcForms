@@ -44,7 +44,7 @@ Earlier parent-only ListBox captures that omitted native owner-drawn rows are
 excluded; these references composite captures of visible owned child HWNDs in
 z order, clipped to each parent client. They show all three rows at both scales.
 
-Known visible gaps: textbox inset/baseline, border and dotted focus details;
+Gaps visible in these historical captures: textbox inset/baseline, border and dotted focus details;
 square radio glyphs; concatenated ListBox rows and tab captions; missing Frame
 caption/border, nested input clipping and missing MultiPage painting. Existing
 W010 control lanes own these gaps. Titlebar styles also differ. Initial tab
@@ -65,6 +65,14 @@ Excel processes. It closed all eight CalcForms windows and its authored book,
 then retained Excel for the original session's final cleanup. No Office security,
 registry, original workbook bytes or unrelated processes were changed.
 
+Final run cleanup reused one Excel launch in total. `session-cleanup.json`
+records the original session's exact retained-process cleanup, unchanged
+workbook hash and absence of that Excel PID and the final runtime PID. Excel
+required the retained-handle termination fallback after Quit. The attached
+session closed its authored book/runtime and retained Excel for that original
+owner. Later `.81`/`.83`/`.85` evidence corrects stale focus, textbox layout
+and Frame paint/origins; this table preserves the earlier measured images.
+
 Fresh review checked both scales visually, nested names/parents, ListBox content,
 raw versus compact hashes, geometry parsing, named font loading, design-unit
 scaling and exact-process cleanup paths. The comparator tests reject duplicate
@@ -75,3 +83,6 @@ host prefix configuration for the authored driver. Source fingerprints were
 regenerated; the ledger remains 7,753 rows, 2,452 verified, 4,682 gaps and 619
 unexpected-public rows, green=false. Validation: Rust format/clippy, 193 passed
 tests (seven existing ignored), comparator tests and 47/47 evidence checks.
+Final closure after `.85`: 196 Rust tests and 51/51 evidence checks pass;
+format/clippy, current source regeneration, image/cleanup validation and bead
+graph pass. The bounded comparison command is complete; W010 parity remains.

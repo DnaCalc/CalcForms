@@ -2033,9 +2033,9 @@ const FIELD_IN: (i32, i32) = (40, 28);
 const CHK2_IN: (i32, i32) = (40, 104);
 const LIST_RED_IN: (i32, i32) = (42, 28);
 const LIST_GREEN_IN: (i32, i32) = (42, 42);
-const FRAME_INNER_IN: (i32, i32) = (42, 62);
-const FRAME_CLIPPED_VISIBLE_IN: (i32, i32) = (42, 98);
-const FRAME_CLIPPED_OUTSIDE_CLIENT_IN: (i32, i32) = (42, 106);
+const FRAME_INNER_IN: (i32, i32) = (38, 50);
+const FRAME_CLIPPED_VISIBLE_IN: (i32, i32) = (38, 86);
+const FRAME_CLIPPED_OUTSIDE_CLIENT_IN: (i32, i32) = (38, 109);
 const KEY_ENTER: i16 = 13;
 const KEY_ESCAPE: i16 = 27;
 const KEY_SPACE: i16 = 32;
@@ -2866,7 +2866,7 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
     assert!(
         diagnostics.contains("caption=Group;children=3")
             && diagnostics
-                .contains(";client_left=26;client_top=38;client_width=168;client_height=66;")
+                .contains(";client_left=21.5;client_top=25.5;client_width=177;client_height=83;")
             && diagnostics.contains("capabilities=kind=Frame"),
         "Frame diagnostics should expose container state: {diagnostics}"
     );
@@ -2879,20 +2879,42 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
         "root should contain the Frame and the outside TextBox"
     );
     let frame = scene.get(NodeId(1)).expect("frame node");
+    assert_eq!(frame.children, vec![NodeId(1902)]);
+    assert_rect_close(
+        frame.clip.expect("Frame outer clip"),
+        RectF::new(20.0, 20.0, 180.0, 90.0),
+        "the frame's own paint must not be clipped to its child client",
+    );
+    assert!(
+        frame.prims.iter().any(|p| matches!(
+            p,
+            Prim::DrawEdge {
+                effect: EdgeEffect::Etched,
+                ..
+            }
+        )),
+        "native default Frame has an etched border"
+    );
+    let client = scene.get(NodeId(1902)).expect("clipped child group");
     assert_eq!(
-        frame.children,
+        client.children,
         vec![NodeId(1001), NodeId(1002), NodeId(1003)]
     );
     assert_rect_close(
-        frame.clip.expect("Frame child clip"),
-        RectF::new(26.0, 38.0, 168.0, 66.0),
-        "Frame scene clip should expose the child client rectangle",
+        client.clip.unwrap(),
+        RectF::new(21.5, 25.5, 177.0, 83.0),
+        "only children use the client clip",
+    );
+    let (_, caption) = draw_text_prim(&frame.prims).expect("caption paint");
+    assert!(
+        caption.y < client.clip.unwrap().y && caption.y >= frame.clip.unwrap().y,
+        "caption must remain visible above the child clip"
     );
     let inner = scene.get(NodeId(1001)).expect("inner TextBox node");
-    assert_eq!(inner.parent, Some(NodeId(1)));
+    assert_eq!(inner.parent, Some(NodeId(1902)));
     assert_rect_close(
         inner.bounds,
-        RectF::new(36.0, 56.0, 90.0, 20.0),
+        RectF::new(31.5, 43.5, 90.0, 20.0),
         "inner TextBox absolute bounds should derive from Frame client offset",
     );
 }
@@ -2965,8 +2987,8 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
             .collect::<Vec<_>>(),
         vec![
             "Clipped.Enter",
-            "Clipped.MouseDown:6,5",
-            "Clipped.MouseUp:6,5"
+            "Clipped.MouseDown:6,6",
+            "Clipped.MouseUp:6,6"
         ],
         "Frame should route inside-client child hits to the clipped child"
     );
@@ -3008,7 +3030,9 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
     invoke_sub(&mut session, &form, "Render");
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
-    let frame = scene.get(NodeId(1)).expect("frame node after removal");
+    let frame = scene
+        .get(NodeId(1902))
+        .expect("frame client node after removal");
     assert_eq!(
         frame.children,
         vec![NodeId(1001), NodeId(1003)],

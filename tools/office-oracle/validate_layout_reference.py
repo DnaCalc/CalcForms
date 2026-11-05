@@ -23,6 +23,17 @@ def main():
     assert owner['excel_launches'] == 1 and owner['excel_launches_by_this_session'] == 0
     assert owner['closed'] == 'retained_by_original_session' and not owner['cleanup_notes']
     assert owner['security_changes'] == 0 and owner['workbook_unchanged']
+    cleanup = json.loads((directory / 'session-cleanup.json').read_text(encoding='utf-8-sig'))
+    assert cleanup['schema'] == 'calcforms.run3_cleanup.v1'
+    assert cleanup['excel_launches_this_run'] == 1 and cleanup['other_processes_stopped'] == 0
+    assert cleanup['excel_process_absent'] and cleanup['final_runtime_process_absent']
+    original, attached = cleanup['original_session'], cleanup['attached_session']
+    assert original['excel_pid'] == attached['excel_pid'] == owner['excel_pid']
+    assert original['closed'] in ('already_exited', 'closed', 'terminated_owned_handle')
+    assert attached['closed'] == 'retained_by_original_session' and not attached['cleanup_notes']
+    assert original['workbook_unchanged'] and attached['workbook_unchanged']
+    assert original['workbook_sha256'] == attached['workbook_sha256'] == owner['workbook_sha256']
+    assert original['security_changes'] == attached['security_changes'] == 0
     corpus = load_corpus()
     expected = {f['name']: set(paths(f['controls'])) for f in corpus['forms']}
     expected['greeter'] = {'Prompt', 'InputName', 'Greet', 'Loud', 'Output'}

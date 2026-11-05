@@ -8,8 +8,9 @@ September raw facts and captures remain historical; the existing parity generato
 now writes the current-source comparison under `oxforms-jbjp.73`, preserving
 the `.4` ledger bytes referenced by the `.5` oracle and `.6` facade contract.
 
-The real-workbook Windows/VM3 greeter slice `.74` is closed. Current work is
-measured layout/painting (`.79`, `.83`) before wider W010 parity; see
+The real-workbook Windows/VM3 greeter slice `.74` and bounded two-scale
+comparison command `.79` are closed. Measured layout/painting corrections
+(`.76`, `.81`, `.83`, `.85`) precede wider W010 parity; see
 [the comparison contract](specs/LAYOUT_COMPARISON.md) and
 [greeter paint measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.76/README.md).
 Run 3 also supplies the [all-intrinsic two-scale corpus](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.79/README.md)
@@ -21,6 +22,9 @@ state was correct. See the [focus-paint evidence](evidence/W010_complete_msforms
 [its two-scale evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.83/README.md).
 `.84` qualifies native MultiPage backgrounds against live color and visible
 pixels, selecting a whole captured image or rejecting an invalid comparison.
+`.85` restores Frame caption/border painting and aligns nested child origins;
+its separate child clip and two-scale pixel improvements are recorded in
+[the Frame evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.85/README.md).
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

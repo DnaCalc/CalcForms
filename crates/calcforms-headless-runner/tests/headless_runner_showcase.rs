@@ -34,8 +34,8 @@ fn runner_attaches_renders_and_records_trace_rows() {
     runner.render().expect("initial render");
     let snap = runner.snapshot().expect("snapshot");
     assert_eq!(
-        snap.node_count, 29,
-        "root plus 23 showcase controls, container children, and the TextBox text/selection nodes"
+        snap.node_count, 30,
+        "root plus 23 showcase controls, the Frame client clip, container children, and the TextBox text/selection nodes"
     );
 
     let capabilities = runner
