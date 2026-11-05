@@ -190,7 +190,10 @@ Public Function LayoutPaintFacts() As String
     On Error GoTo Failed
     Dim C As Object, P As Object, S As String
     For Each C In LayoutForm.Controls
-        If TypeName(C) = "MultiPage" And C.Parent Is LayoutForm Then
+        If TypeName(C) = "Frame" And C.Parent Is LayoutForm Then
+            ' The authored corpus leaves this inside corner free of children.
+            S = S & C.Name & ";" & CStr(C.BackColor) & ";" & CStr(C.Left + C.Width - 3) & ";" & CStr(C.Top + C.Height - 3) & vbLf
+        ElseIf TypeName(C) = "MultiPage" And C.Parent Is LayoutForm Then
             Set P = C.Pages(C.Value)
             If P.Controls.Count = 0 Then
                 S = S & C.Name & ";" & CStr(C.BackColor) & ";" & CStr(C.Left + C.Width / 2) & ";" & CStr(C.Top + C.Height / 2) & vbLf

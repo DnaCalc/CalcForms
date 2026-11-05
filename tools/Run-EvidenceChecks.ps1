@@ -99,6 +99,7 @@ Invoke-Check -Name 'W010 TextBox layout comparison' -Script 'tools/evidence/Test
 Invoke-Check -Name 'W010 native capture qualification' -Script 'tools/evidence/Test-W010CaptureQualification.ps1'
 Invoke-Check -Name 'W010 Frame layout comparison' -Script 'tools/evidence/Test-W010FrameLayout.ps1'
 Invoke-Check -Name 'W010 ListBox row comparison' -Script 'tools/evidence/Test-W010ListRows.ps1'
+Invoke-Check -Name 'W010 TabStrip caption comparison' -Script 'tools/evidence/Test-W010TabCaptions.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

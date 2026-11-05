@@ -1,0 +1,674 @@
+{
+  "schema": "calcforms.frame_capture_qualification.v1",
+  "pixel_parity_claimed": false,
+  "observations": [
+    {
+      "zoom": 100,
+      "probes": [
+        {
+          "control": "Group",
+          "ole_color": 2147483663,
+          "point": [
+            183.0,
+            81.0
+          ],
+          "pixel": [
+            244,
+            108
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "Frame"
+        },
+        {
+          "control": "PagesControl",
+          "ole_color": 2147483663,
+          "point": [
+            291.0,
+            174.0
+          ],
+          "pixel": [
+            388,
+            232
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "MultiPage"
+        }
+      ],
+      "rejected": {
+        "verified": false,
+        "selected": null,
+        "scope": "live backgrounds at empty authored MultiPage centers and Frame corners",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              244,
+              108
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "Frame"
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              388,
+              232
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "MultiPage"
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "matches": false
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "matches": false
+              }
+            ],
+            "matches": false
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "matches": false
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": false
+          }
+        }
+      },
+      "accepted": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live backgrounds at empty authored MultiPage centers and Frame corners",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              244,
+              108
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "Frame"
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              388,
+              232
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "MultiPage"
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  244,
+                  108
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  388,
+                  232
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          }
+        }
+      },
+      "native_readback": "Group;-2147483633;183;81\nPagesControl;-2147483633;291;174\n"
+    },
+    {
+      "zoom": 150,
+      "probes": [
+        {
+          "control": "Group",
+          "ole_color": 2147483663,
+          "point": [
+            183.0,
+            81.0
+          ],
+          "pixel": [
+            366,
+            162
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "Frame"
+        },
+        {
+          "control": "PagesControl",
+          "ole_color": 2147483663,
+          "point": [
+            291.0,
+            174.0
+          ],
+          "pixel": [
+            582,
+            348
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "MultiPage"
+        }
+      ],
+      "rejected": {
+        "verified": false,
+        "selected": null,
+        "scope": "live backgrounds at empty authored MultiPage centers and Frame corners",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              366,
+              162
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "Frame"
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "MultiPage"
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "matches": false
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": false
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  255,
+                  255,
+                  255
+                ],
+                "matches": false
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": false
+          }
+        }
+      },
+      "accepted": {
+        "verified": true,
+        "selected": "composite",
+        "scope": "live backgrounds at empty authored MultiPage centers and Frame corners",
+        "probes": [
+          {
+            "control": "Group",
+            "ole_color": 2147483663,
+            "point": [
+              183.0,
+              81.0
+            ],
+            "pixel": [
+              366,
+              162
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "Frame"
+          },
+          {
+            "control": "PagesControl",
+            "ole_color": 2147483663,
+            "point": [
+              291.0,
+              174.0
+            ],
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "kind": "MultiPage"
+          }
+        ],
+        "candidates": {
+          "composite": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          },
+          "parent": {
+            "samples": [
+              {
+                "control": "Group",
+                "pixel": [
+                  366,
+                  162
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              },
+              {
+                "control": "PagesControl",
+                "pixel": [
+                  582,
+                  348
+                ],
+                "expected_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "actual_rgb": [
+                  240,
+                  240,
+                  240
+                ],
+                "matches": true
+              }
+            ],
+            "matches": true
+          }
+        }
+      },
+      "native_readback": "Group;-2147483633;183;81\nPagesControl;-2147483633;291;174\n"
+    }
+  ],
+  "images": [
+    {
+      "file": "100-bad-composite.png",
+      "sha256": "f76c5f6023e9c60e1758af0c21dd969d6ce7ea6f5d70a9fcb67e59a3b7d88021"
+    },
+    {
+      "file": "100-bad-parent.png",
+      "sha256": "b7d0d98cb4d1c0f603d7552e4dc75581dc6c3c442134e23fb2f2974e8921d94b"
+    },
+    {
+      "file": "100-valid.png",
+      "sha256": "8e1487a6a78f955bae15263710315390d21f7d1cd8ba81d1b301dd06ee6c67e6"
+    },
+    {
+      "file": "150-bad-composite.png",
+      "sha256": "02966a82962cb4627f8549c1fe31818443ce566e3c6dca6eab71fd7d28ccebac"
+    },
+    {
+      "file": "150-bad-parent.png",
+      "sha256": "02966a82962cb4627f8549c1fe31818443ce566e3c6dca6eab71fd7d28ccebac"
+    },
+    {
+      "file": "150-valid.png",
+      "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+    },
+    {
+      "file": "visible-100.png",
+      "sha256": "56625f1b869d8b891dd0bfca5aea21a63305e93d4b7d23e41d3b057f9071d6ec"
+    }
+  ],
+  "visible": {
+    "source": "Computer Use per-window Windows.Graphics.Capture, JPEG returned by the tool; color corroboration only",
+    "shot": {
+      "originX": 645,
+      "originY": 332,
+      "width": 522,
+      "height": 412,
+      "mime": "data:image/jpeg"
+    },
+    "client_origin": [
+      646,
+      363
+    ],
+    "crop": [
+      1,
+      31,
+      521,
+      411
+    ],
+    "samples": [
+      {
+        "control": "Group",
+        "pixel": [
+          230,
+          60
+        ],
+        "actual_rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      {
+        "control": "PagesControl",
+        "pixel": [
+          388,
+          232
+        ],
+        "actual_rgb": [
+          240,
+          240,
+          240
+        ]
+      }
+    ]
+  }
+}

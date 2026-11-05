@@ -1,0 +1,904 @@
+{
+  "schema": "calcforms.tab_captions.v1",
+  "pixel_parity_claimed": false,
+  "ownership": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": true,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 56892,
+    "desktop": "winsta0\\default"
+  },
+  "observations": [
+    {
+      "zoom": 100,
+      "images": [
+        {
+          "file": "100-excel.png",
+          "sha256": "8e1487a6a78f955bae15263710315390d21f7d1cd8ba81d1b301dd06ee6c67e6"
+        },
+        {
+          "file": "100-before.png",
+          "sha256": "4270257ed0bc3c0522ff67f5acf738a931e934c3aba0fdbf969fc1e6a0509cac"
+        },
+        {
+          "file": "100-after.png",
+          "sha256": "92913ead56748a4c6f7c35fdf29fb5bcb4873f4bf63644ec23ee05bc9e44b3cd"
+        }
+      ],
+      "roi": [
+        16,
+        192,
+        248,
+        328
+      ],
+      "region_before": {
+        "pixels": 31552,
+        "different_pixels": 4770,
+        "mean_absolute_rgb": [
+          8.524847870182557,
+          8.549093559837727,
+          8.525862068965518
+        ]
+      },
+      "region_after": {
+        "pixels": 31552,
+        "different_pixels": 1979,
+        "mean_absolute_rgb": [
+          4.318807048681542,
+          4.360674442190669,
+          4.297762423935091
+        ]
+      },
+      "pixels_before": {
+        "pixels": 197600,
+        "different_pixels": 15481,
+        "mean_absolute_rgb": [
+          4.561472672064777,
+          4.615541497975708,
+          4.60255060728745
+        ]
+      },
+      "pixels_after": {
+        "pixels": 197600,
+        "different_pixels": 12690,
+        "mean_absolute_rgb": [
+          3.8898684210526318,
+          3.946751012145749,
+          3.927424089068826
+        ]
+      },
+      "nodes": [
+        {
+          "id": 5,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 12.0,
+            "y": 144.0,
+            "w": 174.0,
+            "h": 102.0
+          },
+          "bounds": {
+            "x": 12.0,
+            "y": 144.0,
+            "w": 174.0,
+            "h": 102.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 12.0,
+                "y": 159.0,
+                "w": 174.0,
+                "h": 87.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 12.0,
+                "y": 159.0,
+                "w": 174.0,
+                "h": 87.0
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 12.0,
+                "y": 144.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 12.0,
+                "y": 144.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 13.5,
+                "y": 157.5,
+                "w": 23.102001,
+                "h": 3.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 11221961646396053824,
+              "rect": {
+                "x": 13.5,
+                "y": 146.25,
+                "w": 23.102001,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 38.102,
+                "y": 146.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 38.102,
+                "y": 146.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 4361098107681936198,
+              "rect": {
+                "x": 39.602,
+                "y": 147.75,
+                "w": 33.902,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "text": {
+        "11221961646396053824": {
+          "id": 11221961646396053824,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 41,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 4.302246,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 6.1875,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 86,
+              "x": 9.1604,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 12.842285,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 15.601685,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.302246,
+              6.1875,
+              9.1604,
+              12.842285,
+              15.601685
+            ]
+          },
+          "accelerator": null,
+          "source": "First"
+        },
+        "4361098107681936198": {
+          "id": 4361098107681936198,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 54,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 4.6124268,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 8.954956,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 12.761719,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 17.24121,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 21.841553,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 26.401611,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.5963135,
+              8.954956,
+              12.761719,
+              17.24121,
+              21.841553,
+              26.401611
+            ]
+          },
+          "accelerator": null,
+          "source": "Second"
+        }
+      },
+      "runtime_sha256": "c56fa28aabf1fecc777fe29ff14bce96d9a841412b892a8abdfe054257bbc6b5",
+      "native_probes": [
+        {
+          "control": "Group",
+          "ole_color": 2147483663,
+          "point": [
+            183.0,
+            81.0
+          ],
+          "pixel": [
+            244,
+            108
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "Frame"
+        },
+        {
+          "control": "PagesControl",
+          "ole_color": 2147483663,
+          "point": [
+            291.0,
+            174.0
+          ],
+          "pixel": [
+            388,
+            232
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "MultiPage"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "images": [
+        {
+          "file": "150-excel.png",
+          "sha256": "9362ab0ec4852d5a4c38f7ce6af0635d6bb922ab1f13d6596060f2110618aded"
+        },
+        {
+          "file": "150-before.png",
+          "sha256": "bc44994e0d11727c5f15176e11c42def0318d02773847dbd6c032313d8b09f66"
+        },
+        {
+          "file": "150-after.png",
+          "sha256": "644ca233e3c3efc49e8edb431d886459780b4c41245c51b5504a863eb8ac45cb"
+        }
+      ],
+      "roi": [
+        24,
+        288,
+        372,
+        492
+      ],
+      "region_before": {
+        "pixels": 70992,
+        "different_pixels": 10972,
+        "mean_absolute_rgb": [
+          9.222053189091728,
+          9.218447148974532,
+          9.223095560063106
+        ]
+      },
+      "region_after": {
+        "pixels": 70992,
+        "different_pixels": 3530,
+        "mean_absolute_rgb": [
+          3.1242675231011945,
+          3.02386184358801,
+          2.928301780482308
+        ]
+      },
+      "pixels_before": {
+        "pixels": 444600,
+        "different_pixels": 31981,
+        "mean_absolute_rgb": [
+          4.0726563202879,
+          4.019707602339182,
+          4.006587944219524
+        ]
+      },
+      "pixels_after": {
+        "pixels": 444600,
+        "different_pixels": 24539,
+        "mean_absolute_rgb": [
+          3.0989856050382367,
+          3.0305802968960864,
+          3.001459739091318
+        ]
+      },
+      "nodes": [
+        {
+          "id": 5,
+          "parent": 0,
+          "z": 0,
+          "transform": {
+            "sx": 1.0,
+            "sy": 1.0,
+            "tx": 0.0,
+            "ty": 0.0
+          },
+          "clip": {
+            "x": 12.0,
+            "y": 144.0,
+            "w": 174.0,
+            "h": 102.0
+          },
+          "bounds": {
+            "x": 12.0,
+            "y": 144.0,
+            "w": 174.0,
+            "h": 102.0
+          },
+          "visible": true,
+          "prims": [
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 12.0,
+                "y": 159.0,
+                "w": 174.0,
+                "h": 87.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 12.0,
+                "y": 159.0,
+                "w": 174.0,
+                "h": 87.0
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 12.0,
+                "y": 144.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 12.0,
+                "y": 144.75,
+                "w": 26.102001,
+                "h": 14.25
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 13.5,
+                "y": 157.5,
+                "w": 23.102001,
+                "h": 3.0
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 11221961646396053824,
+              "rect": {
+                "x": 13.5,
+                "y": 146.25,
+                "w": 23.102001,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            },
+            {
+              "op": "fill_rect",
+              "rect": {
+                "x": 38.102,
+                "y": 146.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "paint": {
+                "Solid": {
+                  "red": 240,
+                  "green": 240,
+                  "blue": 240,
+                  "alpha": 255
+                }
+              }
+            },
+            {
+              "op": "draw_edge",
+              "rect": {
+                "x": 38.102,
+                "y": 146.25,
+                "w": 36.902,
+                "h": 12.75
+              },
+              "effect": "raised",
+              "border": {
+                "left": true,
+                "top": true,
+                "right": true,
+                "bottom": true
+              },
+              "light": {
+                "red": 255,
+                "green": 255,
+                "blue": 255,
+                "alpha": 255
+              },
+              "shadow": {
+                "red": 128,
+                "green": 128,
+                "blue": 128,
+                "alpha": 255
+              }
+            },
+            {
+              "op": "draw_text",
+              "run": 4361098107681936198,
+              "rect": {
+                "x": 39.602,
+                "y": 147.75,
+                "w": 33.902,
+                "h": 9.958
+              },
+              "align": "center",
+              "wrap": false,
+              "clip": true,
+              "paint": {
+                "Solid": {
+                  "red": 0,
+                  "green": 0,
+                  "blue": 0,
+                  "alpha": 255
+                }
+              },
+              "flags": {
+                "underline_accelerator": false,
+                "disabled": false
+              }
+            }
+          ],
+          "children": []
+        }
+      ],
+      "text": {
+        "11221961646396053824": {
+          "id": 11221961646396053824,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 41,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 76,
+              "x": 4.302246,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 85,
+              "x": 6.1875,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 86,
+              "x": 9.1604,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 87,
+              "x": 12.842285,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 15.601685,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.302246,
+              6.1875,
+              9.1604,
+              12.842285,
+              15.601685
+            ]
+          },
+          "accelerator": null,
+          "source": "First"
+        },
+        "4361098107681936198": {
+          "id": 4361098107681936198,
+          "key": {
+            "font": 1,
+            "size_milli_pt": 8250,
+            "wrap_width_milli_pt": null
+          },
+          "glyphs": [
+            {
+              "glyph_id": 54,
+              "x": 0.0,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 72,
+              "x": 4.6124268,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 70,
+              "x": 8.954956,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 82,
+              "x": 12.761719,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 81,
+              "x": 17.24121,
+              "y": 0.0
+            },
+            {
+              "glyph_id": 71,
+              "x": 21.841553,
+              "y": 0.0
+            }
+          ],
+          "metrics": {
+            "advance": 26.401611,
+            "ascent": 8.254028,
+            "descent": 1.7039795,
+            "line_gap": 0.0
+          },
+          "caret": {
+            "stops": [
+              0.0,
+              4.5963135,
+              8.954956,
+              12.761719,
+              17.24121,
+              21.841553,
+              26.401611
+            ]
+          },
+          "accelerator": null,
+          "source": "Second"
+        }
+      },
+      "runtime_sha256": "c56fa28aabf1fecc777fe29ff14bce96d9a841412b892a8abdfe054257bbc6b5",
+      "native_probes": [
+        {
+          "control": "Group",
+          "ole_color": 2147483663,
+          "point": [
+            183.0,
+            81.0
+          ],
+          "pixel": [
+            366,
+            162
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "Frame"
+        },
+        {
+          "control": "PagesControl",
+          "ole_color": 2147483663,
+          "point": [
+            291.0,
+            174.0
+          ],
+          "pixel": [
+            582,
+            348
+          ],
+          "expected_rgb": [
+            240,
+            240,
+            240
+          ],
+          "kind": "MultiPage"
+        }
+      ]
+    }
+  ]
+}

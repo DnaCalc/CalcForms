@@ -2501,7 +2501,7 @@ const SCROLL_LEFT_BUTTON_IN: (i32, i32) = (24, 29);
 const SCROLL_RIGHT_BUTTON_IN: (i32, i32) = (174, 29);
 const SCROLL_PAGE_RIGHT_IN: (i32, i32) = (126, 29);
 const SCROLL_THUMB_DRAG_IN: (i32, i32) = (150, 29);
-const TABSTRIP_BETA_IN: (i32, i32) = (90, 30);
+const TABSTRIP_BETA_IN: (i32, i32) = (60, 30);
 const MULTIPAGE_BETA_TAB_IN: (i32, i32) = (150, 30);
 const MULTIPAGE_BETA_FIELD_IN: (i32, i32) = (136, 55);
 
@@ -2706,7 +2706,7 @@ fn tabstrip_tabs_collection_selection_and_events_are_live() {
     let log = string_get(&mut session, &form, "HandlerLog");
     for expected in [
         "TabStrip.Enter",
-        "TabStrip.MouseDown:70,10",
+        "TabStrip.MouseDown:40,10",
         "TabStrip.Change=1:Beta",
         "TabStrip.MouseUp",
         "TabStrip.KeyDown:39",

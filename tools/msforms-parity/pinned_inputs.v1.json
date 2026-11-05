@@ -86,7 +86,7 @@
     {
       "path": "tools/Run-EvidenceChecks.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "8a8236d1e80427ec8d7807379f4a773218b9031bbf0bf91420222a04dfb6d093"
+      "sha256": "2b6ec10537806b72898a5cc1c02fecf4fe5954a2bcdfc1320fd9f6ad201ae5a3"
     },
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "c25ae117ee425cfed849a5874ff148639cef8a3d392d5fc147db89347b1d29ee"
+      "sha256": "0a636b80a49022d0954d99bc8c319e1f6aa4d9acdefc22fa582ac3c942b57565"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "8b4ca974b40570194badab72fdaba6849b2c0418bd868878bfd5ef0de0a865b2"
+      "sha256": "963b7ee5b3acadecdd5758586e55530f86eb9141117c4c6e3231997e3a8ed557"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -316,7 +316,7 @@
     {
       "path": "vba/calcforms/TabStrip.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "7ce1dc2c620ca0dcde874ba385ddede2518f924e757cc30e5826d45bba4e5833"
+      "sha256": "675736b66961eb480e7a5046759fb775b690909aab91edcbd184b53e425ab64d"
     },
     {
       "path": "vba/calcforms/Tabs.cls",

@@ -28,6 +28,15 @@ class CaptureQualificationTests(unittest.TestCase):
         self.probes[0]['pixel'] = [8, 8]
         self.assertFalse(choose_capture(self.grey, self.grey, self.probes)['verified'])
 
+    def test_a_valid_page_cannot_hide_a_blank_frame(self):
+        composite = self.grey.copy()
+        composite.putpixel((2, 2), (255, 255, 255))
+        probes = self.probes + [{'control': 'Frame', 'kind': 'Frame', 'pixel': [2, 2], 'expected_rgb': [240, 240, 240]}]
+        result = choose_capture(composite, self.grey, probes)
+        self.assertEqual('parent', result['selected'])
+        self.assertFalse(result['candidates']['composite']['matches'])
+        self.assertFalse(choose_capture(composite, composite, probes)['verified'])
+
 
 if __name__ == '__main__':
     unittest.main()

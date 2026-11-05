@@ -14,5 +14,7 @@ def choose_capture(composite, parent, probes):
         results[name] = {'samples': samples, 'matches': all(s['matches'] for s in samples)}
     selected = next((n for n in ('composite', 'parent') if results[n]['matches']), None)
     return {'verified': selected is not None, 'selected': selected,
-            'scope': 'live background at the center of an empty authored MultiPage',
+            'scope': ('live backgrounds at empty authored MultiPage centers and Frame corners'
+                      if any(p.get('kind') == 'Frame' for p in probes) else
+                      'live background at the center of an empty authored MultiPage'),
             'probes': probes, 'candidates': results}

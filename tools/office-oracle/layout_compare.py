@@ -351,6 +351,7 @@ End Function
                 color = int(color) & 0xffffffff
                 resolved = win32api.GetSysColor(color & 0xff) if color & 0x80000000 else color
                 probes.append({'control': control, 'ole_color': color,
+                               'kind': next(c['kind'] for c in definition['controls'] if c['name'] == control),
                                'point': [float(x), float(y)],
                                'pixel': [round(float(x) * scale_x), round(float(y) * scale_y)],
                                'expected_rgb': [resolved & 255, (resolved >> 8) & 255, (resolved >> 16) & 255]})
@@ -363,7 +364,7 @@ End Function
             native.save(directory / 'excel-client.png')
             native_info['client']['sha256'] = hashlib.sha256((directory / 'excel-client.png').read_bytes()).hexdigest()
         pixels = pixel_compare(native, runtime, directory / 'difference.png') if qualification['verified'] else {
-            'comparable': False, 'reason': 'Native page background disagrees with live MultiPage.BackColor; capture unverified'}
+            'comparable': False, 'reason': 'Native container background disagrees with its live BackColor; capture unverified'}
         data = {'schema': 'calcforms.layout_comparison.v2', 'form': self.selected_form, 'zoom': self.zoom,
                 'excel_version': self.excel.Version, 'excel_build': self.excel.Build,
                 'excel': native_info, 'calcforms': runtime_info,

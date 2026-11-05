@@ -130,6 +130,16 @@ select the complete parent capture if it passes. Retain both raw images and
 the chosen source. If neither passes, report the pixel comparison as unverified.
 Never paint an expected color into a reference. `.84` records a visible native
 capture and replay of the white-child/grey-parent failure.
+`.89` also checks Frame.BackColor at an empty inside corner of the authored
+Frame: a valid page cannot qualify a blank Frame. Every applicable probe must
+pass in the same complete candidate. This detects the observed blank-white
+capture; it does not verify every descendant's content.
+
+TabStrip captions use the same project-internal text fragments as list rows.
+Caption-based widths are shared with pointer routing; unused header space
+does not select the final tab. The measured default header band is 15pt, with
+10.5pt caption padding. Exact second-tab padding, overflow, alternate styles
+and focus/border details remain the full TabStrip lane's work.
 
 On the owner's input desktop, use the exclusive shared desktop.lock for every
 operation that may activate or inject input. Fail while a live lock exists;

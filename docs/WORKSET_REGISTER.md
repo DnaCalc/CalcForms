@@ -32,6 +32,10 @@ Run 4 `.87` fixes separate ListBox row runs through the same measurement batch,
 selected text and clipping; its [two-scale measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.87/README.md)
 reduce the ranked Choices region from about 30% to 9.45%/9.90% different pixels.
 Full ListBox parity remains `.23`.
+`.88` paints separate caption-sized TabStrip headers, reducing its region
+differences to 6.27%/4.97%; `.33` remains open. `.89` rejects blank Frame
+captures even when the page background passes. See the [tab measurements](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.88/README.md)
+and [capture replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.89/README.md).
 
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.

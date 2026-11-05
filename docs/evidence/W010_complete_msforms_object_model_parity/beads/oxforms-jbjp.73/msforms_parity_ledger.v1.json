@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "1a6a7cb9782dd24b42cef9971b76a557ecfead949e723ea453d00450a11bc6d2",
+  "source_surface_sha256": "cc31c3b8ead193802227e5363e493c10d4286e598e1876bd2317a84a640a6931",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -45138,7 +45138,7 @@
           "file_stem": "TabStrip",
           "kind": "class_module",
           "path": "vba/calcforms/TabStrip.cls",
-          "normalized_text_sha256": "7ce1dc2c620ca0dcde874ba385ddede2518f924e757cc30e5826d45bba4e5833",
+          "normalized_text_sha256": "675736b66961eb480e7a5046759fb775b690909aab91edcbd184b53e425ab64d",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -45463,8 +45463,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 82,
-                "end_line": 82,
+                "start_line": 83,
+                "end_line": 83,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -45481,8 +45481,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 86,
-                "end_line": 86,
+                "start_line": 87,
+                "end_line": 87,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -45511,8 +45511,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 89,
-                "end_line": 89,
+                "start_line": 90,
+                "end_line": 90,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -45529,8 +45529,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 93,
-                "end_line": 93,
+                "start_line": 94,
+                "end_line": 94,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -45559,8 +45559,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 96,
-                "end_line": 96,
+                "start_line": 97,
+                "end_line": 97,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -45577,8 +45577,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 100,
-                "end_line": 100,
+                "start_line": 101,
+                "end_line": 101,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -45607,8 +45607,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 103,
-                "end_line": 103,
+                "start_line": 104,
+                "end_line": 104,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -45625,8 +45625,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 107,
-                "end_line": 107,
+                "start_line": 108,
+                "end_line": 108,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -45655,8 +45655,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 110,
-                "end_line": 110,
+                "start_line": 111,
+                "end_line": 111,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -45673,8 +45673,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 114,
-                "end_line": 114,
+                "start_line": 115,
+                "end_line": 115,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -45703,8 +45703,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 117,
-                "end_line": 117,
+                "start_line": 118,
+                "end_line": 118,
                 "text": "Public Property Let Visible(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -45721,8 +45721,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 121,
-                "end_line": 121,
+                "start_line": 122,
+                "end_line": 122,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -45751,8 +45751,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 124,
-                "end_line": 124,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -45769,8 +45769,8 @@
               "return_type": "Tabs",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 129,
+                "end_line": 129,
                 "text": "Public Property Get Tabs() As Tabs"
               },
               "member_attributes": {}
@@ -45787,8 +45787,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 132,
-                "end_line": 132,
+                "start_line": 133,
+                "end_line": 133,
                 "text": "Public Property Get Value() As Long"
               },
               "member_attributes": {}
@@ -45817,8 +45817,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Let Value(ByVal NewValue As Long)"
               },
               "member_attributes": {}
@@ -45835,8 +45835,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 139,
-                "end_line": 139,
+                "start_line": 140,
+                "end_line": 140,
                 "text": "Public Property Get ListIndex() As Long"
               },
               "member_attributes": {}
@@ -45865,8 +45865,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 142,
-                "end_line": 142,
+                "start_line": 143,
+                "end_line": 143,
                 "text": "Public Property Let ListIndex(ByVal NewValue As Long)"
               },
               "member_attributes": {}
@@ -45883,8 +45883,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 146,
-                "end_line": 146,
+                "start_line": 147,
+                "end_line": 147,
                 "text": "Public Property Get SelectedCaption() As String"
               },
               "member_attributes": {}
@@ -45901,8 +45901,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 150,
-                "end_line": 150,
+                "start_line": 151,
+                "end_line": 151,
                 "text": "Public Function Diagnostics() As String"
               },
               "member_attributes": {}
@@ -45919,8 +45919,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 160,
-                "end_line": 160,
+                "start_line": 161,
+                "end_line": 161,
                 "text": "Public Sub NotifyTabAdded()"
               },
               "member_attributes": {}
@@ -45955,8 +45955,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 171,
-                "end_line": 171,
+                "start_line": 170,
+                "end_line": 170,
                 "text": "Public Sub NotifyTabsCleared()"
               },
               "member_attributes": {}
@@ -46027,8 +46027,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 74,
-                "end_line": 74,
+                "start_line": 75,
+                "end_line": 75,
                 "text": "Private Property Get IOxControl_HasChildren() As Boolean"
               },
               "interface": "IOxControl",
@@ -46047,8 +46047,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 78,
-                "end_line": 78,
+                "start_line": 79,
+                "end_line": 79,
                 "text": "Private Property Get IOxControl_Children() As Controls"
               },
               "interface": "IOxControl",
@@ -46112,8 +46112,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 177,
-                "end_line": 177,
+                "start_line": 186,
+                "end_line": 186,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -46177,8 +46177,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 183,
-                "end_line": 183,
+                "start_line": 196,
+                "end_line": 196,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -46242,8 +46242,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 187,
-                "end_line": 187,
+                "start_line": 200,
+                "end_line": 200,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -46262,8 +46262,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 190,
-                "end_line": 190,
+                "start_line": 203,
+                "end_line": 203,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -46282,8 +46282,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 193,
-                "end_line": 193,
+                "start_line": 206,
+                "end_line": 206,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -46302,8 +46302,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 197,
-                "end_line": 197,
+                "start_line": 210,
+                "end_line": 210,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -46345,8 +46345,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 214,
+                "end_line": 214,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -46388,8 +46388,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 219,
-                "end_line": 219,
+                "start_line": 232,
+                "end_line": 232,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -46420,8 +46420,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 223,
-                "end_line": 223,
+                "start_line": 236,
+                "end_line": 236,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -46440,8 +46440,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 226,
-                "end_line": 226,
+                "start_line": 239,
+                "end_line": 239,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -46460,8 +46460,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 234,
-                "end_line": 234,
+                "start_line": 247,
+                "end_line": 247,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -46480,8 +46480,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 247,
-                "end_line": 247,
+                "start_line": 260,
+                "end_line": 260,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -46500,8 +46500,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 251,
-                "end_line": 251,
+                "start_line": 264,
+                "end_line": 264,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -46520,8 +46520,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 255,
-                "end_line": 255,
+                "start_line": 268,
+                "end_line": 268,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -46540,8 +46540,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 259,
-                "end_line": 259,
+                "start_line": 272,
+                "end_line": 272,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -46560,8 +46560,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 263,
-                "end_line": 263,
+                "start_line": 276,
+                "end_line": 276,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -46580,8 +46580,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 267,
-                "end_line": 267,
+                "start_line": 280,
+                "end_line": 280,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -46634,8 +46634,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 271,
-                "end_line": 271,
+                "start_line": 284,
+                "end_line": 284,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -46688,8 +46688,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 275,
-                "end_line": 275,
+                "start_line": 288,
+                "end_line": 288,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -46708,8 +46708,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 279,
-                "end_line": 279,
+                "start_line": 292,
+                "end_line": 292,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -46728,8 +46728,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 283,
-                "end_line": 283,
+                "start_line": 296,
+                "end_line": 296,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -46748,8 +46748,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 287,
-                "end_line": 287,
+                "start_line": 300,
+                "end_line": 300,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -46768,8 +46768,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 291,
-                "end_line": 291,
+                "start_line": 304,
+                "end_line": 304,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -46788,8 +46788,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 295,
-                "end_line": 295,
+                "start_line": 308,
+                "end_line": 308,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -46808,8 +46808,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 299,
-                "end_line": 299,
+                "start_line": 312,
+                "end_line": 312,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -46828,8 +46828,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 303,
-                "end_line": 303,
+                "start_line": 316,
+                "end_line": 316,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -46848,8 +46848,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 307,
-                "end_line": 307,
+                "start_line": 320,
+                "end_line": 320,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -46868,8 +46868,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 311,
-                "end_line": 311,
+                "start_line": 324,
+                "end_line": 324,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -46888,8 +46888,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 315,
-                "end_line": 315,
+                "start_line": 328,
+                "end_line": 328,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -46908,8 +46908,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 319,
-                "end_line": 319,
+                "start_line": 332,
+                "end_line": 332,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -46928,8 +46928,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 323,
-                "end_line": 323,
+                "start_line": 336,
+                "end_line": 336,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -679942,8 +679942,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 124,
-                "end_line": 124,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {},
@@ -679978,8 +679978,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 121,
-                "end_line": 121,
+                "start_line": 122,
+                "end_line": 122,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -683928,8 +683928,8 @@
               "return_type": "Tabs",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 129,
+                "end_line": 129,
                 "text": "Public Property Get Tabs() As Tabs"
               },
               "member_attributes": {},
@@ -684404,8 +684404,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Let Value(ByVal NewValue As Long)"
               },
               "member_attributes": {},
@@ -684440,8 +684440,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/TabStrip.cls",
-                "start_line": 132,
-                "end_line": 132,
+                "start_line": 133,
+                "end_line": 133,
                 "text": "Public Property Get Value() As Long"
               },
               "member_attributes": {},
@@ -1502828,8 +1502828,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 82,
-          "end_line": 82,
+          "start_line": 83,
+          "end_line": 83,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1502944,8 +1502944,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 86,
-          "end_line": 86,
+          "start_line": 87,
+          "end_line": 87,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1503072,8 +1503072,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 89,
-          "end_line": 89,
+          "start_line": 90,
+          "end_line": 90,
           "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1503188,8 +1503188,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 93,
-          "end_line": 93,
+          "start_line": 94,
+          "end_line": 94,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1503316,8 +1503316,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 96,
-          "end_line": 96,
+          "start_line": 97,
+          "end_line": 97,
           "text": "Public Property Let Top(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1503432,8 +1503432,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 100,
-          "end_line": 100,
+          "start_line": 101,
+          "end_line": 101,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1503560,8 +1503560,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 103,
-          "end_line": 103,
+          "start_line": 104,
+          "end_line": 104,
           "text": "Public Property Let Width(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1503676,8 +1503676,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 107,
-          "end_line": 107,
+          "start_line": 108,
+          "end_line": 108,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1503804,8 +1503804,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 110,
-          "end_line": 110,
+          "start_line": 111,
+          "end_line": 111,
           "text": "Public Property Let Height(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1503920,8 +1503920,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 114,
-          "end_line": 114,
+          "start_line": 115,
+          "end_line": 115,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1504048,8 +1504048,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 117,
-          "end_line": 117,
+          "start_line": 118,
+          "end_line": 118,
           "text": "Public Property Let Visible(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1504164,8 +1504164,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 139,
-          "end_line": 139,
+          "start_line": 140,
+          "end_line": 140,
           "text": "Public Property Get ListIndex() As Long"
         },
         "member_attributes": {},
@@ -1504292,8 +1504292,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 142,
-          "end_line": 142,
+          "start_line": 143,
+          "end_line": 143,
           "text": "Public Property Let ListIndex(ByVal NewValue As Long)"
         },
         "member_attributes": {},
@@ -1504408,8 +1504408,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 146,
-          "end_line": 146,
+          "start_line": 147,
+          "end_line": 147,
           "text": "Public Property Get SelectedCaption() As String"
         },
         "member_attributes": {},
@@ -1504524,8 +1504524,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 150,
-          "end_line": 150,
+          "start_line": 151,
+          "end_line": 151,
           "text": "Public Function Diagnostics() As String"
         },
         "member_attributes": {},
@@ -1504640,8 +1504640,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 160,
-          "end_line": 160,
+          "start_line": 161,
+          "end_line": 161,
           "text": "Public Sub NotifyTabAdded()"
         },
         "member_attributes": {},
@@ -1504872,8 +1504872,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/TabStrip.cls",
-          "start_line": 171,
-          "end_line": 171,
+          "start_line": 170,
+          "end_line": 170,
           "text": "Public Sub NotifyTabsCleared()"
         },
         "member_attributes": {},
@@ -1562875,5 +1562875,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "3b0dec83fe9aabed747cc3f9a07b45067435a2b76492e883e673bac608f0d023"
+  "canonical_sha256": "3a9c0ba4e05efbca4367a61b3a27585c5795bce0182aae2e7b475d732956f884"
 }
