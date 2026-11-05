@@ -170,6 +170,18 @@ still has a measured 2–3px fill-boundary mismatch and is a failed spacing row.
 Current native height readback is 21pt at both scales; the historical 21.75pt
 readback is not treated as a general coercion rule.
 
+The `.98` follow-up paints measured classic edges in VBA: two 0.75pt layers
+for raised/sunken fields and buttons, and an outer outline for the assigned
+default button. The ComboBox drop button has a 0.5pt enclosing highlight, a
+white top/left layer and two bottom/right shadow layers. Native border depth
+and ordered colour classes are measured on recorded clear scan lines; the
+button's face bounds and arrow remain separate numeric rows. These checks
+pass at both scales within 1px and exact class tolerance. Frame/other effects,
+focus adorners and complete control-state styling remain separate coverage.
+An unlatched ToggleButton is raised; a latched one is sunken. Its representative
+solid fill now has the native control-face class; checker-pattern parity is
+still unclaimed. Changing CommandButton.Default invalidates its outline.
+
 Native `.90` captures show literal `&`, `&&` and trailing `&` in Label,
 CommandButton, CheckBox, OptionButton, ToggleButton, TextBox, ListBox and
 ComboBox strings. Accelerator is a separate property, not Caption markup.

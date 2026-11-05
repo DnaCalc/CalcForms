@@ -21,3 +21,5 @@ if ($LASTEXITCODE -ne 0) { throw 'Literal text replay failed.' }
 if ($LASTEXITCODE -ne 0) { throw 'Label wrap replay failed.' }
 & python -B (Join-Path $root 'tools/office-oracle/validate_colour_reference.py')
 if ($LASTEXITCODE -ne 0) { throw 'Property/paint colour replay failed.' }
+& python -B (Join-Path $root 'tools/office-oracle/validate_border_reference.py')
+if ($LASTEXITCODE -ne 0) { throw 'Border spacing replay failed.' }

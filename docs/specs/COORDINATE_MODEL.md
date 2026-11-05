@@ -13,6 +13,14 @@ must use. It is a model and calibration procedure, not runtime layout or input
 implementation. Unknowns stay explicit until the W005 oracle fixture and capture
 beads produce live MSForms event logs.
 
+The November Windows renderer rounds the four transformed device edges of
+non-antialiased fills together, using the same nearest-edge rule as text clips.
+Never round an origin and width independently: adjoining 0.75pt strips at 150%
+can otherwise expose a gap or overshoot. A rectangle whose rounded edges
+collapse paints nothing. `oxforms-jbjp.104` exercises half-pixel bounds and thin
+collapsed fills; incremental/full repaint comparisons remain required. The
+rule is generic geometry and contains no control appearance decisions.
+
 ## 1. Anchors
 
 - [`INPUT_INTERACTION_MODEL.md`](INPUT_INTERACTION_MODEL.md), sections 5, 8,

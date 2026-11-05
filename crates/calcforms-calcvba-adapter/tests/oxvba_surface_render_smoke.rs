@@ -21,9 +21,9 @@ use std::sync::Arc;
 use calcforms_calcvba_adapter::surface::{register_surface, SurfaceFactory};
 use calcforms_pal::input::DpiScale;
 use calcforms_pal::scene::{
-    render_headless_hash, render_headless_report, text_run_id, EdgeBorder, EdgeEffect, FontId,
-    NodeEdit, NodeId, Paint, Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextAlign,
-    TextFlags, TextKey, TextShaper,
+    render_headless_hash, render_headless_report, text_run_id, FontId, NodeEdit, NodeId, Paint,
+    Prim, RectF, Scene, SceneNode, ScenePatch, StubShaper, TextAlign, TextFlags, TextKey,
+    TextShaper,
 };
 use calcforms_pal::{Color, SurfaceSize};
 use calcforms_pal_win::{load_ui_font, render_scene_to_rgba, AbGlyphShaper, FontTable};
@@ -211,9 +211,38 @@ fn prepare_session(
 }
 
 /// The demo form rebuilt directly in Rust from first principles.
+fn measured_bevel(rect: RectF, sunken: bool) -> Vec<Prim> {
+    let shades = if sunken {
+        [(160, 255), (105, 227)]
+    } else {
+        [(255, 105), (227, 160)]
+    };
+    let mut result = Vec::new();
+    for (layer, (tl, br)) in shades.into_iter().enumerate() {
+        let inset = layer as f32 * 0.75;
+        let (x, y, w, h) = (
+            rect.x + inset,
+            rect.y + inset,
+            rect.w - 2.0 * inset,
+            rect.h - 2.0 * inset,
+        );
+        for (r, grey) in [
+            (RectF::new(x, y, w, 0.75), tl),
+            (RectF::new(x, y, 0.75, h), tl),
+            (RectF::new(x, y + h - 0.75, w, 0.75), br),
+            (RectF::new(x + w - 0.75, y, 0.75, h), br),
+        ] {
+            result.push(Prim::FillRect {
+                rect: r,
+                paint: Paint::Solid(Color::rgba(grey, grey, grey, 255)),
+            });
+        }
+    }
+    result
+}
+
 fn expected_demo_framebuffer_hash() -> u64 {
     let white = Color::rgba(0xff, 0xff, 0xff, 0xff);
-    let shadow = Color::rgba(0x80, 0x80, 0x80, 0xff);
 
     let mut root = SceneNode::new(NodeId(0));
     root.bounds = RectF::new(0.0, 0.0, 200.0, 120.0);
@@ -227,19 +256,11 @@ fn expected_demo_framebuffer_hash() -> u64 {
     input.parent = Some(NodeId(0));
     input.bounds = RectF::new(12.0, 12.0, 120.0, 18.0);
     input.children = vec![NodeId(1900), NodeId(1901)];
-    input.prims = vec![
-        Prim::FillRect {
-            rect: RectF::new(12.0, 12.0, 120.0, 18.0),
-            paint: Paint::Solid(white),
-        },
-        Prim::DrawEdge {
-            rect: RectF::new(12.0, 12.0, 120.0, 18.0),
-            effect: EdgeEffect::Sunken,
-            border: EdgeBorder::ALL,
-            light: white,
-            shadow,
-        },
-    ];
+    input.prims = vec![Prim::FillRect {
+        rect: RectF::new(12.0, 12.0, 120.0, 18.0),
+        paint: Paint::Solid(white),
+    }];
+    input.prims.extend(measured_bevel(input.bounds, true));
 
     let mut input_text = SceneNode::new(NodeId(1900));
     input_text.parent = Some(NodeId(1));
@@ -270,13 +291,6 @@ fn expected_demo_framebuffer_hash() -> u64 {
             rect: RectF::new(140.0, 12.0, 48.0, 20.0),
             paint: Paint::Solid(Color::rgba(0xf0, 0xf0, 0xf0, 0xff)),
         },
-        Prim::DrawEdge {
-            rect: RectF::new(140.0, 12.0, 48.0, 20.0),
-            effect: EdgeEffect::Raised,
-            border: EdgeBorder::ALL,
-            light: white,
-            shadow,
-        },
         Prim::DrawText {
             run: text_run_id(&text_key(8), "OK"),
             rect: RectF::new(144.0, 15.0, 40.0, 14.0),
@@ -287,6 +301,9 @@ fn expected_demo_framebuffer_hash() -> u64 {
             flags: TextFlags::default(),
         },
     ];
+    button
+        .prims
+        .splice(1..1, measured_bevel(button.bounds, false));
 
     let mut label = SceneNode::new(NodeId(3));
     label.parent = Some(NodeId(0));

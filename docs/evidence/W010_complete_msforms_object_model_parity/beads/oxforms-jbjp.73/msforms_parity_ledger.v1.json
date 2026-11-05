@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "d8d8b0223b0aa5d1973b6798663bcd328e60ad83bdbecec2776f4b3afcd66f65",
+  "source_surface_sha256": "04ed6f5cd0b49bbbbf0dbe973debc1bca16ff17d17a7d653e49777a78669917f",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -24171,7 +24171,7 @@
           "file_stem": "CommandButton",
           "kind": "class_module",
           "path": "vba/calcforms/CommandButton.cls",
-          "normalized_text_sha256": "122a8ef4728dbae8add2f12d409753592d11308d7cae44972122495a46f26229",
+          "normalized_text_sha256": "00abc968b9a03241798af3dd989418c09b94ce458b97380b16024fbe9f92e46a",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -24928,8 +24928,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 132,
-                "end_line": 132,
+                "start_line": 133,
+                "end_line": 133,
                 "text": "Public Property Get Cancel() As Boolean"
               },
               "member_attributes": {}
@@ -24958,8 +24958,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Property Let Cancel(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -24976,8 +24976,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 143,
-                "end_line": 143,
+                "start_line": 144,
+                "end_line": 144,
                 "text": "Public Sub PerformClick()"
               },
               "member_attributes": {}
@@ -25039,8 +25039,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 147,
-                "end_line": 147,
+                "start_line": 148,
+                "end_line": 148,
                 "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -25102,8 +25102,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 151,
-                "end_line": 151,
+                "start_line": 152,
+                "end_line": 152,
                 "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -25143,8 +25143,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 157,
-                "end_line": 157,
+                "start_line": 158,
+                "end_line": 158,
                 "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -25184,8 +25184,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 166,
-                "end_line": 166,
+                "start_line": 167,
+                "end_line": 167,
                 "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -25214,8 +25214,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 176,
-                "end_line": 176,
+                "start_line": 177,
+                "end_line": 177,
                 "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
               },
               "member_attributes": {}
@@ -25232,8 +25232,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 186,
-                "end_line": 186,
+                "start_line": 187,
+                "end_line": 187,
                 "text": "Public Function PerformExit() As Boolean"
               },
               "member_attributes": {}
@@ -25250,8 +25250,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 194,
-                "end_line": 194,
+                "start_line": 195,
+                "end_line": 195,
                 "text": "Public Sub PerformEnter()"
               },
               "member_attributes": {}
@@ -25268,8 +25268,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 274,
-                "end_line": 274,
+                "start_line": 275,
+                "end_line": 275,
                 "text": "Public Property Get Accelerator() As String"
               },
               "member_attributes": {}
@@ -25298,8 +25298,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 277,
-                "end_line": 277,
+                "start_line": 278,
+                "end_line": 278,
                 "text": "Public Property Let Accelerator(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -25455,8 +25455,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 199,
-                "end_line": 199,
+                "start_line": 200,
+                "end_line": 200,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -25520,8 +25520,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 203,
-                "end_line": 203,
+                "start_line": 204,
+                "end_line": 204,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -25585,8 +25585,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 207,
-                "end_line": 207,
+                "start_line": 208,
+                "end_line": 208,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -25605,8 +25605,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 210,
-                "end_line": 210,
+                "start_line": 211,
+                "end_line": 211,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -25625,8 +25625,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 215,
-                "end_line": 215,
+                "start_line": 216,
+                "end_line": 216,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -25645,8 +25645,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 219,
-                "end_line": 219,
+                "start_line": 220,
+                "end_line": 220,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -25688,8 +25688,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 225,
-                "end_line": 225,
+                "start_line": 226,
+                "end_line": 226,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -25731,8 +25731,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 229,
-                "end_line": 229,
+                "start_line": 230,
+                "end_line": 230,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -25763,8 +25763,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 233,
-                "end_line": 233,
+                "start_line": 234,
+                "end_line": 234,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -25783,8 +25783,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 237,
-                "end_line": 237,
+                "start_line": 238,
+                "end_line": 238,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -25803,8 +25803,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 245,
-                "end_line": 245,
+                "start_line": 246,
+                "end_line": 246,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -25823,8 +25823,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 255,
-                "end_line": 255,
+                "start_line": 256,
+                "end_line": 256,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -25843,8 +25843,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 259,
-                "end_line": 259,
+                "start_line": 260,
+                "end_line": 260,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -25863,8 +25863,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 262,
-                "end_line": 262,
+                "start_line": 263,
+                "end_line": 263,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -25883,8 +25883,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 266,
-                "end_line": 266,
+                "start_line": 267,
+                "end_line": 267,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -25903,8 +25903,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 270,
-                "end_line": 270,
+                "start_line": 271,
+                "end_line": 271,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -25923,8 +25923,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 282,
-                "end_line": 282,
+                "start_line": 283,
+                "end_line": 283,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -25977,8 +25977,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 288,
-                "end_line": 288,
+                "start_line": 289,
+                "end_line": 289,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -26031,8 +26031,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 292,
-                "end_line": 292,
+                "start_line": 293,
+                "end_line": 293,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -26051,8 +26051,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 296,
-                "end_line": 296,
+                "start_line": 297,
+                "end_line": 297,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -26071,8 +26071,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 300,
-                "end_line": 300,
+                "start_line": 301,
+                "end_line": 301,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -26091,8 +26091,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 304,
-                "end_line": 304,
+                "start_line": 305,
+                "end_line": 305,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -26111,8 +26111,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 308,
-                "end_line": 308,
+                "start_line": 309,
+                "end_line": 309,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -26131,8 +26131,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 312,
-                "end_line": 312,
+                "start_line": 313,
+                "end_line": 313,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -26151,8 +26151,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 316,
-                "end_line": 316,
+                "start_line": 317,
+                "end_line": 317,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -26171,8 +26171,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 320,
-                "end_line": 320,
+                "start_line": 321,
+                "end_line": 321,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -26191,8 +26191,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 324,
-                "end_line": 324,
+                "start_line": 325,
+                "end_line": 325,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -26211,8 +26211,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 328,
-                "end_line": 328,
+                "start_line": 329,
+                "end_line": 329,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -26231,8 +26231,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 332,
-                "end_line": 332,
+                "start_line": 333,
+                "end_line": 333,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -26251,8 +26251,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 336,
-                "end_line": 336,
+                "start_line": 337,
+                "end_line": 337,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -26271,8 +26271,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 340,
-                "end_line": 340,
+                "start_line": 341,
+                "end_line": 341,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -586315,8 +586315,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 277,
-                "end_line": 277,
+                "start_line": 278,
+                "end_line": 278,
                 "text": "Public Property Let Accelerator(ByVal Value As String)"
               },
               "member_attributes": {},
@@ -586351,8 +586351,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CommandButton.cls",
-                "start_line": 274,
-                "end_line": 274,
+                "start_line": 275,
+                "end_line": 275,
                 "text": "Public Property Get Accelerator() As String"
               },
               "member_attributes": {},
@@ -1477009,8 +1477009,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 132,
-          "end_line": 132,
+          "start_line": 133,
+          "end_line": 133,
           "text": "Public Property Get Cancel() As Boolean"
         },
         "member_attributes": {},
@@ -1477137,8 +1477137,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 135,
-          "end_line": 135,
+          "start_line": 136,
+          "end_line": 136,
           "text": "Public Property Let Cancel(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1477253,8 +1477253,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 143,
-          "end_line": 143,
+          "start_line": 144,
+          "end_line": 144,
           "text": "Public Sub PerformClick()"
         },
         "member_attributes": {},
@@ -1477414,8 +1477414,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 147,
-          "end_line": 147,
+          "start_line": 148,
+          "end_line": 148,
           "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1477575,8 +1477575,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 151,
-          "end_line": 151,
+          "start_line": 152,
+          "end_line": 152,
           "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1477714,8 +1477714,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 157,
-          "end_line": 157,
+          "start_line": 158,
+          "end_line": 158,
           "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1477853,8 +1477853,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 166,
-          "end_line": 166,
+          "start_line": 167,
+          "end_line": 167,
           "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1477981,8 +1477981,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 176,
-          "end_line": 176,
+          "start_line": 177,
+          "end_line": 177,
           "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1478097,8 +1478097,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 186,
-          "end_line": 186,
+          "start_line": 187,
+          "end_line": 187,
           "text": "Public Function PerformExit() As Boolean"
         },
         "member_attributes": {},
@@ -1478213,8 +1478213,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CommandButton.cls",
-          "start_line": 194,
-          "end_line": 194,
+          "start_line": 195,
+          "end_line": 195,
           "text": "Public Sub PerformEnter()"
         },
         "member_attributes": {},
@@ -1519109,8 +1519109,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 57,
-          "end_line": 59,
+          "start_line": 61,
+          "end_line": 63,
           "text": "Public Function OxThemeTextColor( ByVal Kind As OxControlKind, ByVal IsEnabled As Boolean) As Long"
         },
         "member_attributes": {},
@@ -1519226,8 +1519226,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 69,
-          "end_line": 69,
+          "start_line": 73,
+          "end_line": 73,
           "text": "Public Function OxThemeBorderColor() As Long"
         },
         "member_attributes": {},
@@ -1519343,8 +1519343,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 74,
-          "end_line": 74,
+          "start_line": 78,
+          "end_line": 78,
           "text": "Public Function OxThemeFormBackColor() As Long"
         },
         "member_attributes": {},
@@ -1519460,8 +1519460,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 79,
-          "end_line": 79,
+          "start_line": 83,
+          "end_line": 83,
           "text": "Public Function OxThemeEdgeLight() As Long"
         },
         "member_attributes": {},
@@ -1519577,8 +1519577,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 83,
-          "end_line": 83,
+          "start_line": 87,
+          "end_line": 87,
           "text": "Public Function OxThemeEdgeShadow() As Long"
         },
         "member_attributes": {},
@@ -1519706,8 +1519706,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 89,
-          "end_line": 89,
+          "start_line": 93,
+          "end_line": 93,
           "text": "Public Function OxThemeEdgeName(ByVal Effect As fmSpecialEffect) As String"
         },
         "member_attributes": {},
@@ -1519835,8 +1519835,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 111,
-          "end_line": 111,
+          "start_line": 115,
+          "end_line": 115,
           "text": "Public Function OxThemeResolveFace(ByVal Core As OxControlCore) As Long"
         },
         "member_attributes": {},
@@ -1519964,8 +1519964,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 119,
-          "end_line": 119,
+          "start_line": 123,
+          "end_line": 123,
           "text": "Public Function OxThemeResolveText(ByVal Core As OxControlCore) As Long"
         },
         "member_attributes": {},
@@ -1520093,8 +1520093,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 127,
-          "end_line": 127,
+          "start_line": 131,
+          "end_line": 131,
           "text": "Public Function OxThemeResolveBorder(ByVal Core As OxControlCore) As Long"
         },
         "member_attributes": {},
@@ -1520210,8 +1520210,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 135,
-          "end_line": 135,
+          "start_line": 139,
+          "end_line": 139,
           "text": "Public Function OxThemeSelectionBackColor() As Long"
         },
         "member_attributes": {},
@@ -1520327,8 +1520327,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 139,
-          "end_line": 139,
+          "start_line": 143,
+          "end_line": 143,
           "text": "Public Function OxThemeSelectionTextColor() As Long"
         },
         "member_attributes": {},
@@ -1520444,8 +1520444,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 143,
-          "end_line": 143,
+          "start_line": 147,
+          "end_line": 147,
           "text": "Public Function OxThemeCaretColor() As Long"
         },
         "member_attributes": {},
@@ -1520561,8 +1520561,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 147,
-          "end_line": 147,
+          "start_line": 151,
+          "end_line": 151,
           "text": "Public Function OxThemeFocusAdornerColor() As Long"
         },
         "member_attributes": {},
@@ -1520696,14 +1520696,25 @@
             "type": "OxSceneBuilder",
             "default": null,
             "raw": "ByVal Surface As OxSceneBuilder"
+          },
+          {
+            "index": 2,
+            "name": "DefaultOutline",
+            "passing": "byval",
+            "optional": true,
+            "param_array": false,
+            "array": false,
+            "type": "Boolean",
+            "default": "False",
+            "raw": "Optional ByVal DefaultOutline As Boolean = False"
           }
         ],
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 151,
-          "end_line": 152,
-          "text": "Public Sub OxThemePaintControlFrame( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder)"
+          "start_line": 155,
+          "end_line": 157,
+          "text": "Public Sub OxThemePaintControlFrame( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, Optional ByVal DefaultOutline As Boolean = False)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:032:0014",
@@ -1520863,8 +1520874,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 167,
-          "end_line": 171,
+          "start_line": 228,
+          "end_line": 232,
           "text": "Public Sub OxThemePaintToggleButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Focused As Boolean, ByVal Latched As Boolean)"
         },
         "member_attributes": {},
@@ -1521058,8 +1521069,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 213,
-          "end_line": 219,
+          "start_line": 273,
+          "end_line": 279,
           "text": "Public Sub OxThemePaintListBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal SelectedRowsCsv As String, ByVal RowCount As Long, ByVal RowHeight As Single)"
         },
         "member_attributes": {},
@@ -1521253,8 +1521264,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 271,
-          "end_line": 278,
+          "start_line": 331,
+          "end_line": 338,
           "text": "Public Sub OxThemePaintComboBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal ListIndex As Long, ByVal Focused As Boolean, ByVal DropDownOpen As Boolean, ByVal RowCount As Long, ByVal ButtonWidth As Single)"
         },
         "member_attributes": {},
@@ -1521492,8 +1521503,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 348,
-          "end_line": 353,
+          "start_line": 407,
+          "end_line": 412,
           "text": "Public Sub OxThemePaintTextRun( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, ByVal RunId As String, ByVal Align As String, ByVal Wrap As Boolean, ByVal Clip As Boolean, ByVal UnderlineAccelerator As Boolean)"
         },
         "member_attributes": {},
@@ -1521654,8 +1521665,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 358,
-          "end_line": 362,
+          "start_line": 417,
+          "end_line": 421,
           "text": "Public Sub OxThemePaintCheckBox( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1521816,8 +1521827,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxTheme.bas",
-          "start_line": 413,
-          "end_line": 417,
+          "start_line": 472,
+          "end_line": 476,
           "text": "Public Sub OxThemePaintOptionButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Checked As Boolean, ByVal Focused As Boolean)"
         },
         "member_attributes": {},
@@ -1521973,14 +1521984,25 @@
             "type": "Boolean",
             "default": "False",
             "raw": "Optional ByVal Focused As Boolean = False"
+          },
+          {
+            "index": 4,
+            "name": "DefaultOutline",
+            "passing": "byval",
+            "optional": true,
+            "param_array": false,
+            "array": false,
+            "type": "Boolean",
+            "default": "False",
+            "raw": "Optional ByVal DefaultOutline As Boolean = False"
           }
         ],
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlPaint.bas",
           "start_line": 15,
-          "end_line": 19,
-          "text": "Public Sub OxPaintStandardControl( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Align As String, Optional ByVal Focused As Boolean = False)"
+          "end_line": 20,
+          "text": "Public Sub OxPaintStandardControl( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Align As String, Optional ByVal Focused As Boolean = False, Optional ByVal DefaultOutline As Boolean = False)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:033:0000",
@@ -1522140,8 +1522162,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlPaint.bas",
-          "start_line": 56,
-          "end_line": 60,
+          "start_line": 57,
+          "end_line": 61,
           "text": "Public Sub OxPaintToggleButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Focused As Boolean, ByVal Latched As Boolean)"
         },
         "member_attributes": {},
@@ -1522302,8 +1522324,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxControlPaint.bas",
-          "start_line": 64,
-          "end_line": 68,
+          "start_line": 65,
+          "end_line": 69,
           "text": "Public Sub OxPaintOptionButton( ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, ByVal Focused As Boolean, ByVal Checked As Boolean)"
         },
         "member_attributes": {},
@@ -1563242,7 +1563264,7 @@
       "public_type_fields": 10,
       "multiline_public_signatures": 36,
       "bracketed_public_names": 11,
-      "optional_parameters": 2,
+      "optional_parameters": 4,
       "param_arrays": 1,
       "module_attributes": 5,
       "implements_clauses": 23,
@@ -1563250,5 +1563272,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "7070c94509899b34b28bc05b6f36b50181686861ea6db228edb39d338b6f1224"
+  "canonical_sha256": "8ac10864a4a0552b8e2458804cc3e2c1ff962ed20a13041e94bc3325eaa68e11"
 }

@@ -148,6 +148,66 @@ End Function
     assert_eq!(call("Opened", vec![]).as_bool(), Some(true));
 }
 
+#[test]
+fn changing_default_button_repaints_and_removes_its_outline() {
+    let source = r#"Option Explicit
+Private F As UserForm
+Private B As CommandButton
+Public Sub Build()
+    Set F = New UserForm
+    Set B = F.Controls.Add("Forms.CommandButton.1", "Save")
+    B.Left = 12
+    B.Top = 12
+    B.Width = 80
+    B.Height = 24
+    B.Caption = "Save"
+End Sub
+Public Sub RenderOnce()
+    F.Render 96, 96
+End Sub
+Public Sub MakeDefault()
+    B.Default = True
+End Sub
+Public Sub ClearDefault()
+    B.Default = False
+End Sub
+"#;
+    let (mut session, form, surface) = fixture(source);
+    let mut call = |name: &str| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), vec![])
+            .unwrap()
+    };
+    let outlined = || {
+        surface
+            .snapshot()
+            .unwrap()
+            .scene
+            .unwrap()
+            .nodes
+            .iter()
+            .any(|n| {
+                n.id == calcforms_pal::scene::NodeId(1)
+                    && n.prims.iter().any(|p| {
+                        matches!(p, Prim::FillRect { rect, paint: Paint::Solid(c) }
+                    if rect.y == 12.0 && *c == Color::rgba(0, 0, 0, 255))
+                    })
+            })
+    };
+    call("Build");
+    call("RenderOnce");
+    assert!(!outlined());
+    call("MakeDefault");
+    call("RenderOnce");
+    assert!(
+        outlined(),
+        "changing Default must invalidate its painted outline"
+    );
+    call("ClearDefault");
+    call("RenderOnce");
+    assert!(!outlined(), "clearing Default must remove the old outline");
+}
+
 fn fixture(
     source: &str,
 ) -> (

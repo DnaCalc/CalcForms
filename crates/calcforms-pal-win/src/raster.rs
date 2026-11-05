@@ -316,7 +316,24 @@ impl<'a> SkiaSink<'a> {
     }
 
     fn fill_device_rect(&mut self, dev: RectF, paint: &Paint, anti_alias: bool) {
-        let Some(rect) = ts::Rect::from_xywh(dev.x, dev.y, dev.w, dev.h) else {
+        // tiny-skia's aliased Rect::round rounds origin and width separately.
+        // Shared fractional edges must round once to avoid gaps/overlap between
+        // adjacent fills. This also agrees with the text clip's device edges.
+        let rectangle = if anti_alias {
+            ts::Rect::from_xywh(dev.x, dev.y, dev.w, dev.h)
+        } else {
+            let (left, top, right, bottom) = (
+                dev.x.round(),
+                dev.y.round(),
+                (dev.x + dev.w).round(),
+                (dev.y + dev.h).round(),
+            );
+            if right <= left || bottom <= top {
+                return;
+            }
+            ts::Rect::from_ltrb(left, top, right, bottom)
+        };
+        let Some(rect) = rectangle else {
             return;
         };
         let Some(p) = self.build_paint(paint, dev, anti_alias) else {
@@ -1075,6 +1092,45 @@ mod tests {
         assert_eq!(pixel(&pixmap, 10, 10), [0xFF, 0, 0, 0xFF]);
         // Just outside the red rect (x=4) is still blue.
         assert_eq!(pixel(&pixmap, 4, 10), [0, 0, 0xFF, 0xFF]);
+    }
+
+    #[test]
+    fn aliased_fills_round_shared_device_edges_and_skip_collapsed_rectangles() {
+        let blue = Color::rgba(0, 0, 255, 255);
+        let red = Color::rgba(255, 0, 0, 255);
+        let mut root = SceneNode::new(NodeId(0));
+        root.bounds = RectF::new(0.0, 0.0, 10.0, 10.0);
+        root.prims = vec![
+            Prim::FillRect {
+                rect: root.bounds,
+                paint: Paint::Solid(blue),
+            },
+            Prim::FillRect {
+                rect: RectF::new(1.25, 1.25, 1.5, 1.5),
+                paint: Paint::Solid(red),
+            },
+            Prim::FillRect {
+                rect: RectF::new(7.05, 1.0, 0.1, 2.0),
+                paint: Paint::Solid(red),
+            },
+        ];
+        let mut scene = Scene::new(SurfaceSize::new(10, 10), dpi(), NodeId(0));
+        scene
+            .apply_patch(&ScenePatch {
+                version: SCENE_PATCH_VERSION,
+                base_hash: scene.frame_hash,
+                surface: scene.surface,
+                dpi: scene.dpi,
+                edits: vec![NodeEdit::Upsert(root)],
+            })
+            .unwrap();
+        let mut pixmap = ts::Pixmap::new(20, 20).unwrap();
+        render_scene_to_pixmap(&scene, &mut pixmap, &FontTable::new());
+        assert_eq!(pixel(&pixmap, 2, 3), [0, 0, 255, 255]);
+        assert_eq!(pixel(&pixmap, 3, 3), [255, 0, 0, 255]);
+        assert_eq!(pixel(&pixmap, 5, 5), [255, 0, 0, 255]);
+        assert_eq!(pixel(&pixmap, 6, 5), [0, 0, 255, 255]);
+        assert_eq!(pixel(&pixmap, 14, 3), [0, 0, 255, 255]);
     }
 
     #[test]

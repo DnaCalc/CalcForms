@@ -30,12 +30,16 @@ Public Function OxThemeFaceColor( _
             OxThemeFaceColor = &HFFFFFF
         Case oxControlImage
             OxThemeFaceColor = &HF0F0F0
-        Case oxControlCommandButton, oxControlToggleButton
+        Case oxControlCommandButton
             If IsPressed Then
                 OxThemeFaceColor = &HF8F8F8
             Else
                 OxThemeFaceColor = &HF0F0F0
             End If
+        Case oxControlToggleButton
+            ' Native pressed toggles use a face/white checker. The solid
+            ' approximation keeps the observed face class; pattern is separate.
+            OxThemeFaceColor = &HF0F0F0
         Case oxControlSpinButton, oxControlScrollBar
             If IsPressed Then
                 OxThemeFaceColor = &HB8C7DD
@@ -149,18 +153,75 @@ Public Function OxThemeFocusAdornerColor() As Long
 End Function
 
 Public Sub OxThemePaintControlFrame( _
-        ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder)
+        ByVal Core As OxControlCore, ByVal Surface As OxSceneBuilder, _
+        Optional ByVal DefaultOutline As Boolean = False)
     Surface.FillRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
         OxThemeResolveFace(Core), 255
 
     Dim EdgeName As String
     EdgeName = OxThemeEdgeName(Core.SpecialEffect)
-    If Len(EdgeName) > 0 Then
+    Dim X As Single, Y As Single, W As Single, H As Single
+    X = Core.PaintLeft
+    Y = Core.PaintTop
+    W = Core.Width
+    H = Core.Height
+    If DefaultOutline Then
+        PaintEdgeLayer Surface, X, Y, W, H, &H0, &H0
+        X = X + 0.75
+        Y = Y + 0.75
+        W = W - 1.5
+        H = H - 1.5
+    End If
+    If EdgeName = "raised" Or EdgeName = "sunken" Then
+        PaintBevel Surface, X, Y, W, H, EdgeName
+    ElseIf Len(EdgeName) > 0 Then
         Surface.DrawEdge Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
     ElseIf Core.BorderStyle = fmBorderStyleSingle Then
         Surface.StrokeRect Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
             OxThemeResolveBorder(Core), 255, 1
+    End If
+End Sub
+
+' Measured classic MSForms edges: two 0.75pt layers. The renderer receives
+' only generic filled rectangles; palette and layer arrangement stay in VBA.
+Private Sub PaintEdgeLayer(ByVal Surface As OxSceneBuilder, _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
+        ByVal TopLeft As Long, ByVal BottomRight As Long, _
+        Optional ByVal T As Single = 0.75)
+    If W <= 0 Or H <= 0 Then Exit Sub
+    If T > W / 2 Then T = W / 2
+    If T > H / 2 Then T = H / 2
+    Surface.FillRect X, Y, W, T, TopLeft, 255
+    Surface.FillRect X, Y, T, H, TopLeft, 255
+    Surface.FillRect X, Y + H - T, W, T, BottomRight, 255
+    Surface.FillRect X + W - T, Y, T, H, BottomRight, 255
+End Sub
+
+Private Sub PaintDropButtonEdge(ByVal Surface As OxSceneBuilder, _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single)
+    If W < 4 Or H < 4 Then Exit Sub
+    ' The native drop button has a thin enclosing highlight, then a raised
+    ' white top/left and two shadow layers only on the bottom/right.
+    PaintEdgeLayer Surface, X, Y, W, H, &HE3E3E3, &HE3E3E3, 0.5
+    PaintEdgeLayer Surface, X + 0.5, Y + 0.5, W - 1, H - 1, &HFFFFFF, &H696969
+    Surface.FillRect X + 1.25, Y + H - 2, W - 2.5, 0.75, &HA0A0A0, 255
+    Surface.FillRect X + W - 2, Y + 1.25, 0.75, H - 2.5, &HA0A0A0, 255
+End Sub
+
+Private Sub PaintBevel(ByVal Surface As OxSceneBuilder, _
+        ByVal X As Single, ByVal Y As Single, ByVal W As Single, ByVal H As Single, _
+        ByVal Effect As String)
+    If Effect <> "raised" And Effect <> "sunken" Then
+        Surface.DrawEdge X, Y, W, H, Effect, OxThemeEdgeLight(), OxThemeEdgeShadow()
+        Exit Sub
+    End If
+    If Effect = "sunken" Then
+        PaintEdgeLayer Surface, X, Y, W, H, &HA0A0A0, &HFFFFFF
+        PaintEdgeLayer Surface, X + 0.75, Y + 0.75, W - 1.5, H - 1.5, &H696969, &HE3E3E3
+    Else
+        PaintEdgeLayer Surface, X, Y, W, H, &HFFFFFF, &H696969
+        PaintEdgeLayer Surface, X + 0.75, Y + 0.75, W - 1.5, H - 1.5, &HE3E3E3, &HA0A0A0
     End If
 End Sub
 
@@ -182,11 +243,10 @@ Public Sub OxThemePaintToggleButton( _
     If IsPressed Then
         EdgeName = "sunken"
     Else
-        EdgeName = OxThemeEdgeName(Core.SpecialEffect)
-        If Len(EdgeName) = 0 Then EdgeName = "raised"
+        ' Native ToggleButton has no callable SpecialEffect property.
+        EdgeName = "raised"
     End If
-    Surface.DrawEdge Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, _
-        EdgeName, OxThemeEdgeLight(), OxThemeEdgeShadow()
+    PaintBevel Surface, Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, EdgeName
 
     If Len(Core.DisplayText) > 0 Then
         Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
@@ -293,8 +353,7 @@ Public Sub OxThemePaintComboBox( _
     ButtonLeft = Core.PaintLeft + Core.Width - ButtonWidth
     Surface.FillRect ButtonLeft, Core.PaintTop + 1.5, ButtonWidth - 1, Core.Height - 2.5, _
         OxThemeFaceColor(oxControlCommandButton, False, Core.Enabled), 255
-    Surface.DrawEdge ButtonLeft, Core.PaintTop + 1.5, ButtonWidth - 1, Core.Height - 2.5, "raised", _
-        OxThemeEdgeLight(), OxThemeEdgeShadow()
+    PaintDropButtonEdge Surface, ButtonLeft, Core.PaintTop + 1.5, ButtonWidth - 1, Core.Height - 2.5
 
     Dim ArrowX As Single
     Dim ArrowY As Single

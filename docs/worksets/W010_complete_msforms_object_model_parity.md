@@ -26,6 +26,11 @@ property/paint-based colour classes so antialiasing does not become a target.
 all text colour classes agree across eight inputs, while `.103` records the
 pressed ToggleButton's white/control-face fill mismatch. Geometry, exact text
 breaks and missing behavioural measurements keep their own pass/fail rows.
+`.98`/`.103`/`.104` add measured VBA border layers, the default outline and
+toggle face class, and generic device-edge rounding. The
+[before/after report](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.98/README.md)
+turns 32 failed border rows into pass at both scales, retaining 904 missing
+measurements. Font advances, other effects, focus and broad behaviour stay open.
 
 Run 4 `.87` corrects the largest recorded region, ListBox Choices: separate
 row runs in one text batch, measured default spacing, white selection text

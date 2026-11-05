@@ -621,18 +621,6 @@ fn framebuffer_hash(surface: &Arc<SurfaceFactory>) -> u64 {
     render_headless_report(snapshot.scene.as_ref().expect("scene snapshot")).framebuffer_hash
 }
 
-fn fill_rect_count(surface: &Arc<SurfaceFactory>, node: NodeId) -> usize {
-    let snapshot = surface.snapshot().expect("surface snapshot");
-    let scene = snapshot.scene.expect("scene snapshot");
-    scene
-        .get(node)
-        .unwrap_or_else(|| panic!("node {node:?} should exist"))
-        .prims
-        .iter()
-        .filter(|prim| matches!(prim, Prim::FillRect { .. }))
-        .count()
-}
-
 fn scene_has_node(surface: &Arc<SurfaceFactory>, node: NodeId) -> bool {
     let snapshot = surface.snapshot().expect("surface snapshot");
     let scene = snapshot.scene.expect("scene snapshot");
@@ -686,11 +674,25 @@ fn draw_text_prim(prims: &[Prim]) -> Option<(TextRunId, RectF)> {
     })
 }
 
-fn draw_edge_effect(prims: &[Prim]) -> Option<EdgeEffect> {
-    prims.iter().find_map(|prim| match prim {
-        Prim::DrawEdge { effect, .. } => Some(*effect),
-        _ => None,
-    })
+fn painted_bevel_effect(prims: &[Prim]) -> Option<EdgeEffect> {
+    prims
+        .iter()
+        .filter_map(|prim| match prim {
+            Prim::FillRect { rect, paint } if rect.h <= 0.75 && rect.w > rect.h => {
+                match solid_color(paint) {
+                    Some(c) if c == Color::rgba(255, 255, 255, 255) => {
+                        Some((rect.y, EdgeEffect::Raised))
+                    }
+                    Some(c) if c == Color::rgba(160, 160, 160, 255) => {
+                        Some((rect.y, EdgeEffect::Sunken))
+                    }
+                    _ => None,
+                }
+            }
+            _ => None,
+        })
+        .min_by(|a, b| a.0.total_cmp(&b.0))
+        .map(|(_, effect)| effect)
 }
 
 fn stroke_rect_with_color(prims: &[Prim], color: Color) -> Option<RectF> {
@@ -735,7 +737,7 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
             "ThemePainter should resolve the idle CommandButton face"
         );
         assert_eq!(
-            draw_edge_effect(&button.prims),
+            painted_bevel_effect(&button.prims),
             Some(EdgeEffect::Raised),
             "ThemePainter should map the CommandButton raised edge"
         );
@@ -768,7 +770,7 @@ fn command_button_mouse_click_runs_the_vba_reducer() {
             "ThemePainter should resolve the pressed CommandButton face"
         );
         assert_eq!(
-            draw_edge_effect(&button.prims),
+            painted_bevel_effect(&button.prims),
             Some(EdgeEffect::Raised),
             "pressing changes the face token, not the edge contract"
         );
@@ -1080,11 +1082,11 @@ fn togglebutton_value_latches_pressed_face_and_accessibility_selected() {
         let scene = snapshot.scene.expect("scene snapshot");
         let button = scene.get(NodeId(1)).expect("ToggleButton node");
         assert!(
-            fill_rect_with_color(&button.prims, THEME_COMMAND_PRESSED).is_some(),
-            "programmatic Value=True should latch the pressed button face"
+            fill_rect_with_color(&button.prims, THEME_COMMAND_FACE).is_some(),
+            "latched ToggleButton keeps the observed control-face colour class"
         );
         assert_eq!(
-            draw_edge_effect(&button.prims),
+            painted_bevel_effect(&button.prims),
             Some(EdgeEffect::Sunken),
             "latched ToggleButton should use the pressed/sunken edge"
         );
@@ -1588,17 +1590,16 @@ fn textbox_scene_emits_caret_and_selection_fill_primitives() {
     let (mut session, surface) = prepare_session();
     let form = build_form(&mut session, "ReducerTextBoxForm");
 
-    assert_eq!(
-        fill_rect_count(&surface, NodeId(1)),
-        1,
-        "unfocused empty TextBox starts with only the field face fill"
+    let snapshot = surface.snapshot().unwrap();
+    let scene = snapshot.scene.unwrap();
+    let field = scene.get(NodeId(1)).unwrap();
+    assert!(fill_rect_with_color(&field.prims, Color::rgba(255, 255, 255, 255)).is_some());
+    assert!(
+        fill_rect_with_color(&field.prims, TEXT_CARET_COLOR).is_none(),
+        "unfocused empty TextBox has no caret among its face/border fills"
     );
 
     focus_and_clear(&mut session, &form, T1_IN.0, T1_IN.1);
-    assert!(
-        fill_rect_count(&surface, NodeId(1)) >= 2,
-        "focused TextBox emits a caret FillRect in addition to the field face"
-    );
     {
         let snapshot = surface.snapshot().expect("surface snapshot");
         let scene = snapshot.scene.expect("scene snapshot");
@@ -1612,9 +1613,11 @@ fn textbox_scene_emits_caret_and_selection_fill_primitives() {
     set_t1_text(&mut session, &form, "abcd");
     set_t1_selection(&mut session, &form, 1, 2);
     dispatch_key_shift(&mut session, &form, "keydown", KEY_C, SHIFT_CTRL);
+    let snapshot = surface.snapshot().unwrap();
+    let scene = snapshot.scene.unwrap();
     assert!(
-        fill_rect_count(&surface, NodeId(1)) >= 2,
-        "selected TextBox emits a selection FillRect in addition to the field face"
+        fill_rect_with_color(&scene.get(NodeId(1)).unwrap().prims, TEXT_SELECTION_COLOR).is_some(),
+        "selected TextBox emits the selection colour, independently of border fills"
     );
 }
 
@@ -3303,7 +3306,7 @@ fn theme_painter_maps_disabled_text_and_edges_for_standard_controls() {
     let scene = snapshot.scene.expect("scene snapshot");
     let ok = scene.get(NodeId(2)).expect("Ok button scene node");
     assert_eq!(
-        draw_edge_effect(&ok.prims),
+        painted_bevel_effect(&ok.prims),
         Some(EdgeEffect::Raised),
         "standard controls should emit their themed edge effect"
     );

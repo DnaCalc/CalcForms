@@ -52,7 +52,7 @@ End Property
 
 ' Raised button face + centered caption.
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxPaintStandardControl mCore, Surface, "center", mFocused
+    OxPaintStandardControl mCore, Surface, "center", mFocused, mDefault
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -125,6 +125,7 @@ Public Property Let Default(ByVal Value As Boolean)
     If mDefault <> Value Then
         mDefault = Value
         mCore.MarkInteractionDirty
+        mCore.MarkDirty
     End If
 End Property
 

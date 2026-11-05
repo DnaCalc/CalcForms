@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "6be3b4978c0a3c30a895f253a2ba8102b4bf09029b221466475da29fdd02e04d"
+      "sha256": "6bf8db990827f7054bcdb81c5a35b183bf63a1c1094c5fcafa7c3565c07ffb29"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -111,7 +111,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "e68770951304d49ea6adc244529a236a162984d08395c39f90467ba24c2bb940"
+      "sha256": "af36f8d2b13940016fa85e27e9b62575b3a239bfa557606e6e2c3e9105a31ff2"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "36abc4bf87d9008e65a800f91b21cc89988855ea89f8b41ad7cdea36faf99e97"
+      "sha256": "65c804589ef807cd6f58b7bf210f078c278ff01b37901248f5e092de19b0d451"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -181,7 +181,7 @@
     {
       "path": "vba/calcforms/CommandButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "122a8ef4728dbae8add2f12d409753592d11308d7cae44972122495a46f26229"
+      "sha256": "00abc968b9a03241798af3dd989418c09b94ce458b97380b16024fbe9f92e46a"
     },
     {
       "path": "vba/calcforms/Controls.cls",
@@ -246,7 +246,7 @@
     {
       "path": "vba/calcforms/OxControlPaint.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "bc2f9f698b87588066e89e4618b95ae765523e96bf678d29d40696c2d0f64321"
+      "sha256": "48c92ca6899b6e9510d9ff36584da4a1dcf550a3320fef2fe4e0140fe1c93148"
     },
     {
       "path": "vba/calcforms/OxFrmMaterializer.cls",
@@ -276,7 +276,7 @@
     {
       "path": "vba/calcforms/OxTheme.bas",
       "hash_mode": "utf8_lf",
-      "sha256": "cb610344ded709a6d85042656a7929553591d8f7bda58542f0e964275dd797c4"
+      "sha256": "4f333e8c03d3c8cb8f00132e70c95c83745e949c71a061939f87279052f73915"
     },
     {
       "path": "vba/calcforms/Page.cls",

@@ -101,7 +101,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "public_type_fields": 10,
     "multiline_public_signatures": 36,
     "bracketed_public_names": 11,
-    "optional_parameters": 2,
+    "optional_parameters": 4,
     "param_arrays": 1,
     "module_attributes": 5,
     "implements_clauses": 23,

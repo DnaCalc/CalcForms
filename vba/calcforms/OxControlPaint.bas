@@ -16,11 +16,12 @@ Public Sub OxPaintStandardControl( _
         ByVal Core As OxControlCore, _
         ByVal Surface As OxSceneBuilder, _
         ByVal Align As String, _
-        Optional ByVal Focused As Boolean = False)
+        Optional ByVal Focused As Boolean = False, _
+        Optional ByVal DefaultOutline As Boolean = False)
     Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
         Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible
 
-    OxThemePaintControlFrame Core, Surface
+    OxThemePaintControlFrame Core, Surface, DefaultOutline
 
     If Len(Core.DisplayText) > 0 Then
         Dim Tx As Single, Ty As Single, Tw As Single, Th As Single
