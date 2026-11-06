@@ -579,6 +579,7 @@ fn shape_run(
         font: FontId(u64::from(font_id)),
         size_milli_pt,
         wrap_width_milli_pt: None,
+        device_scale_micros: None,
         accelerator_index,
     };
     shaper.shape(&key, caption)
@@ -981,6 +982,7 @@ mod tests {
                 font: FontId(1),
                 size_milli_pt: 12_000,
                 wrap_width_milli_pt: None,
+                device_scale_micros: None,
                 accelerator_index: None,
             },
             "OK",
@@ -1134,6 +1136,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: 12_000,
             wrap_width_milli_pt: None,
+            device_scale_micros: None,
             accelerator_index: None,
         };
         let row0 = rows[0].as_vba_record().expect("result record 0");

@@ -20,8 +20,7 @@ Private Const OX_KEY_RIGHT As Integer = 39
 Private Const OX_KEY_DOWN As Integer = 40
 Private Const OX_KEY_HOME As Integer = 36
 Private Const OX_KEY_END As Integer = 35
-Private Const TAB_HEIGHT As Single = 15
-Private Const TAB_PADDING As Single = 10.5
+Private Const TAB_PADDING As Single = 9
 
 Private mCore As OxControlCore
 Private mTabs As Tabs
@@ -54,18 +53,19 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height, mCore.Visible, _
         mCore.PaintLeft, mCore.PaintTop, mCore.Width, mCore.Height
 
-    Surface.FillRect mCore.PaintLeft, mCore.PaintTop + TAB_HEIGHT, _
-        mCore.Width, mCore.Height - TAB_HEIGHT, OxThemeFaceColor(oxControlFrame, False, mCore.Enabled), 255
-    Surface.DrawEdge mCore.PaintLeft, mCore.PaintTop + TAB_HEIGHT, _
-        mCore.Width, mCore.Height - TAB_HEIGHT, "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    Surface.FillRect mCore.PaintLeft, mCore.PaintTop + HeaderBodyTop(), _
+        mCore.Width, mCore.Height - HeaderBodyTop(), OxThemeFaceColor(oxControlFrame, False, mCore.Enabled), 255
+    Surface.DrawEdge mCore.PaintLeft, mCore.PaintTop + HeaderBodyTop(), _
+        mCore.Width, mCore.Height - HeaderBodyTop(), "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
 
     Dim I As Long
     For I = 0 To mTabs.Count - 1
-        PaintTab Surface, I
+        If I <> mValue Then PaintTab Surface, I
     Next I
+    If mValue >= 0 Then PaintTab Surface, mValue
 
     If mFocused And mCore.Enabled Then
-        Surface.StrokeRect mCore.PaintLeft, mCore.PaintTop, mCore.Width, TAB_HEIGHT, _
+        Surface.StrokeRect mCore.PaintLeft, mCore.PaintTop, mCore.Width, HeaderBodyTop(), _
             OxThemeFocusAdornerColor(), 255, 1
     End If
 
@@ -186,9 +186,9 @@ End Sub
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     RaiseEvent MouseDown(Button, Shift, X, Y)
     If Button <> OX_BUTTON_LEFT Then Exit Sub
-    If Y >= 0 And Y < TAB_HEIGHT Then
+    If Y >= 0 And Y < HeaderBodyTop() + 1.5 Then
         Dim Index As Long
-        Index = TabIndexFromX(X)
+        Index = TabIndexFromX(X, Y)
         If Index >= 0 Then SelectFromUser Index
     End If
 End Sub
@@ -384,13 +384,37 @@ Private Sub SetValue(ByVal NewValue As Long, ByVal FromUser As Boolean)
     RaiseEvent Change
 End Sub
 
-Private Function TabIndexFromX(ByVal X As Single) As Long
+Private Function HeaderBodyTop() As Single
+    Dim H As Single
+    H = mCore.MeasuredHeight
+    If H <= 0 Then H = mCore.FontSize + 1.5
+    HeaderBodyTop = H + 4.5
+End Function
+
+Private Function TabLeft(ByVal Index As Long) As Single
+    Dim I As Long
+    TabLeft = 1.5
+    For I = 0 To Index - 1
+        TabLeft = TabLeft + TabWidth(I)
+    Next I
+End Function
+
+Private Function TabIndexFromX(ByVal X As Single, ByVal Y As Single) As Long
     TabIndexFromX = -1
-    If X < 0 Then Exit Function
-    Dim I As Long, RightX As Single
+    If X < 0 Or Y < 0 Then Exit Function
+    Dim L As Single, R As Single, I As Long
+    If mValue >= 0 Then
+        L = TabLeft(mValue) - 1.5
+        R = L + TabWidth(mValue) + 3
+        If X >= L And X < R And Y < HeaderBodyTop() + 1.5 Then
+            TabIndexFromX = mValue
+            Exit Function
+        End If
+    End If
+    If Y < 1.5 Or Y >= HeaderBodyTop() Then Exit Function
     For I = 0 To mTabs.Count - 1
-        RightX = RightX + TabWidth(I)
-        If X < RightX Then
+        L = TabLeft(I)
+        If X >= L And X < L + TabWidth(I) Then
             TabIndexFromX = I
             Exit Function
         End If
@@ -402,26 +426,26 @@ Private Function TabWidth(ByVal Index As Long) As Single
 End Function
 
 Private Sub PaintTab(ByVal Surface As OxSceneBuilder, ByVal Index As Long)
-    Dim W As Single
+    Dim W As Single, X As Single, TopY As Single, BottomY As Single, TextTop As Single
     W = TabWidth(Index)
-    Dim X As Single, I As Long
-    X = mCore.PaintLeft
-    For I = 0 To Index - 1
-        X = X + TabWidth(I)
-    Next I
-    Dim Selected As Boolean
-    Selected = (Index = mValue)
-    Dim TopY As Single
-    TopY = mCore.PaintTop + 2.25
-    If Selected Then TopY = mCore.PaintTop + 0.75
-
-    Surface.FillRect X, TopY, W, mCore.PaintTop + TAB_HEIGHT - TopY, OxThemeFormBackColor(), 255
-    Surface.DrawEdge X, TopY, W, mCore.PaintTop + TAB_HEIGHT - TopY, "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
-    If Selected Then Surface.FillRect X + 1.5, mCore.PaintTop + TAB_HEIGHT - 1.5, W - 3, 3, OxThemeFormBackColor(), 255
+    X = mCore.PaintLeft + TabLeft(Index)
+    TopY = mCore.PaintTop + 1.5
+    BottomY = mCore.PaintTop + HeaderBodyTop()
+    TextTop = mCore.PaintTop + 3
+    If Index = mValue Then
+        X = X - 1.5
+        W = W + 3
+        TopY = mCore.PaintTop
+        BottomY = BottomY + 1.5
+        TextTop = mCore.PaintTop + 1.5
+    End If
+    Surface.FillRect X, TopY, W, BottomY - TopY, OxThemeFormBackColor(), 255
+    Surface.DrawEdge X, TopY, W, BottomY - TopY, "raised", OxThemeEdgeLight(), OxThemeEdgeShadow()
+    If Index = mValue Then Surface.FillRect X + 1.5, BottomY - 1.5, W - 3, 3, OxThemeFormBackColor(), 255
 
     Dim RunId As String
     RunId = mCore.TextPartRunId(Index)
     If Len(RunId) = 0 Then RunId = "0"
-    OxThemePaintTextRun mCore, Surface, X + 1.5, TopY + 1.5, W - 3, mCore.TextPartHeight(Index), _
+    OxThemePaintTextRun mCore, Surface, X, TextTop, W, mCore.TextPartHeight(Index), _
         RunId, "center", False, True, False
 End Sub

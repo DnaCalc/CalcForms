@@ -100,21 +100,22 @@ def runtime_headers(scene, node_id, captions, scale):
              if prim['op'] == 'draw_edge' and prim['rect']['h'] < node['bounds']['h'] / 2]
     if len(edges) != len(captions):
         raise ValueError('Runtime header edge count does not match captions')
-    result = []
-    for (index, rect), caption in zip(edges, captions):
+    result = {}
+    for index, rect in edges:
         if not index or prims[index - 1]['op'] != 'fill_rect' or prims[index - 1]['rect'] != rect:
             raise ValueError('Runtime header edge lacks its matching face')
         following = next((p for p in prims[index + 1:] if p['op'] == 'draw_text'), None)
-        if following is None or scene['text'][str(following['run'])]['source'] != caption:
+        caption = scene['text'][str(following['run'])]['source'] if following is not None else None
+        if caption not in captions or caption in result:
             raise ValueError('Runtime header literal does not match its edge')
         for clip in clips:
             if not (clip['x'] <= rect['x'] and clip['y'] <= rect['y']
                     and rect['x'] + rect['w'] <= clip['x'] + clip['w']
                     and rect['y'] + rect['h'] <= clip['y'] + clip['h']):
                 raise ValueError('Runtime primary header edge is clipped')
-        result.append(dict(caption=caption, rect_px=[rect['x'] * scale, rect['y'] * scale,
-            (rect['x'] + rect['w']) * scale, (rect['y'] + rect['h']) * scale]))
-    return result
+        result[caption] = dict(caption=caption, rect_px=[rect['x'] * scale, rect['y'] * scale,
+            (rect['x'] + rect['w']) * scale, (rect['y'] + rect['h']) * scale])
+    return [result[caption] for caption in captions]
 
 
 def sizes(headers):

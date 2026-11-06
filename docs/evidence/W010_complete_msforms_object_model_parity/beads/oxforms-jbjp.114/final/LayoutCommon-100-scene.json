@@ -1,0 +1,2242 @@
+{
+  "version": 1,
+  "surface": {
+    "width": 300,
+    "height": 180
+  },
+  "dpi": {
+    "dpi_x": 96.0,
+    "dpi_y": 96.0,
+    "scale_x": null,
+    "scale_y": null
+  },
+  "root": 0,
+  "nodes": [
+    {
+      "id": 0,
+      "parent": null,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 0.0,
+        "y": 0.0,
+        "w": 300.0,
+        "h": 180.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 0.0,
+            "y": 0.0,
+            "w": 300.0,
+            "h": 180.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 240,
+              "green": 240,
+              "blue": 240,
+              "alpha": 255
+            }
+          }
+        }
+      ],
+      "children": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ]
+    },
+    {
+      "id": 1,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 12.0,
+        "y": 12.0,
+        "w": 170.0,
+        "h": 18.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 12.0,
+            "w": 170.0,
+            "h": 18.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 240,
+              "green": 240,
+              "blue": 240,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 6786917932892230733,
+          "rect": {
+            "x": 12.0,
+            "y": 12.75,
+            "w": 170.0,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 2,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 12.0,
+        "y": 36.0,
+        "w": 170.0,
+        "h": 20.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 36.0,
+            "w": 170.0,
+            "h": 20.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 36.0,
+            "w": 170.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 36.0,
+            "w": 0.75,
+            "h": 20.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 55.25,
+            "w": 170.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 181.25,
+            "y": 36.0,
+            "w": 0.75,
+            "h": 20.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.75,
+            "y": 36.75,
+            "w": 168.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.75,
+            "y": 36.75,
+            "w": 0.75,
+            "h": 18.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.75,
+            "y": 54.5,
+            "w": 168.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 180.5,
+            "y": 36.75,
+            "w": 0.75,
+            "h": 18.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        }
+      ],
+      "children": [
+        2900,
+        2901
+      ]
+    },
+    {
+      "id": 3,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 198.0,
+        "y": 36.0,
+        "w": 84.0,
+        "h": 24.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 36.0,
+            "w": 84.0,
+            "h": 24.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 240,
+              "green": 240,
+              "blue": 240,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 36.0,
+            "w": 84.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 36.0,
+            "w": 0.75,
+            "h": 24.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 59.25,
+            "w": 84.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 281.25,
+            "y": 36.0,
+            "w": 0.75,
+            "h": 24.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.75,
+            "y": 36.75,
+            "w": 82.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.75,
+            "y": 36.75,
+            "w": 0.75,
+            "h": 22.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.75,
+            "y": 58.5,
+            "w": 82.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 280.5,
+            "y": 36.75,
+            "w": 0.75,
+            "h": 22.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 199.5,
+            "y": 37.5,
+            "w": 81.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 199.5,
+            "y": 37.5,
+            "w": 0.75,
+            "h": 21.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 199.5,
+            "y": 57.75,
+            "w": 81.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 279.75,
+            "y": 37.5,
+            "w": 0.75,
+            "h": 21.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 2693566692746207632,
+          "rect": {
+            "x": 202.0,
+            "y": 39.0,
+            "w": 76.0,
+            "h": 18.0
+          },
+          "align": "center",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 4,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 12.375,
+        "y": 74.625,
+        "w": 123.375,
+        "h": 17.625
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.375,
+            "y": 74.625,
+            "w": 123.375,
+            "h": 17.625
+          },
+          "paint": {
+            "Solid": {
+              "red": 240,
+              "green": 240,
+              "blue": 240,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 2682380396023629551,
+          "rect": {
+            "x": 12.375,
+            "y": 75.375,
+            "w": 123.375,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 5,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 162.0,
+        "y": 75.0,
+        "w": 70.0,
+        "h": 12.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 162.0,
+            "y": 75.0,
+            "w": 70.0,
+            "h": 12.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 240,
+              "green": 240,
+              "blue": 240,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 3924928505898944865,
+          "rect": {
+            "x": 162.0,
+            "y": 75.75,
+            "w": 17.25,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 14250017917633112866,
+          "rect": {
+            "x": 181.5,
+            "y": 75.75,
+            "w": 24.75,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 1321823168955887775,
+          "rect": {
+            "x": 208.5,
+            "y": 75.75,
+            "w": 16.5,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 16175212042508303975,
+          "rect": {
+            "x": 162.0,
+            "y": 85.5,
+            "w": 27.0,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 6,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 12.0,
+        "y": 108.0,
+        "w": 150.0,
+        "h": 20.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 108.0,
+            "w": 150.0,
+            "h": 20.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 108.0,
+            "w": 150.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 108.0,
+            "w": 0.75,
+            "h": 20.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.0,
+            "y": 127.25,
+            "w": 150.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 161.25,
+            "y": 108.0,
+            "w": 0.75,
+            "h": 20.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.75,
+            "y": 108.75,
+            "w": 148.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.75,
+            "y": 108.75,
+            "w": 0.75,
+            "h": 18.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 12.75,
+            "y": 126.5,
+            "w": 148.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 160.5,
+            "y": 108.75,
+            "w": 0.75,
+            "h": 18.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        }
+      ],
+      "children": [
+        6900,
+        6901
+      ]
+    },
+    {
+      "id": 7,
+      "parent": 0,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": null,
+      "bounds": {
+        "x": 198.0,
+        "y": 108.0,
+        "w": 84.0,
+        "h": 24.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 108.0,
+            "w": 84.0,
+            "h": 24.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 240,
+              "green": 240,
+              "blue": 240,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 108.0,
+            "w": 84.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 108.0,
+            "w": 0.75,
+            "h": 24.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 255,
+              "green": 255,
+              "blue": 255,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.0,
+            "y": 131.25,
+            "w": 84.0,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 281.25,
+            "y": 108.0,
+            "w": 0.75,
+            "h": 24.0
+          },
+          "paint": {
+            "Solid": {
+              "red": 105,
+              "green": 105,
+              "blue": 105,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.75,
+            "y": 108.75,
+            "w": 82.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.75,
+            "y": 108.75,
+            "w": 0.75,
+            "h": 22.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 227,
+              "green": 227,
+              "blue": 227,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 198.75,
+            "y": 130.5,
+            "w": 82.5,
+            "h": 0.75
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "fill_rect",
+          "rect": {
+            "x": 280.5,
+            "y": 108.75,
+            "w": 0.75,
+            "h": 22.5
+          },
+          "paint": {
+            "Solid": {
+              "red": 160,
+              "green": 160,
+              "blue": 160,
+              "alpha": 255
+            }
+          }
+        },
+        {
+          "op": "draw_text",
+          "run": 17060638432404220087,
+          "rect": {
+            "x": 202.0,
+            "y": 111.0,
+            "w": 76.0,
+            "h": 18.0
+          },
+          "align": "center",
+          "wrap": false,
+          "clip": true,
+          "paint": {
+            "Solid": {
+              "red": 128,
+              "green": 128,
+              "blue": 128,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": true
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 2900,
+      "parent": 2,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": {
+        "x": 21.0,
+        "y": 39.0,
+        "w": 158.0,
+        "h": 9.75
+      },
+      "bounds": {
+        "x": 12.0,
+        "y": 36.0,
+        "w": 170.0,
+        "h": 20.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "draw_text",
+          "run": 8032170280478559513,
+          "rect": {
+            "x": 21.0,
+            "y": 39.0,
+            "w": 158.0,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": false,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 2901,
+      "parent": 2,
+      "z": 1,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": {
+        "x": 21.0,
+        "y": 39.0,
+        "w": 0.0,
+        "h": 9.75
+      },
+      "bounds": {
+        "x": 12.0,
+        "y": 36.0,
+        "w": 170.0,
+        "h": 20.0
+      },
+      "visible": false,
+      "prims": [],
+      "children": []
+    },
+    {
+      "id": 6900,
+      "parent": 6,
+      "z": 0,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": {
+        "x": 21.0,
+        "y": 111.0,
+        "w": 138.0,
+        "h": 9.75
+      },
+      "bounds": {
+        "x": 12.0,
+        "y": 108.0,
+        "w": 150.0,
+        "h": 20.0
+      },
+      "visible": true,
+      "prims": [
+        {
+          "op": "draw_text",
+          "run": 4008700597555608692,
+          "rect": {
+            "x": 21.0,
+            "y": 111.0,
+            "w": 140.25,
+            "h": 9.75
+          },
+          "align": "left",
+          "wrap": false,
+          "clip": false,
+          "paint": {
+            "Solid": {
+              "red": 0,
+              "green": 0,
+              "blue": 0,
+              "alpha": 255
+            }
+          },
+          "flags": {
+            "underline_accelerator": false,
+            "disabled": false
+          }
+        }
+      ],
+      "children": []
+    },
+    {
+      "id": 6901,
+      "parent": 6,
+      "z": 1,
+      "transform": {
+        "sx": 1.0,
+        "sy": 1.0,
+        "tx": 0.0,
+        "ty": 0.0
+      },
+      "clip": {
+        "x": 21.0,
+        "y": 111.0,
+        "w": 0.0,
+        "h": 9.75
+      },
+      "bounds": {
+        "x": 12.0,
+        "y": 108.0,
+        "w": 150.0,
+        "h": 20.0
+      },
+      "visible": false,
+      "prims": [],
+      "children": []
+    }
+  ],
+  "text": {
+    "1321823168955887775": {
+      "id": 1321823168955887775,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 79,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 1.5000004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 69,
+          "x": 6.0000014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 10.500003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 15.000004,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 16.500004,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          1.5000004,
+          6.0000014,
+          10.500003,
+          15.000004,
+          16.500004
+        ]
+      },
+      "accelerator": null,
+      "source": "label"
+    },
+    "2682380396023629551": {
+      "id": 2682380396023629551,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 41,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 85,
+          "x": 4.500001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 7.500002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 70,
+          "x": 12.000003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 87,
+          "x": 15.750004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 18.750004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 20.250006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 24.750006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 29.250008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 33.750008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 35.250008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 37.500008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 42.00001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 86,
+          "x": 46.50001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 50.25001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 87,
+          "x": 51.75001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 54.75001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 56.250015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 60.750015,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 65.250015,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          4.500001,
+          7.500002,
+          12.000003,
+          15.750004,
+          18.750004,
+          20.250006,
+          24.750006,
+          29.250008,
+          33.750008,
+          35.250008,
+          37.500008,
+          42.00001,
+          46.50001,
+          50.25001,
+          51.75001,
+          54.75001,
+          56.250015,
+          60.750015,
+          65.250015
+        ]
+      },
+      "accelerator": null,
+      "source": "Fractional position"
+    },
+    "2693566692746207632": {
+      "id": 2693566692746207632,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 42,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 85,
+          "x": 5.2500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 8.250002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 12.750003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 87,
+          "x": 17.250004,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 20.250006,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          5.2500014,
+          8.250002,
+          12.750003,
+          17.250004,
+          20.250006
+        ]
+      },
+      "accelerator": null,
+      "source": "Greet"
+    },
+    "3924928505898944865": {
+      "id": 3924928505898944865,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 47,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 3.750001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 8.250002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 74,
+          "x": 12.750003,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 17.250004,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          3.750001,
+          8.250002,
+          12.750003,
+          17.250004
+        ]
+      },
+      "accelerator": null,
+      "source": "Long"
+    },
+    "4008700597555608692": {
+      "id": 4008700597555608692,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 36,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 5.2500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 7.500002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 9.000002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 13.500003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 74,
+          "x": 18.000004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 22.500006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 24.750006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 26.250006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 30.750008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 88,
+          "x": 35.250008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 87,
+          "x": 39.750008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 42.75001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 90,
+          "x": 45.00001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 51.00001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 87,
+          "x": 52.50001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 75,
+          "x": 55.50001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 60.000015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 62.250015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 66.750015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 70,
+          "x": 69.000015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 72.750015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 74.250015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 75.750015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 80.25002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 84.75002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 71,
+          "x": 89.25002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 93.75002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 87,
+          "x": 96.00002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 85,
+          "x": 99.00002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 102.00002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 106.50002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 108.00002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 109.50002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 111.00002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 74,
+          "x": 115.50003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 120.00003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 90,
+          "x": 122.25003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 128.25003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 85,
+          "x": 132.75003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 71,
+          "x": 135.75003,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 140.25003,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          5.2500014,
+          7.500002,
+          9.000002,
+          13.500003,
+          18.000004,
+          22.500006,
+          24.750006,
+          26.250006,
+          30.750008,
+          35.250008,
+          39.750008,
+          42.75001,
+          45.00001,
+          51.00001,
+          52.50001,
+          55.50001,
+          60.000015,
+          62.250015,
+          66.750015,
+          69.000015,
+          72.750015,
+          74.250015,
+          75.750015,
+          80.25002,
+          84.75002,
+          89.25002,
+          93.75002,
+          96.00002,
+          99.00002,
+          102.00002,
+          106.50002,
+          108.00002,
+          109.50002,
+          111.00002,
+          115.50003,
+          120.00003,
+          122.25003,
+          128.25003,
+          132.75003,
+          135.75003,
+          140.25003
+        ]
+      },
+      "accelerator": null,
+      "source": "A long input with a clipped trailing word"
+    },
+    "6786917932892230733": {
+      "id": 6786917932892230733,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 60,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 82,
+          "x": 4.500001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 88,
+          "x": 9.000002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 85,
+          "x": 13.500003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 16.500004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 81,
+          "x": 18.750004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 23.250006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 80,
+          "x": 27.750006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 33.750008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 29,
+          "x": 38.250008,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 3,
+          "x": 41.25001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 36,
+          "x": 43.50001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 74,
+          "x": 48.75001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 77,
+          "x": 53.25001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 55.50001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 52,
+          "x": 60.000015,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 92,
+          "x": 66.000015,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 70.500015,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          4.500001,
+          9.000002,
+          13.500003,
+          16.500004,
+          18.750004,
+          23.250006,
+          27.750006,
+          33.750008,
+          38.250008,
+          41.25001,
+          43.50001,
+          48.75001,
+          53.25001,
+          55.50001,
+          60.000015,
+          66.000015,
+          70.500015
+        ]
+      },
+      "accelerator": null,
+      "source": "Your name: AgjpQy"
+    },
+    "8032170280478559513": {
+      "id": 8032170280478559513,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 36,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 71,
+          "x": 5.2500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 9.750002,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 14.250004,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          5.2500014,
+          9.750002,
+          14.250004
+        ]
+      },
+      "accelerator": null,
+      "source": "Ada"
+    },
+    "14250017917633112866": {
+      "id": 14250017917633112866,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 70,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 3.750001,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 5.2500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 6.7500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 11.250003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 15.750004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 71,
+          "x": 20.250006,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 24.750006,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          3.750001,
+          5.2500014,
+          6.7500014,
+          11.250003,
+          15.750004,
+          20.250006,
+          24.750006
+        ]
+      },
+      "accelerator": null,
+      "source": "clipped"
+    },
+    "16175212042508303975": {
+      "id": 16175212042508303975,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 36,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 74,
+          "x": 5.2500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 77,
+          "x": 9.750002,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 83,
+          "x": 12.000003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 52,
+          "x": 16.500004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 92,
+          "x": 22.500006,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 27.000006,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          5.2500014,
+          9.750002,
+          12.000003,
+          16.500004,
+          22.500006,
+          27.000006
+        ]
+      },
+      "accelerator": null,
+      "source": "AgjpQy"
+    },
+    "17060638432404220087": {
+      "id": 17060638432404220087,
+      "key": {
+        "font": 1,
+        "size_milli_pt": 8250,
+        "wrap_width_milli_pt": null,
+        "device_scale_micros": 1333333
+      },
+      "glyphs": [
+        {
+          "glyph_id": 39,
+          "x": 0.0,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 76,
+          "x": 5.2500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 86,
+          "x": 6.7500014,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 68,
+          "x": 10.500003,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 69,
+          "x": 15.000004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 79,
+          "x": 19.500004,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 72,
+          "x": 21.000006,
+          "y": 0.0
+        },
+        {
+          "glyph_id": 71,
+          "x": 25.500006,
+          "y": 0.0
+        }
+      ],
+      "metrics": {
+        "advance": 30.000008,
+        "ascent": 8.250002,
+        "descent": 1.5000004,
+        "line_gap": 0.0
+      },
+      "caret": {
+        "stops": [
+          0.0,
+          5.2500014,
+          6.7500014,
+          10.500003,
+          15.000004,
+          19.500004,
+          21.000006,
+          25.500006,
+          30.000008
+        ]
+      },
+      "accelerator": null,
+      "source": "Disabled"
+    }
+  }
+}

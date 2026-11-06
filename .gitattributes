@@ -35,6 +35,7 @@
 /vba/calcforms/*.bas text eol=lf
 /vba/calcforms/*.cls text eol=lf
 /vba/calcforms/*.basproj text eol=lf
+/docs/evidence/**/sources/*.cls text eol=lf
 /crates/calcforms-headless-runner/src/*.rs text eol=lf
 /crates/calcforms-bootstrap/src/*.rs text eol=lf
 /fixtures/office-oracle/w002-source/* text eol=lf
@@ -91,3 +92,5 @@
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/**/*.bas text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.110/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.113/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/**/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.116/**/*.json text eol=lf

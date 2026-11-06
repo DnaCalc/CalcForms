@@ -278,10 +278,8 @@ pub struct CaretTable {
 /// [`TextRunId`] is the content hash of `(this, text)`, so identical runs collapse
 /// to one id automatically. Sizes are in 1/1000 pt to be locale/float-stable.
 ///
-/// DPI/device scale is deliberately **not** part of the key: glyph positions are
-/// logical and the renderer applies the device scale affinely at paint, so one run
-/// serves every DPI. (A future hinted/subpixel shaper that bakes DPI into shaping
-/// would add it here.)
+/// Device-fitted shapers include their pixels-per-point context. Positions remain
+/// logical; contexts must not alias when grid fitting changes advances.
 #[derive(Clone, Debug, PartialEq, Eq, Hash, Serialize, Deserialize)]
 pub struct TextKey {
     pub font: FontId,
@@ -291,6 +289,9 @@ pub struct TextKey {
     /// Explicit display-character index to underline. Text itself is always literal.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub accelerator_index: Option<u32>,
+    /// Pixels per point, in millionths; absent for device-independent shaping.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub device_scale_micros: Option<u32>,
 }
 
 /// A shaped, retained text run — the SkTextBlob / cosmic-`Buffer` analog (glyph-run
@@ -352,19 +353,23 @@ impl TextRun {
 /// guarded by [`Scene::upsert_text_run`].
 ///
 /// Encoding (little-endian): font `u64`, size `u32`, a flags byte (bit 0 = wrap
-/// width present, bit 1 = explicit accelerator index present), then each present
-/// width/index as `u32`, then the literal UTF-8 text. Unadorned run ids retain
+/// width present, bit 1 = explicit accelerator index present, bit 2 = device
+/// scale present), then each present width/index/scale as `u32`, then UTF-8 text.
+/// Device-independent run ids retain
 /// their existing encoding; explicit underline indices cannot alias that domain.
 #[must_use]
 pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
     let mut buf: Vec<u8> = Vec::new();
     buf.extend_from_slice(&key.font.0.to_le_bytes());
     buf.extend_from_slice(&key.size_milli_pt.to_le_bytes());
-    let accelerator_flag = if key.accelerator_index.is_some() {
+    let mut accelerator_flag = if key.accelerator_index.is_some() {
         2
     } else {
         0
     };
+    if key.device_scale_micros.is_some() {
+        accelerator_flag |= 4;
+    }
     match key.wrap_width_milli_pt {
         None => buf.push(accelerator_flag),
         Some(w) => {
@@ -374,6 +379,9 @@ pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
     }
     if let Some(index) = key.accelerator_index {
         buf.extend_from_slice(&index.to_le_bytes());
+    }
+    if let Some(scale) = key.device_scale_micros {
+        buf.extend_from_slice(&scale.to_le_bytes());
     }
     buf.extend_from_slice(text.as_bytes());
     TextRunId(fnv1a64(&buf))
@@ -1647,6 +1655,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: size_pt * 1000,
             wrap_width_milli_pt: None,
+            device_scale_micros: None,
             accelerator_index: None,
         }
     }
@@ -1677,6 +1686,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: 12_000,
             wrap_width_milli_pt: None,
+            device_scale_micros: None,
             accelerator_index: None,
         };
         assert_eq!(text_run_id(&key, "OK").0, 150_257_306_305_228_244);

@@ -2,8 +2,7 @@
 #![forbid(unsafe_code)]
 use calcforms_calcvba_adapter::{host_services::HostServices, office::WorkbookForm};
 use calcforms_pal::scene::FontId;
-use calcforms_pal_win::{load_ui_font_family, AbGlyphShaper, FontTable};
-use std::sync::Arc;
+use calcforms_pal_win::{load_desktop_text, FontTable};
 fn run() -> Result<(), String> {
     let args: Vec<_> = std::env::args().skip(1).collect();
     let usage = "Usage: calcforms-workbook <workbook.xlsm> <UserFormName> [--entry <Procedure>] [--observe-member <StringFunction>] [--scale <factor>] [--dump-scene <file.json>]";
@@ -33,12 +32,13 @@ fn run() -> Result<(), String> {
         return Err(usage.into());
     }
     let form = WorkbookForm::open(&args[0], &args[1])?;
-    let font =
-        load_ui_font_family(form.font_name()?).map_err(|error| format!("load font: {error}"))?;
+    let (font, shaper) =
+        load_desktop_text(FontId(1), form.font_name()?, (96.0 / 72.0 * scale) as f32)
+            .map_err(|error| format!("load font: {error}"))?;
     let mut fonts = FontTable::new();
     fonts.add(FontId(1), font.clone());
     let (mut runtime, surface) = form.runtime_with_entry(
-        Arc::new(AbGlyphShaper::new(FontId(1), font)),
+        shaper,
         HostServices::windows(calcforms_pal_win::read_clipboard_text),
         entry.as_deref(),
     )?;

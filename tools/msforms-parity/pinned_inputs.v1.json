@@ -86,7 +86,7 @@
     {
       "path": "tools/Run-EvidenceChecks.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "7a0f39453c8fded2651ba2cd149ce921bd5f8f59fa3172782c981cc0a7c296e6"
+      "sha256": "bcf7fd4839b409bb805a12c56b162614822ed78bd86408aa1f215f1759a4e74d"
     },
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "f310de40caef670cf1f13737c4168187d6624cbf5f5f4b6638df2c5fc254f67d"
+      "sha256": "dababfe6d0763020f1a9f7f154d5cbe5b382314dca49630870a8e122ef1b9a6f"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "d416ae8b886817a68be8462635a8cf6b193a9590b16622b644ea2e4d41af7700"
+      "sha256": "7fc5e7bbc6fcbffaeb7d6ceb006f7676301c008892724e61353efef1813cdcad"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -191,7 +191,7 @@
     {
       "path": "vba/calcforms/Frame.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "416494eba6f8061382644322b326ad4686ff091baa1458d9150093d09064597e"
+      "sha256": "408e90446df579b88c0ce406ce4fca6a6c448183500901eb448c4cfdfc50d531"
     },
     {
       "path": "vba/calcforms/IOxControl.cls",
@@ -226,7 +226,7 @@
     {
       "path": "vba/calcforms/MultiPage.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "0825110c422b95d1c3507fb4fc83058d603876593cff0722a970964f95a6ae30"
+      "sha256": "7db573341d62657e110a94adc4de840e0473c76189e4c7d65cfaedf96b6d0d51"
     },
     {
       "path": "vba/calcforms/OptionButtonControl.cls",
@@ -316,7 +316,7 @@
     {
       "path": "vba/calcforms/TabStrip.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "f311d3e1aaa80cc746a83b59816a04401ac654df35f6df8f5d292d8eef5ef452"
+      "sha256": "fe361bb01a16b5ee8a32641ce870c235a73c5f6c413816860ff8834f5476bb12"
     },
     {
       "path": "vba/calcforms/Tabs.cls",

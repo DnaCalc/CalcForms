@@ -539,9 +539,10 @@ End Function
             .iter()
             .map(|r| r.0.as_str())
             .collect::<Vec<_>>(),
-        ["First", "Second"]
+        ["Second", "First"],
+        "selected header paints last across its overlap"
     );
-    let text: Vec<_> = scene
+    let mut text: Vec<_> = scene
         .get(NodeId(1))
         .unwrap()
         .prims
@@ -551,6 +552,7 @@ End Function
             _ => None,
         })
         .collect();
+    text.sort_by(|a, b| a.x.total_cmp(&b.x));
     assert!(
         text[1].x < 92.0,
         "tabs follow caption width rather than half the site"
@@ -648,7 +650,8 @@ End Sub
         .collect();
     assert_eq!(
         captions.iter().map(|p| p.1).collect::<Vec<_>>(),
-        ["First", "Second"]
+        ["Second", "First"],
+        "selected header paints last across its overlap"
     );
     assert!(
         captions.iter().all(|p| p.0.y < clip.y),

@@ -328,9 +328,11 @@ over the projection boundary would be the worst crossing-storm).
   `(FontId, size, wrap, text)`); VBA never computes it — it learns the id from
   `MeasureText` and memoizes it by text, so it needs no FNV and re-emits the id (an
   opaque token) with zero crossing on unchanged frames. The cache key
-  `(FontId, size, wrap)` deliberately **excludes DPI**: glyph positions are logical
-  and scaled affinely at paint, so one run serves every DPI (a future hinted/subpixel
-  shaper would add DPI). Cached both VBA-side (the text→id memo) and kernel-side (the
+  includes an optional pixels-per-point context for device-fitted shaping. The
+  Windows workbook host uses public DirectWrite GDI-classic advances, rounded
+  font-device em and line metrics, then returns logical positions. Context enters
+  the run identity; device-independent keys preserve their original encoding.
+  The rasterizer uses the same fitted em. Cached both VBA-side (the text→id memo) and kernel-side (the
   persistent interning/LRU store, Surface-held; projected per-frame into `Scene.text`).
 - Layout consumes the metrics — the per-frame pipeline is **measure → layout → paint**:
   a control that depends on text extent (e.g. MSForms `AutoSize`, word-wrap, autofit)

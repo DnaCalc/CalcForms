@@ -140,6 +140,14 @@ Native drawing and image measurements remain bounded to their stated scenarios.
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
+Run 8's [Frame/tab correction and caption qualification](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/README.md)
+give **1,122 pass / 496 fail, with 418 missing measurements** across 1,618 rows.
+Both Frame gaps and all four header size rows match. `.116` fills four caption
+unknowns and adds eight advance checks. The same qualified method on the old
+runtime gives 1,115/503: 25 gains and 18 retained smaller ink regressions mean
+seven net rendering gains. `.101` stays open for those regressions, differing
+native font heights, full glyph rendering and live DPI/resize remeasurement.
+
 Run 8 takes up [CalcVBA a4bf9792](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.75/README.md):
 required VM3 probes establish typed Nothing defaults, portable variable arguments,
 qualified scalar defaults and external Friend rejection. `.75` and `o0fp` own

@@ -7,7 +7,7 @@ use calcforms_calcvba_adapter::{
     surface::{register_surface, SurfaceFactory},
 };
 use calcforms_pal::scene::FontId;
-use calcforms_pal_win::{load_ui_font_family, AbGlyphShaper, FontTable};
+use calcforms_pal_win::{load_desktop_text, FontTable};
 use calcvba_bundle::ProjectMemberKind;
 use calcvba_com::PortableComProjection;
 use calcvba_engine::{Engine, HostConfig, HostProfileProvider};
@@ -43,14 +43,13 @@ fn run() -> Result<(), String> {
     let program = calcvba_bind::bind_program(&manifest, &calcvba_symbol::CatalogTypeLibResolver)
         .map_err(|e| format!("bind authored layout: {e}"))?;
     let bundle = calcvba_oxir::elaborate::elaborate(&program).map_err(|e| e.to_string())?;
-    let font = load_ui_font_family(&args[7]).map_err(|e| e.to_string())?;
+    let scale: f32 = args[4].parse().map_err(|_| "invalid scale")?;
+    let (font, shaper) =
+        load_desktop_text(FontId(1), &args[7], 96.0 / 72.0 * scale).map_err(|e| e.to_string())?;
     let mut fonts = FontTable::new();
     fonts.add(FontId(1), font.clone());
     let projection = Arc::new(PortableComProjection::new());
-    let surface = Arc::new(SurfaceFactory::with_shaper(Arc::new(AbGlyphShaper::new(
-        FontId(1),
-        font,
-    ))));
+    let surface = Arc::new(SurfaceFactory::with_shaper(shaper));
     register_surface(&projection, surface.clone());
     let profile = HostProfileProvider::new()
         .with_portable_com_projection(projection)

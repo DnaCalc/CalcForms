@@ -15,6 +15,7 @@
 
 use std::collections::BTreeMap;
 use std::io;
+use std::sync::Arc;
 
 use ab_glyph::{Font, FontArc, PxScale, ScaleFont};
 use calcforms_pal::scene::{
@@ -202,7 +203,7 @@ const UI_FONT_CANDIDATES: &[&str] = &[
 /// Load a persisted family in the current outline-font subset, with no
 /// unrelated fallback. Legacy MS Sans Serif uses a reported outline
 /// substitute; exact bitmap-font parity is outside this backend's subset.
-pub fn load_ui_font_family(family: &str) -> io::Result<FontArc> {
+fn family_file(family: &str) -> io::Result<&'static str> {
     let file = if family.eq_ignore_ascii_case("Tahoma") {
         "tahoma.ttf"
     } else if family.eq_ignore_ascii_case("Microsoft Sans Serif")
@@ -220,11 +221,141 @@ pub fn load_ui_font_family(family: &str) -> io::Result<FontArc> {
             format!("unsupported font family {family:?}"),
         ));
     };
+    Ok(file)
+}
+
+pub fn load_ui_font_family(family: &str) -> io::Result<FontArc> {
+    let file = family_file(family)?;
     let bytes = std::fs::read(font_directory().join(file))?;
     let font = FontArc::try_from_vec(bytes)
         .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "font failed to parse"))?;
     eprintln!("CALCFORMS_FONT requested={family} file={file}");
     Ok(font)
+}
+
+/// Load the desktop face and shaper for a window's initial device context.
+/// Windows uses DirectWrite's GDI-classic advances; other platforms use logical
+/// outline metrics. Both return the same retained, control-blind run contract.
+pub fn load_desktop_text(
+    font_id: FontId,
+    family: &str,
+    pixels_per_point: f32,
+) -> io::Result<(FontArc, Arc<dyn TextShaper + Send + Sync>)> {
+    if !pixels_per_point.is_finite() || !(0.25..=16.0).contains(&pixels_per_point) {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "invalid text device scale",
+        ));
+    }
+    let bytes = std::fs::read(font_directory().join(family_file(family)?))?;
+    let font = FontArc::try_from_vec(bytes.clone())
+        .map_err(|_| io::Error::new(io::ErrorKind::InvalidData, "font failed to parse"))?;
+    #[cfg(windows)]
+    {
+        let bytes = Arc::new(bytes);
+        dwrote::FontFile::new_from_buffer(bytes.clone())
+            .and_then(|file| file.create_face(0, 0).ok())
+            .ok_or_else(|| {
+                io::Error::new(
+                    io::ErrorKind::InvalidData,
+                    "DirectWrite could not load the exact face",
+                )
+            })?;
+        let shaper = GdiClassicShaper {
+            font_id,
+            font: font.clone(),
+            bytes,
+            scale_micros: (pixels_per_point * 1_000_000.0).round() as u32,
+        };
+        Ok((font, Arc::new(shaper)))
+    }
+    #[cfg(not(windows))]
+    Ok((font.clone(), Arc::new(AbGlyphShaper::new(font_id, font))))
+}
+
+#[cfg(windows)]
+struct GdiClassicShaper {
+    font_id: FontId,
+    font: FontArc,
+    bytes: Arc<Vec<u8>>,
+    scale_micros: u32,
+}
+
+#[cfg(windows)]
+impl std::fmt::Debug for GdiClassicShaper {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("GdiClassicShaper")
+            .field("font", &self.font_id)
+            .field("scale_micros", &self.scale_micros)
+            .finish()
+    }
+}
+
+#[cfg(windows)]
+impl TextShaper for GdiClassicShaper {
+    fn shape(&self, key: &TextKey, text: &str) -> TextRun {
+        assert_eq!(
+            key.font, self.font_id,
+            "requested face differs from loaded face"
+        );
+        let scale = self.scale_micros as f32 / 1_000_000.0;
+        let em_px = (key.size_milli_pt as f32 / 1000.0 * scale).round().max(1.0);
+        let glyph_ids: Vec<_> = text.chars().map(|c| self.font.glyph_id(c).0).collect();
+        // COM faces stay on this call's thread. Only owned font bytes cross threads;
+        // dwrote supplies safe, RAII wrappers for the public DirectWrite operations.
+        let face = dwrote::FontFile::new_from_buffer(self.bytes.clone())
+            .expect("validated font bytes")
+            .create_face(0, 0)
+            .expect("validated font face");
+        let metrics = if glyph_ids.is_empty() {
+            vec![]
+        } else {
+            face.gdi_compatible_glyph_metrics(
+                em_px,
+                1.0,
+                std::ptr::null(),
+                false,
+                &glyph_ids,
+                false,
+            )
+            .expect("GDI-compatible metrics for valid face glyphs")
+        };
+        let units = self.font.units_per_em().expect("TrueType design em");
+        let mut glyphs = Vec::with_capacity(glyph_ids.len());
+        let mut stops = vec![0.0];
+        let mut pen_px = 0.0;
+        for (glyph_id, metric) in glyph_ids.into_iter().zip(metrics) {
+            glyphs.push(PositionedGlyph {
+                glyph_id,
+                x: pen_px / scale,
+                y: 0.0,
+            });
+            pen_px += (metric.advanceWidth as f32 * em_px / units).round();
+            stops.push(pen_px / scale);
+        }
+        let scaled = self
+            .font
+            .as_scaled(PxScale::from(em_height(&self.font, em_px)));
+        let mut key = key.clone();
+        key.device_scale_micros = Some(self.scale_micros);
+        TextRun {
+            id: text_run_id(&key, text),
+            accelerator: key
+                .accelerator_index
+                .map(|i| i as usize)
+                .filter(|i| *i < text.chars().count()),
+            key,
+            glyphs,
+            caret: CaretTable { stops },
+            source: text.into(),
+            metrics: RunMetrics {
+                advance: pen_px / scale,
+                ascent: scaled.ascent().round() / scale,
+                descent: (-scaled.descent()).round() / scale,
+                line_gap: scaled.line_gap().round() / scale,
+            },
+        }
+    }
 }
 
 /// Load the platform UI font face, trying the MSForms-authentic candidates under the
@@ -295,11 +426,62 @@ pub(crate) fn host_font_or_skip() -> Option<FontArc> {
 mod tests {
     use super::*;
 
+    #[cfg(windows)]
+    #[test]
+    fn gdi_classic_advances_and_line_metrics_match_independent_native_drawings() {
+        // Public OLE/GDI records in .106 LayoutContainers-100/150 control EMFs.
+        // These cells were captured before this shaper existed.
+        let mut identifiers = Vec::new();
+        for (scale, first, second, details, height) in [
+            (
+                96.0 / 72.0,
+                vec![0., 6., 8., 12., 17., 21.],
+                vec![0., 6., 12., 17., 23., 29., 35.],
+                32.,
+                13.,
+            ),
+            (
+                2.0,
+                vec![0., 9., 13., 19., 27., 33.],
+                vec![0., 9., 18., 26., 35., 44., 53.],
+                52.,
+                21.,
+            ),
+        ] {
+            let (_, shaper) = load_desktop_text(FontId(1), "Tahoma", scale).unwrap();
+            let mut style = key(8);
+            style.size_milli_pt = 8250;
+            for (text, cells) in [("First", first), ("Second", second)] {
+                let run = shaper.shape(&style, text);
+                assert_eq!(run.caret.stops.len(), cells.len());
+                for (actual, native) in run.caret.stops.iter().zip(cells) {
+                    assert!((actual * scale - native).abs() < 0.001, "{text}: {run:?}");
+                }
+                assert!(
+                    ((run.metrics.ascent + run.metrics.descent) * scale - height).abs() < 0.001
+                );
+                assert_eq!(run.source.as_ref(), text);
+            }
+            let run = shaper.shape(&style, "Details");
+            assert!(
+                (run.metrics.advance * scale - details).abs() < 0.001,
+                "{run:?}"
+            );
+            identifiers.push(run.id);
+        }
+        assert_ne!(
+            identifiers[0], identifiers[1],
+            "device contexts cannot alias"
+        );
+        assert!(load_desktop_text(FontId(1), "Tahoma", f32::NAN).is_err());
+    }
+
     fn key(size_pt: u32) -> TextKey {
         TextKey {
             font: FontId(1),
             size_milli_pt: size_pt * 1000,
             wrap_width_milli_pt: None,
+            device_scale_micros: None,
             accelerator_index: None,
         }
     }

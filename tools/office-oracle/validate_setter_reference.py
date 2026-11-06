@@ -16,7 +16,10 @@ def validate():
     assert data['baseline_sha256'] == hashlib.sha256(baseline.read_bytes()).hexdigest()
     assert set(data['production_sources']) == {f'vba/calcforms/{name}.cls' for name in SOURCE_NAMES}
     for name, digest in data['production_sources'].items():
-        assert hashlib.sha256((ROOT / name).read_bytes()).hexdigest() == digest
+        # This is a historical runtime capture. Verify the exact source bytes
+        # archived from 25f9ff3 against the original immutable capture pins.
+        # Current production behavior is separately asserted by measured_behaviour.rs.
+        assert hashlib.sha256((DIRECTORY / 'sources' / name.rsplit('/', 1)[-1]).read_bytes()).hexdigest() == digest
     directory = DIRECTORY / 'runtime'
     files(directory)
     runtime = {suite: json.loads((directory / (suite + '.json')).read_text(encoding='utf-8'))

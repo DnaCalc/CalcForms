@@ -490,7 +490,12 @@ impl<'a> SkiaSink<'a> {
         let dev_rect = self.cur.apply_rect(local_rect);
         let sx = self.cur.sx.abs();
         let sy = self.cur.sy.abs();
-        let em = em_height(font, text_run.key.size_milli_pt as f32 / 1000.0);
+        let size_pt = text_run.key.size_milli_pt as f32 / 1000.0;
+        let fitted_size = text_run.key.device_scale_micros.map_or(size_pt, |micros| {
+            let context = micros as f32 / 1_000_000.0;
+            (size_pt * context).round().max(1.0) / context
+        });
+        let em = em_height(font, fitted_size);
         let scale = PxScale {
             x: (em * sx).max(1.0),
             y: (em * sy).max(1.0),
@@ -874,6 +879,7 @@ mod tests {
             font: FontId(1),
             size_milli_pt: 24_000,
             wrap_width_milli_pt: None,
+            device_scale_micros: None,
             accelerator_index: None,
         };
         let mut fonts = FontTable::new();

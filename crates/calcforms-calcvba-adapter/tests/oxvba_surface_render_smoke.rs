@@ -342,6 +342,7 @@ fn text_key(size_pt: u32) -> TextKey {
         font: FontId(1),
         size_milli_pt: size_pt * 1000,
         wrap_width_milli_pt: None,
+        device_scale_micros: None,
         accelerator_index: None,
     }
 }
@@ -996,6 +997,7 @@ fn measure_batch_round_trips_typed_records() {
         font: FontId(1),
         size_milli_pt: 12000,
         wrap_width_milli_pt: None,
+        device_scale_micros: None,
         accelerator_index: None,
     };
     assert_eq!(

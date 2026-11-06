@@ -1,0 +1,5730 @@
+{
+  "schema": "calcforms.layout_comparison.v2",
+  "form": "LayoutContainers",
+  "zoom": 150,
+  "excel_version": "16.0",
+  "excel_build": 20527.0,
+  "excel": {
+    "window": {
+      "file": "excel.png",
+      "size": [
+        796,
+        609
+      ],
+      "distinct_colors": 18,
+      "sha256": "5cf0194c637f3b482662cfedd29235ea945de221e8059ed04f6cf1a7821f7020"
+    },
+    "children": [
+      {
+        "hwnd": 177018610,
+        "class": "F3 Server f5bc0000",
+        "window_rect": [
+          564,
+          337,
+          1344,
+          907
+        ],
+        "file": "excel-child-0.png",
+        "size": [
+          780,
+          570
+        ],
+        "distinct_colors": 58,
+        "sha256": "38f749626ed25e6336fbe07b398cbc0269818e8a7b6ab2ba28d339988be047b4"
+      },
+      {
+        "hwnd": 297146488,
+        "class": "F3 Server f5bc0000",
+        "window_rect": [
+          588,
+          361,
+          936,
+          505
+        ],
+        "file": "excel-child-1.png",
+        "size": [
+          348,
+          144
+        ],
+        "distinct_colors": 55,
+        "sha256": "09dd82d4dc5c09499759480cdad2700d60ba50b5f1bf96f74024f2ced7d383d5"
+      },
+      {
+        "hwnd": 69671402,
+        "class": "F3 Server f5bc0000",
+        "window_rect": [
+          984,
+          541,
+          1308,
+          829
+        ],
+        "file": "excel-child-2.png",
+        "size": [
+          324,
+          288
+        ],
+        "distinct_colors": 1,
+        "sha256": "4b19861e23ea9e4d8ea6cb5807fd1b6c93dfc193b2014538a536932bb4dc80ec"
+      },
+      {
+        "hwnd": 31196400,
+        "class": "F3 Server f5bc0000",
+        "window_rect": [
+          987,
+          573,
+          1305,
+          826
+        ],
+        "file": "excel-child-3.png",
+        "size": [
+          318,
+          253
+        ],
+        "distinct_colors": 1,
+        "sha256": "f571e4fc0c34eb534974573b409d29950eb54533902b4de28c8a09cf4b59fcf2"
+      }
+    ],
+    "composite": {
+      "file": "excel-composited.png",
+      "sha256": "854ea3ab141b67d5c0db61fd3699f3bfb0ccfbbecac79da05cf174e47f926776"
+    },
+    "geometry": {
+      "hwnd": 33882908,
+      "pid": 68232,
+      "window_rect": [
+        556,
+        306,
+        1352,
+        915
+      ],
+      "client_size": [
+        780,
+        570
+      ],
+      "client_offset": [
+        8,
+        31
+      ],
+      "style": 2496135296,
+      "extended_style": 257
+    },
+    "client": {
+      "file": "excel-client.png",
+      "sha256": "2e4d6d29ec4d5b2130f16d609d055827ba2d131555a1e2e1303462873fe607d0"
+    }
+  },
+  "calcforms": {
+    "window": {
+      "file": "calcforms.png",
+      "size": [
+        796,
+        609
+      ],
+      "distinct_colors": 351,
+      "sha256": "8f31bd83d56d9a3390acf0f40f9891d2fe325e33da00a230452372e182a4cd76"
+    },
+    "children": [],
+    "composite": {
+      "file": "calcforms-composited.png",
+      "sha256": "8f31bd83d56d9a3390acf0f40f9891d2fe325e33da00a230452372e182a4cd76"
+    },
+    "geometry": {
+      "hwnd": 14616976,
+      "pid": 37916,
+      "window_rect": [
+        26,
+        26,
+        822,
+        635
+      ],
+      "client_size": [
+        780,
+        570
+      ],
+      "client_offset": [
+        8,
+        31
+      ],
+      "style": 382664704,
+      "extended_style": 262416
+    },
+    "client": {
+      "file": "calcforms-client.png",
+      "sha256": "52dc724e05a24a62f1b41b93d041f0183c44f497568943a6fe0dbf1c829dbf0d"
+    }
+  },
+  "excel_facts": "390;285;150\nGroup;Frame;12;12;174;72;Tahoma;8.5;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+  "excel_state": null,
+  "calcforms_observation": "Group;Frame;12;12;174;72;1;12;12;8.25;0\nGroup.NestedLabel;Label;12;18;138;18;2;25.5;35.625;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;3;25.5;56.625;8.25;1\nPicture;Image;210;12;66;54;4;210;12;8.25;1\nSpinner;SpinButton;300;12;18;54;5;300;12;8.25;2\nSlider;ScrollBar;12;102;174;18;6;12;102;8.25;3\nTabsControl;TabStrip;12;144;174;102;7;12;144;8.25;4\nPagesControl;MultiPage;210;102;162;144;8;210;102;8.25;5\n",
+  "scene_file": "scene-1793988777412868500.json",
+  "runtime_sha256": "e7983fac06fa0e0c2d6212219e8abe2f1c8139da1c7e75d29e319210ba1641eb",
+  "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+  "pixels": {
+    "comparable": false,
+    "reason": "Native background or nonempty text region failed qualification; capture unverified"
+  },
+  "native_paint_facts": "Group;-2147483633;183;81\nPagesControl;-2147483633;291;174\n",
+  "native_capture_validation": {
+    "verified": false,
+    "selected": null,
+    "scope": "recorded background probes and visible nonempty root text regions",
+    "probes": [
+      {
+        "control": "Group",
+        "ole_color": 2147483663,
+        "kind": "Frame",
+        "point": [
+          183.0,
+          81.0
+        ],
+        "pixel": [
+          366,
+          162
+        ],
+        "expected_rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      {
+        "control": "PagesControl",
+        "ole_color": 2147483663,
+        "kind": "MultiPage",
+        "point": [
+          291.0,
+          174.0
+        ],
+        "pixel": [
+          582,
+          348
+        ],
+        "expected_rgb": [
+          240,
+          240,
+          240
+        ]
+      }
+    ],
+    "candidates": {
+      "composite": {
+        "samples": [
+          {
+            "control": "Group",
+            "pixel": [
+              366,
+              162
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "actual_rgb": [
+              240,
+              240,
+              240
+            ],
+            "matches": true
+          },
+          {
+            "control": "PagesControl",
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "actual_rgb": [
+              240,
+              240,
+              240
+            ],
+            "matches": true
+          }
+        ],
+        "matches": false,
+        "text_samples": [
+          {
+            "control": "Group",
+            "roi_px": [
+              32,
+              24,
+              364,
+              48
+            ],
+            "ink_bounds_px": [
+              47,
+              29,
+              96,
+              41
+            ],
+            "line_bands_px": [
+              [
+                29,
+                41
+              ]
+            ],
+            "ink_pixels": 115,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "TabsControl",
+            "roi_px": [
+              30,
+              292,
+              366,
+              314
+            ],
+            "ink_bounds_px": [
+              38,
+              292,
+              147,
+              311
+            ],
+            "line_bands_px": [
+              [
+                292,
+                294
+              ],
+              [
+                296,
+                311
+              ]
+            ],
+            "ink_pixels": 187,
+            "foreground_classes": [
+              "dark-text",
+              "shadow-or-disabled"
+            ],
+            "matches": true
+          },
+          {
+            "control": "PagesControl",
+            "roi_px": [
+              426,
+              208,
+              738,
+              230
+            ],
+            "ink_bounds_px": null,
+            "line_bands_px": [],
+            "ink_pixels": 0,
+            "matches": false
+          }
+        ]
+      },
+      "parent": {
+        "samples": [
+          {
+            "control": "Group",
+            "pixel": [
+              366,
+              162
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "actual_rgb": [
+              255,
+              255,
+              255
+            ],
+            "matches": false
+          },
+          {
+            "control": "PagesControl",
+            "pixel": [
+              582,
+              348
+            ],
+            "expected_rgb": [
+              240,
+              240,
+              240
+            ],
+            "actual_rgb": [
+              255,
+              255,
+              255
+            ],
+            "matches": false
+          }
+        ],
+        "matches": false,
+        "text_samples": [
+          {
+            "control": "Group",
+            "roi_px": [
+              32,
+              24,
+              364,
+              48
+            ],
+            "ink_bounds_px": null,
+            "line_bands_px": [],
+            "ink_pixels": 0,
+            "matches": false
+          },
+          {
+            "control": "TabsControl",
+            "roi_px": [
+              30,
+              292,
+              366,
+              314
+            ],
+            "ink_bounds_px": null,
+            "line_bands_px": [],
+            "ink_pixels": 0,
+            "matches": false
+          },
+          {
+            "control": "PagesControl",
+            "roi_px": [
+              426,
+              208,
+              738,
+              230
+            ],
+            "ink_bounds_px": null,
+            "line_bands_px": [],
+            "ink_pixels": 0,
+            "matches": false
+          }
+        ]
+      }
+    },
+    "text_probes": [
+      {
+        "control": "Group",
+        "sources": [
+          "Details"
+        ],
+        "disabled": false,
+        "roi_px": [
+          32.0,
+          24.0,
+          364.0,
+          48.0
+        ],
+        "font_height_px": 17.0
+      },
+      {
+        "control": "TabsControl",
+        "sources": [
+          "First",
+          "Second"
+        ],
+        "disabled": false,
+        "roi_px": [
+          30.0,
+          292.0,
+          366.0,
+          314.0
+        ],
+        "font_height_px": 16.5
+      },
+      {
+        "control": "PagesControl",
+        "sources": [
+          "First",
+          "Second"
+        ],
+        "disabled": false,
+        "roi_px": [
+          426.0,
+          208.0,
+          738.0,
+          230.0
+        ],
+        "font_height_px": 16.5
+      }
+    ],
+    "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+  },
+  "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+  "input": "see session input log",
+  "measurements": {
+    "bounds_source": "live production VBA controls, read by the authored fixture observation",
+    "controls": [
+      {
+        "name": "Group",
+        "native": {
+          "kind": "Frame",
+          "bounds": [
+            12.0,
+            12.0,
+            174.0,
+            72.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.5,
+          "tab_index": 0
+        },
+        "calcforms": {
+          "kind": "Frame",
+          "bounds": [
+            12.0,
+            12.0,
+            174.0,
+            72.0
+          ],
+          "node_id": 1,
+          "paint_origin": [
+            12.0,
+            12.0
+          ],
+          "font_size": 8.25,
+          "tab_index": 0
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Group.NestedInput",
+        "native": {
+          "kind": "TextBox",
+          "bounds": [
+            12.0,
+            39.0,
+            138.0,
+            18.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 1
+        },
+        "calcforms": {
+          "kind": "TextBox",
+          "bounds": [
+            12.0,
+            39.0,
+            138.0,
+            18.0
+          ],
+          "node_id": 3,
+          "paint_origin": [
+            25.5,
+            56.625
+          ],
+          "font_size": 8.25,
+          "tab_index": 1
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Group.NestedLabel",
+        "native": {
+          "kind": "Label",
+          "bounds": [
+            12.0,
+            18.0,
+            138.0,
+            18.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 0
+        },
+        "calcforms": {
+          "kind": "Label",
+          "bounds": [
+            12.0,
+            18.0,
+            138.0,
+            18.0
+          ],
+          "node_id": 2,
+          "paint_origin": [
+            25.5,
+            35.625
+          ],
+          "font_size": 8.25,
+          "tab_index": 0
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "PagesControl",
+        "native": {
+          "kind": "MultiPage",
+          "bounds": [
+            210.0,
+            102.0,
+            162.0,
+            144.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 4
+        },
+        "calcforms": {
+          "kind": "MultiPage",
+          "bounds": [
+            210.0,
+            102.0,
+            162.0,
+            144.0
+          ],
+          "node_id": 8,
+          "paint_origin": [
+            210.0,
+            102.0
+          ],
+          "font_size": 8.25,
+          "tab_index": 5
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Picture",
+        "native": {
+          "kind": "Image",
+          "bounds": [
+            210.0,
+            12.0,
+            66.0,
+            54.0
+          ]
+        },
+        "calcforms": {
+          "kind": "Image",
+          "bounds": [
+            210.0,
+            12.0,
+            66.0,
+            54.0
+          ],
+          "node_id": 4,
+          "paint_origin": [
+            210.0,
+            12.0
+          ],
+          "font_size": 8.25,
+          "tab_index": 1
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Slider",
+        "native": {
+          "kind": "ScrollBar",
+          "bounds": [
+            12.0,
+            102.0,
+            174.0,
+            18.0
+          ]
+        },
+        "calcforms": {
+          "kind": "ScrollBar",
+          "bounds": [
+            12.0,
+            102.0,
+            174.0,
+            18.0
+          ],
+          "node_id": 6,
+          "paint_origin": [
+            12.0,
+            102.0
+          ],
+          "font_size": 8.25,
+          "tab_index": 3
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Spinner",
+        "native": {
+          "kind": "SpinButton",
+          "bounds": [
+            300.0,
+            12.0,
+            18.0,
+            54.0
+          ]
+        },
+        "calcforms": {
+          "kind": "SpinButton",
+          "bounds": [
+            300.0,
+            12.0,
+            18.0,
+            54.0
+          ],
+          "node_id": 5,
+          "paint_origin": [
+            300.0,
+            12.0
+          ],
+          "font_size": 8.25,
+          "tab_index": 2
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "TabsControl",
+        "native": {
+          "kind": "TabStrip",
+          "bounds": [
+            12.0,
+            144.0,
+            174.0,
+            102.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 3
+        },
+        "calcforms": {
+          "kind": "TabStrip",
+          "bounds": [
+            12.0,
+            144.0,
+            174.0,
+            102.0
+          ],
+          "node_id": 7,
+          "paint_origin": [
+            12.0,
+            144.0
+          ],
+          "font_size": 8.25,
+          "tab_index": 4
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.0
+        ],
+        "kind_equal": true
+      }
+    ],
+    "missing_in_calcforms": [],
+    "missing_in_excel": [],
+    "max_abs_delta_pt": 0.0,
+    "text_runs": [
+      {
+        "text": "Nested",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 26.0,
+        "ascent": 8.5,
+        "descent": 2.0,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Details",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 26.0,
+        "ascent": 8.5,
+        "descent": 2.0,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Second",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 26.5,
+        "ascent": 8.5,
+        "descent": 2.0,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Inside frame",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 46.5,
+        "ascent": 8.5,
+        "descent": 2.0,
+        "line_gap": 0.0
+      },
+      {
+        "text": "First",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 16.5,
+        "ascent": 8.5,
+        "descent": 2.0,
+        "line_gap": 0.0
+      }
+    ],
+    "text_rects": [
+      {
+        "node": 1,
+        "run": 15781265444405624418,
+        "rect": {
+          "x": 22.5,
+          "y": 12.75,
+          "w": 27.5,
+          "h": 10.5
+        },
+        "clip": true
+      },
+      {
+        "node": 2,
+        "run": 16941410417808473053,
+        "rect": {
+          "x": 25.5,
+          "y": 36.375,
+          "w": 138.0,
+          "h": 10.5
+        },
+        "clip": true
+      },
+      {
+        "node": 7,
+        "run": 16579896433251338304,
+        "rect": {
+          "x": 39.0,
+          "y": 147.0,
+          "w": 35.5,
+          "h": 10.5
+        },
+        "clip": true
+      },
+      {
+        "node": 7,
+        "run": 17915858236776688874,
+        "rect": {
+          "x": 12.0,
+          "y": 145.5,
+          "w": 28.5,
+          "h": 10.5
+        },
+        "clip": true
+      },
+      {
+        "node": 8,
+        "run": 16579896433251338304,
+        "rect": {
+          "x": 237.0,
+          "y": 105.0,
+          "w": 35.5,
+          "h": 10.5
+        },
+        "clip": true
+      },
+      {
+        "node": 8,
+        "run": 17915858236776688874,
+        "rect": {
+          "x": 210.0,
+          "y": 103.5,
+          "w": 28.5,
+          "h": 10.5
+        },
+        "clip": true
+      },
+      {
+        "node": 3900,
+        "run": 12127309207964901783,
+        "rect": {
+          "x": 34.5,
+          "y": 59.625,
+          "w": 126.0,
+          "h": 10.5
+        },
+        "clip": false
+      }
+    ],
+    "client_size_equal": true
+  },
+  "native_colour_properties": {
+    "Group": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Group.NestedLabel": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Group.NestedInput": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483653,
+        "rgb": [
+          255,
+          255,
+          255
+        ]
+      },
+      "text": {
+        "ole": 2147483656,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Picture": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      }
+    },
+    "Spinner": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      }
+    },
+    "Slider": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      }
+    },
+    "TabsControl": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "PagesControl": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  "calcforms_colour_paint": {
+    "Group": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 1
+    },
+    "Group.NestedInput": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        255,
+        255,
+        255
+      ],
+      "fill_node": 3
+    },
+    "Group.NestedLabel": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 2
+    },
+    "PagesControl": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 0
+    },
+    "Picture": {
+      "text_rgb": [],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 4
+    },
+    "Slider": {
+      "text_rgb": [],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 6
+    },
+    "Spinner": {
+      "text_rgb": [],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 5
+    },
+    "TabsControl": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 0
+    }
+  },
+  "colour_measurements": {
+    "Group": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "Group.NestedInput": {
+      "fill_class": {
+        "native": "white",
+        "calcforms": "white"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "Group.NestedLabel": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "PagesControl": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "Picture": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      }
+    },
+    "Slider": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      }
+    },
+    "Spinner": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      }
+    },
+    "TabsControl": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    }
+  },
+  "native_drawing": {
+    "file": "native-drawing.emf",
+    "sha256": "54f91a7a0d0bb3acb343842452cae7f8b31b9cb75740a06d167ea6b9da50ee16",
+    "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+    "font_metrics": {
+      "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103": {
+        "height": 21,
+        "ascent": 17,
+        "descent": 4,
+        "internal_leading": 4,
+        "external_leading": 0
+      },
+      "7a9afaf8704fb4a36310bfb1c0fd3217a37960262f52c367d66049c365ece97c": {
+        "height": 21,
+        "ascent": 17,
+        "descent": 4,
+        "internal_leading": 4,
+        "external_leading": 0
+      }
+    },
+    "text": [
+      {
+        "record": 38,
+        "text": "Inside frame",
+        "reference_px": [
+          51.0,
+          71.0
+        ],
+        "baseline_px": 88.0,
+        "origin_px": [
+          51.0,
+          88.0
+        ],
+        "clip_px": [
+          51.0,
+          71.0,
+          327.0,
+          92.0
+        ],
+        "cell_edges_px": [
+          51.0,
+          57.0,
+          66.0,
+          74.0,
+          78.0,
+          87.0,
+          96.0,
+          101.0,
+          106.0,
+          112.0,
+          121.0,
+          135.0,
+          144.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 65,
+        "text": "Nested",
+        "reference_px": [
+          69.0,
+          119.0
+        ],
+        "baseline_px": 136.0,
+        "origin_px": [
+          69.0,
+          136.0
+        ],
+        "clip_px": [
+          54.0,
+          119.0,
+          324.0,
+          140.0
+        ],
+        "cell_edges_px": [
+          69.0,
+          80.0,
+          89.0,
+          97.0,
+          103.0,
+          112.0,
+          121.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 79,
+        "text": "Details",
+        "reference_px": [
+          45.0,
+          24.0
+        ],
+        "baseline_px": 41.0,
+        "origin_px": [
+          45.0,
+          41.0
+        ],
+        "clip_px": [
+          45.0,
+          24.0,
+          97.0,
+          44.0
+        ],
+        "cell_edges_px": [
+          45.0,
+          57.0,
+          66.0,
+          72.0,
+          81.0,
+          85.0,
+          89.0,
+          97.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "7a9afaf8704fb4a36310bfb1c0fd3217a37960262f52c367d66049c365ece97c",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 234,
+        "text": "First",
+        "reference_px": [
+          36.0,
+          291.0
+        ],
+        "baseline_px": 308.0,
+        "origin_px": [
+          36.0,
+          308.0
+        ],
+        "clip_px": [
+          24.0,
+          291.0,
+          81.0,
+          312.0
+        ],
+        "cell_edges_px": [
+          36.0,
+          45.0,
+          49.0,
+          55.0,
+          63.0,
+          69.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 276,
+        "text": "Second",
+        "reference_px": [
+          87.0,
+          294.0
+        ],
+        "baseline_px": 311.0,
+        "origin_px": [
+          87.0,
+          311.0
+        ],
+        "clip_px": [
+          81.0,
+          294.0,
+          146.0,
+          315.0
+        ],
+        "cell_edges_px": [
+          87.0,
+          96.0,
+          105.0,
+          113.0,
+          122.0,
+          131.0,
+          140.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 341,
+        "text": "First",
+        "reference_px": [
+          432.0,
+          207.0
+        ],
+        "baseline_px": 224.0,
+        "origin_px": [
+          432.0,
+          224.0
+        ],
+        "clip_px": [
+          420.0,
+          207.0,
+          477.0,
+          228.0
+        ],
+        "cell_edges_px": [
+          432.0,
+          441.0,
+          445.0,
+          451.0,
+          459.0,
+          465.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 383,
+        "text": "Second",
+        "reference_px": [
+          483.0,
+          210.0
+        ],
+        "baseline_px": 227.0,
+        "origin_px": [
+          483.0,
+          227.0
+        ],
+        "clip_px": [
+          477.0,
+          210.0,
+          542.0,
+          231.0
+        ],
+        "cell_edges_px": [
+          483.0,
+          492.0,
+          501.0,
+          509.0,
+          518.0,
+          527.0,
+          536.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+          "face": "Tahoma",
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      }
+    ]
+  },
+  "native_control_drawings": {
+    "Group": {
+      "file": "Group-native.emf",
+      "sha256": "1f00abe4c619ab0a6ef5f0ae5616a7a29b2bbf468e59b1e819551edf1e31147f",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103": {
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        },
+        "7a9afaf8704fb4a36310bfb1c0fd3217a37960262f52c367d66049c365ece97c": {
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 33,
+          "text": "Inside frame",
+          "reference_px": [
+            27.0,
+            47.0
+          ],
+          "baseline_px": 64.0,
+          "origin_px": [
+            27.0,
+            64.0
+          ],
+          "clip_px": [
+            27.0,
+            47.0,
+            303.0,
+            68.0
+          ],
+          "cell_edges_px": [
+            27.0,
+            33.0,
+            42.0,
+            50.0,
+            54.0,
+            63.0,
+            72.0,
+            77.0,
+            82.0,
+            88.0,
+            97.0,
+            111.0,
+            120.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 60,
+          "text": "Nested",
+          "reference_px": [
+            45.0,
+            95.0
+          ],
+          "baseline_px": 112.0,
+          "origin_px": [
+            45.0,
+            112.0
+          ],
+          "clip_px": [
+            30.0,
+            95.0,
+            300.0,
+            116.0
+          ],
+          "cell_edges_px": [
+            45.0,
+            56.0,
+            65.0,
+            73.0,
+            79.0,
+            88.0,
+            97.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 74,
+          "text": "Details",
+          "reference_px": [
+            21.0,
+            0.0
+          ],
+          "baseline_px": 17.0,
+          "origin_px": [
+            21.0,
+            17.0
+          ],
+          "clip_px": [
+            21.0,
+            0.0,
+            73.0,
+            20.0
+          ],
+          "cell_edges_px": [
+            21.0,
+            33.0,
+            42.0,
+            48.0,
+            57.0,
+            61.0,
+            65.0,
+            73.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "7a9afaf8704fb4a36310bfb1c0fd3217a37960262f52c367d66049c365ece97c",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "Group.NestedInput": {
+      "file": "Group.NestedInput-native.emf",
+      "sha256": "b5ff14845bfc48178da42932d997caa22b63ba85802b964de1db60a284b02252",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103": {
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 29,
+          "text": "Nested",
+          "reference_px": [
+            18.0,
+            6.0
+          ],
+          "baseline_px": 23.0,
+          "origin_px": [
+            18.0,
+            23.0
+          ],
+          "clip_px": [
+            3.0,
+            6.0,
+            273.0,
+            27.0
+          ],
+          "cell_edges_px": [
+            18.0,
+            29.0,
+            38.0,
+            46.0,
+            52.0,
+            61.0,
+            70.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "Group.NestedLabel": {
+      "file": "Group.NestedLabel-native.emf",
+      "sha256": "b1d0a74883b34b4f9e092c7c0948f9a367fb4e4675a11fb0efc88c76f79e64e9",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103": {
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 11,
+          "text": "Inside frame",
+          "reference_px": [
+            0.0,
+            0.0
+          ],
+          "baseline_px": 17.0,
+          "origin_px": [
+            0.0,
+            17.0
+          ],
+          "clip_px": [
+            0.0,
+            0.0,
+            276.0,
+            21.0
+          ],
+          "cell_edges_px": [
+            0.0,
+            6.0,
+            15.0,
+            23.0,
+            27.0,
+            36.0,
+            45.0,
+            50.0,
+            55.0,
+            61.0,
+            70.0,
+            84.0,
+            93.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "PagesControl": {
+      "file": "PagesControl-native.emf",
+      "sha256": "287a7c94d868375ffd316a494d41e2f25abcfb332f7902e1ae45089d5fe1befb",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103": {
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 18,
+          "text": "First",
+          "reference_px": [
+            12.0,
+            3.0
+          ],
+          "baseline_px": 20.0,
+          "origin_px": [
+            12.0,
+            20.0
+          ],
+          "clip_px": [
+            0.0,
+            3.0,
+            57.0,
+            24.0
+          ],
+          "cell_edges_px": [
+            12.0,
+            21.0,
+            25.0,
+            31.0,
+            39.0,
+            45.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 64,
+          "text": "Second",
+          "reference_px": [
+            63.0,
+            6.0
+          ],
+          "baseline_px": 23.0,
+          "origin_px": [
+            63.0,
+            23.0
+          ],
+          "clip_px": [
+            57.0,
+            6.0,
+            122.0,
+            27.0
+          ],
+          "cell_edges_px": [
+            63.0,
+            72.0,
+            81.0,
+            89.0,
+            98.0,
+            107.0,
+            116.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "TabsControl": {
+      "file": "TabsControl-native.emf",
+      "sha256": "05c6541b95352e51b8380b986c8654a6e5c1b68106a4d8288999c276f0663502",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103": {
+          "height": 21,
+          "ascent": 17,
+          "descent": 4,
+          "internal_leading": 4,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 15,
+          "text": "First",
+          "reference_px": [
+            12.0,
+            3.0
+          ],
+          "baseline_px": 20.0,
+          "origin_px": [
+            12.0,
+            20.0
+          ],
+          "clip_px": [
+            0.0,
+            3.0,
+            57.0,
+            24.0
+          ],
+          "cell_edges_px": [
+            12.0,
+            21.0,
+            25.0,
+            31.0,
+            39.0,
+            45.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 61,
+          "text": "Second",
+          "reference_px": [
+            63.0,
+            6.0
+          ],
+          "baseline_px": 23.0,
+          "origin_px": [
+            63.0,
+            23.0
+          ],
+          "clip_px": [
+            57.0,
+            6.0,
+            122.0,
+            27.0
+          ],
+          "cell_edges_px": [
+            63.0,
+            72.0,
+            81.0,
+            89.0,
+            98.0,
+            107.0,
+            116.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+            "face": "Tahoma",
+            "height": 21,
+            "ascent": 17,
+            "descent": 4,
+            "internal_leading": 4,
+            "external_leading": 0
+          }
+        }
+      ]
+    }
+  },
+  "parity_measurements": {
+    "Group": {
+      "baseline": {
+        "native": [
+          17.0
+        ],
+        "calcforms": [
+          18.5
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "Group.NestedInput": {
+      "baseline": {
+        "native": [
+          23.0
+        ],
+        "calcforms": [
+          23.0
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "Group.NestedLabel": {
+      "baseline": {
+        "native": [
+          17.0
+        ],
+        "calcforms": [
+          18.5
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "PagesControl": {
+      "baseline": {
+        "native": [
+          20.0,
+          23.0
+        ],
+        "calcforms": [
+          20.0,
+          23.0
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          [],
+          []
+        ],
+        "calcforms": [
+          [],
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          [],
+          []
+        ],
+        "calcforms": [
+          [],
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ],
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ],
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "TabsControl": {
+      "baseline": {
+        "native": [
+          20.0,
+          23.0
+        ],
+        "calcforms": [
+          20.0,
+          23.0
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          [],
+          []
+        ],
+        "calcforms": [
+          [],
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          [],
+          []
+        ],
+        "calcforms": [
+          [],
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ],
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ],
+          [
+            null
+          ]
+        ]
+      }
+    }
+  },
+  "spacing_measurements": {},
+  "border_scan_lines": {},
+  "drawing_text_measurements": {
+    "controls": {
+      "Group": {
+        "captions": [
+          "Details"
+        ],
+        "native": {
+          "baseline": [
+            17.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Details",
+              "baseline_px": 17.0,
+              "records": [
+                {
+                  "record": 74,
+                  "text": "Details",
+                  "reference_px": [
+                    21.0,
+                    0.0
+                  ],
+                  "baseline_px": 17.0,
+                  "origin_px": [
+                    21.0,
+                    17.0
+                  ],
+                  "clip_px": [
+                    21.0,
+                    0.0,
+                    73.0,
+                    20.0
+                  ],
+                  "cell_edges_px": [
+                    21.0,
+                    33.0,
+                    42.0,
+                    48.0,
+                    57.0,
+                    61.0,
+                    65.0,
+                    73.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "7a9afaf8704fb4a36310bfb1c0fd3217a37960262f52c367d66049c365ece97c",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            18.5
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Details",
+              "baseline_px": 18.5,
+              "records": [
+                {
+                  "text": "Details",
+                  "baseline_px": 18.5,
+                  "origin_px": [
+                    21.0,
+                    18.5
+                  ],
+                  "clip_px": [
+                    21.0,
+                    2.0,
+                    76.0,
+                    23.0
+                  ],
+                  "site_origin_px": [
+                    24.0,
+                    24.0
+                  ],
+                  "cell_edges_px": [
+                    21.0,
+                    33.0,
+                    42.0,
+                    48.0,
+                    57.0,
+                    61.0,
+                    65.0,
+                    73.0
+                  ],
+                  "node": 1,
+                  "run": 15781265444405624418
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Group.NestedInput": {
+        "captions": [
+          "Nested"
+        ],
+        "native": {
+          "baseline": [
+            23.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Nested",
+              "baseline_px": 23.0,
+              "records": [
+                {
+                  "record": 29,
+                  "text": "Nested",
+                  "reference_px": [
+                    18.0,
+                    6.0
+                  ],
+                  "baseline_px": 23.0,
+                  "origin_px": [
+                    18.0,
+                    23.0
+                  ],
+                  "clip_px": [
+                    3.0,
+                    6.0,
+                    273.0,
+                    27.0
+                  ],
+                  "cell_edges_px": [
+                    18.0,
+                    29.0,
+                    38.0,
+                    46.0,
+                    52.0,
+                    61.0,
+                    70.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            23.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Nested",
+              "baseline_px": 23.0,
+              "records": [
+                {
+                  "text": "Nested",
+                  "baseline_px": 23.0,
+                  "origin_px": [
+                    18.0,
+                    23.0
+                  ],
+                  "clip_px": [
+                    18.0,
+                    5.75,
+                    270.0,
+                    26.75
+                  ],
+                  "site_origin_px": [
+                    51.0,
+                    113.25
+                  ],
+                  "cell_edges_px": [
+                    18.0,
+                    29.0,
+                    38.0,
+                    46.0,
+                    52.0,
+                    61.0,
+                    70.0
+                  ],
+                  "node": 3900,
+                  "run": 12127309207964901783
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Group.NestedLabel": {
+        "captions": [
+          "Inside frame"
+        ],
+        "native": {
+          "baseline": [
+            17.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Inside frame",
+              "baseline_px": 17.0,
+              "records": [
+                {
+                  "record": 11,
+                  "text": "Inside frame",
+                  "reference_px": [
+                    0.0,
+                    0.0
+                  ],
+                  "baseline_px": 17.0,
+                  "origin_px": [
+                    0.0,
+                    17.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    0.0,
+                    276.0,
+                    21.0
+                  ],
+                  "cell_edges_px": [
+                    0.0,
+                    6.0,
+                    15.0,
+                    23.0,
+                    27.0,
+                    36.0,
+                    45.0,
+                    50.0,
+                    55.0,
+                    61.0,
+                    70.0,
+                    84.0,
+                    93.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            18.5
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Inside frame",
+              "baseline_px": 18.5,
+              "records": [
+                {
+                  "text": "Inside frame",
+                  "baseline_px": 18.5,
+                  "origin_px": [
+                    0.0,
+                    18.5
+                  ],
+                  "clip_px": [
+                    0.0,
+                    1.75,
+                    276.0,
+                    22.75
+                  ],
+                  "site_origin_px": [
+                    51.0,
+                    71.25
+                  ],
+                  "cell_edges_px": [
+                    0.0,
+                    6.0,
+                    15.0,
+                    23.0,
+                    27.0,
+                    36.0,
+                    45.0,
+                    50.0,
+                    55.0,
+                    61.0,
+                    70.0,
+                    84.0,
+                    93.0
+                  ],
+                  "node": 2,
+                  "run": 16941410417808473053
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "PagesControl": {
+        "captions": [
+          "First",
+          "Second"
+        ],
+        "native": {
+          "baseline": [
+            20.0,
+            23.0
+          ],
+          "wrap_point": [
+            [],
+            []
+          ],
+          "exact_line_breaks": [
+            [],
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ],
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "First",
+              "baseline_px": 20.0,
+              "records": [
+                {
+                  "record": 18,
+                  "text": "First",
+                  "reference_px": [
+                    12.0,
+                    3.0
+                  ],
+                  "baseline_px": 20.0,
+                  "origin_px": [
+                    12.0,
+                    20.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    3.0,
+                    57.0,
+                    24.0
+                  ],
+                  "cell_edges_px": [
+                    12.0,
+                    21.0,
+                    25.0,
+                    31.0,
+                    39.0,
+                    45.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            },
+            {
+              "start": 0,
+              "text": "Second",
+              "baseline_px": 23.0,
+              "records": [
+                {
+                  "record": 64,
+                  "text": "Second",
+                  "reference_px": [
+                    63.0,
+                    6.0
+                  ],
+                  "baseline_px": 23.0,
+                  "origin_px": [
+                    63.0,
+                    23.0
+                  ],
+                  "clip_px": [
+                    57.0,
+                    6.0,
+                    122.0,
+                    27.0
+                  ],
+                  "cell_edges_px": [
+                    63.0,
+                    72.0,
+                    81.0,
+                    89.0,
+                    98.0,
+                    107.0,
+                    116.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            20.0,
+            23.0
+          ],
+          "wrap_point": [
+            [],
+            []
+          ],
+          "exact_line_breaks": [
+            [],
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ],
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "First",
+              "baseline_px": 20.0,
+              "records": [
+                {
+                  "text": "First",
+                  "baseline_px": 20.0,
+                  "origin_px": [
+                    12.0,
+                    20.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    3.0,
+                    57.0,
+                    24.0
+                  ],
+                  "site_origin_px": [
+                    420.0,
+                    204.0
+                  ],
+                  "cell_edges_px": [
+                    12.0,
+                    21.0,
+                    25.0,
+                    31.0,
+                    39.0,
+                    45.0
+                  ],
+                  "node": 8,
+                  "run": 17915858236776688874
+                }
+              ]
+            },
+            {
+              "start": 0,
+              "text": "Second",
+              "baseline_px": 23.0,
+              "records": [
+                {
+                  "text": "Second",
+                  "baseline_px": 23.0,
+                  "origin_px": [
+                    63.0,
+                    23.0
+                  ],
+                  "clip_px": [
+                    54.0,
+                    6.0,
+                    125.0,
+                    27.0
+                  ],
+                  "site_origin_px": [
+                    420.0,
+                    204.0
+                  ],
+                  "cell_edges_px": [
+                    63.0,
+                    72.0,
+                    81.0,
+                    89.0,
+                    98.0,
+                    107.0,
+                    116.0
+                  ],
+                  "node": 8,
+                  "run": 16579896433251338304
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "TabsControl": {
+        "captions": [
+          "First",
+          "Second"
+        ],
+        "native": {
+          "baseline": [
+            20.0,
+            23.0
+          ],
+          "wrap_point": [
+            [],
+            []
+          ],
+          "exact_line_breaks": [
+            [],
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ],
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "First",
+              "baseline_px": 20.0,
+              "records": [
+                {
+                  "record": 15,
+                  "text": "First",
+                  "reference_px": [
+                    12.0,
+                    3.0
+                  ],
+                  "baseline_px": 20.0,
+                  "origin_px": [
+                    12.0,
+                    20.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    3.0,
+                    57.0,
+                    24.0
+                  ],
+                  "cell_edges_px": [
+                    12.0,
+                    21.0,
+                    25.0,
+                    31.0,
+                    39.0,
+                    45.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            },
+            {
+              "start": 0,
+              "text": "Second",
+              "baseline_px": 23.0,
+              "records": [
+                {
+                  "record": 61,
+                  "text": "Second",
+                  "reference_px": [
+                    63.0,
+                    6.0
+                  ],
+                  "baseline_px": 23.0,
+                  "origin_px": [
+                    63.0,
+                    23.0
+                  ],
+                  "clip_px": [
+                    57.0,
+                    6.0,
+                    122.0,
+                    27.0
+                  ],
+                  "cell_edges_px": [
+                    63.0,
+                    72.0,
+                    81.0,
+                    89.0,
+                    98.0,
+                    107.0,
+                    116.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "cb63fef04d36b05f9d89562432369e7876c8e29496a96dc78064237946f61103",
+                    "face": "Tahoma",
+                    "height": 21,
+                    "ascent": 17,
+                    "descent": 4,
+                    "internal_leading": 4,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            20.0,
+            23.0
+          ],
+          "wrap_point": [
+            [],
+            []
+          ],
+          "exact_line_breaks": [
+            [],
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ],
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "First",
+              "baseline_px": 20.0,
+              "records": [
+                {
+                  "text": "First",
+                  "baseline_px": 20.0,
+                  "origin_px": [
+                    12.0,
+                    20.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    3.0,
+                    57.0,
+                    24.0
+                  ],
+                  "site_origin_px": [
+                    24.0,
+                    288.0
+                  ],
+                  "cell_edges_px": [
+                    12.0,
+                    21.0,
+                    25.0,
+                    31.0,
+                    39.0,
+                    45.0
+                  ],
+                  "node": 7,
+                  "run": 17915858236776688874
+                }
+              ]
+            },
+            {
+              "start": 0,
+              "text": "Second",
+              "baseline_px": 23.0,
+              "records": [
+                {
+                  "text": "Second",
+                  "baseline_px": 23.0,
+                  "origin_px": [
+                    63.0,
+                    23.0
+                  ],
+                  "clip_px": [
+                    54.0,
+                    6.0,
+                    125.0,
+                    27.0
+                  ],
+                  "site_origin_px": [
+                    24.0,
+                    288.0
+                  ],
+                  "cell_edges_px": [
+                    63.0,
+                    72.0,
+                    81.0,
+                    89.0,
+                    98.0,
+                    107.0,
+                    116.0
+                  ],
+                  "node": 7,
+                  "run": 16579896433251338304
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "unmatched_native_text": []
+  },
+  "forms_parity": {
+    "form": "LayoutContainers",
+    "zoom": 150,
+    "scale_px_per_pt": [
+      2.0,
+      2.0
+    ],
+    "items": [
+      {
+        "category": "layout",
+        "metric": "client_size",
+        "status": "pass",
+        "native": [
+          780,
+          570
+        ],
+        "calcforms": [
+          780,
+          570
+        ],
+        "max_delta": 0,
+        "tolerance": 1,
+        "unit": "px",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "missing_controls",
+        "status": "pass",
+        "native": 0,
+        "calcforms": 0,
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "controls",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "extra_controls",
+        "status": "pass",
+        "native": 0,
+        "calcforms": 0,
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "controls",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "excel_capture_client_size",
+        "status": "pass",
+        "native": [
+          780,
+          570
+        ],
+        "calcforms": [
+          780,
+          570
+        ],
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "px",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "calcforms_capture_client_size",
+        "status": "pass",
+        "native": [
+          780,
+          570
+        ],
+        "calcforms": [
+          780,
+          570
+        ],
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "px",
+        "measurement_count": 2,
+        "reason": null
+      }
+    ],
+    "controls": [
+      {
+        "name": "Group",
+        "kind": "Frame",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              24.0,
+              24.0,
+              372.0,
+              168.0
+            ],
+            "calcforms": [
+              24.0,
+              24.0,
+              372.0,
+              168.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              24,
+              24,
+              372,
+              168
+            ],
+            "calcforms": [
+              24,
+              24,
+              372,
+              168
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "Frame",
+            "calcforms": "Frame",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "client capture is unqualified or sizes differ"
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              17.0
+            ],
+            "calcforms": [
+              18.5
+            ],
+            "max_delta": 1.5,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "frame_caption_gap",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_index",
+            "status": "pass",
+            "native": 0,
+            "calcforms": 0,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "index",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "Group.NestedInput",
+        "kind": "TextBox",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              24.0,
+              78.0,
+              300.0,
+              114.0
+            ],
+            "calcforms": [
+              24.0,
+              78.0,
+              300.0,
+              114.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              24,
+              78,
+              300,
+              114
+            ],
+            "calcforms": [
+              24,
+              78,
+              300,
+              114
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "TextBox",
+            "calcforms": "TextBox",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "native parent paint origin absent"
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "white",
+            "calcforms": "white",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              23.0
+            ],
+            "calcforms": [
+              23.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_index",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "index",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "Group.NestedLabel",
+        "kind": "Label",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              24.0,
+              36.0,
+              300.0,
+              72.0
+            ],
+            "calcforms": [
+              24.0,
+              36.0,
+              300.0,
+              72.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              24,
+              36,
+              300,
+              72
+            ],
+            "calcforms": [
+              24,
+              36,
+              300,
+              72
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "Label",
+            "calcforms": "Label",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "native parent paint origin absent"
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              17.0
+            ],
+            "calcforms": [
+              18.5
+            ],
+            "max_delta": 1.5,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_index",
+            "status": "pass",
+            "native": 0,
+            "calcforms": 0,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "index",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "PagesControl",
+        "kind": "MultiPage",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              420.0,
+              204.0,
+              744.0,
+              492.0
+            ],
+            "calcforms": [
+              420.0,
+              204.0,
+              744.0,
+              492.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              420,
+              204,
+              744,
+              492
+            ],
+            "calcforms": [
+              420,
+              204,
+              744,
+              492
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "MultiPage",
+            "calcforms": "MultiPage",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "client capture is unqualified or sizes differ"
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              20.0,
+              23.0
+            ],
+            "calcforms": [
+              20.0,
+              23.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ],
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ],
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              [],
+              []
+            ],
+            "calcforms": [
+              [],
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              [],
+              []
+            ],
+            "calcforms": [
+              [],
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "tab_sizes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_index",
+            "status": "fail",
+            "native": 4,
+            "calcforms": 5,
+            "max_delta": 1,
+            "tolerance": 0,
+            "unit": "index",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "Picture",
+        "kind": "Image",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              420.0,
+              24.0,
+              552.0,
+              132.0
+            ],
+            "calcforms": [
+              420.0,
+              24.0,
+              552.0,
+              132.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              420,
+              24,
+              552,
+              132
+            ],
+            "calcforms": [
+              420,
+              24,
+              552,
+              132
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "Image",
+            "calcforms": "Image",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "caption_count",
+            "status": "pass",
+            "native": 0,
+            "calcforms": 0,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "captions",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "Slider",
+        "kind": "ScrollBar",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              24.0,
+              204.0,
+              372.0,
+              240.0
+            ],
+            "calcforms": [
+              24.0,
+              204.0,
+              372.0,
+              240.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              24,
+              204,
+              372,
+              240
+            ],
+            "calcforms": [
+              24,
+              204,
+              372,
+              240
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "ScrollBar",
+            "calcforms": "ScrollBar",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "caption_count",
+            "status": "pass",
+            "native": 0,
+            "calcforms": 0,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "captions",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "Spinner",
+        "kind": "SpinButton",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              600.0,
+              24.0,
+              636.0,
+              132.0
+            ],
+            "calcforms": [
+              600.0,
+              24.0,
+              636.0,
+              132.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              600,
+              24,
+              636,
+              132
+            ],
+            "calcforms": [
+              600,
+              24,
+              636,
+              132
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "SpinButton",
+            "calcforms": "SpinButton",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "caption_count",
+            "status": "pass",
+            "native": 0,
+            "calcforms": 0,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "captions",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      },
+      {
+        "name": "TabsControl",
+        "kind": "TabStrip",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              24.0,
+              288.0,
+              372.0,
+              492.0
+            ],
+            "calcforms": [
+              24.0,
+              288.0,
+              372.0,
+              492.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              24,
+              288,
+              372,
+              492
+            ],
+            "calcforms": [
+              24,
+              288,
+              372,
+              492
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "TabStrip",
+            "calcforms": "TabStrip",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "fail",
+            "native": 1,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "client capture is unqualified or sizes differ"
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              20.0,
+              23.0
+            ],
+            "calcforms": [
+              20.0,
+              23.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ],
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ],
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              [],
+              []
+            ],
+            "calcforms": [
+              [],
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              [],
+              []
+            ],
+            "calcforms": [
+              [],
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "tab_sizes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_index",
+            "status": "fail",
+            "native": 3,
+            "calcforms": 4,
+            "max_delta": 1,
+            "tolerance": 0,
+            "unit": "index",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": null
+      }
+    ],
+    "pixel_regression_guard": {
+      "category": "regression_only",
+      "metric": "different_fraction",
+      "status": "fail",
+      "native": 0,
+      "calcforms": null,
+      "max_delta": null,
+      "tolerance": 0.4,
+      "unit": "fraction",
+      "measurement_count": 0,
+      "reason": "not measured in these inputs"
+    }
+  }
+}

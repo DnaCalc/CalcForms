@@ -24,3 +24,4 @@ softbuffer = "0.4"
 # backend keeps its forbid(unsafe_code) stance). Non-Windows targets return None.
 [target.'cfg(windows)'.dependencies]
 clipboard-win = "5"
+dwrote = "0.11.5"

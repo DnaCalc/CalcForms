@@ -37,6 +37,7 @@ pub use raster::{
     SkiaSink,
 };
 pub use text::{
-    load_ui_font, load_ui_font_family, AbGlyphShaper, FontTable, SceneTextResolver, TextResolver,
+    load_desktop_text, load_ui_font, load_ui_font_family, AbGlyphShaper, FontTable,
+    SceneTextResolver, TextResolver,
 };
 pub use window::{run_scene_window, WindowError, WindowOptions, WindowSignal};

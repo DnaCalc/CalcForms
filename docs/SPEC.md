@@ -20,6 +20,13 @@ loss remains [CalcVBA follow-up .115](handovers/HANDOVER_CalcVBA_chained_typed_d
 
 ## Core Spec
 
+Run 8's [measured rendering correction](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/README.md)
+reports **1,122 pass / 496 fail; 418 missing measurements**. Frame caption gaps
+and four tab header size rows match at both scales. Independent caption cells
+qualify four former unknowns and eight new advance checks. Equal-method replay
+shows seven net rendering gains, retaining eighteen smaller ink regressions in
+`.101`. Pixels remain a coarse guard and full W010/font parity is unclaimed.
+
 1. [`FORMS_LIBRARY_SPEC_AND_PLAN.md`](FORMS_LIBRARY_SPEC_AND_PLAN.md) - current
    top-level spec, architecture, and work plan for the VBA-first MSForms-compatible
    forms library.

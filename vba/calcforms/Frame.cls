@@ -67,14 +67,15 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
         Dim RunId As String, CaptionWidth As Single, CaptionHeight As Single, TextWidth As Single
         RunId = mCore.RunId
         If Len(RunId) = 0 Then RunId = "0"
-        CaptionWidth = mCore.MeasuredWidth + 3
+        ' Native caption exclusion has 3pt padding on each side. Text origin stays 10.5pt.
+        CaptionWidth = mCore.MeasuredWidth + 6
         If CaptionWidth > mCore.Width - 15 Then CaptionWidth = mCore.Width - 15
         If CaptionWidth < 1 Then CaptionWidth = 1
         CaptionHeight = mCore.MeasuredHeight
         If CaptionHeight < 1 Then CaptionHeight = 1
-        TextWidth = CaptionWidth - 1.5
+        TextWidth = CaptionWidth - 4.5
         If TextWidth < 1 Then TextWidth = 1
-        Surface.FillRect mCore.PaintLeft + 9, mCore.PaintTop, CaptionWidth, CaptionHeight + 1.5, OxThemeResolveFace(mCore), 255
+        Surface.FillRect mCore.PaintLeft + 7.5, mCore.PaintTop, CaptionWidth, CaptionHeight + 1.5, OxThemeResolveFace(mCore), 255
         OxThemePaintTextRun mCore, Surface, _
             mCore.PaintLeft + 10.5, mCore.PaintTop + 0.75, _
             TextWidth, CaptionHeight, _

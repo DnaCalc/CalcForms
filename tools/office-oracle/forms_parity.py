@@ -249,6 +249,24 @@ def caption_parts(image, measurement, kind, count, scale):
     return []
 
 
+def cell_ink(image, fragments):
+    parts = [ink_geometry(image, part['roi_px']) for part in fragments]
+    boxes = [p['ink_bounds_px'] for p in parts if p['ink_bounds_px']]
+    rois = [p['roi_px'] for p in parts]
+    def union(rectangles):
+        return [min(r[0] for r in rectangles), min(r[1] for r in rectangles),
+                max(r[2] for r in rectangles), max(r[3] for r in rectangles)] if rectangles else None
+    bands = []
+    for top, bottom in sorted(b for p in parts for b in p['line_bands_px']):
+        if bands and top <= bands[-1][1]:
+            bands[-1][1] = max(bands[-1][1], bottom)
+        else:
+            bands.append([top, bottom])
+    return dict(roi_px=union(rois), ink_bounds_px=union(boxes), line_bands_px=bands,
+                ink_pixels=sum(p['ink_pixels'] for p in parts),
+                foreground_classes=sorted({c for p in parts for c in p.get('foreground_classes', [])})), parts
+
+
 def control_report(control, data, native, actual, scale, definition):
     name = control['name']
     expected, observed = control['native'], control['calcforms']
@@ -282,17 +300,23 @@ def control_report(control, data, native, actual, scale, definition):
             raise ValueError('Text sources must be a list of literal strings')
     text_measurements = None
     if usable and not textless:
-        nf, af = dotted_rectangle(native, nbox), dotted_rectangle(actual, abox)
+        nf, af = (None, None) if kind in {'Label', 'Frame', 'Image'} else (dotted_rectangle(native, nbox), dotted_rectangle(actual, abox))
         font_height = expected.get('font_size', 8.25) * scale[1]
         ntext = ink_geometry(native, text_roi(nbox, kind, scale), not definition.get('enabled', True), nf, font_height)
         atext = ink_geometry(actual, text_roi(abox, kind, scale), not definition.get('enabled', True), af, font_height)
+        cells = data.get('text_cell_measurements', {}).get(name)
+        if cells:
+            if kind not in {'TabStrip', 'MultiPage'} or any([c['caption'] for c in cells[engine]] != captions for engine in ('native', 'calcforms')):
+                raise ValueError('Qualified tab caption identities differ')
+            ntext, native_parts = cell_ink(native, cells['native'])
+            atext, actual_parts = cell_ink(actual, cells['calcforms'])
         text_measurements = dict(native=ntext, calcforms=atext, authored_text=captions,
                                  excluded_dotted_focus=dict(native=nf, calcforms=af),
-                                 method='foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only')
+                                 method=cells['method'] if cells else 'foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only')
         rows += [check('text', 'ink_bounds', ntext['ink_bounds_px'], atext['ink_bounds_px'], TEXT_TOLERANCE_PX),
                  check('text', 'visible_line_count', len(ntext['line_bands_px']), len(atext['line_bands_px']), unit='lines')]
-        nparts = caption_parts(native, ntext, kind, len(captions), scale)
-        aparts = caption_parts(actual, atext, kind, len(captions), scale)
+        nparts = [p['ink_bounds_px'] for p in native_parts] if cells else caption_parts(native, ntext, kind, len(captions), scale)
+        aparts = [p['ink_bounds_px'] for p in actual_parts] if cells else caption_parts(actual, atext, kind, len(captions), scale)
         text_measurements['captions'] = []
         for index, caption in enumerate(captions):
             item = check('text', f'caption_{index}_ink_bounds',
@@ -300,6 +324,11 @@ def control_report(control, data, native, actual, scale, definition):
                          aparts[index] if index < len(aparts) else None, TEXT_TOLERANCE_PX)
             text_measurements['captions'].append(dict(text=caption, **item))
             rows.append(item)
+            if cells:
+                def advances(engine):
+                    positions = cells[engine][index]['character_edges_px']
+                    return [b - a for a, b in zip(positions, positions[1:])]
+                rows.append(check('text', f'caption_{index}_character_advances', advances('native'), advances('calcforms'), LAYOUT_TOLERANCE_PX))
         ni, ai = ntext['ink_bounds_px'], atext['ink_bounds_px']
         if ni and ai:
             rows.append(check('text', 'alignment_offsets', [ni[0] - nbox[0], ni[1] - nbox[1]],

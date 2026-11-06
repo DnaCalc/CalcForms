@@ -143,6 +143,21 @@ pixels and mean absolute channel errors. Keep title bars separate from client
 metrics. A lower pixel error is an improvement, not a parity claim. Keep focus,
 caret, active/inactive state and input method explicit when interpreting pixels.
 
+Run 8's Windows workbook/authored host uses a generic DirectWrite GDI-classic
+metric service behind the retained text contract. It adds no Rust control logic.
+Device-fitted run identities include their initial pixels-per-point context;
+font changes and a different window context cannot reuse another context's run.
+Live DPI/resize remeasurement, complex scripts and full native glyph rasterization
+remain open in `.101`. The comparison retains eighteen smaller ink regressions.
+
+For the qualified initial tab captions, ink is measured inside each side's own
+emitted character-cell extent intersected with its actual clip. Literal native
+EMF records, header strokes and saved native windows establish the native regions;
+retained runs establish runtime regions independently. This excludes 105-grey
+native border corners previously counted as letters. The original report remains
+unchanged, and the same qualification is also replayed against the old runtime.
+These cell-clipped ink bounds do not establish glyph overhang or pixel equality.
+
 Build `cargo build -p calcforms-bootstrap --bin calcforms-workbook --example
 layout_probe`, then run `python -B tools/office-oracle/layout_compare.py --out
 <fresh-directory>`. This one command captures the real workbook greeter and
