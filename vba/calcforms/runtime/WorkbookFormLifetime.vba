@@ -60,11 +60,15 @@ Private Function CalcFormsHostUnload(ByVal CloseMode As Integer) As Boolean
     End If
     Hide
     CalcFormsHostLoaded = False
-    If Me Is %FORM_NAME% Then Set %FORM_NAME% = Nothing
+    CalcFormsHostPerformTerminate
+    RaiseEvent CalcFormsHostUnloading("CalcFormsWorkbook.%FORM_NAME%")
     CalcFormsHostClosing = False
     CalcFormsHostUnload = True
 End Function
 
 Private Sub Class_Terminate()
-    CalcFormsHostPerformTerminate
+    If CalcFormsHostLoaded Then
+        CalcFormsHostLoaded = False
+        CalcFormsHostPerformTerminate
+    End If
 End Sub
