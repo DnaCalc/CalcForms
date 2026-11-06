@@ -24,13 +24,17 @@ Excel reuse. Pixels remain a coarse regression guard.
 Public native OLE drawing now supplies replayable baselines, literal line offsets
 and horizontal character-cell clipping, including nested text in local control
 coordinates; omitted ListBox output remains failed coverage.
-Run 7's [current report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.111/README.md)
+Run 7's [behaviour report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.111/README.md)
 has 1,089 passes / 521 failures, including 428 missing measurements. Independent
 event, traversal, key and overflow observations precede 34 measured corrections.
 The subsequent [tab drawing qualification](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.110/README.md)
 fills four further unknown rows, all failures: the latest report has 1,089 passes /
 521 failures and 424 missing measurements. Native header construction rectangles
 must have caption-paired public drawing strokes and qualified-window confirmation.
+The latest [Frame caption-gap report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.113/README.md)
+has **1,089 passes / 521 failures, including 422 missing measurements**. The
+horizontal border interruption requires a caption exclusion, both etched border
+strokes and confirmation of both boundaries in the same saved native window.
 
 The real data-entry workbook now runs original qualified MSForms source through
 the Office importer and referenced source library. Native State/Trace match all

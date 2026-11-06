@@ -79,6 +79,14 @@ strokes, shared-body geometry and top/right stroke samples on the same qualified
 window images. Accessibility child sizes are not a substitute. Record source
 identities, points and scope; reject unsupported transforms or clipped edges.
 
+The [Frame caption-gap measurement](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.113/README.md)
+is the left offset and width of the horizontal top-border interruption. Require
+the unique outer caption exclusion, its literal text, the two etched top-border
+strokes and outside-border/inside-face samples at both native window boundaries.
+Compare the retained caption mask only when its opaque face erases the border
+before text is drawn and it fits its visible, untransformed ancestor clips.
+Child drawing, gap height and full text-stack parity remain separate.
+
 New colour parity rows use actual native BackColor/ForeColor and live system
 colour resolution, compared with opaque retained Scene paint. Disabled text
 uses the observed system grey-text colour; selected ListBox text uses the

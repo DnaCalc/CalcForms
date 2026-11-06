@@ -128,6 +128,15 @@ All four newly measured rows fail. The latest FORMS PARITY report is **1,089 pas
 904. The existing captures and Scene remain historical coarse guards. No further
 Excel launch or product rendering change was needed.
 
+`.113` [measures the horizontal Frame caption gap](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.113/README.md)
+from public caption exclusion/border records and actual native window boundaries.
+Its two missing rows become measured failures, up to 9.024 px at 150%. The latest
+FORMS PARITY is **1,089 pass / 521 fail, including 422 missing measurements**.
+Run 7 fills 482 of the original 904 unknown rows and fixes 34 independently
+measured behaviour failures. Frame padding/text advance correction is `.114`;
+the planned text stack remains `.101`, and genuine ListBox overflow is `.112`.
+Native drawing and image measurements remain bounded to their stated scenarios.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

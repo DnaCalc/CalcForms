@@ -27,6 +27,11 @@ The subsequent [tab drawing report](beads/oxforms-jbjp.110/README.md) retains
 rectangles are independently qualified against public strokes and saved windows;
 all four measured rows fail. Run 7 has now filled 480 of the original 904 unknowns.
 
+The latest [Frame caption-gap report](beads/oxforms-jbjp.113/README.md) is **1,089
+pass / 521 fail, including 422 missing measurements**. It qualifies two more
+missing rows, both failures, against public border-gap records and actual saved
+window boundaries. Run 7 fills 482 of the original 904 unknown rows.
+
 Run 4 ListBox row correction: [`.87` measurements](beads/oxforms-jbjp.87/README.md),
 with the same native pixels before/after at both scales and a VM3 batch/clip regression.
 
