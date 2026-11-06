@@ -1,0 +1,213 @@
+{
+  "excel_pid": 68232,
+  "excel_launches": 1,
+  "source_sha256": "3009b128cda696d7be40679d20a35c526fd640bda7723947e24d8ba337fa4518",
+  "observations": [
+    {
+      "zoom": 100,
+      "initial_focus": "QtyInput",
+      "observations": [
+        {
+          "step": "initial",
+          "state": "index=0;top=0;part=Part 1;qty=1;saved=0;total=0;status=Ready;visible=True",
+          "trace": "Initialize|qty=1|part=0",
+          "focus": "QtyInput"
+        },
+        {
+          "step": "initial_submit",
+          "state": "index=0;top=0;part=Part 1;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "page_down_1",
+          "state": "index=6;top=0;part=Part 7;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6",
+          "focus": "PickList"
+        },
+        {
+          "step": "page_down_2",
+          "state": "index=12;top=6;part=Part 13;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12",
+          "focus": "PickList"
+        },
+        {
+          "step": "zero_quantity",
+          "state": "index=12;top=6;part=Part 13;qty=0;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0",
+          "focus": "PickList"
+        },
+        {
+          "step": "reject_zero",
+          "state": "index=12;top=6;part=Part 13;qty=0;saved=1;total=5;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "quantity_three",
+          "state": "index=12;top=6;part=Part 13;qty=3;saved=1;total=5;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "submit_three",
+          "state": "index=12;top=6;part=Part 13;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "last_part",
+          "state": "index=22;top=16;part=Part 23;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "repeat_last",
+          "state": "index=22;top=16;part=Part 23;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "invalid_text",
+          "state": "index=22;top=16;part=Part 23;qty=12a;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "reject_text",
+          "state": "index=22;top=16;part=Part 23;qty=12a;saved=2;total=195;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "quantity_two",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=2;total=195;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "submit_two",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "cancel",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=False",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "reshow",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+          "focus": "CancelButton"
+        }
+      ],
+      "viewport": "unfocused_index=16;unfocused_top=16;focused_index=16;focused_top=16"
+    },
+    {
+      "zoom": 150,
+      "initial_focus": "QtyInput",
+      "observations": [
+        {
+          "step": "initial",
+          "state": "index=0;top=0;part=Part 1;qty=1;saved=0;total=0;status=Ready;visible=True",
+          "trace": "Initialize|qty=1|part=0",
+          "focus": "QtyInput"
+        },
+        {
+          "step": "initial_submit",
+          "state": "index=0;top=0;part=Part 1;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "page_down_1",
+          "state": "index=6;top=0;part=Part 7;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6",
+          "focus": "PickList"
+        },
+        {
+          "step": "page_down_2",
+          "state": "index=12;top=6;part=Part 13;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12",
+          "focus": "PickList"
+        },
+        {
+          "step": "zero_quantity",
+          "state": "index=12;top=6;part=Part 13;qty=0;saved=1;total=5;status=Saved Part 1;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0",
+          "focus": "PickList"
+        },
+        {
+          "step": "reject_zero",
+          "state": "index=12;top=6;part=Part 13;qty=0;saved=1;total=5;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "quantity_three",
+          "state": "index=12;top=6;part=Part 13;qty=3;saved=1;total=5;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "submit_three",
+          "state": "index=12;top=6;part=Part 13;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "last_part",
+          "state": "index=22;top=16;part=Part 23;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "repeat_last",
+          "state": "index=22;top=16;part=Part 23;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "invalid_text",
+          "state": "index=22;top=16;part=Part 23;qty=12a;saved=2;total=195;status=Saved Part 13;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "reject_text",
+          "state": "index=22;top=16;part=Part 23;qty=12a;saved=2;total=195;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "quantity_two",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=2;total=195;status=Enter 1 to 999;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "submit_two",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230",
+          "focus": "SubmitButton"
+        },
+        {
+          "step": "cancel",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=False",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "reshow",
+          "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=True",
+          "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+          "focus": "CancelButton"
+        }
+      ],
+      "viewport": "unfocused_index=16;unfocused_top=16;focused_index=16;focused_top=16"
+    }
+  ]
+}

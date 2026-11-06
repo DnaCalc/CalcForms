@@ -207,6 +207,7 @@ Public Function Dispatch( _
     EnsureInteractionIndex
     Select Case Kind
         Case "show"
+            PrepareShownControls mForm.Controls
             If Len(mFocusName) = 0 Then
                 Dim InitialTarget As String
                 InitialTarget = FirstShowTargetIn(mForm.Controls)
@@ -221,6 +222,18 @@ Public Function Dispatch( _
     End Select
     Dispatch = EndEffectLog(PreviousEffects)
 End Function
+
+Private Sub PrepareShownControls(ByVal List As Controls)
+    Dim I As Long, Control As IOxControl, ListControl As ListBox
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        If Control.Core.Kind = oxControlListBox Then
+            Set ListControl = Control
+            ListControl.PrepareFirstShow
+        End If
+        If Control.HasChildren Then PrepareShownControls Control.Children
+    Next I
+End Sub
 
 Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer)
     If Button <> OX_BUTTON_LEFT Then Exit Sub

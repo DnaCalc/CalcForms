@@ -33,6 +33,9 @@ Private mCore As OxControlCore
 Private mItems As Collection
 Private mListIndex As Long
 Private mTopIndex As Long
+Private mViewportHeight As Single
+Private mViewportSourceHeight As Single
+Private mHasShown As Boolean
 Private mSelectedCsv As String
 Private mMultiSelect As fmMultiSelect
 Private mColumnCount As Long
@@ -46,6 +49,10 @@ Private Sub Class_Initialize()
     Set mItems = Nothing
     Set mCore = New OxControlCore
     mCore.Init oxControlListBox
+    mCore.FontSize = 8.25
+    mViewportHeight = mCore.Height
+    mViewportSourceHeight = mCore.Height
+    mHasShown = False
     Set mItems = New Collection
     mListIndex = -1
     mTopIndex = -1
@@ -68,7 +75,9 @@ Public Property Get Core() As OxControlCore
 End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxThemePaintListBox mCore, Surface, mListIndex, mFocused, mSelectedCsv, mItems.Count, RowHeight(), mTopIndex
+    Dim ViewportHeight As Single
+    ViewportHeight = EffectiveViewportHeight()
+    OxThemePaintListBox mCore, Surface, mListIndex, mFocused, mSelectedCsv, mItems.Count, RowHeight(), mTopIndex, ViewportHeight
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -109,9 +118,30 @@ Public Property Get Height() As Single
     Height = mCore.Height
 End Property
 Public Property Let Height(ByVal Value As Single)
-    mCore.Height = Value
+    If mCore.Height <> Value Then
+        mCore.Height = Value
+        mViewportHeight = Value
+        mViewportSourceHeight = Value
+    End If
     ClampTopIndex
 End Property
+
+' The default IntegralHeight viewport is established when the workbook first
+' shows the control. Keep its effective rows separate from the public Height:
+' native dynamic controls report 72 while exposing seven complete 9.75pt rows.
+' A later explicit size change refreshes the viewport without changing that
+' public property to a rounded value. Full IntegralHeight setters remain open.
+Friend Sub PrepareFirstShow()
+    If mHasShown Then Exit Sub
+    mHasShown = True
+    mViewportHeight = mCore.Height
+    mViewportSourceHeight = mCore.Height
+    If mViewportHeight > ROW_INSET * 2 Then
+        mViewportHeight = ROW_INSET * 2 + Int((mViewportHeight - ROW_INSET * 2) / RowHeight()) * RowHeight()
+    End If
+    ClampTopIndex
+    mCore.MarkDirty
+End Sub
 
 Public Property Get Visible() As Boolean
     Visible = mCore.Visible
@@ -486,7 +516,7 @@ End Function
 
 Private Sub SelectRowAt(ByVal Y As Single, ByVal Shift As Integer)
     Dim Row As Long
-    If Y < ROW_INSET Or Y >= mCore.Height - ROW_INSET Then Exit Sub
+    If Y < ROW_INSET Or Y >= EffectiveViewportHeight() - ROW_INSET Then Exit Sub
     Row = mTopIndex + CLng(Int((Y - ROW_INSET) / RowHeight()))
     If Row >= 0 And Row < mItems.Count Then SelectIndexFromUser Row, Shift
 End Sub
@@ -495,10 +525,24 @@ End Sub
 ' the public TopIndex. Keep these separate, as observed at Height=72.
 Private Function VisibleRows(ByVal IncludePartial As Boolean) As Long
     Dim Rows As Single
-    Rows = (mCore.Height - ROW_INSET * 2) / RowHeight()
+    Rows = (EffectiveViewportHeight() - ROW_INSET * 2) / RowHeight()
     VisibleRows = CLng(Int(Rows))
     If IncludePartial And Rows > VisibleRows Then VisibleRows = VisibleRows + 1
     If VisibleRows < 1 Then VisibleRows = 1
+End Function
+
+Private Function EffectiveViewportHeight() As Single
+    If Not mHasShown Then
+        EffectiveViewportHeight = mCore.Height
+        Exit Function
+    End If
+    ' The FRM materializer and internal layout code can resize through Core.
+    If mViewportSourceHeight <> mCore.Height Then
+        mViewportHeight = mCore.Height
+        mViewportSourceHeight = mCore.Height
+        ClampTopIndex
+    End If
+    EffectiveViewportHeight = mViewportHeight
 End Function
 
 Private Function PageStep() As Long

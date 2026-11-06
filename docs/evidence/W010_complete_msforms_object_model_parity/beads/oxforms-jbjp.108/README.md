@@ -19,8 +19,9 @@ those target diagnostics earn no credit. The retained repeated capture uses
 interior points and has no empty trace. All observations reuse hidden Excel
 PID 68232, launch count one; no owner input, focus, security or registration change.
 
-Thread desktop restoration and COM release are corrected in the server. Final
-CloseDesktop cleanup remains to be observed before this run ends; bounded helper
-cancellation/recovery remains broader .108 work. This bead stays open.
+Thread desktop restoration and COM release are corrected in the server. The [final cleanup](cleanup-run8.json) records all eighteen runtime handles
+closed and the one Excel stopped through its retained handle after Quit. The
+worker restored its desktop and CloseDesktop succeeded, with no error 170.
+Bounded helper cancellation/recovery remains broader .108 work; this bead stays open.
 Fresh review checked public metadata, Index/Value timing, body forwarding and
 that signature adaptation cannot change the native expected transcripts.

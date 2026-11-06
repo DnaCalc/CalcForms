@@ -276,7 +276,7 @@ Public Sub OxThemePaintListBox( _
         ByVal ListIndex As Long, _
         ByVal Focused As Boolean, _
         ByVal SelectedRowsCsv As String, _
-        ByVal RowCount As Long, ByVal RowHeight As Single, ByVal TopIndex As Long)
+        ByVal RowCount As Long, ByVal RowHeight As Single, ByVal TopIndex As Long, ByVal ViewportHeight As Single)
     Const Inset As Single = 1.5
 
     Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
@@ -295,7 +295,8 @@ Public Sub OxThemePaintListBox( _
     SelW = Core.Width - (Inset * 2)
     If SelW < 0 Then SelW = 0
     Dim InnerHeight As Single, TextW As Single
-    InnerHeight = Core.Height - (Inset * 2)
+    InnerHeight = ViewportHeight - (Inset * 2)
+    If InnerHeight > Core.Height - (Inset * 2) Then InnerHeight = Core.Height - (Inset * 2)
     If InnerHeight < 0 Then InnerHeight = 0
     TextW = Core.Width - 9.75
     If TextW < 0 Then TextW = 0
@@ -305,7 +306,7 @@ Public Sub OxThemePaintListBox( _
     If TopIndex < 0 Then TopIndex = 0
     For I = TopIndex To RowCount - 1
         SelY = Core.PaintTop + Inset + ((I - TopIndex) * RowHeight)
-        If SelY >= Core.PaintTop + Core.Height - Inset Then Exit For
+        If SelY >= Core.PaintTop + Inset + InnerHeight Then Exit For
         Selected = InStr(1, SelectedRowsCsv, "," & CStr(I) & ",", vbBinaryCompare) > 0 _
             Or (Len(SelectedRowsCsv) = 0 And I = ListIndex)
         TextColor = OxThemeResolveText(Core)

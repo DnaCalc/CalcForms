@@ -140,8 +140,8 @@ Native drawing and image measurements remain bounded to their stated scenarios.
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
-Run 8's [current input replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/forms-parity.md)
-gives **1,126 pass / 492 fail, with 418 missing measurements** across 1,618 rows.
+Run 8's [current input replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
+gives **1,166 pass / 452 fail, with 378 missing measurements** across 1,618 rows.
 Both Frame gaps and all four header size rows match. `.116` fills four caption
 unknowns and adds eight advance checks. The same qualified method on the old
 runtime gives 1,115/503: 25 gains and 18 retained smaller ink regressions mean
@@ -185,3 +185,10 @@ transcript and 54 boundary observations; paint and hit targets use that viewport
 `.105.1` records initial NameInput and dynamic TabIndex append order, and the
 original workbook scenario requires Enter without a preparatory Tab. Its broader
 acceptance stays open. `.117` records the separate CalcVBA inline-Case defect.
+
+Run 8 real-workbook follow-up: `.122` fills forty greeter input unknowns. `.119`
+delivers the genuine inventory workbook and complete 316-match / 4-failure
+comparison; `.121` corrects the initial whole-row viewport; `.123` retains cancel-focus discrepancies.
+One Excel launch was reused and stopped through its retained handle. All eighteen
+runtime handles closed, the worker desktop was restored and the private desktop
+closed without the former error 170. `.108` keeps broader cancellation/recovery open.

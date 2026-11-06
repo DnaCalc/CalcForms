@@ -338,8 +338,8 @@ Prefer private-desktop batch capture when physical input is unnecessary. Never
 change Office security, registrations or another process's state. Record the
 owned Excel launch count and final exact-process cleanup.
 
-The current [input replay](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/forms-parity.md)
-reports 1,126 pass / 492 fail, with 418 measurements missing. The independent
+The current [input replay](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
+reports 1,166 pass / 452 fail, with 378 measurements missing. The independent
 PageDown/TopIndex transcript now matches at both scales. Its window pixels are
 explicitly inherited from the rendering capture; new credit comes from fresh
 VM3 behavior transcripts, not re-labelled old pixels.

@@ -103,3 +103,18 @@
 
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/**/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/**/*.bas text eol=lf
+
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/**/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/**/*.bas text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/**/*.txt text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/**/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/**/*.bas text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/**/*.txt text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/**/*.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/**/*.bas text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/**/*.txt text eol=lf
+/fixtures/workbooks/inventory/*.json text eol=lf
+/fixtures/workbooks/inventory/*.bas text eol=lf
+/fixtures/workbooks/inventory/*.frm text eol=lf
+
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/**/*.cls text eol=lf

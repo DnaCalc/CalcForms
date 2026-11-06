@@ -20,8 +20,8 @@ loss remains [CalcVBA follow-up .115](handovers/HANDOVER_CalcVBA_chained_typed_d
 
 ## Core Spec
 
-Run 8's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/forms-parity.md)
-reports **1,126 pass / 492 fail; 418 missing measurements**. The
+Run 8's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
+reports **1,166 pass / 452 fail; 378 missing measurements**. The
 [rendering correction](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/README.md)
 makes Frame caption gaps and four tab header size rows match at both scales. Independent caption cells
 qualify four former unknowns and eight new advance checks. Equal-method replay
@@ -154,3 +154,8 @@ scrolling behavior remains unmeasured.
 TabStrip/MultiPage mouse events carry the native Index argument and preserve
 pre-change MouseDown / post-change MouseUp Value timing. Empty MultiPage bodies
 forward through Page to their owner. See [.108 evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/README.md).
+
+[The genuine inventory workbook](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/README.md)
+runs original handlers and compares every State, Trace and focus field. Its
+316 matching / 4 failing fields are separate from the authored-window headline;
+the measured first-Show viewport (.121) now matches and Escape focus (.123) remains failed.

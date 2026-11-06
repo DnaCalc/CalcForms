@@ -1,0 +1,2570 @@
+{
+  "schema": "calcforms.inventory_differential.v1",
+  "full_parity_claimed": false,
+  "summary": {
+    "pass_count": 316,
+    "fail_count": 4
+  },
+  "items": [
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "index",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "top",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "part",
+      "native": "Part 1",
+      "calcforms": "Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "total",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0",
+      "calcforms": "Initialize|qty=1|part=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "focus",
+      "native": "QtyInput",
+      "calcforms": "QtyInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "index",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "top",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "part",
+      "native": "Part 1",
+      "calcforms": "Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5",
+      "calcforms": "Initialize|qty=1|part=0|saved=5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial_submit",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "index",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "top",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "part",
+      "native": "Part 7",
+      "calcforms": "Part 7",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_1",
+      "field": "focus",
+      "native": "PickList",
+      "calcforms": "PickList",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "page_down_2",
+      "field": "focus",
+      "native": "PickList",
+      "calcforms": "PickList",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "qty",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "zero_quantity",
+      "field": "focus",
+      "native": "PickList",
+      "calcforms": "PickList",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "qty",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_zero",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_three",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_three",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last_part",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "repeat_last",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "qty",
+      "native": "12a",
+      "calcforms": "12a",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "invalid_text",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "qty",
+      "native": "12a",
+      "calcforms": "12a",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reject_text",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "quantity_two",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "saved",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "total",
+      "native": "230",
+      "calcforms": "230",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "status",
+      "native": "Saved Part 23",
+      "calcforms": "Saved Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "submit_two",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "saved",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "total",
+      "native": "230",
+      "calcforms": "230",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "status",
+      "native": "Saved Part 23",
+      "calcforms": "Saved Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "visible",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "SubmitButton",
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "saved",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "total",
+      "native": "230",
+      "calcforms": "230",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "status",
+      "native": "Saved Part 23",
+      "calcforms": "Saved Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "SubmitButton",
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "index",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "top",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "part",
+      "native": "Part 1",
+      "calcforms": "Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "total",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0",
+      "calcforms": "Initialize|qty=1|part=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "focus",
+      "native": "QtyInput",
+      "calcforms": "QtyInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "index",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "top",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "part",
+      "native": "Part 1",
+      "calcforms": "Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5",
+      "calcforms": "Initialize|qty=1|part=0|saved=5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial_submit",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "index",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "top",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "part",
+      "native": "Part 7",
+      "calcforms": "Part 7",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_1",
+      "field": "focus",
+      "native": "PickList",
+      "calcforms": "PickList",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "qty",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "page_down_2",
+      "field": "focus",
+      "native": "PickList",
+      "calcforms": "PickList",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "qty",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "status",
+      "native": "Saved Part 1",
+      "calcforms": "Saved Part 1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "zero_quantity",
+      "field": "focus",
+      "native": "PickList",
+      "calcforms": "PickList",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "qty",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_zero",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "saved",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "total",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_three",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "index",
+      "native": "12",
+      "calcforms": "12",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "top",
+      "native": "6",
+      "calcforms": "6",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "part",
+      "native": "Part 13",
+      "calcforms": "Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_three",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last_part",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "qty",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "repeat_last",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "qty",
+      "native": "12a",
+      "calcforms": "12a",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "status",
+      "native": "Saved Part 13",
+      "calcforms": "Saved Part 13",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "invalid_text",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "qty",
+      "native": "12a",
+      "calcforms": "12a",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reject_text",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "saved",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "total",
+      "native": "195",
+      "calcforms": "195",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "status",
+      "native": "Enter 1 to 999",
+      "calcforms": "Enter 1 to 999",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "quantity_two",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "saved",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "total",
+      "native": "230",
+      "calcforms": "230",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "status",
+      "native": "Saved Part 23",
+      "calcforms": "Saved Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "submit_two",
+      "field": "focus",
+      "native": "SubmitButton",
+      "calcforms": "SubmitButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "saved",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "total",
+      "native": "230",
+      "calcforms": "230",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "status",
+      "native": "Saved Part 23",
+      "calcforms": "Saved Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "visible",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "SubmitButton",
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "index",
+      "native": "22",
+      "calcforms": "22",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "top",
+      "native": "16",
+      "calcforms": "16",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "part",
+      "native": "Part 23",
+      "calcforms": "Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "qty",
+      "native": "2",
+      "calcforms": "2",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "saved",
+      "native": "3",
+      "calcforms": "3",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "total",
+      "native": "230",
+      "calcforms": "230",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "status",
+      "native": "Saved Part 23",
+      "calcforms": "Saved Part 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "trace",
+      "native": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "calcforms": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "SubmitButton",
+      "status": "fail"
+    }
+  ]
+}

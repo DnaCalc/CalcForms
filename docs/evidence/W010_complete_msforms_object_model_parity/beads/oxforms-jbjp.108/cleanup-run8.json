@@ -1,0 +1,121 @@
+{
+  "schema": "calcforms.run8_cleanup.v1",
+  "verified_utc": "2026-11-06T19:53:09.859056+00:00",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 68232,
+    "desktop": "CalcFormsOracle_9248c780c4f3",
+    "closed": "terminated_owned_handle",
+    "workbook_unchanged": true,
+    "cleanup_notes": [],
+    "thread_desktop_restored": true,
+    "desktop_cleanup": "closed"
+  },
+  "excel_launches": 1,
+  "runtime_launches": 18,
+  "runtime_closed_handles": [
+    {
+      "stage": "runtime_closed",
+      "pid": 36252,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 12572,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 64632,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 32680,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 32808,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 808,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 67300,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 64560,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 56924,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 33896,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 44260,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 17564,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 65728,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 21548,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 41888,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 41956,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 2260,
+      "result": "closed"
+    },
+    {
+      "stage": "runtime_closed",
+      "pid": 37916,
+      "result": "closed"
+    }
+  ],
+  "processes_still_running": {
+    "68232": false,
+    "37916": false
+  },
+  "server_exit_code": 0,
+  "owner_input_or_focus_used": false
+}

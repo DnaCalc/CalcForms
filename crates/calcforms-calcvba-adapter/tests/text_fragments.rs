@@ -757,3 +757,82 @@ End Sub
     call("SelectAt", vec![Variant::from_i32(24)]);
     assert_eq!(call("SelectedRow", vec![]).as_i32(), Some(16));
 }
+
+#[test]
+fn first_show_uses_complete_native_rows_without_changing_public_height() {
+    let source = format!(
+        r#"{SOURCE}
+Public Sub PrepareRows()
+    Dim I As Long
+    L.Clear
+    L.Height = 72
+    For I = 0 To 22
+        L.AddItem "Row " & CStr(I)
+    Next I
+    L.ListIndex = 0
+    R.Dispatch "show", 0, 0, 0, 0
+End Sub
+Public Sub LastRow()
+    L.ListIndex = 22
+End Sub
+Public Function Viewport() As String
+    Viewport = CStr(L.Height) & ";" & CStr(L.TopIndex)
+End Function
+Public Sub SameHeight()
+    L.Height = 72
+End Sub
+Public Sub ResizeThroughCore()
+    L.Core.Height = 71.25
+    L.Core.Height = 72.75
+End Sub
+"#
+    );
+    let (mut session, form, surface) = fixture(&source);
+    let mut call = |name: &str, args: Vec<Variant>| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), args)
+            .unwrap()
+    };
+    call("Build", vec![]);
+    call("PrepareRows", vec![]);
+    call("RenderOnce", vec![]);
+    let text = rows(&surface.snapshot().unwrap().scene.unwrap());
+    assert_eq!(
+        text.iter().map(|r| r.0.as_str()).collect::<Vec<_>>(),
+        ["Row 0", "Row 1", "Row 2", "Row 3", "Row 4", "Row 5", "Row 6"]
+    );
+    call("SelectAt", vec![Variant::from_i32(82)]);
+    assert_eq!(
+        call("SelectedRow", vec![]).as_i32(),
+        Some(0),
+        "bottom remainder is outside the complete-row viewport"
+    );
+    call("LastRow", vec![]);
+    assert_eq!(
+        call("Viewport", vec![]).as_bstr().unwrap().as_str(),
+        "72;16"
+    );
+    call("SameHeight", vec![]);
+    assert_eq!(
+        call("Viewport", vec![]).as_bstr().unwrap().as_str(),
+        "72;16",
+        "same-value size assignment preserves native viewport"
+    );
+    call("RenderOnce", vec![]);
+    let text = rows(&surface.snapshot().unwrap().scene.unwrap());
+    assert_eq!(
+        text.iter().map(|r| r.0.as_str()).collect::<Vec<_>>(),
+        ["Row 16", "Row 17", "Row 18", "Row 19", "Row 20", "Row 21", "Row 22"]
+    );
+    call("ResizeThroughCore", vec![]);
+    call("RenderOnce", vec![]);
+    assert_eq!(
+        call("Viewport", vec![]).as_bstr().unwrap().as_str(),
+        "72.75;15"
+    );
+    assert_eq!(
+        rows(&surface.snapshot().unwrap().scene.unwrap()).len(),
+        8,
+        "direct Core resize refreshes and clamps the effective viewport"
+    );
+}

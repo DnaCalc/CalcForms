@@ -109,6 +109,7 @@ Invoke-Check -Name 'W010 measured setter and Enter behaviour' -Script 'tools/evi
 Invoke-Check -Name 'W010 qualified tab header paint sizes' -Script 'tools/evidence/Test-W010TabPaintSizes.ps1'
 Invoke-Check -Name 'W010 Frame caption border gap' -Script 'tools/evidence/Test-W010FrameCaptionGap.ps1'
 Invoke-Check -Name 'W010 measured input corrections' -Script 'tools/evidence/Test-W010InputCorrection.ps1'
+Invoke-Check -Name 'W010 real workbook input and owned cleanup' -Script 'tools/evidence/Test-W010Run8Workbooks.ps1'
 Invoke-Check -Name 'W010 measured rendering corrections' -Script 'tools/evidence/Test-W010RenderCorrection.ps1'
 
 # Trace/replay schema over every committed trace sample.

@@ -1,0 +1,414 @@
+{
+  "schema": "calcforms.greeter_input.v1",
+  "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 68232,
+    "desktop": "CalcFormsOracle_9248c780c4f3"
+  },
+  "instrumentation_sha256": "271c5116d47dd830c7305c6d9da88542ed4dc4fdfd481ac2c16d91c838b665b4",
+  "observer_sha256": "8496f71dfe80e81fed0bf8f8e7131b0aa854306f325c39fbd43b35a528900556",
+  "observations": [
+    {
+      "zoom": 100,
+      "initial_focus": "InputName",
+      "tab_cycle": [
+        "InputName",
+        "Greet",
+        "Loud",
+        "InputName"
+      ],
+      "repeated_tab_cycle": [
+        "InputName",
+        "Greet",
+        "Loud",
+        "InputName"
+      ],
+      "client_origin_px": [
+        762,
+        535
+      ],
+      "client_size_px": [
+        384,
+        174
+      ],
+      "points": [
+        {
+          "control": "Greet",
+          "kind": "CommandButton",
+          "point_pt": [
+            234,
+            48
+          ],
+          "native_accessible_rect_px": [
+            1026,
+            583,
+            96,
+            32
+          ],
+          "screen_point_px": [
+            1074,
+            599
+          ],
+          "role": 43,
+          "trace": "Greet.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": [
+                "Click:Hello, Ada"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "InputName",
+          "kind": "TextBox",
+          "point_pt": [
+            97,
+            46
+          ],
+          "native_accessible_rect_px": [
+            778,
+            583,
+            227,
+            27
+          ],
+          "screen_point_px": [
+            891,
+            596
+          ],
+          "role": 42,
+          "trace": "InputName.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": [
+                "Click:Hello, Ada"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "Loud",
+          "kind": "CheckBox",
+          "point_pt": [
+            72,
+            75
+          ],
+          "native_accessible_rect_px": [
+            778,
+            623,
+            160,
+            24
+          ],
+          "screen_point_px": [
+            858,
+            635
+          ],
+          "role": 44,
+          "trace": "Loud.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True;text=Ada;caption=Hello, Ada;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": [
+                "Click:HELLO, ADA"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "Output",
+          "kind": "Label",
+          "point_pt": [
+            141,
+            106
+          ],
+          "native_accessible_rect_px": [
+            778,
+            663,
+            344,
+            29
+          ],
+          "screen_point_px": [
+            950,
+            676
+          ],
+          "role": 41,
+          "trace": "Output.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": [
+                "Click:HELLO, ADA"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "Prompt",
+          "kind": "Label",
+          "point_pt": [
+            60,
+            21
+          ],
+          "native_accessible_rect_px": [
+            778,
+            551,
+            128,
+            24
+          ],
+          "screen_point_px": [
+            842,
+            563
+          ],
+          "role": 41,
+          "trace": "Prompt.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": [
+                "Click:HELLO, ADA"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": []
+            }
+          }
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "initial_focus": "InputName",
+      "tab_cycle": [
+        "InputName",
+        "Greet",
+        "Loud",
+        "InputName"
+      ],
+      "repeated_tab_cycle": [
+        "InputName",
+        "Greet",
+        "Loud",
+        "InputName"
+      ],
+      "client_origin_px": [
+        666,
+        491
+      ],
+      "client_size_px": [
+        576,
+        261
+      ],
+      "points": [
+        {
+          "control": "Greet",
+          "kind": "CommandButton",
+          "point_pt": [
+            234,
+            48
+          ],
+          "native_accessible_rect_px": [
+            1062,
+            563,
+            144,
+            48
+          ],
+          "screen_point_px": [
+            1134,
+            587
+          ],
+          "role": 43,
+          "trace": "Greet.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": [
+                "Click:Hello, Ada"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "InputName",
+          "kind": "TextBox",
+          "point_pt": [
+            97,
+            46
+          ],
+          "native_accessible_rect_px": [
+            690,
+            563,
+            340,
+            40
+          ],
+          "screen_point_px": [
+            860,
+            583
+          ],
+          "role": 42,
+          "trace": "InputName.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": [
+                "Click:Hello, Ada"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada;text=Ada;caption=Hello, Ada;loud=False",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "Loud",
+          "kind": "CheckBox",
+          "point_pt": [
+            72,
+            75
+          ],
+          "native_accessible_rect_px": [
+            690,
+            623,
+            240,
+            36
+          ],
+          "screen_point_px": [
+            810,
+            641
+          ],
+          "role": 44,
+          "trace": "Loud.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True;text=Ada;caption=Hello, Ada;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": [
+                "Click:HELLO, ADA"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "Output",
+          "kind": "Label",
+          "point_pt": [
+            141,
+            107
+          ],
+          "native_accessible_rect_px": [
+            690,
+            683,
+            516,
+            44
+          ],
+          "screen_point_px": [
+            948,
+            705
+          ],
+          "role": 41,
+          "trace": "Output.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": [
+                "Click:HELLO, ADA"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": []
+            }
+          }
+        },
+        {
+          "control": "Prompt",
+          "kind": "Label",
+          "point_pt": [
+            60,
+            21
+          ],
+          "native_accessible_rect_px": [
+            690,
+            515,
+            192,
+            36
+          ],
+          "screen_point_px": [
+            786,
+            533
+          ],
+          "role": 41,
+          "trace": "Prompt.MouseDown|",
+          "keys": {
+            "enter_default": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": [
+                "Click:HELLO, ADA"
+              ]
+            },
+            "escape_cancel": {
+              "before": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "after": "Initialize|Click:Hello, Ada|Click:Hello, Ada|Click:Hello, Ada|Check:True|Click:HELLO, ADA|Click:HELLO, ADA|Click:HELLO, ADA;text=Ada;caption=HELLO, ADA;loud=True",
+              "events": []
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "original_handlers_unchanged": true,
+  "workbook_unchanged": true
+}

@@ -1,0 +1,15 @@
+{
+  "excel_pid": 68232,
+  "excel_launches": 1,
+  "source_sha256": "b807eeb34c4c3301bf4548a95348a4b3855155506e50d1fb9c15eb01bfd9bc20",
+  "observations": [
+    {
+      "zoom": 100,
+      "state": "before:height=72;font=Tahoma;size=8.25;integral=True\nafter:height=72;font=Tahoma;size=8.25;integral=True"
+    },
+    {
+      "zoom": 150,
+      "state": "before:height=72;font=Tahoma;size=8.25;integral=True\nafter:height=72;font=Tahoma;size=8.25;integral=True"
+    }
+  ]
+}

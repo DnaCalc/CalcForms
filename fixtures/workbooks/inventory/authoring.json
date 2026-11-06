@@ -1,0 +1,22 @@
+{
+  "schema": "calcforms.inventory_workbook.v1",
+  "excel_pid": 68232,
+  "excel_launches": 1,
+  "excel_version": "16.0",
+  "excel_build": 20527.0,
+  "workbook_sha256": "8775fb00faa9f4b9898bdbcbac66b51de24e4afed7cbf3cd943ab135e1f54b49",
+  "form_source_sha256": "f207537bf22c982f4862b4428834a85411d3a266d59bff1658e36011f2134520",
+  "entry_source_sha256": "793bd906092d210426bdb9b498be2814084b798c1ad5b30e0adc759f62d466df",
+  "observer_sha256": "1a2dfcf96429877d0657adca7a9d561067628453c9505ec6b4711b14f371627a",
+  "input": "public VBA and per-window key messages on the private desktop; no owner input",
+  "static_control_names": [
+    "QtyLabel",
+    "QtyInput",
+    "SelectedLabel",
+    "StatusLabel",
+    "SubmitButton",
+    "CancelButton"
+  ],
+  "initial_state": "index=0;top=0;part=Part 1;qty=1;saved=0;total=0;status=Ready;visible=True",
+  "initial_trace": "Initialize|qty=1|part=0"
+}

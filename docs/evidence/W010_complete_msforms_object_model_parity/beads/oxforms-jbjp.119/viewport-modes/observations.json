@@ -1,0 +1,87 @@
+{
+  "excel_pid": 68232,
+  "excel_launches": 1,
+  "source_sha256": "08877948a4f5ccd5e010f0f4e75528025d9655021ff554fefa1efd9414b9d0c6",
+  "observations": [
+    {
+      "zoom": 100,
+      "mode": "none",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 100,
+      "mode": "height",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 100,
+      "mode": "height_small",
+      "state": "before_height=72;index_top=16;max_top=16;height=71.25;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 100,
+      "mode": "width",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 100,
+      "mode": "integral_off",
+      "state": "before_height=72;index_top=15;max_top=15;height=72;font=8.25;integral=False;border=0;effect=2"
+    },
+    {
+      "zoom": 100,
+      "mode": "integral_on",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 100,
+      "mode": "flat",
+      "state": "before_height=72;index_top=16;max_top=16;height=68.25;font=8.25;integral=True;border=0;effect=0"
+    },
+    {
+      "zoom": 100,
+      "mode": "font",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "none",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "height",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "height_small",
+      "state": "before_height=72;index_top=16;max_top=16;height=71.25;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "width",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "integral_off",
+      "state": "before_height=72;index_top=15;max_top=15;height=72;font=8.25;integral=False;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "integral_on",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    },
+    {
+      "zoom": 150,
+      "mode": "flat",
+      "state": "before_height=72;index_top=16;max_top=16;height=68.25;font=8.25;integral=True;border=0;effect=0"
+    },
+    {
+      "zoom": 150,
+      "mode": "font",
+      "state": "before_height=72;index_top=16;max_top=16;height=72;font=8.25;integral=True;border=0;effect=2"
+    }
+  ]
+}
