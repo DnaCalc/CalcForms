@@ -72,6 +72,7 @@ Public Type OxMeasureRequest
     SizeMilliPt As Long
     Caption As String
     Accelerator As String
+    FontEmRounding As Long
 End Type
 
 Public Type OxMeasureResult

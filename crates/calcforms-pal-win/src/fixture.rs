@@ -47,6 +47,7 @@ fn run_key() -> TextKey {
         size_milli_pt: FONT_SIZE_MILLI_PT,
         wrap_width_milli_pt: None,
         device_scale_micros: None,
+        device_em_pixels: None,
         accelerator_index: None,
     }
 }

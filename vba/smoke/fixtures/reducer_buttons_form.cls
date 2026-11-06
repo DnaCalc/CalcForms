@@ -3,8 +3,8 @@ Option Explicit
 ' Reducer-pivot increment 5 proof fixture (oxforms-ih6.5; test infrastructure). A TextBox plus a
 ' default button (OK), a cancel button (Cancel), an accelerator button ("&Go"), and a CheckBox,
 ' driven through OxReducer. WithEvents sinks record the events so the tests can assert: Enter on a
-' field activates the default button (focus moves + Click), Escape activates the cancel button in
-' place, Alt+letter activates the matching button, and Space toggles the focused CheckBox
+' field activates the default button (focus moves + Click), Escape exits the field and focuses
+' Cancel before Click, Alt+letter activates the matching button, and Space toggles the focused CheckBox
 ' (value-first: Change/Click before KeyDown). No Rust reducer in the loop.
 
 Private mForm As UserForm

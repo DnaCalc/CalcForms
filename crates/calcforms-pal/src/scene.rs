@@ -292,6 +292,10 @@ pub struct TextKey {
     /// Pixels per point, in millionths; absent for device-independent shaping.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub device_scale_micros: Option<u32>,
+    /// Explicit fitted em in device pixels when the shaping policy differs
+    /// from nearest-pixel rounding. This is an output of device shaping.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub device_em_pixels: Option<u32>,
 }
 
 /// A shaped, retained text run — the SkTextBlob / cosmic-`Buffer` analog (glyph-run
@@ -370,6 +374,9 @@ pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
     if key.device_scale_micros.is_some() {
         accelerator_flag |= 4;
     }
+    if key.device_em_pixels.is_some() {
+        accelerator_flag |= 8;
+    }
     match key.wrap_width_milli_pt {
         None => buf.push(accelerator_flag),
         Some(w) => {
@@ -383,6 +390,9 @@ pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
     if let Some(scale) = key.device_scale_micros {
         buf.extend_from_slice(&scale.to_le_bytes());
     }
+    if let Some(em) = key.device_em_pixels {
+        buf.extend_from_slice(&em.to_le_bytes());
+    }
     buf.extend_from_slice(text.as_bytes());
     TextRunId(fnv1a64(&buf))
 }
@@ -394,6 +404,24 @@ pub fn text_run_id(key: &TextKey, text: &str) -> TextRunId {
 /// adapter's `SurfaceFactory`) can derive it.
 pub trait TextShaper: std::fmt::Debug {
     fn shape(&self, key: &TextKey, text: &str) -> TextRun;
+
+    /// Device font sizing is a host policy. Device-independent shapers keep
+    /// their logical geometry and ignore this option.
+    fn shape_with_font_rounding(
+        &self,
+        key: &TextKey,
+        text: &str,
+        _rounding: FontEmRounding,
+    ) -> TextRun {
+        self.shape(key, text)
+    }
+}
+
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
+pub enum FontEmRounding {
+    #[default]
+    Nearest,
+    NearestTiesDown,
 }
 
 /// A deterministic, font-free shaper for tests and headless determinism: each char
@@ -1656,6 +1684,7 @@ mod tests {
             size_milli_pt: size_pt * 1000,
             wrap_width_milli_pt: None,
             device_scale_micros: None,
+            device_em_pixels: None,
             accelerator_index: None,
         }
     }
@@ -1687,6 +1716,7 @@ mod tests {
             size_milli_pt: 12_000,
             wrap_width_milli_pt: None,
             device_scale_micros: None,
+            device_em_pixels: None,
             accelerator_index: None,
         };
         assert_eq!(text_run_id(&key, "OK").0, 150_257_306_305_228_244);

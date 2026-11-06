@@ -493,7 +493,11 @@ impl<'a> SkiaSink<'a> {
         let size_pt = text_run.key.size_milli_pt as f32 / 1000.0;
         let fitted_size = text_run.key.device_scale_micros.map_or(size_pt, |micros| {
             let context = micros as f32 / 1_000_000.0;
-            (size_pt * context).round().max(1.0) / context
+            text_run
+                .key
+                .device_em_pixels
+                .map_or_else(|| (size_pt * context).round().max(1.0), |em| em as f32)
+                / context
         });
         let em = em_height(font, fitted_size);
         let scale = PxScale {
@@ -533,8 +537,50 @@ impl<'a> SkiaSink<'a> {
         let surf_h = self.pixmap.height() as i32;
         let data = self.pixmap.data_mut();
 
-        // Blit each pre-positioned glyph; positions are logical, scaled to device here.
-        for g in &text_run.glyphs {
+        #[cfg(windows)]
+        let native = if text_run.key.device_scale_micros.is_some() {
+            Some(
+                crate::text::gdi_glyph_mask(
+                    font,
+                    text_run,
+                    fitted_size * sy,
+                    sx,
+                    (pen_start, baseline),
+                )
+                .expect("rasterize retained Windows glyph run"),
+            )
+        } else {
+            None
+        };
+        #[cfg(windows)]
+        if let Some(mask) = &native {
+            for (index, coverage) in mask.pixels.iter().enumerate() {
+                if *coverage != 0 {
+                    let px = mask.left + (index % mask.width) as i32;
+                    let py = mask.top + (index / mask.width) as i32;
+                    blend_pixel(
+                        data,
+                        stride,
+                        surf_w,
+                        surf_h,
+                        px,
+                        py,
+                        color,
+                        f32::from(*coverage) / 255.0,
+                        cl,
+                        ct,
+                        cr,
+                        cb,
+                    );
+                }
+            }
+        }
+        #[cfg(not(windows))]
+        let use_outline = true;
+        #[cfg(windows)]
+        let use_outline = native.is_none();
+        // Device-independent runs retain the portable outline rasterizer.
+        for g in text_run.glyphs.iter().filter(|_| use_outline) {
             let gx = pen_start + g.x * sx;
             let gy = baseline + g.y * sy;
             let glyph = GlyphId(g.glyph_id).with_scale_and_position(scale, ab_point(gx, gy));
@@ -880,6 +926,7 @@ mod tests {
             size_milli_pt: 24_000,
             wrap_width_milli_pt: None,
             device_scale_micros: None,
+            device_em_pixels: None,
             accelerator_index: None,
         };
         let mut fonts = FontTable::new();

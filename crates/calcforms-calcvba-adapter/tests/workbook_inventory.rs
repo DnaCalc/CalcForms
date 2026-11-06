@@ -74,7 +74,7 @@ fn key(runtime: &mut OxRuntime, key_code: i16) {
 }
 
 #[test]
-fn genuine_inventory_workbook_replays_retained_runtime_observations() {
+fn genuine_inventory_workbook_matches_every_native_state_trace_and_focus_field() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let directory = root.join("fixtures/workbooks/inventory");
     let form = WorkbookForm::open(directory.join("inventory.xlsm"), "InventoryForm").unwrap();
@@ -88,7 +88,7 @@ fn genuine_inventory_workbook_replays_retained_runtime_observations() {
         .collect::<Vec<_>>()
         .join("\n");
     assert!(application.trim_end().ends_with(original.trim_end()));
-    let observed: Value = serde_json::from_slice(&std::fs::read(root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/observations.json")).unwrap()).unwrap();
+    let observed: Value = serde_json::from_slice(&std::fs::read(root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/native-focus/observations.json")).unwrap()).unwrap();
     let cases = observed["observations"].as_array().unwrap();
     assert_eq!(cases[0]["observations"], cases[1]["observations"]);
     assert_eq!(cases[0]["initial_focus"], "QtyInput");
@@ -171,11 +171,8 @@ fn genuine_inventory_workbook_replays_retained_runtime_observations() {
         "CALCFORMS_INVENTORY_RUNTIME {}",
         json!({"observations":rows})
     );
-    // Compare every observed runtime field exactly. The independent native
-    // differential report retains the four cancel-focus failures (.123).
-    // No product parity claim follows from this replay check being green.
-    let retained: Value = serde_json::from_slice(&std::fs::read(root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/runtime.json")).unwrap()).unwrap();
-    assert_eq!(json!(rows), retained["observations"]);
+    // Require the independent native focus fields as well as State and Trace.
+    // The .119 before/after reports retain the previous measured failures.
     for (actual, expected) in rows
         .iter()
         .zip(cases[0]["observations"].as_array().unwrap())
@@ -190,5 +187,154 @@ fn genuine_inventory_workbook_replays_retained_runtime_observations() {
             "{} Trace",
             actual["step"]
         );
+        assert_eq!(
+            actual["focus"], expected["focus"],
+            "{} Focus",
+            actual["step"]
+        );
     }
+}
+
+#[test]
+fn escape_restores_pending_text_and_obeys_native_exit_veto_before_cancel_focus() {
+    use calcvba_symbol::manifest::{ModuleAttributes, ModuleKind, ModuleUnit};
+    use std::collections::BTreeMap;
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let directory = root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace");
+    let native: Value =
+        serde_json::from_slice(&std::fs::read(directory.join("observations.json")).unwrap())
+            .unwrap();
+    let mut observations = Vec::new();
+    for mode in [
+        "submit_clean",
+        "field_clean",
+        "field_dirty",
+        "before_veto",
+        "exit_veto",
+    ] {
+        let mut form = WorkbookForm::open(
+            root.join("fixtures/workbooks/inventory/inventory.xlsm"),
+            "InventoryForm",
+        )
+        .unwrap();
+        form.original_source =
+            std::fs::read_to_string(directory.join("instrumented-form.bas")).unwrap();
+        for (name, kind, source) in [
+            ("EscapeGlobals", ModuleKind::Procedural, "Option Explicit\nPublic EscapeMode As String\nPublic EscapeLog As String\n"),
+            ("EscapeDriver", ModuleKind::Class, "Public Sub Setup(ByVal Mode As String)\nEscapeMode = Mode\nEscapeLog = \"\"\nEnd Sub\nPublic Sub ClearLog()\nEscapeLog = \"\"\nEnd Sub\nPublic Function EventLog() As String\nEventLog = EscapeLog\nEnd Function\n"),
+        ] {
+            form.project_modules.push(ModuleUnit { module_name: name.into(), module_kind: kind, attributes: ModuleAttributes::named(name), source: source.into() });
+        }
+        let (mut runtime, _) = form
+            .runtime(Arc::new(StubShaper), HostServices::headless())
+            .unwrap();
+        let driver = runtime
+            .session_mut()
+            .create_class_instance("EscapeDriver")
+            .unwrap();
+        runtime
+            .session_mut()
+            .invoke_member_values(
+                driver.clone(),
+                "Setup",
+                Some(ProjectMemberKind::Method),
+                vec![Variant::from_string(mode)],
+            )
+            .unwrap();
+        put(&mut runtime, "QtyInput", "Text", Variant::from_string(""));
+        runtime.show_modeless().unwrap();
+        if mode == "submit_clean" {
+            key(&mut runtime, 9);
+        }
+        runtime
+            .session_mut()
+            .invoke_member_values(
+                driver.clone(),
+                "ClearLog",
+                Some(ProjectMemberKind::Method),
+                vec![],
+            )
+            .unwrap();
+        if ["field_dirty", "before_veto", "exit_veto"].contains(&mode) {
+            runtime
+                .dispatch_event_turn(RuntimeInput::CharacterInput("9".into()))
+                .unwrap();
+        }
+        fn observe(runtime: &mut OxRuntime, driver: &ObjectRef) -> BTreeMap<String, String> {
+            let text_control = control(runtime, "QtyInput");
+            let text = runtime
+                .session_mut()
+                .invoke_member_values(
+                    text_control,
+                    "Text",
+                    Some(ProjectMemberKind::PropertyGet),
+                    vec![],
+                )
+                .unwrap()
+                .as_bstr()
+                .unwrap()
+                .as_str();
+            let log = runtime
+                .session_mut()
+                .invoke_member_values(
+                    driver.clone(),
+                    "EventLog",
+                    Some(ProjectMemberKind::Method),
+                    vec![],
+                )
+                .unwrap()
+                .as_bstr()
+                .unwrap()
+                .as_str();
+            BTreeMap::from([
+                ("focus".into(), runtime.read_string("FocusName").unwrap()),
+                (
+                    "visible".into(),
+                    if runtime.form_window_state().unwrap().unwrap().1 {
+                        "True"
+                    } else {
+                        "False"
+                    }
+                    .into(),
+                ),
+                ("text".into(), text),
+                ("log".into(), log),
+                ("trace".into(), call(runtime, "Trace")),
+            ])
+        }
+        let before = observe(&mut runtime, &driver);
+        key(&mut runtime, 27);
+        let after = observe(&mut runtime, &driver);
+        for expected in native["observations"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .filter(|row| row["mode"] == mode)
+        {
+            let parse = |name: &str| -> BTreeMap<String, String> {
+                expected[name]
+                    .as_str()
+                    .unwrap()
+                    .split(';')
+                    .map(|field| {
+                        let (key, value) = field.split_once('=').unwrap();
+                        (key.into(), value.into())
+                    })
+                    .collect()
+            };
+            let nb = parse("before");
+            let na = parse("after");
+            for field in ["focus", "visible", "text", "trace"] {
+                assert_eq!(before[field], nb[field], "{mode} before {field}");
+                assert_eq!(after[field], na[field], "{mode} after {field}");
+            }
+            assert_eq!(
+                after["log"].strip_prefix(&before["log"]).unwrap(),
+                na["log"].strip_prefix(&nb["log"]).unwrap(),
+                "{mode} Escape event order"
+            );
+        }
+        observations.push(json!({"mode":mode,"before":before,"after":after}));
+    }
+    println!("CALCFORMS_ESCAPE_RUNTIME {}", json!(observations));
 }

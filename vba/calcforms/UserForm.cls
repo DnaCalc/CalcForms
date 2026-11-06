@@ -258,6 +258,7 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
             Reqs(J).SizeMilliPt = CLng(Core.FontSize * 1000)
             Reqs(J).Caption = Core.MeasureText(Part)
             Reqs(J).Accelerator = Core.Accelerator
+            Reqs(J).FontEmRounding = FontEmRoundingFor(Control)
             J = J + 1
         Next Part
     Next I
@@ -276,6 +277,24 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
         Next Part
     Next I
 End Sub
+
+' Native root edit sites round to the nearest pixel with midpoint values down.
+' Nested container drawing keeps nearest rounding. Surface receives a generic option.
+Private Function FontEmRoundingFor(ByVal Control As IOxControl) As Long
+    Dim Core As OxControlCore
+    Set Core = Control.Core
+    Select Case Core.Kind
+        Case oxControlTextBox
+            Dim I As Long, Root As IOxControl
+            For I = 1 To mControls.Count
+                Set Root = mControls.Item(I)
+                If Root.Core.NodeId = Core.NodeId Then
+                    FontEmRoundingFor = 1
+                    Exit Function
+                End If
+            Next I
+    End Select
+End Function
 
 ' Pass 2 -- layout + paint: no crossing. An AutoSize control with a caption shrink-wraps its
 ' measured run (measured size + 4pt/3pt insets per side = +8pt/+6pt total), written WITHOUT

@@ -1,0 +1,6054 @@
+{
+  "schema": "calcforms.layout_comparison.v2",
+  "form": "greeter",
+  "zoom": 100,
+  "excel_version": "16.0",
+  "excel_build": 20527.0,
+  "excel": {
+    "window": {
+      "file": "excel.png",
+      "size": [
+        400,
+        213
+      ],
+      "distinct_colors": 83,
+      "sha256": "34f9c2929ae1c7f997a30bca011dbe712d402b39705bea9dd77b33d706ebce3a"
+    },
+    "children": [
+      {
+        "hwnd": 117906930,
+        "class": "F3 Server e3900000",
+        "window_rect": [
+          580,
+          353,
+          964,
+          527
+        ],
+        "file": "excel-child-0.png",
+        "size": [
+          384,
+          174
+        ],
+        "distinct_colors": 72,
+        "sha256": "e8d21f401cb2d248b01e40fefd5f41d93de8a74f4ee1e91f44fe69535eb75a83"
+      }
+    ],
+    "composite": {
+      "file": "excel-composited.png",
+      "sha256": "34f9c2929ae1c7f997a30bca011dbe712d402b39705bea9dd77b33d706ebce3a"
+    },
+    "geometry": {
+      "hwnd": 52961242,
+      "pid": 22924,
+      "window_rect": [
+        572,
+        322,
+        972,
+        535
+      ],
+      "client_size": [
+        384,
+        174
+      ],
+      "client_offset": [
+        8,
+        31
+      ],
+      "style": 2496135296,
+      "extended_style": 257
+    },
+    "client": {
+      "file": "excel-client.png",
+      "sha256": "e8d21f401cb2d248b01e40fefd5f41d93de8a74f4ee1e91f44fe69535eb75a83"
+    }
+  },
+  "calcforms": {
+    "window": {
+      "file": "calcforms.png",
+      "size": [
+        400,
+        213
+      ],
+      "distinct_colors": 140,
+      "sha256": "2992721e1605a4bd9fbf7e5ab450e0b47b3d94567920356861e16164e616e8c4"
+    },
+    "children": [],
+    "composite": {
+      "file": "calcforms-composited.png",
+      "sha256": "2992721e1605a4bd9fbf7e5ab450e0b47b3d94567920356861e16164e616e8c4"
+    },
+    "geometry": {
+      "hwnd": 155063082,
+      "pid": 27612,
+      "window_rect": [
+        52,
+        52,
+        452,
+        265
+      ],
+      "client_size": [
+        384,
+        174
+      ],
+      "client_offset": [
+        8,
+        31
+      ],
+      "style": 382664704,
+      "extended_style": 262416
+    },
+    "client": {
+      "file": "calcforms-client.png",
+      "sha256": "2b7dd40ca668cac4419f16929901f0ccca9148c4145d518b8e33d7f6e8499b38"
+    }
+  },
+  "excel_facts": "288;130.5;100\nPrompt;12;12;96;18;Tahoma;8.25;0\nInputName;12;36;170;20;Tahoma;8.25;1\nGreet;198;36;72;24;Tahoma;8.25;2\nLoud;12;66;120;18;Tahoma;8.25;3\nOutput;12;96;258;22;Tahoma;8.25;4",
+  "excel_state": "Initialize;text=Ada;caption=(ready);loud=False",
+  "calcforms_observation": "Initialize;text=Ada;caption=(ready);loud=False",
+  "scene_file": "scene-1794002782458710000.json",
+  "runtime_sha256": "70a96c6b6d9c66595d7a94314746acdb90177c3304633dd0770ebb2401b135ec",
+  "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+  "pixels": {
+    "comparable": true,
+    "pixels": 66816,
+    "different_pixels": 1141,
+    "different_fraction": 0.017076748084291188,
+    "mean_absolute_rgb": [
+      1.8163763170498084,
+      1.605124521072797,
+      1.3379130747126438
+    ],
+    "luminance_error_above_32": 872,
+    "diff": "difference.png"
+  },
+  "native_paint_facts": "",
+  "native_capture_validation": {
+    "verified": true,
+    "selected": "composite",
+    "scope": "recorded background probes and visible nonempty root text regions",
+    "probes": [],
+    "candidates": {
+      "composite": {
+        "samples": [],
+        "matches": true,
+        "text_samples": [
+          {
+            "control": "Prompt",
+            "roi_px": [
+              16,
+              16,
+              144,
+              40
+            ],
+            "ink_bounds_px": [
+              18,
+              19,
+              66,
+              27
+            ],
+            "line_bands_px": [
+              [
+                19,
+                27
+              ]
+            ],
+            "ink_pixels": 51,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "InputName",
+            "roi_px": [
+              19,
+              51,
+              240,
+              72
+            ],
+            "ink_bounds_px": [
+              29,
+              52,
+              48,
+              65
+            ],
+            "line_bands_px": [
+              [
+                52,
+                65
+              ]
+            ],
+            "ink_pixels": 39,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "Greet",
+            "roi_px": [
+              267,
+              51,
+              357,
+              77
+            ],
+            "ink_bounds_px": [
+              298,
+              60,
+              324,
+              68
+            ],
+            "line_bands_px": [
+              [
+                60,
+                68
+              ]
+            ],
+            "ink_pixels": 41,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "Loud",
+            "roi_px": [
+              31,
+              88,
+              176,
+              112
+            ],
+            "ink_bounds_px": [
+              34,
+              98,
+              84,
+              104
+            ],
+            "line_bands_px": [
+              [
+                98,
+                104
+              ]
+            ],
+            "ink_pixels": 82,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "Output",
+            "roi_px": [
+              16,
+              128,
+              360,
+              157
+            ],
+            "ink_bounds_px": [
+              17,
+              130,
+              49,
+              141
+            ],
+            "line_bands_px": [
+              [
+                130,
+                141
+              ]
+            ],
+            "ink_pixels": 41,
+            "foreground_classes": [
+              "chromatic"
+            ],
+            "matches": true
+          }
+        ]
+      },
+      "parent": {
+        "samples": [],
+        "matches": true,
+        "text_samples": [
+          {
+            "control": "Prompt",
+            "roi_px": [
+              16,
+              16,
+              144,
+              40
+            ],
+            "ink_bounds_px": [
+              18,
+              19,
+              66,
+              27
+            ],
+            "line_bands_px": [
+              [
+                19,
+                27
+              ]
+            ],
+            "ink_pixels": 51,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "InputName",
+            "roi_px": [
+              19,
+              51,
+              240,
+              72
+            ],
+            "ink_bounds_px": [
+              29,
+              52,
+              48,
+              65
+            ],
+            "line_bands_px": [
+              [
+                52,
+                65
+              ]
+            ],
+            "ink_pixels": 39,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "Greet",
+            "roi_px": [
+              267,
+              51,
+              357,
+              77
+            ],
+            "ink_bounds_px": [
+              298,
+              60,
+              324,
+              68
+            ],
+            "line_bands_px": [
+              [
+                60,
+                68
+              ]
+            ],
+            "ink_pixels": 41,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "Loud",
+            "roi_px": [
+              31,
+              88,
+              176,
+              112
+            ],
+            "ink_bounds_px": [
+              34,
+              98,
+              84,
+              104
+            ],
+            "line_bands_px": [
+              [
+                98,
+                104
+              ]
+            ],
+            "ink_pixels": 82,
+            "foreground_classes": [
+              "dark-text"
+            ],
+            "matches": true
+          },
+          {
+            "control": "Output",
+            "roi_px": [
+              16,
+              128,
+              360,
+              157
+            ],
+            "ink_bounds_px": [
+              17,
+              130,
+              49,
+              141
+            ],
+            "line_bands_px": [
+              [
+                130,
+                141
+              ]
+            ],
+            "ink_pixels": 41,
+            "foreground_classes": [
+              "chromatic"
+            ],
+            "matches": true
+          }
+        ]
+      }
+    },
+    "text_probes": [
+      {
+        "control": "Prompt",
+        "sources": [
+          "Your name"
+        ],
+        "disabled": false,
+        "roi_px": [
+          16.0,
+          16.0,
+          144.0,
+          40.0
+        ],
+        "font_height_px": 11.0
+      },
+      {
+        "control": "InputName",
+        "sources": [
+          "Ada"
+        ],
+        "disabled": false,
+        "roi_px": [
+          18.666666666666668,
+          50.666666666666664,
+          240.0,
+          71.99999999999999
+        ],
+        "font_height_px": 11.0
+      },
+      {
+        "control": "Greet",
+        "sources": [
+          "Greet"
+        ],
+        "disabled": false,
+        "roi_px": [
+          266.6666666666667,
+          50.666666666666664,
+          357.3333333333333,
+          77.33333333333333
+        ],
+        "font_height_px": 11.0
+      },
+      {
+        "control": "Loud",
+        "sources": [
+          "Uppercase"
+        ],
+        "disabled": false,
+        "roi_px": [
+          30.666666666666664,
+          88.0,
+          176.0,
+          112.0
+        ],
+        "font_height_px": 11.0
+      },
+      {
+        "control": "Output",
+        "sources": [
+          "(ready)"
+        ],
+        "disabled": false,
+        "roi_px": [
+          16.0,
+          128.0,
+          360.0,
+          157.33333333333331
+        ],
+        "font_height_px": 11.0
+      }
+    ],
+    "text_scope": "visible nonempty root text regions; presence only, not complete glyph identity or nested coverage"
+  },
+  "capture": "PrintWindow parent and visible owned children; client crop from GetClientRect/ClientToScreen",
+  "input": "see session input log",
+  "measurements": {
+    "bounds_source": "resident Scene, mapped by the verified flat greeter fixture site order",
+    "controls": [
+      {
+        "name": "Greet",
+        "native": {
+          "kind": "CommandButton",
+          "bounds": [
+            198.0,
+            36.0,
+            72.0,
+            24.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 2
+        },
+        "calcforms": {
+          "kind": "CommandButton",
+          "bounds": [
+            198.0,
+            36.0,
+            72.0,
+            24.009449
+          ]
+        },
+        "delta_pt": [
+          0.0,
+          0.0,
+          0.0,
+          0.00944900000000004
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "InputName",
+        "native": {
+          "kind": "TextBox",
+          "bounds": [
+            12.0,
+            36.0,
+            170.0,
+            20.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 1
+        },
+        "calcforms": {
+          "kind": "TextBox",
+          "bounds": [
+            11.990551,
+            36.0,
+            169.9937,
+            20.012598
+          ]
+        },
+        "delta_pt": [
+          -0.00944900000000004,
+          0.0,
+          -0.006300000000010186,
+          0.012598000000000553
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Loud",
+        "native": {
+          "kind": "CheckBox",
+          "bounds": [
+            12.0,
+            66.0,
+            120.0,
+            18.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 3
+        },
+        "calcforms": {
+          "kind": "CheckBox",
+          "bounds": [
+            11.990551,
+            65.990555,
+            119.990555,
+            18.0
+          ]
+        },
+        "delta_pt": [
+          -0.00944900000000004,
+          -0.009444999999999482,
+          -0.009444999999999482,
+          0.0
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Output",
+        "native": {
+          "kind": "Label",
+          "bounds": [
+            12.0,
+            96.0,
+            258.0,
+            22.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 4
+        },
+        "calcforms": {
+          "kind": "Label",
+          "bounds": [
+            11.990551,
+            96.009445,
+            258.00946,
+            21.996851
+          ]
+        },
+        "delta_pt": [
+          -0.00944900000000004,
+          0.009444999999999482,
+          0.009459999999990032,
+          -0.0031490000000005125
+        ],
+        "kind_equal": true
+      },
+      {
+        "name": "Prompt",
+        "native": {
+          "kind": "Label",
+          "bounds": [
+            12.0,
+            12.0,
+            96.0,
+            18.0
+          ],
+          "font": "Tahoma",
+          "font_size": 8.25,
+          "tab_index": 0
+        },
+        "calcforms": {
+          "kind": "Label",
+          "bounds": [
+            11.990551,
+            11.990551,
+            96.009445,
+            18.0
+          ]
+        },
+        "delta_pt": [
+          -0.00944900000000004,
+          -0.00944900000000004,
+          0.009444999999999482,
+          0.0
+        ],
+        "kind_equal": true
+      }
+    ],
+    "missing_in_calcforms": [],
+    "missing_in_excel": [],
+    "max_abs_delta_pt": 0.012598000000000553,
+    "text_runs": [
+      {
+        "text": "(ready)",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 27.0,
+        "ascent": 8.25,
+        "descent": 1.5,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Greet",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 20.25,
+        "ascent": 8.25,
+        "descent": 1.5,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Ada",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 14.25,
+        "ascent": 8.25,
+        "descent": 1.5,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Your name",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 38.25,
+        "ascent": 8.25,
+        "descent": 1.5,
+        "line_gap": 0.0
+      },
+      {
+        "text": "Uppercase",
+        "font_id": 1,
+        "size_pt": 8.25,
+        "advance": 38.25,
+        "ascent": 8.25,
+        "descent": 1.5,
+        "line_gap": 0.0
+      }
+    ],
+    "text_rects": [
+      {
+        "node": 1,
+        "run": 8523052463610683095,
+        "rect": {
+          "x": 11.990551,
+          "y": 12.740551,
+          "w": 96.009445,
+          "h": 9.75
+        },
+        "clip": true
+      },
+      {
+        "node": 3,
+        "run": 2693566692746207632,
+        "rect": {
+          "x": 202.0,
+          "y": 39.0,
+          "w": 64.0,
+          "h": 18.009449
+        },
+        "clip": true
+      },
+      {
+        "node": 4,
+        "run": 9567952726139201685,
+        "rect": {
+          "x": 25.490551,
+          "y": 68.990555,
+          "w": 104.990555,
+          "h": 12.0
+        },
+        "clip": true
+      },
+      {
+        "node": 5,
+        "run": 438647546249729471,
+        "rect": {
+          "x": 11.990551,
+          "y": 96.759445,
+          "w": 258.00946,
+          "h": 9.75
+        },
+        "clip": true
+      },
+      {
+        "node": 2900,
+        "run": 8032170280478559513,
+        "rect": {
+          "x": 20.990551,
+          "y": 39.0,
+          "w": 157.9937,
+          "h": 9.75
+        },
+        "clip": false
+      }
+    ],
+    "client_size_equal": true
+  },
+  "native_colour_properties": {
+    "Prompt": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "InputName": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483653,
+        "rgb": [
+          255,
+          255,
+          255
+        ]
+      },
+      "text": {
+        "ole": 2147483656,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Greet": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Loud": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    },
+    "Output": {
+      "enabled": true,
+      "fill": {
+        "ole": 2147483663,
+        "rgb": [
+          240,
+          240,
+          240
+        ]
+      },
+      "text": {
+        "ole": 2147483666,
+        "rgb": [
+          0,
+          0,
+          0
+        ]
+      },
+      "effective_text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ]
+    }
+  },
+  "calcforms_colour_paint": {
+    "Prompt": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 1
+    },
+    "InputName": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        255,
+        255,
+        255
+      ],
+      "fill_node": 2
+    },
+    "Greet": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 3
+    },
+    "Loud": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 0
+    },
+    "Output": {
+      "text_rgb": [
+        [
+          0,
+          0,
+          0
+        ]
+      ],
+      "fill_rgb": [
+        240,
+        240,
+        240
+      ],
+      "fill_node": 5
+    }
+  },
+  "colour_measurements": {
+    "Greet": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "InputName": {
+      "fill_class": {
+        "native": "white",
+        "calcforms": "white"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "Loud": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "Output": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    },
+    "Prompt": {
+      "fill_class": {
+        "native": "control-face",
+        "calcforms": "control-face"
+      },
+      "text_class": {
+        "native": [
+          "dark-text"
+        ],
+        "calcforms": [
+          "dark-text"
+        ]
+      }
+    }
+  },
+  "native_drawing": {
+    "file": "native-drawing.emf",
+    "sha256": "9f4f4462f291fc943a4d04df5345ae2702e29e22a3db8d23029dcbc062e86587",
+    "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+    "font_metrics": {
+      "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37": {
+        "height": 13,
+        "ascent": 11,
+        "descent": 2,
+        "internal_leading": 2,
+        "external_leading": 0
+      },
+      "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0": {
+        "height": 13,
+        "ascent": 13,
+        "descent": 0,
+        "internal_leading": 0,
+        "external_leading": 0
+      }
+    },
+    "text": [
+      {
+        "record": 15,
+        "text": "Your name",
+        "reference_px": [
+          16.0,
+          16.0
+        ],
+        "baseline_px": 27.0,
+        "origin_px": [
+          16.0,
+          27.0
+        ],
+        "clip_px": [
+          16.0,
+          16.0,
+          144.0,
+          29.0
+        ],
+        "cell_edges_px": [
+          16.0,
+          22.0,
+          28.0,
+          34.0,
+          38.0,
+          41.0,
+          47.0,
+          53.0,
+          61.0,
+          67.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+          "face": "Tahoma",
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 44,
+        "text": "Ada",
+        "reference_px": [
+          28.0,
+          52.0
+        ],
+        "baseline_px": 63.0,
+        "origin_px": [
+          28.0,
+          63.0
+        ],
+        "clip_px": [
+          18.0,
+          52.0,
+          241.0,
+          65.0
+        ],
+        "cell_edges_px": [
+          28.0,
+          35.0,
+          41.0,
+          47.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+          "face": "Tahoma",
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 78,
+        "text": "Greet",
+        "reference_px": [
+          298.0,
+          57.0
+        ],
+        "baseline_px": 68.0,
+        "origin_px": [
+          298.0,
+          68.0
+        ],
+        "clip_px": [
+          270.0,
+          57.0,
+          354.0,
+          70.0
+        ],
+        "cell_edges_px": [
+          298.0,
+          305.0,
+          309.0,
+          315.0,
+          321.0,
+          325.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+          "face": "Tahoma",
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 88,
+        "text": "Uppercase",
+        "reference_px": [
+          34.0,
+          93.0
+        ],
+        "baseline_px": 104.0,
+        "origin_px": [
+          34.0,
+          104.0
+        ],
+        "clip_px": [
+          34.0,
+          93.0,
+          173.0,
+          106.0
+        ],
+        "cell_edges_px": [
+          34.0,
+          41.0,
+          47.0,
+          53.0,
+          59.0,
+          63.0,
+          68.0,
+          74.0,
+          79.0,
+          85.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+          "face": "Tahoma",
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 93,
+        "text": "g",
+        "reference_px": [
+          17.0,
+          93.0
+        ],
+        "baseline_px": 106.0,
+        "origin_px": [
+          17.0,
+          106.0
+        ],
+        "clip_px": null,
+        "cell_edges_px": [
+          17.0,
+          30.0
+        ],
+        "colour": 16777215,
+        "font": {
+          "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+          "face": "Marlett",
+          "height": 13,
+          "ascent": 13,
+          "descent": 0,
+          "internal_leading": 0,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 95,
+        "text": "f",
+        "reference_px": [
+          17.0,
+          93.0
+        ],
+        "baseline_px": 106.0,
+        "origin_px": [
+          17.0,
+          106.0
+        ],
+        "clip_px": null,
+        "cell_edges_px": [
+          17.0,
+          30.0
+        ],
+        "colour": 14935011,
+        "font": {
+          "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+          "face": "Marlett",
+          "height": 13,
+          "ascent": 13,
+          "descent": 0,
+          "internal_leading": 0,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 97,
+        "text": "e",
+        "reference_px": [
+          17.0,
+          93.0
+        ],
+        "baseline_px": 106.0,
+        "origin_px": [
+          17.0,
+          106.0
+        ],
+        "clip_px": null,
+        "cell_edges_px": [
+          17.0,
+          30.0
+        ],
+        "colour": 6908265,
+        "font": {
+          "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+          "face": "Marlett",
+          "height": 13,
+          "ascent": 13,
+          "descent": 0,
+          "internal_leading": 0,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 99,
+        "text": "d",
+        "reference_px": [
+          17.0,
+          93.0
+        ],
+        "baseline_px": 106.0,
+        "origin_px": [
+          17.0,
+          106.0
+        ],
+        "clip_px": null,
+        "cell_edges_px": [
+          17.0,
+          30.0
+        ],
+        "colour": 16777215,
+        "font": {
+          "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+          "face": "Marlett",
+          "height": 13,
+          "ascent": 13,
+          "descent": 0,
+          "internal_leading": 0,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 101,
+        "text": "c",
+        "reference_px": [
+          17.0,
+          93.0
+        ],
+        "baseline_px": 106.0,
+        "origin_px": [
+          17.0,
+          106.0
+        ],
+        "clip_px": null,
+        "cell_edges_px": [
+          17.0,
+          30.0
+        ],
+        "colour": 10526880,
+        "font": {
+          "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+          "face": "Marlett",
+          "height": 13,
+          "ascent": 13,
+          "descent": 0,
+          "internal_leading": 0,
+          "external_leading": 0
+        }
+      },
+      {
+        "record": 114,
+        "text": "(ready)",
+        "reference_px": [
+          16.0,
+          128.0
+        ],
+        "baseline_px": 139.0,
+        "origin_px": [
+          16.0,
+          139.0
+        ],
+        "clip_px": [
+          16.0,
+          128.0,
+          360.0,
+          141.0
+        ],
+        "cell_edges_px": [
+          16.0,
+          20.0,
+          24.0,
+          30.0,
+          36.0,
+          42.0,
+          48.0,
+          52.0
+        ],
+        "colour": 0,
+        "font": {
+          "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+          "face": "Tahoma",
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      }
+    ]
+  },
+  "native_control_drawings": {
+    "Greet": {
+      "file": "Greet-native.emf",
+      "sha256": "6841b24be97f6d89b43fe3f8732ab7032419f30be5dfd967b8eab2454288c568",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37": {
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 34,
+          "text": "Greet",
+          "reference_px": [
+            34.0,
+            9.0
+          ],
+          "baseline_px": 20.0,
+          "origin_px": [
+            34.0,
+            20.0
+          ],
+          "clip_px": [
+            6.0,
+            9.0,
+            90.0,
+            22.0
+          ],
+          "cell_edges_px": [
+            34.0,
+            41.0,
+            45.0,
+            51.0,
+            57.0,
+            61.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+            "face": "Tahoma",
+            "height": 13,
+            "ascent": 11,
+            "descent": 2,
+            "internal_leading": 2,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "InputName": {
+      "file": "InputName-native.emf",
+      "sha256": "d4fec09b75a368456d446b6d9d9d3441188928028c6f75484d973702e5290707",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37": {
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 29,
+          "text": "Ada",
+          "reference_px": [
+            12.0,
+            4.0
+          ],
+          "baseline_px": 15.0,
+          "origin_px": [
+            12.0,
+            15.0
+          ],
+          "clip_px": [
+            2.0,
+            4.0,
+            225.0,
+            17.0
+          ],
+          "cell_edges_px": [
+            12.0,
+            19.0,
+            25.0,
+            31.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+            "face": "Tahoma",
+            "height": 13,
+            "ascent": 11,
+            "descent": 2,
+            "internal_leading": 2,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "Loud": {
+      "file": "Loud-native.emf",
+      "sha256": "fea044f988eddb6f5a992f1a9527c477b7be792c6b57ba0d5cf708804439e166",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37": {
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        },
+        "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0": {
+          "height": 13,
+          "ascent": 13,
+          "descent": 0,
+          "internal_leading": 0,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 12,
+          "text": "Uppercase",
+          "reference_px": [
+            18.0,
+            5.0
+          ],
+          "baseline_px": 16.0,
+          "origin_px": [
+            18.0,
+            16.0
+          ],
+          "clip_px": [
+            18.0,
+            5.0,
+            157.0,
+            18.0
+          ],
+          "cell_edges_px": [
+            18.0,
+            25.0,
+            31.0,
+            37.0,
+            43.0,
+            47.0,
+            52.0,
+            58.0,
+            63.0,
+            69.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+            "face": "Tahoma",
+            "height": 13,
+            "ascent": 11,
+            "descent": 2,
+            "internal_leading": 2,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 17,
+          "text": "g",
+          "reference_px": [
+            1.0,
+            5.0
+          ],
+          "baseline_px": 18.0,
+          "origin_px": [
+            1.0,
+            18.0
+          ],
+          "clip_px": null,
+          "cell_edges_px": [
+            1.0,
+            14.0
+          ],
+          "colour": 16777215,
+          "font": {
+            "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+            "face": "Marlett",
+            "height": 13,
+            "ascent": 13,
+            "descent": 0,
+            "internal_leading": 0,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 19,
+          "text": "f",
+          "reference_px": [
+            1.0,
+            5.0
+          ],
+          "baseline_px": 18.0,
+          "origin_px": [
+            1.0,
+            18.0
+          ],
+          "clip_px": null,
+          "cell_edges_px": [
+            1.0,
+            14.0
+          ],
+          "colour": 14935011,
+          "font": {
+            "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+            "face": "Marlett",
+            "height": 13,
+            "ascent": 13,
+            "descent": 0,
+            "internal_leading": 0,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 21,
+          "text": "e",
+          "reference_px": [
+            1.0,
+            5.0
+          ],
+          "baseline_px": 18.0,
+          "origin_px": [
+            1.0,
+            18.0
+          ],
+          "clip_px": null,
+          "cell_edges_px": [
+            1.0,
+            14.0
+          ],
+          "colour": 6908265,
+          "font": {
+            "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+            "face": "Marlett",
+            "height": 13,
+            "ascent": 13,
+            "descent": 0,
+            "internal_leading": 0,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 23,
+          "text": "d",
+          "reference_px": [
+            1.0,
+            5.0
+          ],
+          "baseline_px": 18.0,
+          "origin_px": [
+            1.0,
+            18.0
+          ],
+          "clip_px": null,
+          "cell_edges_px": [
+            1.0,
+            14.0
+          ],
+          "colour": 16777215,
+          "font": {
+            "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+            "face": "Marlett",
+            "height": 13,
+            "ascent": 13,
+            "descent": 0,
+            "internal_leading": 0,
+            "external_leading": 0
+          }
+        },
+        {
+          "record": 25,
+          "text": "c",
+          "reference_px": [
+            1.0,
+            5.0
+          ],
+          "baseline_px": 18.0,
+          "origin_px": [
+            1.0,
+            18.0
+          ],
+          "clip_px": null,
+          "cell_edges_px": [
+            1.0,
+            14.0
+          ],
+          "colour": 10526880,
+          "font": {
+            "key": "df0f1e7bf834d61f2823c49b54d7542e1a8c5c7548f25aed7e61a607a75145a0",
+            "face": "Marlett",
+            "height": 13,
+            "ascent": 13,
+            "descent": 0,
+            "internal_leading": 0,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "Output": {
+      "file": "Output-native.emf",
+      "sha256": "dd47656d245d7e5409f0451fa8e02049b9b34db8956f5a529c181af443a59be9",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37": {
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 11,
+          "text": "(ready)",
+          "reference_px": [
+            0.0,
+            0.0
+          ],
+          "baseline_px": 11.0,
+          "origin_px": [
+            0.0,
+            11.0
+          ],
+          "clip_px": [
+            0.0,
+            0.0,
+            344.0,
+            13.0
+          ],
+          "cell_edges_px": [
+            0.0,
+            4.0,
+            8.0,
+            14.0,
+            20.0,
+            26.0,
+            32.0,
+            36.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+            "face": "Tahoma",
+            "height": 13,
+            "ascent": 11,
+            "descent": 2,
+            "internal_leading": 2,
+            "external_leading": 0
+          }
+        }
+      ]
+    },
+    "Prompt": {
+      "file": "Prompt-native.emf",
+      "sha256": "5e604625d68508416b2deaa713e49f814e9ffca38cc2c62bdaa8d053dd8a67c7",
+      "method": "MSForms public OleDraw / IViewObject; EMR_EXTTEXTOUTW and measured GDI font metrics",
+      "font_metrics": {
+        "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37": {
+          "height": 13,
+          "ascent": 11,
+          "descent": 2,
+          "internal_leading": 2,
+          "external_leading": 0
+        }
+      },
+      "text": [
+        {
+          "record": 11,
+          "text": "Your name",
+          "reference_px": [
+            0.0,
+            0.0
+          ],
+          "baseline_px": 11.0,
+          "origin_px": [
+            0.0,
+            11.0
+          ],
+          "clip_px": [
+            0.0,
+            0.0,
+            128.0,
+            13.0
+          ],
+          "cell_edges_px": [
+            0.0,
+            6.0,
+            12.0,
+            18.0,
+            22.0,
+            25.0,
+            31.0,
+            37.0,
+            45.0,
+            51.0
+          ],
+          "colour": 0,
+          "font": {
+            "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+            "face": "Tahoma",
+            "height": 13,
+            "ascent": 11,
+            "descent": 2,
+            "internal_leading": 2,
+            "external_leading": 0
+          }
+        }
+      ]
+    }
+  },
+  "parity_measurements": {
+    "Greet": {
+      "border_thickness": {
+        "native": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "calcforms": [
+          3,
+          3,
+          3,
+          3
+        ]
+      },
+      "border_class": {
+        "native": [
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ]
+        ],
+        "calcforms": [
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ]
+        ]
+      },
+      "baseline": {
+        "native": [
+          20.0
+        ],
+        "calcforms": [
+          20.50629933333333
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "InputName": {
+      "border_thickness": {
+        "native": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "calcforms": [
+          2,
+          2,
+          2,
+          2
+        ]
+      },
+      "border_class": {
+        "native": [
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "white",
+            "mid-light"
+          ],
+          [
+            "white",
+            "mid-light"
+          ]
+        ],
+        "calcforms": [
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "white",
+            "mid-light"
+          ],
+          [
+            "white",
+            "mid-light"
+          ]
+        ]
+      },
+      "baseline": {
+        "native": [
+          15.0
+        ],
+        "calcforms": [
+          15.0
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "Loud": {
+      "baseline": {
+        "native": [
+          16.0
+        ],
+        "calcforms": [
+          16.5
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "Output": {
+      "baseline": {
+        "native": [
+          11.0
+        ],
+        "calcforms": [
+          12.0
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    },
+    "Prompt": {
+      "baseline": {
+        "native": [
+          11.0
+        ],
+        "calcforms": [
+          11.999999999999998
+        ]
+      },
+      "wrap_point": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "exact_line_breaks": {
+        "native": [
+          []
+        ],
+        "calcforms": [
+          []
+        ]
+      },
+      "clipping_point": {
+        "native": [
+          [
+            null
+          ]
+        ],
+        "calcforms": [
+          [
+            null
+          ]
+        ]
+      }
+    }
+  },
+  "spacing_measurements": {},
+  "border_scan_lines": {
+    "Greet": {
+      "native": {
+        "depths": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "classes": [
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ]
+        ],
+        "sample_pixels": [
+          [
+            [
+              264,
+              71
+            ],
+            [
+              265,
+              71
+            ],
+            [
+              266,
+              71
+            ],
+            [
+              267,
+              71
+            ],
+            [
+              268,
+              71
+            ],
+            [
+              269,
+              71
+            ],
+            [
+              270,
+              71
+            ],
+            [
+              271,
+              71
+            ]
+          ],
+          [
+            [
+              296,
+              48
+            ],
+            [
+              296,
+              49
+            ],
+            [
+              296,
+              50
+            ],
+            [
+              296,
+              51
+            ],
+            [
+              296,
+              52
+            ],
+            [
+              296,
+              53
+            ],
+            [
+              296,
+              54
+            ],
+            [
+              296,
+              55
+            ]
+          ],
+          [
+            [
+              359,
+              71
+            ],
+            [
+              358,
+              71
+            ],
+            [
+              357,
+              71
+            ],
+            [
+              356,
+              71
+            ],
+            [
+              355,
+              71
+            ],
+            [
+              354,
+              71
+            ],
+            [
+              353,
+              71
+            ],
+            [
+              352,
+              71
+            ]
+          ],
+          [
+            [
+              296,
+              79
+            ],
+            [
+              296,
+              78
+            ],
+            [
+              296,
+              77
+            ],
+            [
+              296,
+              76
+            ],
+            [
+              296,
+              75
+            ],
+            [
+              296,
+              74
+            ],
+            [
+              296,
+              73
+            ],
+            [
+              296,
+              72
+            ]
+          ]
+        ]
+      },
+      "calcforms": {
+        "depths": [
+          3,
+          3,
+          3,
+          3
+        ],
+        "classes": [
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "white",
+            "mid-light"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ],
+          [
+            "dark-text",
+            "shadow-or-disabled"
+          ]
+        ],
+        "sample_pixels": [
+          [
+            [
+              264,
+              71
+            ],
+            [
+              265,
+              71
+            ],
+            [
+              266,
+              71
+            ],
+            [
+              267,
+              71
+            ],
+            [
+              268,
+              71
+            ],
+            [
+              269,
+              71
+            ],
+            [
+              270,
+              71
+            ],
+            [
+              271,
+              71
+            ]
+          ],
+          [
+            [
+              296,
+              48
+            ],
+            [
+              296,
+              49
+            ],
+            [
+              296,
+              50
+            ],
+            [
+              296,
+              51
+            ],
+            [
+              296,
+              52
+            ],
+            [
+              296,
+              53
+            ],
+            [
+              296,
+              54
+            ],
+            [
+              296,
+              55
+            ]
+          ],
+          [
+            [
+              359,
+              71
+            ],
+            [
+              358,
+              71
+            ],
+            [
+              357,
+              71
+            ],
+            [
+              356,
+              71
+            ],
+            [
+              355,
+              71
+            ],
+            [
+              354,
+              71
+            ],
+            [
+              353,
+              71
+            ],
+            [
+              352,
+              71
+            ]
+          ],
+          [
+            [
+              296,
+              79
+            ],
+            [
+              296,
+              78
+            ],
+            [
+              296,
+              77
+            ],
+            [
+              296,
+              76
+            ],
+            [
+              296,
+              75
+            ],
+            [
+              296,
+              74
+            ],
+            [
+              296,
+              73
+            ],
+            [
+              296,
+              72
+            ]
+          ]
+        ]
+      }
+    },
+    "InputName": {
+      "native": {
+        "depths": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "classes": [
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "white",
+            "mid-light"
+          ],
+          [
+            "white",
+            "mid-light"
+          ]
+        ],
+        "sample_pixels": [
+          [
+            [
+              16,
+              68
+            ],
+            [
+              17,
+              68
+            ],
+            [
+              18,
+              68
+            ],
+            [
+              19,
+              68
+            ],
+            [
+              20,
+              68
+            ],
+            [
+              21,
+              68
+            ],
+            [
+              22,
+              68
+            ],
+            [
+              23,
+              68
+            ]
+          ],
+          [
+            [
+              92,
+              48
+            ],
+            [
+              92,
+              49
+            ],
+            [
+              92,
+              50
+            ],
+            [
+              92,
+              51
+            ],
+            [
+              92,
+              52
+            ],
+            [
+              92,
+              53
+            ],
+            [
+              92,
+              54
+            ],
+            [
+              92,
+              55
+            ]
+          ],
+          [
+            [
+              242,
+              68
+            ],
+            [
+              241,
+              68
+            ],
+            [
+              240,
+              68
+            ],
+            [
+              239,
+              68
+            ],
+            [
+              238,
+              68
+            ],
+            [
+              237,
+              68
+            ],
+            [
+              236,
+              68
+            ],
+            [
+              235,
+              68
+            ]
+          ],
+          [
+            [
+              92,
+              74
+            ],
+            [
+              92,
+              73
+            ],
+            [
+              92,
+              72
+            ],
+            [
+              92,
+              71
+            ],
+            [
+              92,
+              70
+            ],
+            [
+              92,
+              69
+            ],
+            [
+              92,
+              68
+            ],
+            [
+              92,
+              67
+            ]
+          ]
+        ]
+      },
+      "calcforms": {
+        "depths": [
+          2,
+          2,
+          2,
+          2
+        ],
+        "classes": [
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "shadow-or-disabled"
+          ],
+          [
+            "white",
+            "mid-light"
+          ],
+          [
+            "white",
+            "mid-light"
+          ]
+        ],
+        "sample_pixels": [
+          [
+            [
+              16,
+              68
+            ],
+            [
+              17,
+              68
+            ],
+            [
+              18,
+              68
+            ],
+            [
+              19,
+              68
+            ],
+            [
+              20,
+              68
+            ],
+            [
+              21,
+              68
+            ],
+            [
+              22,
+              68
+            ],
+            [
+              23,
+              68
+            ]
+          ],
+          [
+            [
+              92,
+              48
+            ],
+            [
+              92,
+              49
+            ],
+            [
+              92,
+              50
+            ],
+            [
+              92,
+              51
+            ],
+            [
+              92,
+              52
+            ],
+            [
+              92,
+              53
+            ],
+            [
+              92,
+              54
+            ],
+            [
+              92,
+              55
+            ]
+          ],
+          [
+            [
+              242,
+              68
+            ],
+            [
+              241,
+              68
+            ],
+            [
+              240,
+              68
+            ],
+            [
+              239,
+              68
+            ],
+            [
+              238,
+              68
+            ],
+            [
+              237,
+              68
+            ],
+            [
+              236,
+              68
+            ],
+            [
+              235,
+              68
+            ]
+          ],
+          [
+            [
+              92,
+              74
+            ],
+            [
+              92,
+              73
+            ],
+            [
+              92,
+              72
+            ],
+            [
+              92,
+              71
+            ],
+            [
+              92,
+              70
+            ],
+            [
+              92,
+              69
+            ],
+            [
+              92,
+              68
+            ],
+            [
+              92,
+              67
+            ]
+          ]
+        ]
+      }
+    }
+  },
+  "drawing_text_measurements": {
+    "controls": {
+      "Greet": {
+        "captions": [
+          "Greet"
+        ],
+        "native": {
+          "baseline": [
+            20.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Greet",
+              "baseline_px": 20.0,
+              "records": [
+                {
+                  "record": 34,
+                  "text": "Greet",
+                  "reference_px": [
+                    34.0,
+                    9.0
+                  ],
+                  "baseline_px": 20.0,
+                  "origin_px": [
+                    34.0,
+                    20.0
+                  ],
+                  "clip_px": [
+                    6.0,
+                    9.0,
+                    90.0,
+                    22.0
+                  ],
+                  "cell_edges_px": [
+                    34.0,
+                    41.0,
+                    45.0,
+                    51.0,
+                    57.0,
+                    61.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+                    "face": "Tahoma",
+                    "height": 13,
+                    "ascent": 11,
+                    "descent": 2,
+                    "internal_leading": 2,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            20.50629933333333
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Greet",
+              "baseline_px": 20.50629933333333,
+              "records": [
+                {
+                  "text": "Greet",
+                  "baseline_px": 20.50629933333333,
+                  "origin_px": [
+                    34.5,
+                    20.50629933333333
+                  ],
+                  "clip_px": [
+                    5.0,
+                    4.0,
+                    91.0,
+                    28.0
+                  ],
+                  "site_origin_px": [
+                    264.0,
+                    48.0
+                  ],
+                  "cell_edges_px": [
+                    34.5,
+                    41.5,
+                    45.5,
+                    51.5,
+                    57.5,
+                    61.5
+                  ],
+                  "node": 3,
+                  "run": 2693566692746207632
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "InputName": {
+        "captions": [
+          "Ada"
+        ],
+        "native": {
+          "baseline": [
+            15.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Ada",
+              "baseline_px": 15.0,
+              "records": [
+                {
+                  "record": 29,
+                  "text": "Ada",
+                  "reference_px": [
+                    12.0,
+                    4.0
+                  ],
+                  "baseline_px": 15.0,
+                  "origin_px": [
+                    12.0,
+                    15.0
+                  ],
+                  "clip_px": [
+                    2.0,
+                    4.0,
+                    225.0,
+                    17.0
+                  ],
+                  "cell_edges_px": [
+                    12.0,
+                    19.0,
+                    25.0,
+                    31.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+                    "face": "Tahoma",
+                    "height": 13,
+                    "ascent": 11,
+                    "descent": 2,
+                    "internal_leading": 2,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            15.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Ada",
+              "baseline_px": 15.0,
+              "records": [
+                {
+                  "text": "Ada",
+                  "baseline_px": 15.0,
+                  "origin_px": [
+                    11.999999999999998,
+                    15.0
+                  ],
+                  "clip_px": [
+                    12.012598666666667,
+                    4.0,
+                    223.01259866666666,
+                    17.0
+                  ],
+                  "site_origin_px": [
+                    15.987401333333333,
+                    48.0
+                  ],
+                  "cell_edges_px": [
+                    11.999999999999998,
+                    19.0,
+                    25.0,
+                    31.0
+                  ],
+                  "node": 2900,
+                  "run": 8032170280478559513
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Loud": {
+        "captions": [
+          "Uppercase"
+        ],
+        "native": {
+          "baseline": [
+            16.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Uppercase",
+              "baseline_px": 16.0,
+              "records": [
+                {
+                  "record": 12,
+                  "text": "Uppercase",
+                  "reference_px": [
+                    18.0,
+                    5.0
+                  ],
+                  "baseline_px": 16.0,
+                  "origin_px": [
+                    18.0,
+                    16.0
+                  ],
+                  "clip_px": [
+                    18.0,
+                    5.0,
+                    157.0,
+                    18.0
+                  ],
+                  "cell_edges_px": [
+                    18.0,
+                    25.0,
+                    31.0,
+                    37.0,
+                    43.0,
+                    47.0,
+                    52.0,
+                    58.0,
+                    63.0,
+                    69.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+                    "face": "Tahoma",
+                    "height": 13,
+                    "ascent": 11,
+                    "descent": 2,
+                    "internal_leading": 2,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            16.5
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Uppercase",
+              "baseline_px": 16.5,
+              "records": [
+                {
+                  "text": "Uppercase",
+                  "baseline_px": 16.5,
+                  "origin_px": [
+                    18.0,
+                    16.5
+                  ],
+                  "clip_px": [
+                    18.01259866666667,
+                    4.012593333333342,
+                    158.01259866666666,
+                    20.012593333333342
+                  ],
+                  "site_origin_px": [
+                    15.987401333333333,
+                    87.98740666666666
+                  ],
+                  "cell_edges_px": [
+                    18.0,
+                    25.0,
+                    31.0,
+                    37.0,
+                    43.0,
+                    47.0,
+                    52.00000000000001,
+                    58.00000000000001,
+                    63.00000000000001,
+                    69.0
+                  ],
+                  "node": 4,
+                  "run": 9567952726139201685
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Output": {
+        "captions": [
+          "(ready)"
+        ],
+        "native": {
+          "baseline": [
+            11.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "(ready)",
+              "baseline_px": 11.0,
+              "records": [
+                {
+                  "record": 11,
+                  "text": "(ready)",
+                  "reference_px": [
+                    0.0,
+                    0.0
+                  ],
+                  "baseline_px": 11.0,
+                  "origin_px": [
+                    0.0,
+                    11.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    0.0,
+                    344.0,
+                    13.0
+                  ],
+                  "cell_edges_px": [
+                    0.0,
+                    4.0,
+                    8.0,
+                    14.0,
+                    20.0,
+                    26.0,
+                    32.0,
+                    36.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+                    "face": "Tahoma",
+                    "height": 13,
+                    "ascent": 11,
+                    "descent": 2,
+                    "internal_leading": 2,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            12.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "(ready)",
+              "baseline_px": 12.0,
+              "records": [
+                {
+                  "text": "(ready)",
+                  "baseline_px": 12.0,
+                  "origin_px": [
+                    0.0,
+                    12.0
+                  ],
+                  "clip_px": [
+                    0.012598666666667313,
+                    0.9874066666666863,
+                    344.0125986666667,
+                    13.987406666666686
+                  ],
+                  "site_origin_px": [
+                    15.987401333333333,
+                    128.0125933333333
+                  ],
+                  "cell_edges_px": [
+                    0.0,
+                    3.9999999999999982,
+                    7.999999999999998,
+                    13.999999999999998,
+                    20.0,
+                    26.0,
+                    32.0,
+                    36.0
+                  ],
+                  "node": 5,
+                  "run": 438647546249729471
+                }
+              ]
+            }
+          ]
+        }
+      },
+      "Prompt": {
+        "captions": [
+          "Your name"
+        ],
+        "native": {
+          "baseline": [
+            11.0
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Your name",
+              "baseline_px": 11.0,
+              "records": [
+                {
+                  "record": 11,
+                  "text": "Your name",
+                  "reference_px": [
+                    0.0,
+                    0.0
+                  ],
+                  "baseline_px": 11.0,
+                  "origin_px": [
+                    0.0,
+                    11.0
+                  ],
+                  "clip_px": [
+                    0.0,
+                    0.0,
+                    128.0,
+                    13.0
+                  ],
+                  "cell_edges_px": [
+                    0.0,
+                    6.0,
+                    12.0,
+                    18.0,
+                    22.0,
+                    25.0,
+                    31.0,
+                    37.0,
+                    45.0,
+                    51.0
+                  ],
+                  "colour": 0,
+                  "font": {
+                    "key": "8ebc6e8d758ffdb2f7e2adfe540882442f4f53328dd07c0d0a17dea9bfe9ef37",
+                    "face": "Tahoma",
+                    "height": 13,
+                    "ascent": 11,
+                    "descent": 2,
+                    "internal_leading": 2,
+                    "external_leading": 0
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        "calcforms": {
+          "baseline": [
+            11.999999999999998
+          ],
+          "wrap_point": [
+            []
+          ],
+          "exact_line_breaks": [
+            []
+          ],
+          "clipping_point": [
+            [
+              null
+            ]
+          ],
+          "lines": [
+            {
+              "start": 0,
+              "text": "Your name",
+              "baseline_px": 11.999999999999998,
+              "records": [
+                {
+                  "text": "Your name",
+                  "baseline_px": 11.999999999999998,
+                  "origin_px": [
+                    0.0,
+                    11.999999999999998
+                  ],
+                  "clip_px": [
+                    0.012598666666667313,
+                    1.0125986666666673,
+                    128.01259866666666,
+                    14.012598666666667
+                  ],
+                  "site_origin_px": [
+                    15.987401333333333,
+                    15.987401333333333
+                  ],
+                  "cell_edges_px": [
+                    0.0,
+                    5.999999999999998,
+                    11.999999999999998,
+                    18.0,
+                    22.0,
+                    25.0,
+                    31.0,
+                    37.0,
+                    45.0,
+                    51.00000000000001
+                  ],
+                  "node": 1,
+                  "run": 8523052463610683095
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "unmatched_native_text": []
+  },
+  "forms_parity": {
+    "form": "greeter",
+    "zoom": 100,
+    "scale_px_per_pt": [
+      1.3333333333333333,
+      1.3333333333333333
+    ],
+    "items": [
+      {
+        "category": "layout",
+        "metric": "client_size",
+        "status": "pass",
+        "native": [
+          384,
+          174
+        ],
+        "calcforms": [
+          384,
+          174
+        ],
+        "max_delta": 0,
+        "tolerance": 1,
+        "unit": "px",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "missing_controls",
+        "status": "pass",
+        "native": 0,
+        "calcforms": 0,
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "controls",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "extra_controls",
+        "status": "pass",
+        "native": 0,
+        "calcforms": 0,
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "controls",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "excel_capture_client_size",
+        "status": "pass",
+        "native": [
+          384,
+          174
+        ],
+        "calcforms": [
+          384,
+          174
+        ],
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "px",
+        "measurement_count": 2,
+        "reason": null
+      },
+      {
+        "category": "layout",
+        "metric": "calcforms_capture_client_size",
+        "status": "pass",
+        "native": [
+          384,
+          174
+        ],
+        "calcforms": [
+          384,
+          174
+        ],
+        "max_delta": 0,
+        "tolerance": 0,
+        "unit": "px",
+        "measurement_count": 2,
+        "reason": null
+      }
+    ],
+    "controls": [
+      {
+        "name": "Greet",
+        "kind": "CommandButton",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              264.0,
+              48.0,
+              360.0,
+              80.0
+            ],
+            "calcforms": [
+              264.0,
+              48.0,
+              360.0,
+              80.01259866666666
+            ],
+            "max_delta": 0.012598666666661984,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              264,
+              48,
+              360,
+              80
+            ],
+            "calcforms": [
+              264,
+              48,
+              360,
+              80
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "CommandButton",
+            "calcforms": "CommandButton",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "pass",
+            "native": [
+              298,
+              60,
+              324,
+              68
+            ],
+            "calcforms": [
+              298,
+              61,
+              325,
+              69
+            ],
+            "max_delta": 1,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "visible_line_count",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "lines",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "caption_0_ink_bounds",
+            "status": "pass",
+            "native": [
+              298,
+              60,
+              324,
+              68
+            ],
+            "calcforms": [
+              298,
+              61,
+              325,
+              69
+            ],
+            "max_delta": 1,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "alignment_offsets",
+            "status": "pass",
+            "native": [
+              34.0,
+              12.0
+            ],
+            "calcforms": [
+              34.0,
+              13.0
+            ],
+            "max_delta": 1.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "pass",
+            "native": [
+              34.0,
+              12.0,
+              36.0,
+              12.0
+            ],
+            "calcforms": [
+              34.0,
+              13.0,
+              35.0,
+              11.012598666666662
+            ],
+            "max_delta": 1.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              20.0
+            ],
+            "calcforms": [
+              20.50629933333333
+            ],
+            "max_delta": 0.506299333333331,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "pass",
+            "native": [
+              3,
+              3,
+              3,
+              3
+            ],
+            "calcforms": [
+              3,
+              3,
+              3,
+              3
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "pass",
+            "native": [
+              [
+                "dark-text",
+                "white",
+                "mid-light"
+              ],
+              [
+                "dark-text",
+                "white",
+                "mid-light"
+              ],
+              [
+                "dark-text",
+                "shadow-or-disabled"
+              ],
+              [
+                "dark-text",
+                "shadow-or-disabled"
+              ]
+            ],
+            "calcforms": [
+              [
+                "dark-text",
+                "white",
+                "mid-light"
+              ],
+              [
+                "dark-text",
+                "white",
+                "mid-light"
+              ],
+              [
+                "dark-text",
+                "shadow-or-disabled"
+              ],
+              [
+                "dark-text",
+                "shadow-or-disabled"
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": {
+          "native": {
+            "roi_px": [
+              267,
+              51,
+              357,
+              77
+            ],
+            "ink_bounds_px": [
+              298,
+              60,
+              324,
+              68
+            ],
+            "line_bands_px": [
+              [
+                60,
+                68
+              ]
+            ],
+            "ink_pixels": 41,
+            "foreground_classes": [
+              "dark-text"
+            ]
+          },
+          "calcforms": {
+            "roi_px": [
+              267,
+              51,
+              357,
+              77
+            ],
+            "ink_bounds_px": [
+              298,
+              61,
+              325,
+              69
+            ],
+            "line_bands_px": [
+              [
+                61,
+                69
+              ]
+            ],
+            "ink_pixels": 99,
+            "foreground_classes": [
+              "shadow-or-disabled"
+            ]
+          },
+          "authored_text": [
+            "Greet"
+          ],
+          "excluded_dotted_focus": {
+            "native": null,
+            "calcforms": null
+          },
+          "method": "foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only",
+          "captions": [
+            {
+              "text": "Greet",
+              "category": "text",
+              "metric": "caption_0_ink_bounds",
+              "status": "pass",
+              "native": [
+                298,
+                60,
+                324,
+                68
+              ],
+              "calcforms": [
+                298,
+                61,
+                325,
+                69
+              ],
+              "max_delta": 1,
+              "tolerance": 2,
+              "unit": "px",
+              "measurement_count": 2,
+              "reason": null
+            }
+          ]
+        }
+      },
+      {
+        "name": "InputName",
+        "kind": "TextBox",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              16.0,
+              48.0,
+              242.66666666666666,
+              74.66666666666666
+            ],
+            "calcforms": [
+              15.987401333333333,
+              48.0,
+              242.645668,
+              74.68346399999999
+            ],
+            "max_delta": 0.020998666666656618,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              16,
+              48,
+              243,
+              75
+            ],
+            "calcforms": [
+              16,
+              48,
+              243,
+              75
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "TextBox",
+            "calcforms": "TextBox",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "fail",
+            "native": [
+              29,
+              52,
+              48,
+              65
+            ],
+            "calcforms": [
+              28,
+              55,
+              45,
+              63
+            ],
+            "max_delta": 3,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "visible_line_count",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "lines",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "caption_0_ink_bounds",
+            "status": "fail",
+            "native": [
+              29,
+              52,
+              48,
+              65
+            ],
+            "calcforms": [
+              28,
+              55,
+              45,
+              63
+            ],
+            "max_delta": 3,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "alignment_offsets",
+            "status": "fail",
+            "native": [
+              13.0,
+              4.0
+            ],
+            "calcforms": [
+              12.012598666666667,
+              7.0
+            ],
+            "max_delta": 3.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": [
+              13.0,
+              4.0,
+              194.66666666666666,
+              9.666666666666657
+            ],
+            "calcforms": [
+              12.012598666666667,
+              7.0,
+              197.645668,
+              11.683463999999987
+            ],
+            "max_delta": 3.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "white",
+            "calcforms": "white",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              15.0
+            ],
+            "calcforms": [
+              15.0
+            ],
+            "max_delta": 0.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "pass",
+            "native": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "calcforms": [
+              2,
+              2,
+              2,
+              2
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "pass",
+            "native": [
+              [
+                "shadow-or-disabled"
+              ],
+              [
+                "shadow-or-disabled"
+              ],
+              [
+                "white",
+                "mid-light"
+              ],
+              [
+                "white",
+                "mid-light"
+              ]
+            ],
+            "calcforms": [
+              [
+                "shadow-or-disabled"
+              ],
+              [
+                "shadow-or-disabled"
+              ],
+              [
+                "white",
+                "mid-light"
+              ],
+              [
+                "white",
+                "mid-light"
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": {
+          "native": {
+            "roi_px": [
+              19,
+              51,
+              240,
+              72
+            ],
+            "ink_bounds_px": [
+              29,
+              52,
+              48,
+              65
+            ],
+            "line_bands_px": [
+              [
+                52,
+                65
+              ]
+            ],
+            "ink_pixels": 39,
+            "foreground_classes": [
+              "dark-text"
+            ]
+          },
+          "calcforms": {
+            "roi_px": [
+              19,
+              51,
+              240,
+              72
+            ],
+            "ink_bounds_px": [
+              28,
+              55,
+              45,
+              63
+            ],
+            "line_bands_px": [
+              [
+                55,
+                63
+              ]
+            ],
+            "ink_pixels": 40,
+            "foreground_classes": [
+              "dark-text"
+            ]
+          },
+          "authored_text": [
+            "Ada"
+          ],
+          "excluded_dotted_focus": {
+            "native": null,
+            "calcforms": null
+          },
+          "method": "foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only",
+          "captions": [
+            {
+              "text": "Ada",
+              "category": "text",
+              "metric": "caption_0_ink_bounds",
+              "status": "fail",
+              "native": [
+                29,
+                52,
+                48,
+                65
+              ],
+              "calcforms": [
+                28,
+                55,
+                45,
+                63
+              ],
+              "max_delta": 3,
+              "tolerance": 2,
+              "unit": "px",
+              "measurement_count": 2,
+              "reason": null
+            }
+          ]
+        }
+      },
+      {
+        "name": "Loud",
+        "kind": "CheckBox",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              16.0,
+              88.0,
+              176.0,
+              112.0
+            ],
+            "calcforms": [
+              15.987401333333333,
+              87.98740666666666,
+              175.974808,
+              111.98740666666666
+            ],
+            "max_delta": 0.0251920000000041,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              16,
+              88,
+              176,
+              112
+            ],
+            "calcforms": [
+              16,
+              88,
+              176,
+              112
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "CheckBox",
+            "calcforms": "CheckBox",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "pass",
+            "native": [
+              34,
+              98,
+              84,
+              104
+            ],
+            "calcforms": [
+              34,
+              96,
+              84,
+              106
+            ],
+            "max_delta": 2,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "visible_line_count",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "lines",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "caption_0_ink_bounds",
+            "status": "pass",
+            "native": [
+              34,
+              98,
+              84,
+              104
+            ],
+            "calcforms": [
+              34,
+              96,
+              84,
+              106
+            ],
+            "max_delta": 2,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "alignment_offsets",
+            "status": "pass",
+            "native": [
+              18.0,
+              10.0
+            ],
+            "calcforms": [
+              18.01259866666667,
+              8.012593333333342
+            ],
+            "max_delta": 1.9874066666666579,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "fail",
+            "native": [
+              18.0,
+              10.0,
+              92.0,
+              8.0
+            ],
+            "calcforms": [
+              18.01259866666667,
+              8.012593333333342,
+              91.974808,
+              5.987406666666658
+            ],
+            "max_delta": 2.012593333333342,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              16.0
+            ],
+            "calcforms": [
+              16.5
+            ],
+            "max_delta": 0.5,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "glyph_size",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "glyph_caption_gap",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "focus_rectangle",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "spacing",
+            "metric": "border_thickness",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "colours",
+            "metric": "border_class",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": {
+          "native": {
+            "roi_px": [
+              31,
+              88,
+              176,
+              112
+            ],
+            "ink_bounds_px": [
+              34,
+              98,
+              84,
+              104
+            ],
+            "line_bands_px": [
+              [
+                98,
+                104
+              ]
+            ],
+            "ink_pixels": 82,
+            "foreground_classes": [
+              "dark-text"
+            ]
+          },
+          "calcforms": {
+            "roi_px": [
+              31,
+              88,
+              176,
+              112
+            ],
+            "ink_bounds_px": [
+              34,
+              96,
+              84,
+              106
+            ],
+            "line_bands_px": [
+              [
+                96,
+                106
+              ]
+            ],
+            "ink_pixels": 189,
+            "foreground_classes": [
+              "shadow-or-disabled"
+            ]
+          },
+          "authored_text": [
+            "Loud"
+          ],
+          "excluded_dotted_focus": {
+            "native": null,
+            "calcforms": null
+          },
+          "method": "foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only",
+          "captions": [
+            {
+              "text": "Loud",
+              "category": "text",
+              "metric": "caption_0_ink_bounds",
+              "status": "pass",
+              "native": [
+                34,
+                98,
+                84,
+                104
+              ],
+              "calcforms": [
+                34,
+                96,
+                84,
+                106
+              ],
+              "max_delta": 2,
+              "tolerance": 2,
+              "unit": "px",
+              "measurement_count": 2,
+              "reason": null
+            }
+          ]
+        }
+      },
+      {
+        "name": "Output",
+        "kind": "Label",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              16.0,
+              128.0,
+              360.0,
+              157.33333333333331
+            ],
+            "calcforms": [
+              15.987401333333333,
+              128.0125933333333,
+              360.00001466666663,
+              157.341728
+            ],
+            "max_delta": 0.012598666666667313,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              16,
+              128,
+              360,
+              157
+            ],
+            "calcforms": [
+              16,
+              128,
+              360,
+              157
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "Label",
+            "calcforms": "Label",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "pass",
+            "native": [
+              17,
+              130,
+              49,
+              141
+            ],
+            "calcforms": [
+              16,
+              131,
+              51,
+              142
+            ],
+            "max_delta": 2,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "visible_line_count",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "lines",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "caption_0_ink_bounds",
+            "status": "pass",
+            "native": [
+              17,
+              130,
+              49,
+              141
+            ],
+            "calcforms": [
+              16,
+              131,
+              51,
+              142
+            ],
+            "max_delta": 2,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "alignment_offsets",
+            "status": "pass",
+            "native": [
+              1.0,
+              2.0
+            ],
+            "calcforms": [
+              0.012598666666667313,
+              2.9874066666666863
+            ],
+            "max_delta": 0.9874066666666863,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "pass",
+            "native": [
+              1.0,
+              2.0,
+              311.0,
+              16.333333333333314
+            ],
+            "calcforms": [
+              0.012598666666667313,
+              2.9874066666666863,
+              309.00001466666663,
+              15.34172799999999
+            ],
+            "max_delta": 1.9999853333333704,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              11.0
+            ],
+            "calcforms": [
+              12.0
+            ],
+            "max_delta": 1.0,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": {
+          "native": {
+            "roi_px": [
+              16,
+              128,
+              360,
+              157
+            ],
+            "ink_bounds_px": [
+              17,
+              130,
+              49,
+              141
+            ],
+            "line_bands_px": [
+              [
+                130,
+                141
+              ]
+            ],
+            "ink_pixels": 41,
+            "foreground_classes": [
+              "chromatic"
+            ]
+          },
+          "calcforms": {
+            "roi_px": [
+              16,
+              128,
+              360,
+              157
+            ],
+            "ink_bounds_px": [
+              16,
+              131,
+              51,
+              142
+            ],
+            "line_bands_px": [
+              [
+                131,
+                142
+              ]
+            ],
+            "ink_pixels": 131,
+            "foreground_classes": [
+              "shadow-or-disabled"
+            ]
+          },
+          "authored_text": [
+            "(ready)"
+          ],
+          "excluded_dotted_focus": {
+            "native": null,
+            "calcforms": null
+          },
+          "method": "foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only",
+          "captions": [
+            {
+              "text": "(ready)",
+              "category": "text",
+              "metric": "caption_0_ink_bounds",
+              "status": "pass",
+              "native": [
+                17,
+                130,
+                49,
+                141
+              ],
+              "calcforms": [
+                16,
+                131,
+                51,
+                142
+              ],
+              "max_delta": 2,
+              "tolerance": 2,
+              "unit": "px",
+              "measurement_count": 2,
+              "reason": null
+            }
+          ]
+        }
+      },
+      {
+        "name": "Prompt",
+        "kind": "Label",
+        "items": [
+          {
+            "category": "layout",
+            "metric": "rectangle_edges",
+            "status": "pass",
+            "native": [
+              16.0,
+              16.0,
+              144.0,
+              40.0
+            ],
+            "calcforms": [
+              15.987401333333333,
+              15.987401333333333,
+              143.99999466666665,
+              39.98740133333333
+            ],
+            "max_delta": 0.01259866666666909,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "twips_to_pixel_rounding",
+            "status": "pass",
+            "native": [
+              16,
+              16,
+              144,
+              40
+            ],
+            "calcforms": [
+              16,
+              16,
+              144,
+              40
+            ],
+            "max_delta": 0,
+            "tolerance": 1,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "control_kind",
+            "status": "pass",
+            "native": "Label",
+            "calcforms": "Label",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "identity",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "layout",
+            "metric": "native_capture_qualification",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "qualified captures",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "ink_bounds",
+            "status": "pass",
+            "native": [
+              18,
+              19,
+              66,
+              27
+            ],
+            "calcforms": [
+              16,
+              20,
+              66,
+              28
+            ],
+            "max_delta": 2,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "visible_line_count",
+            "status": "pass",
+            "native": 1,
+            "calcforms": 1,
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "lines",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "caption_0_ink_bounds",
+            "status": "pass",
+            "native": [
+              18,
+              19,
+              66,
+              27
+            ],
+            "calcforms": [
+              16,
+              20,
+              66,
+              28
+            ],
+            "max_delta": 2,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "alignment_offsets",
+            "status": "pass",
+            "native": [
+              2.0,
+              3.0
+            ],
+            "calcforms": [
+              0.012598666666667313,
+              4.012598666666667
+            ],
+            "max_delta": 1.9874013333333327,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "spacing",
+            "metric": "insets",
+            "status": "pass",
+            "native": [
+              2.0,
+              3.0,
+              78.0,
+              13.0
+            ],
+            "calcforms": [
+              0.012598666666667313,
+              4.012598666666667,
+              77.99999466666665,
+              11.987401333333331
+            ],
+            "max_delta": 1.9874013333333327,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "text_class",
+            "status": "pass",
+            "native": [
+              "dark-text"
+            ],
+            "calcforms": [
+              "dark-text"
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "colours",
+            "metric": "fill_class",
+            "status": "pass",
+            "native": "control-face",
+            "calcforms": "control-face",
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "class",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "baseline",
+            "status": "pass",
+            "native": [
+              11.0
+            ],
+            "calcforms": [
+              11.999999999999998
+            ],
+            "max_delta": 0.9999999999999982,
+            "tolerance": 2,
+            "unit": "px",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "clipping_point",
+            "status": "pass",
+            "native": [
+              [
+                null
+              ]
+            ],
+            "calcforms": [
+              [
+                null
+              ]
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "wrap_point",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "text",
+            "metric": "exact_line_breaks",
+            "status": "pass",
+            "native": [
+              []
+            ],
+            "calcforms": [
+              []
+            ],
+            "max_delta": 0,
+            "tolerance": 0,
+            "unit": "character offsets",
+            "measurement_count": 2,
+            "reason": null
+          },
+          {
+            "category": "behaviour",
+            "metric": "event_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "tab_order",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "enter_default",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "escape_cancel",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "accelerators",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "hit_testing",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "selection",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "scrolling",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "value_changes",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          },
+          {
+            "category": "behaviour",
+            "metric": "show_hide_unload",
+            "status": "fail",
+            "native": null,
+            "calcforms": null,
+            "max_delta": null,
+            "tolerance": 0,
+            "unit": "ordered observations",
+            "measurement_count": 0,
+            "reason": "not measured in these inputs"
+          }
+        ],
+        "text_measurements": {
+          "native": {
+            "roi_px": [
+              16,
+              16,
+              144,
+              40
+            ],
+            "ink_bounds_px": [
+              18,
+              19,
+              66,
+              27
+            ],
+            "line_bands_px": [
+              [
+                19,
+                27
+              ]
+            ],
+            "ink_pixels": 51,
+            "foreground_classes": [
+              "dark-text"
+            ]
+          },
+          "calcforms": {
+            "roi_px": [
+              16,
+              16,
+              144,
+              40
+            ],
+            "ink_bounds_px": [
+              16,
+              20,
+              66,
+              28
+            ],
+            "line_bands_px": [
+              [
+                20,
+                28
+              ]
+            ],
+            "ink_pixels": 182,
+            "foreground_classes": [
+              "shadow-or-disabled"
+            ]
+          },
+          "authored_text": [
+            "Your name:"
+          ],
+          "excluded_dotted_focus": {
+            "native": null,
+            "calcforms": null
+          },
+          "method": "foreground colour mask in recorded text ROI; exclude dotted focus and long straight borders; visible ink only",
+          "captions": [
+            {
+              "text": "Your name:",
+              "category": "text",
+              "metric": "caption_0_ink_bounds",
+              "status": "pass",
+              "native": [
+                18,
+                19,
+                66,
+                27
+              ],
+              "calcforms": [
+                16,
+                20,
+                66,
+                28
+              ],
+              "max_delta": 2,
+              "tolerance": 2,
+              "unit": "px",
+              "measurement_count": 2,
+              "reason": null
+            }
+          ]
+        }
+      }
+    ],
+    "pixel_regression_guard": {
+      "category": "regression_only",
+      "metric": "different_fraction",
+      "status": "pass",
+      "native": 0,
+      "calcforms": 0.017076748084291188,
+      "max_delta": 0.017076748084291188,
+      "tolerance": 0.4,
+      "unit": "fraction",
+      "measurement_count": 2,
+      "reason": null
+    }
+  }
+}

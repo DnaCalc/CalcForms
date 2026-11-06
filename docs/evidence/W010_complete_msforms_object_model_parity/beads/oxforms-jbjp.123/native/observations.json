@@ -1,0 +1,79 @@
+{
+  "schema": "calcforms.native_escape_focus.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187"
+  },
+  "observations": [
+    {
+      "zoom": 100,
+      "mode": "submit_clean",
+      "before": "focus=SubmitButton;visible=True;text=;log=",
+      "after": "focus=CancelButton;visible=False;text=;log=|Submit.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 100,
+      "mode": "field_clean",
+      "before": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+      "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 100,
+      "mode": "field_dirty",
+      "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+      "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 100,
+      "mode": "before_veto",
+      "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate",
+      "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 100,
+      "mode": "exit_veto",
+      "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+      "after": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit"
+    },
+    {
+      "zoom": 150,
+      "mode": "submit_clean",
+      "before": "focus=SubmitButton;visible=True;text=;log=",
+      "after": "focus=CancelButton;visible=False;text=;log=|Submit.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 150,
+      "mode": "field_clean",
+      "before": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+      "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 150,
+      "mode": "field_dirty",
+      "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+      "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 150,
+      "mode": "before_veto",
+      "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate",
+      "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+    },
+    {
+      "zoom": 150,
+      "mode": "exit_veto",
+      "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+      "after": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit"
+    }
+  ],
+  "input": "PostMessage queued inside Excel to GetFocus on its own private-desktop thread; no system input or focus API",
+  "workbook_sha256": "8775fb00faa9f4b9898bdbcbac66b51de24e4afed7cbf3cd943ab135e1f54b49"
+}

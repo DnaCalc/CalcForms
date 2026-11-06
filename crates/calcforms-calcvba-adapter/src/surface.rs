@@ -55,8 +55,8 @@ use calcvba_runtime::{
 
 use calcforms_pal::input::DpiScale;
 use calcforms_pal::scene::{
-    FontId, NodeId, Prim, Scene, SceneError, ScenePatch, SceneRenderReport, TextKey, TextRun,
-    TextShaper,
+    FontEmRounding, FontId, NodeId, Prim, Scene, SceneError, ScenePatch, SceneRenderReport,
+    TextKey, TextRun, TextShaper,
 };
 use calcforms_pal::SurfaceSize;
 
@@ -346,7 +346,14 @@ impl SurfaceDispatch {
             format!("{SURFACE_PROG_ID}.MeasureText called without a registered text shaper")
         })?;
 
-        let run = shape_run(shaper, font_id, size_milli_pt, &caption, None);
+        let run = shape_run(
+            shaper,
+            font_id,
+            size_milli_pt,
+            &caption,
+            None,
+            FontEmRounding::Nearest,
+        );
         let line = format_measure(&run);
         let mut state = self.lock()?;
         store_run(&mut state, run);
@@ -388,6 +395,15 @@ impl SurfaceDispatch {
             let size_milli_pt = record_u32(&record, REQ_SIZE_MILLI_PT, "SizeMilliPt", row)?;
             let caption = record_string(&record, REQ_CAPTION, "Caption", row)?;
             let accelerator = record_string(&record, REQ_ACCELERATOR, "Accelerator", row)?;
+            let rounding = match record_u32(&record, REQ_FONT_EM_ROUNDING, "FontEmRounding", row)? {
+                0 => FontEmRounding::Nearest,
+                1 => FontEmRounding::NearestTiesDown,
+                _ => {
+                    return Err(format!(
+                        "MeasureBatch request {row} has invalid FontEmRounding"
+                    ))
+                }
+            };
             let accelerator_index = accelerator.chars().next().and_then(|key| {
                 caption
                     .chars()
@@ -400,6 +416,7 @@ impl SurfaceDispatch {
                 size_milli_pt,
                 &caption,
                 accelerator_index,
+                rounding,
             ));
         }
 
@@ -558,6 +575,7 @@ const REQ_FONT_ID: usize = 0;
 const REQ_SIZE_MILLI_PT: usize = 1;
 const REQ_CAPTION: usize = 2;
 const REQ_ACCELERATOR: usize = 3;
+const REQ_FONT_EM_ROUNDING: usize = 4;
 const RES_RUN_ID: usize = 0;
 const RES_ADVANCE: usize = 1;
 const RES_ASCENT: usize = 2;
@@ -574,15 +592,17 @@ fn shape_run(
     size_milli_pt: u32,
     caption: &str,
     accelerator_index: Option<u32>,
+    rounding: FontEmRounding,
 ) -> TextRun {
     let key = TextKey {
         font: FontId(u64::from(font_id)),
         size_milli_pt,
         wrap_width_milli_pt: None,
         device_scale_micros: None,
+        device_em_pixels: None,
         accelerator_index,
     };
-    shaper.shape(&key, caption)
+    shaper.shape_with_font_rounding(&key, caption, rounding)
 }
 
 /// Insert a shaped run into the persistent store (idempotent by content-hash id; a second
@@ -983,6 +1003,7 @@ mod tests {
                 size_milli_pt: 12_000,
                 wrap_width_milli_pt: None,
                 device_scale_micros: None,
+                device_em_pixels: None,
                 accelerator_index: None,
             },
             "OK",
@@ -1083,6 +1104,7 @@ mod tests {
                 VbaRecordFieldSpec::named("SizeMilliPt", VbaRecordFieldKind::Long),
                 VbaRecordFieldSpec::named("Caption", VbaRecordFieldKind::String),
                 VbaRecordFieldSpec::named("Accelerator", VbaRecordFieldKind::String),
+                VbaRecordFieldSpec::named("FontEmRounding", VbaRecordFieldKind::Long),
             ])
             .expect("request layout"),
         );
@@ -1137,6 +1159,7 @@ mod tests {
             size_milli_pt: 12_000,
             wrap_width_milli_pt: None,
             device_scale_micros: None,
+            device_em_pixels: None,
             accelerator_index: None,
         };
         let row0 = rows[0].as_vba_record().expect("result record 0");

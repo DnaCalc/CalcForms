@@ -26,7 +26,12 @@ The `.95` residual scope remains explicit; this supplies no headline layout cred
 
 ## Core Spec
 
-Run 8's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
+Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
+reports **1,169 pass / 449 fail; 378 missing measurements**. Native font sizing
+and retained DirectWrite raster are bounded to the recorded contexts; 17 gains
+and 14 regressions stay explicit. Full font/DPI parity remains `.101` work.
+
+Run 8's [replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
 reports **1,166 pass / 452 fail; 378 missing measurements**. The
 [rendering correction](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/README.md)
 makes Frame caption gaps and four tab header size rows match at both scales. Independent caption cells
@@ -162,6 +167,9 @@ pre-change MouseDown / post-change MouseUp Value timing. Empty MultiPage bodies
 forward through Page to their owner. See [.108 evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/README.md).
 
 [The genuine inventory workbook](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/README.md)
-runs original handlers and compares every State, Trace and focus field. Its
-316 matching / 4 failing fields are separate from the authored-window headline;
-the measured first-Show viewport (.121) now matches and Escape focus (.123) remains failed.
+runs original handlers and compares every State, Trace and focus field. Run 8's
+316 matching / 4 failing fields remain archived. Run 9's
+[Escape correction](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/README.md)
+requires all **320 fields** to match, including Cancel focus after Escape and
+reshow. Dirty text rollback, Change and Exit/Enter/Click order match five native
+cases at both scales. Native preparation-update differences remain `.124`.

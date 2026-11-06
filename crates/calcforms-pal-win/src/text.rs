@@ -19,8 +19,8 @@ use std::sync::Arc;
 
 use ab_glyph::{Font, FontArc, PxScale, ScaleFont};
 use calcforms_pal::scene::{
-    text_run_id, CaretTable, FontId, PositionedGlyph, RunMetrics, Scene, TextKey, TextRun,
-    TextRunId, TextShaper,
+    text_run_id, CaretTable, FontEmRounding, FontId, PositionedGlyph, RunMetrics, Scene, TextKey,
+    TextRun, TextRunId, TextShaper,
 };
 
 /// Resolves the opaque handles a Scene carries (run ids, font ids) into the resident
@@ -190,6 +190,126 @@ pub(crate) fn em_height(font: &FontArc, points: f32) -> f32 {
     points * font.height_unscaled() / font.units_per_em().unwrap_or(font.height_unscaled())
 }
 
+#[cfg(windows)]
+pub(crate) struct GlyphMask {
+    pub left: i32,
+    pub top: i32,
+    pub width: usize,
+    pub pixels: Vec<u8>,
+}
+
+/// Rasterize the retained glyph ids and positions; this never shapes text.
+/// DirectWrite's safe bitmap wrapper owns its memory DC and all COM resources.
+#[cfg(windows)]
+pub(crate) fn gdi_glyph_mask(
+    font: &FontArc,
+    run: &TextRun,
+    em_px: f32,
+    scale: f32,
+    origin: (f32, f32),
+) -> Result<GlyphMask, String> {
+    let face = dwrote::FontFile::new_from_buffer(Arc::new(font.font_data().to_vec()))
+        .ok_or("DirectWrite font file")?
+        .create_face(0, 0)
+        .map_err(|error| format!("DirectWrite font face: {error}"))?;
+    let ids: Vec<_> = run.glyphs.iter().map(|glyph| glyph.glyph_id).collect();
+    if ids.is_empty() {
+        return Ok(GlyphMask {
+            left: 0,
+            top: 0,
+            width: 0,
+            pixels: vec![],
+        });
+    }
+    let metrics = face
+        .design_glyph_metrics(&ids, false)
+        .map_err(|error| format!("DirectWrite glyph metrics: {error}"))?;
+    let factor = em_px / font.units_per_em().ok_or("font has no design em")?;
+    let (ox, oy) = (origin.0.round(), origin.1.round());
+    let mut left = f32::INFINITY;
+    let mut top = f32::INFINITY;
+    let mut right = f32::NEG_INFINITY;
+    let mut bottom = f32::NEG_INFINITY;
+    for (glyph, metric) in run.glyphs.iter().zip(metrics) {
+        let x = ox + glyph.x * scale;
+        let y = oy + glyph.y * scale;
+        left = left.min(x + metric.leftSideBearing as f32 * factor);
+        right =
+            right.max(x + (metric.advanceWidth as f32 - metric.rightSideBearing as f32) * factor);
+        top = top.min(y + (metric.topSideBearing as f32 - metric.verticalOriginY as f32) * factor);
+        bottom = bottom.max(
+            y + (metric.advanceHeight as f32
+                - metric.bottomSideBearing as f32
+                - metric.verticalOriginY as f32)
+                * factor,
+        );
+    }
+    // Hinting can move an outline edge to the adjacent device pixel. This
+    // allocation margin does not change the glyph's position or ink bounds.
+    let left = left.floor() as i32 - 3;
+    let top = top.floor() as i32 - 3;
+    let width = (right.ceil() as i32 - left + 3).max(1) as u32;
+    let height = (bottom.ceil() as i32 - top + 3).max(1) as u32;
+    if u64::from(width) * u64::from(height) > 16_777_216 {
+        return Err("glyph mask exceeds the raster allocation limit".into());
+    }
+    let target = dwrote::GdiInterop::create().create_bitmap_render_target(width, height);
+    target.set_pixels_per_dip(1.0);
+    if target
+        .get_opaque_values_as_mask()
+        .iter()
+        .skip(3)
+        .step_by(4)
+        .any(|alpha| *alpha != 0)
+    {
+        return Err("new DirectWrite bitmap is not a clear coverage surface".into());
+    }
+    let advances: Vec<_> = run
+        .glyphs
+        .iter()
+        .enumerate()
+        .map(|(i, glyph)| {
+            (run.glyphs
+                .get(i + 1)
+                .map_or(run.metrics.advance, |next| next.x)
+                - glyph.x)
+                * scale
+        })
+        .collect();
+    let offsets: Vec<_> = run
+        .glyphs
+        .iter()
+        .map(|glyph| dwrote::GlyphOffset {
+            advanceOffset: 0.0,
+            ascenderOffset: -glyph.y * scale,
+        })
+        .collect();
+    target.draw_glyph_run(
+        ox - left as f32,
+        oy - top as f32,
+        dwrote::DWRITE_MEASURING_MODE_GDI_CLASSIC,
+        &face,
+        em_px,
+        &ids,
+        &advances,
+        &offsets,
+        &dwrote::RenderingParams::create_for_primary_monitor(),
+        &(1.0, 1.0, 1.0),
+    );
+    let pixels = target
+        .get_opaque_values_as_mask()
+        .into_iter()
+        .skip(3)
+        .step_by(4)
+        .collect();
+    Ok(GlyphMask {
+        left,
+        top,
+        width: width as usize,
+        pixels,
+    })
+}
+
 /// Candidate UI faces. The owned Excel 16 greeter's default is Tahoma; hosts
 /// loading a persisted form should select its named face explicitly instead.
 const UI_FONT_CANDIDATES: &[&str] = &[
@@ -266,6 +386,7 @@ pub fn load_desktop_text(
             font: font.clone(),
             bytes,
             scale_micros: (pixels_per_point * 1_000_000.0).round() as u32,
+            pixels_per_point,
         };
         Ok((font, Arc::new(shaper)))
     }
@@ -279,6 +400,7 @@ struct GdiClassicShaper {
     font: FontArc,
     bytes: Arc<Vec<u8>>,
     scale_micros: u32,
+    pixels_per_point: f32,
 }
 
 #[cfg(windows)]
@@ -294,12 +416,29 @@ impl std::fmt::Debug for GdiClassicShaper {
 #[cfg(windows)]
 impl TextShaper for GdiClassicShaper {
     fn shape(&self, key: &TextKey, text: &str) -> TextRun {
+        self.shape_with_font_rounding(key, text, FontEmRounding::Nearest)
+    }
+
+    fn shape_with_font_rounding(
+        &self,
+        key: &TextKey,
+        text: &str,
+        rounding: FontEmRounding,
+    ) -> TextRun {
         assert_eq!(
             key.font, self.font_id,
             "requested face differs from loaded face"
         );
-        let scale = self.scale_micros as f32 / 1_000_000.0;
-        let em_px = (key.size_milli_pt as f32 / 1000.0 * scale).round().max(1.0);
+        // Keep the supplied scale for integer font fitting. Reconstructing 4/3
+        // from its rounded micro-unit identity would turn an exact 11 into
+        // 10.999997 and incorrectly truncate it to ten pixels.
+        let scale = self.pixels_per_point;
+        let requested_em = key.size_milli_pt as f32 / 1000.0 * scale;
+        let nearest = requested_em.round().max(1.0);
+        let em_px = match rounding {
+            FontEmRounding::Nearest => nearest,
+            FontEmRounding::NearestTiesDown => (requested_em - 0.5).ceil().max(1.0),
+        };
         let glyph_ids: Vec<_> = text.chars().map(|c| self.font.glyph_id(c).0).collect();
         // COM faces stay on this call's thread. Only owned font bytes cross threads;
         // dwrote supplies safe, RAII wrappers for the public DirectWrite operations.
@@ -338,6 +477,11 @@ impl TextShaper for GdiClassicShaper {
             .as_scaled(PxScale::from(em_height(&self.font, em_px)));
         let mut key = key.clone();
         key.device_scale_micros = Some(self.scale_micros);
+        let encoded_scale = self.scale_micros as f32 / 1_000_000.0;
+        let encoded_nearest = (key.size_milli_pt as f32 / 1000.0 * encoded_scale)
+            .round()
+            .max(1.0);
+        key.device_em_pixels = (em_px != encoded_nearest).then_some(em_px as u32);
         TextRun {
             id: text_run_id(&key, text),
             accelerator: key
@@ -428,6 +572,70 @@ mod tests {
 
     #[cfg(windows)]
     #[test]
+    fn native_raster_bounds_match_independent_frame_caption_ink() {
+        // .106/.122 qualified native windows, paired with their public drawing
+        // origin/baseline: Details is [0,-8,31,0] / [1,-12,50,0].
+        for (scale, expected) in [(96.0 / 72.0, [0, -8, 31, 0]), (2.0, [1, -12, 50, 0])] {
+            let (font, shaper) = load_desktop_text(FontId(1), "Tahoma", scale).unwrap();
+            let mut style = key(8);
+            style.size_milli_pt = 8250;
+            let run = shaper.shape(&style, "Details");
+            let mask =
+                gdi_glyph_mask(&font, &run, (8.25 * scale).round(), scale, (0.0, 0.0)).unwrap();
+            let points: Vec<_> = mask
+                .pixels
+                .iter()
+                .enumerate()
+                .filter(|(_, coverage)| **coverage > 145)
+                .map(|(index, _)| {
+                    (
+                        mask.left + (index % mask.width) as i32,
+                        mask.top + (index / mask.width) as i32,
+                    )
+                })
+                .collect();
+            let observed = [
+                points.iter().map(|p| p.0).min().unwrap(),
+                points.iter().map(|p| p.1).min().unwrap(),
+                points.iter().map(|p| p.0).max().unwrap() + 1,
+                points.iter().map(|p| p.1).max().unwrap() + 1,
+            ];
+            assert!(
+                observed
+                    .iter()
+                    .zip(expected)
+                    .all(|(a, b)| (a - b).abs() <= 1),
+                "{scale}: {observed:?}"
+            );
+            let again =
+                gdi_glyph_mask(&font, &run, (8.25 * scale).round(), scale, (0.0, 0.0)).unwrap();
+            assert_eq!(
+                mask.pixels, again.pixels,
+                "repeated rasterization is deterministic"
+            );
+        }
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn midpoint_down_font_matches_native_root_edit_half_pixel_size() {
+        // .106 LayoutCommon-150 InputName: public drawing cells at 18,29,38,46;
+        // font height/ascent/descent 19/16/3, independently captured before this policy.
+        let (_, shaper) = load_desktop_text(FontId(1), "Tahoma", 2.0).unwrap();
+        let mut style = key(8);
+        style.size_milli_pt = 8250;
+        let run = shaper.shape_with_font_rounding(&style, "Ada", FontEmRounding::NearestTiesDown);
+        assert_eq!(run.key.device_em_pixels, Some(16));
+        assert_eq!(
+            run.caret.stops.iter().map(|x| x * 2.0).collect::<Vec<_>>(),
+            [0.0, 11.0, 20.0, 28.0]
+        );
+        assert_eq!((run.metrics.ascent + run.metrics.descent) * 2.0, 19.0);
+        assert_ne!(run.id, shaper.shape(&style, "Ada").id);
+    }
+
+    #[cfg(windows)]
+    #[test]
     fn gdi_classic_advances_and_line_metrics_match_independent_native_drawings() {
         // Public OLE/GDI records in .106 LayoutContainers-100/150 control EMFs.
         // These cells were captured before this shaper existed.
@@ -482,6 +690,7 @@ mod tests {
             size_milli_pt: size_pt * 1000,
             wrap_width_milli_pt: None,
             device_scale_micros: None,
+            device_em_pixels: None,
             accelerator_index: None,
         }
     }

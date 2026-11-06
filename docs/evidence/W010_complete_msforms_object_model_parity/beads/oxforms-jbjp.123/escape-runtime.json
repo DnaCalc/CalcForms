@@ -1,0 +1,87 @@
+[
+  {
+    "after": {
+      "focus": "CancelButton",
+      "log": "|Submit.Exit|Cancel.Enter|Cancel.Click",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=|cancel",
+      "visible": "False"
+    },
+    "before": {
+      "focus": "SubmitButton",
+      "log": "",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=",
+      "visible": "True"
+    },
+    "mode": "submit_clean"
+  },
+  {
+    "after": {
+      "focus": "CancelButton",
+      "log": "|Qty.Exit|Cancel.Enter|Cancel.Click",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=|cancel",
+      "visible": "False"
+    },
+    "before": {
+      "focus": "QtyInput",
+      "log": "",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=",
+      "visible": "True"
+    },
+    "mode": "field_clean"
+  },
+  {
+    "after": {
+      "focus": "CancelButton",
+      "log": "|Qty.Exit|Cancel.Enter|Cancel.Click",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=|qty=9|qty=|cancel",
+      "visible": "False"
+    },
+    "before": {
+      "focus": "QtyInput",
+      "log": "",
+      "text": "9",
+      "trace": "Initialize|qty=1|part=0|qty=|qty=9",
+      "visible": "True"
+    },
+    "mode": "field_dirty"
+  },
+  {
+    "after": {
+      "focus": "CancelButton",
+      "log": "|Qty.Exit|Cancel.Enter|Cancel.Click",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=|qty=9|qty=|cancel",
+      "visible": "False"
+    },
+    "before": {
+      "focus": "QtyInput",
+      "log": "",
+      "text": "9",
+      "trace": "Initialize|qty=1|part=0|qty=|qty=9",
+      "visible": "True"
+    },
+    "mode": "before_veto"
+  },
+  {
+    "after": {
+      "focus": "QtyInput",
+      "log": "|Qty.Exit",
+      "text": "",
+      "trace": "Initialize|qty=1|part=0|qty=|qty=9|qty=",
+      "visible": "True"
+    },
+    "before": {
+      "focus": "QtyInput",
+      "log": "",
+      "text": "9",
+      "trace": "Initialize|qty=1|part=0|qty=|qty=9",
+      "visible": "True"
+    },
+    "mode": "exit_veto"
+  }
+]

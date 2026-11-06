@@ -10,6 +10,13 @@ implementation and it does not claim final MSForms event-order parity. Unknowns
 must remain explicit until public metadata, repo-owned fixtures, or black-box
 Office/MSForms observations settle them.
 
+Run 9 [Escape observations](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/README.md)
+require pending TextBox text to be restored (with Change) before cancel focus
+routing. An accepted Exit precedes Cancel.Enter and Cancel.Click; Exit can veto
+the transfer. Hide/Show retains Cancel focus. Required tests compare the complete
+real inventory State/Trace/focus and the five recorded Escape cases at 100/150.
+Native setup update prefixes differ and remain `.124`, outside the Escape delta.
+
 Post-`oxforms-ih6` status: the W005 vocabulary remains the architectural language, but the
 implementation home changed. The Rust `oxforms-core` reducer/model (`FormState`, `ControlNode`,
 `reduce()`, trace-replay generators) was deleted when control behavior moved into VBA. Current

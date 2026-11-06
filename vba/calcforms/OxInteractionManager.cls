@@ -918,11 +918,15 @@ Private Sub ActivateDefaultButton()
     Emit "click:" & Name
 End Sub
 
-' Escape fires the cancel button's Click in place (no focus change), matching the oracle.
+' Escape leaves the edited control, enters Cancel, then clicks. TextBox has
+' already restored its pending edit; an Exit veto prevents the transfer/click.
 Private Sub ActivateCancelButton()
     Dim Name As String
     Name = CancelButtonName()
     If Len(Name) = 0 Then Exit Sub
+    If Name <> mFocusName Then
+        If Not TransferFocusTo(Name) Then Exit Sub
+    End If
     Dim RoutedControl As IOxControl
     Set RoutedControl = mForm.ControlByName(Name)
     RoutedControl.OnClick

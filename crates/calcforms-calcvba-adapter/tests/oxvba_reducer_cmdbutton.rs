@@ -3345,25 +3345,28 @@ fn enter_activates_the_default_button() {
 }
 
 #[test]
-fn escape_activates_the_cancel_button_in_place() {
+fn escape_exits_the_old_control_and_focuses_cancel_before_click() {
     let (mut session, _surface) = prepare_session();
     let form = build_form(&mut session, "ReducerButtonsForm");
 
     focus_and_clear(&mut session, &form, FIELD_IN.0, FIELD_IN.1);
 
-    // Escape clicks the cancel button without moving focus.
+    // Qualified native .123 traces require Exit -> Cancel Enter -> Click.
     let log = dispatch_key(&mut session, &form, "keydown", KEY_ESCAPE);
-    assert_eq!(log, "keydown:Field|click:CancelBtn");
+    assert_eq!(
+        log,
+        "keydown:Field|exit:Field|enter:CancelBtn|click:CancelBtn|repaint"
+    );
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog")
             .lines()
             .collect::<Vec<_>>(),
-        vec!["Field.KeyDown", "Cancel.Click"],
+        vec!["Field.KeyDown", "Field.Exit", "Cancel.Click"],
     );
     assert_eq!(
         string_get(&mut session, &form, "FocusName"),
-        "Field",
-        "Escape does not move focus"
+        "CancelBtn",
+        "Escape retains Cancel focus"
     );
 }
 

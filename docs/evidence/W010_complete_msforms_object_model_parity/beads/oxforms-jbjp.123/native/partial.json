@@ -1,0 +1,62 @@
+[
+  {
+    "zoom": 100,
+    "mode": "submit_clean",
+    "before": "focus=SubmitButton;visible=True;text=;log=",
+    "after": "focus=CancelButton;visible=False;text=;log=|Submit.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 100,
+    "mode": "field_clean",
+    "before": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 100,
+    "mode": "field_dirty",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 100,
+    "mode": "before_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 100,
+    "mode": "exit_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+    "after": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit"
+  },
+  {
+    "zoom": 150,
+    "mode": "submit_clean",
+    "before": "focus=SubmitButton;visible=True;text=;log=",
+    "after": "focus=CancelButton;visible=False;text=;log=|Submit.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 150,
+    "mode": "field_clean",
+    "before": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 150,
+    "mode": "field_dirty",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 150,
+    "mode": "before_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.Exit|Cancel.Enter|Cancel.Click"
+  },
+  {
+    "zoom": 150,
+    "mode": "exit_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate",
+    "after": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit"
+  }
+]

@@ -1,0 +1,100 @@
+{
+  "observations": [
+    {
+      "focus": "QtyInput",
+      "state": "index=0;top=0;part=Part 1;qty=1;saved=0;total=0;status=Ready;visible=True",
+      "step": "initial",
+      "trace": "Initialize|qty=1|part=0"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=0;top=0;part=Part 1;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+      "step": "initial_submit",
+      "trace": "Initialize|qty=1|part=0|saved=5"
+    },
+    {
+      "focus": "PickList",
+      "state": "index=6;top=0;part=Part 7;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+      "step": "page_down_1",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6"
+    },
+    {
+      "focus": "PickList",
+      "state": "index=12;top=6;part=Part 13;qty=1;saved=1;total=5;status=Saved Part 1;visible=True",
+      "step": "page_down_2",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12"
+    },
+    {
+      "focus": "PickList",
+      "state": "index=12;top=6;part=Part 13;qty=0;saved=1;total=5;status=Saved Part 1;visible=True",
+      "step": "zero_quantity",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=12;top=6;part=Part 13;qty=0;saved=1;total=5;status=Enter 1 to 999;visible=True",
+      "step": "reject_zero",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=12;top=6;part=Part 13;qty=3;saved=1;total=5;status=Enter 1 to 999;visible=True",
+      "step": "quantity_three",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=12;top=6;part=Part 13;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+      "step": "submit_three",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=22;top=16;part=Part 23;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+      "step": "last_part",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=22;top=16;part=Part 23;qty=3;saved=2;total=195;status=Saved Part 13;visible=True",
+      "step": "repeat_last",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=22;top=16;part=Part 23;qty=12a;saved=2;total=195;status=Saved Part 13;visible=True",
+      "step": "invalid_text",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=22;top=16;part=Part 23;qty=12a;saved=2;total=195;status=Enter 1 to 999;visible=True",
+      "step": "reject_text",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=22;top=16;part=Part 23;qty=2;saved=2;total=195;status=Enter 1 to 999;visible=True",
+      "step": "quantity_two",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2"
+    },
+    {
+      "focus": "SubmitButton",
+      "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=True",
+      "step": "submit_two",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230"
+    },
+    {
+      "focus": "CancelButton",
+      "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=False",
+      "step": "cancel",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel"
+    },
+    {
+      "focus": "CancelButton",
+      "state": "index=22;top=16;part=Part 23;qty=2;saved=3;total=230;status=Saved Part 23;visible=True",
+      "step": "reshow",
+      "trace": "Initialize|qty=1|part=0|saved=5|part=6|part=12|qty=0|invalid|qty=3|saved=195|part=22|qty=12a|invalid|qty=2|saved=230|cancel"
+    }
+  ]
+}

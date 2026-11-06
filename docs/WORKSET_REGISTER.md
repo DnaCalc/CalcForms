@@ -146,6 +146,15 @@ checks against the new native held-form/control observations. Held-object reload
 old-control events/detachment and loaded-object final release remain open.
 FORMS PARITY remains **1,166 pass / 452 fail; 378 missing measurements** here.
 
+Run 9's [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
+is **1,169 pass / 449 fail; 378 missing measurements**. Retained glyph drawing
+and measured root edit sizing give 17 gains and 14 retained regressions. Ninety-six
+native size/context cases preserve button/Frame differences; `.101` remains open.
+The generic measure record adds one unexpected public nested field: the canonical
+ledger stays red at 2,452 verified / 4,682 gaps / 622 unexpected-public rows.
+`.123` matches all 320 real inventory fields and five Escape/rollback/veto cases
+at both scales. `.124` retains differing native preparation-update prefixes.
+
 Run 8's [current input replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
 gives **1,166 pass / 452 fail, with 378 missing measurements** across 1,618 rows.
 Both Frame gaps and all four header size rows match. `.116` fills four caption

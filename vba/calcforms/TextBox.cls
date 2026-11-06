@@ -39,6 +39,7 @@ Private mCore As OxControlCore
 ' Uncommitted-edit flag for two-stage focus-out validation: set by a user edit (typed text),
 ' cleared on AfterUpdate. Programmatic .Text assignment does not set it.
 Private mEditDirty As Boolean
+Private mEditOriginalText As String
 Private mAnchor As Long
 Private mCaret As Long
 Private mHideSelection As Boolean
@@ -58,6 +59,7 @@ Private Const OX_SHIFT_MASK As Integer = 1
 Private Const OX_CTRL_MASK As Integer = 2
 Private Const OX_KEY_BACKSPACE As Integer = 8
 Private Const OX_KEY_ENTER As Integer = 13
+Private Const OX_KEY_ESCAPE As Integer = 27
 Private Const OX_KEY_HOME As Integer = 36
 Private Const OX_KEY_END As Integer = 35
 Private Const OX_KEY_LEFT As Integer = 37
@@ -376,6 +378,7 @@ End Property
 ' --- Runtime-facing input surface (driven by the CalcForms runtime, not form code) ---
 ' User edit path: set the text from a real keystroke/paste and raise Change.
 Public Sub ApplyUserText(ByVal NewText As String)
+    If Not mEditDirty Then mEditOriginalText = mCore.DisplayText
     mCore.DisplayText = NewText
     CollapseSelection Len(NewText)
     mEditDirty = True
@@ -553,6 +556,7 @@ End Sub
 
 Private Sub RecordUndoState(ByVal OldText As String)
     If mHistoryApplying Then Exit Sub
+    If Not mEditDirty Then mEditOriginalText = OldText
     mUndoStack.Add OldText
     Set mRedoStack = New Collection
 End Sub
@@ -563,6 +567,7 @@ Private Function PopText(ByVal Stack As Collection) As String
 End Function
 
 Private Sub ApplyHistoryState(ByVal TargetText As String, ByVal OppositeStack As Collection)
+    If Not mEditDirty Then mEditOriginalText = mCore.DisplayText
     mHistoryApplying = True
     OppositeStack.Add mCore.DisplayText
     mCore.DisplayText = TargetText
@@ -828,6 +833,8 @@ Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As I
             End If
         Case OX_KEY_ENTER
             If mMultiLine Then InsertText vbCrLf
+        Case OX_KEY_ESCAPE
+            CancelPendingEdit
         Case OX_KEY_A
             If (Shift And OX_CTRL_MASK) <> 0 Then SelectAll
         Case OX_KEY_Z
@@ -836,6 +843,17 @@ Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As I
             If (Shift And OX_CTRL_MASK) <> 0 Then Redo
     End Select
 End Function
+
+Private Sub CancelPendingEdit()
+    If Not mEditDirty Then Exit Sub
+    Dim Changed As Boolean
+    Changed = (mCore.DisplayText <> mEditOriginalText)
+    mEditDirty = False
+    mCore.DisplayText = mEditOriginalText
+    ClampSelectionToText
+    EnsureCaretVisible
+    If Changed Then RaiseEvent Change
+End Sub
 
 Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer
     IOxControl_OnKeyUp = PerformKeyUp(KeyCode, Shift)

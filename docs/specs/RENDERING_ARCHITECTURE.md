@@ -334,6 +334,14 @@ over the projection boundary would be the worst crossing-storm).
   the run identity; device-independent keys preserve their original encoding.
   The rasterizer uses the same fitted em. Cached both VBA-side (the text→id memo) and kernel-side (the
   persistent interning/LRU store, Surface-held; projected per-frame into `Scene.text`).
+  Run 9 adds generic font-em rounding to the private measure record (0 nearest,
+  1 nearest with midpoint down). VBA selects the root edit policy from native
+  observations. An explicit fitted device em enters run identity when needed.
+  Windows device-fitted runs draw their retained glyph ids and advances through
+  safe DirectWrite/GDI bitmap wrappers, then blend coverage through the Scene
+  clip. Drawing keeps the measured baseline and performs no reshaping. The
+  device-independent outline path remains available. Font/context, Unicode and
+  live DPI/resize limits remain in `.101`; pixels are a coarse guard.
 - Layout consumes the metrics — the per-frame pipeline is **measure → layout → paint**:
   a control that depends on text extent (e.g. MSForms `AutoSize`, word-wrap, autofit)
   reads the measured run (advance + ascent/descent) and computes its own bounds *before*

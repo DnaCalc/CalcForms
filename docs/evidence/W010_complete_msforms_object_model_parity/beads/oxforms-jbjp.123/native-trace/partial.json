@@ -1,0 +1,62 @@
+[
+  {
+    "zoom": 100,
+    "mode": "submit_clean",
+    "before": "focus=SubmitButton;visible=True;text=;log=;trace=Initialize|qty=1|part=0|qty=",
+    "after": "focus=CancelButton;visible=False;text=;log=|Submit.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|cancel"
+  },
+  {
+    "zoom": 100,
+    "mode": "field_clean",
+    "before": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate;trace=Initialize|qty=1|part=0|qty=",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|cancel"
+  },
+  {
+    "zoom": 100,
+    "mode": "field_dirty",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate;trace=Initialize|qty=1|part=0|qty=|qty=9",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|qty=9|qty=|cancel"
+  },
+  {
+    "zoom": 100,
+    "mode": "before_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate;trace=Initialize|qty=1|part=0|qty=|qty=9",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|qty=9|qty=|cancel"
+  },
+  {
+    "zoom": 100,
+    "mode": "exit_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate;trace=Initialize|qty=1|part=0|qty=|qty=9",
+    "after": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit;trace=Initialize|qty=1|part=0|qty=|qty=9|qty="
+  },
+  {
+    "zoom": 150,
+    "mode": "submit_clean",
+    "before": "focus=SubmitButton;visible=True;text=;log=;trace=Initialize|qty=1|part=0|qty=",
+    "after": "focus=CancelButton;visible=False;text=;log=|Submit.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|cancel"
+  },
+  {
+    "zoom": 150,
+    "mode": "field_clean",
+    "before": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate;trace=Initialize|qty=1|part=0|qty=",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|cancel"
+  },
+  {
+    "zoom": 150,
+    "mode": "field_dirty",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate;trace=Initialize|qty=1|part=0|qty=|qty=9",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|qty=9|qty=|cancel"
+  },
+  {
+    "zoom": 150,
+    "mode": "before_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate;trace=Initialize|qty=1|part=0|qty=|qty=9",
+    "after": "focus=CancelButton;visible=False;text=;log=|Qty.BeforeUpdate|Qty.Exit|Cancel.Enter|Cancel.Click;trace=Initialize|qty=1|part=0|qty=|qty=9|qty=|cancel"
+  },
+  {
+    "zoom": 150,
+    "mode": "exit_veto",
+    "before": "focus=QtyInput;visible=True;text=9;log=|Qty.BeforeUpdate|Qty.AfterUpdate;trace=Initialize|qty=1|part=0|qty=|qty=9",
+    "after": "focus=QtyInput;visible=True;text=;log=|Qty.BeforeUpdate|Qty.AfterUpdate|Qty.Exit;trace=Initialize|qty=1|part=0|qty=|qty=9|qty="
+  }
+]
