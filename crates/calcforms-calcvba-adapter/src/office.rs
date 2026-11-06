@@ -216,6 +216,33 @@ impl WorkbookForm {
             conditional_constants: Default::default(),
             conditional_compilation_target: Default::default(),
         };
+        // Project event ids include private events in compiler source order.
+        // Resolve the generated capability by symbol identity: an application
+        // event with the same string payload must never reset the default slot.
+        let environment = calcvba_symbol::build_resolution_environment(
+            &manifest,
+            &calcvba_symbol::CatalogTypeLibResolver,
+        )
+        .map_err(|error| format!("resolve UserForm lifecycle event: {error}"))?;
+        let form_scope = environment
+            .modules()
+            .find(|module| module.module_name.eq_ignore_ascii_case(&self.name))
+            .ok_or("missing UserForm module scope")?
+            .module_scope;
+        let unload_name = environment
+            .symbols
+            .lookup_name("CalcFormsHostUnloading")
+            .ok_or("missing UserForm lifecycle event symbol")?;
+        let unload_event_id = environment
+            .symbols
+            .symbols()
+            .iter()
+            .filter(|symbol| {
+                symbol.scope == form_scope && symbol.kind == calcvba_symbol::SymbolKind::Event
+            })
+            .position(|symbol| symbol.name == unload_name)
+            .ok_or("missing UserForm lifecycle event ordinal")?
+            as i32;
         let programs = calcvba_bind::bind_projects(
             &[library_manifest, manifest],
             &calcvba_symbol::CatalogTypeLibResolver,
@@ -242,14 +269,15 @@ impl WorkbookForm {
         let defaults = session.default_instances();
         let form_class = format!("CalcFormsWorkbook.{}", self.name);
         let form_name = self.name.clone();
-        session.set_project_event_sink(move |owner, _, arguments| {
+        session.set_project_event_sink(move |owner, event_id, arguments| {
             let owned_form = owner.try_class_descriptor().is_some_and(|descriptor| {
                 descriptor.name.eq_ignore_ascii_case(&form_name)
                     && descriptor.project_identity.is_some_and(|identity| {
                         identity.unit_name.eq_ignore_ascii_case("CalcFormsWorkbook")
                     })
             });
-            if owned_form
+            if event_id == unload_event_id
+                && owned_form
                 && arguments.len() == 1
                 && arguments[0]
                     .as_bstr()

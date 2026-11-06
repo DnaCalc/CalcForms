@@ -212,6 +212,51 @@ fn held_form_and_control_release_matches_native_unload_episode() {
 }
 
 #[test]
+fn application_event_cannot_impersonate_the_private_unload_event() {
+    use calcvba_runtime::Variant;
+    let mut form = workbook();
+    form.original_source = form.original_source.replacen(
+        "Option Explicit",
+        "Option Explicit\nPublic Event ApplicationNotice(ByVal Message As String)",
+        1,
+    );
+    form.original_source.push_str(
+        "\nPublic Sub Notify()\n    RaiseEvent ApplicationNotice(\"CalcFormsWorkbook.WorkbookGreeter\")\nEnd Sub\n",
+    );
+    let (mut runtime, _) = form
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .unwrap();
+    let held = runtime.form();
+    let session = runtime.session_mut();
+    let defaults = session.default_instances();
+    assert!(defaults.peek("WorkbookGreeter").unwrap().is_some());
+    session
+        .invoke_member_values(
+            held.clone(),
+            "Notify",
+            Some(ProjectMemberKind::Method),
+            vec![],
+        )
+        .unwrap();
+    assert!(
+        defaults.peek("WorkbookGreeter").unwrap().is_some(),
+        "application event preserves the default slot"
+    );
+    session
+        .invoke_member_values(
+            held,
+            "CalcFormsHostUnload",
+            Some(ProjectMemberKind::Method),
+            vec![Variant::from_i16(1)],
+        )
+        .unwrap();
+    assert!(
+        defaults.peek("WorkbookGreeter").unwrap().is_none(),
+        "the private event still resets the slot after the application event shifts its ordinal"
+    );
+}
+
+#[test]
 fn explicit_unload_never_constructs_an_absent_default() {
     use calcvba_runtime::Variant;
     let (mut runtime, _) = workbook()

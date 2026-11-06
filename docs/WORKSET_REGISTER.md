@@ -141,6 +141,7 @@ Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
 Run 9 takes up CalcVBA `8840f391` in `.95`. Non-creating exact-instance reset,
+private event identity validation (`.95.1`),
 host release/draining and once-per-load Unload/Terminate now pass required VM3
 checks against the new native held-form/control observations. Held-object reload,
 old-control events/detachment and loaded-object final release remain open.

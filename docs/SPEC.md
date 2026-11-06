@@ -22,6 +22,9 @@ Run 9 pins CalcVBA `8840f391676d0796870e9c486ba2ca6586c5b8c7`.
 The adapter now uses non-creating default reset and explicit host release/draining.
 Accepted Unload raises Terminate once per loaded episode, matching the
 [held-reference native observations](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/README.md).
+The private unload notification also checks its compiler-resolved event id,
+so an application event with an identical payload cannot reset the default slot
+([`.95.1` regression](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/event-identity.md)).
 The `.95` residual scope remains explicit; this supplies no headline layout credit.
 
 ## Core Spec
