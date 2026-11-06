@@ -112,6 +112,7 @@ Invoke-Check -Name 'W010 measured input corrections' -Script 'tools/evidence/Tes
 Invoke-Check -Name 'W010 real workbook input and owned cleanup' -Script 'tools/evidence/Test-W010Run8Workbooks.ps1'
 Invoke-Check -Name 'W010 held form and control release' -Script 'tools/evidence/Test-W010LifetimeRelease.ps1'
 Invoke-Check -Name 'W010 run 9 font and Escape parity' -Script 'tools/evidence/Test-W010Run9Parity.ps1'
+Invoke-Check -Name 'W010 original greeter setters and selection' -Script 'tools/evidence/Test-W010GreeterSetters.ps1'
 Invoke-Check -Name 'W010 measured rendering corrections' -Script 'tools/evidence/Test-W010RenderCorrection.ps1'
 
 # Trace/replay schema over every committed trace sample.

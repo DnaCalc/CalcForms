@@ -147,7 +147,10 @@ checks against the new native held-form/control observations. Held-object reload
 old-control events/detachment and loaded-object final release remain open.
 FORMS PARITY remains **1,166 pass / 452 fail; 378 missing measurements** here.
 
-Run 9's [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
+Run 9's [current greeter replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/final/forms-parity.md)
+is **1,191 pass / 427 fail; 356 missing measurements**. `.125` fills 22 fields
+using original workbook handlers, full state/event traces and exact selection.
+The [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
 is **1,169 pass / 449 fail; 378 missing measurements**. Retained glyph drawing
 and measured root edit sizing give 17 gains and 14 retained regressions. Ninety-six
 native size/context cases preserve button/Frame differences; `.101` remains open.

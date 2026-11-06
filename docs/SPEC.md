@@ -29,8 +29,11 @@ The `.95` residual scope remains explicit; this supplies no headline layout cred
 
 ## Core Spec
 
-Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
-reports **1,169 pass / 449 fail; 378 missing measurements**. Native font sizing
+Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/final/forms-parity.md)
+reports **1,191 pass / 427 fail; 356 missing measurements**. Twenty-two greeter
+fields now use complete original-handler setter/event/selection observations.
+The [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
+was 1,169/449 with 378 missing measurements. Native font sizing
 and retained DirectWrite raster are bounded to the recorded contexts; 17 gains
 and 14 regressions stay explicit. Full font/DPI parity remains `.101` work.
 

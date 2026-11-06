@@ -1,0 +1,95 @@
+{
+  "observations": [
+    {
+      "after": "Initialize;text=Ada;caption=(ready);loud=False",
+      "before": "Initialize;text=Ada;caption=(ready);loud=False",
+      "control": "Prompt",
+      "events": [],
+      "member": "Caption",
+      "step": "caption",
+      "value": "Name updated:"
+    },
+    {
+      "after": "Initialize;text=Ada;caption=(changed);loud=False",
+      "before": "Initialize;text=Ada;caption=(ready);loud=False",
+      "control": "Output",
+      "events": [],
+      "member": "Caption",
+      "step": "caption",
+      "value": "(changed)"
+    },
+    {
+      "after": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+      "before": "Initialize;text=Ada;caption=(changed);loud=False",
+      "control": "InputName",
+      "events": [
+        "Change:Lin"
+      ],
+      "member": "Text",
+      "step": "text",
+      "value": "Lin"
+    },
+    {
+      "after": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+      "before": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+      "control": "InputName",
+      "events": [],
+      "member": "Text",
+      "selection": {
+        "length": 1,
+        "start": 1,
+        "text": "i"
+      },
+      "step": "select",
+      "value": "Lin"
+    },
+    {
+      "after": "Initialize|Change:Lin|Change:Lan;text=Lan;caption=(changed);loud=False",
+      "before": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+      "control": "InputName",
+      "events": [
+        "Change:Lan"
+      ],
+      "member": "Text",
+      "selection": {
+        "length": 0,
+        "start": 2,
+        "text": ""
+      },
+      "step": "replace",
+      "value": "Lan"
+    },
+    {
+      "after": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+      "before": "Initialize|Change:Lin|Change:Lan;text=Lan;caption=(changed);loud=False",
+      "control": "Loud",
+      "events": [
+        "Check:True"
+      ],
+      "member": "Value",
+      "step": "value",
+      "value": "True"
+    },
+    {
+      "after": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+      "before": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+      "control": "Loud",
+      "events": [],
+      "member": "Value",
+      "step": "same-value",
+      "value": "True"
+    },
+    {
+      "after": "Initialize|Change:Lin|Change:Lan|Check:True|Click:HELLO, LAN;text=Lan;caption=HELLO, LAN;loud=True",
+      "before": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+      "control": "Greet",
+      "events": [
+        "Click:HELLO, LAN"
+      ],
+      "member": "Caption",
+      "step": "invoke",
+      "value": "Greet"
+    }
+  ],
+  "schema": "calcforms.greeter_setters_runtime.v1"
+}

@@ -1,0 +1,209 @@
+{
+  "schema": "calcforms.greeter_setters.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187"
+  },
+  "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+  "original_handlers_unchanged": true,
+  "cases": [
+    {
+      "zoom": 100,
+      "observations": [
+        {
+          "control": "Prompt",
+          "step": "caption",
+          "member": "Caption",
+          "value": "Name updated:",
+          "before": "Initialize;text=Ada;caption=(ready);loud=False",
+          "after": "Initialize;text=Ada;caption=(ready);loud=False",
+          "events": []
+        },
+        {
+          "control": "Output",
+          "step": "caption",
+          "member": "Caption",
+          "value": "(changed)",
+          "before": "Initialize;text=Ada;caption=(ready);loud=False",
+          "after": "Initialize;text=Ada;caption=(changed);loud=False",
+          "events": []
+        },
+        {
+          "control": "InputName",
+          "step": "text",
+          "member": "Text",
+          "value": "Lin",
+          "before": "Initialize;text=Ada;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "events": [
+            "Change:Lin"
+          ]
+        },
+        {
+          "control": "InputName",
+          "step": "select",
+          "member": "Text",
+          "value": "Lin",
+          "before": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "events": [],
+          "selection": {
+            "start": 1,
+            "length": 1,
+            "text": "i"
+          }
+        },
+        {
+          "control": "InputName",
+          "step": "replace",
+          "member": "Text",
+          "value": "Lan",
+          "before": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin|Change:Lan;text=Lan;caption=(changed);loud=False",
+          "events": [
+            "Change:Lan"
+          ],
+          "selection": {
+            "start": 2,
+            "length": 0,
+            "text": ""
+          }
+        },
+        {
+          "control": "Loud",
+          "step": "value",
+          "member": "Value",
+          "value": "True",
+          "before": "Initialize|Change:Lin|Change:Lan;text=Lan;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "events": [
+            "Check:True"
+          ]
+        },
+        {
+          "control": "Loud",
+          "step": "same-value",
+          "member": "Value",
+          "value": "True",
+          "before": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "after": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "events": []
+        },
+        {
+          "control": "Greet",
+          "step": "invoke",
+          "member": "Caption",
+          "value": "Greet",
+          "before": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "after": "Initialize|Change:Lin|Change:Lan|Check:True|Click:HELLO, LAN;text=Lan;caption=HELLO, LAN;loud=True",
+          "events": [
+            "Click:HELLO, LAN"
+          ]
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "observations": [
+        {
+          "control": "Prompt",
+          "step": "caption",
+          "member": "Caption",
+          "value": "Name updated:",
+          "before": "Initialize;text=Ada;caption=(ready);loud=False",
+          "after": "Initialize;text=Ada;caption=(ready);loud=False",
+          "events": []
+        },
+        {
+          "control": "Output",
+          "step": "caption",
+          "member": "Caption",
+          "value": "(changed)",
+          "before": "Initialize;text=Ada;caption=(ready);loud=False",
+          "after": "Initialize;text=Ada;caption=(changed);loud=False",
+          "events": []
+        },
+        {
+          "control": "InputName",
+          "step": "text",
+          "member": "Text",
+          "value": "Lin",
+          "before": "Initialize;text=Ada;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "events": [
+            "Change:Lin"
+          ]
+        },
+        {
+          "control": "InputName",
+          "step": "select",
+          "member": "Text",
+          "value": "Lin",
+          "before": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "events": [],
+          "selection": {
+            "start": 1,
+            "length": 1,
+            "text": "i"
+          }
+        },
+        {
+          "control": "InputName",
+          "step": "replace",
+          "member": "Text",
+          "value": "Lan",
+          "before": "Initialize|Change:Lin;text=Lin;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin|Change:Lan;text=Lan;caption=(changed);loud=False",
+          "events": [
+            "Change:Lan"
+          ],
+          "selection": {
+            "start": 2,
+            "length": 0,
+            "text": ""
+          }
+        },
+        {
+          "control": "Loud",
+          "step": "value",
+          "member": "Value",
+          "value": "True",
+          "before": "Initialize|Change:Lin|Change:Lan;text=Lan;caption=(changed);loud=False",
+          "after": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "events": [
+            "Check:True"
+          ]
+        },
+        {
+          "control": "Loud",
+          "step": "same-value",
+          "member": "Value",
+          "value": "True",
+          "before": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "after": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "events": []
+        },
+        {
+          "control": "Greet",
+          "step": "invoke",
+          "member": "Caption",
+          "value": "Greet",
+          "before": "Initialize|Change:Lin|Change:Lan|Check:True;text=Lan;caption=(changed);loud=True",
+          "after": "Initialize|Change:Lin|Change:Lan|Check:True|Click:HELLO, LAN;text=Lan;caption=HELLO, LAN;loud=True",
+          "events": [
+            "Click:HELLO, LAN"
+          ]
+        }
+      ]
+    }
+  ]
+}
