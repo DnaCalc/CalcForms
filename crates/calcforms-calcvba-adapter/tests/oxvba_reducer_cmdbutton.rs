@@ -611,7 +611,7 @@ fn set_z_order(session: &mut ProjectRuntimeSession, form: &ObjectRef, name: &str
 }
 
 /// The resident-scene revision (bumps only on a content-changing submitted patch) and the
-/// headless framebuffer hash of the last render — the real-render proof.
+/// headless framebuffer hash of the last render â€” the real-render proof.
 fn revision(surface: &Arc<SurfaceFactory>) -> u64 {
     surface.snapshot().expect("surface snapshot").revision
 }
@@ -1565,8 +1565,8 @@ fn textbox_composition_preedit_commits_or_cancels_without_leaving_rust_semantics
     assert_eq!(string_get(&mut session, &form, "T1Text"), "pre");
 
     t1_update_composition(&mut session, &form, "e'");
-    t1_commit_composition(&mut session, &form, "é");
-    assert_eq!(string_get(&mut session, &form, "T1Text"), "preé");
+    t1_commit_composition(&mut session, &form, "Ã©");
+    assert_eq!(string_get(&mut session, &form, "T1Text"), "preÃ©");
     assert!(!bool_get(&mut session, &form, "T1CompositionActive"));
     assert!(
         string_get(&mut session, &form, "HandlerLog").contains("T1.Change"),
@@ -1577,10 +1577,10 @@ fn textbox_composition_preedit_commits_or_cancels_without_leaving_rust_semantics
     set_t1_selection(&mut session, &form, 2, 2);
     t1_update_composition(&mut session, &form, "zz");
     set_t1_selection(&mut session, &form, 6, 0);
-    t1_commit_composition(&mut session, &form, "Ω");
+    t1_commit_composition(&mut session, &form, "Î©");
     assert_eq!(
         string_get(&mut session, &form, "T1Text"),
-        "abΩcd",
+        "abÎ©cd",
         "composition commit replaces the selection captured at BeginComposition"
     );
 }
@@ -2068,8 +2068,8 @@ fn listbox_object_model_and_capability_descriptor_live_on_the_vba_control() {
     assert_eq!(string_get(&mut session, &form, "ListValue"), "Blue");
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog"),
-        "",
-        "programmatic ListIndex assignment should not raise Change"
+        "Choices.Change:Blue\nChoices.Click:Blue",
+        "native ListIndex assignment raises Change before Click"
     );
 
     let catalog = string_get(&mut session, &form, "CapabilityCatalog");
@@ -2884,7 +2884,7 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
     let scene = snapshot.scene.expect("scene snapshot");
     let root = scene.get(NodeId(0)).expect("root node");
     assert!(
-        root.children.contains(&NodeId(1)) && root.children.contains(&NodeId(2)),
+        root.children.contains(&NodeId(1)) && root.children.contains(&NodeId(5)),
         "root should contain the Frame and the outside TextBox"
     );
     let frame = scene.get(NodeId(1)).expect("frame node");
@@ -2905,10 +2905,7 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
         "native default Frame has an etched border"
     );
     let client = scene.get(NodeId(1902)).expect("clipped child group");
-    assert_eq!(
-        client.children,
-        vec![NodeId(1001), NodeId(1002), NodeId(1003)]
-    );
+    assert_eq!(client.children, vec![NodeId(2), NodeId(3), NodeId(4)]);
     assert_rect_close(
         client.clip.unwrap(),
         RectF::new(21.5, 25.5, 177.0, 83.0),
@@ -2919,7 +2916,7 @@ fn frame_owns_nested_controls_and_renders_a_parented_scene_subtree() {
         caption.y < client.clip.unwrap().y && caption.y >= frame.clip.unwrap().y,
         "caption must remain visible above the child clip"
     );
-    let inner = scene.get(NodeId(1001)).expect("inner TextBox node");
+    let inner = scene.get(NodeId(2)).expect("inner TextBox node");
     assert_eq!(inner.parent, Some(NodeId(1902)));
     assert_rect_close(
         inner.bounds,
@@ -3044,11 +3041,11 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
         .expect("frame client node after removal");
     assert_eq!(
         frame.children,
-        vec![NodeId(1001), NodeId(1003)],
+        vec![NodeId(2), NodeId(4)],
         "Frame repaint should drop the removed child from the parent child list"
     );
     assert!(
-        scene.get(NodeId(1002)).is_none(),
+        scene.get(NodeId(3)).is_none(),
         "container structural mutation should rebuild the retained scene so removed child nodes do not linger"
     );
 }

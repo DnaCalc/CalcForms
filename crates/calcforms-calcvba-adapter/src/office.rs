@@ -109,8 +109,20 @@ impl WorkbookForm {
         host_services: HostServices,
         entry: Option<&str>,
     ) -> Result<(OxRuntime, Arc<SurfaceFactory>)> {
-        let mut modules = crate::library::modules();
-        if modules
+        let library: Vec<_> = crate::library::modules()
+            .into_iter()
+            .map(|mut module| {
+                // The referenced library exposes its current class surface to the
+                // form source provider. W010 still owns narrowing its public API.
+                if module.module_kind == calcvba_symbol::manifest::ModuleKind::Class {
+                    module.attributes.vb_exposed = true;
+                    module.attributes.vb_creatable =
+                        matches!(module.module_name.as_str(), "UserForm" | "OxReducer");
+                }
+                module
+            })
+            .collect();
+        if library
             .iter()
             .any(|module| module.module_name.eq_ignore_ascii_case(&self.name))
         {
@@ -119,7 +131,7 @@ impl WorkbookForm {
                 self.name
             ));
         }
-        modules.push(self.module()?);
+        let mut modules = vec![self.module()?];
         if modules.iter().any(|module| {
             ["CalcFormsWorkbookHost", "CalcFormsWorkbookLifetime"]
                 .iter()
@@ -170,16 +182,36 @@ impl WorkbookForm {
             project_name: "CalcFormsWorkbook".into(),
             project_kind: calcvba_symbol::manifest::ProjectKind::Library,
             modules,
+            references: vec![calcvba_symbol::manifest::ProjectReference::Project {
+                referenced_project_name: "MSForms".into(),
+            }],
+            reference_projects: vec![calcvba_symbol::manifest::ReferencedProjectManifest {
+                project_name: "MSForms".into(),
+                project_kind: calcvba_symbol::manifest::ProjectKind::Library,
+                modules: library.clone(),
+            }],
+            conditional_constants: Default::default(),
+            conditional_compilation_target: Default::default(),
+        };
+        let library_manifest = calcvba_symbol::manifest::SymbolProjectManifest {
+            project_name: "MSForms".into(),
+            project_kind: calcvba_symbol::manifest::ProjectKind::Library,
+            modules: library,
             references: vec![],
             reference_projects: vec![],
             conditional_constants: Default::default(),
             conditional_compilation_target: Default::default(),
         };
-        let program =
-            calcvba_bind::bind_program(&manifest, &calcvba_symbol::CatalogTypeLibResolver)
-                .map_err(|error| format!("bind UserForm: {error}"))?;
-        let bundle = calcvba_oxir::elaborate::elaborate(&program)
-            .map_err(|error| format!("compile UserForm: {error}"))?;
+        let programs = calcvba_bind::bind_projects(
+            &[library_manifest, manifest],
+            &calcvba_symbol::CatalogTypeLibResolver,
+        )
+        .map_err(|error| format!("bind UserForm project: {error}"))?;
+        let bundles = programs
+            .iter()
+            .map(calcvba_oxir::elaborate::elaborate)
+            .collect::<std::result::Result<Vec<_>, _>>()
+            .map_err(|error| format!("compile UserForm project: {error}"))?;
         let projection = Arc::new(calcvba_com::PortableComProjection::new());
         let surface = Arc::new(SurfaceFactory::with_shaper(shaper));
         register_surface(&projection, surface.clone());
@@ -189,7 +221,7 @@ impl WorkbookForm {
         let engine = calcvba_engine::Engine::new(calcvba_engine::HostConfig::vm3())
             .with_host_profile_provider(profile);
         let mut session = engine
-            .prepare_image_session(calcvba_oxir::OxImage::new(vec![bundle]))
+            .prepare_image_session(calcvba_oxir::OxImage::new(bundles))
             .map_err(|error| format!("prepare UserForm VM3: {error}"))?;
         let host = session
             .create_class_instance("CalcFormsWorkbookHost")
@@ -305,11 +337,11 @@ impl WorkbookForm {
                     (name.trim() == key).then_some(value.trim())
                 })
                 .ok_or_else(|| format!("form is missing {key}"))?;
-            let twips = value.parse::<u32>().map_err(|_| format!("invalid {key}"))?;
-            if twips == 0 || twips > 200_000 {
+            let twips = value.parse::<f64>().map_err(|_| format!("invalid {key}"))?;
+            if !twips.is_finite() || twips <= 0.0 || twips > 200_000.0 {
                 return Err(format!("unsupported {key} {twips}"));
             }
-            Ok(f64::from(twips) / 20.0)
+            Ok(twips / 20.0)
         };
         Ok(Self {
             name: name.into(),

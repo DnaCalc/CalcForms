@@ -15,3 +15,7 @@ End Sub
 
 Public Sub OnInteractionInvalidated(ByVal Control As IOxControl)
 End Sub
+
+' One form-wide allocation domain, independent of container depth.
+Public Function AllocateNodeId() As Long
+End Function

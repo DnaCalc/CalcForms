@@ -22,6 +22,11 @@ defines FORMS PARITY reports at 100%/150%, layout/text/spacing/colour/behaviour
 measurements, failed missing coverage, per-window capture and owned hidden
 Excel reuse. Pixels remain a coarse regression guard.
 
+The real data-entry workbook now runs original qualified MSForms source through
+the Office importer and referenced source library. Native initial State/Trace
+match; later native scenarios and two-scale geometry remain open in `.105`.
+See [the measured scope](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/README.md).
+
 1. [`specs/INPUT_INTERACTION_MODEL.md`](specs/INPUT_INTERACTION_MODEL.md) -
    W005 input/event architecture surface for normalized `UiEvent`, interaction
    `FormState`, effects, ordering, trace/replay, and the fact/model homes for

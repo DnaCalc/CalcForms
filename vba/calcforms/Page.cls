@@ -11,7 +11,6 @@ Private mOwner As MultiPage
 Private mCore As OxControlCore
 Private mControls As Controls
 Private mIndex As Long
-Private mNextChildNodeId As Long
 
 Private Sub Class_Initialize()
     Set mOwner = Nothing
@@ -22,7 +21,6 @@ Private Sub Class_Initialize()
     mCore.SetChildClipMargins 0, 0, 0, 0
     Set mControls = New Controls
     mControls.Bind Me
-    mNextChildNodeId = 1
 End Sub
 
 Public Sub Init(ByVal Owner As MultiPage, ByVal Index As Long, ByVal Caption As String)
@@ -275,8 +273,7 @@ End Property
 
 Public Sub RegisterControl(ByVal Control As IOxControl)
     Control.Core.Bind Me, Control
-    Control.Core.NodeId = mCore.NodeId * 1000 + mNextChildNodeId
-    mNextChildNodeId = mNextChildNodeId + 1
+    Control.Core.NodeId = mCore.AllocateNodeId()
     mCore.MarkDirty
     mCore.MarkInteractionDirty
 End Sub
@@ -298,6 +295,10 @@ End Sub
 Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)
     mCore.MarkDirty
 End Sub
+
+Private Function IOxControlHost_AllocateNodeId() As Long
+    IOxControlHost_AllocateNodeId = mCore.AllocateNodeId()
+End Function
 
 Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
     mCore.MarkInteractionDirty

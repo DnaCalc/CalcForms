@@ -57,8 +57,7 @@ End Sub
 ' tracking, the form owns identity + the host seam.
 Public Sub RegisterControl(ByVal Control As IOxControl)
     Control.Core.Bind Me, Control
-    Control.Core.NodeId = mNextNodeId
-    mNextNodeId = mNextNodeId + 1
+    Control.Core.NodeId = IOxControlHost_AllocateNodeId()
     mStructureDirty = True
     RecordInteractionInvalidated Control
 End Sub
@@ -431,6 +430,14 @@ End Property
 Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)
     If mSuspendDepth = 0 Then RecordInvalidated Control
 End Sub
+
+Private Function IOxControlHost_AllocateNodeId() As Long
+    ' Slots 900..999 in each block belong to control-local paint parts.
+    If mNextNodeId Mod 1000 >= 900 Then mNextNodeId = (mNextNodeId \ 1000 + 1) * 1000
+    If mNextNodeId > 2147482 Then Err.Raise 6, "CalcForms", "Form node capacity exceeded"
+    IOxControlHost_AllocateNodeId = mNextNodeId
+    mNextNodeId = mNextNodeId + 1
+End Function
 
 Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
     RecordInteractionInvalidated Control

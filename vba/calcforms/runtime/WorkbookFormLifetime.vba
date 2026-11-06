@@ -9,6 +9,11 @@ Private Sub Class_Initialize()
     CalcFormsHostLoad
 End Sub
 
+Public Property Get Controls() As Controls
+    CalcFormsHostLoad
+    Set Controls = CalcFormsHostForm.Controls
+End Property
+
 Private Sub CalcFormsHostLoad()
     If CalcFormsHostLoaded Then Exit Sub
     CalcFormsHostLoaded = True

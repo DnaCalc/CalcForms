@@ -766,6 +766,13 @@ VBA or the Scene model. (v1 is single-threaded; the seam is designed not to requ
 
 ### 16.8 Revisitability
 
+Nested controls allocate their Scene identities through the owning UserForm,
+including Frame and Page descendants. IDs do not encode hierarchy; parent links
+provide it. Control IDs skip slots 900..999 in each thousand so local paint-part
+IDs cannot collide with controls. Allocation checks the signed VBA Long capacity
+before computing local part IDs. This avoids overflow for Page children inside
+MultiPage without adding control knowledge to the retained Scene kernel.
+
 November Windows hosts default to showing without activation
 (`WindowOptions.activate_on_show = false`), so window creation does not take
 keyboard focus from another application. The workbook comparison runs on a

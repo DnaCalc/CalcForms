@@ -84,7 +84,7 @@ EXPECTED_COUNTS = {
     "persistence_frm_frx_fact": 823,
     "persistence_aggregate": 19,
     "unexpected_public_type": 12,
-    "unexpected_public_member": 583,
+    "unexpected_public_member": 584,
     "unexpected_public_nested_member": 25,
 }
 
@@ -95,7 +95,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "class_modules": 33,
     "standard_modules": 4,
     "project_declared_exposed_modules": 5,
-    "public_declarations": 836,
+    "public_declarations": 837,
     "public_events": 114,
     "public_enum_constants": 25,
     "public_type_fields": 10,
@@ -105,7 +105,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "param_arrays": 1,
     "module_attributes": 5,
     "implements_clauses": 23,
-    "private_interface_implementations": 541,
+    "private_interface_implementations": 545,
     "member_attributes": 0,
 }
 
@@ -6115,11 +6115,11 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
     }
     if (
         len(mapped_declarations) != 253
-        or len(unexpected_declarations) != 583
+        or len(unexpected_declarations) != 584
         or mapped_declarations & unexpected_declarations
-        or len(mapped_declarations | unexpected_declarations) != 836
+        or len(mapped_declarations | unexpected_declarations) != 837
     ):
-        errors.append("public source declaration partition differs from 253+583=836")
+        errors.append("public source declaration partition differs from 253+584=837")
     if (
         len(mapped_nested) != 10
         or len(unexpected_nested) != 25

@@ -431,8 +431,8 @@ Private Sub SetListIndex(ByVal NewIndex As Long, ByVal FromUser As Boolean)
     End If
     If FromUser Then
         mEditDirty = True
-        RaiseEvent Change
     End If
+    RaiseEvent Change
     mCore.MarkDirty
 End Sub
 

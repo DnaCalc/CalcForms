@@ -35,7 +35,6 @@ Private mPageControls As Controls
 Private mValue As Long
 Private mFocused As Boolean
 Private mEditDirty As Boolean
-Private mNextPageNodeId As Long
 
 Private Sub Class_Initialize()
     Set mCore = Nothing
@@ -51,7 +50,6 @@ Private Sub Class_Initialize()
     mValue = -1
     mFocused = False
     mEditDirty = False
-    mNextPageNodeId = 1
 End Sub
 
 Private Property Get IOxControl_Core() As OxControlCore
@@ -193,8 +191,7 @@ End Function
 
 Public Sub RegisterPage(ByVal Page As Page)
     Page.Core.Bind Me, Page
-    Page.Core.NodeId = mCore.NodeId * 1000 + mNextPageNodeId
-    mNextPageNodeId = mNextPageNodeId + 1
+    Page.Core.NodeId = mCore.AllocateNodeId()
     mPageControls.AddExisting Page, Page.Core.Name
     If mValue < 0 Then mValue = 0
     NotifyPageChanged
@@ -403,6 +400,10 @@ End Sub
 Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)
     mCore.MarkDirty
 End Sub
+
+Private Function IOxControlHost_AllocateNodeId() As Long
+    IOxControlHost_AllocateNodeId = mCore.AllocateNodeId()
+End Function
 
 Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
     mCore.MarkInteractionDirty

@@ -1,0 +1,15 @@
+{
+  "schema": "calcforms.layout_session.v1",
+  "excel_launches": 1,
+  "interactive": false,
+  "security_changes": 0,
+  "input_desktop_switched": false,
+  "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+  "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+  "excel_launches_by_this_session": 1,
+  "excel_pid": 20232,
+  "desktop": "CalcFormsOracle_c8f782743d07",
+  "closed": "terminated_owned_handle",
+  "workbook_unchanged": true,
+  "cleanup_notes": []
+}

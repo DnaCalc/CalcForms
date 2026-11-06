@@ -1,0 +1,1897 @@
+{
+  "schema": "calcforms.data_entry_coverage.v1",
+  "native_initial_state_pass": true,
+  "native_initial_trace_pass": true,
+  "rows": [
+    {
+      "scale_percent": 100,
+      "control": "OrderEntryForm",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "OrderEntryForm",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "OrderEntryForm",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "OrderEntryForm",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "OrderEntryForm",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameInput",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameInput",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameInput",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameInput",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "NameInput",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StatusLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StatusLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StatusLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StatusLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StatusLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "SaveButton",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "SaveButton",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "SaveButton",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "SaveButton",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "SaveButton",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "CancelButton",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "CancelButton",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "CancelButton",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "CancelButton",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "CancelButton",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamChoice",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamChoice",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamChoice",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamChoice",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "TeamChoice",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ProductsLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ProductsLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ProductsLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ProductsLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ProductsLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Products",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Products",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Products",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Products",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Products",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ShippingFrame",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ShippingFrame",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ShippingFrame",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ShippingFrame",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ShippingFrame",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StandardShipping",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StandardShipping",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StandardShipping",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StandardShipping",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "StandardShipping",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PriorityShipping",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PriorityShipping",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PriorityShipping",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PriorityShipping",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PriorityShipping",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PaymentFrame",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PaymentFrame",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PaymentFrame",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PaymentFrame",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PaymentFrame",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "InvoicePayment",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "InvoicePayment",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "InvoicePayment",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "InvoicePayment",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "InvoicePayment",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PrepaidPayment",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PrepaidPayment",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PrepaidPayment",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PrepaidPayment",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "PrepaidPayment",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Sections",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Sections",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Sections",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Sections",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Sections",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page1",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page1",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page1",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page1",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page1",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page2",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page2",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page2",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page2",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Page2",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Notes",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Notes",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Notes",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Notes",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "Notes",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ReviewPrompt",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ReviewPrompt",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ReviewPrompt",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ReviewPrompt",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 100,
+      "control": "ReviewPrompt",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "OrderEntryForm",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "OrderEntryForm",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "OrderEntryForm",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "OrderEntryForm",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "OrderEntryForm",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameInput",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameInput",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameInput",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameInput",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "NameInput",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StatusLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StatusLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StatusLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StatusLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StatusLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "SaveButton",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "SaveButton",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "SaveButton",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "SaveButton",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "SaveButton",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "CancelButton",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "CancelButton",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "CancelButton",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "CancelButton",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "CancelButton",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamChoice",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamChoice",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamChoice",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamChoice",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "TeamChoice",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ProductsLabel",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ProductsLabel",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ProductsLabel",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ProductsLabel",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ProductsLabel",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Products",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Products",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Products",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Products",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Products",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ShippingFrame",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ShippingFrame",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ShippingFrame",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ShippingFrame",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ShippingFrame",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StandardShipping",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StandardShipping",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StandardShipping",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StandardShipping",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "StandardShipping",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PriorityShipping",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PriorityShipping",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PriorityShipping",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PriorityShipping",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PriorityShipping",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PaymentFrame",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PaymentFrame",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PaymentFrame",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PaymentFrame",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PaymentFrame",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "InvoicePayment",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "InvoicePayment",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "InvoicePayment",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "InvoicePayment",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "InvoicePayment",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PrepaidPayment",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PrepaidPayment",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PrepaidPayment",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PrepaidPayment",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "PrepaidPayment",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Sections",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Sections",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Sections",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Sections",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Sections",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page1",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page1",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page1",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page1",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page1",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page2",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page2",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page2",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page2",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Page2",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Notes",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Notes",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Notes",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Notes",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "Notes",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ReviewPrompt",
+      "metric": "layout",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ReviewPrompt",
+      "metric": "text_geometry",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 2,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ReviewPrompt",
+      "metric": "spacing",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 1,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ReviewPrompt",
+      "metric": "colour_class",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    },
+    {
+      "scale_percent": 150,
+      "control": "ReviewPrompt",
+      "metric": "later_behaviour",
+      "result": "fail",
+      "native_measured": null,
+      "tolerance": 0,
+      "reason": "Native measurement missing; not a measured mismatch"
+    }
+  ]
+}

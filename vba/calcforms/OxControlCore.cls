@@ -770,6 +770,11 @@ Public Sub MarkDirty()
     End If
 End Sub
 
+Friend Function AllocateNodeId() As Long
+    If mHost Is Nothing Then Err.Raise 91, "CalcForms", "Container has no form host"
+    AllocateNodeId = mHost.AllocateNodeId()
+End Function
+
 ' Flag routing/tab/cursor/activation caches as stale without implying the pixels changed.
 Public Sub MarkInteractionDirty()
     If Not mHost Is Nothing Then

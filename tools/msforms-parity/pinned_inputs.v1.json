@@ -86,7 +86,7 @@
     {
       "path": "tools/Run-EvidenceChecks.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "760686bf2bdc4f0d7b271260a12d4916657eca6dcd98382e37c92416bab6b368"
+      "sha256": "b018eb60db2c1b58f823c56ccc032a4e9c489572ad28c5d3b023ae973a24557e"
     },
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "6bf8db990827f7054bcdb81c5a35b183bf63a1c1094c5fcafa7c3565c07ffb29"
+      "sha256": "89bcdde286468fe3a1c36152310d448ab2b9c48cb04ea11dc45ce95ea4c88c10"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -111,7 +111,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "af36f8d2b13940016fa85e27e9b62575b3a239bfa557606e6e2c3e9105a31ff2"
+      "sha256": "6beaa55a677e9084167a46901d0cc4c8bdd1ddf310fa121ab1e55aaece74af8b"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "65c804589ef807cd6f58b7bf210f078c278ff01b37901248f5e092de19b0d451"
+      "sha256": "eec5cccb0c8df5b4387b9c31d6570d526be402362e261979f2035319e9ba4963"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -176,7 +176,7 @@
     {
       "path": "vba/calcforms/ComboBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "86cde8f89a88d2c5540e7202e4d738add73958c4ab543c74e387ca7a91a17c87"
+      "sha256": "b2d9524706152433ab2c51dfcdf0c1c856ebf4322606fca9d02a3af280d28ae0"
     },
     {
       "path": "vba/calcforms/CommandButton.cls",
@@ -191,7 +191,7 @@
     {
       "path": "vba/calcforms/Frame.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "8c43d096128b26c0258bf3255b8d706b633957e50d159dca85c2263911ea3d16"
+      "sha256": "416494eba6f8061382644322b326ad4686ff091baa1458d9150093d09064597e"
     },
     {
       "path": "vba/calcforms/IOxControl.cls",
@@ -206,7 +206,7 @@
     {
       "path": "vba/calcforms/IOxControlHost.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "44e3b9e04edae7ec38a221887d4b0ab06cab2128e7e53a1c984a146e4d012756"
+      "sha256": "e66ed309a4c59383f15becd51bc1d70c8e30683900f6b8ef63bf8510d6f9b011"
     },
     {
       "path": "vba/calcforms/Image.cls",
@@ -221,12 +221,12 @@
     {
       "path": "vba/calcforms/ListBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "17f634be17723538c2e0ddcb60b7ba9b76a436afc133389cb4b0b9a19ebbde5d"
+      "sha256": "f8040cef6de3512066f23597a1d9648ffe6c9232cda4161df037d50f56d22e3a"
     },
     {
       "path": "vba/calcforms/MultiPage.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "367e5c536f6848a203df825d9b1e742222741add6d2edd5e5a01656a9010da72"
+      "sha256": "257444ab83ad212795f6cd407ede63ade95a73bb07eba4a13e3e1d4cc56103c6"
     },
     {
       "path": "vba/calcforms/OptionButtonControl.cls",
@@ -241,7 +241,7 @@
     {
       "path": "vba/calcforms/OxControlCore.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "d57667a4f6d0be3d7f44bb7138433df7abb0c0751f0f23568ecd7256f3ab5fba"
+      "sha256": "e1a0c7abc579bba65e2e45f7187b626acd4bd8dddd3a834c13567f394b12bede"
     },
     {
       "path": "vba/calcforms/OxControlPaint.bas",
@@ -281,7 +281,7 @@
     {
       "path": "vba/calcforms/Page.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "d217376dda193f77cb883fcf8bb6e1c6a4abb50ccc514ab387b60198d1cbe156"
+      "sha256": "caf5b6029c89cf8dcd79daf9e686343fad7bfdae9eff00c7338bc5749fc9e201"
     },
     {
       "path": "vba/calcforms/Pages.cls",
@@ -336,7 +336,7 @@
     {
       "path": "vba/calcforms/UserForm.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "50c16a8e492c5ddd48a1c67033a274f7fe1f87ce914046123f3b66d804977520"
+      "sha256": "29d69f7c187f84069384617c03cfedccc1e75191c57bea236e9bc9c261cdd2f7"
     }
   ],
   "ledger_inputs": [

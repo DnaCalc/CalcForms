@@ -16,6 +16,15 @@ colour classes. Record event order, actual tab traversal, Enter/default,
 Esc/cancel, accelerators, hit tests, selection, scrolling, value changes and
 Show/Hide/Unload state. A matching TabIndex alone does not establish traversal.
 
+The real `fixtures/workbooks/data-entry/order-entry.xlsm` supplies original
+application code with qualified MSForms declarations, dynamic nested controls,
+validation and save/cancel handlers. Native initial State/Trace are paired with
+VM3 execution. Its later runtime scenarios are regression checks; native later
+behaviour and all geometry remain explicit failed coverage in
+[the data-entry evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/README.md).
+Imported source uses a referenced MSForms project, preserving original types and
+handler bodies. Native fractional designer twips retain finite/range checks.
+
 An absent measurement is **fail**, with measurement_count=0 and null values;
 it is a coverage failure, not an observed product mismatch. Do not invent a
 baseline from an ink box or infer exact wrap offsets from a matching line count.

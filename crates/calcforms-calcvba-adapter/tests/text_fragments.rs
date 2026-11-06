@@ -630,7 +630,7 @@ End Sub
     let scene = surface.snapshot().unwrap().scene.unwrap();
     let parent = scene.get(NodeId(1)).unwrap();
     assert_eq!(parent.clip, Some(parent.bounds));
-    let page = scene.get(NodeId(1001)).unwrap();
+    let page = scene.get(NodeId(2)).unwrap();
     let clip = page.clip.unwrap();
     assert_eq!(
         (clip.x, clip.y, clip.w, clip.h),
@@ -654,15 +654,15 @@ End Sub
         captions.iter().all(|p| p.0.y < clip.y),
         "header paint is outside the page's child clip"
     );
-    let child = scene.get(NodeId(1001001)).unwrap();
+    let child = scene.get(NodeId(4)).unwrap();
     assert_eq!((child.bounds.x, child.bounds.y), (18.5, 33.75));
-    assert!(scene.get(NodeId(1002001)).is_none());
+    assert!(scene.get(NodeId(5)).is_none());
     call("ChooseSecond");
     call("RenderOnce");
     let scene = surface.snapshot().unwrap().scene.unwrap();
-    assert!(scene.get(NodeId(1001001)).is_none());
-    assert_eq!(scene.get(NodeId(1002)).unwrap().clip, Some(clip));
-    assert!(scene.get(NodeId(1002001)).is_some());
+    assert!(scene.get(NodeId(4)).is_none());
+    assert_eq!(scene.get(NodeId(3)).unwrap().clip, Some(clip));
+    assert!(scene.get(NodeId(5)).is_some());
 }
 
 #[test]

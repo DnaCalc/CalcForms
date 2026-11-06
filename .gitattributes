@@ -74,3 +74,5 @@
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.100/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.102/*.json text eol=lf
 /docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.98/**/*.json text eol=lf
+/fixtures/workbooks/data-entry/*.bas text eol=lf
+/fixtures/workbooks/data-entry/*.json text eol=lf

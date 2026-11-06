@@ -70,6 +70,21 @@ covers two forms at both scales. Remaining caption spacing and full keyboard-cue
 behaviour stay open. Current ledger: 2,452 verified / 4,682 gaps / 620 unexpected
 public rows (7,754 total); it remains red.
 
+The resumed run 6 preserves `.99` Label word wrapping and fixes `.78`'s watchdog
+exit race. `.100` rejects blank native text captures. `.102` compares actual
+colour properties and retained paint classes. `.98`/`.103`/`.104` correct measured
+border layers and shared edge rounding: 32 measured failures now pass across
+the eight comparisons. The latest report has 617 passes / 981 failures, including
+904 missing measurements; font rendering remains a separate failed geometry row.
+`.105` imports a genuine data-entry workbook and runs original qualified MSForms
+handlers. Initial State/Trace match native Excel; later runtime validation,
+option groups, selections and Enter/Esc pass regression checks. Nested control
+IDs now come from one form allocator, avoiding Page/MultiPage overflow. Initial
+focus, later native scenarios and two-scale geometry remain `.105.1` work, with
+210 missing data-entry measurements retained as failures. `.105` and `.77` stay
+open. The current source census is 837 public declarations and the W010 ledger
+stays red at 2,452 verified / 4,682 gaps / 621 unexpected-public rows.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
