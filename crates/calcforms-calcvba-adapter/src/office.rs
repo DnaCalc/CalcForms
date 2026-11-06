@@ -237,6 +237,30 @@ impl WorkbookForm {
         let mut session = engine
             .prepare_image_session(calcvba_oxir::OxImage::new(bundles))
             .map_err(|error| format!("prepare UserForm VM3: {error}"))?;
+        // This same-thread callback can clear the exact compiler-owned slot
+        // without resolving (and accidentally constructing) its default object.
+        let defaults = session.default_instances();
+        let form_class = format!("CalcFormsWorkbook.{}", self.name);
+        let form_name = self.name.clone();
+        session.set_project_event_sink(move |owner, _, arguments| {
+            let owned_form = owner.try_class_descriptor().is_some_and(|descriptor| {
+                descriptor.name.eq_ignore_ascii_case(&form_name)
+                    && descriptor.project_identity.is_some_and(|identity| {
+                        identity.unit_name.eq_ignore_ascii_case("CalcFormsWorkbook")
+                    })
+            });
+            if owned_form
+                && arguments.len() == 1
+                && arguments[0]
+                    .as_bstr()
+                    .is_some_and(|name| name.as_str() == form_class)
+            {
+                defaults
+                    .reset_if_same(&form_class, &owner)
+                    .map_err(|error| error.to_string())?;
+            }
+            Ok(())
+        });
         let host = session
             .create_class_instance("CalcFormsWorkbookHost")
             .map_err(|error| format!("create workbook host: {}", error.message()))?;
@@ -398,7 +422,7 @@ impl WorkbookForm {
             .unwrap_or(lines.len());
         let declarations = lines[..procedure].join("\n");
         let procedures = lines[procedure..].join("\n");
-        let mut members = String::from("Implements ICalcFormsLifecycle\n");
+        let mut members = String::from("Implements ICalcFormsLifecycle\nPrivate Event CalcFormsHostUnloading(ByVal FormClass As String)\n");
         let mut build = format!("    Set CalcFormsHostForm = New UserForm\n    CalcFormsHostForm.Name = {}\n    CalcFormsHostForm.Caption = {}\n    CalcFormsHostForm.Width = {}\n    CalcFormsHostForm.Height = {}\n", literal(&self.name), literal(&self.caption), self.width, self.height);
         for control in &self.controls {
             let name = &control.name;

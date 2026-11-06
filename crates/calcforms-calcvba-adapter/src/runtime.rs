@@ -164,7 +164,7 @@ pub struct RuntimePhaseTiming {
 /// A thin driver over a VBA form-document that owns an `OxReducer`.
 pub struct OxRuntime {
     session: ProjectRuntimeSession,
-    form: ObjectRef,
+    form: Option<ObjectRef>,
     host_services: HostServices,
     member_prefix: &'static str,
     default_host: Option<ObjectRef>,
@@ -216,7 +216,7 @@ impl OxRuntime {
             .map_err(|err| format!("invoke {build_member}: {}", err.message()))?;
         Ok(Self {
             session,
-            form,
+            form: Some(form),
             host_services,
             member_prefix: "",
             default_host: None,
@@ -232,7 +232,7 @@ impl OxRuntime {
         let form = Self::resolve_default(&mut session, &host)?;
         Ok(Self {
             session,
-            form,
+            form: Some(form),
             host_services,
             member_prefix: "",
             default_host: Some(host),
@@ -271,11 +271,15 @@ impl OxRuntime {
         args: Vec<Variant>,
     ) -> Result<Variant, String> {
         if let Some(host) = &self.default_host {
-            self.form = Self::resolve_default(&mut self.session, host)?;
+            let form = Self::resolve_default(&mut self.session, host)?;
+            if let Some(previous) = self.form.replace(form) {
+                self.session.release_class_instance(previous);
+            }
         }
         let member = format!("{}{member}", self.member_prefix);
+        let form = self.form();
         self.session
-            .invoke_member_values(self.form.clone(), &member, Some(kind), args)
+            .invoke_member_values(form, &member, Some(kind), args)
             .map_err(|err| format!("invoke {member}: {}", err.message()))
     }
 
@@ -588,7 +592,7 @@ impl OxRuntime {
         if self.default_host.is_some() {
             self.session
                 .invoke_member_values(
-                    self.form.clone(),
+                    self.form(),
                     "Show",
                     Some(ProjectMemberKind::Method),
                     vec![Variant::from_i32(0)],
@@ -604,10 +608,11 @@ impl OxRuntime {
             return Ok(None);
         }
         // Read the held object, without resolving a new default after Unload.
+        let form = self.form();
         let mut read = |name| {
             self.session
                 .invoke_member_values(
-                    self.form.clone(),
+                    form.clone(),
                     name,
                     Some(ProjectMemberKind::PropertyGet),
                     vec![],
@@ -633,7 +638,7 @@ impl OxRuntime {
     /// The form-document object (for reading back control state in tests).
     #[must_use]
     pub fn form(&self) -> ObjectRef {
-        self.form.clone()
+        self.form.as_ref().expect("attached runtime form").clone()
     }
 
     /// Mutable access to the underlying session (for reading back form-document properties).
@@ -685,6 +690,20 @@ fn timed_value_phase<T>(
         elapsed_us: start.elapsed().as_micros(),
     });
     value
+}
+
+impl Drop for OxRuntime {
+    fn drop(&mut self) {
+        // Release host-owned objects while their owning VM can still run
+        // eligible Class_Terminate callbacks. The session itself drops last.
+        if let Some(form) = self.form.take() {
+            self.session.release_class_instance(form);
+        }
+        if let Some(host) = self.default_host.take() {
+            self.session.release_class_instance(host);
+        }
+        self.session.drain_object_terminations();
+    }
 }
 
 fn profiling_timings_enabled() -> bool {

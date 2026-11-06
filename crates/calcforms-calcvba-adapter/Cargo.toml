@@ -12,24 +12,24 @@ unsafe_code = "forbid"
 calcforms-pal = { path = "../calcforms-pal" }
 cfb = "0.10"
 tempfile = "3"
-calcvba-office = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-office = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
 serde_json = "1.0"
-calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
 # The runtime effect runner drives an CalcVBA session (creates instances, invokes
 # native control members), so the host + bundle crates are runtime dependencies.
-calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
 
 [dev-dependencies]
-calcvba-host = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-host = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
 # Desktop backend (shaper + rasterizer) used ONLY by the end-to-end glyph-coverage
 # test, which drives a real VBA self-render through the real AbGlyphShaper and asserts
 # captions rasterize. The production adapter stays backend-independent.
 calcforms-pal-win = { path = "../calcforms-pal-win" }
-calcvba-project = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-project = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
 # vm3 image pipeline (tests build sessions via calcvba_oxir::elaborate + OxImage).

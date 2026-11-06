@@ -196,6 +196,48 @@ fn missing_form_has_a_precise_diagnostic() {
 }
 
 #[test]
+fn held_form_and_control_release_matches_native_unload_episode() {
+    let directory = root().join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release");
+    let mut form = workbook();
+    form.original_source =
+        std::fs::read_to_string(directory.join("instrumented-form.bas")).unwrap();
+    let source = std::fs::read_to_string(directory.join("observer.bas")).unwrap();
+    let expected: Value =
+        serde_json::from_slice(&std::fs::read(directory.join("observations.json")).unwrap())
+            .unwrap();
+    assert_eq!(
+        run_native_probe(form, &source, "ObserveRelease").replace("\r\n", "\n"),
+        expected["result"].as_str().unwrap().replace("\r\n", "\n")
+    );
+}
+
+#[test]
+fn explicit_unload_never_constructs_an_absent_default() {
+    use calcvba_runtime::Variant;
+    let (mut runtime, _) = workbook()
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .unwrap();
+    let held = runtime.form();
+    let session = runtime.session_mut();
+    let defaults = session.default_instances();
+    assert!(defaults.reset_if_same("WorkbookGreeter", &held).unwrap());
+    let explicit = session.create_class_instance("WorkbookGreeter").unwrap();
+    session
+        .invoke_member_values(
+            explicit.clone(),
+            "CalcFormsHostUnload",
+            Some(ProjectMemberKind::Method),
+            vec![Variant::from_i16(1)],
+        )
+        .unwrap();
+    assert!(defaults.peek("WorkbookGreeter").unwrap().is_none());
+    session.release_class_instance(explicit);
+    session.release_class_instance(held);
+    session.drain_object_terminations();
+    assert!(defaults.peek("WorkbookGreeter").unwrap().is_none());
+}
+
+#[test]
 fn original_workbook_entry_and_host_share_the_default_instance() {
     let (mut runtime, _) = workbook()
         .runtime_with_entry(

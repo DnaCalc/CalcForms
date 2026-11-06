@@ -28,9 +28,17 @@ The [native and VM3 probes](../evidence/W010_complete_msforms_object_model_parit
 cover the original eight-row lifetime observer, code-unload veto and the absence
 of activation on the private desktop. They do not prove modal pumping, multiple
 live windows, global UserForms enumeration, or final-reference Terminate timing.
-`oxforms-jbjp.95` retains the non-creating default lookup and held-reference work:
-comparing an explicit instance with an absent predeclared instance can create
-that default. `.77` remains open for the remaining accepted lifetime details.
+Run 9 pins CalcVBA `8840f391` and uses its same-thread default-instance access
+to reset only the exact unloading object, without creating an absent default.
+A private source-provider event supplies that callback; it adds no public
+MSForms member. Host reference replacement and disposal use explicit release
+and finalizer draining while the owning VM is alive.
+The [new native release probe](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/observations.json)
+establishes that accepted Unload raises UserForm_Terminate during the loaded
+episode even with held form references. Final object destruction must not raise
+that episode twice. A separately held TextBox remains readable and writable.
+`.95` remains open for held-object reload, control detachment/event behavior and
+loaded-object final-reference release; `.77` retains its broader lifetime scope.
 
 ## 1. Anchors
 

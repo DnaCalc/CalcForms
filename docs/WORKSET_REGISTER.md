@@ -140,6 +140,12 @@ Native drawing and image measurements remain bounded to their stated scenarios.
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
+Run 9 takes up CalcVBA `8840f391` in `.95`. Non-creating exact-instance reset,
+host release/draining and once-per-load Unload/Terminate now pass required VM3
+checks against the new native held-form/control observations. Held-object reload,
+old-control events/detachment and loaded-object final release remain open.
+FORMS PARITY remains **1,166 pass / 452 fail; 378 missing measurements** here.
+
 Run 8's [current input replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
 gives **1,166 pass / 452 fail, with 378 missing measurements** across 1,618 rows.
 Both Frame gaps and all four header size rows match. `.116` fills four caption

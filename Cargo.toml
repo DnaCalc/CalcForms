@@ -14,7 +14,7 @@ edition = "2021"
 
 [workspace.metadata.calcforms.calcvba_baseline]
 repo = "https://github.com/DnaCalc/CalcVBA.git"
-rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f"
+rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7"
 branch = "master"
-note = "Published CalcVBA master a4bf9792; VM3 object sessions use calcvba-engine. calcvba-host is the separate procedure embedding API. Historical September evidence retains its original baseline."
+note = "Published CalcVBA master 8840f391; VM3 object sessions use calcvba-engine. calcvba-host is the separate procedure embedding API. Historical September evidence retains its original baseline."
 policy = "Committed manifests use pinned git dependencies for CalcVBA crates; mutable ../OxVba path overrides are local-only."

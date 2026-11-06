@@ -837,7 +837,7 @@ _ADAPTER_REVIEWED_TOKEN_SHA256 = {
         "af626522943592079806fb08bb4d802ccc48dfd8dce0feb241a8f332cf59d319"
     ),
     "crates/calcforms-calcvba-adapter/src/runtime.rs": (
-        "e1a6487e25e618f678ae4d622be3520d8cb06fafe4874c6d13162af0634158b1"
+        "b54373303f9886240049ca63a0b73b0500357e4c4ff914f601c0263a44701450"
     ),
 }
 
@@ -857,7 +857,7 @@ _LOADER_CARGO_TARGETS = {
 }
 
 _REVIEWED_OXVBA_REPO = "https://github.com/DnaCalc/CalcVBA.git"
-_REVIEWED_OXVBA_REV = "a4bf979239e1cb67326d13b760c04ecd13bbf55f"
+_REVIEWED_OXVBA_REV = "8840f391676d0796870e9c486ba2ca6586c5b8c7"
 _REVIEWED_LOADER_OXVBA_DEPENDENCIES = (
     "calcvba-bind",
     "calcvba-bundle",

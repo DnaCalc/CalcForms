@@ -18,6 +18,12 @@ in the composed application project; its implementations and helpers remain
 private. Typed control/Core locals preserve internal calls. Chained-result type
 loss remains [CalcVBA follow-up .115](handovers/HANDOVER_CalcVBA_chained_typed_dispatch.md).
 
+Run 9 pins CalcVBA `8840f391676d0796870e9c486ba2ca6586c5b8c7`.
+The adapter now uses non-creating default reset and explicit host release/draining.
+Accepted Unload raises Terminate once per loaded episode, matching the
+[held-reference native observations](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/README.md).
+The `.95` residual scope remains explicit; this supplies no headline layout credit.
+
 ## Core Spec
 
 Run 8's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)

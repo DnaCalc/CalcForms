@@ -19,12 +19,12 @@ calcforms-calcvba-adapter = { path = "../calcforms-calcvba-adapter" }
 calcforms-pal-win = { path = "../calcforms-pal-win" }
 
 # CalcVBA host stack for loading + running the project closure (the bootstrap's job).
-calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
-calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
 # vm3 image pipeline: bind -> calcvba_oxir::elaborate -> OxImage -> Engine::prepare_image_session.
-calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
