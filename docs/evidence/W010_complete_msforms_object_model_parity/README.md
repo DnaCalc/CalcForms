@@ -22,6 +22,11 @@ unknown rows. The [real order-entry workbook](beads/oxforms-jbjp.105.1/README.md
 also has ten native State/Trace steps at each scale. Initial focus and broader
 geometry/input/lifetime remain open. Pixels remain a coarse guard.
 
+The subsequent [tab drawing report](beads/oxforms-jbjp.110/README.md) retains
+1,089 pass / 521 fail and reduces missing measurements to 424. Four native header
+rectangles are independently qualified against public strokes and saved windows;
+all four measured rows fail. Run 7 has now filled 480 of the original 904 unknowns.
+
 Run 4 ListBox row correction: [`.87` measurements](beads/oxforms-jbjp.87/README.md),
 with the same native pixels before/after at both scales and a VM3 batch/clip regression.
 

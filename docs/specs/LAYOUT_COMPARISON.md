@@ -71,6 +71,14 @@ ordering and same-value suppression, and no-default Boolean Enter, against
 unchanged native traces. Existing pixels stay historical; new behaviour captures
 record their own runtime hash. Full parity is not inferred from these scenarios.
 
+[Qualified tab sizes](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.110/README.md)
+compare full native header construction rectangles (including selected overlap)
+with runtime primary raised-edge rectangles. Public EMF clipping rectangles
+alone are insufficient: require ordered literal captions, matching PATCOPY outer
+strokes, shared-body geometry and top/right stroke samples on the same qualified
+window images. Accessibility child sizes are not a substitute. Record source
+identities, points and scope; reject unsupported transforms or clipped edges.
+
 New colour parity rows use actual native BackColor/ForeColor and live system
 colour resolution, compared with opaque retained Scene paint. Disabled text
 uses the observed system grey-text colour; selected ListBox text uses the

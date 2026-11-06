@@ -106,6 +106,7 @@ Invoke-Check -Name 'W010 native public drawing measurements' -Script 'tools/evid
 Invoke-Check -Name 'W010 behaviour and native accessibility measurements' -Script 'tools/evidence/Test-W010BehaviourMeasurements.ps1'
 Invoke-Check -Name 'W010 keyboard and overflow measurements' -Script 'tools/evidence/Test-W010KeyboardMeasurements.ps1'
 Invoke-Check -Name 'W010 measured setter and Enter behaviour' -Script 'tools/evidence/Test-W010SetterBehaviour.ps1'
+Invoke-Check -Name 'W010 qualified tab header paint sizes' -Script 'tools/evidence/Test-W010TabPaintSizes.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

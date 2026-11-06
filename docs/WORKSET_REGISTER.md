@@ -120,6 +120,14 @@ was stopped after two sequential launches; the cleanup handle-release error is
 retained. No owner input/focus or sibling edits were used. W010 member-ledger
 counts remain 2,452 verified / 4,682 gaps / 621 unexpected-public rows.
 
+`.110` subsequently [qualifies native tab drawing sizes](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.110/README.md)
+from the pinned public EMF header rectangles, literal captions, border strokes
+and saved qualified-window samples. Rejected MSAA child sizes supply no credit.
+All four newly measured rows fail. The latest FORMS PARITY report is **1,089 pass /
+521 fail, including 424 missing measurements**; run 7 fills 480 of the original
+904. The existing captures and Scene remain historical coarse guards. No further
+Excel launch or product rendering change was needed.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
