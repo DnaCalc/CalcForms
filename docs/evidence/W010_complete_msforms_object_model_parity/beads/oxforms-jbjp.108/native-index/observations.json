@@ -1,0 +1,117 @@
+{
+  "excel_pid": 68232,
+  "excel_launches": 1,
+  "input": "per-window messages on private desktop; no global input",
+  "source_sha256": "35737f2dae37b9b32d872662533dff6466c596b270600b4b3e1fdd14d230f0ed",
+  "observer_sha256": "860e5c26221e84f4cfc78f85b759dbc554c0f024cebf49a5344c7f272e96c52c",
+  "observations": [
+    {
+      "zoom": 100,
+      "step": "tabs_first",
+      "point_pt": [
+        24,
+        18
+      ],
+      "trace": "TabsControl.MouseDown:index=0;value=0;button=1;shift=0|TabsControl.MouseUp:index=0;value=0;button=1;shift=0|"
+    },
+    {
+      "zoom": 100,
+      "step": "tabs_second",
+      "point_pt": [
+        58,
+        18
+      ],
+      "trace": "TabsControl.MouseDown:index=1;value=0;button=1;shift=0|TabsControl.MouseUp:index=1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 100,
+      "step": "tabs_body",
+      "point_pt": [
+        100,
+        40
+      ],
+      "trace": "TabsControl.MouseDown:index=-1;value=1;button=1;shift=0|TabsControl.MouseUp:index=-1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 100,
+      "step": "pages_first",
+      "point_pt": [
+        24,
+        90
+      ],
+      "trace": "PagesControl.MouseDown:index=0;value=0;button=1;shift=0|PagesControl.MouseUp:index=0;value=0;button=1;shift=0|"
+    },
+    {
+      "zoom": 100,
+      "step": "pages_second",
+      "point_pt": [
+        58,
+        90
+      ],
+      "trace": "PagesControl.MouseDown:index=1;value=0;button=1;shift=0|PagesControl.MouseUp:index=1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 100,
+      "step": "pages_body",
+      "point_pt": [
+        100,
+        110
+      ],
+      "trace": "PagesControl.MouseDown:index=1;value=1;button=1;shift=0|PagesControl.MouseUp:index=1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 150,
+      "step": "tabs_first",
+      "point_pt": [
+        24,
+        18
+      ],
+      "trace": "TabsControl.MouseDown:index=0;value=0;button=1;shift=0|TabsControl.MouseUp:index=0;value=0;button=1;shift=0|"
+    },
+    {
+      "zoom": 150,
+      "step": "tabs_second",
+      "point_pt": [
+        58,
+        18
+      ],
+      "trace": "TabsControl.MouseDown:index=1;value=0;button=1;shift=0|TabsControl.MouseUp:index=1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 150,
+      "step": "tabs_body",
+      "point_pt": [
+        100,
+        40
+      ],
+      "trace": "TabsControl.MouseDown:index=-1;value=1;button=1;shift=0|TabsControl.MouseUp:index=-1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 150,
+      "step": "pages_first",
+      "point_pt": [
+        24,
+        90
+      ],
+      "trace": "PagesControl.MouseDown:index=0;value=0;button=1;shift=0|PagesControl.MouseUp:index=0;value=0;button=1;shift=0|"
+    },
+    {
+      "zoom": 150,
+      "step": "pages_second",
+      "point_pt": [
+        58,
+        90
+      ],
+      "trace": "PagesControl.MouseDown:index=1;value=0;button=1;shift=0|PagesControl.MouseUp:index=1;value=1;button=1;shift=0|"
+    },
+    {
+      "zoom": 150,
+      "step": "pages_body",
+      "point_pt": [
+        100,
+        110
+      ],
+      "trace": "PagesControl.MouseDown:index=1;value=1;button=1;shift=0|PagesControl.MouseUp:index=1;value=1;button=1;shift=0|"
+    }
+  ]
+}

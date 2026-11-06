@@ -1291,6 +1291,10 @@ try {
     Assert-OwnedProcessRunning $handshakeFailureIdentity
 
     $emergencyIdentity = Start-OwnedTestProcess
+    $kernelImagePath = [System.IO.Path]::GetFullPath([OxForms.MemberOracle.NativeMethods]::GetProcessImagePath($emergencyIdentity.process.Handle))
+    if (-not $kernelImagePath.Equals($emergencyIdentity.path, [System.StringComparison]::OrdinalIgnoreCase)) {
+        throw 'Immediate disposable-process kernel image identity differs from its exact owner path.'
+    }
     Stop-ExactPrivateProcess -Identity $emergencyIdentity -Label 'Disposable emergency-cleanup case'
     $emergencySurvivor = Get-Process -Id ([int]$emergencyIdentity.process_id) -ErrorAction SilentlyContinue
     if ($null -ne $emergencySurvivor) {

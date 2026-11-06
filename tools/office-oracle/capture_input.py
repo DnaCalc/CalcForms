@@ -7,7 +7,7 @@ import subprocess
 
 import win32gui
 
-from input_probes import native_source, runtime_source, paths, parse
+from input_probes import native_source, runtime_source, paths, parse, upgrade_runtime_tab_signatures
 from layout_corpus import ROOT, load_corpus, runtime_source as authored_source
 from layout_measurements import native_controls
 from native_accessibility import accessible, location, property_value, focus_name, post_key, click
@@ -121,7 +121,7 @@ def capture(owner_path, output, prepared=False):
                 (output / f'{form["name"]}-{zoom}-native.json').write_text(json.dumps(dict(native=raw, points=points,
                     client_origin_px=origin, client_size_px=size, native_control_kinds=kinds), indent=2) + '\n', encoding='utf-8', newline='\n')
                 print('native', form['name'], zoom, cycle, flush=True)
-                source = runtime_source(authored_source(form, corpus), form, points)
+                source = upgrade_runtime_tab_signatures(runtime_source(authored_source(form, corpus), form, points))
                 source_path = output / f'{form["name"]}-{zoom}-runtime.cls'
                 source_path.write_text(source, encoding='utf-8', newline='\n')
                 command = [str(binary), str(source_path), form['name'], str(form['width']), str(form['height']),

@@ -9,8 +9,8 @@ Implements IOxControlContainer
 ' explicit later blockers.
 
 Public Event Change()
-Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseDown(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseUp(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 Public Event [Exit](ByVal Cancel As ReturnBoolean)
@@ -225,7 +225,7 @@ Private Sub SyncCaptions()
 End Sub
 
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-    RaiseEvent MouseDown(Button, Shift, X, Y)
+    RaiseEvent MouseDown(PageMouseIndex(X, Y), Button, Shift, X, Y)
     If Button <> OX_BUTTON_LEFT Then Exit Sub
     If Y >= 0 And Y < HeaderBodyTop() + 1.5 Then
         Dim Index As Long
@@ -235,7 +235,7 @@ Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integ
 End Sub
 
 Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-    RaiseEvent MouseUp(Button, Shift, X, Y)
+    RaiseEvent MouseUp(PageMouseIndex(X, Y), Button, Shift, X, Y)
 End Sub
 
 Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
@@ -497,6 +497,12 @@ Private Function PageTabLeft(ByVal Index As Long) As Single
     For I = 0 To Index - 1
         PageTabLeft = PageTabLeft + PageTabWidth(I)
     Next I
+End Function
+
+Private Function PageMouseIndex(ByVal X As Single, ByVal Y As Single) As Long
+    PageMouseIndex = PageIndexFromX(X, Y)
+    If PageMouseIndex >= 0 Then Exit Function
+    If X >= 0 And X < mCore.Width And Y >= HeaderBodyTop() + 1.5 And Y < mCore.Height Then PageMouseIndex = mValue
 End Function
 
 Private Function PageIndexFromX(ByVal X As Single, ByVal Y As Single) As Long

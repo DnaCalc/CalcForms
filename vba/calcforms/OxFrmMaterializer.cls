@@ -134,6 +134,8 @@ Private Sub ParseBegin(ByVal Rest As String)
     ProgId = ProgIdForType(TypeName)
     If Len(ProgId) > 0 Then
         Set mCurrent = mForm.Controls.Add(ProgId, ObjectName)
+        ' Persisted forms omit default-valued TabIndex=0; runtime Add appends.
+        mCurrent.Core.TabIndex = 0
     Else
         AppendLine mUnsupportedControls, "control=" & ObjectName & ";type=" & TypeName
     End If

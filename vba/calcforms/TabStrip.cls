@@ -6,8 +6,8 @@ Implements IOxControl
 ' style variants, and exact oracle pixel parity remain later blockers.
 
 Public Event Change()
-Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-Public Event MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseDown(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Public Event MouseUp(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
 Public Event KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 Public Event KeyUp(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
 Public Event [Exit](ByVal Cancel As ReturnBoolean)
@@ -184,7 +184,7 @@ Private Sub SyncCaptions()
 End Sub
 
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-    RaiseEvent MouseDown(Button, Shift, X, Y)
+    RaiseEvent MouseDown(TabIndexFromX(X, Y), Button, Shift, X, Y)
     If Button <> OX_BUTTON_LEFT Then Exit Sub
     If Y >= 0 And Y < HeaderBodyTop() + 1.5 Then
         Dim Index As Long
@@ -194,7 +194,7 @@ Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integ
 End Sub
 
 Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
-    RaiseEvent MouseUp(Button, Shift, X, Y)
+    RaiseEvent MouseUp(TabIndexFromX(X, Y), Button, Shift, X, Y)
 End Sub
 
 Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)

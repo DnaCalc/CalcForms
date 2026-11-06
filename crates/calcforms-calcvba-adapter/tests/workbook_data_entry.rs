@@ -114,9 +114,7 @@ fn real_data_entry_workbook_initializes_qualified_forms_and_original_handlers() 
     assert_eq!(cases[0]["initial_focus"], "NameInput");
     let native = &cases[0]["observations"];
     compare_step(&mut runtime, native, "initial");
-    // Native Show focuses NameInput. Initial runtime focus remains a separate
-    // known gap; establish focus through normalized input before this scenario.
-    key(&mut runtime, 9); // Establish reducer focus without using the real keyboard.
+    assert_eq!(runtime.read_string("FocusName").unwrap(), "NameInput");
     key(&mut runtime, 13);
     compare_step(&mut runtime, native, "invalid_save");
     let invalid = state(&mut runtime);

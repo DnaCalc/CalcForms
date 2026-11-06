@@ -1496,6 +1496,7 @@ namespace OxForms.MemberOracle {
         [DllImport("user32.dll", CharSet = CharSet.Unicode, SetLastError = true)] public static extern int GetWindowTextW(IntPtr hwnd, StringBuilder value, int count);
         [DllImport("oleacc.dll")] public static extern int AccessibleObjectFromWindow(IntPtr hwnd, uint objectId, ref Guid interfaceId, out IntPtr nativeObject);
         [DllImport("kernel32.dll", SetLastError = true)] private static extern bool GetProcessTimes(IntPtr processHandle, out long creationTime, out long exitTime, out long kernelTime, out long userTime);
+        [DllImport("kernel32.dll", CharSet = CharSet.Unicode, SetLastError = true)] private static extern bool QueryFullProcessImageNameW(IntPtr processHandle, uint flags, StringBuilder value, ref uint size);
         [DllImport("shell32.dll", SetLastError = true)] private static extern IntPtr CommandLineToArgvW([MarshalAs(UnmanagedType.LPWStr)] string commandLine, out int argumentCount);
         [DllImport("kernel32.dll")] private static extern IntPtr LocalFree(IntPtr memory);
 
@@ -1508,6 +1509,15 @@ namespace OxForms.MemberOracle {
                 throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error(), "GetProcessTimes failed while binding exact Excel process identity.");
             }
             return DateTime.FromFileTimeUtc(creationTime).ToString("o", CultureInfo.InvariantCulture);
+        }
+
+        public static string GetProcessImagePath(IntPtr processHandle) {
+            StringBuilder value = new StringBuilder(32768);
+            uint size = (uint)value.Capacity;
+            if (!QueryFullProcessImageNameW(processHandle, 0, value, ref size)) {
+                throw new System.ComponentModel.Win32Exception(Marshal.GetLastWin32Error(), "QueryFullProcessImageNameW failed while checking exact cleanup identity.");
+            }
+            return value.ToString(0, checked((int)size));
         }
 
         private static string ReadClassName(IntPtr hwnd) {
@@ -2393,8 +2403,9 @@ function Stop-ExactPrivateProcess {
     $process = Get-Process -Id ([int]$processId) -ErrorAction SilentlyContinue
     if ($null -eq $process) { return }
     try {
+        if ($process.HasExited) { return }
         $actualStart = [OxForms.MemberOracle.NativeMethods]::GetProcessStartTimeUtc($process.Handle)
-        $actualPath = [System.IO.Path]::GetFullPath([string]$process.MainModule.FileName)
+        $actualPath = [System.IO.Path]::GetFullPath([OxForms.MemberOracle.NativeMethods]::GetProcessImagePath($process.Handle))
         if ($actualStart -ne $expectedStart -or
             -not $actualPath.Equals($expectedPath, [System.StringComparison]::OrdinalIgnoreCase)) {
             throw "$Label refused emergency cleanup because PID/start/path identity changed."
@@ -2403,6 +2414,11 @@ function Stop-ExactPrivateProcess {
         if (-not $process.WaitForExit(15000)) {
             throw "$Label could not confirm emergency exact-process termination within 15 seconds."
         }
+    } catch {
+        $identityFailure = $_
+        $process.Refresh()
+        if ($process.HasExited) { return }
+        throw $identityFailure
     } finally {
         $process.Dispose()
     }

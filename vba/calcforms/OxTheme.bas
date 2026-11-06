@@ -276,7 +276,7 @@ Public Sub OxThemePaintListBox( _
         ByVal ListIndex As Long, _
         ByVal Focused As Boolean, _
         ByVal SelectedRowsCsv As String, _
-        ByVal RowCount As Long, ByVal RowHeight As Single)
+        ByVal RowCount As Long, ByVal RowHeight As Single, ByVal TopIndex As Long)
     Const Inset As Single = 1.5
 
     Surface.OpenNode Core.NodeId, True, Core.PaintParentId, Core.ZOrder, _
@@ -302,8 +302,9 @@ Public Sub OxThemePaintListBox( _
     Surface.OpenNodeClipped RowsNode, True, Core.NodeId, 0, _
         Core.PaintLeft, Core.PaintTop, Core.Width, Core.Height, Core.Visible, _
         Core.PaintLeft + Inset, Core.PaintTop + Inset, SelW, InnerHeight
-    For I = 0 To RowCount - 1
-        SelY = Core.PaintTop + Inset + (I * RowHeight)
+    If TopIndex < 0 Then TopIndex = 0
+    For I = TopIndex To RowCount - 1
+        SelY = Core.PaintTop + Inset + ((I - TopIndex) * RowHeight)
         If SelY >= Core.PaintTop + Core.Height - Inset Then Exit For
         Selected = InStr(1, SelectedRowsCsv, "," & CStr(I) & ",", vbBinaryCompare) > 0 _
             Or (Len(SelectedRowsCsv) = 0 And I = ListIndex)
@@ -317,11 +318,11 @@ Public Sub OxThemePaintListBox( _
         RunId = Core.TextPartRunId(I)
         If Len(RunId) > 0 And TextW > 0 Then
             Surface.DrawText Core.PaintLeft + 8.25, SelY, TextW, _
-                Core.TextPartHeight(I), RunId, "left", False, True, TextColor, 255, False, Not Core.Enabled
+                RowHeight, RunId, "left", False, True, TextColor, 255, False, Not Core.Enabled
         End If
     Next I
-    If Focused And Core.Enabled And ListIndex >= 0 Then
-        Surface.StrokeRect Core.PaintLeft + Inset, Core.PaintTop + Inset + ListIndex * RowHeight, SelW, RowHeight, _
+    If Focused And Core.Enabled And ListIndex >= TopIndex Then
+        Surface.StrokeRect Core.PaintLeft + Inset, Core.PaintTop + Inset + (ListIndex - TopIndex) * RowHeight, SelW, RowHeight, _
             OxThemeFocusAdornerColor(), 255, 1
     End If
 

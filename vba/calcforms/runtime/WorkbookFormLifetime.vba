@@ -34,6 +34,7 @@ Public Sub Show(Optional ByVal Modal As Long = 1)
     CalcFormsHostLoad
     If CalcFormsHostVisible Then Exit Sub
     CalcFormsHostVisible = True
+    CalcFormsHostReducer.Dispatch "show", 0, 0, 0, 0
 End Sub
 
 Public Sub Hide()

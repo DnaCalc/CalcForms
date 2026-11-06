@@ -20,9 +20,10 @@ loss remains [CalcVBA follow-up .115](handovers/HANDOVER_CalcVBA_chained_typed_d
 
 ## Core Spec
 
-Run 8's [measured rendering correction](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/README.md)
-reports **1,122 pass / 496 fail; 418 missing measurements**. Frame caption gaps
-and four tab header size rows match at both scales. Independent caption cells
+Run 8's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/forms-parity.md)
+reports **1,126 pass / 492 fail; 418 missing measurements**. The
+[rendering correction](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.114/README.md)
+makes Frame caption gaps and four tab header size rows match at both scales. Independent caption cells
 qualify four former unknowns and eight new advance checks. Equal-method replay
 shows seven net rendering gains, retaining eighteen smaller ink regressions in
 `.101`. Pixels remain a coarse guard and full W010/font parity is unclaimed.
@@ -141,3 +142,15 @@ into additional focused specs and keep them reachable from this index:
 
 The top-level spec remains authoritative until a split document exists and is
 linked here.
+
+Run 8 input correction: ListBox PageDown and TopIndex share a measured viewport;
+invalid/empty and resize/repeat behavior is retained in
+[.112 evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/README.md).
+Runtime Controls.Add appends TabIndex, while FRM omitted values restore zero.
+The first modeless Show establishes reducer focus; the real order-entry form
+requires immediate default-button routing from NameInput. Broader focus and
+scrolling behavior remains unmeasured.
+
+TabStrip/MultiPage mouse events carry the native Index argument and preserve
+pre-change MouseDown / post-change MouseUp Value timing. Empty MultiPage bodies
+forward through Page to their owner. See [.108 evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/README.md).

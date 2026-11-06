@@ -1,0 +1,238 @@
+{
+  "schema": "calcforms.list_viewport_native.v1",
+  "captured_utc": "2026-11-06T18:33:28.605473+00:00",
+  "excel_pid": 68232,
+  "excel_launches": 1,
+  "excel_version": "16.0",
+  "excel_build": 20527.0,
+  "source_sha256": "eb5a1e8be62b3fa3947f31d044c1aa69a305ada3339086072bdad3fe332f9659",
+  "input": "in-process VBA public property calls; private desktop; no global input",
+  "observations": [
+    {
+      "zoom": 100,
+      "observations": [
+        {
+          "step": "initial",
+          "state": "error=0;index=1;top=0;count=23;height=71.25"
+        },
+        {
+          "step": "top_-1",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "top_0",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "top_1",
+          "state": "error=0;index=1;top=1;count=23;height=72"
+        },
+        {
+          "step": "top_16",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_17",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_22",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_23",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_99",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "index_-2",
+          "state": "error=380;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_-1",
+          "state": "error=0;index=-1;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_0",
+          "state": "error=0;index=0;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_1",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_7",
+          "state": "error=0;index=7;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_22",
+          "state": "error=0;index=22;top=15;count=23;height=72"
+        },
+        {
+          "step": "index_23",
+          "state": "error=380;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "last",
+          "state": "error=0;index=22;top=15;count=23;height=72"
+        },
+        {
+          "step": "shrink",
+          "state": "error=0;index=22;top=15;count=23;height=30"
+        },
+        {
+          "step": "reselect_last",
+          "state": "error=0;index=22;top=15;count=23;height=30"
+        },
+        {
+          "step": "expand",
+          "state": "error=0;index=22;top=11;count=23;height=120"
+        },
+        {
+          "step": "clear",
+          "state": "error=0;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_top_negative",
+          "state": "error=0;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_top_zero",
+          "state": "error=-2147467259;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_top_large",
+          "state": "error=-2147467259;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_index_zero",
+          "state": "error=380;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "offscreen_same_index_before",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "offscreen_same_index_after",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "observations": [
+        {
+          "step": "initial",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "top_-1",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "top_0",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "top_1",
+          "state": "error=0;index=1;top=1;count=23;height=72"
+        },
+        {
+          "step": "top_16",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_17",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_22",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_23",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "top_99",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "index_-2",
+          "state": "error=380;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_-1",
+          "state": "error=0;index=-1;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_0",
+          "state": "error=0;index=0;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_1",
+          "state": "error=0;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_7",
+          "state": "error=0;index=7;top=0;count=23;height=72"
+        },
+        {
+          "step": "index_22",
+          "state": "error=0;index=22;top=15;count=23;height=72"
+        },
+        {
+          "step": "index_23",
+          "state": "error=380;index=1;top=0;count=23;height=72"
+        },
+        {
+          "step": "last",
+          "state": "error=0;index=22;top=15;count=23;height=72"
+        },
+        {
+          "step": "shrink",
+          "state": "error=0;index=22;top=15;count=23;height=30"
+        },
+        {
+          "step": "reselect_last",
+          "state": "error=0;index=22;top=15;count=23;height=30"
+        },
+        {
+          "step": "expand",
+          "state": "error=0;index=22;top=11;count=23;height=120"
+        },
+        {
+          "step": "clear",
+          "state": "error=0;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_top_negative",
+          "state": "error=0;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_top_zero",
+          "state": "error=-2147467259;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_top_large",
+          "state": "error=-2147467259;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "empty_index_zero",
+          "state": "error=380;index=-1;top=-1;count=0;height=120"
+        },
+        {
+          "step": "offscreen_same_index_before",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        },
+        {
+          "step": "offscreen_same_index_after",
+          "state": "error=0;index=1;top=15;count=23;height=72"
+        }
+      ]
+    }
+  ]
+}

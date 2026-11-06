@@ -155,9 +155,19 @@ Public Function Diagnostics() As String
 End Function
 
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If mOwner Is Nothing Then Exit Sub
+    Dim OwnerControl As IOxControl, OwnerCore As OxControlCore
+    Set OwnerControl = mOwner
+    Set OwnerCore = mOwner.Core
+    OwnerControl.OnMouseDown Button, Shift, X + mCore.PaintLeft - OwnerCore.PaintLeft, Y + mCore.PaintTop - OwnerCore.PaintTop
 End Sub
 
 Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    If mOwner Is Nothing Then Exit Sub
+    Dim OwnerControl As IOxControl, OwnerCore As OxControlCore
+    Set OwnerControl = mOwner
+    Set OwnerCore = mOwner.Core
+    OwnerControl.OnMouseUp Button, Shift, X + mCore.PaintLeft - OwnerCore.PaintLeft, Y + mCore.PaintTop - OwnerCore.PaintTop
 End Sub
 
 Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)

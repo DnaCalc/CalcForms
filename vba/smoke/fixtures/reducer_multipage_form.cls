@@ -127,10 +127,10 @@ End Sub
 Private Sub mPages_Exit(ByVal Cancel As ReturnBoolean)
     Append "MultiPage.Exit"
 End Sub
-Private Sub mPages_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Private Sub mPages_MouseDown(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "MultiPage.MouseDown:" & CStr(CLng(X)) & "," & CStr(CLng(Y))
 End Sub
-Private Sub mPages_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Private Sub mPages_MouseUp(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "MultiPage.MouseUp"
 End Sub
 Private Sub mPages_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)

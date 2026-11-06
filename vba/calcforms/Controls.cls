@@ -35,6 +35,7 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     ' Nothing (which would crash in RegisterControl). (Real MSForms raises on a bad ProgID;
     ' a precise Err.Raise is future work once CalcVBA error handling is proven.)
     If Control Is Nothing Then Exit Function
+    Control.Core.TabIndex = mItems.Count
     mOwner.RegisterControl Control
     mItems.Add Control, Name
     If Control.Core.Kind = oxControlOptionButton Then

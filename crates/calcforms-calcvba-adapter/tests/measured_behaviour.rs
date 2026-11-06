@@ -16,7 +16,17 @@ use calcvba_symbol::manifest::{
 };
 use serde_json::Value;
 
-fn run(source: String, name: &str, member: &str) -> String {
+fn run(mut source: String, name: &str, member: &str) -> String {
+    // Historical probes omitted Index. Adapt only their unused handler parameter;
+    // native transcripts and all scenario actions remain frozen.
+    for control in ["TabsControl", "PagesControl"] {
+        for event in ["MouseDown", "MouseUp"] {
+            source = source.replace(
+                &format!("Private Sub {control}_{event}(ByVal Button"),
+                &format!("Private Sub {control}_{event}(ByVal Index As Long, ByVal Button"),
+            );
+        }
+    }
     let mut modules = library_modules();
     let mut attributes = ModuleAttributes::named(name);
     attributes.vb_predeclared_id = true;
@@ -103,12 +113,6 @@ fn enter_and_escape_match_native_default_and_boolean_notifications() {
     let data: Value =
         serde_json::from_slice(&std::fs::read(directory.join("observations.json")).unwrap())
             .unwrap();
-    let keys_only = |s: &str| {
-        s.lines()
-            .filter(|line| !line.contains("~scrolling~"))
-            .map(str::to_owned)
-            .collect::<Vec<_>>()
-    };
     for case in data["observations"].as_array().unwrap() {
         if case["zoom"] != 100 {
             continue;
@@ -117,14 +121,209 @@ fn enter_and_escape_match_native_default_and_boolean_notifications() {
         let source =
             std::fs::read_to_string(directory.join(format!("{name}-100-runtime.cls"))).unwrap();
         let actual = run(source, name, "ParityKeyboardMeasurements");
-        assert_eq!(
-            keys_only(&actual),
-            keys_only(case["native"].as_str().unwrap()),
-            "{name}"
+        assert_eq!(actual, case["native"].as_str().unwrap(), "{name}");
+    }
+}
+
+#[test]
+fn list_viewport_boundaries_match_native_without_moving_same_index() {
+    let directory = evidence("oxforms-jbjp.112").join("native");
+    let data: Value =
+        serde_json::from_slice(&std::fs::read(directory.join("observations.json")).unwrap())
+            .unwrap();
+    let native_source = std::fs::read_to_string(directory.join("observer.bas")).unwrap();
+    // CalcVBA a4bf9792 drops same-line Case bodies (oxforms-jbjp.117).
+    // Expand separators only; property calls, sequence and native expectations stay exact.
+    let observer = native_source
+        .replace("Option Explicit", "")
+        .replace("MSForms.ListBox", "ListBox")
+        .replace(": C.", "\n            C.")
+        .replace("Case Else: Err.Raise", "Case Else\n            Err.Raise")
+        .replace(r#"LayoutSelection.Controls("Choices")"#, "Choices")
+        .replace(
+            "    Load LayoutSelection
+",
+            "",
+        )
+        .replace(
+            "    LayoutSelection.Zoom = Zoom
+",
+            "",
+        )
+        .replace(
+            "    LayoutSelection.Show vbModeless
+",
+            "",
+        )
+        .replace(
+            "    LayoutSelection.Hide
+",
+            "",
         );
-        if name == "LayoutSelection" {
-            // This separate, still-open mismatch must not be masked by key parity.
-            assert!(actual.contains("top_error=438"));
+    let mut source = String::from(
+        r#"Option Explicit
+Private F As UserForm
+Private Choices As ListBox
+Private Sub CalcFormsHostBuild()
+    Set F = New UserForm
+    Set Choices = F.Controls.Add("Forms.ListBox.1", "Choices")
+    Choices.Core.FontSize = 8.25
+End Sub
+Private Sub CalcFormsHostPerformInitialize()
+End Sub
+Private Sub CalcFormsHostRender()
+    F.Render 96, 96
+End Sub
+"#,
+    );
+    source.push_str(&observer);
+    source.push_str(
+        "
+Public Function ViewportMeasurements() As String
+    Dim S As String, Ignored As String
+",
+    );
+    // Replay the exact saved public-property sequence. Show's one-time IntegralHeight
+    // adjustment is a separate layout gap; compare its index/top/count here.
+    let mut expected = String::new();
+    for case in data["observations"].as_array().unwrap() {
+        let zoom = case["zoom"].as_i64().unwrap();
+        for row in case["observations"].as_array().unwrap() {
+            let step = row["step"].as_str().unwrap();
+            let state = row["state"].as_str().unwrap();
+            let expression = if step == "initial" {
+                format!("Run8ViewportPrepare({zoom})")
+            } else {
+                if step.starts_with("top_")
+                    || step.starts_with("index_")
+                    || step == "last"
+                    || step == "offscreen_same_index_before"
+                {
+                    source.push_str(&format!(
+                        "    Ignored = Run8ViewportPrepare({zoom})
+"
+                    ));
+                }
+                let (member, value) = if let Some(value) = step.strip_prefix("top_") {
+                    ("top", value.parse::<i64>().unwrap())
+                } else if let Some(value) = step.strip_prefix("index_") {
+                    ("index", value.parse::<i64>().unwrap())
+                } else {
+                    match step {
+                        "last" | "reselect_last" => ("index", 22),
+                        "shrink" => ("height", 30),
+                        "expand" => ("height", 120),
+                        "clear" => ("clear", 0),
+                        "empty_top_negative" => ("top", -1),
+                        "empty_top_zero" => ("top", 0),
+                        "empty_top_large" => ("top", 99),
+                        "empty_index_zero" => ("index", 0),
+                        "offscreen_same_index_before" => ("top", 15),
+                        "offscreen_same_index_after" => ("index", 1),
+                        _ => panic!("unrecognized native step {step}"),
+                    }
+                };
+                format!(r#"Run8ViewportSet("{member}", {value})"#)
+            };
+            source.push_str(&format!(
+                "    S = S & \"{zoom}:{step}:\" & {expression} & vbLf\n"
+            ));
+            expected.push_str(&format!(
+                "{zoom}:{step}:{state}
+"
+            ));
         }
     }
+    source.push_str(
+        "    ViewportMeasurements = S
+End Function
+",
+    );
+    let actual = run(source, "ListViewportProbe", "ViewportMeasurements");
+    let normalize = |text: &str| {
+        text.lines()
+            .map(|line| {
+                if line.contains(":initial:") {
+                    line.split(";height=").next().unwrap()
+                } else {
+                    line
+                }
+            })
+            .collect::<Vec<_>>()
+            .join(
+                "
+",
+            )
+    };
+    assert_eq!(normalize(&actual), normalize(&expected));
+}
+
+#[test]
+fn tab_mouse_index_and_value_timing_match_native_headers_and_bodies() {
+    let directory = evidence("oxforms-jbjp.108").join("native-index");
+    let data: Value =
+        serde_json::from_slice(&std::fs::read(directory.join("observations.json")).unwrap())
+            .unwrap();
+    let native = std::fs::read_to_string(directory.join("form.bas")).unwrap();
+    let mut source = native.replacen(
+        "Option Explicit",
+        r#"Option Explicit
+Private F As UserForm
+Private R As OxReducer
+Private WithEvents TabsControl As TabStrip
+Private WithEvents PagesControl As MultiPage
+"#,
+        1,
+    );
+    source.push_str(
+        r#"
+Private Sub CalcFormsHostBuild()
+    Set F = New UserForm
+    F.Width = 228
+    F.Height = 200
+    Set TabsControl = F.Controls.Add("Forms.TabStrip.1", "TabsControl")
+    TabsControl.Left = 12
+    TabsControl.Top = 12
+    TabsControl.Width = 200
+    TabsControl.Height = 60
+    TabsControl.Core.FontSize = 8.25
+    TabsControl.Tabs.Add "First"
+    TabsControl.Tabs.Add "Second"
+    Set PagesControl = F.Controls.Add("Forms.MultiPage.1", "PagesControl")
+    PagesControl.Left = 12
+    PagesControl.Top = 84
+    PagesControl.Width = 200
+    PagesControl.Height = 96
+    PagesControl.Core.FontSize = 8.25
+    PagesControl.Pages.Add "First"
+    PagesControl.Pages.Add "Second"
+    Set R = New OxReducer
+    R.Init F
+End Sub
+Private Sub CalcFormsHostPerformInitialize()
+End Sub
+Private Sub CalcFormsHostRender()
+    F.Render 96, 96
+End Sub
+Public Function TabIndexMeasurements() As String
+    Dim S As String, E As String
+"#,
+    );
+    let mut expected = String::new();
+    for case in data["observations"].as_array().unwrap() {
+        let step = case["step"].as_str().unwrap();
+        if step == "tabs_first" {
+            source.push_str("    TabsControl.Value = 0\n    PagesControl.Value = 0\n");
+        }
+        let x = case["point_pt"][0].as_i64().unwrap();
+        let y = case["point_pt"][1].as_i64().unwrap();
+        source.push_str(&format!("    E = R.Dispatch(\"mousedown\", {x}, {y}, 1, 0)\n    E = R.Dispatch(\"mouseup\", {x}, {y}, 1, 0)\n    S = S & Snapshot(True) & vbLf\n"));
+        expected.push_str(case["trace"].as_str().unwrap());
+        expected.push('\n');
+    }
+    source.push_str("    TabIndexMeasurements = S\nEnd Function\n");
+    assert_eq!(
+        run(source, "TabIndexProbe", "TabIndexMeasurements"),
+        expected
+    );
 }

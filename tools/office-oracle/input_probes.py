@@ -10,6 +10,20 @@ EVENT_CLASSES = {'Label': 'LabelControlEvents', 'TextBox': 'MdcTextEvents', 'Com
                  'Frame': 'OptionFrameEvents', 'Image': 'ImageEvents', 'TabStrip': 'TabStripEvents', 'MultiPage': 'MultiPageEvents'}
 
 
+def upgrade_runtime_tab_signatures(source):
+    """Adapt historical probe declarations to the corrected public event facade.
+
+    Keep old generators reproducible. Only the formerly omitted, unused Index
+    parameter changes; scenario actions and independent native traces do not.
+    """
+    names = re.findall(r'(?:Public|Private) WithEvents (\w+) As (?:TabStrip|MultiPage)\b', source)
+    for name in names:
+        for event in ('MouseDown', 'MouseUp'):
+            source = source.replace(f'Private Sub {name}_{event}(ByVal Button',
+                                    f'Private Sub {name}_{event}(ByVal Index As Long, ByVal Button')
+    return source
+
+
 def validate_native_signatures(form, source):
     facts = json.loads((ROOT / 'docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json').read_text(encoding='utf-8'))
     types = {t['documentation']['name']: t for t in facts['libraries'][0]['types']}

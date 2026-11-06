@@ -1,0 +1,56 @@
+{
+  "schema": "calcforms.runtime_measurements.v1",
+  "source_reference": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/observations.json",
+  "source_sha256": "64b95e7dd1fdd7127cef1486c469d73ed4a1857044baa7f946670702dc315c7b",
+  "runtime_sha256": "e91ec18101804f2b785518a13fb4d5819143198a2ea07f4f0714736316bb9aa0",
+  "observations": [
+    {
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "calcforms": "Prompt~enter_default~enter~Greet.Click|\nPrompt~escape_cancel~escape~\nInputName~enter_default~enter~Greet.Click|\nInputName~escape_cancel~escape~\nGreet~enter_default~enter~Greet.Click|\nGreet~escape_cancel~escape~\nFractional~enter_default~enter~Greet.Click|\nFractional~escape_cancel~escape~\nClipped~enter_default~enter~Greet.Click|\nClipped~escape_cancel~escape~\nLongInput~enter_default~enter~Greet.Click|\nLongInput~escape_cancel~escape~\nDisabled~enter_default~enter~Greet.Click|\nDisabled~escape_cancel~escape~\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutCommon-100-runtime.cls",
+      "current_source": "keyboard-LayoutCommon-100.cls",
+      "current_source_sha256": "9a2c2e0cca7e81b9c82925c46c50712d037e5ac4ee1f56179c39f95b80817be6"
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "calcforms": "Prompt~enter_default~enter~Greet.Click|\nPrompt~escape_cancel~escape~\nInputName~enter_default~enter~Greet.Click|\nInputName~escape_cancel~escape~\nGreet~enter_default~enter~Greet.Click|\nGreet~escape_cancel~escape~\nFractional~enter_default~enter~Greet.Click|\nFractional~escape_cancel~escape~\nClipped~enter_default~enter~Greet.Click|\nClipped~escape_cancel~escape~\nLongInput~enter_default~enter~Greet.Click|\nLongInput~escape_cancel~escape~\nDisabled~enter_default~enter~Greet.Click|\nDisabled~escape_cancel~escape~\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutCommon-150-runtime.cls",
+      "current_source": "keyboard-LayoutCommon-150.cls",
+      "current_source_sha256": "444bbc4eacfb5dfea481f2d679781fbb009b5893778822e8a7b64d5c7af0b893"
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "calcforms": "Unchecked~enter_default~enter~\nUnchecked~escape_cancel~escape~\nChecked~enter_default~enter~\nChecked~escape_cancel~escape~\nOptionOne~enter_default~enter~\nOptionOne~escape_cancel~escape~\nOptionTwo~enter_default~enter~\nOptionTwo~escape_cancel~escape~\nToggleOff~enter_default~enter~\nToggleOff~escape_cancel~escape~\nToggleOn~enter_default~enter~\nToggleOn~escape_cancel~escape~\nChoices~enter_default~enter~\nChoices~escape_cancel~escape~\nDropdown~enter_default~enter~\nDropdown~escape_cancel~escape~\nChoices~scrolling~initial~index=1;count=23;top=0\nChoices~scrolling~page_down_1~index=7;count=23;top=1\nChoices~scrolling~page_down_2~index=13;count=23;top=7\nChoices~scrolling~home~index=0;count=23;top=0\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutSelection-100-runtime.cls",
+      "current_source": "keyboard-LayoutSelection-100.cls",
+      "current_source_sha256": "a36517b63eb41eea7570b4db7c416c93d17ea5c2afe662342a4a672622db1c16"
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "calcforms": "Unchecked~enter_default~enter~\nUnchecked~escape_cancel~escape~\nChecked~enter_default~enter~\nChecked~escape_cancel~escape~\nOptionOne~enter_default~enter~\nOptionOne~escape_cancel~escape~\nOptionTwo~enter_default~enter~\nOptionTwo~escape_cancel~escape~\nToggleOff~enter_default~enter~\nToggleOff~escape_cancel~escape~\nToggleOn~enter_default~enter~\nToggleOn~escape_cancel~escape~\nChoices~enter_default~enter~\nChoices~escape_cancel~escape~\nDropdown~enter_default~enter~\nDropdown~escape_cancel~escape~\nChoices~scrolling~initial~index=1;count=23;top=0\nChoices~scrolling~page_down_1~index=7;count=23;top=1\nChoices~scrolling~page_down_2~index=13;count=23;top=7\nChoices~scrolling~home~index=0;count=23;top=0\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutSelection-150-runtime.cls",
+      "current_source": "keyboard-LayoutSelection-150.cls",
+      "current_source_sha256": "1acaa982ec962248d348affbb05881cb26a9fd4cc4b0e76505e466b5e564f2c8"
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "calcforms": "Group~enter_default~enter~\nGroup~escape_cancel~escape~\nGroup.NestedLabel~enter_default~enter~\nGroup.NestedLabel~escape_cancel~escape~\nGroup.NestedInput~enter_default~enter~\nGroup.NestedInput~escape_cancel~escape~\nPicture~enter_default~enter~\nPicture~escape_cancel~escape~\nSpinner~enter_default~enter~\nSpinner~escape_cancel~escape~\nSlider~enter_default~enter~\nSlider~escape_cancel~escape~\nTabsControl~enter_default~enter~\nTabsControl~escape_cancel~escape~\nPagesControl~enter_default~enter~\nPagesControl~escape_cancel~escape~\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutContainers-100-runtime.cls",
+      "current_source": "keyboard-LayoutContainers-100.cls",
+      "current_source_sha256": "d88468efb0a4ea1d80dbfe05df54f5aeb68db574eb6e78fbc37f53a08a5fd908"
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "calcforms": "Group~enter_default~enter~\nGroup~escape_cancel~escape~\nGroup.NestedLabel~enter_default~enter~\nGroup.NestedLabel~escape_cancel~escape~\nGroup.NestedInput~enter_default~enter~\nGroup.NestedInput~escape_cancel~escape~\nPicture~enter_default~enter~\nPicture~escape_cancel~escape~\nSpinner~enter_default~enter~\nSpinner~escape_cancel~escape~\nSlider~enter_default~enter~\nSlider~escape_cancel~escape~\nTabsControl~enter_default~enter~\nTabsControl~escape_cancel~escape~\nPagesControl~enter_default~enter~\nPagesControl~escape_cancel~escape~\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutContainers-150-runtime.cls",
+      "current_source": "keyboard-LayoutContainers-150.cls",
+      "current_source_sha256": "9bdb7e20082a914535b1daf6433d9eace30cc5b1a74419f2cfc3e2be9b449694"
+    }
+  ]
+}

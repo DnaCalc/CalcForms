@@ -1038,10 +1038,10 @@ End Sub
 Private Sub mTabs_Exit(ByVal Cancel As ReturnBoolean)
     Append "TabStrip.Exit"
 End Sub
-Private Sub mTabs_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Private Sub mTabs_MouseDown(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "TabStrip.MouseDown"
 End Sub
-Private Sub mTabs_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Private Sub mTabs_MouseUp(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "TabStrip.MouseUp"
 End Sub
 Private Sub mTabs_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)
@@ -1061,10 +1061,10 @@ End Sub
 Private Sub mPages_Exit(ByVal Cancel As ReturnBoolean)
     Append "MultiPage.Exit"
 End Sub
-Private Sub mPages_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Private Sub mPages_MouseDown(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "MultiPage.MouseDown"
 End Sub
-Private Sub mPages_MouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+Private Sub mPages_MouseUp(ByVal Index As Long, ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
     Append "MultiPage.MouseUp"
 End Sub
 Private Sub mPages_KeyDown(ByVal KeyCode As ReturnInteger, ByVal Shift As Integer)

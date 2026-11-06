@@ -719,3 +719,41 @@ End Sub
         "no square selection glyph remains"
     );
 }
+
+#[test]
+fn scrolled_list_paints_and_hits_the_same_absolute_rows() {
+    let source = format!(
+        r#"{SOURCE}
+Public Sub ScrollRows()
+    Dim I As Long
+    L.Clear
+    L.Height = 72
+    For I = 0 To 22
+        L.AddItem "Row " & CStr(I)
+    Next I
+    L.ListIndex = 1
+    L.TopIndex = 15
+End Sub
+"#
+    );
+    let (mut session, form, surface) = fixture(&source);
+    let mut call = |name: &str, args: Vec<Variant>| {
+        session
+            .invoke_member_values(form.clone(), name, Some(ProjectMemberKind::Method), args)
+            .unwrap()
+    };
+    call("Build", vec![]);
+    call("ScrollRows", vec![]);
+    call("RenderOnce", vec![]);
+    let text = rows(&surface.snapshot().unwrap().scene.unwrap());
+    assert_eq!(
+        text.iter().map(|r| r.0.as_str()).collect::<Vec<_>>(),
+        ["Row 15", "Row 16", "Row 17", "Row 18", "Row 19", "Row 20", "Row 21", "Row 22"]
+    );
+    assert_eq!(text[0].1, 13.5);
+    assert_eq!(text[7].1, 81.75);
+    call("SelectAt", vec![Variant::from_i32(14)]);
+    assert_eq!(call("SelectedRow", vec![]).as_i32(), Some(15));
+    call("SelectAt", vec![Variant::from_i32(24)]);
+    assert_eq!(call("SelectedRow", vec![]).as_i32(), Some(16));
+}

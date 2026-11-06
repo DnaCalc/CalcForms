@@ -206,6 +206,12 @@ Public Function Dispatch( _
     PreviousEffects = BeginEffectLog()
     EnsureInteractionIndex
     Select Case Kind
+        Case "show"
+            If Len(mFocusName) = 0 Then
+                Dim InitialTarget As String
+                InitialTarget = FirstShowTargetIn(mForm.Controls)
+                If Len(InitialTarget) > 0 Then TransferFocusTo InitialTarget
+            End If
         Case "mousedown"
             ReduceMouseDown X, Y, Button, Shift
         Case "mousemove"
@@ -966,6 +972,29 @@ End Function
 ' (tab_index, index) ordering the kernel's next_tab_focus_target uses.
 Private Function TabKey(ByVal Control As IOxControl, ByVal DeclIndex As Long) As Long
     TabKey = Control.Core.TabIndex * 100000 + DeclIndex
+End Function
+
+' Initial Show compares siblings before entering a container. A child's local
+' TabIndex=0 cannot precede an earlier eligible control on the parent form.
+Private Function FirstShowTargetIn(ByVal List As Controls) As String
+    Dim I As Long, BestKey As Long, Key As Long
+    Dim Control As IOxControl, Candidate As String
+    BestKey = 2147483647
+    For I = 1 To List.Count
+        Set Control = List.Item(I)
+        If Control.Core.Visible And Control.Core.Enabled Then
+            Candidate = ""
+            If Control.HasChildren Then Candidate = FirstShowTargetIn(Control.Children)
+            If Len(Candidate) = 0 And Participates(Control) Then Candidate = Control.Core.Name
+            If Len(Candidate) > 0 Then
+                Key = TabKey(Control, I)
+                If Key < BestKey Then
+                    BestKey = Key
+                    FirstShowTargetIn = Candidate
+                End If
+            End If
+        End If
+    Next I
 End Function
 
 ' The next (or, with Shift, previous) participating control in tab order after CurrentName,

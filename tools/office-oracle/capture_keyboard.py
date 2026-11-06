@@ -9,6 +9,7 @@ import win32gui
 
 from build_behaviour_reference import DIRECTORY as INPUT_REFERENCE
 from keyboard_probes import parse, runtime_source, shared_source
+from input_probes import upgrade_runtime_tab_signatures
 from layout_corpus import ROOT, load_corpus, runtime_source as authored_source
 from native_accessibility import click, post_key
 from owned_excel import run_owned_excel
@@ -103,7 +104,7 @@ def capture(owner_path, output, prepared=False):
                         post_key(root, owner['excel_pid'], key)
                         raw += c['name'] + '~scrolling~' + step + '~' + excel.Run(prefix + 'ParityScroll', False) + '\n'
                 source_path = output / f'{form["name"]}-{zoom}-runtime.cls'
-                source_path.write_text(runtime_source(authored_source(form, corpus), form, case['points']), encoding='utf-8', newline='\n')
+                source_path.write_text(upgrade_runtime_tab_signatures(runtime_source(authored_source(form, corpus), form, case['points'])), encoding='utf-8', newline='\n')
                 command = [str(binary), str(source_path), form['name'], str(form['width']), str(form['height']),
                            str(zoom / 100), str(output / 'unused-scene.json'), form['caption'], corpus['font'], '--measure', 'ParityKeyboardMeasurements']
                 process = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=180,

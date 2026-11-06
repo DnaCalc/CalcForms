@@ -13,8 +13,11 @@ page change leaves no focused HWND, public MSAA default actions invoke Save and
 Cancel. This proves those commands, not native Enter/Escape after that page change.
 Runtime normalized Enter/Escape reaches the same commands and exact results.
 
-Native initial focus is NameInput. Runtime still needs an explicit normalized Tab
-to establish focus before this scenario; initial Show focus parity remains open.
+Native initial focus is NameInput. Run 8 captures initial and repeated Show focus
+at both scales in `show-focus` and `show-focus-150`. Runtime Show now establishes
+NameInput directly, comparing siblings before entering containers. Runtime Add
+appends TabIndex; persisted omitted TabIndex still restores zero. The workbook
+test requires immediate Enter without its former preparatory Tab.
 The original `.105/coverage.json` is historical and unchanged: its 210 geometry,
 input and lifecycle unknowns are not silently converted into passes by these
 new State/Trace observations. Broader traversal, BeforeUpdate veto, scrolling,

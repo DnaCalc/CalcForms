@@ -536,6 +536,7 @@ def main():
     session = Session(args)
     errors = []
     def worker():
+        original_desktop = win32service.GetThreadDesktop(win32api.GetCurrentThreadId())
         try:
             session.open()
             if args.serve:
@@ -576,11 +577,27 @@ def main():
             except BaseException as error:
                 errors.append(error)
                 emit({'stage': 'cleanup_error', 'error': repr(error)})
+            finally:
+                if not args.interactive:
+                    try:
+                        original_desktop.SetThreadDesktop()
+                        session.owner['thread_desktop_restored'] = True
+                        session.save_owner()
+                    except BaseException as error:
+                        errors.append(error)
+                        emit({'stage': 'desktop_restore_error', 'error': repr(error)})
     thread = threading.Thread(target=worker)
     thread.start()
     thread.join()
     if session.desktop:
-        session.desktop.CloseDesktop()
+        try:
+            session.desktop.CloseDesktop()
+            session.owner['desktop_cleanup'] = 'closed'
+        except BaseException as error:
+            session.owner['desktop_cleanup'] = repr(error)
+            errors.append(error)
+        session.save_owner()
+        session.save_summary()
     if errors:
         raise errors[0]
 

@@ -22,6 +22,8 @@ Private Const OX_KEY_UP As Integer = 38
 Private Const OX_KEY_DOWN As Integer = 40
 Private Const OX_KEY_HOME As Integer = 36
 Private Const OX_KEY_END As Integer = 35
+Private Const OX_KEY_PAGE_UP As Integer = 33
+Private Const OX_KEY_PAGE_DOWN As Integer = 34
 Private Const OX_KEY_SPACE As Integer = 32
 Private Const SHIFT_MASK As Integer = 1
 Private Const CTRL_MASK As Integer = 2
@@ -30,6 +32,7 @@ Private Const ROW_INSET As Single = 1.5
 Private mCore As OxControlCore
 Private mItems As Collection
 Private mListIndex As Long
+Private mTopIndex As Long
 Private mSelectedCsv As String
 Private mMultiSelect As fmMultiSelect
 Private mColumnCount As Long
@@ -45,6 +48,7 @@ Private Sub Class_Initialize()
     mCore.Init oxControlListBox
     Set mItems = New Collection
     mListIndex = -1
+    mTopIndex = -1
     mSelectedCsv = ""
     mMultiSelect = fmMultiSelectSingle
     mColumnCount = 1
@@ -64,7 +68,7 @@ Public Property Get Core() As OxControlCore
 End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxThemePaintListBox mCore, Surface, mListIndex, mFocused, mSelectedCsv, mItems.Count, RowHeight()
+    OxThemePaintListBox mCore, Surface, mListIndex, mFocused, mSelectedCsv, mItems.Count, RowHeight(), mTopIndex
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -106,6 +110,7 @@ Public Property Get Height() As Single
 End Property
 Public Property Let Height(ByVal Value As Single)
     mCore.Height = Value
+    ClampTopIndex
 End Property
 
 Public Property Get Visible() As Boolean
@@ -131,6 +136,21 @@ Public Property Get ListIndex() As Long
 End Property
 Public Property Let ListIndex(ByVal Value As Long)
     SetListIndex Value, False
+End Property
+
+Public Property Get TopIndex() As Long
+    TopIndex = mTopIndex
+End Property
+Public Property Let TopIndex(ByVal Value As Long)
+    If mItems.Count = 0 Then
+        If Value >= 0 Then Err.Raise -2147467259, "ListBox", "No rows to scroll"
+        Exit Property
+    End If
+    If Value < 0 Then Value = 0
+    If Value > MaximumTopIndex() Then Value = MaximumTopIndex()
+    If mTopIndex = Value Then Exit Property
+    mTopIndex = Value
+    mCore.MarkDirty
 End Property
 
 Public Property Get MultiSelect() As fmMultiSelect
@@ -237,6 +257,7 @@ End Sub
 Public Sub Clear()
     Set mItems = New Collection
     mListIndex = -1
+    mTopIndex = -1
     mSelectedCsv = ""
     mAnchorIndex = -1
     SyncDisplayText
@@ -289,6 +310,10 @@ Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As I
                 MoveSelection -1, Shift
             Case OX_KEY_DOWN
                 MoveSelection 1, Shift
+            Case OX_KEY_PAGE_UP
+                MoveSelection -PageStep(), Shift
+            Case OX_KEY_PAGE_DOWN
+                MoveSelection PageStep(), Shift
             Case OX_KEY_HOME
                 If mItems.Count > 0 Then SelectIndexFromUser 0, Shift
             Case OX_KEY_END
@@ -461,8 +486,47 @@ End Function
 
 Private Sub SelectRowAt(ByVal Y As Single, ByVal Shift As Integer)
     Dim Row As Long
-    Row = CLng(Int((Y - ROW_INSET) / RowHeight()))
+    If Y < ROW_INSET Or Y >= mCore.Height - ROW_INSET Then Exit Sub
+    Row = mTopIndex + CLng(Int((Y - ROW_INSET) / RowHeight()))
     If Row >= 0 And Row < mItems.Count Then SelectIndexFromUser Row, Shift
+End Sub
+
+' Full rows determine keyboard travel; a partially visible last row still limits
+' the public TopIndex. Keep these separate, as observed at Height=72.
+Private Function VisibleRows(ByVal IncludePartial As Boolean) As Long
+    Dim Rows As Single
+    Rows = (mCore.Height - ROW_INSET * 2) / RowHeight()
+    VisibleRows = CLng(Int(Rows))
+    If IncludePartial And Rows > VisibleRows Then VisibleRows = VisibleRows + 1
+    If VisibleRows < 1 Then VisibleRows = 1
+End Function
+
+Private Function PageStep() As Long
+    PageStep = VisibleRows(False) - 1
+    If PageStep < 1 Then PageStep = 1
+End Function
+
+Private Function MaximumTopIndex() As Long
+    MaximumTopIndex = mItems.Count - VisibleRows(True)
+    If MaximumTopIndex < 0 Then MaximumTopIndex = 0
+End Function
+
+Private Sub ClampTopIndex()
+    If mItems.Count = 0 Then
+        mTopIndex = -1
+    Else
+        If mTopIndex < 0 Then mTopIndex = 0
+        If mTopIndex > MaximumTopIndex() Then mTopIndex = MaximumTopIndex()
+    End If
+End Sub
+
+Private Sub EnsureRowVisible(ByVal Index As Long, ByVal FromUser As Boolean)
+    If Index < 0 Then Exit Sub
+    Dim Rows As Long
+    Rows = VisibleRows(Not FromUser)
+    If Index < mTopIndex Then mTopIndex = Index
+    If Index >= mTopIndex + Rows Then mTopIndex = Index - Rows + 1
+    ClampTopIndex
 End Sub
 
 Private Sub MoveSelection(ByVal Delta As Long, ByVal Shift As Integer)
@@ -485,6 +549,7 @@ Private Sub MoveSelection(ByVal Delta As Long, ByVal Shift As Integer)
 End Sub
 
 Private Sub SelectIndexFromUser(ByVal NewIndex As Long, ByVal Shift As Integer)
+    EnsureRowVisible NewIndex, True
     If mMultiSelect = fmMultiSelectSingle Then
         SetListIndex NewIndex, True
     ElseIf mMultiSelect = fmMultiSelectMulti Then
@@ -508,11 +573,11 @@ Private Sub ToggleCurrentFromKeyboard(ByVal Shift As Integer)
 End Sub
 
 Private Sub SetListIndex(ByVal NewIndex As Long, ByVal FromUser As Boolean)
-    If NewIndex < -1 Then NewIndex = -1
-    If NewIndex >= mItems.Count Then NewIndex = -1
+    If NewIndex < -1 Or NewIndex >= mItems.Count Then Err.Raise 380, "ListBox", "Invalid ListIndex"
     If mListIndex = NewIndex Then Exit Sub
 
     mListIndex = NewIndex
+    EnsureRowVisible NewIndex, FromUser
     SelectOnly NewIndex
     If FromUser Then
         mEditDirty = True
@@ -532,6 +597,7 @@ Private Sub SyncDisplayText()
     mCore.SetTextParts Parts
     If mListIndex >= mItems.Count Then mListIndex = -1
     TrimSelectedToCount
+    ClampTopIndex
     mCore.MarkDirty
 End Sub
 
