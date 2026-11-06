@@ -21,6 +21,9 @@ November layout work: [`LAYOUT_COMPARISON.md`](specs/LAYOUT_COMPARISON.md)
 defines FORMS PARITY reports at 100%/150%, layout/text/spacing/colour/behaviour
 measurements, failed missing coverage, per-window capture and owned hidden
 Excel reuse. Pixels remain a coarse regression guard.
+Public native OLE drawing now supplies replayable baselines, literal line offsets
+and horizontal character-cell clipping, including nested text in local control
+coordinates; omitted ListBox output remains failed coverage.
 
 The real data-entry workbook now runs original qualified MSForms source through
 the Office importer and referenced source library. Native initial State/Trace

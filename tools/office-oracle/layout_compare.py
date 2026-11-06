@@ -34,6 +34,10 @@ from layout_measurements import measure, native_controls
 from forms_parity import report_observation, summarize, edges, text_roi, TEXTLESS
 from capture_qualification import choose_capture
 from capture_colour_properties import read_colours
+from capture_native_drawing import install as install_drawing_observer, capture_controls
+from native_drawing import observation as drawing_observation
+from drawing_parity import measurements as drawing_measurements
+from border_spacing import measurements as border_measurements
 from colour_measurements import paired_colours, scene_colours
 from workbook_comparison_session import (EXCEL, PREFIX, ROOT, WORKBOOK, capture,
     command_lines, emit, launch, native_excel, stop_owned, wait_for, windows)
@@ -304,6 +308,7 @@ Failed:
     Set LayoutCaptureForm = Nothing
 End Function
 ''')
+            install_drawing_observer(self.book)
         emit({'stage': 'ready', **self.owner})
 
     def macro(self, name, *args):
@@ -430,6 +435,21 @@ End Function
         data['native_colour_properties'] = native_colours
         data['calcforms_colour_paint'] = scene_colours(data, scene)
         data['colour_measurements'] = paired_colours(data, scene, native_colours)
+        drawing_path = directory / 'native-drawing.emf'
+        with self.lease('read owned native drawing'):
+            self.macro('LayoutDraw', str(drawing_path), native.width, native.height)
+        data['native_drawing'] = drawing_observation(drawing_path)
+        with self.lease('read owned native control drawings'):
+            data['native_control_drawings'] = capture_controls(
+                self.excel, "'" + self.book.Name + "'!", data, directory)
+        properties, spacing, colours, scans = border_measurements(data, scene, native, runtime)
+        drawing_properties, drawing_details = drawing_measurements(data, scene, data['native_drawing'], native.size)
+        for name, values in drawing_properties.items():
+            properties.setdefault(name, {}).update(values)
+        data.update(parity_measurements=properties, spacing_measurements=spacing,
+                    border_scan_lines=scans, drawing_text_measurements=drawing_details)
+        for name, values in colours.items():
+            data['colour_measurements'][name].update(values)
         data['forms_parity'] = report_observation(data, native, runtime)
         (directory / 'comparison.json').write_text(json.dumps(data, indent=2) + '\n')
         self.comparisons.append({'form': self.selected_form, 'zoom': self.zoom,

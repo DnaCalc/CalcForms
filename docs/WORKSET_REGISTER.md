@@ -85,6 +85,14 @@ focus, later native scenarios and two-scale geometry remain `.105.1` work, with
 open. The current source census is 837 public declarations and the W010 ledger
 stays red at 2,452 verified / 4,682 gaps / 621 unexpected-public rows.
 
+Run 7 `.106` fills 192 missing text rows with raw public OLE drawing records and
+GDI font measurements at both scales. The [current eight-case report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.106/README.md)
+has 804 passes / 794 failures, including 712 missing measurements. Baselines,
+literal line breaks and horizontal character-cell clipping use independent
+native output and retained Scene geometry. Empty windowed ListBox drawing stays
+missing. Remaining spacing and ordered behaviour observations precede product
+fixes; no broad parity claim is made.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

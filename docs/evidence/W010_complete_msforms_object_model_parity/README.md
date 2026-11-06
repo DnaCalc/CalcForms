@@ -6,6 +6,11 @@ parity ledger (`oxforms-jbjp.4`), plus the replay-valid canonical representative
 live member-oracle capture (`oxforms-jbjp.5`). W010 remains in progress beyond
 that representative slice.
 
+Run 7 [native drawing measurements](beads/oxforms-jbjp.106/README.md) fill 192
+missing text rows at 100%/150%. FORMS PARITY is 804 pass / 794 fail, with 712
+missing measurements. Raw public OLE drawings replay alongside qualified window
+captures; behaviour and remaining spacing coverage are still open.
+
 Run 4 ListBox row correction: [`.87` measurements](beads/oxforms-jbjp.87/README.md),
 with the same native pixels before/after at both scales and a VM3 batch/clip regression.
 

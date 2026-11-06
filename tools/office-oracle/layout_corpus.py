@@ -227,6 +227,8 @@ Private Function ControlFacts(ByVal Owner As Object, ByVal Prefix As String) As 
     ControlFacts = S
 End Function
 ''')
+    from capture_native_drawing import install
+    install(book)
     path = directory / 'layout-corpus.xlsm'
     book.SaveAs(str(path), 52)
     return book

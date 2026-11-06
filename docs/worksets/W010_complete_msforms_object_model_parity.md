@@ -4,6 +4,12 @@ Status: `IN PROGRESS`
 
 Epic: `oxforms-jbjp`
 
+Run 7 `.106` fills 192 missing text measurements using public native OLE output
+and retained Scene geometry. The [eight-case report](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.106/README.md)
+is 804 pass / 794 fail, including 712 missing measurements. `.107` continues
+remaining spacing and ordered behaviour capture before product fixes. Windowed
+ListBox OLE text omissions remain missing; pixels remain a coarse guard.
+
 Run 6 uses [measured FORMS PARITY](../specs/LAYOUT_COMPARISON.md) instead of
 pixel rankings. `.96` reports the existing eight comparison inputs; `.97`
 corrects measured ComboBox insets/button geometry; `.90` preserves literal

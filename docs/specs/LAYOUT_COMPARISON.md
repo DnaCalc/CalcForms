@@ -34,6 +34,19 @@ antialias coverage and keep selected white text separate from white background.
 Unmeasured native parent origins prevent nested image measurements. Historical
 captures without native qualification retain a failed qualification row.
 
+Run 7 adds [public native drawing records](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.106/README.md).
+In-process OleDraw captures whole forms and individual controls as EMF, preserving
+literal output, character advances and clipping. Baselines use recorded GDI
+alignment and measured font metrics; runtime measurements use the same uniform
+device fit, transforms and retained metrics as the rasterizer. Individual control
+draws provide local nested coordinates without an inferred parent origin. Exact
+line offsets require complete ordered literal fragments. Horizontal clipping
+records the first character cell cut by each line's right clip; null means no
+horizontal cell clipping, not missing evidence. Glyph contours and vertical
+clipping remain separate. Omitted windowed ListBox output stays failed coverage.
+These are public native drawing observations; the qualified window images remain
+the visible-ink reference, and live colour properties remain the colour source.
+
 New colour parity rows use actual native BackColor/ForeColor and live system
 colour resolution, compared with opaque retained Scene paint. Disabled text
 uses the observed system grey-text colour; selected ListBox text uses the
