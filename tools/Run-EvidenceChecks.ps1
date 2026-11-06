@@ -103,6 +103,7 @@ Invoke-Check -Name 'W010 ListBox row comparison' -Script 'tools/evidence/Test-W0
 Invoke-Check -Name 'W010 TabStrip caption comparison' -Script 'tools/evidence/Test-W010TabCaptions.ps1'
 Invoke-Check -Name 'W010 Boolean/Page paint comparison' -Script 'tools/evidence/Test-W010BooleanPagePaint.ps1'
 Invoke-Check -Name 'W010 native public drawing measurements' -Script 'tools/evidence/Test-W010NativeDrawing.ps1'
+Invoke-Check -Name 'W010 behaviour and native accessibility measurements' -Script 'tools/evidence/Test-W010BehaviourMeasurements.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

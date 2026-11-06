@@ -255,12 +255,19 @@ def control_report(control, data, native, actual, scale, definition):
     kind = expected['kind']
     colour_facts = data.get('colour_measurements', {}).get(name, {})
     nbox, abox = edges(expected['bounds'], scale), edges(observed['bounds'], scale)
+    absolute = data.get('native_accessible_rectangles_px', {}).get(name)
+    if absolute is not None:
+        if len(absolute) != 4 or not all(math.isfinite(v) for v in absolute):
+            raise ValueError('Invalid observed native accessible rectangle')
+        x, y, w, h = absolute
+        nbox = [x, y, x + w, y + h]
+        abox = edges([*observed['paint_origin'], *observed['bounds'][2:]], scale)
     rows = [check('layout', 'rectangle_edges', nbox, abox, LAYOUT_TOLERANCE_PX),
             check('layout', 'twips_to_pixel_rounding', rounded(nbox), rounded(abox), LAYOUT_TOLERANCE_PX),
             check('layout', 'control_kind', kind, observed.get('kind'), unit='identity')]
     nested = '.' in name
     qualification = data.get('native_capture_validation', {}).get('verified')
-    usable = qualification is not False and native.size == actual.size and not nested
+    usable = qualification is not False and native.size == actual.size and (not nested or absolute is not None)
     rows.append(check('layout', 'native_capture_qualification', 1,
                       1 if qualification is True else None, unit='qualified captures'))
     captions = ([definition.get('caption', definition.get('text', ''))] if definition else [])

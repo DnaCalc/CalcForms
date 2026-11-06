@@ -47,6 +47,17 @@ clipping remain separate. Omitted windowed ListBox output stays failed coverage.
 These are public native drawing observations; the qualified window images remain
 the visible-ink reference, and live colour properties remain the colour source.
 
+The [run-7 behaviour capture](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/README.md)
+compares explicit programmatic change/repeat/restore phases and selections, then
+actual Tab cycles and interior message targets on the owned private desktop.
+Repeat the native cycle; preserve multiple control-level visits within a
+container. Matching TabIndex is still insufficient. Native public IAccessible
+rectangles may supply global nested sites only when live native geometry agrees
+with the exact pinned image capture. No event proving a range-control target
+remains missing. Native event declarations must match captured FM20 metadata
+before injection; the observer adapts to current runtime signatures only within
+non-production probes and gives no signature-parity credit for that adaptation.
+
 New colour parity rows use actual native BackColor/ForeColor and live system
 colour resolution, compared with opaque retained Scene paint. Disabled text
 uses the observed system grey-text colour; selected ListBox text uses the

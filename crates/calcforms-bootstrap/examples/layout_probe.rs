@@ -8,6 +8,7 @@ use calcforms_calcvba_adapter::{
 };
 use calcforms_pal::scene::FontId;
 use calcforms_pal_win::{load_ui_font_family, AbGlyphShaper, FontTable};
+use calcvba_bundle::ProjectMemberKind;
 use calcvba_com::PortableComProjection;
 use calcvba_engine::{Engine, HostConfig, HostProfileProvider};
 use calcvba_hal::model::HostPolicy;
@@ -18,8 +19,8 @@ use std::sync::Arc;
 
 fn run() -> Result<(), String> {
     let args: Vec<_> = std::env::args().skip(1).collect();
-    if args.len() != 8 {
-        return Err("Usage: layout_probe <source.cls> <class> <width-pt> <height-pt> <scale> <scene.json> <caption> <font-family>".into());
+    if args.len() != 8 && !(args.len() == 10 && args[8] == "--measure") {
+        return Err("Usage: layout_probe <source.cls> <class> <width-pt> <height-pt> <scale> <scene.json> <caption> <font-family> [--measure <member>]".into());
     }
     let mut modules = library_modules();
     let mut attributes = ModuleAttributes::named(&args[1]);
@@ -67,6 +68,19 @@ fn run() -> Result<(), String> {
     .with_member_prefix("CalcFormsHost");
     runtime.perform("PerformInitialize")?;
     runtime.render()?;
+    if args.len() == 10 {
+        let form = runtime.form();
+        let value = runtime
+            .session_mut()
+            .invoke_member_values(form, &args[9], Some(ProjectMemberKind::Method), vec![])
+            .map_err(|e| format!("measure authored behaviour: {e}"))?;
+        let text = value
+            .as_bstr()
+            .ok_or("behaviour probe did not return a String")?
+            .as_str();
+        println!("{}", serde_json::json!({ "measurements": text }));
+        return Ok(());
+    }
     calcforms_bootstrap::run_form_window(
         runtime,
         surface,

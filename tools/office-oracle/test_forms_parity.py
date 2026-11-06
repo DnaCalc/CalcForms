@@ -14,6 +14,22 @@ from layout_corpus import ROOT
 
 
 class FormsParityTests(unittest.TestCase):
+    def test_nested_ink_requires_observed_native_absolute_rectangle(self):
+        data = self.case()
+        c = data['measurements']['controls'][0]
+        c['name'] = 'Group.NestedLabel'
+        c['calcforms']['paint_origin'] = [7, 4]
+        image = Image.new('RGB', (20, 15), 'white')
+        ImageDraw.Draw(image).rectangle((8, 5, 11, 7), fill='black')
+        before = report_observation(data, image, image)['controls'][0]
+        self.assertEqual(0, next(i for i in before['items'] if i['metric'] == 'ink_bounds')['measurement_count'])
+        data['native_accessible_rectangles_px'] = {'Group.NestedLabel': [7, 4, 12, 9]}
+        after = report_observation(data, image, image)['controls'][0]
+        self.assertEqual('pass', next(i for i in after['items'] if i['metric'] == 'ink_bounds')['status'])
+        data['native_accessible_rectangles_px']['Group.NestedLabel'][0] += 2
+        after = report_observation(data, image, image)['controls'][0]
+        self.assertEqual('fail', next(i for i in after['items'] if i['metric'] == 'rectangle_edges')['status'])
+
     def case(self):
         control = dict(name='Prompt', native=dict(kind='Label', bounds=[1, 1, 12, 9], tab_index=0),
                        calcforms=dict(kind='Label', bounds=[1, 1, 12, 9], tab_index=0))

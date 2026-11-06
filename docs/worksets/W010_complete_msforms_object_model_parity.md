@@ -10,6 +10,14 @@ is 804 pass / 794 fail, including 712 missing measurements. `.107` continues
 remaining spacing and ordered behaviour capture before product fixes. Windowed
 ListBox OLE text omissions remain missing; pixels remain a coarse guard.
 
+`.107` now records programmatic events, actual repeated Tab cycles and interior
+targets, plus native accessibility origins for nested ink. Its
+[report](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/README.md)
+is 975 pass / 635 fail with 522 missing measurements. Programmatic notification
+and MultiPage traversal differences are measured; keyboard/lifetime/scrolling
+and remaining spacing coverage stay open. `.108` records a native probe signature
+failure and its sequential owned-Excel recovery; no owner input/focus was used.
+
 Run 6 uses [measured FORMS PARITY](../specs/LAYOUT_COMPARISON.md) instead of
 pixel rankings. `.96` reports the existing eight comparison inputs; `.97`
 corrects measured ComboBox insets/button geometry; `.90` preserves literal

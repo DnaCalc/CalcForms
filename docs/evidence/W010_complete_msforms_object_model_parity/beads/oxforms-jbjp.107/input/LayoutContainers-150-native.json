@@ -1,0 +1,175 @@
+{
+  "native": "@initial~NestedInput\n@visit~NestedInput\n@visit~Spinner\n@visit~Slider\n@visit~TabsControl\n@visit~PagesControl\n@visit~PagesControl\n@visit~NestedInput\nGroup~hit_testing~interior~Group.MouseDown|\nGroup.NestedLabel~hit_testing~interior~Group.NestedLabel.MouseDown|\nGroup.NestedInput~hit_testing~interior~Group.NestedInput.MouseDown|\nPicture~hit_testing~interior~Picture.MouseDown|\nSpinner~hit_testing~interior~\nSlider~hit_testing~interior~\nTabsControl~hit_testing~interior~TabsControl.MouseDown|\nPagesControl~hit_testing~interior~PagesControl.MouseDown|\n",
+  "points": [
+    {
+      "control": "Group",
+      "point_pt": [
+        184,
+        82
+      ],
+      "screen_point_px": [
+        932,
+        501
+      ],
+      "native_accessible_rect_px": [
+        588,
+        361,
+        348,
+        144
+      ],
+      "role": 20,
+      "native_trace": "Group.MouseDown|"
+    },
+    {
+      "control": "Group.NestedLabel",
+      "point_pt": [
+        94,
+        44
+      ],
+      "screen_point_px": [
+        752,
+        425
+      ],
+      "native_accessible_rect_px": [
+        615,
+        408,
+        276,
+        36
+      ],
+      "role": 41,
+      "native_trace": "Group.NestedLabel.MouseDown|"
+    },
+    {
+      "control": "Group.NestedInput",
+      "point_pt": [
+        94,
+        66
+      ],
+      "screen_point_px": [
+        752,
+        469
+      ],
+      "native_accessible_rect_px": [
+        615,
+        450,
+        276,
+        36
+      ],
+      "role": 42,
+      "native_trace": "Group.NestedInput.MouseDown|"
+    },
+    {
+      "control": "Picture",
+      "point_pt": [
+        243,
+        39
+      ],
+      "screen_point_px": [
+        1050,
+        415
+      ],
+      "native_accessible_rect_px": [
+        984,
+        361,
+        132,
+        108
+      ],
+      "role": 40,
+      "native_trace": "Picture.MouseDown|"
+    },
+    {
+      "control": "Spinner",
+      "point_pt": [
+        309,
+        39
+      ],
+      "screen_point_px": [
+        1182,
+        415
+      ],
+      "native_accessible_rect_px": [
+        1164,
+        361,
+        36,
+        108
+      ],
+      "role": 52,
+      "native_trace": ""
+    },
+    {
+      "control": "Slider",
+      "point_pt": [
+        99,
+        111
+      ],
+      "screen_point_px": [
+        762,
+        559
+      ],
+      "native_accessible_rect_px": [
+        588,
+        541,
+        348,
+        36
+      ],
+      "role": 51,
+      "native_trace": ""
+    },
+    {
+      "control": "TabsControl",
+      "point_pt": [
+        99,
+        195
+      ],
+      "screen_point_px": [
+        762,
+        727
+      ],
+      "native_accessible_rect_px": [
+        588,
+        625,
+        348,
+        204
+      ],
+      "role": 60,
+      "native_trace": "TabsControl.MouseDown|"
+    },
+    {
+      "control": "PagesControl",
+      "point_pt": [
+        370,
+        244
+      ],
+      "screen_point_px": [
+        1304,
+        825
+      ],
+      "native_accessible_rect_px": [
+        984,
+        541,
+        324,
+        288
+      ],
+      "role": 20,
+      "native_trace": "PagesControl.MouseDown|"
+    }
+  ],
+  "client_origin_px": [
+    564,
+    337
+  ],
+  "client_size_px": [
+    780,
+    570
+  ],
+  "native_control_kinds": {
+    "Group": "Frame",
+    "NestedLabel": "Label",
+    "NestedInput": "TextBox",
+    "Picture": "Image",
+    "Spinner": "SpinButton",
+    "Slider": "ScrollBar",
+    "TabsControl": "TabStrip",
+    "PagesControl": "MultiPage"
+  }
+}

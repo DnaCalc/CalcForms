@@ -1,0 +1,155 @@
+{
+  "native": "@initial~InputName\n@visit~InputName\n@visit~Greet\n@visit~LongInput\n@visit~InputName\nPrompt~hit_testing~interior~Prompt.MouseDown|\nInputName~hit_testing~interior~InputName.MouseDown|\nGreet~hit_testing~interior~Greet.MouseDown|\nFractional~hit_testing~interior~Fractional.MouseDown|\nClipped~hit_testing~interior~Clipped.MouseDown|\nLongInput~hit_testing~interior~LongInput.MouseDown|\nDisabled~hit_testing~interior~(form).MouseDown|\n",
+  "points": [
+    {
+      "control": "Prompt",
+      "point_pt": [
+        97,
+        21
+      ],
+      "screen_point_px": [
+        883,
+        530
+      ],
+      "native_accessible_rect_px": [
+        770,
+        518,
+        227,
+        24
+      ],
+      "role": 41,
+      "native_trace": "Prompt.MouseDown|"
+    },
+    {
+      "control": "InputName",
+      "point_pt": [
+        97,
+        46
+      ],
+      "screen_point_px": [
+        883,
+        563
+      ],
+      "native_accessible_rect_px": [
+        770,
+        550,
+        227,
+        27
+      ],
+      "role": 42,
+      "native_trace": "InputName.MouseDown|"
+    },
+    {
+      "control": "Greet",
+      "point_pt": [
+        240,
+        48
+      ],
+      "screen_point_px": [
+        1074,
+        566
+      ],
+      "native_accessible_rect_px": [
+        1018,
+        550,
+        112,
+        32
+      ],
+      "role": 43,
+      "native_trace": "Greet.MouseDown|"
+    },
+    {
+      "control": "Fractional",
+      "point_pt": [
+        74,
+        83
+      ],
+      "screen_point_px": [
+        853,
+        613
+      ],
+      "native_accessible_rect_px": [
+        771,
+        602,
+        164,
+        23
+      ],
+      "role": 41,
+      "native_trace": "Fractional.MouseDown|"
+    },
+    {
+      "control": "Clipped",
+      "point_pt": [
+        196,
+        81
+      ],
+      "screen_point_px": [
+        1015,
+        610
+      ],
+      "native_accessible_rect_px": [
+        970,
+        602,
+        93,
+        16
+      ],
+      "role": 41,
+      "native_trace": "Clipped.MouseDown|"
+    },
+    {
+      "control": "LongInput",
+      "point_pt": [
+        87,
+        118
+      ],
+      "screen_point_px": [
+        870,
+        659
+      ],
+      "native_accessible_rect_px": [
+        770,
+        646,
+        200,
+        27
+      ],
+      "role": 42,
+      "native_trace": "LongInput.MouseDown|"
+    },
+    {
+      "control": "Disabled",
+      "point_pt": [
+        240,
+        120
+      ],
+      "screen_point_px": [
+        1074,
+        662
+      ],
+      "native_accessible_rect_px": [
+        1018,
+        646,
+        112,
+        32
+      ],
+      "role": 43,
+      "native_trace": "(form).MouseDown|"
+    }
+  ],
+  "client_origin_px": [
+    754,
+    502
+  ],
+  "client_size_px": [
+    400,
+    240
+  ],
+  "native_control_kinds": {
+    "Prompt": "Label",
+    "InputName": "TextBox",
+    "Greet": "CommandButton",
+    "Fractional": "Label",
+    "Clipped": "Label",
+    "LongInput": "TextBox",
+    "Disabled": "CommandButton"
+  }
+}

@@ -93,6 +93,15 @@ native output and retained Scene geometry. Empty windowed ListBox drawing stays
 missing. Remaining spacing and ordered behaviour observations precede product
 fixes; no broad parity claim is made.
 
+`.107` adds [paired programmatic events, actual traversal and interior targets](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/README.md).
+The report is now 975 passes / 635 failures, including 522 missing measurements:
+382 of the initial 904 missing rows are filled. Public native accessibility
+rectangles establish nested image origins. Native MultiPage traversal visits
+the control twice, and several runtime setters omit native events; failures stay
+visible. A bad probe signature required one sequential Excel recovery; `.108`
+tracks containment and exact tab/multipage event signatures. Remaining keyboard,
+scrolling, lifetime and spacing measurements continue before product fixes.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

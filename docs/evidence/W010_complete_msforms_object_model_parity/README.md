@@ -11,6 +11,10 @@ missing text rows at 100%/150%. FORMS PARITY is 804 pass / 794 fail, with 712
 missing measurements. Raw public OLE drawings replay alongside qualified window
 captures; behaviour and remaining spacing coverage are still open.
 
+The next [behaviour/geometry report](beads/oxforms-jbjp.107/README.md) has 975 pass /
+635 fail, including 522 missing measurements. It adds independent programmatic
+events, actual Tab cycles/interior messages and observed native nested rectangles.
+
 Run 4 ListBox row correction: [`.87` measurements](beads/oxforms-jbjp.87/README.md),
 with the same native pixels before/after at both scales and a VM3 batch/clip regression.
 

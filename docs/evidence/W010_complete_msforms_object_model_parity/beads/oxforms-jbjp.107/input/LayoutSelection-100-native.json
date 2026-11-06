@@ -1,0 +1,175 @@
+{
+  "native": "@initial~Unchecked\n@visit~Unchecked\n@visit~Checked\n@visit~OptionOne\n@visit~OptionTwo\n@visit~ToggleOff\n@visit~ToggleOn\n@visit~Choices\n@visit~Dropdown\n@visit~Unchecked\nUnchecked~hit_testing~interior~Unchecked.MouseDown|Unchecked.Change|Unchecked.Click|\nChecked~hit_testing~interior~Checked.MouseDown|Checked.Change|Checked.Click|\nOptionOne~hit_testing~interior~OptionOne.MouseDown|\nOptionTwo~hit_testing~interior~OptionTwo.MouseDown|OptionOne.Change|OptionTwo.Change|OptionTwo.Click|\nToggleOff~hit_testing~interior~ToggleOff.MouseDown|ToggleOff.Change|ToggleOff.Click|\nToggleOn~hit_testing~interior~ToggleOn.MouseDown|ToggleOn.Change|ToggleOn.Click|\nChoices~hit_testing~interior~Choices.MouseDown|\nDropdown~hit_testing~interior~Dropdown.MouseDown|\n",
+  "points": [
+    {
+      "control": "Unchecked",
+      "point_pt": [
+        76,
+        21
+      ],
+      "screen_point_px": [
+        835,
+        510
+      ],
+      "native_accessible_rect_px": [
+        750,
+        498,
+        173,
+        24
+      ],
+      "role": 44,
+      "native_trace": "Unchecked.MouseDown|Unchecked.Change|Unchecked.Click|"
+    },
+    {
+      "control": "Checked",
+      "point_pt": [
+        238,
+        21
+      ],
+      "screen_point_px": [
+        1051,
+        510
+      ],
+      "native_accessible_rect_px": [
+        966,
+        498,
+        173,
+        24
+      ],
+      "role": 44,
+      "native_trace": "Checked.MouseDown|Checked.Change|Checked.Click|"
+    },
+    {
+      "control": "OptionOne",
+      "point_pt": [
+        76,
+        51
+      ],
+      "screen_point_px": [
+        835,
+        550
+      ],
+      "native_accessible_rect_px": [
+        750,
+        538,
+        173,
+        24
+      ],
+      "role": 45,
+      "native_trace": "OptionOne.MouseDown|"
+    },
+    {
+      "control": "OptionTwo",
+      "point_pt": [
+        238,
+        51
+      ],
+      "screen_point_px": [
+        1051,
+        550
+      ],
+      "native_accessible_rect_px": [
+        966,
+        538,
+        173,
+        24
+      ],
+      "role": 45,
+      "native_trace": "OptionTwo.MouseDown|OptionOne.Change|OptionTwo.Change|OptionTwo.Click|"
+    },
+    {
+      "control": "ToggleOff",
+      "point_pt": [
+        76,
+        84
+      ],
+      "screen_point_px": [
+        835,
+        594
+      ],
+      "native_accessible_rect_px": [
+        750,
+        578,
+        173,
+        32
+      ],
+      "role": 44,
+      "native_trace": "ToggleOff.MouseDown|ToggleOff.Change|ToggleOff.Click|"
+    },
+    {
+      "control": "ToggleOn",
+      "point_pt": [
+        238,
+        84
+      ],
+      "screen_point_px": [
+        1051,
+        594
+      ],
+      "native_accessible_rect_px": [
+        966,
+        578,
+        173,
+        32
+      ],
+      "role": 44,
+      "native_trace": "ToggleOn.MouseDown|ToggleOn.Change|ToggleOn.Click|"
+    },
+    {
+      "control": "Choices",
+      "point_pt": [
+        76,
+        149
+      ],
+      "screen_point_px": [
+        835,
+        681
+      ],
+      "native_accessible_rect_px": [
+        750,
+        634,
+        173,
+        95
+      ],
+      "role": 33,
+      "native_trace": "Choices.MouseDown|"
+    },
+    {
+      "control": "Dropdown",
+      "point_pt": [
+        238,
+        124
+      ],
+      "screen_point_px": [
+        1051,
+        647
+      ],
+      "native_accessible_rect_px": [
+        966,
+        634,
+        173,
+        28
+      ],
+      "role": 46,
+      "native_trace": "Dropdown.MouseDown|"
+    }
+  ],
+  "client_origin_px": [
+    734,
+    482
+  ],
+  "client_size_px": [
+    440,
+    280
+  ],
+  "native_control_kinds": {
+    "Unchecked": "CheckBox",
+    "Checked": "CheckBox",
+    "OptionOne": "OptionButton",
+    "OptionTwo": "OptionButton",
+    "ToggleOff": "ToggleButton",
+    "ToggleOn": "ToggleButton",
+    "Choices": "ListBox",
+    "Dropdown": "ComboBox"
+  }
+}
