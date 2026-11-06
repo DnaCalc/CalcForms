@@ -4,6 +4,8 @@
 382 of the original 904 missing rows. This bead adds 190 measured rows to `.106`;
 native measurements reveal failures as well as matches. Pixels remain a coarse
 guard, and neither these scenarios nor the W010 member ledger establish parity.
+The report also gains twelve explicit nested text rows (caption ink, alignment
+and line count for two Frame children at two scales), so its total is 1,610.
 
 `behaviour/` preserves native and VM3 source, literal observations and file hashes
 for six authored form/zoom cases. TextBox, Boolean, list, tab and range controls

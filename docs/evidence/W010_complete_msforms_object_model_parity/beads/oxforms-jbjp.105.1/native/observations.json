@@ -1,0 +1,133 @@
+{
+  "schema": "calcforms.real_order_entry_scenarios.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 29860,
+    "desktop": "CalcFormsOracle_c954e21fcab4"
+  },
+  "workbook_sha256": "2e2d87e1bfb862d33d3bbe9136842b0c45447ab44cc8b2cb43c02b313ba4ba25",
+  "observations": [
+    {
+      "zoom": 100,
+      "initial_focus": "NameInput",
+      "observations": [
+        {
+          "step": "initial",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt"
+        },
+        {
+          "step": "invalid_save",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid"
+        },
+        {
+          "step": "name",
+          "state": "name=Ada;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada"
+        },
+        {
+          "step": "team",
+          "state": "name=Ada;team=Engineering;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering"
+        },
+        {
+          "step": "product",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer"
+        },
+        {
+          "step": "shipping",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer"
+        },
+        {
+          "step": "payment",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer"
+        },
+        {
+          "step": "review_page",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer|Page.Change:1"
+        },
+        {
+          "step": "valid_save",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=1;status=Saved Ada: Washer;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer|Page.Change:1|Save.Click|Save.Valid"
+        },
+        {
+          "step": "cancel",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=1;status=Saved Ada: Washer;visible=False",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer|Page.Change:1|Save.Click|Save.Valid|Cancel.Click"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "initial_focus": "NameInput",
+      "observations": [
+        {
+          "step": "initial",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt"
+        },
+        {
+          "step": "invalid_save",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid"
+        },
+        {
+          "step": "name",
+          "state": "name=Ada;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada"
+        },
+        {
+          "step": "team",
+          "state": "name=Ada;team=Engineering;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering"
+        },
+        {
+          "step": "product",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer"
+        },
+        {
+          "step": "shipping",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer"
+        },
+        {
+          "step": "payment",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer"
+        },
+        {
+          "step": "review_page",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer|Page.Change:1"
+        },
+        {
+          "step": "valid_save",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=1;status=Saved Ada: Washer;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer|Page.Change:1|Save.Click|Save.Valid"
+        },
+        {
+          "step": "cancel",
+          "state": "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=1;status=Saved Ada: Washer;visible=False",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Save.Click|Save.Invalid|Name.Change:Ada|Team.Change:Engineering|Product.Change:Washer|Product.Click:Washer|Page.Change:1|Save.Click|Save.Valid|Cancel.Click"
+        }
+      ]
+    }
+  ],
+  "original_handlers_unchanged": true,
+  "input": "original methods; initial private-window Enter; public MSAA Save/Cancel default actions after page change",
+  "workbook_unchanged": true
+}

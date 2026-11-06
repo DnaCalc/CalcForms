@@ -104,6 +104,8 @@ Invoke-Check -Name 'W010 TabStrip caption comparison' -Script 'tools/evidence/Te
 Invoke-Check -Name 'W010 Boolean/Page paint comparison' -Script 'tools/evidence/Test-W010BooleanPagePaint.ps1'
 Invoke-Check -Name 'W010 native public drawing measurements' -Script 'tools/evidence/Test-W010NativeDrawing.ps1'
 Invoke-Check -Name 'W010 behaviour and native accessibility measurements' -Script 'tools/evidence/Test-W010BehaviourMeasurements.ps1'
+Invoke-Check -Name 'W010 keyboard and overflow measurements' -Script 'tools/evidence/Test-W010KeyboardMeasurements.ps1'
+Invoke-Check -Name 'W010 measured setter and Enter behaviour' -Script 'tools/evidence/Test-W010SetterBehaviour.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

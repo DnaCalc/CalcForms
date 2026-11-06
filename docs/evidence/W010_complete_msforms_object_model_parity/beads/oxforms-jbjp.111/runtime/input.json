@@ -1,0 +1,38 @@
+{
+  "schema": "calcforms.runtime_measurements.v1",
+  "source_reference": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/observations.json",
+  "source_sha256": "8f0190086d8f965e1b3cf241adb6e8ea6199cfff916bcc5a3f08f0f0fd773356",
+  "runtime_sha256": "3fa9147366ade3a2d653f7311d4504ff50279c20314e713751439d2d113bd5c3",
+  "observations": [
+    {
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "calcforms": "@initial~\n@visit~InputName\n@visit~Greet\n@visit~LongInput\n@visit~InputName\nPrompt~hit_testing~interior~Prompt.MouseDown|\nInputName~hit_testing~interior~InputName.MouseDown|\nGreet~hit_testing~interior~Greet.MouseDown|\nFractional~hit_testing~interior~Fractional.MouseDown|\nClipped~hit_testing~interior~Clipped.MouseDown|\nLongInput~hit_testing~interior~LongInput.MouseDown|\nDisabled~hit_testing~interior~\n"
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "calcforms": "@initial~\n@visit~InputName\n@visit~Greet\n@visit~LongInput\n@visit~InputName\nPrompt~hit_testing~interior~Prompt.MouseDown|\nInputName~hit_testing~interior~InputName.MouseDown|\nGreet~hit_testing~interior~Greet.MouseDown|\nFractional~hit_testing~interior~Fractional.MouseDown|\nClipped~hit_testing~interior~Clipped.MouseDown|\nLongInput~hit_testing~interior~LongInput.MouseDown|\nDisabled~hit_testing~interior~\n"
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "calcforms": "@initial~\n@visit~Unchecked\n@visit~Checked\n@visit~OptionOne\n@visit~OptionTwo\n@visit~ToggleOff\n@visit~ToggleOn\n@visit~Choices\n@visit~Dropdown\n@visit~Unchecked\nUnchecked~hit_testing~interior~Unchecked.MouseDown|Unchecked.Change|Unchecked.Click|\nChecked~hit_testing~interior~Checked.MouseDown|Checked.Change|Checked.Click|\nOptionOne~hit_testing~interior~OptionOne.MouseDown|OptionOne.Click|\nOptionTwo~hit_testing~interior~OptionTwo.MouseDown|OptionOne.Change|OptionTwo.Change|OptionTwo.Click|\nToggleOff~hit_testing~interior~ToggleOff.MouseDown|ToggleOff.Change|ToggleOff.Click|\nToggleOn~hit_testing~interior~ToggleOn.MouseDown|ToggleOn.Change|ToggleOn.Click|\nChoices~hit_testing~interior~Choices.MouseDown|Choices.Click|\nDropdown~hit_testing~interior~Dropdown.MouseDown|Dropdown.Click|\n"
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "calcforms": "@initial~\n@visit~Unchecked\n@visit~Checked\n@visit~OptionOne\n@visit~OptionTwo\n@visit~ToggleOff\n@visit~ToggleOn\n@visit~Choices\n@visit~Dropdown\n@visit~Unchecked\nUnchecked~hit_testing~interior~Unchecked.MouseDown|Unchecked.Change|Unchecked.Click|\nChecked~hit_testing~interior~Checked.MouseDown|Checked.Change|Checked.Click|\nOptionOne~hit_testing~interior~OptionOne.MouseDown|OptionOne.Click|\nOptionTwo~hit_testing~interior~OptionTwo.MouseDown|OptionOne.Change|OptionTwo.Change|OptionTwo.Click|\nToggleOff~hit_testing~interior~ToggleOff.MouseDown|ToggleOff.Change|ToggleOff.Click|\nToggleOn~hit_testing~interior~ToggleOn.MouseDown|ToggleOn.Change|ToggleOn.Click|\nChoices~hit_testing~interior~Choices.MouseDown|Choices.Click|\nDropdown~hit_testing~interior~Dropdown.MouseDown|Dropdown.Click|\n"
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "calcforms": "@initial~\n@visit~NestedInput\n@visit~Spinner\n@visit~Slider\n@visit~TabsControl\n@visit~PagesControl\n@visit~NestedInput\nGroup~hit_testing~interior~\nGroup.NestedLabel~hit_testing~interior~Group.NestedLabel.MouseDown|\nGroup.NestedInput~hit_testing~interior~Group.NestedInput.MouseDown|\nPicture~hit_testing~interior~Picture.MouseDown|\nSpinner~hit_testing~interior~Spinner.MouseDown|\nSlider~hit_testing~interior~Slider.MouseDown|Slider.Scroll|Slider.Change|\nTabsControl~hit_testing~interior~TabsControl.MouseDown|\nPagesControl~hit_testing~interior~\n"
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "calcforms": "@initial~\n@visit~NestedInput\n@visit~Spinner\n@visit~Slider\n@visit~TabsControl\n@visit~PagesControl\n@visit~NestedInput\nGroup~hit_testing~interior~\nGroup.NestedLabel~hit_testing~interior~Group.NestedLabel.MouseDown|\nGroup.NestedInput~hit_testing~interior~Group.NestedInput.MouseDown|\nPicture~hit_testing~interior~Picture.MouseDown|\nSpinner~hit_testing~interior~Spinner.MouseDown|\nSlider~hit_testing~interior~Slider.MouseDown|Slider.Scroll|Slider.Change|\nTabsControl~hit_testing~interior~TabsControl.MouseDown|\nPagesControl~hit_testing~interior~\n"
+    }
+  ]
+}

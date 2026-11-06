@@ -126,7 +126,8 @@ def capture(owner_path, output, prepared=False):
                 source_path.write_text(source, encoding='utf-8', newline='\n')
                 command = [str(binary), str(source_path), form['name'], str(form['width']), str(form['height']),
                            str(zoom / 100), str(output / 'unused-scene.json'), form['caption'], corpus['font'], '--measure', 'ParityInputMeasurements']
-                process = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=180)
+                process = subprocess.run(command, cwd=ROOT, capture_output=True, text=True, timeout=180,
+                                         creationflags=subprocess.CREATE_NO_WINDOW)
                 (output / f'{form["name"]}-{zoom}-runtime.txt').write_text(process.stdout + process.stderr, encoding='utf-8', newline='\n')
                 if process.returncode:
                     raise RuntimeError(process.stdout + process.stderr)

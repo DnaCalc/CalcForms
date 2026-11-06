@@ -65,7 +65,7 @@ Public Property Get Value() As Boolean
     Value = mValue
 End Property
 Public Property Let Value(ByVal NewValue As Boolean)
-    SetValue NewValue, False, False
+    SetValue NewValue, False, True
 End Property
 
 Public Property Get GroupName() As String
@@ -216,9 +216,6 @@ Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal 
     If KeyCode = 32 Then
         SelectForUser
         IOxControl_TryKeyboardActivate = True
-    ElseIf KeyCode = 13 And Not HasDefaultButton Then
-        SelectForUser
-        IOxControl_TryKeyboardActivate = True
     End If
 End Function
 
@@ -296,7 +293,10 @@ Private Sub SetValue(ByVal NewValue As Boolean, ByVal UserEdit As Boolean, ByVal
         mValue = NewValue
         If UserEdit Then mEditDirty = True
         mCore.MarkDirty
-        If RaiseChange Then RaiseEvent Change
+        If RaiseChange Then
+            RaiseEvent Change
+            If NewValue And Not UserEdit Then RaiseEvent Click
+        End If
     End If
     If UserEdit Then RaiseEvent Click
 End Sub

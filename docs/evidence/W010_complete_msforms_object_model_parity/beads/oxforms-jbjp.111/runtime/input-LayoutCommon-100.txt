@@ -1,0 +1,2 @@
+{"measurements":"@initial~\n@visit~InputName\n@visit~Greet\n@visit~LongInput\n@visit~InputName\nPrompt~hit_testing~interior~Prompt.MouseDown|\nInputName~hit_testing~interior~InputName.MouseDown|\nGreet~hit_testing~interior~Greet.MouseDown|\nFractional~hit_testing~interior~Fractional.MouseDown|\nClipped~hit_testing~interior~Clipped.MouseDown|\nLongInput~hit_testing~interior~LongInput.MouseDown|\nDisabled~hit_testing~interior~\n"}
+CALCFORMS_FONT requested=Tahoma file=tahoma.ttf

@@ -434,6 +434,7 @@ Private Sub SetListIndex(ByVal NewIndex As Long, ByVal FromUser As Boolean)
     End If
     RaiseEvent Change
     mCore.MarkDirty
+    If Not FromUser Then RaiseEvent Click
 End Sub
 
 Private Sub ToggleDropDown(ByVal RaiseDropEvent As Boolean)

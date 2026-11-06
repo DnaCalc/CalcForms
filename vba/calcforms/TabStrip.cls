@@ -379,9 +379,9 @@ Private Sub SetValue(ByVal NewValue As Long, ByVal FromUser As Boolean)
     mValue = NewValue
     If FromUser Then
         mEditDirty = True
-        RaiseEvent Change
     End If
     mCore.MarkDirty
+    RaiseEvent Change
 End Sub
 
 Private Function TabIndexFromX(ByVal X As Single) As Long

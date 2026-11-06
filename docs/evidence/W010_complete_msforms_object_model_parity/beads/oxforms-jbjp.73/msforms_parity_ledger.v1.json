@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "5675602507c547b96729820507c5ca1e3434a2a2ec23f8c870051d4aaba1e674",
+  "source_surface_sha256": "6095337446ec88a777ebf1313b37f528e3d996cd60f4cb0c84a1d55441bedee0",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -32692,7 +32692,7 @@
           "file_stem": "ComboBox",
           "kind": "class_module",
           "path": "vba/calcforms/ComboBox.cls",
-          "normalized_text_sha256": "b2d9524706152433ab2c51dfcdf0c1c856ebf4322606fca9d02a3af280d28ae0",
+          "normalized_text_sha256": "a4668caa804398b047bc5d1595fd1026afa9cbf14cfdb5fad5ce57addabc44ea",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -35610,7 +35610,7 @@
           "file_stem": "CheckBox",
           "kind": "class_module",
           "path": "vba/calcforms/CheckBox.cls",
-          "normalized_text_sha256": "9c1c05f74de81e4436291c41e3248176603833099c78d5a1702b67fa8500082a",
+          "normalized_text_sha256": "a8b4201741b009c66c0fbe396f4f3a2b331db0fb00e374dabb38290a78511357",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -36079,8 +36079,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 77,
-                "end_line": 77,
+                "start_line": 79,
+                "end_line": 79,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -36109,8 +36109,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 80,
-                "end_line": 80,
+                "start_line": 82,
+                "end_line": 82,
                 "text": "Public Property Let Caption(ByVal NewCaption As String)"
               },
               "member_attributes": {}
@@ -36127,8 +36127,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 84,
-                "end_line": 84,
+                "start_line": 86,
+                "end_line": 86,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -36145,8 +36145,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 88,
-                "end_line": 88,
+                "start_line": 90,
+                "end_line": 90,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -36175,8 +36175,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 91,
-                "end_line": 91,
+                "start_line": 93,
+                "end_line": 93,
                 "text": "Public Property Let Left(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -36193,8 +36193,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 95,
-                "end_line": 95,
+                "start_line": 97,
+                "end_line": 97,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -36223,8 +36223,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 98,
-                "end_line": 98,
+                "start_line": 100,
+                "end_line": 100,
                 "text": "Public Property Let Top(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -36241,8 +36241,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 102,
-                "end_line": 102,
+                "start_line": 104,
+                "end_line": 104,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -36271,8 +36271,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 105,
-                "end_line": 105,
+                "start_line": 107,
+                "end_line": 107,
                 "text": "Public Property Let Width(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -36289,8 +36289,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 109,
-                "end_line": 109,
+                "start_line": 111,
+                "end_line": 111,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -36319,8 +36319,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 112,
-                "end_line": 112,
+                "start_line": 114,
+                "end_line": 114,
                 "text": "Public Property Let Height(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -36337,8 +36337,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 116,
-                "end_line": 116,
+                "start_line": 118,
+                "end_line": 118,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -36367,8 +36367,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 119,
-                "end_line": 119,
+                "start_line": 121,
+                "end_line": 121,
                 "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
               },
               "member_attributes": {}
@@ -36385,8 +36385,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 123,
-                "end_line": 123,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -36415,8 +36415,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 126,
-                "end_line": 126,
+                "start_line": 128,
+                "end_line": 128,
                 "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
               },
               "member_attributes": {}
@@ -36433,8 +36433,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 283,
-                "end_line": 283,
+                "start_line": 282,
+                "end_line": 282,
                 "text": "Public Sub PerformToggle()"
               },
               "member_attributes": {}
@@ -36496,8 +36496,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 295,
-                "end_line": 295,
+                "start_line": 294,
+                "end_line": 294,
                 "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -36559,8 +36559,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 299,
-                "end_line": 299,
+                "start_line": 298,
+                "end_line": 298,
                 "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -36600,8 +36600,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 303,
-                "end_line": 303,
+                "start_line": 302,
+                "end_line": 302,
                 "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -36641,8 +36641,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 311,
-                "end_line": 311,
+                "start_line": 310,
+                "end_line": 310,
                 "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -36671,8 +36671,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 319,
-                "end_line": 319,
+                "start_line": 318,
+                "end_line": 318,
                 "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
               },
               "member_attributes": {}
@@ -36689,8 +36689,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 327,
-                "end_line": 327,
+                "start_line": 326,
+                "end_line": 326,
                 "text": "Public Function PerformExit() As Boolean"
               },
               "member_attributes": {}
@@ -36707,8 +36707,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 334,
-                "end_line": 334,
+                "start_line": 333,
+                "end_line": 333,
                 "text": "Public Sub PerformEnter()"
               },
               "member_attributes": {}
@@ -36725,8 +36725,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 338,
-                "end_line": 338,
+                "start_line": 337,
+                "end_line": 337,
                 "text": "Public Function PerformBeforeUpdate() As Boolean"
               },
               "member_attributes": {}
@@ -36743,8 +36743,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 345,
-                "end_line": 345,
+                "start_line": 344,
+                "end_line": 344,
                 "text": "Public Sub PerformAfterUpdate()"
               },
               "member_attributes": {}
@@ -36900,8 +36900,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 131,
-                "end_line": 131,
+                "start_line": 133,
+                "end_line": 133,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -36965,8 +36965,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 137,
+                "end_line": 137,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -37030,8 +37030,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 139,
-                "end_line": 139,
+                "start_line": 141,
+                "end_line": 141,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -37050,8 +37050,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 143,
-                "end_line": 143,
+                "start_line": 145,
+                "end_line": 145,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -37070,8 +37070,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 148,
-                "end_line": 148,
+                "start_line": 150,
+                "end_line": 150,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -37090,8 +37090,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 152,
-                "end_line": 152,
+                "start_line": 154,
+                "end_line": 154,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -37133,8 +37133,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 158,
-                "end_line": 158,
+                "start_line": 160,
+                "end_line": 160,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -37176,8 +37176,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 162,
-                "end_line": 162,
+                "start_line": 164,
+                "end_line": 164,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -37208,8 +37208,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 166,
-                "end_line": 166,
+                "start_line": 168,
+                "end_line": 168,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -37228,8 +37228,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 170,
-                "end_line": 170,
+                "start_line": 172,
+                "end_line": 172,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -37248,8 +37248,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 178,
-                "end_line": 178,
+                "start_line": 180,
+                "end_line": 180,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -37268,8 +37268,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 188,
-                "end_line": 188,
+                "start_line": 190,
+                "end_line": 190,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -37288,8 +37288,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 192,
-                "end_line": 192,
+                "start_line": 194,
+                "end_line": 194,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -37308,8 +37308,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 197,
-                "end_line": 197,
+                "start_line": 199,
+                "end_line": 199,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -37328,8 +37328,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 203,
+                "end_line": 203,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -37348,8 +37348,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 205,
-                "end_line": 205,
+                "start_line": 207,
+                "end_line": 207,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -37368,8 +37368,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 209,
-                "end_line": 209,
+                "start_line": 211,
+                "end_line": 211,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -37422,8 +37422,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 216,
-                "end_line": 216,
+                "start_line": 218,
+                "end_line": 218,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -37476,8 +37476,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 228,
-                "end_line": 228,
+                "start_line": 227,
+                "end_line": 227,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -37496,8 +37496,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 232,
-                "end_line": 232,
+                "start_line": 231,
+                "end_line": 231,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -37516,8 +37516,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 236,
-                "end_line": 236,
+                "start_line": 235,
+                "end_line": 235,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -37536,8 +37536,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 240,
-                "end_line": 240,
+                "start_line": 239,
+                "end_line": 239,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -37556,8 +37556,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 244,
-                "end_line": 244,
+                "start_line": 243,
+                "end_line": 243,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -37576,8 +37576,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 248,
-                "end_line": 248,
+                "start_line": 247,
+                "end_line": 247,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -37596,8 +37596,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 252,
-                "end_line": 252,
+                "start_line": 251,
+                "end_line": 251,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -37616,8 +37616,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 256,
-                "end_line": 256,
+                "start_line": 255,
+                "end_line": 255,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -37636,8 +37636,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 260,
-                "end_line": 260,
+                "start_line": 259,
+                "end_line": 259,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -37656,8 +37656,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 264,
-                "end_line": 264,
+                "start_line": 263,
+                "end_line": 263,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -37676,8 +37676,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 268,
-                "end_line": 268,
+                "start_line": 267,
+                "end_line": 267,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -37696,8 +37696,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 272,
-                "end_line": 272,
+                "start_line": 271,
+                "end_line": 271,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -37716,8 +37716,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 276,
-                "end_line": 276,
+                "start_line": 275,
+                "end_line": 275,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -37946,7 +37946,7 @@
           "file_stem": "OptionButtonControl",
           "kind": "class_module",
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "normalized_text_sha256": "6cc2c9a1dcc9ba0031ec403d5ecca8d7af126c1ef5eea0e858efa86037f34857",
+          "normalized_text_sha256": "90fce6a6bc3dbaa57ba0d1e8b7fe47b56c578bf0e82427cf803a4133854bb369",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -38817,8 +38817,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 277,
-                "end_line": 277,
+                "start_line": 274,
+                "end_line": 274,
                 "text": "Public Sub PerformSelect()"
               },
               "member_attributes": {}
@@ -38858,8 +38858,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 281,
-                "end_line": 281,
+                "start_line": 278,
+                "end_line": 278,
                 "text": "Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boolean)"
               },
               "member_attributes": {}
@@ -39901,8 +39901,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 225,
-                "end_line": 225,
+                "start_line": 222,
+                "end_line": 222,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -39921,8 +39921,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 229,
-                "end_line": 229,
+                "start_line": 226,
+                "end_line": 226,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -39941,8 +39941,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 233,
-                "end_line": 233,
+                "start_line": 230,
+                "end_line": 230,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -39961,8 +39961,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 237,
-                "end_line": 237,
+                "start_line": 234,
+                "end_line": 234,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -39981,8 +39981,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 241,
-                "end_line": 241,
+                "start_line": 238,
+                "end_line": 238,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -40001,8 +40001,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 245,
-                "end_line": 245,
+                "start_line": 242,
+                "end_line": 242,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -40021,8 +40021,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 249,
-                "end_line": 249,
+                "start_line": 246,
+                "end_line": 246,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -40041,8 +40041,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 253,
-                "end_line": 253,
+                "start_line": 250,
+                "end_line": 250,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -40061,8 +40061,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 257,
-                "end_line": 257,
+                "start_line": 254,
+                "end_line": 254,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -40081,8 +40081,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 261,
-                "end_line": 261,
+                "start_line": 258,
+                "end_line": 258,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -40101,8 +40101,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 265,
-                "end_line": 265,
+                "start_line": 262,
+                "end_line": 262,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -40121,8 +40121,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 269,
-                "end_line": 269,
+                "start_line": 266,
+                "end_line": 266,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -40141,8 +40141,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 273,
-                "end_line": 273,
+                "start_line": 270,
+                "end_line": 270,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -40371,7 +40371,7 @@
           "file_stem": "ToggleButton",
           "kind": "class_module",
           "path": "vba/calcforms/ToggleButton.cls",
-          "normalized_text_sha256": "a85ecc8fbfe6c07358da9e457fb658c2567dcbb81d0750557eccd7aa1f77b42b",
+          "normalized_text_sha256": "05a5e45637714d8096156c8b9bdc38f99266aa2db5d143be2c3a32062b785b45",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -40840,8 +40840,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 64,
-                "end_line": 64,
+                "start_line": 66,
+                "end_line": 66,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -40870,8 +40870,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 67,
-                "end_line": 67,
+                "start_line": 69,
+                "end_line": 69,
                 "text": "Public Property Let Caption(ByVal NewCaption As String)"
               },
               "member_attributes": {}
@@ -40888,8 +40888,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 71,
-                "end_line": 71,
+                "start_line": 73,
+                "end_line": 73,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -40906,8 +40906,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 75,
-                "end_line": 75,
+                "start_line": 77,
+                "end_line": 77,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -40936,8 +40936,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 78,
-                "end_line": 78,
+                "start_line": 80,
+                "end_line": 80,
                 "text": "Public Property Let Left(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -40954,8 +40954,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 82,
-                "end_line": 82,
+                "start_line": 84,
+                "end_line": 84,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -40984,8 +40984,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 85,
-                "end_line": 85,
+                "start_line": 87,
+                "end_line": 87,
                 "text": "Public Property Let Top(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -41002,8 +41002,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 89,
-                "end_line": 89,
+                "start_line": 91,
+                "end_line": 91,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -41032,8 +41032,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 92,
-                "end_line": 92,
+                "start_line": 94,
+                "end_line": 94,
                 "text": "Public Property Let Width(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -41050,8 +41050,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 96,
-                "end_line": 96,
+                "start_line": 98,
+                "end_line": 98,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -41080,8 +41080,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 99,
-                "end_line": 99,
+                "start_line": 101,
+                "end_line": 101,
                 "text": "Public Property Let Height(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -41098,8 +41098,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 103,
-                "end_line": 103,
+                "start_line": 105,
+                "end_line": 105,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -41128,8 +41128,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 106,
-                "end_line": 106,
+                "start_line": 108,
+                "end_line": 108,
                 "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
               },
               "member_attributes": {}
@@ -41146,8 +41146,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 110,
-                "end_line": 110,
+                "start_line": 112,
+                "end_line": 112,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -41176,8 +41176,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 113,
-                "end_line": 113,
+                "start_line": 115,
+                "end_line": 115,
                 "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
               },
               "member_attributes": {}
@@ -41194,8 +41194,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 259,
-                "end_line": 259,
+                "start_line": 258,
+                "end_line": 258,
                 "text": "Public Sub PerformToggle()"
               },
               "member_attributes": {}
@@ -41257,8 +41257,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 271,
-                "end_line": 271,
+                "start_line": 270,
+                "end_line": 270,
                 "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -41320,8 +41320,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 275,
-                "end_line": 275,
+                "start_line": 274,
+                "end_line": 274,
                 "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -41361,8 +41361,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 279,
-                "end_line": 279,
+                "start_line": 278,
+                "end_line": 278,
                 "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -41402,8 +41402,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 287,
-                "end_line": 287,
+                "start_line": 286,
+                "end_line": 286,
                 "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -41432,8 +41432,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 295,
-                "end_line": 295,
+                "start_line": 294,
+                "end_line": 294,
                 "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
               },
               "member_attributes": {}
@@ -41450,8 +41450,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 303,
-                "end_line": 303,
+                "start_line": 302,
+                "end_line": 302,
                 "text": "Public Function PerformExit() As Boolean"
               },
               "member_attributes": {}
@@ -41468,8 +41468,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 310,
-                "end_line": 310,
+                "start_line": 309,
+                "end_line": 309,
                 "text": "Public Sub PerformEnter()"
               },
               "member_attributes": {}
@@ -41486,8 +41486,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 314,
-                "end_line": 314,
+                "start_line": 313,
+                "end_line": 313,
                 "text": "Public Function PerformBeforeUpdate() As Boolean"
               },
               "member_attributes": {}
@@ -41504,8 +41504,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 321,
-                "end_line": 321,
+                "start_line": 320,
+                "end_line": 320,
                 "text": "Public Sub PerformAfterUpdate()"
               },
               "member_attributes": {}
@@ -41661,8 +41661,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 117,
-                "end_line": 117,
+                "start_line": 119,
+                "end_line": 119,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -41726,8 +41726,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 121,
-                "end_line": 121,
+                "start_line": 123,
+                "end_line": 123,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -41791,8 +41791,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 125,
-                "end_line": 125,
+                "start_line": 127,
+                "end_line": 127,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -41811,8 +41811,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 130,
+                "end_line": 130,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -41831,8 +41831,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 132,
-                "end_line": 132,
+                "start_line": 134,
+                "end_line": 134,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -41851,8 +41851,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 136,
-                "end_line": 136,
+                "start_line": 138,
+                "end_line": 138,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -41894,8 +41894,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 140,
-                "end_line": 140,
+                "start_line": 142,
+                "end_line": 142,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -41937,8 +41937,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 144,
-                "end_line": 144,
+                "start_line": 146,
+                "end_line": 146,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -41969,8 +41969,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 148,
-                "end_line": 148,
+                "start_line": 150,
+                "end_line": 150,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -41989,8 +41989,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 152,
-                "end_line": 152,
+                "start_line": 154,
+                "end_line": 154,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -42009,8 +42009,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 160,
-                "end_line": 160,
+                "start_line": 162,
+                "end_line": 162,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -42029,8 +42029,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 170,
-                "end_line": 170,
+                "start_line": 172,
+                "end_line": 172,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -42049,8 +42049,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 174,
-                "end_line": 174,
+                "start_line": 176,
+                "end_line": 176,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -42069,8 +42069,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 179,
-                "end_line": 179,
+                "start_line": 181,
+                "end_line": 181,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -42089,8 +42089,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 183,
-                "end_line": 183,
+                "start_line": 185,
+                "end_line": 185,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -42109,8 +42109,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 187,
-                "end_line": 187,
+                "start_line": 189,
+                "end_line": 189,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -42129,8 +42129,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 191,
-                "end_line": 191,
+                "start_line": 193,
+                "end_line": 193,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -42183,8 +42183,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 195,
-                "end_line": 195,
+                "start_line": 197,
+                "end_line": 197,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -42237,8 +42237,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 207,
-                "end_line": 207,
+                "start_line": 206,
+                "end_line": 206,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -42257,8 +42257,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 211,
-                "end_line": 211,
+                "start_line": 210,
+                "end_line": 210,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -42277,8 +42277,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 215,
-                "end_line": 215,
+                "start_line": 214,
+                "end_line": 214,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -42297,8 +42297,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 219,
-                "end_line": 219,
+                "start_line": 218,
+                "end_line": 218,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -42317,8 +42317,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 223,
-                "end_line": 223,
+                "start_line": 222,
+                "end_line": 222,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -42337,8 +42337,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 227,
-                "end_line": 227,
+                "start_line": 226,
+                "end_line": 226,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -42357,8 +42357,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 231,
-                "end_line": 231,
+                "start_line": 230,
+                "end_line": 230,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -42377,8 +42377,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 235,
-                "end_line": 235,
+                "start_line": 234,
+                "end_line": 234,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -42397,8 +42397,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 239,
-                "end_line": 239,
+                "start_line": 238,
+                "end_line": 238,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -42417,8 +42417,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 243,
-                "end_line": 243,
+                "start_line": 242,
+                "end_line": 242,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -42437,8 +42437,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 247,
-                "end_line": 247,
+                "start_line": 246,
+                "end_line": 246,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -42457,8 +42457,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 251,
-                "end_line": 251,
+                "start_line": 250,
+                "end_line": 250,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -42477,8 +42477,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 255,
-                "end_line": 255,
+                "start_line": 254,
+                "end_line": 254,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -43019,7 +43019,7 @@
           "file_stem": "ScrollBar",
           "kind": "class_module",
           "path": "vba/calcforms/ScrollBar.cls",
-          "normalized_text_sha256": "44fb629ff6ec26fa04dd82d2696c6f24223a75b17a0b5138afe70a8fd08be770",
+          "normalized_text_sha256": "4bd50cbb8a00c25e4e6c8a2908e6aaf5d36a1044ff989572bce34cee8849374d",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -45274,7 +45274,7 @@
           "file_stem": "TabStrip",
           "kind": "class_module",
           "path": "vba/calcforms/TabStrip.cls",
-          "normalized_text_sha256": "675736b66961eb480e7a5046759fb775b690909aab91edcbd184b53e425ab64d",
+          "normalized_text_sha256": "f311d3e1aaa80cc746a83b59816a04401ac654df35f6df8f5d292d8eef5ef452",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -47439,7 +47439,7 @@
           "file_stem": "SpinButton",
           "kind": "class_module",
           "path": "vba/calcforms/SpinButton.cls",
-          "normalized_text_sha256": "24049b9f74a4d0a8716bbc9b88a5e199ec39e915e76f65973c9b58a7bc6c1bb9",
+          "normalized_text_sha256": "ba03ccab66d7c981663db7b6aa0532411543bf204ff93f0930c7cdab6919ef9f",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -56486,7 +56486,7 @@
           "file_stem": "MultiPage",
           "kind": "class_module",
           "path": "vba/calcforms/MultiPage.cls",
-          "normalized_text_sha256": "257444ab83ad212795f6cd407ede63ade95a73bb07eba4a13e3e1d4cc56103c6",
+          "normalized_text_sha256": "0825110c422b95d1c3507fb4fc83058d603876593cff0722a970964f95a6ae30",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -640403,8 +640403,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 80,
-                "end_line": 80,
+                "start_line": 82,
+                "end_line": 82,
                 "text": "Public Property Let Caption(ByVal NewCaption As String)"
               },
               "member_attributes": {},
@@ -640439,8 +640439,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 77,
-                "end_line": 77,
+                "start_line": 79,
+                "end_line": 79,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
@@ -640724,8 +640724,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 126,
-                "end_line": 126,
+                "start_line": 128,
+                "end_line": 128,
                 "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
               },
               "member_attributes": {},
@@ -640760,8 +640760,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/CheckBox.cls",
-                "start_line": 123,
-                "end_line": 123,
+                "start_line": 125,
+                "end_line": 125,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -661005,8 +661005,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 67,
-                "end_line": 67,
+                "start_line": 69,
+                "end_line": 69,
                 "text": "Public Property Let Caption(ByVal NewCaption As String)"
               },
               "member_attributes": {},
@@ -661041,8 +661041,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 64,
-                "end_line": 64,
+                "start_line": 66,
+                "end_line": 66,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
@@ -661326,8 +661326,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 113,
-                "end_line": 113,
+                "start_line": 115,
+                "end_line": 115,
                 "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
               },
               "member_attributes": {},
@@ -661362,8 +661362,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/ToggleButton.cls",
-                "start_line": 110,
-                "end_line": 110,
+                "start_line": 112,
+                "end_line": 112,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -1445868,7 +1445868,7 @@
         "file_stem": "OptionButtonControl",
         "kind": "class_module",
         "path": "vba/calcforms/OptionButtonControl.cls",
-        "normalized_text_sha256": "6cc2c9a1dcc9ba0031ec403d5ecca8d7af126c1ef5eea0e858efa86037f34857",
+        "normalized_text_sha256": "90fce6a6bc3dbaa57ba0d1e8b7fe47b56c578bf0e82427cf803a4133854bb369",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1446739,8 +1446739,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 277,
-              "end_line": 277,
+              "start_line": 274,
+              "end_line": 274,
               "text": "Public Sub PerformSelect()"
             },
             "member_attributes": {}
@@ -1446780,8 +1446780,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 281,
-              "end_line": 281,
+              "start_line": 278,
+              "end_line": 278,
               "text": "Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boolean)"
             },
             "member_attributes": {}
@@ -1447823,8 +1447823,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 225,
-              "end_line": 225,
+              "start_line": 222,
+              "end_line": 222,
               "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
             },
             "interface": "IOxControl",
@@ -1447843,8 +1447843,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 229,
-              "end_line": 229,
+              "start_line": 226,
+              "end_line": 226,
               "text": "Private Function IOxControl_OnCopy() As String"
             },
             "interface": "IOxControl",
@@ -1447863,8 +1447863,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 233,
-              "end_line": 233,
+              "start_line": 230,
+              "end_line": 230,
               "text": "Private Function IOxControl_OnCut() As String"
             },
             "interface": "IOxControl",
@@ -1447883,8 +1447883,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 237,
-              "end_line": 237,
+              "start_line": 234,
+              "end_line": 234,
               "text": "Private Property Get IOxControl_AccessibilityRole() As String"
             },
             "interface": "IOxControl",
@@ -1447903,8 +1447903,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 241,
-              "end_line": 241,
+              "start_line": 238,
+              "end_line": 238,
               "text": "Private Property Get IOxControl_AccessibilityName() As String"
             },
             "interface": "IOxControl",
@@ -1447923,8 +1447923,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 245,
-              "end_line": 245,
+              "start_line": 242,
+              "end_line": 242,
               "text": "Private Property Get IOxControl_AccessibilityValue() As String"
             },
             "interface": "IOxControl",
@@ -1447943,8 +1447943,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 249,
-              "end_line": 249,
+              "start_line": 246,
+              "end_line": 246,
               "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
             },
             "interface": "IOxControl",
@@ -1447963,8 +1447963,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 253,
-              "end_line": 253,
+              "start_line": 250,
+              "end_line": 250,
               "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
             },
             "interface": "IOxControl",
@@ -1447983,8 +1447983,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 257,
-              "end_line": 257,
+              "start_line": 254,
+              "end_line": 254,
               "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
             },
             "interface": "IOxControl",
@@ -1448003,8 +1448003,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 261,
-              "end_line": 261,
+              "start_line": 258,
+              "end_line": 258,
               "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
             },
             "interface": "IOxControl",
@@ -1448023,8 +1448023,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 265,
-              "end_line": 265,
+              "start_line": 262,
+              "end_line": 262,
               "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
             },
             "interface": "IOxControl",
@@ -1448043,8 +1448043,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 269,
-              "end_line": 269,
+              "start_line": 266,
+              "end_line": 266,
               "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
             },
             "interface": "IOxControl",
@@ -1448063,8 +1448063,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 273,
-              "end_line": 273,
+              "start_line": 270,
+              "end_line": 270,
               "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
             },
             "interface": "IOxControl",
@@ -1478659,8 +1478659,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 84,
-          "end_line": 84,
+          "start_line": 86,
+          "end_line": 86,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1478775,8 +1478775,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 88,
-          "end_line": 88,
+          "start_line": 90,
+          "end_line": 90,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1478903,8 +1478903,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 91,
-          "end_line": 91,
+          "start_line": 93,
+          "end_line": 93,
           "text": "Public Property Let Left(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1479019,8 +1479019,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 95,
-          "end_line": 95,
+          "start_line": 97,
+          "end_line": 97,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1479147,8 +1479147,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 98,
-          "end_line": 98,
+          "start_line": 100,
+          "end_line": 100,
           "text": "Public Property Let Top(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1479263,8 +1479263,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 102,
-          "end_line": 102,
+          "start_line": 104,
+          "end_line": 104,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1479391,8 +1479391,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 105,
-          "end_line": 105,
+          "start_line": 107,
+          "end_line": 107,
           "text": "Public Property Let Width(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1479507,8 +1479507,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 109,
-          "end_line": 109,
+          "start_line": 111,
+          "end_line": 111,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1479635,8 +1479635,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 112,
-          "end_line": 112,
+          "start_line": 114,
+          "end_line": 114,
           "text": "Public Property Let Height(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1479751,8 +1479751,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 116,
-          "end_line": 116,
+          "start_line": 118,
+          "end_line": 118,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1479879,8 +1479879,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 119,
-          "end_line": 119,
+          "start_line": 121,
+          "end_line": 121,
           "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
         },
         "member_attributes": {},
@@ -1479995,8 +1479995,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 283,
-          "end_line": 283,
+          "start_line": 282,
+          "end_line": 282,
           "text": "Public Sub PerformToggle()"
         },
         "member_attributes": {},
@@ -1480156,8 +1480156,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 295,
-          "end_line": 295,
+          "start_line": 294,
+          "end_line": 294,
           "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1480317,8 +1480317,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 299,
-          "end_line": 299,
+          "start_line": 298,
+          "end_line": 298,
           "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1480456,8 +1480456,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 303,
-          "end_line": 303,
+          "start_line": 302,
+          "end_line": 302,
           "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1480595,8 +1480595,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 311,
-          "end_line": 311,
+          "start_line": 310,
+          "end_line": 310,
           "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1480723,8 +1480723,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 319,
-          "end_line": 319,
+          "start_line": 318,
+          "end_line": 318,
           "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1480839,8 +1480839,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 327,
-          "end_line": 327,
+          "start_line": 326,
+          "end_line": 326,
           "text": "Public Function PerformExit() As Boolean"
         },
         "member_attributes": {},
@@ -1480955,8 +1480955,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 334,
-          "end_line": 334,
+          "start_line": 333,
+          "end_line": 333,
           "text": "Public Sub PerformEnter()"
         },
         "member_attributes": {},
@@ -1481071,8 +1481071,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 338,
-          "end_line": 338,
+          "start_line": 337,
+          "end_line": 337,
           "text": "Public Function PerformBeforeUpdate() As Boolean"
         },
         "member_attributes": {},
@@ -1481187,8 +1481187,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/CheckBox.cls",
-          "start_line": 345,
-          "end_line": 345,
+          "start_line": 344,
+          "end_line": 344,
           "text": "Public Sub PerformAfterUpdate()"
         },
         "member_attributes": {},
@@ -1506062,8 +1506062,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 71,
-          "end_line": 71,
+          "start_line": 73,
+          "end_line": 73,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1506178,8 +1506178,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 75,
-          "end_line": 75,
+          "start_line": 77,
+          "end_line": 77,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1506306,8 +1506306,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 78,
-          "end_line": 78,
+          "start_line": 80,
+          "end_line": 80,
           "text": "Public Property Let Left(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1506422,8 +1506422,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 82,
-          "end_line": 82,
+          "start_line": 84,
+          "end_line": 84,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1506550,8 +1506550,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 85,
-          "end_line": 85,
+          "start_line": 87,
+          "end_line": 87,
           "text": "Public Property Let Top(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1506666,8 +1506666,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 89,
-          "end_line": 89,
+          "start_line": 91,
+          "end_line": 91,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1506794,8 +1506794,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 92,
-          "end_line": 92,
+          "start_line": 94,
+          "end_line": 94,
           "text": "Public Property Let Width(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1506910,8 +1506910,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 96,
-          "end_line": 96,
+          "start_line": 98,
+          "end_line": 98,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1507038,8 +1507038,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 99,
-          "end_line": 99,
+          "start_line": 101,
+          "end_line": 101,
           "text": "Public Property Let Height(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1507154,8 +1507154,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 103,
-          "end_line": 103,
+          "start_line": 105,
+          "end_line": 105,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1507282,8 +1507282,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 106,
-          "end_line": 106,
+          "start_line": 108,
+          "end_line": 108,
           "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
         },
         "member_attributes": {},
@@ -1507398,8 +1507398,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 259,
-          "end_line": 259,
+          "start_line": 258,
+          "end_line": 258,
           "text": "Public Sub PerformToggle()"
         },
         "member_attributes": {},
@@ -1507559,8 +1507559,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 271,
-          "end_line": 271,
+          "start_line": 270,
+          "end_line": 270,
           "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1507720,8 +1507720,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 275,
-          "end_line": 275,
+          "start_line": 274,
+          "end_line": 274,
           "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1507859,8 +1507859,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 279,
-          "end_line": 279,
+          "start_line": 278,
+          "end_line": 278,
           "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1507998,8 +1507998,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 287,
-          "end_line": 287,
+          "start_line": 286,
+          "end_line": 286,
           "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1508126,8 +1508126,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 295,
-          "end_line": 295,
+          "start_line": 294,
+          "end_line": 294,
           "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1508242,8 +1508242,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 303,
-          "end_line": 303,
+          "start_line": 302,
+          "end_line": 302,
           "text": "Public Function PerformExit() As Boolean"
         },
         "member_attributes": {},
@@ -1508358,8 +1508358,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 310,
-          "end_line": 310,
+          "start_line": 309,
+          "end_line": 309,
           "text": "Public Sub PerformEnter()"
         },
         "member_attributes": {},
@@ -1508474,8 +1508474,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 314,
-          "end_line": 314,
+          "start_line": 313,
+          "end_line": 313,
           "text": "Public Function PerformBeforeUpdate() As Boolean"
         },
         "member_attributes": {},
@@ -1508590,8 +1508590,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/ToggleButton.cls",
-          "start_line": 321,
-          "end_line": 321,
+          "start_line": 320,
+          "end_line": 320,
           "text": "Public Sub PerformAfterUpdate()"
         },
         "member_attributes": {},
@@ -1510646,8 +1510646,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 277,
-          "end_line": 277,
+          "start_line": 274,
+          "end_line": 274,
           "text": "Public Sub PerformSelect()"
         },
         "member_attributes": {},
@@ -1510785,8 +1510785,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 281,
-          "end_line": 281,
+          "start_line": 278,
+          "end_line": 278,
           "text": "Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boolean)"
         },
         "member_attributes": {},
@@ -1563486,5 +1563486,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "3f9fdd0c2dea36c52783f81339a660654f1e624bdadf4f8e4e2ad863477c542f"
+  "canonical_sha256": "310ee5b300e52249f57214296cce2b61673bcc1f78ee61fc3bff17cd4dfb635e"
 }

@@ -1,0 +1,50 @@
+{
+  "schema": "calcforms.run7_owned_cleanup.v1",
+  "checked_utc": "2026-11-06T14:33:40.841033+00:00",
+  "excel_launches": 2,
+  "sequential": true,
+  "processes_still_running": {
+    "27884": false,
+    "29860": false,
+    "31644": false
+  },
+  "owners": [
+    {
+      "schema": "calcforms.layout_session.v1",
+      "excel_launches": 1,
+      "interactive": false,
+      "security_changes": 0,
+      "input_desktop_switched": false,
+      "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "excel_launches_by_this_session": 1,
+      "excel_pid": 27884,
+      "desktop": "CalcFormsOracle_70d283c54513",
+      "closed": "terminated_owned_handle",
+      "workbook_unchanged": true,
+      "cleanup_notes": [
+        "com_error(-2147417848, 'The object invoked has disconnected from its clients.', None, None)"
+      ]
+    },
+    {
+      "schema": "calcforms.layout_session.v1",
+      "excel_launches": 1,
+      "interactive": false,
+      "security_changes": 0,
+      "input_desktop_switched": false,
+      "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+      "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+      "excel_launches_by_this_session": 1,
+      "excel_pid": 29860,
+      "desktop": "CalcFormsOracle_c954e21fcab4",
+      "closed": "terminated_owned_handle",
+      "workbook_unchanged": true,
+      "cleanup_notes": []
+    }
+  ],
+  "server_exit_errors": [
+    "Both servers returned CloseDesktop error 170 after owned process cleanup; desktop handle release remains open in .108."
+  ],
+  "owner_input_or_focus_used": false,
+  "security_changes": 0
+}

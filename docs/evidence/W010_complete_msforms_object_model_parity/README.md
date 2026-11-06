@@ -15,6 +15,13 @@ The next [behaviour/geometry report](beads/oxforms-jbjp.107/README.md) has 975 p
 635 fail, including 522 missing measurements. It adds independent programmatic
 events, actual Tab cycles/interior messages and observed native nested rectangles.
 
+The current [setter/Enter report](beads/oxforms-jbjp.111/README.md) has **1,089 pass /
+521 fail, including 428 missing measurements**. [Keyboard/overflow measurements](beads/oxforms-jbjp.109/README.md)
+precede 34 measured behaviour corrections; run 7 fills 476 of the original 904
+unknown rows. The [real order-entry workbook](beads/oxforms-jbjp.105.1/README.md)
+also has ten native State/Trace steps at each scale. Initial focus and broader
+geometry/input/lifetime remain open. Pixels remain a coarse guard.
+
 Run 4 ListBox row correction: [`.87` measurements](beads/oxforms-jbjp.87/README.md),
 with the same native pixels before/after at both scales and a VM3 batch/clip regression.
 

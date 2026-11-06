@@ -24,7 +24,9 @@ capacity. Existing container clipping/removal and incremental tests still apply.
 The runtime regression also exercises an empty-name save rejection, name/team/
 product changes, independent option groups, page switching, Enter/default and
 Esc/cancel with normalized in-process input. It explicitly establishes reducer
-focus using Tab. These later scenarios have no paired native observation yet.
+focus using Tab. Run 7 [adds paired native later observations](../oxforms-jbjp.105.1/README.md)
+and exact per-step State/Trace comparisons. The original coverage below remains
+historical rather than retroactively claiming broader input or geometry parity.
 Initial Show focus, BeforeUpdate veto, full event order, Hide/Show/Unload,
 selection/scrolling and geometry remain `.105.1` work. `coverage.json` retains
 210 failed missing measurements across all 20 controls plus the form at 100/150;

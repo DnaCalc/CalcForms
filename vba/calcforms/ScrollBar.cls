@@ -392,9 +392,9 @@ Private Sub SetValue(ByVal NewValue As Long, ByVal FromUser As Boolean)
     mValue = NewValue
     If FromUser Then
         RaiseEvent Scroll
-        RaiseEvent Change
         mEditDirty = True
     End If
+    RaiseEvent Change
     mCore.MarkDirty
 End Sub
 

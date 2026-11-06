@@ -105,6 +105,12 @@ class Accessible:
             raise ValueError('Native accessible role is not a numeric MSAA role')
         return result.value.i4
 
+    def invoke(self):
+        child = Variant()
+        child.vt = pythoncom.VT_I4
+        check_hresult(method(self.pointer, 25, ctypes.HRESULT, [Variant])(
+            self.pointer, child), 'IAccessible.accDoDefaultAction')
+
 
 def accessible(control):
     return Accessible(control)

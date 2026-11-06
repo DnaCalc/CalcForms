@@ -86,7 +86,7 @@
     {
       "path": "tools/Run-EvidenceChecks.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "4538552b3e14b86f438e1b4abeb394f9a4d41d2da45a45c6df99a58f68d18287"
+      "sha256": "90e2ec6b2db09a277fdf69f2cff6d4575708a927dfa43e6062f7213b43ef4636"
     },
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "89bcdde286468fe3a1c36152310d448ab2b9c48cb04ea11dc45ce95ea4c88c10"
+      "sha256": "27e4b966a73449b159dcc6cbccad525cae1392378c540f9751a53d9cbfa49edc"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "eec5cccb0c8df5b4387b9c31d6570d526be402362e261979f2035319e9ba4963"
+      "sha256": "ff2e89ba684b7fded9504fc1ca8013cd9e8f1922a68d550c08f854823b635980"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -171,12 +171,12 @@
     {
       "path": "vba/calcforms/CheckBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "9c1c05f74de81e4436291c41e3248176603833099c78d5a1702b67fa8500082a"
+      "sha256": "a8b4201741b009c66c0fbe396f4f3a2b331db0fb00e374dabb38290a78511357"
     },
     {
       "path": "vba/calcforms/ComboBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "b2d9524706152433ab2c51dfcdf0c1c856ebf4322606fca9d02a3af280d28ae0"
+      "sha256": "a4668caa804398b047bc5d1595fd1026afa9cbf14cfdb5fad5ce57addabc44ea"
     },
     {
       "path": "vba/calcforms/CommandButton.cls",
@@ -226,12 +226,12 @@
     {
       "path": "vba/calcforms/MultiPage.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "257444ab83ad212795f6cd407ede63ade95a73bb07eba4a13e3e1d4cc56103c6"
+      "sha256": "0825110c422b95d1c3507fb4fc83058d603876593cff0722a970964f95a6ae30"
     },
     {
       "path": "vba/calcforms/OptionButtonControl.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "6cc2c9a1dcc9ba0031ec403d5ecca8d7af126c1ef5eea0e858efa86037f34857"
+      "sha256": "90fce6a6bc3dbaa57ba0d1e8b7fe47b56c578bf0e82427cf803a4133854bb369"
     },
     {
       "path": "vba/calcforms/OxAccessibilityService.cls",
@@ -301,12 +301,12 @@
     {
       "path": "vba/calcforms/ScrollBar.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "44fb629ff6ec26fa04dd82d2696c6f24223a75b17a0b5138afe70a8fd08be770"
+      "sha256": "4bd50cbb8a00c25e4e6c8a2908e6aaf5d36a1044ff989572bce34cee8849374d"
     },
     {
       "path": "vba/calcforms/SpinButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "24049b9f74a4d0a8716bbc9b88a5e199ec39e915e76f65973c9b58a7bc6c1bb9"
+      "sha256": "ba03ccab66d7c981663db7b6aa0532411543bf204ff93f0930c7cdab6919ef9f"
     },
     {
       "path": "vba/calcforms/Tab.cls",
@@ -316,7 +316,7 @@
     {
       "path": "vba/calcforms/TabStrip.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "675736b66961eb480e7a5046759fb775b690909aab91edcbd184b53e425ab64d"
+      "sha256": "f311d3e1aaa80cc746a83b59816a04401ac654df35f6df8f5d292d8eef5ef452"
     },
     {
       "path": "vba/calcforms/Tabs.cls",
@@ -331,7 +331,7 @@
     {
       "path": "vba/calcforms/ToggleButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "a85ecc8fbfe6c07358da9e457fb658c2567dcbb81d0750557eccd7aa1f77b42b"
+      "sha256": "05a5e45637714d8096156c8b9bdc38f99266aa2db5d143be2c3a32062b785b45"
     },
     {
       "path": "vba/calcforms/UserForm.cls",

@@ -102,6 +102,24 @@ visible. A bad probe signature required one sequential Excel recovery; `.108`
 tracks containment and exact tab/multipage event signatures. Remaining keyboard,
 scrolling, lifetime and spacing measurements continue before product fixes.
 
+`.109` adds [Enter/Escape and genuine overflow](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/README.md),
+filling 94 further rows: 476 of the original 904 missing rows now have measurements.
+Native PageDown/Home establishes actual ListBox selection and TopIndex; runtime
+PageDown and unsupported TopIndex remain failures. `.111` then corrects 22 setter
+notification and twelve Boolean Enter failures against those independent traces.
+The [current report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.111/README.md)
+is **1,089 pass / 521 fail, including 428 missing measurements**. Font geometry,
+tab-header sizes, broader events, lifetime and input still prevent parity.
+
+`.105.1` now preserves [ten native real-workbook steps](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/README.md)
+at both scales and compares complete State/Trace after each original handler.
+Native initial focus is NameInput; runtime's initial focus remains open, and its
+scenario still establishes focus with normalized Tab. Broader `.105.1` acceptance
+and the historical 210 geometry/input/lifecycle unknowns remain open. Owned Excel
+was stopped after two sequential launches; the cleanup handle-release error is
+retained. No owner input/focus or sibling edits were used. W010 member-ledger
+counts remain 2,452 verified / 4,682 gaps / 621 unexpected-public rows.
+
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 

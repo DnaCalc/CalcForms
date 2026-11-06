@@ -1,0 +1,1916 @@
+{
+  "schema": "calcforms.keyboard_scroll.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 29860,
+    "desktop": "CalcFormsOracle_c954e21fcab4"
+  },
+  "runtime_sha256": "f81a1f681f2864507185dffbff0a88c6b2aeab508ace18e4f4f6b43bfa472c9f",
+  "observations": [
+    {
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "native": "Prompt~enter_default~enter~Greet.Click|\nPrompt~escape_cancel~escape~\nInputName~enter_default~enter~Greet.Click|\nInputName~escape_cancel~escape~\nGreet~enter_default~enter~Greet.Click|\nGreet~escape_cancel~escape~\nFractional~enter_default~enter~Greet.Click|\nFractional~escape_cancel~escape~\nClipped~enter_default~enter~Greet.Click|\nClipped~escape_cancel~escape~\nLongInput~enter_default~enter~Greet.Click|\nLongInput~escape_cancel~escape~\nDisabled~enter_default~enter~Greet.Click|\nDisabled~escape_cancel~escape~\n",
+      "calcforms": "Prompt~enter_default~enter~Greet.Click|\nPrompt~escape_cancel~escape~\nInputName~enter_default~enter~Greet.Click|\nInputName~escape_cancel~escape~\nGreet~enter_default~enter~Greet.Click|\nGreet~escape_cancel~escape~\nFractional~enter_default~enter~Greet.Click|\nFractional~escape_cancel~escape~\nClipped~enter_default~enter~Greet.Click|\nClipped~escape_cancel~escape~\nLongInput~enter_default~enter~Greet.Click|\nLongInput~escape_cancel~escape~\nDisabled~enter_default~enter~Greet.Click|\nDisabled~escape_cancel~escape~\n",
+      "native_facts": "300;180;100\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "native_visibility": [
+        {
+          "control": "Prompt",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Prompt",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "InputName",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "InputName",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Greet",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Greet",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Fractional",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Fractional",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Clipped",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Clipped",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "LongInput",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "LongInput",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Disabled",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Disabled",
+          "key": 27,
+          "native_visible": true
+        }
+      ],
+      "native_parsed": {
+        "Prompt": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "InputName": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Greet": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Fractional": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Clipped": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "LongInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Disabled": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "calcforms_parsed": {
+        "Prompt": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "InputName": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Greet": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Fractional": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Clipped": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "LongInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Disabled": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "native": "Prompt~enter_default~enter~Greet.Click|\nPrompt~escape_cancel~escape~\nInputName~enter_default~enter~Greet.Click|\nInputName~escape_cancel~escape~\nGreet~enter_default~enter~Greet.Click|\nGreet~escape_cancel~escape~\nFractional~enter_default~enter~Greet.Click|\nFractional~escape_cancel~escape~\nClipped~enter_default~enter~Greet.Click|\nClipped~escape_cancel~escape~\nLongInput~enter_default~enter~Greet.Click|\nLongInput~escape_cancel~escape~\nDisabled~enter_default~enter~Greet.Click|\nDisabled~escape_cancel~escape~\n",
+      "calcforms": "Prompt~enter_default~enter~Greet.Click|\nPrompt~escape_cancel~escape~\nInputName~enter_default~enter~Greet.Click|\nInputName~escape_cancel~escape~\nGreet~enter_default~enter~Greet.Click|\nGreet~escape_cancel~escape~\nFractional~enter_default~enter~Greet.Click|\nFractional~escape_cancel~escape~\nClipped~enter_default~enter~Greet.Click|\nClipped~escape_cancel~escape~\nLongInput~enter_default~enter~Greet.Click|\nLongInput~escape_cancel~escape~\nDisabled~enter_default~enter~Greet.Click|\nDisabled~escape_cancel~escape~\n",
+      "native_facts": "300;180;150\nPrompt;Label;12;12;170;18;Tahoma;8.25;0\nInputName;TextBox;12;36;170;20;Tahoma;8.25;1\nGreet;CommandButton;198;36;84;24;Tahoma;8.25;2\nFractional;Label;12.4;74.65;123.35;17.65;Tahoma;8.25;3\nClipped;Label;162;75;70;12;Tahoma;8.25;4\nLongInput;TextBox;12;108;150;20;Tahoma;8.25;5\nDisabled;CommandButton;198;108;84;24;Tahoma;8.25;6\n",
+      "native_visibility": [
+        {
+          "control": "Prompt",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Prompt",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "InputName",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "InputName",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Greet",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Greet",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Fractional",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Fractional",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Clipped",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Clipped",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "LongInput",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "LongInput",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Disabled",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Disabled",
+          "key": 27,
+          "native_visible": true
+        }
+      ],
+      "native_parsed": {
+        "Prompt": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "InputName": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Greet": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Fractional": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Clipped": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "LongInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Disabled": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "calcforms_parsed": {
+        "Prompt": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "InputName": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Greet": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Fractional": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Clipped": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "LongInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Disabled": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Greet.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "native": "Unchecked~enter_default~enter~\nUnchecked~escape_cancel~escape~\nChecked~enter_default~enter~\nChecked~escape_cancel~escape~\nOptionOne~enter_default~enter~\nOptionOne~escape_cancel~escape~\nOptionTwo~enter_default~enter~\nOptionTwo~escape_cancel~escape~\nToggleOff~enter_default~enter~\nToggleOff~escape_cancel~escape~\nToggleOn~enter_default~enter~\nToggleOn~escape_cancel~escape~\nChoices~enter_default~enter~\nChoices~escape_cancel~escape~\nDropdown~enter_default~enter~\nDropdown~escape_cancel~escape~\nChoices~scrolling~initial~index=1;count=23;top=0\nChoices~scrolling~page_down_1~index=7;count=23;top=1\nChoices~scrolling~page_down_2~index=13;count=23;top=7\nChoices~scrolling~home~index=0;count=23;top=0\n",
+      "calcforms": "Unchecked~enter_default~enter~Unchecked.Change|Unchecked.Click|\nUnchecked~escape_cancel~escape~\nChecked~enter_default~enter~Checked.Change|Checked.Click|\nChecked~escape_cancel~escape~\nOptionOne~enter_default~enter~OptionOne.Click|\nOptionOne~escape_cancel~escape~\nOptionTwo~enter_default~enter~OptionTwo.Click|\nOptionTwo~escape_cancel~escape~\nToggleOff~enter_default~enter~ToggleOff.Change|ToggleOff.Click|\nToggleOff~escape_cancel~escape~\nToggleOn~enter_default~enter~ToggleOn.Change|ToggleOn.Click|\nToggleOn~escape_cancel~escape~\nChoices~enter_default~enter~\nChoices~escape_cancel~escape~\nDropdown~enter_default~enter~\nDropdown~escape_cancel~escape~\nChoices~scrolling~initial~index=1;count=23;top_error=438\nChoices~scrolling~page_down_1~index=1;count=23;top_error=438\nChoices~scrolling~page_down_2~index=1;count=23;top_error=438\nChoices~scrolling~home~index=0;count=23;top_error=438\n",
+      "native_facts": "330;210;100\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "native_visibility": [
+        {
+          "control": "Unchecked",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Unchecked",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Checked",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Checked",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "OptionOne",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "OptionOne",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "OptionTwo",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "OptionTwo",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOff",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOff",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOn",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOn",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Choices",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Choices",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Dropdown",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Dropdown",
+          "key": 27,
+          "native_visible": true
+        }
+      ],
+      "native_parsed": {
+        "Unchecked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Checked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionOne": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionTwo": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOff": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOn": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Choices": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ],
+          "scrolling": [
+            {
+              "step": "initial",
+              "value": "index=1;count=23;top=0"
+            },
+            {
+              "step": "page_down_1",
+              "value": "index=7;count=23;top=1"
+            },
+            {
+              "step": "page_down_2",
+              "value": "index=13;count=23;top=7"
+            },
+            {
+              "step": "home",
+              "value": "index=0;count=23;top=0"
+            }
+          ]
+        },
+        "Dropdown": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "calcforms_parsed": {
+        "Unchecked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Unchecked.Change|Unchecked.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Checked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Checked.Change|Checked.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionOne": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "OptionOne.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionTwo": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "OptionTwo.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOff": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "ToggleOff.Change|ToggleOff.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOn": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "ToggleOn.Change|ToggleOn.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Choices": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ],
+          "scrolling": [
+            {
+              "step": "initial",
+              "value": "index=1;count=23;top_error=438"
+            },
+            {
+              "step": "page_down_1",
+              "value": "index=1;count=23;top_error=438"
+            },
+            {
+              "step": "page_down_2",
+              "value": "index=1;count=23;top_error=438"
+            },
+            {
+              "step": "home",
+              "value": "index=0;count=23;top_error=438"
+            }
+          ]
+        },
+        "Dropdown": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "native": "Unchecked~enter_default~enter~\nUnchecked~escape_cancel~escape~\nChecked~enter_default~enter~\nChecked~escape_cancel~escape~\nOptionOne~enter_default~enter~\nOptionOne~escape_cancel~escape~\nOptionTwo~enter_default~enter~\nOptionTwo~escape_cancel~escape~\nToggleOff~enter_default~enter~\nToggleOff~escape_cancel~escape~\nToggleOn~enter_default~enter~\nToggleOn~escape_cancel~escape~\nChoices~enter_default~enter~\nChoices~escape_cancel~escape~\nDropdown~enter_default~enter~\nDropdown~escape_cancel~escape~\nChoices~scrolling~initial~index=1;count=23;top=0\nChoices~scrolling~page_down_1~index=7;count=23;top=1\nChoices~scrolling~page_down_2~index=13;count=23;top=7\nChoices~scrolling~home~index=0;count=23;top=0\n",
+      "calcforms": "Unchecked~enter_default~enter~Unchecked.Change|Unchecked.Click|\nUnchecked~escape_cancel~escape~\nChecked~enter_default~enter~Checked.Change|Checked.Click|\nChecked~escape_cancel~escape~\nOptionOne~enter_default~enter~OptionOne.Click|\nOptionOne~escape_cancel~escape~\nOptionTwo~enter_default~enter~OptionTwo.Click|\nOptionTwo~escape_cancel~escape~\nToggleOff~enter_default~enter~ToggleOff.Change|ToggleOff.Click|\nToggleOff~escape_cancel~escape~\nToggleOn~enter_default~enter~ToggleOn.Change|ToggleOn.Click|\nToggleOn~escape_cancel~escape~\nChoices~enter_default~enter~\nChoices~escape_cancel~escape~\nDropdown~enter_default~enter~\nDropdown~escape_cancel~escape~\nChoices~scrolling~initial~index=1;count=23;top_error=438\nChoices~scrolling~page_down_1~index=1;count=23;top_error=438\nChoices~scrolling~page_down_2~index=1;count=23;top_error=438\nChoices~scrolling~home~index=0;count=23;top_error=438\n",
+      "native_facts": "330;210;150\nUnchecked;CheckBox;12;12;130;18;Tahoma;8.25;0\nChecked;CheckBox;174;12;130;18;Tahoma;8.25;1\nOptionOne;OptionButton;12;42;130;18;Tahoma;8.25;2\nOptionTwo;OptionButton;174;42;130;18;Tahoma;8.25;3\nToggleOff;ToggleButton;12;72;130;24;Tahoma;8.25;4\nToggleOn;ToggleButton;174;72;130;24;Tahoma;8.25;5\nChoices;ListBox;12;114;130;71.25;Tahoma;8.25;6\nDropdown;ComboBox;174;114;130;21;Tahoma;8.25;7\n",
+      "native_visibility": [
+        {
+          "control": "Unchecked",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Unchecked",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Checked",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Checked",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "OptionOne",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "OptionOne",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "OptionTwo",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "OptionTwo",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOff",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOff",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOn",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "ToggleOn",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Choices",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Choices",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Dropdown",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Dropdown",
+          "key": 27,
+          "native_visible": true
+        }
+      ],
+      "native_parsed": {
+        "Unchecked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Checked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionOne": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionTwo": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOff": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOn": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Choices": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ],
+          "scrolling": [
+            {
+              "step": "initial",
+              "value": "index=1;count=23;top=0"
+            },
+            {
+              "step": "page_down_1",
+              "value": "index=7;count=23;top=1"
+            },
+            {
+              "step": "page_down_2",
+              "value": "index=13;count=23;top=7"
+            },
+            {
+              "step": "home",
+              "value": "index=0;count=23;top=0"
+            }
+          ]
+        },
+        "Dropdown": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "calcforms_parsed": {
+        "Unchecked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Unchecked.Change|Unchecked.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Checked": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "Checked.Change|Checked.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionOne": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "OptionOne.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "OptionTwo": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "OptionTwo.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOff": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "ToggleOff.Change|ToggleOff.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "ToggleOn": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": "ToggleOn.Change|ToggleOn.Click|"
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Choices": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ],
+          "scrolling": [
+            {
+              "step": "initial",
+              "value": "index=1;count=23;top_error=438"
+            },
+            {
+              "step": "page_down_1",
+              "value": "index=1;count=23;top_error=438"
+            },
+            {
+              "step": "page_down_2",
+              "value": "index=1;count=23;top_error=438"
+            },
+            {
+              "step": "home",
+              "value": "index=0;count=23;top_error=438"
+            }
+          ]
+        },
+        "Dropdown": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "native": "Group~enter_default~enter~\nGroup~escape_cancel~escape~\nGroup.NestedLabel~enter_default~enter~\nGroup.NestedLabel~escape_cancel~escape~\nGroup.NestedInput~enter_default~enter~\nGroup.NestedInput~escape_cancel~escape~\nPicture~enter_default~enter~\nPicture~escape_cancel~escape~\nSpinner~enter_default~enter~\nSpinner~escape_cancel~escape~\nSlider~enter_default~enter~\nSlider~escape_cancel~escape~\nTabsControl~enter_default~enter~\nTabsControl~escape_cancel~escape~\nPagesControl~enter_default~enter~\nPagesControl~escape_cancel~escape~\n",
+      "calcforms": "Group~enter_default~enter~\nGroup~escape_cancel~escape~\nGroup.NestedLabel~enter_default~enter~\nGroup.NestedLabel~escape_cancel~escape~\nGroup.NestedInput~enter_default~enter~\nGroup.NestedInput~escape_cancel~escape~\nPicture~enter_default~enter~\nPicture~escape_cancel~escape~\nSpinner~enter_default~enter~\nSpinner~escape_cancel~escape~\nSlider~enter_default~enter~\nSlider~escape_cancel~escape~\nTabsControl~enter_default~enter~\nTabsControl~escape_cancel~escape~\nPagesControl~enter_default~enter~\nPagesControl~escape_cancel~escape~\n",
+      "native_facts": "390;285;100\nGroup;Frame;12;12;174;72;Tahoma;8.25;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+      "native_visibility": [
+        {
+          "control": "Group",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Group",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedLabel",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedLabel",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedInput",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedInput",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Picture",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Picture",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Spinner",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Spinner",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Slider",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Slider",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "TabsControl",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "TabsControl",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "PagesControl",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "PagesControl",
+          "key": 27,
+          "native_visible": true
+        }
+      ],
+      "native_parsed": {
+        "Group": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedLabel": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Picture": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Spinner": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Slider": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "TabsControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "PagesControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "calcforms_parsed": {
+        "Group": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedLabel": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Picture": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Spinner": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Slider": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "TabsControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "PagesControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      }
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "native": "Group~enter_default~enter~\nGroup~escape_cancel~escape~\nGroup.NestedLabel~enter_default~enter~\nGroup.NestedLabel~escape_cancel~escape~\nGroup.NestedInput~enter_default~enter~\nGroup.NestedInput~escape_cancel~escape~\nPicture~enter_default~enter~\nPicture~escape_cancel~escape~\nSpinner~enter_default~enter~\nSpinner~escape_cancel~escape~\nSlider~enter_default~enter~\nSlider~escape_cancel~escape~\nTabsControl~enter_default~enter~\nTabsControl~escape_cancel~escape~\nPagesControl~enter_default~enter~\nPagesControl~escape_cancel~escape~\n",
+      "calcforms": "Group~enter_default~enter~\nGroup~escape_cancel~escape~\nGroup.NestedLabel~enter_default~enter~\nGroup.NestedLabel~escape_cancel~escape~\nGroup.NestedInput~enter_default~enter~\nGroup.NestedInput~escape_cancel~escape~\nPicture~enter_default~enter~\nPicture~escape_cancel~escape~\nSpinner~enter_default~enter~\nSpinner~escape_cancel~escape~\nSlider~enter_default~enter~\nSlider~escape_cancel~escape~\nTabsControl~enter_default~enter~\nTabsControl~escape_cancel~escape~\nPagesControl~enter_default~enter~\nPagesControl~escape_cancel~escape~\n",
+      "native_facts": "390;285;150\nGroup;Frame;12;12;174;72;Tahoma;8.5;0\nGroup.NestedLabel;Label;12;18;138;18;Tahoma;8.25;0\nGroup.NestedInput;TextBox;12;39;138;18;Tahoma;8.25;1\nPicture;Image;210;12;66;54\nSpinner;SpinButton;300;12;18;54\nSlider;ScrollBar;12;102;174;18\nTabsControl;TabStrip;12;144;174;102;Tahoma;8.25;3\nPagesControl;MultiPage;210;102;162;144;Tahoma;8.25;4\n",
+      "native_visibility": [
+        {
+          "control": "Group",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Group",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedLabel",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedLabel",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedInput",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Group.NestedInput",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Picture",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Picture",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Spinner",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Spinner",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "Slider",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "Slider",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "TabsControl",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "TabsControl",
+          "key": 27,
+          "native_visible": true
+        },
+        {
+          "control": "PagesControl",
+          "key": 13,
+          "native_visible": true
+        },
+        {
+          "control": "PagesControl",
+          "key": 27,
+          "native_visible": true
+        }
+      ],
+      "native_parsed": {
+        "Group": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedLabel": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Picture": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Spinner": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Slider": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "TabsControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "PagesControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      },
+      "calcforms_parsed": {
+        "Group": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedLabel": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Group.NestedInput": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Picture": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Spinner": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "Slider": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "TabsControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        },
+        "PagesControl": {
+          "enter_default": [
+            {
+              "step": "enter",
+              "value": ""
+            }
+          ],
+          "escape_cancel": [
+            {
+              "step": "escape",
+              "value": ""
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

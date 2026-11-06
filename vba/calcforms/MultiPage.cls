@@ -452,10 +452,10 @@ Private Sub SetValue(ByVal NewValue As Long, ByVal FromUser As Boolean)
     SyncPageGeometry
     If FromUser Then
         mEditDirty = True
-        RaiseEvent Change
     End If
     mCore.MarkDirty
     mCore.MarkInteractionDirty
+    RaiseEvent Change
 End Sub
 
 Private Function CurrentPage() As Page

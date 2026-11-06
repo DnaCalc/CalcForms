@@ -71,6 +71,8 @@ Public Property Let Value(ByVal NewValue As Boolean)
     If mValue <> NewValue Then
         mValue = NewValue
         mCore.MarkDirty
+        RaiseEvent Change
+        RaiseEvent Click
     End If
 End Property
 
@@ -210,16 +212,13 @@ Private Property Get IOxControl_AcceleratorKey() As String
     IOxControl_AcceleratorKey = ""
 End Property
 
-' Space toggles the focused CheckBox; Enter toggles it only when there is no default button
-' (otherwise Enter activates the default). No modifiers. The toggle (Change/Click) fires here,
+' Space toggles the focused CheckBox. Enter belongs to form/default routing and does not
+' toggle a checkbox when no default exists. No modifiers. Change/Click fire here,
 ' BEFORE the reducer raises KeyDown -- the oracle value-first keyboard order.
 Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean
     If Not mCore.Toggleable Then Exit Function
     If Shift <> 0 Then Exit Function
     If KeyCode = 32 Then
-        Toggle
-        IOxControl_TryKeyboardActivate = True
-    ElseIf KeyCode = 13 And Not HasDefaultButton Then
         Toggle
         IOxControl_TryKeyboardActivate = True
     End If

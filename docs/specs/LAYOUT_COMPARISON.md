@@ -19,9 +19,12 @@ Show/Hide/Unload state. A matching TabIndex alone does not establish traversal.
 The real `fixtures/workbooks/data-entry/order-entry.xlsm` supplies original
 application code with qualified MSForms declarations, dynamic nested controls,
 validation and save/cancel handlers. Native initial State/Trace are paired with
-VM3 execution. Its later runtime scenarios are regression checks; native later
-behaviour and all geometry remain explicit failed coverage in
-[the data-entry evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/README.md).
+VM3 execution. Ten later validation/selection/save/cancel State/Trace steps now
+match native at both scales in [the data-entry evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/README.md).
+Native initial focus is NameInput; runtime first-focus still needs a normalized
+Tab. Native save/cancel after page change use public MSAA actions, so those
+observations establish commands rather than key routing. Broader input,
+lifecycle and all geometry remain explicit failed coverage.
 Imported source uses a referenced MSForms project, preserving original types and
 handler bodies. Native fractional designer twips retain finite/range checks.
 
@@ -57,6 +60,16 @@ with the exact pinned image capture. No event proving a range-control target
 remains missing. Native event declarations must match captured FM20 metadata
 before injection; the observer adapts to current runtime signatures only within
 non-production probes and gives no signature-parity credit for that adaptation.
+
+The [keyboard capture](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/README.md)
+records command/value notifications for Enter/Escape after each interior target;
+it excludes authored runtime visibility where the public property is absent.
+Overflow scrolling must exceed the visible list and retain selection and
+TopIndex after actual PageDown/Home. An observed unsupported property is a
+measured mismatch, not missing data. `.111` fixes programmatic Change/Click
+ordering and same-value suppression, and no-default Boolean Enter, against
+unchanged native traces. Existing pixels stay historical; new behaviour captures
+record their own runtime hash. Full parity is not inferred from these scenarios.
 
 New colour parity rows use actual native BackColor/ForeColor and live system
 colour resolution, compared with opaque retained Scene paint. Disabled text

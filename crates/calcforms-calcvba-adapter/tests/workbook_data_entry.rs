@@ -33,6 +33,25 @@ fn key(runtime: &mut OxRuntime, key_code: i16) {
     }
 }
 
+fn compare_step(runtime: &mut OxRuntime, native: &Value, step: &str) {
+    let expected = native
+        .as_array()
+        .unwrap()
+        .iter()
+        .find(|row| row["step"] == step)
+        .unwrap();
+    assert_eq!(
+        state(runtime),
+        expected["state"].as_str().unwrap(),
+        "{step} State"
+    );
+    assert_eq!(
+        call(runtime, "Trace", vec![]).as_bstr().unwrap().as_str(),
+        expected["trace"].as_str().unwrap(),
+        "{step} Trace"
+    );
+}
+
 #[test]
 fn real_data_entry_workbook_initializes_qualified_forms_and_original_handlers() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
@@ -87,10 +106,19 @@ fn real_data_entry_workbook_initializes_qualified_forms_and_original_handlers() 
     }
     assert!(surface.snapshot().unwrap().node_count > 20);
 
-    // The later scenarios are runtime regression checks; only initial State/Trace
-    // above have a paired native observation in this fixture.
+    let observed: Value = serde_json::from_slice(&std::fs::read(root.join(
+        "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/observations.json"
+    )).unwrap()).unwrap();
+    let cases = observed["observations"].as_array().unwrap();
+    assert_eq!(cases[0]["observations"], cases[1]["observations"]);
+    assert_eq!(cases[0]["initial_focus"], "NameInput");
+    let native = &cases[0]["observations"];
+    compare_step(&mut runtime, native, "initial");
+    // Native Show focuses NameInput. Initial runtime focus remains a separate
+    // known gap; establish focus through normalized input before this scenario.
     key(&mut runtime, 9); // Establish reducer focus without using the real keyboard.
     key(&mut runtime, 13);
+    compare_step(&mut runtime, native, "invalid_save");
     let invalid = state(&mut runtime);
     assert!(
         invalid.contains("saved=0;status=Name is required"),
@@ -98,14 +126,22 @@ fn real_data_entry_workbook_initializes_qualified_forms_and_original_handlers() 
         call(&mut runtime, "Trace", vec![])
     );
     call(&mut runtime, "SetName", vec![Variant::from_string("Ada")]);
+    compare_step(&mut runtime, native, "name");
     call(&mut runtime, "SetTeam", vec![Variant::from_i32(1)]);
+    compare_step(&mut runtime, native, "team");
     call(&mut runtime, "SetProduct", vec![Variant::from_i32(2)]);
+    compare_step(&mut runtime, native, "product");
     call(&mut runtime, "ChoosePriority", vec![]);
+    compare_step(&mut runtime, native, "shipping");
     call(&mut runtime, "ChoosePrepaid", vec![]);
+    compare_step(&mut runtime, native, "payment");
     call(&mut runtime, "SelectPage", vec![Variant::from_i32(1)]);
+    compare_step(&mut runtime, native, "review_page");
     key(&mut runtime, 13);
+    compare_step(&mut runtime, native, "valid_save");
     assert_eq!(state(&mut runtime), "name=Ada;team=Engineering;product=Washer;standard=False;priority=True;invoice=False;prepaid=True;page=1;notes=Leave at reception;saved=1;status=Saved Ada: Washer;visible=True");
     key(&mut runtime, 27);
+    compare_step(&mut runtime, native, "cancel");
     assert!(state(&mut runtime).ends_with("visible=False"));
     let trace = call(&mut runtime, "Trace", vec![])
         .as_bstr()

@@ -382,9 +382,9 @@ Private Sub SetValue(ByVal NewValue As Long, ByVal FromUser As Boolean, ByVal Di
         ElseIf Direction < 0 Then
             RaiseEvent SpinDown
         End If
-        RaiseEvent Change
         mEditDirty = True
     End If
+    RaiseEvent Change
     mCore.MarkDirty
 End Sub
 

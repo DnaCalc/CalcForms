@@ -58,6 +58,8 @@ Public Property Let Value(ByVal NewValue As Boolean)
     If mValue <> NewValue Then
         mValue = NewValue
         mCore.MarkDirty
+        RaiseEvent Change
+        RaiseEvent Click
     End If
 End Property
 
@@ -196,9 +198,6 @@ Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal 
     If Not mCore.Toggleable Then Exit Function
     If Shift <> 0 Then Exit Function
     If KeyCode = 32 Then
-        Toggle
-        IOxControl_TryKeyboardActivate = True
-    ElseIf KeyCode = 13 And Not HasDefaultButton Then
         Toggle
         IOxControl_TryKeyboardActivate = True
     End If

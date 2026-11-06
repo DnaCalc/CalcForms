@@ -24,11 +24,15 @@ Excel reuse. Pixels remain a coarse regression guard.
 Public native OLE drawing now supplies replayable baselines, literal line offsets
 and horizontal character-cell clipping, including nested text in local control
 coordinates; omitted ListBox output remains failed coverage.
+Run 7's [current report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.111/README.md)
+has 1,089 passes / 521 failures, including 428 missing measurements. Independent
+event, traversal, key and overflow observations precede 34 measured corrections.
 
 The real data-entry workbook now runs original qualified MSForms source through
-the Office importer and referenced source library. Native initial State/Trace
-match; later native scenarios and two-scale geometry remain open in `.105`.
-See [the measured scope](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/README.md).
+the Office importer and referenced source library. Native State/Trace match all
+ten measured validation/selection/save/cancel steps at both scales. Initial Show
+focus and broader input, lifecycle and geometry remain open in `.105`.
+See [the measured scope](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/README.md).
 
 1. [`specs/INPUT_INTERACTION_MODEL.md`](specs/INPUT_INTERACTION_MODEL.md) -
    W005 input/event architecture surface for normalized `UiEvent`, interaction
