@@ -6,12 +6,12 @@
     {
       "path": "Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "c84747109badeace3cdb8066e7b6d57df14788444de53c14d72dda9e2eecab6d"
+      "sha256": "35151be6aad857e6535cf18e8ff6eef7aead73e63aabd17be9fd57bef7f665b4"
     },
     {
       "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "c1457095de235b9a9bc6f1c96648b42892a2149fd6eb4452b7223732402e3867"
+      "sha256": "9e166dcff5b6e3416bb6f90e01b1cde8af8781cc5d36946e2d47153f179332a2"
     },
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
@@ -21,7 +21,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "f3e88b78c0ad24c86959d771dfb32916d05cf6df3d9a09e74a3d8df64811b245"
+      "sha256": "2bc44274523797484dd258b63a31c9f77d23f6bd961c487252bb3a72ffa49563"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
@@ -36,7 +36,7 @@
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "1b3f056fe74ad276785246be6ed191ade8105b8b1d1bec311dea91fba929a4b1"
+      "sha256": "81c7e3de30c558db8eba079d62de074227c56bccbc5cad52f4a8219c918049d2"
     },
     {
       "path": "crates/calcforms-headless-runner/src/lib.rs",
@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "27e4b966a73449b159dcc6cbccad525cae1392378c540f9751a53d9cbfa49edc"
+      "sha256": "f310de40caef670cf1f13737c4168187d6624cbf5f5f4b6638df2c5fc254f67d"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -111,7 +111,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "6beaa55a677e9084167a46901d0cc4c8bdd1ddf310fa121ab1e55aaece74af8b"
+      "sha256": "8efeba8d0d916e31682f1cad2aff31bbe4927c7a32b81633392943f78f542b5f"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -131,12 +131,12 @@
     {
       "path": "tools/msforms-parity/tests/test_parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "d56a118253646e4c1f76ea150abc6bb3825e720f6128ea831e2294cf09cdf564"
+      "sha256": "0c46aa99bf06be5f55563555589f1858fec330f2d84723b8c8ab2ea3cf0a4942"
     },
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "ff2e89ba684b7fded9504fc1ca8013cd9e8f1922a68d550c08f854823b635980"
+      "sha256": "d416ae8b886817a68be8462635a8cf6b193a9590b16622b644ea2e4d41af7700"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -256,7 +256,7 @@
     {
       "path": "vba/calcforms/OxInteractionManager.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "8da6b7b9179cf7661ebdc23b0db33abba840e8c6c7ab44d55c771f408809dadd"
+      "sha256": "a6b1fd4c947241b7f1eba44962896ed5775af28fb097a89c80a7e16218de7ea6"
     },
     {
       "path": "vba/calcforms/OxReducer.cls",
@@ -336,19 +336,19 @@
     {
       "path": "vba/calcforms/UserForm.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "29d69f7c187f84069384617c03cfedccc1e75191c57bea236e9bc9c261cdd2f7"
+      "sha256": "021e7ad0857cae439e1918173bc6748a835a0cdaaab0be0ae6163cedb404507e"
     }
   ],
   "ledger_inputs": [
     {
       "path": "Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "c84747109badeace3cdb8066e7b6d57df14788444de53c14d72dda9e2eecab6d"
+      "sha256": "35151be6aad857e6535cf18e8ff6eef7aead73e63aabd17be9fd57bef7f665b4"
     },
     {
       "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "c1457095de235b9a9bc6f1c96648b42892a2149fd6eb4452b7223732402e3867"
+      "sha256": "9e166dcff5b6e3416bb6f90e01b1cde8af8781cc5d36946e2d47153f179332a2"
     },
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
@@ -358,7 +358,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "f3e88b78c0ad24c86959d771dfb32916d05cf6df3d9a09e74a3d8df64811b245"
+      "sha256": "2bc44274523797484dd258b63a31c9f77d23f6bd961c487252bb3a72ffa49563"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
@@ -373,7 +373,7 @@
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "1b3f056fe74ad276785246be6ed191ade8105b8b1d1bec311dea91fba929a4b1"
+      "sha256": "81c7e3de30c558db8eba079d62de074227c56bccbc5cad52f4a8219c918049d2"
     },
     {
       "path": "crates/calcforms-headless-runner/src/lib.rs",

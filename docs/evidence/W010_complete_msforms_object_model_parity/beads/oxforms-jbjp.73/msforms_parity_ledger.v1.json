@@ -9,12 +9,12 @@
     {
       "path": "Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "c84747109badeace3cdb8066e7b6d57df14788444de53c14d72dda9e2eecab6d"
+      "sha256": "35151be6aad857e6535cf18e8ff6eef7aead73e63aabd17be9fd57bef7f665b4"
     },
     {
       "path": "crates/calcforms-bootstrap/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "c1457095de235b9a9bc6f1c96648b42892a2149fd6eb4452b7223732402e3867"
+      "sha256": "9e166dcff5b6e3416bb6f90e01b1cde8af8781cc5d36946e2d47153f179332a2"
     },
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
@@ -24,7 +24,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "f3e88b78c0ad24c86959d771dfb32916d05cf6df3d9a09e74a3d8df64811b245"
+      "sha256": "2bc44274523797484dd258b63a31c9f77d23f6bd961c487252bb3a72ffa49563"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/src/lib.rs",
@@ -39,7 +39,7 @@
     {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
-      "sha256": "1b3f056fe74ad276785246be6ed191ade8105b8b1d1bec311dea91fba929a4b1"
+      "sha256": "81c7e3de30c558db8eba079d62de074227c56bccbc5cad52f4a8219c918049d2"
     },
     {
       "path": "crates/calcforms-headless-runner/src/lib.rs",
@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "6095337446ec88a777ebf1313b37f528e3d996cd60f4cb0c84a1d55441bedee0",
+  "source_surface_sha256": "a78d2b0cb849edda989a231acc5bf0f88cd3aa1e4c47cd96bad98774d509ddfc",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -8760,7 +8760,7 @@
           "file_stem": "UserForm",
           "kind": "class_module",
           "path": "vba/calcforms/UserForm.cls",
-          "normalized_text_sha256": "29d69f7c187f84069384617c03cfedccc1e75191c57bea236e9bc9c261cdd2f7",
+          "normalized_text_sha256": "021e7ad0857cae439e1918173bc6748a835a0cdaaab0be0ae6163cedb404507e",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -9119,8 +9119,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 314,
-                "end_line": 314,
+                "start_line": 318,
+                "end_line": 318,
                 "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
               },
               "member_attributes": {}
@@ -9137,8 +9137,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 373,
-                "end_line": 373,
+                "start_line": 377,
+                "end_line": 377,
                 "text": "Public Property Get LastSceneToken() As String"
               },
               "member_attributes": {}
@@ -9155,8 +9155,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 380,
-                "end_line": 380,
+                "start_line": 384,
+                "end_line": 384,
                 "text": "Public Property Get InteractionRevision() As Long"
               },
               "member_attributes": {}
@@ -9173,8 +9173,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 384,
-                "end_line": 384,
+                "start_line": 388,
+                "end_line": 388,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -9203,8 +9203,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 387,
-                "end_line": 387,
+                "start_line": 391,
+                "end_line": 391,
                 "text": "Public Property Let Name(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -9221,8 +9221,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 391,
-                "end_line": 391,
+                "start_line": 395,
+                "end_line": 395,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -9251,8 +9251,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 394,
-                "end_line": 394,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -9269,8 +9269,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 398,
-                "end_line": 398,
+                "start_line": 402,
+                "end_line": 402,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -9299,8 +9299,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 401,
-                "end_line": 401,
+                "start_line": 405,
+                "end_line": 405,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9317,8 +9317,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 405,
-                "end_line": 405,
+                "start_line": 409,
+                "end_line": 409,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -9347,8 +9347,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 408,
-                "end_line": 408,
+                "start_line": 412,
+                "end_line": 412,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9365,8 +9365,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 412,
-                "end_line": 412,
+                "start_line": 416,
+                "end_line": 416,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -9395,8 +9395,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 415,
-                "end_line": 415,
+                "start_line": 419,
+                "end_line": 419,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9413,8 +9413,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 419,
-                "end_line": 419,
+                "start_line": 423,
+                "end_line": 423,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -9443,8 +9443,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 422,
-                "end_line": 422,
+                "start_line": 426,
+                "end_line": 426,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9475,8 +9475,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 430,
-                "end_line": 430,
+                "start_line": 434,
+                "end_line": 434,
                 "text": "Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -9495,8 +9495,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 434,
-                "end_line": 434,
+                "start_line": 438,
+                "end_line": 438,
                 "text": "Private Function IOxControlHost_AllocateNodeId() As Long"
               },
               "interface": "IOxControlHost",
@@ -9527,8 +9527,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 442,
-                "end_line": 442,
+                "start_line": 446,
+                "end_line": 446,
                 "text": "Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -9559,8 +9559,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 446,
-                "end_line": 446,
+                "start_line": 450,
+                "end_line": 450,
                 "text": "Private Sub IOxControlContainer_RegisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -9591,8 +9591,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 450,
-                "end_line": 450,
+                "start_line": 454,
+                "end_line": 454,
                 "text": "Private Sub IOxControlContainer_UnregisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -541885,8 +541885,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 394,
-                "end_line": 394,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {},
@@ -541921,8 +541921,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 391,
-                "end_line": 391,
+                "start_line": 395,
+                "end_line": 395,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
@@ -1069980,8 +1069980,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 384,
-                "end_line": 384,
+                "start_line": 388,
+                "end_line": 388,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {},
@@ -1070235,8 +1070235,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 398,
-                "end_line": 398,
+                "start_line": 402,
+                "end_line": 402,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {},
@@ -1070281,8 +1070281,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 401,
-                "end_line": 401,
+                "start_line": 405,
+                "end_line": 405,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1070541,8 +1070541,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 405,
-                "end_line": 405,
+                "start_line": 409,
+                "end_line": 409,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {},
@@ -1070587,8 +1070587,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 408,
-                "end_line": 408,
+                "start_line": 412,
+                "end_line": 412,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1070847,8 +1070847,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 412,
-                "end_line": 412,
+                "start_line": 416,
+                "end_line": 416,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {},
@@ -1070893,8 +1070893,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 415,
-                "end_line": 415,
+                "start_line": 419,
+                "end_line": 419,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1071153,8 +1071153,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 419,
-                "end_line": 419,
+                "start_line": 423,
+                "end_line": 423,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {},
@@ -1071199,8 +1071199,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 422,
-                "end_line": 422,
+                "start_line": 426,
+                "end_line": 426,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {},
@@ -1448569,7 +1448569,7 @@
         "file_stem": "OxInteractionManager",
         "kind": "class_module",
         "path": "vba/calcforms/OxInteractionManager.cls",
-        "normalized_text_sha256": "8da6b7b9179cf7661ebdc23b0db33abba840e8c6c7ab44d55c771f408809dadd",
+        "normalized_text_sha256": "a6b1fd4c947241b7f1eba44962896ed5775af28fb097a89c80a7e16218de7ea6",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1449014,8 +1449014,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 857,
-              "end_line": 857,
+              "start_line": 861,
+              "end_line": 861,
               "text": "Public Function DispatchDrop(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1449044,8 +1449044,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 925,
-              "end_line": 925,
+              "start_line": 937,
+              "end_line": 937,
               "text": "Public Function DispatchChar(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1513380,8 +1513380,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 314,
-          "end_line": 314,
+          "start_line": 318,
+          "end_line": 318,
           "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
         },
         "member_attributes": {},
@@ -1513496,8 +1513496,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 373,
-          "end_line": 373,
+          "start_line": 377,
+          "end_line": 377,
           "text": "Public Property Get LastSceneToken() As String"
         },
         "member_attributes": {},
@@ -1513612,8 +1513612,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 380,
-          "end_line": 380,
+          "start_line": 384,
+          "end_line": 384,
           "text": "Public Property Get InteractionRevision() As Long"
         },
         "member_attributes": {},
@@ -1513740,8 +1513740,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 387,
-          "end_line": 387,
+          "start_line": 391,
+          "end_line": 391,
           "text": "Public Property Let Name(ByVal Value As String)"
         },
         "member_attributes": {},
@@ -1516679,8 +1516679,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 857,
-          "end_line": 857,
+          "start_line": 861,
+          "end_line": 861,
           "text": "Public Function DispatchDrop(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1516807,8 +1516807,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 925,
-          "end_line": 925,
+          "start_line": 937,
+          "end_line": 937,
           "text": "Public Function DispatchChar(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1563486,5 +1563486,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "310ee5b300e52249f57214296cce2b61673bcc1f78ee61fc3bff17cd4dfb635e"
+  "canonical_sha256": "955d538e27c9768578235d1d337d3de4d00c8612b08dcfd1cb6a3979c8efd827"
 }

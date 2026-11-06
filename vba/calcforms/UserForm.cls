@@ -232,10 +232,12 @@ End Sub
 ' no crossing happens.
 Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
     Dim I As Long, Control As IOxControl, TextCount As Long, Part As Long
+    Dim Core As OxControlCore
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        If Control.Core.MeasureTextCount > 0 Then
-            TextCount = TextCount + Control.Core.MeasureTextCount
+        Set Core = Control.Core
+        If Core.MeasureTextCount > 0 Then
+            TextCount = TextCount + Core.MeasureTextCount
         Else
             Control.Core.RunId = ""
             Control.Core.MeasuredWidth = 0
@@ -250,11 +252,12 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
     Dim J As Long
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        For Part = 0 To Control.Core.MeasureTextCount - 1
+        Set Core = Control.Core
+        For Part = 0 To Core.MeasureTextCount - 1
             Reqs(J).FontId = OX_DEFAULT_FONT_ID
-            Reqs(J).SizeMilliPt = CLng(Control.Core.FontSize * 1000)
-            Reqs(J).Caption = Control.Core.MeasureText(Part)
-            Reqs(J).Accelerator = Control.Core.Accelerator
+            Reqs(J).SizeMilliPt = CLng(Core.FontSize * 1000)
+            Reqs(J).Caption = Core.MeasureText(Part)
+            Reqs(J).Accelerator = Core.Accelerator
             J = J + 1
         Next Part
     Next I
@@ -265,8 +268,9 @@ Private Sub MeasureControls(ByVal List As Object, ByVal Surface As Object)
     J = 0
     For I = 1 To List.Count
         Set Control = List.Item(I)
-        For Part = 0 To Control.Core.MeasureTextCount - 1
-            Control.Core.SetMeasuredText Part, Res(J).RunId, Res(J).AdvanceMilliPt / 1000, _
+        Set Core = Control.Core
+        For Part = 0 To Core.MeasureTextCount - 1
+            Core.SetMeasuredText Part, Res(J).RunId, Res(J).AdvanceMilliPt / 1000, _
                 (Res(J).AscentMilliPt + Res(J).DescentMilliPt) / 1000, Res(J).CaretStopsMilliPtCsv
             J = J + 1
         Next Part

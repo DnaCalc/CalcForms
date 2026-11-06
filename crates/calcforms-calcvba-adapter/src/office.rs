@@ -133,16 +133,24 @@ impl WorkbookForm {
         }
         let mut modules = vec![self.module()?];
         if modules.iter().any(|module| {
-            ["CalcFormsWorkbookHost", "CalcFormsWorkbookLifetime"]
-                .iter()
-                .any(|reserved| module.module_name.eq_ignore_ascii_case(reserved))
+            [
+                "CalcFormsWorkbookHost",
+                "CalcFormsWorkbookLifetime",
+                "ICalcFormsLifecycle",
+            ]
+            .iter()
+            .any(|reserved| module.module_name.eq_ignore_ascii_case(reserved))
         }) {
             return Err("workbook uses a reserved host module name".into());
         }
         for module in &self.project_modules {
-            if ["CalcFormsWorkbookHost", "CalcFormsWorkbookLifetime"]
-                .iter()
-                .any(|reserved| module.module_name.eq_ignore_ascii_case(reserved))
+            if [
+                "CalcFormsWorkbookHost",
+                "CalcFormsWorkbookLifetime",
+                "ICalcFormsLifecycle",
+            ]
+            .iter()
+            .any(|reserved| module.module_name.eq_ignore_ascii_case(reserved))
             {
                 return Err("workbook uses a reserved host module name".into());
             }
@@ -177,6 +185,12 @@ impl WorkbookForm {
             module_kind: calcvba_symbol::manifest::ModuleKind::Procedural,
             attributes: ModuleAttributes::named("CalcFormsWorkbookLifetime"),
             source: include_str!("../../../vba/calcforms/runtime/WorkbookLifetime.vba").into(),
+        });
+        modules.push(ModuleUnit {
+            module_name: "ICalcFormsLifecycle".into(),
+            module_kind: calcvba_symbol::manifest::ModuleKind::Class,
+            attributes: ModuleAttributes::named("ICalcFormsLifecycle"),
+            source: include_str!("../../../vba/calcforms/runtime/ICalcFormsLifecycle.vba").into(),
         });
         let manifest = calcvba_symbol::manifest::SymbolProjectManifest {
             project_name: "CalcFormsWorkbook".into(),
@@ -384,7 +398,7 @@ impl WorkbookForm {
             .unwrap_or(lines.len());
         let declarations = lines[..procedure].join("\n");
         let procedures = lines[procedure..].join("\n");
-        let mut members = String::new();
+        let mut members = String::from("Implements ICalcFormsLifecycle\n");
         let mut build = format!("    Set CalcFormsHostForm = New UserForm\n    CalcFormsHostForm.Name = {}\n    CalcFormsHostForm.Caption = {}\n    CalcFormsHostForm.Width = {}\n    CalcFormsHostForm.Height = {}\n", literal(&self.name), literal(&self.caption), self.width, self.height);
         for control in &self.controls {
             let name = &control.name;

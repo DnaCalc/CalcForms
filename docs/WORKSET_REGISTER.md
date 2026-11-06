@@ -140,6 +140,12 @@ Native drawing and image measurements remain bounded to their stated scenarios.
 Worksets are coarse planned pushes. Live execution truth is in `.beads/` through
 `br`; this register is the roadmap and history.
 
+Run 8 takes up [CalcVBA a4bf9792](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.75/README.md):
+required VM3 probes establish typed Nothing defaults, portable variable arguments,
+qualified scalar defaults and external Friend rejection. `.75` and `o0fp` own
+this bounded integration; `.7`'s internal facade and `.95` lifetime work remain
+open. FORMS PARITY starts at 1,089 pass / 521 fail, with 422 measurements missing.
+
 Current W010 execution note: `oxforms-jbjp.5` produced the replay-valid
 canonical `W010RepresentativeMemberOracleV1` live capture through its reusable,
 manifest-driven MSForms member oracle, immutable `.4` ledger slice, and

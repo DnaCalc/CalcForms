@@ -9,6 +9,15 @@ Scene submission uses `CalcForms.Surface`. Historical evidence keeps its names.
 This index is the reading order for CalcForms requirements, architecture, and
 planning truth.
 
+Run 8 pins [CalcVBA a4bf9792](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.75/README.md).
+Required-outcome VM3 checks replace the qualified-default/Friend discrepancy
+assertions and cover typed Nothing defaults and real portable Surface calls with
+variable arguments. This supplies no forms measurement or full-facade credit.
+Workbook language Load/Unload uses a non-exposed, host-owned lifecycle interface
+in the composed application project; its implementations and helpers remain
+private. Typed control/Core locals preserve internal calls. Chained-result type
+loss remains [CalcVBA follow-up .115](handovers/HANDOVER_CalcVBA_chained_typed_dispatch.md).
+
 ## Core Spec
 
 1. [`FORMS_LIBRARY_SPEC_AND_PLAN.md`](FORMS_LIBRARY_SPEC_AND_PLAN.md) - current

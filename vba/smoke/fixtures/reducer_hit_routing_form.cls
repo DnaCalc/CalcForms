@@ -56,7 +56,9 @@ End Function
 ' Set a control's z-order by name, so a test can make A win the overlap (higher z) after the
 ' default equal-z tie sends it to B.
 Public Sub SetZOrder(ByVal Name As String, ByVal Z As Long)
-    mForm.ControlByName(Name).Core.ZOrder = Z
+    Dim Control As IOxControl
+    Set Control = mForm.ControlByName(Name)
+    Control.Core.ZOrder = Z
 End Sub
 
 Public Property Get HandlerLog() As String

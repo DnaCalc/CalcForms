@@ -857,7 +857,7 @@ _LOADER_CARGO_TARGETS = {
 }
 
 _REVIEWED_OXVBA_REPO = "https://github.com/DnaCalc/CalcVBA.git"
-_REVIEWED_OXVBA_REV = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+_REVIEWED_OXVBA_REV = "a4bf979239e1cb67326d13b760c04ecd13bbf55f"
 _REVIEWED_LOADER_OXVBA_DEPENDENCIES = (
     "calcvba-bind",
     "calcvba-bundle",

@@ -104,7 +104,7 @@ fn projects(body: &str) -> Vec<SymbolProjectManifest> {
 fn run_result(body: &str) -> Result<i32, String> {
     let programs =
         calcvba_bind::bind_projects(&projects(body), &calcvba_symbol::CatalogTypeLibResolver)
-            .expect("bind MSForms and unchanged client as separate projects");
+            .map_err(|error| format!("bind: {error:?}"))?;
     let bundles = programs
         .iter()
         .map(|program| calcvba_oxir::elaborate::elaborate(program).expect("elaborate"))
@@ -142,10 +142,8 @@ End Function
 }
 
 #[test]
-fn discrepancy_d006_01_qualified_default_member_is_not_executed() {
-    // This locks down the observed blocker, NOT compatibility. The required
-    // result is Ok(107). Replace this discrepancy assertion when CalcVBA fixes it.
-    let error = run_result(
+fn qualified_referenced_default_member_executes() {
+    let value = run_result(
         r#"
 Public Function Probe() As Long
     Dim label As MSForms.Label
@@ -157,11 +155,8 @@ Public Function Probe() As Long
 End Function
 "#,
     )
-    .expect_err("D006-01 changed; rerun acceptance and update the handover");
-    assert!(
-        error.contains("error 13: cannot convert Object to String"),
-        "{error}"
-    );
+    .expect("qualified cross-project scalar default coercion");
+    assert_eq!(value, 107);
 }
 
 #[test]
@@ -211,21 +206,71 @@ End Function
 }
 
 #[test]
-fn discrepancy_d006_02_friend_bridge_leaks_to_referencing_project() {
-    // Required: inaccessible member (bind error / error 438 for Object calls).
-    // Observed on the pinned baseline: the external call succeeds. This is
-    // evidence against using Friend as a sufficient production boundary.
-    assert_eq!(
-        run_result(
-            r#"
+fn external_typed_friend_access_is_rejected() {
+    let error = run_result(
+        r#"
 Public Function Probe() As Long
     Dim label As MSForms.Label
     Set label = New MSForms.Label
     Probe = label.RuntimeDispatch(7)
 End Function
-"#
+"#,
+    )
+    .expect_err("external typed access must not expose Friend");
+    assert!(
+        error.starts_with("bind:") && error.to_ascii_lowercase().contains("runtimedispatch"),
+        "{error}"
+    );
+}
+
+#[test]
+fn external_late_bound_friend_access_is_rejected() {
+    let error = run_result(
+        r#"
+Public Function Probe() As Long
+    Dim label As Object
+    Set label = New MSForms.Label
+    Probe = label.RuntimeDispatch(7)
+End Function
+"#,
+    )
+    .expect_err("Object dispatch must not expose Friend");
+    assert!(error.contains("438"), "{error}");
+}
+
+#[test]
+fn call_by_name_cannot_recover_external_friend_access() {
+    let error = run_result(
+        r#"
+Public Function Probe() As Long
+    Dim label As Object
+    Set label = New MSForms.Label
+    Probe = CallByName(label, "RuntimeDispatch", VbMethod, 7)
+End Function
+"#,
+    )
+    .expect_err("CallByName must not expose Friend");
+    assert!(error.contains("438"), "{error}");
+}
+
+#[test]
+fn untouched_qualified_object_field_defaults_to_nothing() {
+    assert_eq!(
+        run_result(
+            r#"
+Private label As MSForms.Label
+Public Function Probe() As Long
+    Dim localLabel As MSForms.Label
+    If label Is Nothing Then Probe = 1
+    If localLabel Is Nothing Then Probe = Probe + 2
+    Set label = New MSForms.Label
+    If Not label Is Nothing Then Probe = Probe + 4
+    Set label = Nothing
+    If label Is Nothing Then Probe = Probe + 8
+End Function
+"#,
         )
-        .expect("D006-02 changed; rerun acceptance and update the handover"),
-        107
+        .expect("typed fields and locals use object Nothing defaults"),
+        15
     );
 }

@@ -181,11 +181,15 @@ Public Sub RenameFieldToRenamed()
 End Sub
 
 Public Property Get RenamedFieldLookupName() As String
-    RenamedFieldLookupName = mForm.ControlByName("RenamedField").Core.Name
+    Dim Control As IOxControl
+    Set Control = mForm.ControlByName("RenamedField")
+    RenamedFieldLookupName = Control.Core.Name
 End Property
 
 Public Property Get RenamedFieldItemName() As String
-    RenamedFieldItemName = mForm.Controls.Item("RenamedField").Core.Name
+    Dim Control As IOxControl
+    Set Control = mForm.Controls.Item("RenamedField")
+    RenamedFieldItemName = Control.Core.Name
 End Property
 
 Public Sub Render()

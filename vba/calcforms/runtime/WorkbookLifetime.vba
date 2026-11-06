@@ -4,9 +4,13 @@ Public Const vbModeless As Long = 0
 Public Const vbModal As Long = 1
 
 Public Sub Load(ByVal Form As Object)
-    Form.CalcFormsHostLoad
+    Dim Lifecycle As ICalcFormsLifecycle
+    Set Lifecycle = Form
+    Lifecycle.LoadForm
 End Sub
 
 Public Sub Unload(ByVal Form As Object)
-    Form.CalcFormsHostUnload 1
+    Dim Lifecycle As ICalcFormsLifecycle
+    Set Lifecycle = Form
+    Lifecycle.UnloadForm 1
 End Sub

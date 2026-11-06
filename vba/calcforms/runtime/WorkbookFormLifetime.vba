@@ -3,6 +3,14 @@ Private CalcFormsHostVisible As Boolean
 Private CalcFormsHostClosing As Boolean
 Private CalcFormsHostActive As Boolean
 
+Private Sub ICalcFormsLifecycle_LoadForm()
+    CalcFormsHostLoad
+End Sub
+
+Private Function ICalcFormsLifecycle_UnloadForm(ByVal CloseMode As Integer) As Boolean
+    ICalcFormsLifecycle_UnloadForm = CalcFormsHostUnload(CloseMode)
+End Function
+
 Private Sub Class_Initialize()
     Set CalcFormsHostForm = Nothing
     Set CalcFormsHostReducer = Nothing

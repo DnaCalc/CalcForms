@@ -525,7 +525,7 @@ resolver = "2"
 
 [workspace.metadata.calcforms.calcvba_baseline]
 repo = "https://github.com/DnaCalc/CalcVBA.git"
-rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0"
+rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f"
 ''',
                 encoding="utf-8",
             )
@@ -541,14 +541,14 @@ version = "0.0.0"
 
 [dependencies]
 calcforms-calcvba-adapter = {{ path = "../calcforms-calcvba-adapter" }}
-calcvba-bind = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-bundle = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-com = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-hal = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-engine = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-oxir = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-runtime = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
-calcvba-symbol = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }}
+calcvba-bind = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-bundle = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-com = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-hal = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-engine = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-oxir = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-runtime = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
+calcvba-symbol = {{ git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }}
 ''',
                     encoding="utf-8",
                 )
@@ -560,15 +560,15 @@ name = "calcforms-calcvba-adapter"
 version = "0.0.0"
 
 [dependencies]
-calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-office = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
-calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-office = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
 ''',
                 encoding="utf-8",
             )
@@ -665,7 +665,7 @@ exclude = false
             ),
             "wrong_root_rev": (
                 "Cargo.toml",
-                "1590c0895743a26f9a2e1147c5997d0f67f6f3c0",
+                "a4bf979239e1cb67326d13b760c04ecd13bbf55f",
                 "0000000000000000000000000000000000000000",
             ),
             "wrong_dependency_repo": (
@@ -675,22 +675,22 @@ exclude = false
             ),
             "wrong_dependency_rev": (
                 "crates/calcforms-bootstrap/Cargo.toml",
-                "1590c0895743a26f9a2e1147c5997d0f67f6f3c0",
+                "a4bf979239e1cb67326d13b760c04ecd13bbf55f",
                 "0000000000000000000000000000000000000000",
             ),
             "missing_dependency": (
                 "crates/calcforms-bootstrap/Cargo.toml",
-                'calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }\n',
+                'calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }\n',
                 "",
             ),
             "wrong_adapter_rev": (
                 "crates/calcforms-calcvba-adapter/Cargo.toml",
-                "1590c0895743a26f9a2e1147c5997d0f67f6f3c0",
+                "a4bf979239e1cb67326d13b760c04ecd13bbf55f",
                 "0000000000000000000000000000000000000000",
             ),
             "missing_adapter_dependency": (
                 "crates/calcforms-calcvba-adapter/Cargo.toml",
-                'calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }\n',
+                'calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }\n',
                 "",
             ),
             "loader_adapter_feature": (
@@ -753,14 +753,14 @@ default = ["calcvba-com/fixture-typelibs"]
 ''',
             "target_dependency": '''
 [target.'cfg(windows)'.dependencies]
-calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0", features = ["fixture-typelibs"] }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f", features = ["fixture-typelibs"] }
 ''',
             "build_dependency": '''
 [build-dependencies]
-calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f" }
 ''',
             "aliased_dependency": '''
-alternate-com = { package = "calcvba-com", git = "https://github.com/DnaCalc/CalcVBA.git", rev = "1590c0895743a26f9a2e1147c5997d0f67f6f3c0", features = ["fixture-typelibs"] }
+alternate-com = { package = "calcvba-com", git = "https://github.com/DnaCalc/CalcVBA.git", rev = "a4bf979239e1cb67326d13b760c04ecd13bbf55f", features = ["fixture-typelibs"] }
 ''',
         }
         for label, addition in alternate_feature_paths.items():

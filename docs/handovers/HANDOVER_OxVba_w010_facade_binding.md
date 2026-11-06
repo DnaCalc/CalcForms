@@ -85,3 +85,11 @@ implementation comparison and explicitly review/version the `.6` input pins;
 do not change raw contracts to fit the implementation. Historical committed
 snapshots retain their original hashes and observations. No sibling files were
 modified for this handover.
+
+2026-11-06 response: CalcForms now pins published CalcVBA a4bf9792. Its focused
+VM3 probes require and pass qualified scalar defaults, same-library Friend calls,
+typed external rejection at binding and late-bound error 438. The explicit
+Let/Set identity probes also pass. The two discrepancy assertions are replaced
+by required outcomes. Current source-ledger pins are refreshed; `.6`'s generated
+snapshot remains historical and `.7` still owns the production facade refactor.
+See [take-up evidence](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.75/README.md).

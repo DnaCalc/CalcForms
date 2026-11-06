@@ -48,3 +48,14 @@ CalcVBA requests from the restart tests:
   No runtime test is disabled or converted into a passing discrepancy test.
 
 No changes to the sibling repository or Office security configuration are authorized.
+
+Run 8 update (2026-11-06): the published dependency is now pinned to
+`a4bf979239e1cb67326d13b760c04ecd13bbf55f`. Required-outcome VM3 regressions
+confirm untouched qualified object fields/locals default to Nothing, variable
+arguments reach the real portable Surface, qualified cross-project scalar
+default coercion executes, and external typed/late-bound Friend access fails.
+The existing same-library bridge and explicit Let/Set identity probes still pass.
+See [the take-up evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.75/README.md).
+The paragraphs above preserve the restart observations; `.6`'s generated blocked
+snapshot remains historical. This does not implement `.7`'s internal facade or
+resolve `.95`'s non-creating default lookup and held-reference lifetime requests.

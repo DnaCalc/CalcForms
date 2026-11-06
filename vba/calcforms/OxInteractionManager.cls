@@ -328,7 +328,9 @@ Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVa
             ReduceKeyDown KeyCode, Shift
         Case "keyup"
             If Len(mFocusName) > 0 Then
-                mForm.ControlByName(mFocusName).OnKeyUp KeyCode, Shift
+                Dim RoutedControl As IOxControl
+                Set RoutedControl = mForm.ControlByName(mFocusName)
+                RoutedControl.OnKeyUp KeyCode, Shift
                 Emit "keyup:" & mFocusName
             End If
     End Select
@@ -617,7 +619,9 @@ End Function
 Private Sub ClearPressedVisual()
     If Len(mPressedName) = 0 Then Exit Sub
     If mForm.HasControl(mPressedName) Then
-        mForm.ControlByName(mPressedName).Core.Pressed = False
+        Dim RoutedControl As IOxControl
+        Set RoutedControl = mForm.ControlByName(mPressedName)
+        RoutedControl.Core.Pressed = False
     End If
     mPressedName = ""
 End Sub
@@ -859,7 +863,9 @@ Public Function DispatchDrop(ByVal Text As String) As String
     PreviousEffects = BeginEffectLog()
     EnsureInteractionIndex
     If Len(mFocusName) > 0 And Len(Text) > 0 Then
-        mForm.ControlByName(mFocusName).OnPaste Text, OX_ACTION_PASTE, 0
+        Dim RoutedControl As IOxControl
+        Set RoutedControl = mForm.ControlByName(mFocusName)
+        RoutedControl.OnPaste Text, OX_ACTION_PASTE, 0
         Emit "drop:" & mFocusName
         Repaint
     End If
@@ -887,7 +893,9 @@ Private Sub ActivateDefaultButton()
     If Name <> mFocusName Then
         If Not TransferFocusTo(Name) Then Exit Sub
     End If
-    mForm.ControlByName(Name).OnClick
+    Dim RoutedControl As IOxControl
+    Set RoutedControl = mForm.ControlByName(Name)
+    RoutedControl.OnClick
     Emit "click:" & Name
 End Sub
 
@@ -896,7 +904,9 @@ Private Sub ActivateCancelButton()
     Dim Name As String
     Name = CancelButtonName()
     If Len(Name) = 0 Then Exit Sub
-    mForm.ControlByName(Name).OnClick
+    Dim RoutedControl As IOxControl
+    Set RoutedControl = mForm.ControlByName(Name)
+    RoutedControl.OnClick
     Emit "click:" & Name
 End Sub
 
@@ -915,7 +925,9 @@ Private Sub ActivateAccelerator(ByVal KeyCode As Integer)
     If Name <> mFocusName Then
         If Not TransferFocusTo(Name) Then Exit Sub
     End If
-    mForm.ControlByName(Name).OnClick
+    Dim RoutedControl As IOxControl
+    Set RoutedControl = mForm.ControlByName(Name)
+    RoutedControl.OnClick
     Emit "click:" & Name
 End Sub
 
@@ -933,7 +945,9 @@ Public Function DispatchChar(ByVal Text As String) As String
         Exit Function
     End If
     If Len(mFocusName) > 0 Then
-        mForm.ControlByName(mFocusName).OnCharacterInput Text
+        Dim RoutedControl As IOxControl
+        Set RoutedControl = mForm.ControlByName(mFocusName)
+        RoutedControl.OnCharacterInput Text
         Emit "char:" & mFocusName
         Repaint
     End If
@@ -1010,7 +1024,9 @@ Private Function TransferFocusTo(ByVal NewName As String) As Boolean
 
     mFocusName = NewName
     If Len(NewName) > 0 Then
-        mForm.ControlByName(NewName).OnEnter
+        Dim RoutedControl As IOxControl
+        Set RoutedControl = mForm.ControlByName(NewName)
+        RoutedControl.OnEnter
         Emit "enter:" & NewName
     End If
     TransferFocusTo = True

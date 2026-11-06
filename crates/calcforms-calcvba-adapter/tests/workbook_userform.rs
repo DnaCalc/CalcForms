@@ -22,6 +22,54 @@ fn workbook() -> WorkbookForm {
     )
     .expect("read real workbook using calcvba-office")
 }
+
+#[test]
+fn workbook_lifecycle_capability_does_not_expose_private_helpers_to_object_calls() {
+    use calcvba_runtime::Variant;
+    use calcvba_symbol::manifest::{ModuleAttributes, ModuleKind, ModuleUnit};
+
+    let mut form = workbook();
+    form.project_modules.push(ModuleUnit {
+        module_name: "LifecycleVisibilityProbe".into(),
+        module_kind: ModuleKind::Class,
+        attributes: ModuleAttributes::named("LifecycleVisibilityProbe"),
+        source: r#"
+Public Function Probe(ByVal Target As Object, ByVal Member As String) As Long
+    On Error Resume Next
+    CallByName Target, Member, VbMethod
+    Probe = Err.Number
+End Function
+"#
+        .into(),
+    });
+    let (mut runtime, _) = form
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .unwrap();
+    let target = runtime.form();
+    let session = runtime.session_mut();
+    let probe = session
+        .create_class_instance("LifecycleVisibilityProbe")
+        .unwrap();
+    for member in [
+        "CalcFormsHostLoad",
+        "CalcFormsHostUnload",
+        "LoadForm",
+        "UnloadForm",
+    ] {
+        let error = session
+            .invoke_member_values(
+                probe.clone(),
+                "Probe",
+                Some(ProjectMemberKind::Method),
+                vec![
+                    Variant::from_object_ref(target.clone()),
+                    Variant::from_string(member),
+                ],
+            )
+            .unwrap();
+        assert_eq!(error.as_i32(), Some(438), "{member}");
+    }
+}
 fn state(runtime: &mut OxRuntime) -> String {
     let form = runtime.form();
     runtime
