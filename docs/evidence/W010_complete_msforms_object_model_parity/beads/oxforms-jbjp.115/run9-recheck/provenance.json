@@ -1,0 +1,12 @@
+{
+  "schema": "calcforms.calcvba_run9_recheck.v1",
+  "revision": "8840f391676d0796870e9c486ba2ca6586c5b8c7",
+  "runtime": "VM3",
+  "office_launches": 0,
+  "binary_sha256": "60ce04b62101adcaad2ef2f52136259ff80550e8423274d76ec58e5506968f03",
+  "files": {
+    "LayoutSelection.cls": "1334ebca127054f6132d5ef64f6a3c0cdf04a70619198dbbd1a0d97c458533ae",
+    "repro-only.bas": "77954e167c5d4bce7a926cd8a34f6f230fcd355a9819292e0dd46e8bc1e6aa30",
+    "result.txt": "1d56cc64bfa99eef6913082d452056682d864ee0b3e9cd688c344ce0dee1fd98"
+  }
+}

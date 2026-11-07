@@ -32,15 +32,17 @@ with 208 matching state/event/error fields for spin, scroll, toggle and tab cont
 Public range assignments now reject invalid values with error 380. The
 [IntegralHeight report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/README.md)
 remains partial at 48 pass / 22 fail; the Boolean flag is public, while Height
-normalization and later TopIndex behavior stay open. The source census is 841
+normalization and later TopIndex behavior stay open. The source census is 842
 public declarations; canonical full-library row status remains red and unchanged.
 
 ## Core Spec
 
-Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/final/forms-parity.md)
-reports **1,201 pass / 417 fail; 346 missing measurements**. Thirty-two greeter
+Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.130/forms-parity.md)
+reports **1,203 pass / 415 fail; 346 missing measurements**. Thirty-two greeter
 fields now use original-handler setter/event/selection/lifecycle observations.
 The latest production behavior/input/keyboard replay retains all earlier native facts.
+Frame background MouseDown now exposes and raises the public four-scalar event;
+both native hit-testing observations match, with child routing preserved.
 The [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
 was 1,169/449 with 378 missing measurements. Native font sizing
 and retained DirectWrite raster are bounded to the recorded contexts; 17 gains

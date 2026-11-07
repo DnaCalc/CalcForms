@@ -3,6 +3,8 @@ Implements IOxControl
 Implements IOxControlHost
 Implements IOxControlContainer
 
+Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+
 ' Representative MSForms-shaped Frame. The Frame is a control and a child owner:
 ' its children keep local Left/Top object-model coordinates, while render/input
 ' use OxControlCore's transient paint offset to place them in the parent form.
@@ -181,6 +183,7 @@ End Function
 
 ' --- IOxControl reducer input surface ---
 Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    RaiseEvent MouseDown(Button, Shift, X, Y)
 End Sub
 
 Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)

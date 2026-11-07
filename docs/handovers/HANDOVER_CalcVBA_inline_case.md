@@ -12,3 +12,10 @@ captured native observations pass (apart from the explicitly separate first
 Show IntegralHeight adjustment). Reproduce a scalar assignment and a property
 put after a Case label, then fix lowering/binding as appropriate. Keep native
 transcripts unchanged; remove the separator-only workaround when taken up.
+
+Run 9 rechecked the same language defect on pinned `8840f391` through the current
+VM3 layout driver, without starting Office. A scalar `Select Case 2` with same-line
+assignments returns 0; putting the same assignments on following lines returns
+22. The source, executable identity and exact result are retained in
+[`oxforms-jbjp.115/run9-recheck`](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.115/run9-recheck/README.md).
+This remains a CalcVBA fix; no sibling repository was changed.

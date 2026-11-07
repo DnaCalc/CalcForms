@@ -147,8 +147,8 @@ checks against the new native held-form/control observations. Held-object reload
 old-control events/detachment and loaded-object final release remain open.
 FORMS PARITY remains **1,166 pass / 452 fail; 378 missing measurements** here.
 
-Run 9's [current greeter replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/final/forms-parity.md)
-is **1,201 pass / 417 fail; 346 missing measurements**. `.125/.129` fill 32 fields
+Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.130/forms-parity.md)
+is **1,203 pass / 415 fail; 346 missing measurements**. `.125/.129` fill 32 fields
 using original workbook handlers, state/event traces, selection and typed
 held-control lifecycle readbacks. Eighteen production behavior/input/keyboard
 scenarios were re-executed against unchanged independent native observations.
@@ -163,12 +163,15 @@ Run 9 `.126` imports a genuine planner with spin, scroll, toggle and tabs:
 208 native state/event/error fields match, including public error-380 range
 rejection (`.127`). `.118` now exposes IntegralHeight but retains every measured
 Height/TopIndex residual: 48 pass / 22 fail. Its broader rounding scope stays open.
-The source census is 841 declarations, with canonical row statuses unchanged.
+The IntegralHeight step raised the source census to 841 declarations; Frame
+MouseDown (`.130`) raises it to 842, with canonical row statuses unchanged.
 `.108` records bounded helper timeout, canary cleanup and real-dialog recovery
 against the same hidden Excel PID and preserves the earlier visibility diagnostic.
 `.105.1` now matches 308 original order-entry BeforeUpdate/focus/reuse/reload
 fields. Sibling-local TabIndex sorting corrects the root/nested order; `.95.2`
 resolves the current default before host Show. Broader scope stays open.
+`.130` wires the native Frame background MouseDown signature and scalar callback.
+The fresh eighteen-scenario replay adds two measured gains and no regressions.
 `.123` matches all 320 real inventory fields and five Escape/rollback/veto cases
 at both scales. `.124` retains differing native preparation-update prefixes.
 

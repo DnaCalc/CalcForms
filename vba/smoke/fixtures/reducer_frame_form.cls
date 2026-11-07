@@ -5,7 +5,7 @@ Option Explicit
 
 Private mForm As UserForm
 Private mReducer As OxReducer
-Private mFrame As Frame
+Private WithEvents mFrame As Frame
 Private WithEvents mInner As TextBox
 Private WithEvents mInnerButton As CommandButton
 Private WithEvents mClipped As TextBox
@@ -175,6 +175,10 @@ End Sub
 
 Private Sub mOuter_Enter()
     Append "Outer.Enter"
+End Sub
+
+Private Sub mFrame_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Append "Frame.MouseDown:" & CStr(Button) & "," & CStr(Shift) & "," & CStr(CLng(X)) & "," & CStr(CLng(Y))
 End Sub
 
 Private Sub Append(ByVal Line As String)

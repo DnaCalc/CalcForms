@@ -3018,8 +3018,8 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
     );
     assert_eq!(
         string_get(&mut session, &form, "HandlerLog"),
-        "",
-        "clipped-away child should not receive mouse events"
+        "Frame.MouseDown:1,0,18,89",
+        "the Frame background receives local scalar arguments while the clipped-away child receives none"
     );
 
     let index = string_get(&mut session, &form, "InteractionIndexSummary");

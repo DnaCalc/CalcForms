@@ -21,7 +21,7 @@ matrix has no runtime parity credit; it prevents inventing one rounding formula
 from an isolated 71.25 observation. Native source and raw results remain pinned.
 
 Fresh review checked default/readback, same-value suppression, scroll reset,
-first Show, raw explicit resize and every reported mismatch. The canonical
-ledger now extracts 841 public declarations but remains red: 2,452 verified,
-4,682 gaps and 622 unexpected-public rows. An added declaration alone does not
+first Show, raw explicit resize and every reported mismatch. Adding IntegralHeight
+raised the source census to 841 declarations. The full-library ledger remains
+red: 2,452 verified, 4,682 gaps and 622 unexpected-public rows. A declaration alone does not
 prove all required ABI, behavioral and persistence dimensions.

@@ -2,6 +2,12 @@ Status: Open
 Target: CalcVBA
 Ask: Keep a project/interface receiver's static type through property and function results.
 
+Run 9 independently rechecked this on pinned `8840f391`: the chained
+`C.Core.MeasureTextCount` returns error 438, while a typed `OxControlCore` local
+returns 3 from the same object. The exact VM3 source/result and executable hash
+are in [`run9-recheck`](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.115/run9-recheck/README.md).
+No Office process was started and no OxVba files were changed.
+
 On pinned a4bf9792, the production `UserForm.MeasureControls` chain
 `Control.Core.MeasureTextCount` raises 438 naming `MeasureTextCount`. `Control` is
 `IOxControl`; `Core` returns `OxControlCore`; `MeasureTextCount` is a same-project
