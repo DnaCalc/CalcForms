@@ -1,0 +1,20 @@
+{
+  "schema": "calcforms.helper_canary.v1",
+  "creator_pid": 41964,
+  "excel_pid": 22924,
+  "excel_launches": 1,
+  "workbook": "C:\\Work\\DnaCalc\\OxForms\\fixtures\\workbooks\\greeter\\workbook-greeter.xlsm",
+  "module": "HelperCanary_a293d3053265",
+  "source": "Option Explicit\nPublic Function RecoveryCanary() As String\n    On Error GoTo Failed\n    RecoveryCanary = \"owned-helper-canary\"\n    Exit Function\nFailed:\n    RecoveryCanary = \"CALCFORMS_NATIVE_ERROR:\" & CStr(Err.Number)\nEnd Function\n",
+  "source_sha256": "b6ec71bc72c8fa0af994b028d352bb25445cd08b9da10376d78cd13f08ae6ab9",
+  "original_components": {
+    "ThisWorkbook": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "Sheet1": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "WorkbookGreeter": "710f1b4ad1c80ecee091b62cbb62da7dc7a22672817799587d0d3652b6655038",
+    "GreeterEntry": "edd74a5d1baa394a952945d9bdb36bdb3789cdebb4ddad647f5e18297e4af328",
+    "LayoutOracle": "a7c8927722b211eeb02c9b400420018e17ae703568a1e00fce04e5c91ad34461",
+    "NativeDrawingObserver": "e7546af58faed846dab26d909c8d17094636908bfa4d941df6c44d7c6babbee3"
+  },
+  "stage": "canary-returned; helper-only hang",
+  "excel_visible": true
+}

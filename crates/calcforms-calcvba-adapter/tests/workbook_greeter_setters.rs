@@ -168,3 +168,124 @@ fn original_greeter_setters_selection_and_application_events_match_both_native_s
         );
     }
 }
+
+#[test]
+fn original_greeter_held_controls_hide_show_unload_and_new_default_match_inprocess_vba() {
+    use std::collections::BTreeMap;
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let native:Value=serde_json::from_slice(&std::fs::read(root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-vba/observations.json")).unwrap()).unwrap();
+    let form = WorkbookForm::open(
+        root.join("fixtures/workbooks/greeter/workbook-greeter.xlsm"),
+        "WorkbookGreeter",
+    )
+    .unwrap();
+    let (mut runtime, _) = form
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .unwrap();
+    runtime.show_modeless().unwrap();
+    let names = [
+        ("Prompt", "Caption"),
+        ("Output", "Caption"),
+        ("InputName", "Text"),
+        ("Loud", "Value"),
+        ("Greet", "Caption"),
+    ];
+    let held: BTreeMap<_, _> = names
+        .iter()
+        .map(|(name, _)| (*name, control(&mut runtime, name)))
+        .collect();
+    put(
+        &mut runtime,
+        "InputName",
+        "Text",
+        Variant::from_string("Lin"),
+    );
+    put(&mut runtime, "Loud", "Value", Variant::from_bool(true));
+    put(
+        &mut runtime,
+        "Output",
+        "Caption",
+        Variant::from_string("(modified)"),
+    );
+    let mut rows = Vec::new();
+    let mut snapshot = |runtime: &mut OxRuntime,
+                        step: &str,
+                        controls: &BTreeMap<&str, ObjectRef>,
+                        loaded: bool| {
+        let mut values = serde_json::Map::new();
+        for (name, property) in names {
+            let value = member(
+                runtime,
+                controls[name].clone(),
+                property,
+                ProjectMemberKind::PropertyGet,
+                vec![],
+            );
+            values.insert(
+                name.into(),
+                json!({"member":property,"value":string(value),"error":0}),
+            );
+        }
+        let visible = if loaded {
+            let object = runtime.form();
+            json!(member(
+                runtime,
+                object,
+                "Visible",
+                ProjectMemberKind::PropertyGet,
+                vec![]
+            )
+            .as_bool()
+            .unwrap())
+        } else {
+            Value::Null
+        };
+        let app_state = if loaded {
+            json!(state(runtime))
+        } else {
+            Value::Null
+        };
+        rows.push(json!({"step":step,"values":values,"form_visible":visible,"state":app_state}));
+    };
+    snapshot(&mut runtime, "modified", &held, true);
+    let object = runtime.form();
+    member(
+        &mut runtime,
+        object,
+        "Hide",
+        ProjectMemberKind::Method,
+        vec![],
+    );
+    snapshot(&mut runtime, "hidden", &held, true);
+    runtime.show_modeless().unwrap();
+    snapshot(&mut runtime, "shown", &held, true);
+    let object = runtime.form();
+    member(
+        &mut runtime,
+        object,
+        "CalcFormsHostUnload",
+        ProjectMemberKind::Method,
+        vec![Variant::from_i16(1)],
+    );
+    snapshot(&mut runtime, "unloaded-held-controls", &held, false);
+    runtime.show_modeless().unwrap();
+    let fresh: BTreeMap<_, _> = names
+        .iter()
+        .map(|(name, _)| (*name, control(&mut runtime, name)))
+        .collect();
+    snapshot(&mut runtime, "fresh-default", &fresh, true);
+    snapshot(&mut runtime, "old-controls-after-reload", &held, false);
+    println!(
+        "CALCFORMS_GREETER_LIFECYCLE={}",
+        json!({"schema":"calcforms.greeter_lifecycle_runtime.v1","observations":rows})
+    );
+    assert_eq!(native["cases"].as_array().unwrap().len(), 2);
+    for case in native["cases"].as_array().unwrap() {
+        assert_eq!(
+            json!(rows),
+            case["observations"],
+            "complete typed-control lifecycle at native zoom {}",
+            case["zoom"]
+        );
+    }
+}

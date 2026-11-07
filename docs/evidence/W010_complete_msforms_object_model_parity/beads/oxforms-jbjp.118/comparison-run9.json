@@ -1,0 +1,571 @@
+{
+  "schema": "calcforms.workbook_fields.v1",
+  "kind": "integral_height",
+  "summary": {
+    "pass_count": 48,
+    "fail_count": 22,
+    "missing_measurements": 0
+  },
+  "checks": [
+    {
+      "zoom": 100,
+      "step": "before-show",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "before-show",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "shown",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "shown",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "shown",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-true",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-true",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-true",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "false",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "false",
+      "field": "integral",
+      "native": false,
+      "calcforms": false,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "false",
+      "field": "top",
+      "native": 15,
+      "calcforms": 15,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-false",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-false",
+      "field": "integral",
+      "native": false,
+      "calcforms": false,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-false",
+      "field": "top",
+      "native": 15,
+      "calcforms": 15,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "true",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "true",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "true",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-true-after-toggle",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "same-true-after-toggle",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-true-after-toggle",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "false-height-80",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 80.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "false-height-80",
+      "field": "integral",
+      "native": false,
+      "calcforms": false,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "false-height-80",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "true-height-80",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 80.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "true-height-80",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "true-height-80",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "true-height-72",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "true-height-72",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "true-height-72",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "after-doevents",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "after-doevents",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "after-doevents",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "height",
+      "native": 71.25,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "before-show",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "before-show",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "shown",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "shown",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "shown",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-true",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-true",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-true",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "false",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "false",
+      "field": "integral",
+      "native": false,
+      "calcforms": false,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "false",
+      "field": "top",
+      "native": 15,
+      "calcforms": 15,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-false",
+      "field": "height",
+      "native": 72.0,
+      "calcforms": 72.0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-false",
+      "field": "integral",
+      "native": false,
+      "calcforms": false,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-false",
+      "field": "top",
+      "native": 15,
+      "calcforms": 15,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "true",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "true",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "true",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-true-after-toggle",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "same-true-after-toggle",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-true-after-toggle",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "false-height-80",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 80.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "false-height-80",
+      "field": "integral",
+      "native": false,
+      "calcforms": false,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "false-height-80",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "true-height-80",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 80.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "true-height-80",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "true-height-80",
+      "field": "top",
+      "native": 16,
+      "calcforms": 16,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "true-height-72",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "true-height-72",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "true-height-72",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "after-doevents",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "after-doevents",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "after-doevents",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "height",
+      "native": 69.5,
+      "calcforms": 72.0,
+      "status": "fail"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "integral",
+      "native": true,
+      "calcforms": true,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "top",
+      "native": 16,
+      "calcforms": 15,
+      "status": "fail"
+    }
+  ]
+}

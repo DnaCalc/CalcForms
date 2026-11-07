@@ -1,0 +1,20 @@
+{
+  "schema": "calcforms.planner_workbook.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187"
+  },
+  "workbook_sha256": "8e029a9d1e28448c31ccdc8a404cc2a363f9ad70c3744fee7b4a419309ab44d3",
+  "source_sha256": "fef872bcd0bf42e7af41f0f3db0a3ddbd9f0e6bfdb3062558d36752f4ff026fa",
+  "entry_sha256": "bf9b383cbec788e0a08222fb77a08a2c5b3a570a6ad3e249ba811f9600e3cede",
+  "excel_version": "16.0",
+  "excel_build": "20527.0"
+}

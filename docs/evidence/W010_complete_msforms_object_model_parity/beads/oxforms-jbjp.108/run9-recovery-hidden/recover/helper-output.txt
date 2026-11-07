@@ -1,0 +1,1 @@
+{"schema": "calcforms.helper_recovery.v1", "excel_pid": 22924, "excel_launches": 1, "creator_pid": 40876, "recovery_pid": 63152, "canary_removed": true, "original_components_unchanged": true, "excel_visible": false, "excel_version": "16.0", "excel_build": "20527.0"}

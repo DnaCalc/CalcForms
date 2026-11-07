@@ -1,0 +1,56 @@
+{
+  "schema": "calcforms.runtime_measurements.v1",
+  "source_reference": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/observations.json",
+  "source_sha256": "8f0190086d8f965e1b3cf241adb6e8ea6199cfff916bcc5a3f08f0f0fd773356",
+  "runtime_sha256": "739240fe4cb6950fdc58b231481cce5b8a719860abfd3f5c3fbd95b49d5ecf4a",
+  "observations": [
+    {
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "calcforms": "@initial~\n@visit~InputName\n@visit~Greet\n@visit~LongInput\n@visit~InputName\nPrompt~hit_testing~interior~Prompt.MouseDown|\nInputName~hit_testing~interior~InputName.MouseDown|\nGreet~hit_testing~interior~Greet.MouseDown|\nFractional~hit_testing~interior~Fractional.MouseDown|\nClipped~hit_testing~interior~Clipped.MouseDown|\nLongInput~hit_testing~interior~LongInput.MouseDown|\nDisabled~hit_testing~interior~\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-100-runtime.cls",
+      "current_source": "input-LayoutCommon-100.cls",
+      "current_source_sha256": "5eda6ba0b68873d179baae1f3021c3bc98bc3480305890b8bc77c470af9959ea"
+    },
+    {
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "calcforms": "@initial~\n@visit~InputName\n@visit~Greet\n@visit~LongInput\n@visit~InputName\nPrompt~hit_testing~interior~Prompt.MouseDown|\nInputName~hit_testing~interior~InputName.MouseDown|\nGreet~hit_testing~interior~Greet.MouseDown|\nFractional~hit_testing~interior~Fractional.MouseDown|\nClipped~hit_testing~interior~Clipped.MouseDown|\nLongInput~hit_testing~interior~LongInput.MouseDown|\nDisabled~hit_testing~interior~\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-150-runtime.cls",
+      "current_source": "input-LayoutCommon-150.cls",
+      "current_source_sha256": "9a79d3ec9a3475c8d328e90b76a24c46477566c94d3701ff8a97f2c1336a30b7"
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "calcforms": "@initial~\n@visit~Unchecked\n@visit~Checked\n@visit~OptionOne\n@visit~OptionTwo\n@visit~ToggleOff\n@visit~ToggleOn\n@visit~Choices\n@visit~Dropdown\n@visit~Unchecked\nUnchecked~hit_testing~interior~Unchecked.MouseDown|Unchecked.Change|Unchecked.Click|\nChecked~hit_testing~interior~Checked.MouseDown|Checked.Change|Checked.Click|\nOptionOne~hit_testing~interior~OptionOne.MouseDown|OptionOne.Click|\nOptionTwo~hit_testing~interior~OptionTwo.MouseDown|OptionOne.Change|OptionTwo.Change|OptionTwo.Click|\nToggleOff~hit_testing~interior~ToggleOff.MouseDown|ToggleOff.Change|ToggleOff.Click|\nToggleOn~hit_testing~interior~ToggleOn.MouseDown|ToggleOn.Change|ToggleOn.Click|\nChoices~hit_testing~interior~Choices.MouseDown|Choices.Click|\nDropdown~hit_testing~interior~Dropdown.MouseDown|Dropdown.Click|\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-100-runtime.cls",
+      "current_source": "input-LayoutSelection-100.cls",
+      "current_source_sha256": "90300556163f4f0d8c7928e7b46153d7ed3c005358e97e15519ad811562b36b8"
+    },
+    {
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "calcforms": "@initial~\n@visit~Unchecked\n@visit~Checked\n@visit~OptionOne\n@visit~OptionTwo\n@visit~ToggleOff\n@visit~ToggleOn\n@visit~Choices\n@visit~Dropdown\n@visit~Unchecked\nUnchecked~hit_testing~interior~Unchecked.MouseDown|Unchecked.Change|Unchecked.Click|\nChecked~hit_testing~interior~Checked.MouseDown|Checked.Change|Checked.Click|\nOptionOne~hit_testing~interior~OptionOne.MouseDown|OptionOne.Click|\nOptionTwo~hit_testing~interior~OptionTwo.MouseDown|OptionOne.Change|OptionTwo.Change|OptionTwo.Click|\nToggleOff~hit_testing~interior~ToggleOff.MouseDown|ToggleOff.Change|ToggleOff.Click|\nToggleOn~hit_testing~interior~ToggleOn.MouseDown|ToggleOn.Change|ToggleOn.Click|\nChoices~hit_testing~interior~Choices.MouseDown|Choices.Click|\nDropdown~hit_testing~interior~Dropdown.MouseDown|Dropdown.Click|\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-150-runtime.cls",
+      "current_source": "input-LayoutSelection-150.cls",
+      "current_source_sha256": "73a682fab0fe9a9631c86b98f989204f4f996603d52ec5b21e52d7090c72bfc6"
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "calcforms": "@initial~\n@visit~NestedInput\n@visit~Spinner\n@visit~Slider\n@visit~TabsControl\n@visit~PagesControl\n@visit~NestedInput\nGroup~hit_testing~interior~\nGroup.NestedLabel~hit_testing~interior~Group.NestedLabel.MouseDown|\nGroup.NestedInput~hit_testing~interior~Group.NestedInput.MouseDown|\nPicture~hit_testing~interior~Picture.MouseDown|\nSpinner~hit_testing~interior~Spinner.MouseDown|\nSlider~hit_testing~interior~Slider.MouseDown|Slider.Scroll|Slider.Change|\nTabsControl~hit_testing~interior~TabsControl.MouseDown|\nPagesControl~hit_testing~interior~PagesControl.MouseDown|\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-100-runtime.cls",
+      "current_source": "input-LayoutContainers-100.cls",
+      "current_source_sha256": "2c027a110d6f5c57e9e4eae0bb3bd001bdddb4c6db718e297bbc06e05bcd4607"
+    },
+    {
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "calcforms": "@initial~\n@visit~NestedInput\n@visit~Spinner\n@visit~Slider\n@visit~TabsControl\n@visit~PagesControl\n@visit~NestedInput\nGroup~hit_testing~interior~\nGroup.NestedLabel~hit_testing~interior~Group.NestedLabel.MouseDown|\nGroup.NestedInput~hit_testing~interior~Group.NestedInput.MouseDown|\nPicture~hit_testing~interior~Picture.MouseDown|\nSpinner~hit_testing~interior~Spinner.MouseDown|\nSlider~hit_testing~interior~Slider.MouseDown|Slider.Scroll|Slider.Change|\nTabsControl~hit_testing~interior~TabsControl.MouseDown|\nPagesControl~hit_testing~interior~PagesControl.MouseDown|\n",
+      "original_source": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-150-runtime.cls",
+      "current_source": "input-LayoutContainers-150.cls",
+      "current_source_sha256": "74feb7a97e6ee6ff44d6ea3f20416ef4945aac042b0b590f50a170033fb2a13d"
+    }
+  ]
+}

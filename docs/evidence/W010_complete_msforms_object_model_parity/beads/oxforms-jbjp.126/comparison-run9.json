@@ -1,0 +1,1675 @@
+{
+  "schema": "calcforms.workbook_fields.v1",
+  "kind": "planner",
+  "summary": {
+    "pass_count": 208,
+    "fail_count": 0,
+    "missing_measurements": 0
+  },
+  "checks": [
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "trace",
+      "native": "Initialize",
+      "calcforms": "Initialize",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "day",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "hour",
+      "native": "9",
+      "calcforms": "9",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "summary",
+      "native": "Day 1 at 9",
+      "calcforms": "Day 1 at 9",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "trace",
+      "native": "Initialize|day=5",
+      "calcforms": "Initialize|day=5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "hour",
+      "native": "9",
+      "calcforms": "9",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "summary",
+      "native": "Day 5 at 9",
+      "calcforms": "Day 5 at 9",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-five",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "trace",
+      "native": "Initialize|day=5",
+      "calcforms": "Initialize|day=5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "hour",
+      "native": "9",
+      "calcforms": "9",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "summary",
+      "native": "Day 5 at 9",
+      "calcforms": "Day 5 at 9",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14",
+      "calcforms": "Initialize|day=5|hour=14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "summary",
+      "native": "Day 5 at 14",
+      "calcforms": "Day 5 at 14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-fourteen",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "all-day",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "summary",
+      "native": "Day 5 all day",
+      "calcforms": "Day 5 all day",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "all-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "all-day",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "summary",
+      "native": "Day 5 all day",
+      "calcforms": "Day 5 all day",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "same-all-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "all-day",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "summary",
+      "native": "Week: Day 5 all day",
+      "calcforms": "Week: Day 5 all day",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "week",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "summary",
+      "native": "Week: Day 5 at 14",
+      "calcforms": "Week: Day 5 at 14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "timed",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "summary",
+      "native": "Week: Day 30 at 14",
+      "calcforms": "Week: Day 30 at 14",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "summary",
+      "native": "Week: Day 30 at 23",
+      "calcforms": "Week: Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "last-hour",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "summary",
+      "native": "Day 30 at 23",
+      "calcforms": "Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-view",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "error",
+      "native": 380,
+      "calcforms": 380,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "summary",
+      "native": "Day 30 at 23",
+      "calcforms": "Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "day-out-of-range",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "error",
+      "native": 380,
+      "calcforms": 380,
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "summary",
+      "native": "Day 30 at 23",
+      "calcforms": "Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "hour-out-of-range",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "trace",
+      "native": "Initialize",
+      "calcforms": "Initialize",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "day",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "hour",
+      "native": "9",
+      "calcforms": "9",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "summary",
+      "native": "Day 1 at 9",
+      "calcforms": "Day 1 at 9",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "trace",
+      "native": "Initialize|day=5",
+      "calcforms": "Initialize|day=5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "hour",
+      "native": "9",
+      "calcforms": "9",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "summary",
+      "native": "Day 5 at 9",
+      "calcforms": "Day 5 at 9",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-five",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "trace",
+      "native": "Initialize|day=5",
+      "calcforms": "Initialize|day=5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "hour",
+      "native": "9",
+      "calcforms": "9",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "summary",
+      "native": "Day 5 at 9",
+      "calcforms": "Day 5 at 9",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14",
+      "calcforms": "Initialize|day=5|hour=14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "summary",
+      "native": "Day 5 at 14",
+      "calcforms": "Day 5 at 14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-fourteen",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "all-day",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "summary",
+      "native": "Day 5 all day",
+      "calcforms": "Day 5 all day",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "all-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "all-day",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "summary",
+      "native": "Day 5 all day",
+      "calcforms": "Day 5 all day",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "same-all-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "all-day",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "summary",
+      "native": "Week: Day 5 all day",
+      "calcforms": "Week: Day 5 all day",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "week",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "day",
+      "native": "5",
+      "calcforms": "5",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "summary",
+      "native": "Week: Day 5 at 14",
+      "calcforms": "Week: Day 5 at 14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "timed",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "hour",
+      "native": "14",
+      "calcforms": "14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "summary",
+      "native": "Week: Day 30 at 14",
+      "calcforms": "Week: Day 30 at 14",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-day",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "view",
+      "native": "1",
+      "calcforms": "1",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "summary",
+      "native": "Week: Day 30 at 23",
+      "calcforms": "Week: Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "last-hour",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "error",
+      "native": 0,
+      "calcforms": 0,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "summary",
+      "native": "Day 30 at 23",
+      "calcforms": "Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-view",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "error",
+      "native": 380,
+      "calcforms": 380,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "summary",
+      "native": "Day 30 at 23",
+      "calcforms": "Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "day-out-of-range",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "error",
+      "native": 380,
+      "calcforms": 380,
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "trace",
+      "native": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "calcforms": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "day",
+      "native": "30",
+      "calcforms": "30",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "hour",
+      "native": "23",
+      "calcforms": "23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "all-day",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "view",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "summary",
+      "native": "Day 30 at 23",
+      "calcforms": "Day 30 at 23",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "hour-out-of-range",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    }
+  ]
+}

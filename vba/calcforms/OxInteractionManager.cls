@@ -484,14 +484,10 @@ Private Sub BuildInteractionIndex()
 
     Dim AllNames As Collection
     Dim TabNames As Collection
-    Dim TabKeys As Collection
     Set AllNames = New Collection
     Set TabNames = New Collection
-    Set TabKeys = New Collection
-
-    Dim Order As Long
-    Order = 0
-    CollectInteractionControls mForm.Controls, AllNames, TabNames, TabKeys, Order
+    CollectInteractionControls mForm.Controls, AllNames
+    CollectTabControls mForm.Controls, TabNames
 
     If TabNames.Count > 0 Then
         mFirstTabName = TabNames.Item(1)
@@ -517,19 +513,12 @@ End Sub
 
 Private Sub CollectInteractionControls( _
         ByVal List As Controls, _
-        ByVal AllNames As Collection, _
-        ByVal TabNames As Collection, _
-        ByVal TabKeys As Collection, _
-        ByRef Order As Long)
+        ByVal AllNames As Collection)
     Dim I As Long
     Dim Ctl As IOxControl
     For I = 1 To List.Count
         Set Ctl = List.Item(I)
         AllNames.Add Ctl.Core.Name
-
-        If Participates(Ctl) Then
-            AddSortedTabParticipant TabNames, TabKeys, Ctl.Core.Name, TabKey(Ctl, Order)
-        End If
 
         If Len(mDefaultButtonName) = 0 _
             And Ctl.Core.Visible And Ctl.Core.Enabled And Ctl.IsDefault Then
@@ -544,9 +533,30 @@ Private Sub CollectInteractionControls( _
             RegisterAccelerator Ctl
         End If
 
-        Order = Order + 1
         If Ctl.HasChildren And Ctl.Core.Visible And Ctl.Core.Enabled Then _
-            CollectInteractionControls Ctl.Children, AllNames, TabNames, TabKeys, Order
+            CollectInteractionControls Ctl.Children, AllNames
+    Next I
+End Sub
+
+' TabIndex is local to each container. Sort siblings, then enter each container
+' at its own position; a child's index must not reorder the parent's siblings.
+Private Sub CollectTabControls(ByVal List As Controls, ByVal TabNames As Collection)
+    Dim Names As Collection, Keys As Collection
+    Set Names = New Collection
+    Set Keys = New Collection
+    Dim I As Long, Ctl As IOxControl
+    For I = 1 To List.Count
+        Set Ctl = List.Item(I)
+        If Ctl.Core.Visible And Ctl.Core.Enabled Then
+            If Participates(Ctl) Or Ctl.HasChildren Then
+                AddSortedTabParticipant Names, Keys, Ctl.Core.Name, Ctl.Core.TabIndex
+            End If
+        End If
+    Next I
+    For I = 1 To Names.Count
+        Set Ctl = List.Item(CStr(Names.Item(I)))
+        If Participates(Ctl) Then TabNames.Add Ctl.Core.Name
+        If Ctl.HasChildren Then CollectTabControls Ctl.Children, TabNames
     Next I
 End Sub
 
@@ -985,12 +995,6 @@ Private Function Participates(ByVal Control As IOxControl) As Boolean
     Participates = C.Focusable And C.TabStop And C.Visible And C.Enabled
 End Function
 
-' A sortable tab key: TabIndex first, then declaration (add) order as the tie-break -- the same
-' (tab_index, index) ordering the kernel's next_tab_focus_target uses.
-Private Function TabKey(ByVal Control As IOxControl, ByVal DeclIndex As Long) As Long
-    TabKey = Control.Core.TabIndex * 100000 + DeclIndex
-End Function
-
 ' Initial Show compares siblings before entering a container. A child's local
 ' TabIndex=0 cannot precede an earlier eligible control on the parent form.
 Private Function FirstShowTargetIn(ByVal List As Controls) As String
@@ -1004,7 +1008,7 @@ Private Function FirstShowTargetIn(ByVal List As Controls) As String
             If Control.HasChildren Then Candidate = FirstShowTargetIn(Control.Children)
             If Len(Candidate) = 0 And Participates(Control) Then Candidate = Control.Core.Name
             If Len(Candidate) > 0 Then
-                Key = TabKey(Control, I)
+                Key = Control.Core.TabIndex
                 If Key < BestKey Then
                     BestKey = Key
                     FirstShowTargetIn = Candidate

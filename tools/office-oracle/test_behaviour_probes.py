@@ -1,4 +1,5 @@
 import unittest
+import re
 
 from behaviour_probes import parse
 from input_probes import native_source, parse as parse_input, validate_native_signatures
@@ -39,6 +40,16 @@ class BehaviourProbeTests(unittest.TestCase):
             parse_input(text.replace('@visit~NestedInput\nGroup', 'Group'))
         with self.assertRaisesRegex(ValueError, 'Duplicate initial'):
             parse_input(text + '@initial~NestedInput\n')
+
+    def test_present_mouse_up_uses_the_same_public_metadata_preflight(self):
+        form = next(form for form in load_corpus()['forms'] if form['name'] == 'LayoutContainers')
+        source = native_source(form)
+        for name in ('TabsControl', 'PagesControl'):
+            parameters = re.search(name + r'_MouseDown\(([^\n]*)\)', source)[1]
+            declaration = 'Private Sub ' + name + '_MouseUp(' + parameters + ')\nEnd Sub\n'
+            validate_native_signatures(form, source + declaration)
+            with self.assertRaisesRegex(ValueError, 'MouseUp signature differs'):
+                validate_native_signatures(form, source + declaration.replace('ByVal Index As Long, ', ''))
 
 
 if __name__ == '__main__':

@@ -1,0 +1,74 @@
+Private CalcFormsHostLoaded As Boolean
+Private CalcFormsHostVisible As Boolean
+Private CalcFormsHostClosing As Boolean
+Private CalcFormsHostActive As Boolean
+
+Private Sub ICalcFormsLifecycle_LoadForm()
+    CalcFormsHostLoad
+End Sub
+
+Private Function ICalcFormsLifecycle_UnloadForm(ByVal CloseMode As Integer) As Boolean
+    ICalcFormsLifecycle_UnloadForm = CalcFormsHostUnload(CloseMode)
+End Function
+
+Private Sub Class_Initialize()
+    Set CalcFormsHostForm = Nothing
+    Set CalcFormsHostReducer = Nothing
+    CalcFormsHostLoad
+End Sub
+
+Public Property Get Controls() As Controls
+    CalcFormsHostLoad
+    Set Controls = CalcFormsHostForm.Controls
+End Property
+
+Private Sub CalcFormsHostLoad()
+    If CalcFormsHostLoaded Then Exit Sub
+    CalcFormsHostLoaded = True
+    CalcFormsHostBuild
+    CalcFormsHostPerformInitialize
+End Sub
+
+Public Sub Show(Optional ByVal Modal As Long = 1)
+    If Modal <> 0 Then Err.Raise 5, "CalcForms", "Modal form pumps are not implemented"
+    CalcFormsHostLoad
+    If CalcFormsHostVisible Then Exit Sub
+    CalcFormsHostVisible = True
+    CalcFormsHostReducer.Dispatch "show", 0, 0, 0, 0
+End Sub
+
+Public Sub Hide()
+    If Not CalcFormsHostVisible Then Exit Sub
+    CalcFormsHostVisible = False
+    CalcFormsHostPerformDeactivate
+End Sub
+
+Public Property Get Visible() As Boolean
+    Visible = CalcFormsHostVisible
+End Property
+
+Private Property Get CalcFormsHostIsLoaded() As Boolean
+    CalcFormsHostIsLoaded = CalcFormsHostLoaded
+End Property
+
+Private Function CalcFormsHostUnload(ByVal CloseMode As Integer) As Boolean
+    If Not CalcFormsHostLoaded Or CalcFormsHostClosing Then Exit Function
+    CalcFormsHostClosing = True
+    If CalcFormsHostPerformQueryClose(CloseMode) <> 0 Then
+        CalcFormsHostClosing = False
+        Exit Function
+    End If
+    Hide
+    CalcFormsHostLoaded = False
+    CalcFormsHostPerformTerminate
+    RaiseEvent CalcFormsHostUnloading("CalcFormsWorkbook.%FORM_NAME%")
+    CalcFormsHostClosing = False
+    CalcFormsHostUnload = True
+End Function
+
+Private Sub Class_Terminate()
+    If CalcFormsHostLoaded Then
+        CalcFormsHostLoaded = False
+        CalcFormsHostPerformTerminate
+    End If
+End Sub

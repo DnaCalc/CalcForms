@@ -1,0 +1,2474 @@
+{
+  "schema": "calcforms.order_entry_validation_fields.v1",
+  "summary": {
+    "pass_count": 308,
+    "fail_count": 0,
+    "missing_measurements": 0
+  },
+  "checks": [
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "initial",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "name",
+      "native": "x",
+      "calcforms": "x",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-x",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "erase",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-veto",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "name",
+      "native": "A",
+      "calcforms": "A",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-A",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "name",
+      "native": "Ad",
+      "calcforms": "Ad",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-d",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "type-a",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "tab-accept",
+      "field": "focus",
+      "native": "SaveButton",
+      "calcforms": "SaveButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "visible",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "cancel",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "CancelButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reshow",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "CancelButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 100,
+      "step": "reload",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "initial",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "name",
+      "native": "x",
+      "calcforms": "x",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-x",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "erase",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-veto",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "name",
+      "native": "A",
+      "calcforms": "A",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-A",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "name",
+      "native": "Ad",
+      "calcforms": "Ad",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-d",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "type-a",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "tab-accept",
+      "field": "focus",
+      "native": "SaveButton",
+      "calcforms": "SaveButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "visible",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "cancel",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "CancelButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "name",
+      "native": "Ada",
+      "calcforms": "Ada",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "status",
+      "native": "Name is required",
+      "calcforms": "Name is required",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reshow",
+      "field": "focus",
+      "native": "CancelButton",
+      "calcforms": "CancelButton",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "name",
+      "native": "",
+      "calcforms": "",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "team",
+      "native": "Sales",
+      "calcforms": "Sales",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "product",
+      "native": "Bolt",
+      "calcforms": "Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "standard",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "priority",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "invoice",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "prepaid",
+      "native": "False",
+      "calcforms": "False",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "page",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "notes",
+      "native": "Leave at reception",
+      "calcforms": "Leave at reception",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "saved",
+      "native": "0",
+      "calcforms": "0",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "status",
+      "native": "Ready",
+      "calcforms": "Ready",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "visible",
+      "native": "True",
+      "calcforms": "True",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "trace",
+      "native": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "calcforms": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+      "status": "pass"
+    },
+    {
+      "zoom": 150,
+      "step": "reload",
+      "field": "focus",
+      "native": "NameInput",
+      "calcforms": "NameInput",
+      "status": "pass"
+    }
+  ]
+}

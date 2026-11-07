@@ -1,0 +1,27 @@
+{
+  "schema": "calcforms.native_integral_height.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187"
+  },
+  "source_sha256": "793bdfc0f44b2c7d59f44ed39ea52b6013a1d5a0a4acad7534ccf16bb03ab3b5",
+  "workbook_sha256": "8775fb00faa9f4b9898bdbcbac66b51de24e4afed7cbf3cd943ab135e1f54b49",
+  "observations": [
+    {
+      "zoom": 100,
+      "result": "before-show;height=72;integral=True\nshown;height=72;integral=True;top=16\nsame-true;height=72;integral=True;top=16\nfalse;height=72;integral=False;top=15\nsame-false;height=72;integral=False;top=15\ntrue;height=71.25;integral=True;top=16\nsame-true-after-toggle;height=71.25;integral=True;top=16\nfalse-height-80;height=71.25;integral=False;top=16\ntrue-height-80;height=71.25;integral=True;top=16\ntrue-height-72;height=71.25;integral=True;top=16\nafter-doevents;height=71.25;integral=True;top=16\nreshow;height=71.25;integral=True;top=16\n"
+    },
+    {
+      "zoom": 150,
+      "result": "before-show;height=72;integral=True\nshown;height=72;integral=True;top=16\nsame-true;height=72;integral=True;top=16\nfalse;height=72;integral=False;top=15\nsame-false;height=72;integral=False;top=15\ntrue;height=69.5;integral=True;top=16\nsame-true-after-toggle;height=69.5;integral=True;top=16\nfalse-height-80;height=69.5;integral=False;top=16\ntrue-height-80;height=69.5;integral=True;top=16\ntrue-height-72;height=69.5;integral=True;top=16\nafter-doevents;height=69.5;integral=True;top=16\nreshow;height=69.5;integral=True;top=16\n"
+    }
+  ]
+}

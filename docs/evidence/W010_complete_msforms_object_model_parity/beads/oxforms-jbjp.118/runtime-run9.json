@@ -1,0 +1,76 @@
+{
+  "observations": [
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "before-show"
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "shown",
+      "top": 16
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "same-true",
+      "top": 16
+    },
+    {
+      "height": 72.0,
+      "integral": false,
+      "step": "false",
+      "top": 15
+    },
+    {
+      "height": 72.0,
+      "integral": false,
+      "step": "same-false",
+      "top": 15
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "true",
+      "top": 16
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "same-true-after-toggle",
+      "top": 16
+    },
+    {
+      "height": 80.0,
+      "integral": false,
+      "step": "false-height-80",
+      "top": 15
+    },
+    {
+      "height": 80.0,
+      "integral": true,
+      "step": "true-height-80",
+      "top": 16
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "true-height-72",
+      "top": 15
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "after-doevents",
+      "top": 15
+    },
+    {
+      "height": 72.0,
+      "integral": true,
+      "step": "reshow",
+      "top": 15
+    }
+  ],
+  "schema": "calcforms.integral_height_runtime.v1"
+}

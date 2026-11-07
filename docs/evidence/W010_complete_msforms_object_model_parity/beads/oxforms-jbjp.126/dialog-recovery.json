@@ -1,0 +1,35 @@
+{
+  "schema": "calcforms.owned_dialog_recovery.v1",
+  "excel_pid": 22924,
+  "excel_launches": 1,
+  "window": 120131378,
+  "children": [
+    {
+      "hwnd": 335159274,
+      "text": "Run-time error '94':\n\nInvalid use of Null",
+      "kind": "Static"
+    },
+    {
+      "hwnd": 723589894,
+      "text": "&Continue",
+      "kind": "Button"
+    },
+    {
+      "hwnd": 205460832,
+      "text": "&End",
+      "kind": "Button"
+    },
+    {
+      "hwnd": 660805088,
+      "text": "&Debug",
+      "kind": "Button"
+    },
+    {
+      "hwnd": 291247608,
+      "text": "&Help",
+      "kind": "Button"
+    }
+  ],
+  "action": "IAccessible.accDoDefaultAction on End",
+  "owner_input_or_focus_used": false
+}

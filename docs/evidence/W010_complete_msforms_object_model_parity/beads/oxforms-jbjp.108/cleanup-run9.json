@@ -1,0 +1,355 @@
+{
+  "schema": "calcforms.run9_cleanup.v1",
+  "verified_utc": "2026-11-06T23:37:57.187806+00:00",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187",
+    "closed": "terminated_owned_handle",
+    "workbook_unchanged": true,
+    "cleanup_notes": [],
+    "thread_desktop_restored": true,
+    "desktop_cleanup": "closed"
+  },
+  "excel_launches": 1,
+  "runtime_launches": 32,
+  "excel": {
+    "pid": 22924,
+    "pid_in_use": false,
+    "matches_owned_image": false,
+    "owned_running": false
+  },
+  "runtimes": [
+    {
+      "pid": 52880,
+      "form": "greeter",
+      "zoom": 100,
+      "image_sha256": "62a94388cfebd5e544a2e9cf1c1fefb6efe51da1f01b596623e0cfcf6da0aae5",
+      "snapshot_sha256": "ae1831cae0ed5211a9dfcd7c77b8feac2edc1fa7dfc3b3862c35a92e1f8923cc",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 39016,
+      "form": "greeter",
+      "zoom": 150,
+      "image_sha256": "62a94388cfebd5e544a2e9cf1c1fefb6efe51da1f01b596623e0cfcf6da0aae5",
+      "snapshot_sha256": "dc0330333c199ee1ca68d9883701590b2afe0785ebc6caed1c5f5fb983c172d5",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 62648,
+      "form": "greeter",
+      "zoom": 100,
+      "image_sha256": "5e42cfedf2d3336afceec970cd6db9fac6220c50085ee9fe7815dfae5bc9b35f",
+      "snapshot_sha256": "7cb3fa23fb52029032be759a57393befcdcb9154259071f6fd6dded997bf7645",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 2376,
+      "form": "greeter",
+      "zoom": 150,
+      "image_sha256": "5e42cfedf2d3336afceec970cd6db9fac6220c50085ee9fe7815dfae5bc9b35f",
+      "snapshot_sha256": "55d8690c9f50eb9c2ef681fb4a82ea3de932684dd74f57618b4cd0d262d2b36a",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 27612,
+      "form": "greeter",
+      "zoom": 100,
+      "image_sha256": "70a96c6b6d9c66595d7a94314746acdb90177c3304633dd0770ebb2401b135ec",
+      "snapshot_sha256": "41b451a51697ebce33dcf21ed4795946805eab1fadc87b5d87d04538ceb4f4d8",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 4952,
+      "form": "greeter",
+      "zoom": 150,
+      "image_sha256": "70a96c6b6d9c66595d7a94314746acdb90177c3304633dd0770ebb2401b135ec",
+      "snapshot_sha256": "e7f97ad07ad631fd939877149336794932a106d3a16aa58d58268189fc028204",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 45836,
+      "form": "greeter",
+      "zoom": 100,
+      "image_sha256": "b1d4e0bac6bfeda7da6aaaec497151f1131c08f34c8dc0ec8e792b7559d6b913",
+      "snapshot_sha256": "22d328a19480e96151cf76decbf250afdbddf3a60a341773d1c4415f7f95fa7f",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 43948,
+      "form": "greeter",
+      "zoom": 150,
+      "image_sha256": "b1d4e0bac6bfeda7da6aaaec497151f1131c08f34c8dc0ec8e792b7559d6b913",
+      "snapshot_sha256": "88aae123b386a307e2a3c191168887794167a13c31420b917515fbf5f04cf2d9",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 40780,
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "image_sha256": "18f322dcd81c44aa25a0ebea542f1296961e999236257c94bfb6f53db1f8fa5c",
+      "snapshot_sha256": "8fe0deb9f6b27da78553cf47089863bd8afe797e0480dd82d1ae27436388eccd",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 63268,
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "image_sha256": "18f322dcd81c44aa25a0ebea542f1296961e999236257c94bfb6f53db1f8fa5c",
+      "snapshot_sha256": "405a95d5132518dc40aacca5ca5e7a6543f6e7f15f287012b6488fc5c2d6cacc",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 53520,
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "image_sha256": "ca467932478865c7c039c686a8a216b4198a83db28f2ea07f34e943b376c4498",
+      "snapshot_sha256": "eb88ab68f080751abe382034805546bb42d615eb764718616ca107cc9c0f44f1",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 44020,
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "image_sha256": "ca467932478865c7c039c686a8a216b4198a83db28f2ea07f34e943b376c4498",
+      "snapshot_sha256": "cc6a0daeda1acb72eb1721dd685eb9da0f238a228788bac868e6da59d0de5f60",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 7768,
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "image_sha256": "d55d169b9b23ee06ce22c46ebcb40702d2cbeaaf7e344984f25fa5d5ec409cdf",
+      "snapshot_sha256": "ca6b01f56688a71f0f90d74c7a591e2eff920d298a6bcc23ada1ff3003b7e360",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 41004,
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "image_sha256": "d55d169b9b23ee06ce22c46ebcb40702d2cbeaaf7e344984f25fa5d5ec409cdf",
+      "snapshot_sha256": "4126521e4a4585d34342171d27dbaa4165a4eb312e95d93e41c08ab558eaec25",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 49956,
+      "form": "LayoutCommon",
+      "zoom": 100,
+      "image_sha256": "8156c9e6b0045b8229c9b14b1efb59537f9e229fda6ea2a645845a74148bb0e8",
+      "snapshot_sha256": "1f5fe9981d0fb15f11e562aa378f0e72c7c3f50aa6138b3d2bcc99651307a386",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 63796,
+      "form": "LayoutCommon",
+      "zoom": 150,
+      "image_sha256": "8156c9e6b0045b8229c9b14b1efb59537f9e229fda6ea2a645845a74148bb0e8",
+      "snapshot_sha256": "a8f683031a31852cf48e45a7ab0afc7a3d1e6ed2cf44bb7993ee09491470ace1",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 30376,
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "image_sha256": "18f322dcd81c44aa25a0ebea542f1296961e999236257c94bfb6f53db1f8fa5c",
+      "snapshot_sha256": "2fff2475c4d196cc525f8ebdd8c60fae33b7ea2d61659a264ce0ea469d923689",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 14052,
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "image_sha256": "18f322dcd81c44aa25a0ebea542f1296961e999236257c94bfb6f53db1f8fa5c",
+      "snapshot_sha256": "5971245d6c4f8cb10374e99c98bb5630075b20c623210f645c5c2336f08bd242",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 19588,
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "image_sha256": "ca467932478865c7c039c686a8a216b4198a83db28f2ea07f34e943b376c4498",
+      "snapshot_sha256": "9277153fe40a9ef3f1842b136eae41f5a0a4796c188654149d9307a638e0540a",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 27712,
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "image_sha256": "ca467932478865c7c039c686a8a216b4198a83db28f2ea07f34e943b376c4498",
+      "snapshot_sha256": "d7fecb3b3c1c8e235d94db3ad2b9abaa8d684a1c2862e8eb77e44feb2b5da4ae",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 66356,
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "image_sha256": "d55d169b9b23ee06ce22c46ebcb40702d2cbeaaf7e344984f25fa5d5ec409cdf",
+      "snapshot_sha256": "aad63ddf009620ec0a9253c4560df853d3d11c795b7d9aa45e6a53b533c8a460",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 23876,
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "image_sha256": "d55d169b9b23ee06ce22c46ebcb40702d2cbeaaf7e344984f25fa5d5ec409cdf",
+      "snapshot_sha256": "701038a712ab285f7e7b6a35768c158587085d41031eb93ea78fed7c76ba7396",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 41404,
+      "form": "LayoutContainers",
+      "zoom": 100,
+      "image_sha256": "8156c9e6b0045b8229c9b14b1efb59537f9e229fda6ea2a645845a74148bb0e8",
+      "snapshot_sha256": "978c70f6325fe98552083dae8385045dce27c5e7332abba31cbfdada08be8bab",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 66404,
+      "form": "LayoutContainers",
+      "zoom": 150,
+      "image_sha256": "8156c9e6b0045b8229c9b14b1efb59537f9e229fda6ea2a645845a74148bb0e8",
+      "snapshot_sha256": "39068e19213421a4724b800f6253c98249e6ade464e814bf0d14c984e3bc75a7",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 61328,
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "image_sha256": "18f322dcd81c44aa25a0ebea542f1296961e999236257c94bfb6f53db1f8fa5c",
+      "snapshot_sha256": "2e6cd6b85646105561eb42c0830adf56aebb405e93ccecfd4df801b5737df88d",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 60744,
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "image_sha256": "18f322dcd81c44aa25a0ebea542f1296961e999236257c94bfb6f53db1f8fa5c",
+      "snapshot_sha256": "0026b956bacd39f71cd66008b899f3cb9ac604cba3ef769caa9476d75b9b12d3",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 61232,
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "image_sha256": "ca467932478865c7c039c686a8a216b4198a83db28f2ea07f34e943b376c4498",
+      "snapshot_sha256": "a75289434a0ec760c6d4cd6cc03febe7557f80b6893c546c045cf0607604418d",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 10400,
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "image_sha256": "ca467932478865c7c039c686a8a216b4198a83db28f2ea07f34e943b376c4498",
+      "snapshot_sha256": "f5df56fc83b3568199841491e476cb5e5e770b432e535f5f9486ad892c9c604b",
+      "pid_in_use": true,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 48992,
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "image_sha256": "d55d169b9b23ee06ce22c46ebcb40702d2cbeaaf7e344984f25fa5d5ec409cdf",
+      "snapshot_sha256": "77a7b1c3a813ff70d109889dfbd3edb4702285f10cf7aa45c7b25aa263fd32d7",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 62872,
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "image_sha256": "d55d169b9b23ee06ce22c46ebcb40702d2cbeaaf7e344984f25fa5d5ec409cdf",
+      "snapshot_sha256": "e8cf00dae2c7139b0f39f076db2d00a551a5650cefce31f2f669b95a8849138d",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 48472,
+      "form": "LayoutSelection",
+      "zoom": 100,
+      "image_sha256": "8156c9e6b0045b8229c9b14b1efb59537f9e229fda6ea2a645845a74148bb0e8",
+      "snapshot_sha256": "9cb37aac45ea345e9627bb5701dfa2d47890d5cf7d0a8fcbdb5167202a789506",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    },
+    {
+      "pid": 43820,
+      "form": "LayoutSelection",
+      "zoom": 150,
+      "image_sha256": "8156c9e6b0045b8229c9b14b1efb59537f9e229fda6ea2a645845a74148bb0e8",
+      "snapshot_sha256": "75cc98db7838aa3ed09a6dc76a9e7af3bfd932ed03e5e416205bc303330fcd10",
+      "pid_in_use": false,
+      "matches_owned_image": false,
+      "owned_running": false
+    }
+  ],
+  "server_exit_code": 0,
+  "owner_input_or_focus_used": false,
+  "stop_method": "server retained process handles; liveness verified against owned image identity",
+  "command_sha256": "da8eb125a33899945938f7c711bc69024283f3b1a43e1686c2d61b165f3b6840"
+}

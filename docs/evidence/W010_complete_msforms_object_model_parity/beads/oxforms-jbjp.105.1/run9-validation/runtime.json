@@ -1,0 +1,71 @@
+{
+  "observations": [
+    {
+      "focus": "NameInput",
+      "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+      "step": "initial",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+      "step": "type-x",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+      "step": "erase",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+      "step": "tab-veto",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=A;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+      "step": "type-A",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=Ad;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+      "step": "type-d",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=Ada;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+      "step": "type-a",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada"
+    },
+    {
+      "focus": "SaveButton",
+      "state": "name=Ada;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+      "step": "tab-accept",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate"
+    },
+    {
+      "focus": "CancelButton",
+      "state": "name=Ada;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=False",
+      "step": "cancel",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click"
+    },
+    {
+      "focus": "CancelButton",
+      "state": "name=Ada;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Name is required;visible=True",
+      "step": "reshow",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.Change:|Name.BeforeUpdate|Name.Veto|Name.Change:A|Name.Change:Ad|Name.Change:Ada|Name.BeforeUpdate|Cancel.Click"
+    },
+    {
+      "focus": "NameInput",
+      "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+      "step": "reload",
+      "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt"
+    }
+  ],
+  "schema": "calcforms.order_entry_validation_runtime.v1"
+}

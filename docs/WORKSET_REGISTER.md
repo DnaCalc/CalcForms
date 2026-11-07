@@ -147,15 +147,28 @@ checks against the new native held-form/control observations. Held-object reload
 old-control events/detachment and loaded-object final release remain open.
 FORMS PARITY remains **1,166 pass / 452 fail; 378 missing measurements** here.
 
-Run 9's [current greeter replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/final/forms-parity.md)
-is **1,191 pass / 427 fail; 356 missing measurements**. `.125` fills 22 fields
-using original workbook handlers, full state/event traces and exact selection.
+Run 9's [current greeter replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/final/forms-parity.md)
+is **1,201 pass / 417 fail; 346 missing measurements**. `.125/.129` fill 32 fields
+using original workbook handlers, state/event traces, selection and typed
+held-control lifecycle readbacks. Eighteen production behavior/input/keyboard
+scenarios were re-executed against unchanged independent native observations.
 The [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
 is **1,169 pass / 449 fail; 378 missing measurements**. Retained glyph drawing
 and measured root edit sizing give 17 gains and 14 retained regressions. Ninety-six
 native size/context cases preserve button/Frame differences; `.101` remains open.
 The generic measure record adds one unexpected public nested field: the canonical
 ledger stays red at 2,452 verified / 4,682 gaps / 622 unexpected-public rows.
+
+Run 9 `.126` imports a genuine planner with spin, scroll, toggle and tabs:
+208 native state/event/error fields match, including public error-380 range
+rejection (`.127`). `.118` now exposes IntegralHeight but retains every measured
+Height/TopIndex residual: 48 pass / 22 fail. Its broader rounding scope stays open.
+The source census is 841 declarations, with canonical row statuses unchanged.
+`.108` records bounded helper timeout, canary cleanup and real-dialog recovery
+against the same hidden Excel PID and preserves the earlier visibility diagnostic.
+`.105.1` now matches 308 original order-entry BeforeUpdate/focus/reuse/reload
+fields. Sibling-local TabIndex sorting corrects the root/nested order; `.95.2`
+resolves the current default before host Show. Broader scope stays open.
 `.123` matches all 320 real inventory fields and five Escape/rollback/veto cases
 at both scales. `.124` retains differing native preparation-update prefixes.
 

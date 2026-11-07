@@ -1,4 +1,21 @@
 /.gitattributes text eol=lf
+
+# Run 9 hashes UTF-8/LF text and exact binary captures; keep both on checkout.
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.130/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-*/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-*/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/cleanup-run9.json text eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/run9-native/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/steps-native/** text=auto eol=lf
+/docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/*-run9.json text eol=lf
+/fixtures/workbooks/planner/*.bas text eol=lf
+/fixtures/workbooks/planner/*.json text eol=lf
 /tools/fm20/*.py text eol=lf
 /tools/fm20/*.json text eol=lf
 /tools/fm20/tests/*.py text eol=lf

@@ -1,10 +1,27 @@
-# Native first-Show and IntegralHeight observations
+# Public IntegralHeight: 48 pass / 22 fail
 
-The .112 capture first reads Height=71.25 after setting 72 before first Show;
-subsequent setter snapshots read 72. The new inventory capture reads 72 before
-and after Show, with Tahoma 8.25 and IntegralHeight=True at both scales.
-Explicit flag probes also retain native TopIndex=16 for True and 15 for False.
-These observations are retained with exact source hashes. They do not establish
-a uniform layout/property timing rule, and full public Height rounding / IntegralHeight setter behavior remains open.
-The bounded first-Show effective viewport is corrected in .121; earlier native
-property timing observations and their limits remain unchanged.
+Run 9 exposes the Boolean ListBox IntegralHeight getter/setter, default True.
+Same-value writes preserve scroll origin; changed flags reset it. False permits
+the partial final row, while True establishes the existing whole-row viewport.
+First Show respects the selected flag. Explicit Height writes still refresh the
+viewport. The required genuine inventory test checks all flag readbacks and the
+native initial whole/partial TopIndex values at both scales.
+
+The complete paired native/runtime report compares every Height, IntegralHeight
+and TopIndex observation: **48 pass / 22 fail; zero missing measurements**.
+Native false-to-true transitions can normalize public Height; the runtime still
+retains the requested Height. Later resize/TopIndex behavior also differs. These
+fields remain failures, rather than being excluded from the report. `.118` stays
+open, with no new headline layout credit or full setter-parity claim.
+
+The separate native step matrix drains messages after each property write and
+retains immediate/post-drain/post-scroll states. Its fractional public heights
+vary with scale and call sequence (including 71.05 and 78.95). This exploratory
+matrix has no runtime parity credit; it prevents inventing one rounding formula
+from an isolated 71.25 observation. Native source and raw results remain pinned.
+
+Fresh review checked default/readback, same-value suppression, scroll reset,
+first Show, raw explicit resize and every reported mismatch. The canonical
+ledger now extracts 841 public declarations but remains red: 2,452 verified,
+4,682 gaps and 622 unexpected-public rows. An added declaration alone does not
+prove all required ABI, behavioral and persistence dimensions.

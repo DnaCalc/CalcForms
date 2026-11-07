@@ -151,6 +151,7 @@ Public Property Get Value() As Long
     Value = mValue
 End Property
 Public Property Let Value(ByVal NewValue As Long)
+    If NewValue < mMin Or NewValue > mMax Then Err.Raise 380, "ScrollBar", "Invalid property value"
     SetValue NewValue, False
 End Property
 

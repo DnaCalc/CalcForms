@@ -7,7 +7,7 @@ use calcforms_calcvba_adapter::{host_services::HostServices, office::WorkbookFor
 use calcforms_pal::scene::StubShaper;
 use calcvba_bundle::ProjectMemberKind;
 use calcvba_runtime::Variant;
-use serde_json::Value;
+use serde_json::{json, Value};
 
 fn call(runtime: &mut OxRuntime, member: &str, args: Vec<Variant>) -> Variant {
     let instance = runtime.form();
@@ -150,4 +150,68 @@ fn real_data_entry_workbook_initializes_qualified_forms_and_original_handlers() 
         trace.ends_with("Save.Click|Save.Valid|Cancel.Click"),
         "{trace}"
     );
+}
+
+#[test]
+fn original_before_update_veto_escape_reshow_and_reload_match_owned_native_input() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let native: Value = serde_json::from_slice(&std::fs::read(root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/observations.json")).unwrap()).unwrap();
+    assert_eq!(native["qualified_validation"], true);
+    let form = WorkbookForm::open(
+        root.join("fixtures/workbooks/data-entry/order-entry.xlsm"),
+        "OrderEntryForm",
+    )
+    .unwrap();
+    let (mut runtime, _) = form
+        .runtime_with_entry(
+            Arc::new(StubShaper),
+            HostServices::headless(),
+            Some("OpenOrderEntry"),
+        )
+        .unwrap();
+    let mut rows = Vec::new();
+    let mut snapshot = |runtime: &mut OxRuntime, step: &str| {
+        rows.push(json!({"step":step,"state":state(runtime),"trace":call(runtime,"Trace",vec![]).as_bstr().unwrap().as_str(),"focus":runtime.read_string("FocusName").unwrap()}));
+    };
+    snapshot(&mut runtime, "initial");
+    runtime
+        .dispatch_event_turn(RuntimeInput::CharacterInput("x".into()))
+        .unwrap();
+    snapshot(&mut runtime, "type-x");
+    key(&mut runtime, 8);
+    snapshot(&mut runtime, "erase");
+    key(&mut runtime, 9);
+    snapshot(&mut runtime, "tab-veto");
+    for (step, text) in [("type-A", "A"), ("type-d", "d"), ("type-a", "a")] {
+        runtime
+            .dispatch_event_turn(RuntimeInput::CharacterInput(text.into()))
+            .unwrap();
+        snapshot(&mut runtime, step);
+    }
+    key(&mut runtime, 9);
+    snapshot(&mut runtime, "tab-accept");
+    key(&mut runtime, 27);
+    snapshot(&mut runtime, "cancel");
+    runtime.show_modeless().unwrap();
+    snapshot(&mut runtime, "reshow");
+    call(
+        &mut runtime,
+        "CalcFormsHostUnload",
+        vec![Variant::from_i16(1)],
+    );
+    runtime.show_modeless().unwrap();
+    snapshot(&mut runtime, "reload");
+    println!(
+        "CALCFORMS_ORDER_VALIDATION={}",
+        json!({"schema":"calcforms.order_entry_validation_runtime.v1","observations":rows})
+    );
+    assert_eq!(native["cases"].as_array().unwrap().len(), 2);
+    for case in native["cases"].as_array().unwrap() {
+        assert_eq!(
+            json!(rows),
+            case["observations"],
+            "complete original State/Trace/focus at native zoom {}",
+            case["zoom"]
+        );
+    }
 }

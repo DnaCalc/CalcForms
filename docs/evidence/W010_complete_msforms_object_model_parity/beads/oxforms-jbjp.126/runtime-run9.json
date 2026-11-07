@@ -1,0 +1,83 @@
+{
+  "observations": [
+    {
+      "error": 0,
+      "state": "day=1;hour=9;all-day=False;view=0;summary=Day 1 at 9;visible=True",
+      "step": "initial",
+      "trace": "Initialize"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=9;all-day=False;view=0;summary=Day 5 at 9;visible=True",
+      "step": "day-five",
+      "trace": "Initialize|day=5"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=9;all-day=False;view=0;summary=Day 5 at 9;visible=True",
+      "step": "same-day",
+      "trace": "Initialize|day=5"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=14;all-day=False;view=0;summary=Day 5 at 14;visible=True",
+      "step": "hour-fourteen",
+      "trace": "Initialize|day=5|hour=14"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=14;all-day=True;view=0;summary=Day 5 all day;visible=True",
+      "step": "all-day",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=14;all-day=True;view=0;summary=Day 5 all day;visible=True",
+      "step": "same-all-day",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=14;all-day=True;view=1;summary=Week: Day 5 all day;visible=True",
+      "step": "week",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1"
+    },
+    {
+      "error": 0,
+      "state": "day=5;hour=14;all-day=False;view=1;summary=Week: Day 5 at 14;visible=True",
+      "step": "timed",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False"
+    },
+    {
+      "error": 0,
+      "state": "day=30;hour=14;all-day=False;view=1;summary=Week: Day 30 at 14;visible=True",
+      "step": "last-day",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30"
+    },
+    {
+      "error": 0,
+      "state": "day=30;hour=23;all-day=False;view=1;summary=Week: Day 30 at 23;visible=True",
+      "step": "last-hour",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23"
+    },
+    {
+      "error": 0,
+      "state": "day=30;hour=23;all-day=False;view=0;summary=Day 30 at 23;visible=True",
+      "step": "day-view",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0"
+    },
+    {
+      "error": 380,
+      "state": "day=30;hour=23;all-day=False;view=0;summary=Day 30 at 23;visible=True",
+      "step": "day-out-of-range",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0"
+    },
+    {
+      "error": 380,
+      "state": "day=30;hour=23;all-day=False;view=0;summary=Day 30 at 23;visible=True",
+      "step": "hour-out-of-range",
+      "trace": "Initialize|day=5|hour=14|all-day-change=True|all-day-click=True|view=1|all-day-change=False|all-day-click=False|day=30|hour=23|view=0"
+    }
+  ],
+  "schema": "calcforms.planner_runtime.v1"
+}

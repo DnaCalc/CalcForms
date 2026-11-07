@@ -1,0 +1,21 @@
+{
+  "schema": "calcforms.bounded_probe.v1",
+  "excel_pid": 22924,
+  "excel_launches": 1,
+  "helper_launches": 1,
+  "script": "tools/office-oracle/owned_helper_recovery.py",
+  "arguments": [
+    "--marker",
+    "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/canary.json",
+    "--mode",
+    "hang"
+  ],
+  "started_utc": "2026-11-06T22:55:32.305883+00:00",
+  "timeout_seconds": 20.0,
+  "pointer_keyboard_or_owner_focus_used": false,
+  "helper_pid": 40876,
+  "timed_out": true,
+  "helper_exit_code": 1,
+  "elapsed_seconds": 20.094,
+  "helper_stopped": true
+}

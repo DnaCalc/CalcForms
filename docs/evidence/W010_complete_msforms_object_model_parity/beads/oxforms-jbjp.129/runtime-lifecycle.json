@@ -1,0 +1,197 @@
+{
+  "observations": [
+    {
+      "form_visible": true,
+      "state": "Initialize|Change:Lin|Check:True;text=Lin;caption=(modified);loud=True",
+      "step": "modified",
+      "values": {
+        "Greet": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Greet"
+        },
+        "InputName": {
+          "error": 0,
+          "member": "Text",
+          "value": "Lin"
+        },
+        "Loud": {
+          "error": 0,
+          "member": "Value",
+          "value": "True"
+        },
+        "Output": {
+          "error": 0,
+          "member": "Caption",
+          "value": "(modified)"
+        },
+        "Prompt": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Your name"
+        }
+      }
+    },
+    {
+      "form_visible": false,
+      "state": "Initialize|Change:Lin|Check:True;text=Lin;caption=(modified);loud=True",
+      "step": "hidden",
+      "values": {
+        "Greet": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Greet"
+        },
+        "InputName": {
+          "error": 0,
+          "member": "Text",
+          "value": "Lin"
+        },
+        "Loud": {
+          "error": 0,
+          "member": "Value",
+          "value": "True"
+        },
+        "Output": {
+          "error": 0,
+          "member": "Caption",
+          "value": "(modified)"
+        },
+        "Prompt": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Your name"
+        }
+      }
+    },
+    {
+      "form_visible": true,
+      "state": "Initialize|Change:Lin|Check:True;text=Lin;caption=(modified);loud=True",
+      "step": "shown",
+      "values": {
+        "Greet": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Greet"
+        },
+        "InputName": {
+          "error": 0,
+          "member": "Text",
+          "value": "Lin"
+        },
+        "Loud": {
+          "error": 0,
+          "member": "Value",
+          "value": "True"
+        },
+        "Output": {
+          "error": 0,
+          "member": "Caption",
+          "value": "(modified)"
+        },
+        "Prompt": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Your name"
+        }
+      }
+    },
+    {
+      "form_visible": null,
+      "state": null,
+      "step": "unloaded-held-controls",
+      "values": {
+        "Greet": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Greet"
+        },
+        "InputName": {
+          "error": 0,
+          "member": "Text",
+          "value": "Lin"
+        },
+        "Loud": {
+          "error": 0,
+          "member": "Value",
+          "value": "True"
+        },
+        "Output": {
+          "error": 0,
+          "member": "Caption",
+          "value": "(modified)"
+        },
+        "Prompt": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Your name"
+        }
+      }
+    },
+    {
+      "form_visible": true,
+      "state": "Initialize;text=Ada;caption=(ready);loud=False",
+      "step": "fresh-default",
+      "values": {
+        "Greet": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Greet"
+        },
+        "InputName": {
+          "error": 0,
+          "member": "Text",
+          "value": "Ada"
+        },
+        "Loud": {
+          "error": 0,
+          "member": "Value",
+          "value": "False"
+        },
+        "Output": {
+          "error": 0,
+          "member": "Caption",
+          "value": "(ready)"
+        },
+        "Prompt": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Your name"
+        }
+      }
+    },
+    {
+      "form_visible": null,
+      "state": null,
+      "step": "old-controls-after-reload",
+      "values": {
+        "Greet": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Greet"
+        },
+        "InputName": {
+          "error": 0,
+          "member": "Text",
+          "value": "Lin"
+        },
+        "Loud": {
+          "error": 0,
+          "member": "Value",
+          "value": "True"
+        },
+        "Output": {
+          "error": 0,
+          "member": "Caption",
+          "value": "(modified)"
+        },
+        "Prompt": {
+          "error": 0,
+          "member": "Caption",
+          "value": "Your name"
+        }
+      }
+    }
+  ],
+  "schema": "calcforms.greeter_lifecycle_runtime.v1"
+}

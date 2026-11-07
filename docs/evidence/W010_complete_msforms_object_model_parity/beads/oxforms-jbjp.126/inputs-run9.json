@@ -1,0 +1,12 @@
+{
+  "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observations.json": "8bfc4f3fb745d7c77490df5a6beb45b2e3e3c70bc53e9183b1cac9a68b3d127d",
+  "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/runtime-run9.json": "00061457dd12ffae030b8d80df3d1921ffcffe0382b56849eb2dd36083d25b65",
+  "fixtures/workbooks/planner/planner.xlsm": "8e029a9d1e28448c31ccdc8a404cc2a363f9ad70c3744fee7b4a419309ab44d3",
+  "fixtures/workbooks/planner/form-code.bas": "fef872bcd0bf42e7af41f0f3db0a3ddbd9f0e6bfdb3062558d36752f4ff026fa",
+  "fixtures/workbooks/planner/entry.bas": "bf9b383cbec788e0a08222fb77a08a2c5b3a570a6ad3e249ba811f9600e3cede",
+  "fixtures/workbooks/planner/PlannerForm-qualified.frm": "e9c476e2c54d06719d65d4b2774506b6727141b10668ccb2d06426188b45e355",
+  "fixtures/workbooks/planner/PlannerForm-qualified.frx": "ce3b426629b027b5d9c99e7a0815875ce7acf8455fd792096113d43f2470d31e",
+  "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observer.bas": "357493292c459899fae77d398a79cc08d38756637a1dd5e09ff077560c4686a7",
+  "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observer-fixed.bas": "5d43e72c53b526ea38debebdb06502804f7cd6d397180606051bee89f5c430c4",
+  "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/dialog-recovery.json": "8c2a5e69b9cfdeef495de6d9f8051853b84ea4664282641d09a8ea681d32bbe2"
+}

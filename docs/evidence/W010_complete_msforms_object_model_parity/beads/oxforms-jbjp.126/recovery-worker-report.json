@@ -1,0 +1,21 @@
+{
+  "schema": "calcforms.bounded_probe.v1",
+  "excel_pid": 22924,
+  "excel_launches": 1,
+  "helper_launches": 1,
+  "script": "tools/office-oracle/recover_owned_dialog.py",
+  "arguments": [
+    "--window",
+    "120131378",
+    "--out",
+    "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/dialog-recovery.json"
+  ],
+  "started_utc": "2026-11-06T23:01:19.702707+00:00",
+  "timeout_seconds": 30.0,
+  "pointer_keyboard_or_owner_focus_used": false,
+  "helper_pid": 27416,
+  "timed_out": false,
+  "helper_exit_code": 0,
+  "elapsed_seconds": 0.563,
+  "helper_stopped": true
+}

@@ -2964,8 +2964,13 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
     );
     let tab = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
     assert_eq!(
-        tab,
-        "keydown:InnerButton|exit:InnerButton|enter:OuterField|repaint"
+        tab, "keydown:InnerButton|exit:InnerButton|enter:ClippedField|repaint",
+        "child TabIndex values are local to the Frame"
+    );
+    let tab = dispatch_key(&mut session, &form, "keydown", KEY_TAB);
+    assert_eq!(
+        tab, "keydown:ClippedField|exit:ClippedField|enter:OuterField|repaint",
+        "the parent form continues after its Frame's children"
     );
 
     invoke_sub(&mut session, &form, "ClearLog");
@@ -3019,7 +3024,7 @@ fn frame_routes_hit_testing_tab_focus_and_accessibility_recursively() {
 
     let index = string_get(&mut session, &form, "InteractionIndexSummary");
     assert!(
-        index.contains(";first=InnerField;last=ClippedField;"),
+        index.contains(";first=InnerField;last=OuterField;"),
         "tab map should include nested participants in tree order: {index}"
     );
     let accessibility = string_get(&mut session, &form, "AccessibilitySnapshot");

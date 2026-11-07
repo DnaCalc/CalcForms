@@ -36,6 +36,7 @@ Private mTopIndex As Long
 Private mViewportHeight As Single
 Private mViewportSourceHeight As Single
 Private mHasShown As Boolean
+Private mIntegralHeight As Boolean
 Private mSelectedCsv As String
 Private mMultiSelect As fmMultiSelect
 Private mColumnCount As Long
@@ -53,6 +54,7 @@ Private Sub Class_Initialize()
     mViewportHeight = mCore.Height
     mViewportSourceHeight = mCore.Height
     mHasShown = False
+    mIntegralHeight = True
     Set mItems = New Collection
     mListIndex = -1
     mTopIndex = -1
@@ -126,22 +128,48 @@ Public Property Let Height(ByVal Value As Single)
     ClampTopIndex
 End Property
 
+Public Property Get IntegralHeight() As Boolean
+    IntegralHeight = mIntegralHeight
+End Property
+Public Property Let IntegralHeight(ByVal Value As Boolean)
+    If mIntegralHeight = Value Then Exit Property
+    mIntegralHeight = Value
+    mViewportHeight = mCore.Height
+    mViewportSourceHeight = mCore.Height
+    If mHasShown And mIntegralHeight Then
+        mViewportHeight = IntegralViewportHeight(mViewportHeight)
+    End If
+    If mItems.Count > 0 Then
+        mTopIndex = 0
+    Else
+        mTopIndex = -1
+    End If
+    ClampTopIndex
+    mCore.MarkDirty
+End Property
+
 ' The default IntegralHeight viewport is established when the workbook first
 ' shows the control. Keep its effective rows separate from the public Height:
 ' native dynamic controls report 72 while exposing seven complete 9.75pt rows.
 ' A later explicit size change refreshes the viewport without changing that
-' public property to a rounded value. Full IntegralHeight setters remain open.
+' public property to a rounded value. Native public Height normalization on
+' IntegralHeight transitions and device font metrics remain open in .118.
 Friend Sub PrepareFirstShow()
     If mHasShown Then Exit Sub
     mHasShown = True
     mViewportHeight = mCore.Height
     mViewportSourceHeight = mCore.Height
-    If mViewportHeight > ROW_INSET * 2 Then
-        mViewportHeight = ROW_INSET * 2 + Int((mViewportHeight - ROW_INSET * 2) / RowHeight()) * RowHeight()
-    End If
+    If mIntegralHeight Then mViewportHeight = IntegralViewportHeight(mViewportHeight)
     ClampTopIndex
     mCore.MarkDirty
 End Sub
+
+Private Function IntegralViewportHeight(ByVal Value As Single) As Single
+    IntegralViewportHeight = Value
+    If Value > ROW_INSET * 2 Then
+        IntegralViewportHeight = ROW_INSET * 2 + Int((Value - ROW_INSET * 2) / RowHeight()) * RowHeight()
+    End If
+End Function
 
 Public Property Get Visible() As Boolean
     Visible = mCore.Visible

@@ -41,10 +41,16 @@ def run_owned_excel(owner_path, action):
                 pythoncom.CoInitialize()
                 initialized = True
                 excel = wait_for(lambda: native_excel(owner['excel_pid']))
+                excel.Visible = False
                 result.append(action(excel, owner, owner_path.parent))
             except BaseException as error:
                 failures.append(error)
             finally:
+                if excel is not None:
+                    try:
+                        excel.Visible = False
+                    except BaseException as error:
+                        failures.append(error)
                 excel = None
                 gc.collect()
                 if initialized:

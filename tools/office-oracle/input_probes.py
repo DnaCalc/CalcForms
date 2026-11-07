@@ -28,15 +28,18 @@ def validate_native_signatures(form, source):
     facts = json.loads((ROOT / 'docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json').read_text(encoding='utf-8'))
     types = {t['documentation']['name']: t for t in facts['libraries'][0]['types']}
     for name, event_class in [('UserForm', 'FormEvents'), *[(c['name'], EVENT_CLASSES.get(c['kind'])) for c in walk(form['controls'])]]:
-        match = re.search(r'Private Sub ' + re.escape(name) + r'_MouseDown\(([^\n]*)\)', source)
-        if event_class is None:
-            if match:
-                raise ValueError('No public native MouseDown source for ' + name)
-            continue
-        event, = [f for f in types[event_class]['functions'] if f['documentation']['name'] == 'MouseDown']
-        expected = ', '.join('ByVal ' + p['name'] + ' As ' + p['type']['display'] for p in event['parameters'])
-        if match is None or match[1].lower() != expected.lower():
-            raise ValueError('Native MouseDown signature differs from public FM20 facts: ' + name)
+        for event_name in ('MouseDown', 'MouseUp'):
+            match = re.search(r'Private Sub ' + re.escape(name) + '_' + event_name + r'\(([^\n]*)\)', source)
+            if event_name == 'MouseUp' and match is None:
+                continue  # old capture sources intentionally observe MouseDown only
+            if event_class is None:
+                if match:
+                    raise ValueError('No public native ' + event_name + ' source for ' + name)
+                continue
+            event, = [f for f in types[event_class]['functions'] if f['documentation']['name'] == event_name]
+            expected = ', '.join('ByVal ' + p['name'] + ' As ' + p['type']['display'] for p in event['parameters'])
+            if match is None or match[1].lower() != expected.lower():
+                raise ValueError('Native ' + event_name + ' signature differs from public FM20 facts: ' + name)
 
 
 def paths(form):

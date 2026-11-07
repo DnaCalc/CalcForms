@@ -1,0 +1,129 @@
+{
+  "schema": "calcforms.integral_steps.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187"
+  },
+  "cases": [
+    {
+      "zoom": 100,
+      "before": "height=72;integral=True;top=16",
+      "observations": [
+        {
+          "member": "integral",
+          "value": 1,
+          "result": "height=72;integral=True;top=16\nheight=72;integral=True;top=16\nheight=72;integral=True;top=16"
+        },
+        {
+          "member": "integral",
+          "value": 0,
+          "result": "height=72;integral=False;top=0\nheight=72;integral=False;top=0\nheight=72;integral=False;top=15"
+        },
+        {
+          "member": "height",
+          "value": 80,
+          "result": "height=80;integral=False;top=15\nheight=80;integral=False;top=15\nheight=80;integral=False;top=15"
+        },
+        {
+          "member": "integral",
+          "value": 1,
+          "result": "height=71.05;integral=True;top=0\nheight=71.05;integral=True;top=0\nheight=71.05;integral=True;top=16"
+        },
+        {
+          "member": "height",
+          "value": 72,
+          "result": "height=72;integral=True;top=15\nheight=72;integral=True;top=15\nheight=72;integral=True;top=15"
+        },
+        {
+          "member": "height",
+          "value": 100,
+          "result": "height=100;integral=True;top=13\nheight=100;integral=True;top=13\nheight=100;integral=True;top=13"
+        },
+        {
+          "member": "integral",
+          "value": 0,
+          "result": "height=100;integral=False;top=0\nheight=100;integral=False;top=0\nheight=100;integral=False;top=13"
+        },
+        {
+          "member": "height",
+          "value": 80,
+          "result": "height=80;integral=False;top=13\nheight=80;integral=False;top=13\nheight=80;integral=False;top=15"
+        },
+        {
+          "member": "integral",
+          "value": 1,
+          "result": "height=71.05;integral=True;top=0\nheight=71.05;integral=True;top=0\nheight=71.05;integral=True;top=16"
+        },
+        {
+          "member": "none",
+          "value": 0,
+          "result": "height=71.05;integral=True;top=16\nheight=71.05;integral=True;top=16\nheight=71.05;integral=True;top=16"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "before": "height=72;integral=True;top=16",
+      "observations": [
+        {
+          "member": "integral",
+          "value": 1,
+          "result": "height=72;integral=True;top=16\nheight=72;integral=True;top=16\nheight=72;integral=True;top=16"
+        },
+        {
+          "member": "integral",
+          "value": 0,
+          "result": "height=72;integral=False;top=0\nheight=72;integral=False;top=0\nheight=72;integral=False;top=15"
+        },
+        {
+          "member": "height",
+          "value": 80,
+          "result": "height=80;integral=False;top=14\nheight=80;integral=False;top=14\nheight=80;integral=False;top=14"
+        },
+        {
+          "member": "integral",
+          "value": 1,
+          "result": "height=78.95;integral=True;top=0\nheight=78.95;integral=True;top=0\nheight=78.95;integral=True;top=15"
+        },
+        {
+          "member": "height",
+          "value": 72,
+          "result": "height=72;integral=True;top=15\nheight=72;integral=True;top=15\nheight=72;integral=True;top=15"
+        },
+        {
+          "member": "height",
+          "value": 100,
+          "result": "height=100;integral=True;top=12\nheight=100;integral=True;top=12\nheight=100;integral=True;top=12"
+        },
+        {
+          "member": "integral",
+          "value": 0,
+          "result": "height=100;integral=False;top=0\nheight=100;integral=False;top=0\nheight=100;integral=False;top=12"
+        },
+        {
+          "member": "height",
+          "value": 80,
+          "result": "height=80;integral=False;top=12\nheight=80;integral=False;top=12\nheight=80;integral=False;top=14"
+        },
+        {
+          "member": "integral",
+          "value": 1,
+          "result": "height=78.95;integral=True;top=0\nheight=78.95;integral=True;top=0\nheight=78.95;integral=True;top=15"
+        },
+        {
+          "member": "none",
+          "value": 0,
+          "result": "height=78.95;integral=True;top=15\nheight=78.95;integral=True;top=15\nheight=78.95;integral=True;top=15"
+        }
+      ]
+    }
+  ]
+}

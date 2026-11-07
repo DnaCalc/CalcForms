@@ -25,3 +25,28 @@ worker restored its desktop and CloseDesktop succeeded, with no error 170.
 Bounded helper cancellation/recovery remains broader .108 work; this bead stays open.
 Fresh review checked public metadata, Index/Value timing, body forwarding and
 that signature adaptation cannot change the native expected transcripts.
+
+Run 9 adds `run_bounded_probe.py`: a retained subprocess handle bounds a helper
+that attaches to the already-owned Excel. On timeout only that helper is killed
+and waited for. A recorded standard-module canary returned successfully before
+an intentional helper-only hang. The fresh helper verifies exact process/book,
+module name/source and all original module hashes before removing the canary.
+The hidden-session repeat records timeout, stopped helper and successful cleanup
+in `run9-recovery-hidden`; Excel remains PID 22924, launch one, Visible=False.
+The earlier `run9-recovery` diagnostic exposed Visible=True on the private desktop;
+the attachment helper now explicitly resets visibility before and after probes.
+
+The genuine planner also supplied a real VBA error-94 dialog after its helper
+deadline. A dedicated fresh helper verified the owned dialog and invoked its End
+button through public MSAA. Subsequent complete planner observations prove the
+same Excel usable again. The dialog/source and recovery record stay under `.126`.
+This proves bounded helper cancellation and these recovery cases; it does not
+promise recovery from every possible Excel deadlock or arbitrary native macro.
+MouseUp declarations, when present, now receive the same public-FM20 metadata
+preflight as MouseDown. Tests reject omitted indexed parameters before Office.
+
+Run 9's `cleanup-run9.json` verifies the one owned Excel stopped through its
+retained handle, all 32 owned runtime identities stopped, the worker desktop
+restored and the private desktop closed. No cleanup errors remain. Reused PIDs
+are distinguished from the recorded owned executable identity. Offline replay
+is `validate_run9_cleanup.py`; no Excel is started by this validation.

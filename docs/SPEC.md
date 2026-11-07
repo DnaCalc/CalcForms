@@ -27,15 +27,30 @@ so an application event with an identical payload cannot reset the default slot
 ([`.95.1` regression](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/event-identity.md)).
 The `.95` residual scope remains explicit; this supplies no headline layout credit.
 
+Run 9 also adds a [genuine planner workbook](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/README.md)
+with 208 matching state/event/error fields for spin, scroll, toggle and tab controls.
+Public range assignments now reject invalid values with error 380. The
+[IntegralHeight report](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/README.md)
+remains partial at 48 pass / 22 fail; the Boolean flag is public, while Height
+normalization and later TopIndex behavior stay open. The source census is 841
+public declarations; canonical full-library row status remains red and unchanged.
+
 ## Core Spec
 
-Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/final/forms-parity.md)
-reports **1,191 pass / 427 fail; 356 missing measurements**. Twenty-two greeter
-fields now use complete original-handler setter/event/selection observations.
+Run 9's [current replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/final/forms-parity.md)
+reports **1,201 pass / 417 fail; 346 missing measurements**. Thirty-two greeter
+fields now use original-handler setter/event/selection/lifecycle observations.
+The latest production behavior/input/keyboard replay retains all earlier native facts.
 The [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
 was 1,169/449 with 378 missing measurements. Native font sizing
 and retained DirectWrite raster are bounded to the recorded contexts; 17 gains
 and 14 regressions stay explicit. Full font/DPI parity remains `.101` work.
+
+The original order-entry BeforeUpdate veto, accepted Tab, Escape, retained
+Hide/Show and replacement-default reload now match all 308 captured fields.
+TabIndex sorting stays within each container, and host Show attaches the current
+compiler-owned default before making it visible. Geometry, scrolling and broader
+control/focus/lifetime behavior remain open in `.105/.105.1` and `.95`.
 
 Run 8's [replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/forms-parity.md)
 reports **1,166 pass / 452 fail; 378 missing measurements**. The

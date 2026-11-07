@@ -1,0 +1,161 @@
+{
+  "schema": "calcforms.order_entry_validation.v1",
+  "owner": {
+    "schema": "calcforms.layout_session.v1",
+    "excel_launches": 1,
+    "interactive": false,
+    "security_changes": 0,
+    "input_desktop_switched": false,
+    "workbook_sha256": "a64bfc3126a3cee6510c3622e11c74806f4a5664e1251e396408e1ed71e92120",
+    "corpus_sha256": "1c443f83b4685a3ca9f85fe6c2c870a196be1178dbb444267bdce6738837c4ae",
+    "excel_launches_by_this_session": 1,
+    "excel_pid": 22924,
+    "desktop": "CalcFormsOracle_d82f0ab29187"
+  },
+  "workbook_sha256": "2e2d87e1bfb862d33d3bbe9136842b0c45447ab44cc8b2cb43c02b313ba4ba25",
+  "original_handlers_unchanged": true,
+  "cases": [
+    {
+      "zoom": 100,
+      "observations": [
+        {
+          "step": "initial",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+          "focus": "NameInput"
+        },
+        {
+          "step": "type-x",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+          "focus": "NameInput"
+        },
+        {
+          "step": "erase",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+          "focus": "NameInput"
+        },
+        {
+          "step": "tab-veto",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "type-A",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "type-d",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "type-a",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "tab-accept",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "cancel",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=False",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate|Cancel.Click",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "reshow",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate|Cancel.Click",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "reload",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+          "focus": "NameInput"
+        }
+      ]
+    },
+    {
+      "zoom": 150,
+      "observations": [
+        {
+          "step": "initial",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+          "focus": "NameInput"
+        },
+        {
+          "step": "type-x",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+          "focus": "NameInput"
+        },
+        {
+          "step": "erase",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x",
+          "focus": "NameInput"
+        },
+        {
+          "step": "tab-veto",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "type-A",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "type-d",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "type-a",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "SaveButton"
+        },
+        {
+          "step": "tab-accept",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "cancel",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=False",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate|Cancel.Click",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "reshow",
+          "state": "name=x;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt|Name.Change:x|Name.BeforeUpdate|Cancel.Click",
+          "focus": "CancelButton"
+        },
+        {
+          "step": "reload",
+          "state": "name=;team=Sales;product=Bolt;standard=True;priority=False;invoice=True;prepaid=False;page=0;notes=Leave at reception;saved=0;status=Ready;visible=True",
+          "trace": "Initialize|Team.Change:Sales|Product.Change:Bolt|Product.Click:Bolt",
+          "focus": "NameInput"
+        }
+      ]
+    }
+  ]
+}

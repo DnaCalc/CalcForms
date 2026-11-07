@@ -1,0 +1,20 @@
+Traceback (most recent call last):
+  File "C:\Work\DnaCalc\OxForms\tools\office-oracle\capture_greeter_lifecycle.py", line 83, in <module>
+    capture(args.owner,args.out)
+  File "C:\Work\DnaCalc\OxForms\tools\office-oracle\capture_greeter_lifecycle.py", line 73, in capture
+    result=run_owned_excel(owner,action)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\DnaCalc\OxForms\tools\office-oracle\owned_excel.py", line 67, in run_owned_excel
+    raise failures[0]
+  File "C:\Work\DnaCalc\OxForms\tools\office-oracle\owned_excel.py", line 45, in worker
+    result.append(action(excel, owner, owner_path.parent))
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Work\DnaCalc\OxForms\tools\office-oracle\capture_greeter_lifecycle.py", line 67, in action
+    snapshot('old-controls-after-reload',controls,False)
+  File "C:\Work\DnaCalc\OxForms\tools\office-oracle\capture_greeter_lifecycle.py", line 51, in snapshot
+    value=getattr(control,member)
+          ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\GovertvanDrimmelen\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\win32com\client\dynamic.py", line 620, in __getattr__
+    ret = self._oleobj_.Invoke(retEntry.dispid, 0, invoke_type, 1)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+pywintypes.com_error: (-2147418113, 'Catastrophic failure', None, None)

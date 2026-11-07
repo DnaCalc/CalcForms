@@ -264,18 +264,23 @@ impl OxRuntime {
         self
     }
 
-    fn invoke(
-        &mut self,
-        member: &str,
-        kind: ProjectMemberKind,
-        args: Vec<Variant>,
-    ) -> Result<Variant, String> {
+    fn refresh_default(&mut self) -> Result<(), String> {
         if let Some(host) = &self.default_host {
             let form = Self::resolve_default(&mut self.session, host)?;
             if let Some(previous) = self.form.replace(form) {
                 self.session.release_class_instance(previous);
             }
         }
+        Ok(())
+    }
+
+    fn invoke(
+        &mut self,
+        member: &str,
+        kind: ProjectMemberKind,
+        args: Vec<Variant>,
+    ) -> Result<Variant, String> {
+        self.refresh_default()?;
         let member = format!("{}{member}", self.member_prefix);
         let form = self.form();
         self.session
@@ -590,6 +595,7 @@ impl OxRuntime {
 
     pub fn show_modeless(&mut self) -> Result<(), String> {
         if self.default_host.is_some() {
+            self.refresh_default()?;
             self.session
                 .invoke_member_values(
                     self.form(),

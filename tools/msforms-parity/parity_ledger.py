@@ -95,7 +95,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "class_modules": 33,
     "standard_modules": 4,
     "project_declared_exposed_modules": 5,
-    "public_declarations": 839,
+    "public_declarations": 841,
     "public_events": 114,
     "public_enum_constants": 25,
     "public_type_fields": 11,
@@ -837,7 +837,7 @@ _ADAPTER_REVIEWED_TOKEN_SHA256 = {
         "af626522943592079806fb08bb4d802ccc48dfd8dce0feb241a8f332cf59d319"
     ),
     "crates/calcforms-calcvba-adapter/src/runtime.rs": (
-        "b54373303f9886240049ca63a0b73b0500357e4c4ff914f601c0263a44701450"
+        "c6b0b0fbcf9aef4b39f4f381435af938dd8788eea00be48c3b54df592738fac0"
     ),
 }
 
@@ -6114,12 +6114,12 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
         and isinstance(row.get("actual"), dict)
     }
     if (
-        len(mapped_declarations) != 255
+        len(mapped_declarations) != 257
         or len(unexpected_declarations) != 584
         or mapped_declarations & unexpected_declarations
-        or len(mapped_declarations | unexpected_declarations) != 839
+        or len(mapped_declarations | unexpected_declarations) != 841
     ):
-        errors.append("public source declaration partition differs from 255+584=839")
+        errors.append("public source declaration partition differs from 257+584=841")
     if (
         len(mapped_nested) != 10
         or len(unexpected_nested) != 26
