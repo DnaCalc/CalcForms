@@ -511,6 +511,10 @@ impl WorkbookForm {
         }
         build.push_str("    Set CalcFormsHostReducer = New OxReducer\n    CalcFormsHostReducer.Init CalcFormsHostForm\n");
         let mut host = include_str!("../../../vba/calcforms/runtime/WorkbookFormHost.vba")
+            .replace(
+                "Private CalcFormsHostForm As UserForm",
+                "Private WithEvents CalcFormsHostForm As UserForm\nPrivate Sub CalcFormsHostForm_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)\n%MOUSEDOWN%\nEnd Sub",
+            )
             .replace("%BUILD%", &build);
         for (token, name) in [
             ("INITIALIZE", "Initialize"),
@@ -518,6 +522,7 @@ impl WorkbookForm {
             ("DEACTIVATE", "Deactivate"),
             ("TERMINATE", "Terminate"),
             ("QUERY_CLOSE", "QueryClose"),
+            ("MOUSEDOWN", "MouseDown"),
         ] {
             let handler = format!("UserForm_{name}");
             let exists = procedures.lines().any(|line| {
@@ -531,6 +536,8 @@ impl WorkbookForm {
                 String::new()
             } else if name == "QueryClose" {
                 format!("    {handler} Cancel, CloseMode")
+            } else if name == "MouseDown" {
+                format!("    {handler} Button, Shift, X, Y")
             } else {
                 format!("    {handler}")
             };

@@ -95,8 +95,8 @@ EXPECTED_SOURCE_SUMMARY = {
     "class_modules": 33,
     "standard_modules": 4,
     "project_declared_exposed_modules": 5,
-    "public_declarations": 842,
-    "public_events": 115,
+    "public_declarations": 843,
+    "public_events": 116,
     "public_enum_constants": 25,
     "public_type_fields": 11,
     "multiline_public_signatures": 36,
@@ -6114,12 +6114,12 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
         and isinstance(row.get("actual"), dict)
     }
     if (
-        len(mapped_declarations) != 258
+        len(mapped_declarations) != 259
         or len(unexpected_declarations) != 584
         or mapped_declarations & unexpected_declarations
-        or len(mapped_declarations | unexpected_declarations) != 842
+        or len(mapped_declarations | unexpected_declarations) != 843
     ):
-        errors.append("public source declaration partition differs from 258+584=842")
+        errors.append("public source declaration partition differs from 259+584=843")
     if (
         len(mapped_nested) != 10
         or len(unexpected_nested) != 26

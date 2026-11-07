@@ -2,6 +2,12 @@ Option Explicit
 Implements IOxControlHost
 Implements IOxControlContainer
 
+Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+
+Friend Sub OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    RaiseEvent MouseDown(Button, Shift, X, Y)
+End Sub
+
 ' MSForms-shaped UserForm container. Owns the control set and is the host the
 ' controls notify on change. A user form (or, later, the .frm loader) builds its
 ' controls the Forms 2.0 way -- Controls.Add by ProgID -- which creates the control and

@@ -43,6 +43,8 @@ fields now use original-handler setter/event/selection/lifecycle observations.
 The latest production behavior/input/keyboard replay retains all earlier native facts.
 Frame background MouseDown now exposes and raises the public four-scalar event;
 both native hit-testing observations match, with child routing preserved.
+Root UserForm MouseDown (.132) now exposes and raises the canonical four-scalar event
+when disabled controls reject pointer input, matching native hit fallthrough.
 The [font replay](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.101/final/forms-parity.md)
 was 1,169/449 with 378 missing measurements. Native font sizing
 and retained DirectWrite raster are bounded to the recorded contexts; 17 gains

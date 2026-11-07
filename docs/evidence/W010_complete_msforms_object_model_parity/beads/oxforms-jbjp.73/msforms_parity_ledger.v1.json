@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "84c1b96814b432ea0831281a1b52d1962cf55a22a84950b7c2d18600b11d2270",
+  "source_surface_sha256": "3446a0b978629f87483aa7ba50c1074776ac4eaf740802d2623e4c837a8ba89e",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -8760,7 +8760,7 @@
           "file_stem": "UserForm",
           "kind": "class_module",
           "path": "vba/calcforms/UserForm.cls",
-          "normalized_text_sha256": "01ccd5a05be9e457789f8702818314fd32c63f548fc16ab4157b576ced63f28a",
+          "normalized_text_sha256": "acfc57aa9b894cf1d0beecca1e8abdd07177c08bbd83d863696d95296225d816",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -8782,6 +8782,69 @@
             "IOxControlContainer"
           ],
           "declarations": [
+            {
+              "kind": "event",
+              "visibility": "public",
+              "explicit_visibility": true,
+              "name": "MouseDown",
+              "bracketed_name": false,
+              "default_member": false,
+              "static": false,
+              "parameters": [
+                {
+                  "index": 0,
+                  "name": "Button",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Integer",
+                  "default": null,
+                  "raw": "ByVal Button As Integer"
+                },
+                {
+                  "index": 1,
+                  "name": "Shift",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Integer",
+                  "default": null,
+                  "raw": "ByVal Shift As Integer"
+                },
+                {
+                  "index": 2,
+                  "name": "X",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Single",
+                  "default": null,
+                  "raw": "ByVal X As Single"
+                },
+                {
+                  "index": 3,
+                  "name": "Y",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Single",
+                  "default": null,
+                  "raw": "ByVal Y As Single"
+                }
+              ],
+              "return_type": null,
+              "source": {
+                "path": "vba/calcforms/UserForm.cls",
+                "start_line": 5,
+                "end_line": 5,
+                "text": "Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
+              },
+              "member_attributes": {}
+            },
             {
               "kind": "sub",
               "visibility": "public",
@@ -8806,8 +8869,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 58,
-                "end_line": 58,
+                "start_line": 64,
+                "end_line": 64,
                 "text": "Public Sub RegisterControl(ByVal Control As IOxControl)"
               },
               "member_attributes": {}
@@ -8836,8 +8899,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 68,
-                "end_line": 68,
+                "start_line": 74,
+                "end_line": 74,
                 "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
               },
               "member_attributes": {}
@@ -8854,8 +8917,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 76,
-                "end_line": 76,
+                "start_line": 82,
+                "end_line": 82,
                 "text": "Public Property Get Controls() As Controls"
               },
               "member_attributes": {}
@@ -8884,8 +8947,8 @@
               "return_type": "IOxControl",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 80,
-                "end_line": 80,
+                "start_line": 86,
+                "end_line": 86,
                 "text": "Public Function ControlByName(ByVal Name As String) As IOxControl"
               },
               "member_attributes": {}
@@ -8914,8 +8977,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 84,
-                "end_line": 84,
+                "start_line": 90,
+                "end_line": 90,
                 "text": "Public Function HasControl(ByVal Name As String) As Boolean"
               },
               "member_attributes": {}
@@ -8932,8 +8995,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 112,
-                "end_line": 112,
+                "start_line": 118,
+                "end_line": 118,
                 "text": "Public Property Get Count() As Long"
               },
               "member_attributes": {}
@@ -8950,8 +9013,8 @@
               "return_type": "Collection",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 118,
-                "end_line": 118,
+                "start_line": 124,
+                "end_line": 124,
                 "text": "Public Property Get InvalidatedControls() As Collection"
               },
               "member_attributes": {}
@@ -8968,8 +9031,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 122,
-                "end_line": 122,
+                "start_line": 128,
+                "end_line": 128,
                 "text": "Public Sub ClearInvalidations()"
               },
               "member_attributes": {}
@@ -8986,8 +9049,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 130,
-                "end_line": 130,
+                "start_line": 136,
+                "end_line": 136,
                 "text": "Public Sub SuspendLayout()"
               },
               "member_attributes": {}
@@ -9004,8 +9067,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 134,
-                "end_line": 134,
+                "start_line": 140,
+                "end_line": 140,
                 "text": "Public Sub ResumeLayout()"
               },
               "member_attributes": {}
@@ -9078,8 +9141,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 169,
-                "end_line": 174,
+                "start_line": 175,
+                "end_line": 180,
                 "text": "Public Function BuildScenePatch( ByVal BaseToken As String, ByVal Builder As OxSceneBuilder, ByVal Surface As Object, ByVal DpiX As Long, ByVal DpiY As Long) As String"
               },
               "member_attributes": {}
@@ -9119,8 +9182,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 337,
-                "end_line": 337,
+                "start_line": 343,
+                "end_line": 343,
                 "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
               },
               "member_attributes": {}
@@ -9137,8 +9200,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 396,
-                "end_line": 396,
+                "start_line": 402,
+                "end_line": 402,
                 "text": "Public Property Get LastSceneToken() As String"
               },
               "member_attributes": {}
@@ -9155,8 +9218,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 403,
-                "end_line": 403,
+                "start_line": 409,
+                "end_line": 409,
                 "text": "Public Property Get InteractionRevision() As Long"
               },
               "member_attributes": {}
@@ -9173,8 +9236,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 407,
-                "end_line": 407,
+                "start_line": 413,
+                "end_line": 413,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -9203,8 +9266,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 410,
-                "end_line": 410,
+                "start_line": 416,
+                "end_line": 416,
                 "text": "Public Property Let Name(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -9221,8 +9284,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 414,
-                "end_line": 414,
+                "start_line": 420,
+                "end_line": 420,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -9251,8 +9314,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 417,
-                "end_line": 417,
+                "start_line": 423,
+                "end_line": 423,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {}
@@ -9269,8 +9332,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 421,
-                "end_line": 421,
+                "start_line": 427,
+                "end_line": 427,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -9299,8 +9362,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 424,
-                "end_line": 424,
+                "start_line": 430,
+                "end_line": 430,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9317,8 +9380,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 428,
-                "end_line": 428,
+                "start_line": 434,
+                "end_line": 434,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -9347,8 +9410,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 431,
-                "end_line": 431,
+                "start_line": 437,
+                "end_line": 437,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9365,8 +9428,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 435,
-                "end_line": 435,
+                "start_line": 441,
+                "end_line": 441,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -9395,8 +9458,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 438,
-                "end_line": 438,
+                "start_line": 444,
+                "end_line": 444,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9413,8 +9476,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 442,
-                "end_line": 442,
+                "start_line": 448,
+                "end_line": 448,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -9443,8 +9506,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 445,
-                "end_line": 445,
+                "start_line": 451,
+                "end_line": 451,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -9475,8 +9538,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 453,
-                "end_line": 453,
+                "start_line": 459,
+                "end_line": 459,
                 "text": "Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -9495,8 +9558,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 457,
-                "end_line": 457,
+                "start_line": 463,
+                "end_line": 463,
                 "text": "Private Function IOxControlHost_AllocateNodeId() As Long"
               },
               "interface": "IOxControlHost",
@@ -9527,8 +9590,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 465,
-                "end_line": 465,
+                "start_line": 471,
+                "end_line": 471,
                 "text": "Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -9559,8 +9622,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 469,
-                "end_line": 469,
+                "start_line": 475,
+                "end_line": 475,
                 "text": "Private Sub IOxControlContainer_RegisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -9591,8 +9654,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 473,
-                "end_line": 473,
+                "start_line": 479,
+                "end_line": 479,
                 "text": "Private Sub IOxControlContainer_UnregisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -542088,12 +542151,12 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 417,
-                "end_line": 417,
+                "start_line": 423,
+                "end_line": 423,
                 "text": "Public Property Let Caption(ByVal Value As String)"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0017",
+              "source_declaration_id": "source:027:0018",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -542124,12 +542187,12 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 414,
-                "end_line": 414,
+                "start_line": 420,
+                "end_line": 420,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0016",
+              "source_declaration_id": "source:027:0017",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -542167,14 +542230,14 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0016"
+            "source:027:0017"
           ]
         },
         "put": {
           "status": "partial",
           "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
-            "source:027:0017"
+            "source:027:0018"
           ]
         },
         "putref": {
@@ -542344,12 +542407,12 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 76,
-                "end_line": 76,
+                "start_line": 82,
+                "end_line": 82,
                 "text": "Public Property Get Controls() As Controls"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0002",
+              "source_declaration_id": "source:027:0003",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -542387,7 +542450,7 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0002"
+            "source:027:0003"
           ]
         },
         "put": {
@@ -966333,10 +966396,83 @@
         ],
         "accessors": {
           "func": {
-            "status": "missing",
+            "status": "compatible_source_shape",
             "expected_kind": "event",
-            "source_declaration": null,
-            "same_name_wrong_kinds": []
+            "source_declaration": {
+              "kind": "event",
+              "visibility": "public",
+              "explicit_visibility": true,
+              "name": "MouseDown",
+              "bracketed_name": false,
+              "default_member": false,
+              "static": false,
+              "parameters": [
+                {
+                  "index": 0,
+                  "name": "Button",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Integer",
+                  "default": null,
+                  "raw": "ByVal Button As Integer"
+                },
+                {
+                  "index": 1,
+                  "name": "Shift",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Integer",
+                  "default": null,
+                  "raw": "ByVal Shift As Integer"
+                },
+                {
+                  "index": 2,
+                  "name": "X",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Single",
+                  "default": null,
+                  "raw": "ByVal X As Single"
+                },
+                {
+                  "index": 3,
+                  "name": "Y",
+                  "passing": "byval",
+                  "optional": false,
+                  "param_array": false,
+                  "array": false,
+                  "type": "Single",
+                  "default": null,
+                  "raw": "ByVal Y As Single"
+                }
+              ],
+              "return_type": null,
+              "source": {
+                "path": "vba/calcforms/UserForm.cls",
+                "start_line": 5,
+                "end_line": 5,
+                "text": "Public Event MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
+              },
+              "member_attributes": {},
+              "source_declaration_id": "source:027:0000",
+              "owner": "UserForm",
+              "owner_profiles": [
+                "headless_runner_forced",
+                "bootstrap_forced"
+              ]
+            },
+            "signature_comparison": {
+              "status": "compatible_source_shape",
+              "mismatches": [],
+              "unresolved": [],
+              "non_claim": "Only unambiguous COM parameter flags and array metadata are lowered; weak cases remain unresolved."
+            }
           }
         }
       },
@@ -966349,9 +966485,11 @@
           ]
         },
         "bind": {
-          "status": "missing",
-          "basis": "No same-name public Event declaration was found on the coclass facade.",
-          "evidence": []
+          "status": "partial",
+          "basis": "The event declaration is alias-only or unavailable through the clean basproj exposure path.",
+          "evidence": [
+            "source:027:0000"
+          ]
         },
         "method": {
           "status": "not_applicable",
@@ -966384,9 +966522,11 @@
           "evidence": []
         },
         "event": {
-          "status": "missing",
-          "basis": "No same-name public Event declaration was found on the coclass facade.",
-          "evidence": []
+          "status": "partial",
+          "basis": "The event declaration is alias-only or unavailable through the clean basproj exposure path.",
+          "evidence": [
+            "source:027:0000"
+          ]
         },
         "render": {
           "status": "not_applicable",
@@ -1070448,12 +1070588,12 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 407,
-                "end_line": 407,
+                "start_line": 413,
+                "end_line": 413,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0014",
+              "source_declaration_id": "source:027:0015",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1070492,7 +1070632,7 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0014"
+            "source:027:0015"
           ]
         },
         "put": {
@@ -1070703,12 +1070843,12 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 421,
-                "end_line": 421,
+                "start_line": 427,
+                "end_line": 427,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0018",
+              "source_declaration_id": "source:027:0019",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1070749,12 +1070889,12 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 424,
-                "end_line": 424,
+                "start_line": 430,
+                "end_line": 430,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0019",
+              "source_declaration_id": "source:027:0020",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1070796,14 +1070936,14 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0018"
+            "source:027:0019"
           ]
         },
         "put": {
           "status": "partial",
           "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
-            "source:027:0019"
+            "source:027:0020"
           ]
         },
         "putref": {
@@ -1071009,12 +1071149,12 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 428,
-                "end_line": 428,
+                "start_line": 434,
+                "end_line": 434,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0020",
+              "source_declaration_id": "source:027:0021",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1071055,12 +1071195,12 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 431,
-                "end_line": 431,
+                "start_line": 437,
+                "end_line": 437,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0021",
+              "source_declaration_id": "source:027:0022",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1071102,14 +1071242,14 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0020"
+            "source:027:0021"
           ]
         },
         "put": {
           "status": "partial",
           "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
-            "source:027:0021"
+            "source:027:0022"
           ]
         },
         "putref": {
@@ -1071315,12 +1071455,12 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 435,
-                "end_line": 435,
+                "start_line": 441,
+                "end_line": 441,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0022",
+              "source_declaration_id": "source:027:0023",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1071361,12 +1071501,12 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 438,
-                "end_line": 438,
+                "start_line": 444,
+                "end_line": 444,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0023",
+              "source_declaration_id": "source:027:0024",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1071408,14 +1071548,14 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0022"
+            "source:027:0023"
           ]
         },
         "put": {
           "status": "partial",
           "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
-            "source:027:0023"
+            "source:027:0024"
           ]
         },
         "putref": {
@@ -1071621,12 +1071761,12 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 442,
-                "end_line": 442,
+                "start_line": 448,
+                "end_line": 448,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0024",
+              "source_declaration_id": "source:027:0025",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1071667,12 +1071807,12 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/UserForm.cls",
-                "start_line": 445,
-                "end_line": 445,
+                "start_line": 451,
+                "end_line": 451,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {},
-              "source_declaration_id": "source:027:0025",
+              "source_declaration_id": "source:027:0026",
               "owner": "UserForm",
               "owner_profiles": [
                 "headless_runner_forced",
@@ -1071714,14 +1071854,14 @@
           "status": "partial",
           "basis": "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it.",
           "evidence": [
-            "source:027:0024"
+            "source:027:0025"
           ]
         },
         "put": {
           "status": "partial",
           "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
-            "source:027:0025"
+            "source:027:0026"
           ]
         },
         "putref": {
@@ -1449037,7 +1449177,7 @@
         "file_stem": "OxInteractionManager",
         "kind": "class_module",
         "path": "vba/calcforms/OxInteractionManager.cls",
-        "normalized_text_sha256": "7964a7ce1b8b428e6d280bab58e359bca82ba205c8152437349ec9ff18a0da9d",
+        "normalized_text_sha256": "de136db406cb3a1556eedb41e8ce2c507caa02535f0a85d5d22ba9382ff64f24",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1449452,8 +1449592,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 339,
-              "end_line": 339,
+              "start_line": 340,
+              "end_line": 340,
               "text": "Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String"
             },
             "member_attributes": {}
@@ -1449482,8 +1449622,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 890,
-              "end_line": 890,
+              "start_line": 891,
+              "end_line": 891,
               "text": "Public Function DispatchDrop(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1449512,8 +1449652,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 970,
-              "end_line": 970,
+              "start_line": 971,
+              "end_line": 971,
               "text": "Public Function DispatchChar(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1512541,13 +1512681,13 @@
       "row_status": "unexpected_public"
     },
     {
-      "row_id": "unexpected-public-member:source:027:0000",
+      "row_id": "unexpected-public-member:source:027:0001",
       "row_kind": "unexpected_public_member",
       "source_authority": "oxforms_vba_surface",
       "facade_owner_type_id": null,
       "declaration_owner_type_id": null,
       "source_refs": [
-        "source:027:0000"
+        "source:027:0001"
       ],
       "exact_name": "RegisterControl",
       "memid": null,
@@ -1512585,137 +1512725,9 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 58,
-          "end_line": 58,
+          "start_line": 64,
+          "end_line": 64,
           "text": "Public Sub RegisterControl(ByVal Control As IOxControl)"
-        },
-        "member_attributes": {},
-        "source_declaration_id": "source:027:0000",
-        "owner": "UserForm",
-        "owner_profiles": [
-          "headless_runner_forced",
-          "bootstrap_forced"
-        ]
-      },
-      "dimensions": {
-        "type_or_declaration": {
-          "status": "partial",
-          "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
-          "evidence": [
-            "source:027:0000"
-          ]
-        },
-        "bind": {
-          "status": "partial",
-          "basis": "The unexpected member is reachable in one or more current exposure profiles.",
-          "evidence": []
-        },
-        "method": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "get": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "put": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "putref": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "default_binding": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "error_coercion": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "event": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "render": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "persistence": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "oracle": {
-          "status": "not_applicable",
-          "basis": "Unexpected public member has no canonical contract dimensions.",
-          "evidence": []
-        },
-        "tests": {
-          "status": "missing",
-          "basis": "No boundary test proves the unexpected member is inaccessible.",
-          "evidence": []
-        }
-      },
-      "row_status": "unexpected_public"
-    },
-    {
-      "row_id": "unexpected-public-member:source:027:0001",
-      "row_kind": "unexpected_public_member",
-      "source_authority": "oxforms_vba_surface",
-      "facade_owner_type_id": null,
-      "declaration_owner_type_id": null,
-      "source_refs": [
-        "source:027:0001"
-      ],
-      "exact_name": "UnregisterControl",
-      "memid": null,
-      "visibility": {
-        "hidden": false,
-        "nonbrowsable": false,
-        "restricted": false,
-        "type_flags": [],
-        "member_flags": []
-      },
-      "disposition": "unexpected_public",
-      "disposition_basis": "Every unmapped public declaration remains a failing row.",
-      "contract": null,
-      "actual": {
-        "kind": "sub",
-        "visibility": "public",
-        "explicit_visibility": true,
-        "name": "UnregisterControl",
-        "bracketed_name": false,
-        "default_member": false,
-        "static": false,
-        "parameters": [
-          {
-            "index": 0,
-            "name": "Control",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "IOxControl",
-            "default": null,
-            "raw": "ByVal Control As IOxControl"
-          }
-        ],
-        "return_type": null,
-        "source": {
-          "path": "vba/calcforms/UserForm.cls",
-          "start_line": 68,
-          "end_line": 68,
-          "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0001",
@@ -1512797,15 +1512809,15 @@
       "row_status": "unexpected_public"
     },
     {
-      "row_id": "unexpected-public-member:source:027:0003",
+      "row_id": "unexpected-public-member:source:027:0002",
       "row_kind": "unexpected_public_member",
       "source_authority": "oxforms_vba_surface",
       "facade_owner_type_id": null,
       "declaration_owner_type_id": null,
       "source_refs": [
-        "source:027:0003"
+        "source:027:0002"
       ],
-      "exact_name": "ControlByName",
+      "exact_name": "UnregisterControl",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1512818,35 +1512830,35 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "function",
+        "kind": "sub",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "ControlByName",
+        "name": "UnregisterControl",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [
           {
             "index": 0,
-            "name": "Name",
+            "name": "Control",
             "passing": "byval",
             "optional": false,
             "param_array": false,
             "array": false,
-            "type": "String",
+            "type": "IOxControl",
             "default": null,
-            "raw": "ByVal Name As String"
+            "raw": "ByVal Control As IOxControl"
           }
         ],
-        "return_type": "IOxControl",
+        "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 80,
-          "end_line": 80,
-          "text": "Public Function ControlByName(ByVal Name As String) As IOxControl"
+          "start_line": 74,
+          "end_line": 74,
+          "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
         },
         "member_attributes": {},
-        "source_declaration_id": "source:027:0003",
+        "source_declaration_id": "source:027:0002",
         "owner": "UserForm",
         "owner_profiles": [
           "headless_runner_forced",
@@ -1512858,7 +1512870,7 @@
           "status": "partial",
           "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
           "evidence": [
-            "source:027:0003"
+            "source:027:0002"
           ]
         },
         "bind": {
@@ -1512933,7 +1512945,7 @@
       "source_refs": [
         "source:027:0004"
       ],
-      "exact_name": "HasControl",
+      "exact_name": "ControlByName",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1512949,7 +1512961,7 @@
         "kind": "function",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "HasControl",
+        "name": "ControlByName",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1512966,12 +1512978,12 @@
             "raw": "ByVal Name As String"
           }
         ],
-        "return_type": "Boolean",
+        "return_type": "IOxControl",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 84,
-          "end_line": 84,
-          "text": "Public Function HasControl(ByVal Name As String) As Boolean"
+          "start_line": 86,
+          "end_line": 86,
+          "text": "Public Function ControlByName(ByVal Name As String) As IOxControl"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0004",
@@ -1513061,7 +1513073,7 @@
       "source_refs": [
         "source:027:0005"
       ],
-      "exact_name": "Count",
+      "exact_name": "HasControl",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513074,20 +1513086,32 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "property_get",
+        "kind": "function",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Count",
+        "name": "HasControl",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
-        "parameters": [],
-        "return_type": "Long",
+        "parameters": [
+          {
+            "index": 0,
+            "name": "Name",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "String",
+            "default": null,
+            "raw": "ByVal Name As String"
+          }
+        ],
+        "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 112,
-          "end_line": 112,
-          "text": "Public Property Get Count() As Long"
+          "start_line": 90,
+          "end_line": 90,
+          "text": "Public Function HasControl(ByVal Name As String) As Boolean"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0005",
@@ -1513177,7 +1513201,7 @@
       "source_refs": [
         "source:027:0006"
       ],
-      "exact_name": "InvalidatedControls",
+      "exact_name": "Count",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513193,17 +1513217,17 @@
         "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "InvalidatedControls",
+        "name": "Count",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [],
-        "return_type": "Collection",
+        "return_type": "Long",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
           "start_line": 118,
           "end_line": 118,
-          "text": "Public Property Get InvalidatedControls() As Collection"
+          "text": "Public Property Get Count() As Long"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0006",
@@ -1513293,7 +1513317,7 @@
       "source_refs": [
         "source:027:0007"
       ],
-      "exact_name": "ClearInvalidations",
+      "exact_name": "InvalidatedControls",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513306,20 +1513330,20 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "sub",
+        "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "ClearInvalidations",
+        "name": "InvalidatedControls",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [],
-        "return_type": null,
+        "return_type": "Collection",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 122,
-          "end_line": 122,
-          "text": "Public Sub ClearInvalidations()"
+          "start_line": 124,
+          "end_line": 124,
+          "text": "Public Property Get InvalidatedControls() As Collection"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0007",
@@ -1513409,7 +1513433,7 @@
       "source_refs": [
         "source:027:0008"
       ],
-      "exact_name": "SuspendLayout",
+      "exact_name": "ClearInvalidations",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513425,7 +1513449,7 @@
         "kind": "sub",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "SuspendLayout",
+        "name": "ClearInvalidations",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1513433,9 +1513457,9 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 130,
-          "end_line": 130,
-          "text": "Public Sub SuspendLayout()"
+          "start_line": 128,
+          "end_line": 128,
+          "text": "Public Sub ClearInvalidations()"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0008",
@@ -1513525,7 +1513549,7 @@
       "source_refs": [
         "source:027:0009"
       ],
-      "exact_name": "ResumeLayout",
+      "exact_name": "SuspendLayout",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513541,7 +1513565,7 @@
         "kind": "sub",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "ResumeLayout",
+        "name": "SuspendLayout",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
@@ -1513549,9 +1513573,9 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 134,
-          "end_line": 134,
-          "text": "Public Sub ResumeLayout()"
+          "start_line": 136,
+          "end_line": 136,
+          "text": "Public Sub SuspendLayout()"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0009",
@@ -1513641,7 +1513665,7 @@
       "source_refs": [
         "source:027:0010"
       ],
-      "exact_name": "BuildScenePatch",
+      "exact_name": "ResumeLayout",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513654,76 +1513678,20 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "function",
+        "kind": "sub",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "BuildScenePatch",
+        "name": "ResumeLayout",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
-        "parameters": [
-          {
-            "index": 0,
-            "name": "BaseToken",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "String",
-            "default": null,
-            "raw": "ByVal BaseToken As String"
-          },
-          {
-            "index": 1,
-            "name": "Builder",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "OxSceneBuilder",
-            "default": null,
-            "raw": "ByVal Builder As OxSceneBuilder"
-          },
-          {
-            "index": 2,
-            "name": "Surface",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Object",
-            "default": null,
-            "raw": "ByVal Surface As Object"
-          },
-          {
-            "index": 3,
-            "name": "DpiX",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Long",
-            "default": null,
-            "raw": "ByVal DpiX As Long"
-          },
-          {
-            "index": 4,
-            "name": "DpiY",
-            "passing": "byval",
-            "optional": false,
-            "param_array": false,
-            "array": false,
-            "type": "Long",
-            "default": null,
-            "raw": "ByVal DpiY As Long"
-          }
-        ],
-        "return_type": "String",
+        "parameters": [],
+        "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 169,
-          "end_line": 174,
-          "text": "Public Function BuildScenePatch( ByVal BaseToken As String, ByVal Builder As OxSceneBuilder, ByVal Surface As Object, ByVal DpiX As Long, ByVal DpiY As Long) As String"
+          "start_line": 140,
+          "end_line": 140,
+          "text": "Public Sub ResumeLayout()"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0010",
@@ -1513813,7 +1513781,7 @@
       "source_refs": [
         "source:027:0011"
       ],
-      "exact_name": "Render",
+      "exact_name": "BuildScenePatch",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513826,16 +1513794,49 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "sub",
+        "kind": "function",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "Render",
+        "name": "BuildScenePatch",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [
           {
             "index": 0,
+            "name": "BaseToken",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "String",
+            "default": null,
+            "raw": "ByVal BaseToken As String"
+          },
+          {
+            "index": 1,
+            "name": "Builder",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "OxSceneBuilder",
+            "default": null,
+            "raw": "ByVal Builder As OxSceneBuilder"
+          },
+          {
+            "index": 2,
+            "name": "Surface",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Object",
+            "default": null,
+            "raw": "ByVal Surface As Object"
+          },
+          {
+            "index": 3,
             "name": "DpiX",
             "passing": "byval",
             "optional": false,
@@ -1513846,7 +1513847,7 @@
             "raw": "ByVal DpiX As Long"
           },
           {
-            "index": 1,
+            "index": 4,
             "name": "DpiY",
             "passing": "byval",
             "optional": false,
@@ -1513857,12 +1513858,12 @@
             "raw": "ByVal DpiY As Long"
           }
         ],
-        "return_type": null,
+        "return_type": "String",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 337,
-          "end_line": 337,
-          "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
+          "start_line": 175,
+          "end_line": 180,
+          "text": "Public Function BuildScenePatch( ByVal BaseToken As String, ByVal Builder As OxSceneBuilder, ByVal Surface As Object, ByVal DpiX As Long, ByVal DpiY As Long) As String"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0011",
@@ -1513952,7 +1513953,7 @@
       "source_refs": [
         "source:027:0012"
       ],
-      "exact_name": "LastSceneToken",
+      "exact_name": "Render",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1513965,20 +1513966,43 @@
       "disposition_basis": "Every unmapped public declaration remains a failing row.",
       "contract": null,
       "actual": {
-        "kind": "property_get",
+        "kind": "sub",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "LastSceneToken",
+        "name": "Render",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
-        "parameters": [],
-        "return_type": "String",
+        "parameters": [
+          {
+            "index": 0,
+            "name": "DpiX",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Long",
+            "default": null,
+            "raw": "ByVal DpiX As Long"
+          },
+          {
+            "index": 1,
+            "name": "DpiY",
+            "passing": "byval",
+            "optional": false,
+            "param_array": false,
+            "array": false,
+            "type": "Long",
+            "default": null,
+            "raw": "ByVal DpiY As Long"
+          }
+        ],
+        "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 396,
-          "end_line": 396,
-          "text": "Public Property Get LastSceneToken() As String"
+          "start_line": 343,
+          "end_line": 343,
+          "text": "Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0012",
@@ -1514068,7 +1514092,7 @@
       "source_refs": [
         "source:027:0013"
       ],
-      "exact_name": "InteractionRevision",
+      "exact_name": "LastSceneToken",
       "memid": null,
       "visibility": {
         "hidden": false,
@@ -1514084,17 +1514108,17 @@
         "kind": "property_get",
         "visibility": "public",
         "explicit_visibility": true,
-        "name": "InteractionRevision",
+        "name": "LastSceneToken",
         "bracketed_name": false,
         "default_member": false,
         "static": false,
         "parameters": [],
-        "return_type": "Long",
+        "return_type": "String",
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 403,
-          "end_line": 403,
-          "text": "Public Property Get InteractionRevision() As Long"
+          "start_line": 402,
+          "end_line": 402,
+          "text": "Public Property Get LastSceneToken() As String"
         },
         "member_attributes": {},
         "source_declaration_id": "source:027:0013",
@@ -1514176,13 +1514200,129 @@
       "row_status": "unexpected_public"
     },
     {
-      "row_id": "unexpected-public-member:source:027:0015",
+      "row_id": "unexpected-public-member:source:027:0014",
       "row_kind": "unexpected_public_member",
       "source_authority": "oxforms_vba_surface",
       "facade_owner_type_id": null,
       "declaration_owner_type_id": null,
       "source_refs": [
-        "source:027:0015"
+        "source:027:0014"
+      ],
+      "exact_name": "InteractionRevision",
+      "memid": null,
+      "visibility": {
+        "hidden": false,
+        "nonbrowsable": false,
+        "restricted": false,
+        "type_flags": [],
+        "member_flags": []
+      },
+      "disposition": "unexpected_public",
+      "disposition_basis": "Every unmapped public declaration remains a failing row.",
+      "contract": null,
+      "actual": {
+        "kind": "property_get",
+        "visibility": "public",
+        "explicit_visibility": true,
+        "name": "InteractionRevision",
+        "bracketed_name": false,
+        "default_member": false,
+        "static": false,
+        "parameters": [],
+        "return_type": "Long",
+        "source": {
+          "path": "vba/calcforms/UserForm.cls",
+          "start_line": 409,
+          "end_line": 409,
+          "text": "Public Property Get InteractionRevision() As Long"
+        },
+        "member_attributes": {},
+        "source_declaration_id": "source:027:0014",
+        "owner": "UserForm",
+        "owner_profiles": [
+          "headless_runner_forced",
+          "bootstrap_forced"
+        ]
+      },
+      "dimensions": {
+        "type_or_declaration": {
+          "status": "partial",
+          "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
+          "evidence": [
+            "source:027:0014"
+          ]
+        },
+        "bind": {
+          "status": "partial",
+          "basis": "The unexpected member is reachable in one or more current exposure profiles.",
+          "evidence": []
+        },
+        "method": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "get": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "put": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "putref": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "default_binding": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "error_coercion": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "event": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "render": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "persistence": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "oracle": {
+          "status": "not_applicable",
+          "basis": "Unexpected public member has no canonical contract dimensions.",
+          "evidence": []
+        },
+        "tests": {
+          "status": "missing",
+          "basis": "No boundary test proves the unexpected member is inaccessible.",
+          "evidence": []
+        }
+      },
+      "row_status": "unexpected_public"
+    },
+    {
+      "row_id": "unexpected-public-member:source:027:0016",
+      "row_kind": "unexpected_public_member",
+      "source_authority": "oxforms_vba_surface",
+      "facade_owner_type_id": null,
+      "declaration_owner_type_id": null,
+      "source_refs": [
+        "source:027:0016"
       ],
       "exact_name": "Name",
       "memid": null,
@@ -1514220,12 +1514360,12 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/UserForm.cls",
-          "start_line": 410,
-          "end_line": 410,
+          "start_line": 416,
+          "end_line": 416,
           "text": "Public Property Let Name(ByVal Value As String)"
         },
         "member_attributes": {},
-        "source_declaration_id": "source:027:0015",
+        "source_declaration_id": "source:027:0016",
         "owner": "UserForm",
         "owner_profiles": [
           "headless_runner_forced",
@@ -1514237,7 +1514377,7 @@
           "status": "partial",
           "basis": "Declared-public CalcForms member is not mapped to any accepted canonical row.",
           "evidence": [
-            "source:027:0015"
+            "source:027:0016"
           ]
         },
         "bind": {
@@ -1517031,8 +1517171,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 339,
-          "end_line": 339,
+          "start_line": 340,
+          "end_line": 340,
           "text": "Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String"
         },
         "member_attributes": {},
@@ -1517159,8 +1517299,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 890,
-          "end_line": 890,
+          "start_line": 891,
+          "end_line": 891,
           "text": "Public Function DispatchDrop(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1517287,8 +1517427,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 970,
-          "end_line": 970,
+          "start_line": 971,
+          "end_line": 971,
           "text": "Public Function DispatchChar(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1529237,9 +1529377,9 @@
       "bind": {
         "excluded_authoritative": 1397,
         "implemented_unverified": 13,
-        "missing": 1929,
+        "missing": 1928,
         "not_applicable": 3586,
-        "partial": 831
+        "partial": 832
       },
       "method": {
         "excluded_authoritative": 441,
@@ -1529275,9 +1529415,9 @@
         "partial": 396
       },
       "event": {
-        "missing": 309,
+        "missing": 308,
         "not_applicable": 7360,
-        "partial": 87
+        "partial": 88
       },
       "render": {
         "missing": 1,
@@ -1546653,8 +1546793,8 @@
           },
           "bind": {
             "excluded_authoritative": 7,
-            "missing": 75,
-            "partial": 3
+            "missing": 74,
+            "partial": 4
           },
           "method": {
             "excluded_authoritative": 7,
@@ -1546689,8 +1546829,9 @@
             "partial": 16
           },
           "event": {
-            "missing": 16,
-            "not_applicable": 69
+            "missing": 15,
+            "not_applicable": 69,
+            "partial": 1
           },
           "render": {
             "not_applicable": 24,
@@ -1560845,9 +1560986,9 @@
           },
           "bind": {
             "excluded_authoritative": 7,
-            "missing": 94,
+            "missing": 93,
             "not_applicable": 24,
-            "partial": 8
+            "partial": 9
           },
           "method": {
             "excluded_authoritative": 7,
@@ -1560882,8 +1561023,9 @@
             "partial": 22
           },
           "event": {
-            "missing": 22,
-            "not_applicable": 111
+            "missing": 21,
+            "not_applicable": 111,
+            "partial": 1
           },
           "render": {
             "not_applicable": 54,
@@ -1564084,8 +1564226,8 @@
       "class_modules": 33,
       "standard_modules": 4,
       "project_declared_exposed_modules": 5,
-      "public_declarations": 842,
-      "public_events": 115,
+      "public_declarations": 843,
+      "public_events": 116,
       "public_enum_constants": 25,
       "public_type_fields": 11,
       "multiline_public_signatures": 36,
@@ -1564098,5 +1564240,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "2a18b0de3afa9033b98eeabe3194f19c54c544c164753a8f99fce0157a262475"
+  "canonical_sha256": "0b21842f73711d0f7c8ee54321d522c494897580fa388e1ab3104ad6888ff766"
 }

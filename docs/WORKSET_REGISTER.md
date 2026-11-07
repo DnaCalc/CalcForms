@@ -164,7 +164,8 @@ Run 9 `.126` imports a genuine planner with spin, scroll, toggle and tabs:
 rejection (`.127`). `.118` now exposes IntegralHeight but retains every measured
 Height/TopIndex residual: 48 pass / 22 fail. Its broader rounding scope stays open.
 The IntegralHeight step raised the source census to 841 declarations; Frame
-MouseDown (`.130`) raises it to 842, with canonical row statuses unchanged.
+MouseDown (`.130`) raised it to 842, and root UserForm MouseDown (`.132`) raises
+it to 843 declarations (116 public events), with canonical row statuses unchanged.
 `.108` records bounded helper timeout, canary cleanup and real-dialog recovery
 against the same hidden Excel PID and preserves the earlier visibility diagnostic.
 `.105.1` now matches 308 original order-entry BeforeUpdate/focus/reuse/reload

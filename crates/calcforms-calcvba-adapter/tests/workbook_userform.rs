@@ -476,3 +476,30 @@ fn workbook_focus_transitions_remove_old_caret_and_checkbox_adorner_from_scene()
     );
     assert!(!caret_is_present(&focused_button));
 }
+
+#[test]
+fn disabled_control_click_falls_through_to_userform_mousedown() {
+    let mut form = workbook();
+    form.original_source.push_str(
+        r#"
+Private Sub UserForm_MouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)
+    Output.Caption = "form_down:" & CStr(Button) & ":" & CStr(X) & ":" & CStr(Y)
+End Sub
+"#,
+    );
+    form.controls
+        .iter_mut()
+        .find(|c| c.name == "Greet")
+        .unwrap()
+        .enabled = false;
+    let (mut runtime, _) = form
+        .runtime(Arc::new(StubShaper), HostServices::headless())
+        .expect("workbook runtime");
+    runtime.show_modeless().unwrap();
+    click(&mut runtime, 220, 45);
+    let s = state(&mut runtime);
+    assert!(
+        s.contains(";caption=form_down:1:220:45"),
+        "expected caption with form_down, got {s}"
+    );
+}

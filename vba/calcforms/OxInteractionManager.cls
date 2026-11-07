@@ -242,6 +242,7 @@ Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As In
     Set Hit = HitTest(X, Y)
     If Hit Is Nothing Then
         ResolvePointerTarget Nothing
+        mForm.OnMouseDown Button, Shift, CSng(X), CSng(Y)
         Exit Sub
     End If
     ResolvePointerTarget Hit
