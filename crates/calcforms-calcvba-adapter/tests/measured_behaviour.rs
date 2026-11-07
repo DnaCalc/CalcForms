@@ -132,13 +132,10 @@ fn list_viewport_boundaries_match_native_without_moving_same_index() {
         serde_json::from_slice(&std::fs::read(directory.join("observations.json")).unwrap())
             .unwrap();
     let native_source = std::fs::read_to_string(directory.join("observer.bas")).unwrap();
-    // CalcVBA a4bf9792 drops same-line Case bodies (oxforms-jbjp.117).
-    // Expand separators only; property calls, sequence and native expectations stay exact.
+    // CalcVBA f85aba21 executes statements following Case labels on the same line (oxforms-jbjp.117).
     let observer = native_source
         .replace("Option Explicit", "")
         .replace("MSForms.ListBox", "ListBox")
-        .replace(": C.", "\n            C.")
-        .replace("Case Else: Err.Raise", "Case Else\n            Err.Raise")
         .replace(r#"LayoutSelection.Controls("Choices")"#, "Choices")
         .replace(
             "    Load LayoutSelection

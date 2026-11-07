@@ -13,11 +13,11 @@ calcforms-calcvba-adapter = { path = "../calcforms-calcvba-adapter" }
 calcforms-pal = { path = "../calcforms-pal" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
-calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "8840f391676d0796870e9c486ba2ca6586c5b8c7" }
+calcvba-bind = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-bundle = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-com = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-hal = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-engine = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-oxir = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-runtime = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }
+calcvba-symbol = { git = "https://github.com/DnaCalc/CalcVBA.git", rev = "4cbe8b9c1ccc74c18dd76102b25b658cada4e625" }

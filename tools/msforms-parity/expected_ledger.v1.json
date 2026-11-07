@@ -3,10 +3,10 @@
   "schema_version": 1,
   "ledger_schema": "oxforms.msforms_parity_ledger.v1",
   "artifact_path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.73/msforms_parity_ledger.v1.json",
-  "canonical_sha256": "f1ea2dc01fe4d6c567403d04a7a63f5b33dcb4a6dd249b039a52b3ff41da1c56",
-  "canonical_file_sha256": "456768f370b3e79d2a962e582f188209ae23a91e24f57986cc222ca63758642e",
+  "canonical_sha256": "2a18b0de3afa9033b98eeabe3194f19c54c544c164753a8f99fce0157a262475",
+  "canonical_file_sha256": "597a2069e15c156cacbd4c93764a7ea023770d26ee35f49c7ea05b59fe96f1b0",
   "source_surface_sha256": "84c1b96814b432ea0831281a1b52d1962cf55a22a84950b7c2d18600b11d2270",
-  "inputs_sha256": "22603af661015a5f8b33d2caa0cc81f7b16f100d37bf03c9f601c08a8c059268",
+  "inputs_sha256": "6dbf21e25a986805e67a727bffc6bf15800825289082e09b075de44f7a564e01",
   "row_count": 7756,
   "row_kinds": {
     "abi_adapter_member": 14,

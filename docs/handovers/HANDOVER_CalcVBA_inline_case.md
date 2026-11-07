@@ -1,6 +1,8 @@
-# CalcVBA: same-line Case statements
+# CalcVBA: same-line Case statements (Closed / Integrated)
 
-Tracked by oxforms-jbjp.117; observed with a4bf9792. No OxVba files changed.
+Tracked by oxforms-jbjp.117; fixed in CalcVBA f85aba21 and integrated at 4cbe8b9c.
+Same-line statements following Case labels parse and execute correctly; the test workaround in
+crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs was removed.
 
 The [native ListBox observer](../evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/native/observer.bas)
 contains `Case "top": C.TopIndex = Value` and analogous index/height/clear
