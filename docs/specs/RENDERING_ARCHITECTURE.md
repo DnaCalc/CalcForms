@@ -314,6 +314,15 @@ construction and verified by invariant §10b.
 pixels (repaint), and *when* each fires, is the frame model defined in **§16** —
 the two are deliberately different operations with different owners and clocks.
 
+**Cost follows the change.** The kernel caches each node's content hash on upsert (the frame hash
+is rolled up from those values with its original definition, so recorded hashes are unchanged), caches
+each subtree's paint extent so `render_damage` skips subtrees that miss the damage, and carries the
+absolute transform down the walk. The raster backend reuses its clip mask and clamps fills to the clip
+box, and the window presents only the damaged rectangles through softbuffer when the platform buffer
+still holds the previous frame. A hand edit of `Scene.nodes` must call `recompute_frame_hash` to refresh
+the caches. `CALCFORMS_AUDIT_INVALIDATION` makes every incremental `UserForm.Render` re-render all
+controls and report any frame-token difference as `audit-stale` (tests/invalidation_audit.rs).
+
 ## 8. Text and metrics
 
 Text crosses **by reference, not by per-frame string** (per-frame measurement

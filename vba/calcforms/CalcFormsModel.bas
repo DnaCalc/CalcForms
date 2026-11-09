@@ -85,6 +85,8 @@ Public Type OxMeasureResult
 End Type
 
 Private gOxProfileChecked As Boolean
+Private gOxAuditChecked As Boolean
+Private gOxAuditEnabled As Boolean
 Private gOxProfileEnabled As Boolean
 Private gOxProfileSurface As Object
 
@@ -179,6 +181,18 @@ Public Function OxProfileEnabled() As Boolean
         gOxProfileChecked = True
     End If
     OxProfileEnabled = gOxProfileEnabled
+End Function
+
+' Test-only audit of the invalidation prediction: when CALCFORMS_AUDIT_INVALIDATION is set,
+' every incremental UserForm.Render is followed by a full re-render of every control, and a
+' resident scene that differs from the incrementally patched one is reported through
+' Surface.ProfileMark as "audit-stale:..." (a dirty link some setter did not follow).
+Public Function OxAuditEnabled() As Boolean
+    If Not gOxAuditChecked Then
+        gOxAuditEnabled = (Len(Environ("CALCFORMS_AUDIT_INVALIDATION")) > 0)
+        gOxAuditChecked = True
+    End If
+    OxAuditEnabled = gOxAuditEnabled
 End Function
 
 Public Sub OxProfileMark(ByVal Name As String)

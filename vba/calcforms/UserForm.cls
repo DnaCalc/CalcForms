@@ -367,7 +367,22 @@ Public Sub Render(ByVal DpiX As Long, ByVal DpiY As Long)
     End If
 
     ClearInvalidations
+    If OxAuditEnabled() Then AuditIncremental Surface, DpiX, DpiY
     OxProfileMark "vba_after_render"
+End Sub
+
+' Test-only (CALCFORMS_AUDIT_INVALIDATION): re-render EVERY control and compare the resulting
+' frame token with the one the incremental patch reached. A difference means a control changed
+' without being invalidated -- a missed dirty link that would leave a stale node on screen.
+Private Sub AuditIncremental(ByVal Surface As Object, ByVal DpiX As Long, ByVal DpiY As Long)
+    Dim Predicted As String
+    Predicted = mLastSceneToken
+    RenderFull Surface, DpiX, DpiY
+    If mLastSceneToken <> Predicted Then
+        Surface.ProfileMark "audit-stale:" & mName & ":" & Predicted & "<>" & mLastSceneToken
+    Else
+        Surface.ProfileMark "audit-ok"
+    End If
 End Sub
 
 ' Full rebuild against a fresh BeginScene base; (re)establishes the resident scene. Used
