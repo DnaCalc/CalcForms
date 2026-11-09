@@ -50,6 +50,8 @@ Private mZoom As Long
 
 Private Sub Class_Initialize()
     mZoom = 100
+    mWidth = 240
+    mHeight = 180
     Set mControls = Nothing
     Set mInvalidated = Nothing
     Set mControls = New Controls
@@ -415,10 +417,10 @@ End Property
 
 ' UserForm.Zoom (percent, 10 to 400, default 100). Controls read it through the host chain: the
 ' ListBox row height and whole-row snap are measured at the form's zoom.
-Public Property Get Zoom() As Long
+Public Property Get Zoom() As Integer
     Zoom = mZoom
 End Property
-Public Property Let Zoom(ByVal Value As Long)
+Public Property Let Zoom(ByVal Value As Integer)
     If Value < 10 Or Value > 400 Then Err.Raise 380, "UserForm", "Could not set the Zoom property. Invalid property value"
     If mZoom = Value Then Exit Property
     mZoom = Value
@@ -457,6 +459,9 @@ Public Property Get Width() As Single
     Width = mWidth
 End Property
 Public Property Let Width(ByVal Value As Single)
+    ' Held in twips, with the native minimum (102pt, round 14).
+    Value = Int(Value * 20! + 0.5) / 20!
+    If Value < 102 Then Value = 102
     mWidth = Value
 End Property
 
@@ -464,7 +469,22 @@ Public Property Get Height() As Single
     Height = mHeight
 End Property
 Public Property Let Height(ByVal Value As Single)
+    ' Held in twips, with the native minimum (29.25pt, the caption and borders, round 14).
+    Value = Int(Value * 20! + 0.5) / 20!
+    If Value < 29.25 Then Value = 29.25
     mHeight = Value
+End Property
+
+' Client size: the form's pixel size (rounded to the nearest pixel at 96 dpi) less the borders (16px across)
+' and the caption plus borders (39px down), as native Excel 16.0.20527 reports it.
+Public Property Get InsideWidth() As Single
+    InsideWidth = (Int(mWidth * 96! / 72! + 0.5) - 16) * 0.75!
+    If InsideWidth < 0 Then InsideWidth = 0
+End Property
+
+Public Property Get InsideHeight() As Single
+    InsideHeight = (Int(mHeight * 96! / 72! + 0.5) - 39) * 0.75!
+    If InsideHeight < 0 Then InsideHeight = 0
 End Property
 
 ' --- IOxControlHost ---

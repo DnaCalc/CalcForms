@@ -24,7 +24,7 @@ Private Sub Class_Initialize()
     mUnderline = False
     mStrikethrough = False
     mWeight = 400
-    mCharset = 1
+    mCharset = 0
 End Sub
 
 ' Called by the owning control's core when it creates the control's Font.
@@ -42,6 +42,7 @@ End Sub
 Public Property Get Name() As String
     Name = mName
 End Property
+Attribute Name.VB_UserMemId = 0
 Public Property Let Name(ByVal Value As String)
     If mName = Value Then Exit Property
     mName = Value
@@ -52,6 +53,7 @@ Public Property Get Size() As Currency
     Size = mSize
 End Property
 Public Property Let Size(ByVal Value As Currency)
+    If Value < 0 Then Err.Raise 380, "Font", "Could not set the Size property. Invalid property value"
     If mSize = Value Then Exit Property
     mSize = Value
     Changed
@@ -98,9 +100,10 @@ Public Property Get Weight() As Integer
     Weight = mWeight
 End Property
 Public Property Let Weight(ByVal Value As Integer)
+    If Value < 0 Or Value > 1000 Then Err.Raise 380, "Font", "Could not set the Weight property. Invalid property value"
     If mWeight = Value Then Exit Property
     mWeight = Value
-    mBold = (Value >= 700)
+    mBold = (Value >= 600)
     Changed
 End Property
 
@@ -108,6 +111,7 @@ Public Property Get Charset() As Integer
     Charset = mCharset
 End Property
 Public Property Let Charset(ByVal Value As Integer)
+    If Value < 0 Or Value > 255 Then Err.Raise 380, "Font", "Could not set the Charset property. Invalid property value"
     If mCharset = Value Then Exit Property
     mCharset = Value
     Changed

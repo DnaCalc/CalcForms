@@ -42,11 +42,46 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     End If
     mOwner.RegisterControl Control
     mItems.Add Control, Name
+    Control.Core.SetTabPeers Me
     If Control.Core.Kind = oxControlOptionButton Then
         Set Control.Core.PeerControls = Me
     End If
     Set Add = Control
 End Function
+
+' Move Moving to position NewIndex among the tab-slot controls of this container and renumber all of
+' them 0..n-1 (native, round 14: peers shift up or down, a position past the end goes last).
+Friend Sub MoveTabIndex(ByVal Moving As OxControlCore, ByVal NewIndex As Long)
+    Dim Order As Collection, I As Long, P As Long, Item As IOxControl, Placed As Boolean
+    Set Order = New Collection
+    For I = 1 To mItems.Count
+        Set Item = mItems.Item(I)
+        If Item.Core.Kind <> oxControlImage And Not (Item.Core Is Moving) Then
+            Placed = False
+            For P = 1 To Order.Count
+                Dim Other As OxControlCore
+                Set Other = Order.Item(P)
+                If Item.Core.TabIndex < Other.TabIndex Then
+                    Order.Add Item.Core, , P
+                    Placed = True
+                    Exit For
+                End If
+            Next P
+            If Not Placed Then Order.Add Item.Core
+        End If
+    Next I
+    If NewIndex > Order.Count Then NewIndex = Order.Count
+    If NewIndex >= Order.Count Then
+        Order.Add Moving
+    Else
+        Order.Add Moving, , NewIndex + 1
+    End If
+    For P = 1 To Order.Count
+        Dim Slot As OxControlCore
+        Set Slot = Order.Item(P)
+        Slot.TabIndex = P - 1
+    Next P
+End Sub
 
 Private Function TabSlotCount() As Long
     Dim I As Long

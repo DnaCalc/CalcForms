@@ -252,3 +252,7 @@ comparison; `.121` corrects the initial whole-row viewport; `.123` retains cance
 One Excel launch was reused and stopped through its retained handle. All eighteen
 runtime handles closed, the worker desktop was restored and the private desktop
 closed without the former error 170. `.108` keeps broader cancellation/recovery open.
+Round 14 (2026-11-09) codes the round 13 rules: `.133` MultiPage as two Tab stops, `.118` ListBox two heights with
+`UserForm.Zoom`, a Font object and zoom-aware rows, and adds the measured Font object, common IControl members, TabIndex
+renumbering and twip geometry (`.101`, `.105`). See the `ROUND14.md` files in those bead folders; the replays are
+`multipage_tab_stops.rs`, `listbox_height_rule.rs` and `round14_replay.rs`.

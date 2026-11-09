@@ -79,28 +79,30 @@ Public Property Get Left() As Single
     Left = mCore.Left
 End Property
 Public Property Let Left(ByVal Value As Single)
-    mCore.Left = Value
+    mCore.Left = mCore.Twips(Value)
 End Property
 
 Public Property Get Top() As Single
     Top = mCore.Top
 End Property
 Public Property Let Top(ByVal Value As Single)
-    mCore.Top = Value
+    mCore.Top = mCore.Twips(Value)
 End Property
 
 Public Property Get Width() As Single
     Width = mCore.Width
 End Property
 Public Property Let Width(ByVal Value As Single)
-    mCore.Width = Value
+    If Value < 0 Then Err.Raise 380, "CalcForms", "Could not set the Width property. Invalid property value"
+    mCore.Width = mCore.Twips(Value)
 End Property
 
 Public Property Get Height() As Single
     Height = mCore.Height
 End Property
 Public Property Let Height(ByVal Value As Single)
-    mCore.Height = Value
+    If Value < 0 Then Err.Raise 380, "CalcForms", "Could not set the Height property. Invalid property value"
+    mCore.Height = mCore.Twips(Value)
 End Property
 
 Public Property Get Visible() As Boolean
@@ -334,3 +336,18 @@ Private Function DrawMode() As String
             DrawMode = "stretch"
     End Select
 End Function
+
+' --- IControl members common to every control (native, round 14) ---
+Public Property Get Tag() As String
+    Tag = mCore.Tag
+End Property
+Public Property Let Tag(ByVal Value As String)
+    mCore.Tag = Value
+End Property
+
+Public Property Get ControlTipText() As String
+    ControlTipText = mCore.ControlTipText
+End Property
+Public Property Let ControlTipText(ByVal Value As String)
+    mCore.ControlTipText = Value
+End Property

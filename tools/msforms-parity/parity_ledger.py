@@ -90,7 +90,7 @@ EXPECTED_COUNTS = {
     "persistence_frm_frx_fact": 823,
     "persistence_aggregate": 19,
     "unexpected_public_type": 12,
-    "unexpected_public_member": 585,
+    "unexpected_public_member": 715,
     "unexpected_public_nested_member": 26,
 }
 
@@ -101,7 +101,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "class_modules": 34,
     "standard_modules": 4,
     "project_declared_exposed_modules": 5,
-    "public_declarations": 866,
+    "public_declarations": 1018,
     "public_events": 116,
     "public_enum_constants": 25,
     "public_type_fields": 11,
@@ -112,7 +112,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "module_attributes": 5,
     "implements_clauses": 23,
     "private_interface_implementations": 549,
-    "member_attributes": 18,
+    "member_attributes": 20,
 }
 
 EXPECTED_MS_PERSISTENCE_CATEGORIES = {
@@ -6307,12 +6307,12 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
         and isinstance(row.get("actual"), dict)
     }
     if (
-        len(mapped_declarations) != 281
-        or len(unexpected_declarations) != 585
+        len(mapped_declarations) != 303
+        or len(unexpected_declarations) != 715
         or mapped_declarations & unexpected_declarations
-        or len(mapped_declarations | unexpected_declarations) != 866
+        or len(mapped_declarations | unexpected_declarations) != 1018
     ):
-        errors.append("public source declaration partition differs from 281+585=866")
+        errors.append("public source declaration partition differs from 303+715=1018")
     if (
         len(mapped_nested) != 10
         or len(unexpected_nested) != 26

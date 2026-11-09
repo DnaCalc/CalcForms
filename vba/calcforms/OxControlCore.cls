@@ -56,6 +56,11 @@ Private mBorderStyle As fmBorderStyle
 Private mFontSize As Single
 Private mFontName As String
 Private mFont As Font
+Private mFontOutOfSync As Boolean
+Private mTag As String
+Private mControlTipText As String
+Private mHelpContextID As Long
+Private mTabPeers As Controls
 Private mAutoSize As Boolean
 ' Transient per-render scratch: the content-hash text-run id the measure pre-pass
 ' obtained from CalcForms.Surface.MeasureBatch (a decimal u64 as a String, since it does
@@ -119,6 +124,11 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mFontSize = 8
     mFontName = "Tahoma"
     Set mFont = Nothing
+    mFontOutOfSync = False
+    mTag = ""
+    mControlTipText = ""
+    mHelpContextID = 0
+    Set mTabPeers = Nothing
     mAutoSize = False
     mPressed = False
     mRunId = ""
@@ -174,7 +184,7 @@ Public Sub Init(ByVal Kind As OxControlKind)
             mSpecialEffect = fmSpecialEffectSunken
         Case oxControlFrame
             mFocusable = False
-            mTabStop = False
+            mTabStop = True
             mSpecialEffect = fmSpecialEffectEtched
         Case oxControlImage
             mFocusable = False
@@ -561,6 +571,7 @@ End Property
 Public Property Let FontSize(ByVal Value As Single)
     If mFontSize <> Value Then
         mFontSize = Value
+        mFontOutOfSync = True
         MarkDirty
         If mAutoSize Then MarkInteractionDirty
     End If
@@ -579,7 +590,10 @@ Friend Function FontObject() As Font
         Set mFont = New Font
         mFont.Attach Me
     End If
-    mFont.Sync mFontName, mFontSize
+    If mFontOutOfSync Then
+        mFont.Sync mFontName, mFontSize
+        mFontOutOfSync = False
+    End If
     Set FontObject = mFont
 End Function
 
@@ -589,8 +603,10 @@ Friend Sub NoteFontChanged(ByVal Source As Font)
         mFontName = Source.Name
         Changed = True
     End If
-    If mFontSize <> CSng(Source.Size) Then
-        FontSize = CSng(Source.Size)
+    ' A size of 0 is kept by the Font object (native) but never reaches the painters.
+    If CSng(Source.Size) > 0 And mFontSize <> CSng(Source.Size) Then
+        mFontSize = CSng(Source.Size)
+        If mAutoSize Then MarkInteractionDirty
         Changed = True
     End If
     If Not Changed Then Exit Sub
@@ -601,6 +617,51 @@ Friend Sub NoteFontChanged(ByVal Source As Font)
         List.FontChanged
     End If
 End Sub
+
+' IControl members shared by every control (Tag, ControlTipText, HelpContextID, TabIndex).
+Friend Property Get Tag() As String
+    Tag = mTag
+End Property
+Friend Property Let Tag(ByVal Value As String)
+    mTag = Value
+End Property
+
+Friend Property Get ControlTipText() As String
+    ControlTipText = mControlTipText
+End Property
+Friend Property Let ControlTipText(ByVal Value As String)
+    mControlTipText = Value
+End Property
+
+Friend Property Get HelpContextID() As Long
+    HelpContextID = mHelpContextID
+End Property
+Friend Property Let HelpContextID(ByVal Value As Long)
+    mHelpContextID = Value
+End Property
+
+' Public TabIndex: a write moves the control to that position among its container's tab-slot controls and
+' renumbers the rest (native, round 14); a value past the last slot goes last, a negative one is error 380.
+Friend Property Get TabIndexValue() As Integer
+    TabIndexValue = mTabIndex
+End Property
+Friend Property Let TabIndexValue(ByVal Value As Integer)
+    If Value < 0 Then Err.Raise 380, "CalcForms", "Could not set the TabIndex property. Invalid property value"
+    If mTabPeers Is Nothing Then
+        TabIndex = Value
+    Else
+        mTabPeers.MoveTabIndex Me, Value
+    End If
+End Property
+
+Friend Sub SetTabPeers(ByVal Peers As Controls)
+    Set mTabPeers = Peers
+End Sub
+
+' Left/Top/Width/Height are held in twips (1/20 point) like MSForms: the public setters round to it.
+Friend Function Twips(ByVal Value As Single) As Single
+    Twips = Int(Value * 20! + 0.5) / 20!
+End Function
 
 ' The form's Zoom (percent) as seen through the host chain; 100 when the control has no form.
 Friend Function HostZoom() As Long

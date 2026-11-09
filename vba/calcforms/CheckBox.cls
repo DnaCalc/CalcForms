@@ -156,28 +156,30 @@ Public Property Get Left() As Single
     Left = mCore.Left
 End Property
 Public Property Let Left(ByVal NewValue As Single)
-    mCore.Left = NewValue
+    mCore.Left = mCore.Twips(NewValue)
 End Property
 
 Public Property Get Top() As Single
     Top = mCore.Top
 End Property
 Public Property Let Top(ByVal NewValue As Single)
-    mCore.Top = NewValue
+    mCore.Top = mCore.Twips(NewValue)
 End Property
 
 Public Property Get Width() As Single
     Width = mCore.Width
 End Property
 Public Property Let Width(ByVal NewValue As Single)
-    mCore.Width = NewValue
+    If NewValue < 0 Then Err.Raise 380, "CalcForms", "Could not set the Width property. Invalid property value"
+    mCore.Width = mCore.Twips(NewValue)
 End Property
 
 Public Property Get Height() As Single
     Height = mCore.Height
 End Property
 Public Property Let Height(ByVal NewValue As Single)
-    mCore.Height = NewValue
+    If NewValue < 0 Then Err.Raise 380, "CalcForms", "Could not set the Height property. Invalid property value"
+    mCore.Height = mCore.Twips(NewValue)
 End Property
 
 Public Property Get Visible() As Boolean
@@ -413,3 +415,46 @@ End Function
 Public Sub PerformAfterUpdate()
     RaiseEvent AfterUpdate
 End Sub
+
+' --- IControl members common to every control (native, round 14) ---
+Public Property Get Tag() As String
+    Tag = mCore.Tag
+End Property
+Public Property Let Tag(ByVal Value As String)
+    mCore.Tag = Value
+End Property
+
+Public Property Get ControlTipText() As String
+    ControlTipText = mCore.ControlTipText
+End Property
+Public Property Let ControlTipText(ByVal Value As String)
+    mCore.ControlTipText = Value
+End Property
+
+Public Property Get HelpContextID() As Long
+    HelpContextID = mCore.HelpContextID
+End Property
+Public Property Let HelpContextID(ByVal Value As Long)
+    mCore.HelpContextID = Value
+End Property
+
+Public Property Get TabStop() As Boolean
+    TabStop = mCore.TabStop
+End Property
+Public Property Let TabStop(ByVal Value As Boolean)
+    mCore.TabStop = Value
+End Property
+
+Public Property Get TabIndex() As Integer
+    TabIndex = mCore.TabIndexValue
+End Property
+Public Property Let TabIndex(ByVal Value As Integer)
+    mCore.TabIndexValue = Value
+End Property
+
+Public Property Get Font() As Font
+    Set Font = mCore.FontObject()
+End Property
+Public Property Set Font(ByVal Value As Font)
+    mCore.FontObject().Assign Value
+End Property
