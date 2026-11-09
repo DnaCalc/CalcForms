@@ -156,6 +156,11 @@ See [the measured scope](evidence/W010_complete_msforms_object_model_parity/bead
     per-control site and host-event obligations, hidden accessor probes, ProgIDs,
     and one non-public runtime bridge. `.6` acceptance remains blocked by the
     recorded CalcVBA and live Office observations.
+13. [`specs/MICROSOFT_CONTROLS_BEYOND_MSFORMS.md`](specs/MICROSOFT_CONTROLS_BEYOND_MSFORMS.md) -
+    W011 inventory, clean-room architecture, and work plan for Microsoft-supplied
+    controls beyond MSForms (Excel RefEdit, Windows Common Controls 6.0/5.0
+    `MSCOMCTL`/`MSCOMCT2`, `RichTextBox`), ensuring zero OCX binary dependency and
+    cross-bitness execution (`oxforms-tst7`).
 
 ## Source References
 
@@ -173,7 +178,8 @@ into additional focused specs and keep them reachable from this index:
 - reducer state model and event/effect semantics;
 - retained-Scene rendering and PAL contract;
 - trace/replay and evidence artifacts;
-- Excel-host extension controls, starting with `RefEdit`;
+- Excel-host extension controls and Microsoft controls beyond MSForms, starting
+  with `RefEdit` and Common Controls (specified in `specs/MICROSOFT_CONTROLS_BEYOND_MSFORMS.md`);
 - designer.
 
 The top-level spec remains authoritative until a split document exists and is
