@@ -1,0 +1,27 @@
+{
+  "previous": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.130/forms-parity.json",
+  "pass_fail_missing": [
+    1205,
+    413,
+    346
+  ],
+  "gains": [
+    [
+      "LayoutContainers",
+      100,
+      "PagesControl",
+      "behaviour",
+      "tab_order"
+    ],
+    [
+      "LayoutContainers",
+      150,
+      "PagesControl",
+      "behaviour",
+      "tab_order"
+    ]
+  ],
+  "regressions": [],
+  "rows_with_changed_native_fact": [],
+  "runtime_sha256": "92593742d33ddf8d8a2ca97e522943beaa9fdac9bc3e1168ef1920e773369136"
+}
