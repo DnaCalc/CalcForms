@@ -1,0 +1,112 @@
+{
+  "schema": "calcforms.round13d_native.v1",
+  "excel_launches": 1,
+  "scenarios": {
+    "tab-only": [
+      [
+        "after-show-activate",
+        "Form.Activate;"
+      ],
+      [
+        "focus-qty-prog",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ]
+    ],
+    "text-then-tab": [
+      [
+        "focus-qty-prog",
+        "Form.Activate;"
+      ],
+      [
+        "text-prog-6",
+        "Qty.Change(6);"
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ]
+    ],
+    "typed-then-tab": [
+      [
+        "focus-qty-prog",
+        "Form.Activate;"
+      ],
+      [
+        "typed-7",
+        ""
+      ],
+      [
+        "text-now",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ]
+    ],
+    "typed-after-prog-text": [
+      [
+        "focus-qty-prog",
+        "Form.Activate;"
+      ],
+      [
+        "text-prog-8",
+        "Qty.Change(8);"
+      ],
+      [
+        "typed-9",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ]
+    ],
+    "text-before-show-tab": [
+      [
+        "after-show-activate",
+        "Form.Activate;"
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ],
+      [
+        "tab",
+        ""
+      ]
+    ]
+  },
+  "errors": {},
+  "excel_pid": 52640,
+  "excel_version": "16.0",
+  "excel_build": "20527.0"
+}

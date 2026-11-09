@@ -1713,6 +1713,53 @@ class SignatureAndIdentityAdversarialTests(unittest.TestCase):
                 )
 
     def test_undocumented_overlay_setter_passing_cannot_be_called_compatible(self) -> None:
+        # An indexed property Let: the index parameter's passing mode is observable to
+        # callers, so an undocumented mode stays unresolved.  The final assigned-value
+        # parameter is not observable (no caller can pass it by name or mode) and is
+        # not compared.
+        member = {
+            "name": "Cell",
+            "parameters": [
+                {
+                    "name": "Index",
+                    "name_state": "documented",
+                    "type": "Long",
+                    "passing": "byref",
+                    "passing_state": "undocumented_synthetic",
+                    "optional": False,
+                    "default": None,
+                },
+                {
+                    "name": "Value",
+                    "name_state": "undocumented_synthetic",
+                    "type": "String",
+                    "passing": "byref",
+                    "passing_state": "undocumented_synthetic",
+                    "optional": False,
+                    "default": None,
+                },
+            ],
+            "return_type": None,
+        }
+        signature = ledger_module._overlay_signature(member, "put")
+        declaration = {
+            "kind": "property_let",
+            "parameters": [
+                self._actual_parameter(name="Index", type="Long", passing="byref"),
+                self._actual_parameter(index=1, type="String", passing="byref"),
+            ],
+            "return_type": None,
+        }
+        comparison = ledger_module._signature_comparison_overlay(
+            declaration, signature, "property_let"
+        )
+        self.assertEqual("unresolved_source_lowering", comparison["status"])
+        self.assertEqual(
+            ["parameter 0 passing mode is not documented"],
+            [item for item in comparison["unresolved"] if "passing" in item],
+        )
+
+    def test_assigned_value_parameter_of_a_setter_is_not_compared(self) -> None:
         member = {
             "name": "Caption",
             "parameters": [
@@ -1731,15 +1778,13 @@ class SignatureAndIdentityAdversarialTests(unittest.TestCase):
         signature = ledger_module._overlay_signature(member, "put")
         declaration = {
             "kind": "property_let",
-            "parameters": [
-                self._actual_parameter(type="String", passing="byref")
-            ],
+            "parameters": [self._actual_parameter(type="String", passing="byval")],
             "return_type": None,
         }
         comparison = ledger_module._signature_comparison_overlay(
             declaration, signature, "property_let"
         )
-        self.assertEqual("unresolved_source_lowering", comparison["status"])
+        self.assertEqual("compatible_source_shape", comparison["status"])
 
     def test_documentation_inferences_cannot_satisfy_overlay_item_signature(self) -> None:
         member = {

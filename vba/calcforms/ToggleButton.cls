@@ -108,6 +108,7 @@ End Function
 Public Property Get Value() As Variant
     Value = mValue
 End Property
+Attribute Value.VB_UserMemId = 0
 Public Property Let Value(ByVal NewValue As Variant)
     Dim Coerced As Variant
     Coerced = CoerceValue(NewValue)

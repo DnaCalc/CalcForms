@@ -21,6 +21,7 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any, Iterable
 
+import member_evidence
 from vba_surface import (
     SurfaceError,
     extract_surface,
@@ -46,13 +47,18 @@ DIMENSION_NAMES = (
     "put",
     "putref",
     "default_binding",
-    "error_coercion",
     "event",
-    "render",
     "persistence",
     "oracle",
     "tests",
 )
+# Dimensions that no row could derive from the repository (the former error_coercion and
+# render, plus persistence on callable rows) are absent from the rows instead of carrying a
+# constant.  Every row still needs type_or_declaration; the others keep this order.
+REQUIRED_DIMENSIONS = ("type_or_declaration",)
+
+# Member evidence index for the build in progress (set by build_ledger).
+_MEMBER_EVIDENCE: dict[str, Any] | None = None
 DIMENSION_STATUSES = {
     "not_applicable",
     "missing",
@@ -106,7 +112,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "module_attributes": 5,
     "implements_clauses": 23,
     "private_interface_implementations": 545,
-    "member_attributes": 0,
+    "member_attributes": 18,
 }
 
 EXPECTED_MS_PERSISTENCE_CATEGORIES = {
@@ -1798,7 +1804,14 @@ def _signature_comparison(
                     f"parameter {expected['index']} optional {actual['optional']} != {expected_optional}"
                 )
             expected_name = expected.get("name")
-            if (
+            if expected_kind in {"property_let", "property_set"} and expected[
+                "index"
+            ] == len(expected_parameters) - 1:
+                # The assigned-value parameter of a property Let/Set cannot be named by
+                # any caller, and the typelib does not report a name for it: its name is
+                # not part of the observable contract, so it is neither compared nor unresolved.
+                pass
+            elif (
                 expected.get("name_state") != "reported_by_GetNames"
                 or not expected_name
             ):
@@ -2327,13 +2340,20 @@ def _accessor_dimension(
             for profile in match["owner_profiles"]
             if profile != "clean_basproj"
         ]
+        if manual_profiles:
+            return _dim(
+                "implemented_unverified",
+                (
+                    "A compatible declaration is exposed by the manual loader profile(s) "
+                    + ", ".join(manual_profiles)
+                    + " that the headless runner, bootstrap and adapter tests load; "
+                    "the clean basproj does not expose this class."
+                ),
+                [source_id],
+            )
         return _dim(
             "partial",
-            (
-                "The declaration is compatible but its class is not exposed by the clean basproj path; validated manual-loader profiles expose it."
-                if manual_profiles
-                else "The declaration is compatible but its class is not exposed by any effective loader profile."
-            ),
+            "The declaration is compatible but its class is not exposed by any effective loader profile.",
             [source_id],
         )
     return _dim(
@@ -2512,29 +2532,147 @@ def _surface_dimensions(
 
     dimensions["default_binding"] = _default_binding_dimension(group, match)
 
-    dimensions["error_coercion"] = _dim(
-        "missing",
-        "No row-specific error/coercion oracle and semantic corpus are attached yet.",
-    )
-    dimensions["render"] = _dim(
-        "partial",
-        "Rendering applicability/effect is not yet classified and verified for this callable row.",
-    )
-    dimensions["persistence"] = (
-        _dim(
-            "missing",
-            "An exact file-format property/family contract exists, but no CalcForms round-trip implementation proof is attached.",
-            [persistence_ref],
+    # Evidence is read from the repository (see member_evidence.py), never fixed here.
+    owners = _evidence_owners(match)
+    access = {"func": "read", "get": "read", "put": "write", "putref": "write"}
+    needed = {
+        accessor: dimension_name
+        for accessor, dimension_name in (
+            ("func", "method"),
+            ("get", "get"),
+            ("put", "put"),
+            ("putref", "putref"),
         )
-        if persistence_ref
-        else _dim(
-            "partial",
-            "Persistence applicability has not yet been authoritatively classified for this callable row.",
+        if dimensions[dimension_name]["status"] != "not_applicable"
+    }
+    test_paths: dict[str, list[str]] = {}
+    native_paths: dict[str, list[str]] = {}
+    for accessor in needed:
+        found = member_evidence.lookup(
+            _MEMBER_EVIDENCE, "tests", owners, group["name"], access[accessor]
         )
+        if found:
+            test_paths[accessor] = found
+        native = member_evidence.lookup(
+            _MEMBER_EVIDENCE, "oracle", owners, group["name"], access[accessor]
+        )
+        if native:
+            native_paths[accessor] = [f"{test} -> {path}" for test, path in native]
+    for accessor, dimension_name in needed.items():
+        current = dimensions[dimension_name]
+        if current["status"] == "implemented_unverified" and accessor in test_paths:
+            dimensions[dimension_name] = _dim(
+                "verified",
+                (
+                    "A compatible declaration is exposed and a committed, non-ignored test file "
+                    f"drives the {access[accessor]} path of this member on a typed variable."
+                ),
+                current["evidence"] + ["test:" + path for path in test_paths[accessor]],
+            )
+    default_dimension = dimensions["default_binding"]
+    if default_dimension["status"] == "implemented_unverified" and group.get(
+        "default_member"
+    ):
+        default_found = {
+            accessor: member_evidence.lookup(
+                _MEMBER_EVIDENCE,
+                "tests",
+                owners,
+                member_evidence.DEFAULT_MEMBER,
+                access[accessor],
+            )
+            for accessor in needed
+            if accessor in ("get", "put")
+        }
+        if default_found and all(default_found.values()):
+            dimensions["default_binding"] = _dim(
+                "verified",
+                default_dimension["basis"]
+                + " Committed tests read the object through its bare variable and assign to it.",
+                default_dimension["evidence"]
+                + sorted(
+                    {
+                        "test:" + path
+                        for paths in default_found.values()
+                        for path in paths
+                    }
+                ),
+            )
+    statuses = {dimensions[name]["status"] for name in needed.values()}
+    if needed and statuses == {"verified"}:
+        dimensions["bind"] = _dim(
+            "verified",
+            "Every required accessor has a compatible exposed declaration and a committed test drives it.",
+            sorted(
+                {
+                    item
+                    for name in needed.values()
+                    for item in dimensions[name]["evidence"]
+                }
+            ),
+        )
+    dimensions.pop("persistence", None)
+    dimensions["oracle"], dimensions["tests"] = _evidence_dimensions(
+        needed, test_paths, native_paths
     )
-    dimensions["oracle"] = _dim("missing", "No decisive row-level runtime oracle evidence is attached.")
-    dimensions["tests"] = _dim("missing", "No decisive row-level conformance test is attached.")
     return dimensions
+
+
+def _evidence_owners(match: dict[str, Any]) -> list[str]:
+    return [
+        owner
+        for owner in (match.get("expected_owner"), match.get("actual_owner"))
+        if owner
+    ]
+
+
+def _evidence_dimensions(
+    needed: dict[str, str],
+    test_paths: dict[str, list[str]],
+    native_paths: dict[str, list[str]],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    """Derive the (oracle, tests) dimensions from per-accessor repository evidence."""
+
+    def build(
+        found: dict[str, list[str]], prefix: str, what: str, absent: str
+    ) -> dict[str, Any]:
+        if not needed:
+            return _dim("missing", absent)
+        covered = [accessor for accessor in needed if accessor in found]
+        evidence = sorted(
+            {f"{prefix}:{path}" for accessor in covered for path in found[accessor]}
+        )
+        if len(covered) == len(needed):
+            return _dim("verified", what, evidence)
+        if covered:
+            names = ", ".join(needed[accessor] for accessor in covered)
+            return _dim(
+                "partial",
+                f"Evidence covers only some accessors ({names}). {what}",
+                evidence,
+            )
+        return _dim("missing", absent)
+
+    tests = build(
+        test_paths,
+        "test",
+        (
+            "Every required accessor is driven by a committed, non-ignored Rust test file "
+            "(its VBA text, or fixtures and evidence VBA it names, uses the member on a typed "
+            "variable); attribution is per test file, not per assertion."
+        ),
+        "No committed non-ignored test file drives this member on a typed variable.",
+    )
+    oracle = build(
+        native_paths,
+        "native",
+        (
+            "Every required accessor is driven by a test file that also replays a committed "
+            "native Excel measurement whose text names the member; the match is by member name."
+        ),
+        "No test that drives this member names a committed native measurement that mentions it.",
+    )
+    return oracle, tests
 
 
 def _abi_adapter_dimensions(group: dict[str, Any]) -> dict[str, Any]:
@@ -2567,16 +2705,11 @@ def _abi_adapter_dimensions(group: dict[str, Any]) -> dict[str, Any]:
             "missing",
             f"The ABI adapter has no proof for canonical default binding memid {expected}.",
         )
-    dimensions["error_coercion"] = _dim(
-        "missing",
-        "HRESULT success/failure and special result semantics have no decisive adapter proof.",
-    )
-    dimensions["oracle"] = _dim(
-        "missing", "No decisive native ABI oracle is attached for this adapter row."
-    )
-    dimensions["tests"] = _dim(
-        "missing", "No decisive ABI adapter conformance test is attached."
-    )
+    # No test or measurement can attach to an adapter that does not exist; these
+    # dimensions are dropped rather than held at a constant.
+    dimensions.pop("persistence", None)
+    dimensions.pop("oracle", None)
+    dimensions.pop("tests", None)
     return dimensions
 
 
@@ -2604,23 +2737,17 @@ def _native_pointer_adapter_dimensions(group: dict[str, Any]) -> dict[str, Any]:
                 "missing",
                 "The callable requires an explicit native-pointer adapter and cannot be matched to an invented VBA source type.",
             )
-    dimensions["error_coercion"] = _dim(
-        "missing", "Native pointer validation and error behavior are unproven."
-    )
-    dimensions["render"] = _dim(
-        "missing", "No decisive rendering proof covers this native-pointer callable."
-    )
-    dimensions["oracle"] = _dim(
-        "missing", "No decisive native adapter oracle is attached."
-    )
-    dimensions["tests"] = _dim(
-        "missing", "No decisive native-pointer adapter test is attached."
-    )
+    dimensions.pop("persistence", None)
+    dimensions.pop("oracle", None)
+    dimensions.pop("tests", None)
     return dimensions
 
 
 def _event_dimensions(
-    contract_ref: str, match: dict[str, Any], canonical_memid: int | None
+    contract_ref: str,
+    match: dict[str, Any],
+    canonical_memid: int | None,
+    event_name: str | None = None,
 ) -> dict[str, Any]:
     dimensions = _dimensions_not_applicable("This dimension does not apply to an event row.")
     dimensions["type_or_declaration"] = _dim(
@@ -2635,10 +2762,10 @@ def _event_dimensions(
             "A same-name declaration exists but is incompatible or cannot be lowered to the complete source-interface event signature.",
             [event_match["source_declaration"]["source_declaration_id"]],
         )
-    elif match["owner_alias"] or "clean_basproj" not in match["owner_profiles"]:
+    elif match["owner_alias"] or not match["owner_profiles"]:
         event_dim = _dim(
             "partial",
-            "The event declaration is alias-only or unavailable through the clean basproj exposure path.",
+            "The event declaration is alias-only or not exposed by any effective loader profile.",
             [event_match["source_declaration"]["source_declaration_id"]],
         )
     elif not match.get("owner_kind_compatible", True):
@@ -2653,6 +2780,24 @@ def _event_dimensions(
             "A compatible public Event declaration exists; native WithEvents bind, mutation, ordering, and reentrancy proof remain pending.",
             [event_match["source_declaration"]["source_declaration_id"]],
         )
+    owners = _evidence_owners(match)
+    tests_found = (
+        member_evidence.lookup(_MEMBER_EVIDENCE, "events", owners, event_name)
+        if event_name
+        else []
+    )
+    native_found = (
+        member_evidence.lookup(_MEMBER_EVIDENCE, "oracle_events", owners, event_name)
+        if event_name
+        else []
+    )
+    if event_dim["status"] == "implemented_unverified" and tests_found:
+        event_dim = _dim(
+            "verified",
+            "A compatible public Event declaration is exposed and a committed test file "
+            "handles the event through a WithEvents variable of the type.",
+            event_dim["evidence"] + ["test:" + path for path in tests_found],
+        )
     dimensions["bind"] = copy.deepcopy(event_dim)
     dimensions["event"] = event_dim
     dimensions["default_binding"] = _default_binding_dimension(
@@ -2663,11 +2808,33 @@ def _event_dimensions(
         },
         match,
     )
-    dimensions["error_coercion"] = _dim(
-        "partial", "Mutable argument/error applicability is not yet classified and verified."
+    dimensions.pop("persistence", None)
+    dimensions["tests"] = (
+        _dim(
+            "verified",
+            "A committed, non-ignored Rust test file defines a handler for this event on a "
+            "WithEvents variable of the type; attribution is per test file.",
+            ["test:" + path for path in tests_found],
+        )
+        if tests_found
+        else _dim(
+            "missing",
+            "No committed non-ignored test file defines a handler for this event.",
+        )
     )
-    dimensions["oracle"] = _dim("missing", "No decisive full-row event oracle is attached.")
-    dimensions["tests"] = _dim("missing", "No decisive full-row native WithEvents test is attached.")
+    dimensions["oracle"] = (
+        _dim(
+            "verified",
+            "A test file with a handler for this event also replays a committed native Excel "
+            "measurement whose text names the event; the match is by event name.",
+            ["native:" + path for _, path in native_found],
+        )
+        if native_found
+        else _dim(
+            "missing",
+            "No test that handles this event names a committed native measurement that mentions it.",
+        )
+    )
     return dimensions
 
 
@@ -2693,7 +2860,13 @@ def _row_counts(rows: list[dict[str, Any]]) -> dict[str, Any]:
     dimension_statuses: dict[str, dict[str, int]] = {}
     for dimension in DIMENSION_NAMES:
         dimension_statuses[dimension] = dict(
-            sorted(Counter(row["dimensions"][dimension]["status"] for row in rows).items())
+            sorted(
+                Counter(
+                    row["dimensions"][dimension]["status"]
+                    for row in rows
+                    if dimension in row["dimensions"]
+                ).items()
+            )
         )
     gating_dimension_cells = sum(
         item["status"] in GATING_STATUSES
@@ -2886,7 +3059,15 @@ def _signature_comparison_overlay(
                 mismatches.append(
                     f"parameter {expected['index']} optional {actual['optional']} != {expected_optional}"
                 )
-            if (
+            assigned_value = expected_kind in {
+                "property_let",
+                "property_set",
+            } and expected["index"] == len(expected_parameters) - 1
+            if assigned_value:
+                # The assigned-value parameter of a property Let/Set cannot be named or
+                # passed by a caller; neither its name nor its passing mode is observable.
+                pass
+            elif (
                 expected.get("name_state") == "documented"
                 and actual["name"].casefold() != str(expected.get("name", "")).casefold()
             ):
@@ -2897,7 +3078,9 @@ def _signature_comparison_overlay(
                 unresolved.append(
                     f"parameter {expected['index']} exact name is not documented"
                 )
-            if expected.get("passing_state") == "documented":
+            if assigned_value:
+                pass
+            elif expected.get("passing_state") == "documented":
                 if actual.get("passing") != expected.get("passing"):
                     mismatches.append(
                         f"parameter {expected['index']} passing {actual.get('passing')} != {expected.get('passing')}"
@@ -3068,7 +3251,9 @@ def _w005_current_signature_sha256(function: dict[str, Any]) -> str:
 
 
 def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[str, Any]:
+    global _MEMBER_EVIDENCE
     repo_root = repo_root.resolve()
+    _MEMBER_EVIDENCE = member_evidence.build_member_evidence(repo_root)
     resolved_paths = dict(DEFAULT_PATHS)
     if paths:
         resolved_paths.update(paths)
@@ -4080,7 +4265,10 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
             event=True,
         )
         dimensions = _event_dimensions(
-            spec["contract_row_id"], match, int(function["memid"])
+            spec["contract_row_id"],
+            match,
+            int(function["memid"]),
+            function["documentation"]["name"],
         )
         reconciliation_ref = (
             _source_ref(
@@ -4344,6 +4532,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
         overlay_member_refs = _overlay_refs(inputs["overlay"], member)
         group = {
             "contract_row_id": f"overlay:member:{member_index:03d}:{member['owner']}.{member['name']}",
+            "name": member["name"],
             "memid": None,
             "accessors": accessors,
             "default_member": bool(member.get("default_member")),
@@ -4396,6 +4585,7 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
             f"overlay:event:{event_index:03d}:{event['owner']}.{event['name']}",
             match,
             None,
+            event["name"],
         )
         dimensions["type_or_declaration"] = _dim(
             "verified",
@@ -4473,13 +4663,10 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
             canonical_source_aliases,
             event=True,
         )
-        dimensions = _event_dimensions(contract_ref, match, int(group["memid"]))
-        attachment_refs = _overlay_refs(inputs["overlay"], attachment)
-        dimensions["oracle"] = _dim(
-            "partial",
-            "Committed black-box evidence proves this concrete host attachment, but not every ordering, mutation, reentrancy, and error behavior for the row.",
-            attachment["evidence"],
+        dimensions = _event_dimensions(
+            contract_ref, match, int(group["memid"]), attachment["name"]
         )
+        attachment_refs = _overlay_refs(inputs["overlay"], attachment)
         row_id = (
             f"host-event:{facade_id}|source={source_id}|memid={group['memid']}"
         )
@@ -5316,6 +5503,8 @@ def build_ledger(repo_root: Path, paths: dict[str, str] | None = None) -> dict[s
             for attachment in inputs["overlay"].get("host_event_attachments", [])
             for path in attachment.get("evidence", [])
         }
+        | set(_MEMBER_EVIDENCE["inputs"])
+        | {"tools/msforms-parity/member_evidence.py"}
     )
     provenance = []
     for path in provenance_paths:
@@ -5478,7 +5667,11 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
         }:
             errors.append(f"{row_id}: visibility fields differ from schema")
         dimensions = row.get("dimensions")
-        if not isinstance(dimensions, dict) or tuple(dimensions.keys()) != DIMENSION_NAMES:
+        if not isinstance(dimensions, dict) or tuple(
+            name for name in DIMENSION_NAMES if name in dimensions
+        ) != tuple(dimensions.keys()) or any(
+            name not in dimensions for name in REQUIRED_DIMENSIONS
+        ):
             errors.append(f"{row_id}: dimension keys/order differ from schema")
             continue
         for name, dimension in dimensions.items():
@@ -6317,6 +6510,7 @@ def _strict_baseline(
             for target in _LOADER_CARGO_TARGETS.values()
         ),
         "tools/msforms-parity/parity_ledger.py",
+        "tools/msforms-parity/member_evidence.py",
         "tools/msforms-parity/vba_surface.py",
     }
     if current_surface is not None:

@@ -1,0 +1,1163 @@
+{
+  "schema": "calcforms.round13b_native.v1",
+  "excel_launches": 1,
+  "focus_scenarios": {
+    "text-before-show": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "5"
+        ],
+        "result": "Qty.Change(5);",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-while-focused": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "6"
+        ],
+        "result": "Qty.Change(6);",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-unfocused": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "7"
+        ],
+        "result": "Form.Activate;Qty.Change(7);",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "no-text": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-same-value": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "8"
+        ],
+        "result": "Qty.Change(8);",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "8"
+        ],
+        "result": "",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "hide-reshow": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "9"
+        ],
+        "result": "Qty.Change(9);",
+        "active": null
+      },
+      {
+        "step": [
+          "hide"
+        ],
+        "result": "",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "no window",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Other"
+      }
+    ]
+  },
+  "errors": {},
+  "excel_pid": 3644,
+  "excel_version": "16.0",
+  "excel_build": "20527.0",
+  "tab_windows": [
+    {
+      "hwnd": 37226546,
+      "title": "UserForm1"
+    }
+  ],
+  "tab_activate": "hwnd=37226546;activeBefore=37226546;activeAfter=37226546;focus=37226546;foreground=0",
+  "tab_steps": [
+    {
+      "step": 0,
+      "active": "Group",
+      "page": "0",
+      "focus_hwnd_class": "ThunderDFrame",
+      "focus_is_root": true,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 1,
+      "active": "Spinner",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 2,
+      "active": "Slider",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 3,
+      "active": "TabsControl",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048580,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 3145734,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 3145728,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 4,
+      "active": "PagesControl",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 1048580,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 1048576,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 1081344,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 5,
+      "active": "PagesControl",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 1048576,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 1081344,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 6,
+      "active": "Group",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 7,
+      "active": "Spinner",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 8,
+      "active": "Slider",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 9,
+      "active": "TabsControl",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048580,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 3145734,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 3145728,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 10,
+      "active": "PagesControl",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 1048580,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 1048576,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 1081344,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 11,
+      "active": "PagesControl",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 1048576,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 1081344,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 12,
+      "active": "Group",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    },
+    {
+      "step": 13,
+      "active": "Spinner",
+      "page": "0",
+      "focus_hwnd_class": "F3 Server e4c30000",
+      "focus_is_root": false,
+      "multipage_msaa": {
+        "child_count": 3,
+        "focus_vt": 9,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 0,
+            "name": null
+          },
+          {
+            "child": 2,
+            "state": 0,
+            "name": "Page1"
+          },
+          {
+            "child": 3,
+            "state": 32768,
+            "name": "Page2"
+          }
+        ]
+      },
+      "tabstrip_msaa": {
+        "child_count": 2,
+        "focus_vt": 0,
+        "focus_value": null,
+        "children": [
+          {
+            "child": 0,
+            "state": 1048576,
+            "name": null
+          },
+          {
+            "child": 1,
+            "state": 2097154,
+            "name": "Tab1"
+          },
+          {
+            "child": 2,
+            "state": 2097152,
+            "name": "Tab2"
+          }
+        ]
+      }
+    }
+  ],
+  "foreground_tab": {
+    "hwnd": 0
+  }
+}

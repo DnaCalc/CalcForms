@@ -213,6 +213,7 @@ End Property
 Public Property Get Value() As String
     Value = mCore.DisplayText
 End Property
+Attribute Value.VB_UserMemId = 0
 Public Property Let Value(ByVal NewValue As String)
     Text = NewValue
 End Property

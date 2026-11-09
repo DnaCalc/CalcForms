@@ -1,0 +1,195 @@
+{
+  "schema": "calcforms.round13e_native.v1",
+  "excel_launches": 1,
+  "variants": {
+    "0": [
+      {
+        "step": 0,
+        "active": "Before|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 1,
+        "active": "MP|page0=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 2,
+        "active": "MP|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 3,
+        "active": "After|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 4,
+        "active": "Before|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 5,
+        "active": "MP|page0=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 6,
+        "active": "MP|page0=ERR91",
+        "header_focused": false
+      }
+    ],
+    "1": [
+      {
+        "step": 0,
+        "active": "Before|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 1,
+        "active": "MP|page0=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 2,
+        "active": "MP|page0=InPage",
+        "header_focused": false
+      },
+      {
+        "step": 3,
+        "active": "After|page0=InPage",
+        "header_focused": false
+      },
+      {
+        "step": 4,
+        "active": "Before|page0=InPage",
+        "header_focused": false
+      },
+      {
+        "step": 5,
+        "active": "MP|page0=InPage",
+        "header_focused": true
+      },
+      {
+        "step": 6,
+        "active": "MP|page0=InPage",
+        "header_focused": false
+      }
+    ],
+    "2": [
+      {
+        "step": 0,
+        "active": "MP|page1=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 1,
+        "active": "After|page1=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 2,
+        "active": "Before|page1=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 3,
+        "active": "MP|page1=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 4,
+        "active": "MP|page1=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 5,
+        "active": "After|page1=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 6,
+        "active": "Before|page1=ERR91",
+        "header_focused": false
+      }
+    ],
+    "3": [
+      {
+        "step": 0,
+        "active": "Before|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 1,
+        "active": "MP|page0=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 2,
+        "active": "MP|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 3,
+        "active": "After|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 4,
+        "active": "Before|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 5,
+        "active": "MP|page0=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 6,
+        "active": "MP|page0=ERR91",
+        "header_focused": false
+      }
+    ],
+    "4": [
+      {
+        "step": 0,
+        "active": "Before|page0=ERR91",
+        "header_focused": false
+      },
+      {
+        "step": 1,
+        "active": "MP|page0=ERR91",
+        "header_focused": true
+      },
+      {
+        "step": 2,
+        "active": "MP|page0=InPage",
+        "header_focused": false
+      },
+      {
+        "step": 3,
+        "active": "MP|page0=InPage2",
+        "header_focused": false
+      },
+      {
+        "step": 4,
+        "active": "After|page0=InPage2",
+        "header_focused": false
+      },
+      {
+        "step": 5,
+        "active": "Before|page0=InPage2",
+        "header_focused": false
+      },
+      {
+        "step": 6,
+        "active": "MP|page0=InPage2",
+        "header_focused": true
+      }
+    ]
+  },
+  "errors": {},
+  "excel_pid": 24036,
+  "excel_version": "16.0",
+  "excel_build": "20527.0"
+}

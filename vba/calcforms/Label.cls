@@ -54,6 +54,7 @@ End Property
 Public Property Get Caption() As String
     Caption = mCore.DisplayText
 End Property
+Attribute Caption.VB_UserMemId = 0
 Public Property Let Caption(ByVal Value As String)
     If mCore.DisplayText = Value Then Exit Property
     mCore.DisplayText = Value

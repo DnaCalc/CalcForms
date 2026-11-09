@@ -115,6 +115,7 @@ Invoke-Check -Name 'W010 run 9 font and Escape parity' -Script 'tools/evidence/T
 Invoke-Check -Name 'W010 original greeter setters and selection' -Script 'tools/evidence/Test-W010GreeterSetters.ps1'
 Invoke-Check -Name 'W010 planner, IntegralHeight and helper recovery' -Script 'tools/evidence/Test-W010Run9Workbooks.ps1'
 Invoke-Check -Name 'W010 measured rendering corrections' -Script 'tools/evidence/Test-W010RenderCorrection.ps1'
+Invoke-Check -Name 'W010 ListBox Height snapping rule' -Script 'tools/evidence/Test-W010ListBoxHeightRule.ps1'
 
 # Trace/replay schema over every committed trace sample.
 $traceSamples = @(

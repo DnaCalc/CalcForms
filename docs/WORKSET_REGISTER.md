@@ -168,6 +168,15 @@ numeric text. ToggleButton, CheckBox and OptionButton now hold a Variant Value a
 Slider 2, TabStrip 3, MultiPage 4); `Controls.Add` now matches (new `container_tab_index` test) and the
 layout corpus offers `native_tab_slots=True` for new runs. The retained TabStrip 3/4 and MultiPage 4/5
 `tab_index` report rows stay as recorded until a new paired layout run uses it.
+
+Run 13 (2026-11-09) made the ledger read the repository instead of fixing `oracle` and `tests` to `missing`
+([method](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.73/README.md)):
+2,452 verified / 4,682 gaps / 622 unexpected-public became 2,469 / 4,665 / 622. Seventeen member and event rows
+are verified because a committed test drives them (11 events, 4 members, and 2 default-member rows after
+`Attribute Value.VB_UserMemId = 0` was added to nine controls and `default_member.rs` showed the bare-variable read and
+Let work). Measured and recorded without runtime change: the ListBox Height snapping rule (`.118`, a two-height model,
+replayed against 616 native rows), why Enter/Exit/Update events cannot be observed on a private desktop (`.124`), and
+that a MultiPage is two Tab stops, header then page client, when its selected page has no tab-stop control (`.133`).
 `.124` could not isolate update events: the private-desktop form never became the active
 window, so Enter/Exit/BeforeUpdate/AfterUpdate did not fire; the partial log is retained.
 The `.118` sweep (456 rows) shows First-Show height snapping does not follow the flag or the

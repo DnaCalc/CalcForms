@@ -1,0 +1,1175 @@
+{
+  "schema": "calcforms.round13_native.v1",
+  "excel_launches": 1,
+  "list_sequences": [
+    {
+      "zoom": 100,
+      "ops": "R,H30,S,R,H30,R,N,R",
+      "result": "start=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H30=30;S=62.95;R=62.95;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F8.25,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H30=30;S=69.75;R=69.75;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B0,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;B0=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "A12,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;A12=57;R=57;H30=30;S=57;R=57;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;I0=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,F10,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,I0,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H30=30;S=62.95;R=62.95;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,F10,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;B1=69.75;F10=61.45;R=61.45;H30=30;S=61.45;R=61.45;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H30,F10,R,S,R",
+      "result": "start=72;H30=30;F10=27;R=27;S=27;R=27;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H30,B1,R,S,R",
+      "result": "start=72;H30=30;B1=21;R=21;S=21;R=21;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H30,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H30=30;R=30;F10=27;R=27;B1=25.45;R=25.45;I0=25.45;R=25.45;I1=25.45;R=25.45;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,F10,R,H30,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H30=30;R=30;B0=30;R=30;B1=61.45;R=61.45;F8.25=60;R=60;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,I0,H30,R,I1,R,I0,R,I1,R,H30,R",
+      "result": "start=72;S=72;I0=72;H30=30;R=30;I1=22.5;R=22.5;I0=22.5;R=22.5;I1=22.5;R=22.5;H30=30;R=30;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H30,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H30=30;T=top27;Z=top0;I0=30;T=top27;Z=top0;I1=22.5;T=top28;Z=top0;"
+    },
+    {
+      "zoom": 100,
+      "ops": "R,H50,S,R,H50,R,N,R",
+      "result": "start=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H50=50;S=62.95;R=62.95;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F8.25,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H50=50;S=69.75;R=69.75;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B0,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;B0=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "A12,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;A12=57;R=57;H50=50;S=57;R=57;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;I0=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,F10,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,I0,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H50=50;S=62.95;R=62.95;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,F10,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;B1=69.75;F10=61.45;R=61.45;H50=50;S=61.45;R=61.45;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H50,F10,R,S,R",
+      "result": "start=72;H50=50;F10=38.8;R=38.8;S=38.8;R=38.8;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H50,B1,R,S,R",
+      "result": "start=72;H50=50;B1=40.5;R=40.5;S=40.5;R=40.5;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H50,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H50=50;R=50;F10=38.8;R=38.8;B1=37.3;R=37.3;I0=37.3;R=37.3;I1=37.3;R=37.3;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,F10,R,H50,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H50=50;R=50;B0=50;R=50;B1=61.45;R=61.45;F8.25=60;R=60;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,I0,H50,R,I1,R,I0,R,I1,R,H50,R",
+      "result": "start=72;S=72;I0=72;H50=50;R=50;I1=41.8;R=41.8;I0=41.8;R=41.8;I1=41.8;R=41.8;H50=50;R=50;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H50,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H50=50;T=top25;Z=top0;I0=50;T=top25;Z=top0;I1=41.8;T=top26;Z=top0;"
+    },
+    {
+      "zoom": 100,
+      "ops": "R,H72,S,R,H72,R,N,R",
+      "result": "start=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H72=72;S=62.95;R=62.95;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F8.25,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H72=72;S=69.75;R=69.75;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B0,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;B0=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "A12,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;A12=57;R=57;H72=72;S=57;R=57;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;I0=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,F10,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,I0,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H72=72;S=62.95;R=62.95;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,F10,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;B1=69.75;F10=61.45;R=61.45;H72=72;S=61.45;R=61.45;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H72,F10,R,S,R",
+      "result": "start=72;H72=72;F10=62.95;R=62.95;S=62.95;R=62.95;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H72,B1,R,S,R",
+      "result": "start=72;H72=72;B1=69.75;R=69.75;S=69.75;R=69.75;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H72,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H72=72;R=72;F10=62.95;R=62.95;B1=61.45;R=61.45;I0=61.45;R=61.45;I1=61.45;R=61.45;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,F10,R,H72,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H72=72;R=72;B0=72;R=72;B1=61.45;R=61.45;F8.25=60;R=60;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,I0,H72,R,I1,R,I0,R,I1,R,H72,R",
+      "result": "start=72;S=72;I0=72;H72=72;R=72;I1=71.25;R=71.25;I0=71.25;R=71.25;I1=71.25;R=71.25;H72=72;R=72;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H72,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H72=72;T=top23;Z=top0;I0=72;T=top22;Z=top0;I1=71.25;T=top23;Z=top0;"
+    },
+    {
+      "zoom": 100,
+      "ops": "R,H100,S,R,H100,R,N,R",
+      "result": "start=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H100=100;S=62.95;R=62.95;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F8.25,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H100=100;S=69.75;R=69.75;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B0,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;B0=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "A12,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;A12=57;R=57;H100=100;S=57;R=57;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;I0=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,F10,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,I0,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H100=100;S=62.95;R=62.95;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,F10,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;B1=69.75;F10=61.45;R=61.45;H100=100;S=61.45;R=61.45;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H100,F10,R,S,R",
+      "result": "start=72;H100=100;F10=99.15;R=99.15;S=99.15;R=99.15;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H100,B1,R,S,R",
+      "result": "start=72;H100=100;B1=89.25;R=89.25;S=89.25;R=89.25;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H100,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H100=100;R=100;F10=99.15;R=99.15;B1=97.65;R=97.65;I0=97.65;R=97.65;I1=97.65;R=97.65;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,F10,R,H100,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H100=100;R=100;B0=100;R=100;B1=61.45;R=61.45;F8.25=60;R=60;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,I0,H100,R,I1,R,I0,R,I1,R,H100,R",
+      "result": "start=72;S=72;I0=72;H100=100;R=100;I1=91;R=91;I0=91;R=91;I1=91;R=91;H100=100;R=100;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H100,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H100=100;T=top20;Z=top0;I0=100;T=top20;Z=top0;I1=91;T=top21;Z=top0;"
+    },
+    {
+      "zoom": 100,
+      "ops": "R,H120,S,R,H120,R,N,R",
+      "result": "start=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H120=120;S=62.95;R=62.95;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F8.25,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H120=120;S=69.75;R=69.75;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B0,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;B0=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "A12,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;A12=57;R=57;H120=120;S=57;R=57;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;I0=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "I0,F10,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "F10,I0,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H120=120;S=62.95;R=62.95;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "B1,F10,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;B1=69.75;F10=61.45;R=61.45;H120=120;S=61.45;R=61.45;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H120,F10,R,S,R",
+      "result": "start=72;H120=120;F10=110.9;R=110.9;S=110.9;R=110.9;"
+    },
+    {
+      "zoom": 100,
+      "ops": "H120,B1,R,S,R",
+      "result": "start=72;H120=120;B1=108.75;R=108.75;S=108.75;R=108.75;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H120,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H120=120;R=120;F10=110.9;R=110.9;B1=109.4;R=109.4;I0=109.4;R=109.4;I1=109.4;R=109.4;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,F10,R,H120,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H120=120;R=120;B0=120;R=120;B1=61.45;R=61.45;F8.25=60;R=60;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,I0,H120,R,I1,R,I0,R,I1,R,H120,R",
+      "result": "start=72;S=72;I0=72;H120=120;R=120;I1=110.25;R=110.25;I0=110.25;R=110.25;I1=110.25;R=110.25;H120=120;R=120;"
+    },
+    {
+      "zoom": 100,
+      "ops": "S,H120,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H120=120;T=top18;Z=top0;I0=120;T=top18;Z=top0;I1=110.25;T=top19;Z=top0;"
+    },
+    {
+      "zoom": 150,
+      "ops": "R,H30,S,R,H30,R,N,R",
+      "result": "start=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H30=30;S=62.95;R=62.95;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F8.25,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H30=30;S=69.75;R=69.75;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B0,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;B0=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "A12,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;A12=57;R=57;H30=30;S=57;R=57;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;I0=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,F10,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H30=30;S=30;R=30;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,I0,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H30=30;S=62.95;R=62.95;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,F10,R,H30,S,R,H30,R,N,R",
+      "result": "start=72;B1=69.75;F10=60.85;R=60.85;H30=30;S=60.85;R=60.85;H30=30;R=30;N=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H30,F10,R,S,R",
+      "result": "start=72;H30=30;F10=27;R=27;S=27;R=27;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H30,B1,R,S,R",
+      "result": "start=72;H30=30;B1=21;R=21;S=21;R=21;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H30,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H30=30;R=30;F10=27;R=27;B1=25.45;R=25.45;I0=25.45;R=25.45;I1=25;R=25;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,F10,R,H30,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H30=30;R=30;B0=30;R=30;B1=61.45;R=61.45;F8.25=61;R=61;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,I0,H30,R,I1,R,I0,R,I1,R,H30,R",
+      "result": "start=72;S=72;I0=72;H30=30;R=30;I1=22;R=22;I0=22;R=22;I1=22;R=22;H30=30;R=30;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H30,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H30=30;T=top27;Z=top0;I0=30;T=top27;Z=top0;I1=22;T=top28;Z=top0;"
+    },
+    {
+      "zoom": 150,
+      "ops": "R,H50,S,R,H50,R,N,R",
+      "result": "start=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H50=50;S=62.95;R=62.95;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F8.25,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H50=50;S=69.75;R=69.75;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B0,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;B0=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "A12,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;A12=57;R=57;H50=50;S=57;R=57;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;I0=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,F10,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H50=50;S=50;R=50;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,I0,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H50=50;S=62.95;R=62.95;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,F10,R,H50,S,R,H50,R,N,R",
+      "result": "start=72;B1=69.75;F10=60.85;R=60.85;H50=50;S=60.85;R=60.85;H50=50;R=50;N=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H50,F10,R,S,R",
+      "result": "start=72;H50=50;F10=39;R=39;S=39;R=39;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H50,B1,R,S,R",
+      "result": "start=72;H50=50;B1=40.5;R=40.5;S=40.5;R=40.5;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H50,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H50=50;R=50;F10=39;R=39;B1=37.45;R=37.45;I0=37.45;R=37.45;I1=36.95;R=36.95;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,F10,R,H50,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H50=50;R=50;B0=50;R=50;B1=61.45;R=61.45;F8.25=61;R=61;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,I0,H50,R,I1,R,I0,R,I1,R,H50,R",
+      "result": "start=72;S=72;I0=72;H50=50;R=50;I1=41;R=41;I0=41;R=41;I1=41;R=41;H50=50;R=50;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H50,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H50=50;T=top25;Z=top0;I0=50;T=top25;Z=top0;I1=41;T=top26;Z=top0;"
+    },
+    {
+      "zoom": 150,
+      "ops": "R,H72,S,R,H72,R,N,R",
+      "result": "start=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H72=72;S=62.95;R=62.95;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F8.25,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H72=72;S=69.75;R=69.75;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B0,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;B0=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "A12,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;A12=57;R=57;H72=72;S=57;R=57;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;I0=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,F10,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H72=72;S=72;R=72;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,I0,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H72=72;S=62.95;R=62.95;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,F10,R,H72,S,R,H72,R,N,R",
+      "result": "start=72;B1=69.75;F10=60.85;R=60.85;H72=72;S=60.85;R=60.85;H72=72;R=72;N=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H72,F10,R,S,R",
+      "result": "start=72;H72=72;F10=62.95;R=62.95;S=62.95;R=62.95;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H72,B1,R,S,R",
+      "result": "start=72;H72=72;B1=69.75;R=69.75;S=69.75;R=69.75;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H72,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H72=72;R=72;F10=62.95;R=62.95;B1=61.45;R=61.45;I0=61.45;R=61.45;I1=61;R=61;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,F10,R,H72,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H72=72;R=72;B0=72;R=72;B1=61.45;R=61.45;F8.25=61;R=61;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,I0,H72,R,I1,R,I0,R,I1,R,H72,R",
+      "result": "start=72;S=72;I0=72;H72=72;R=72;I1=69.5;R=69.5;I0=69.5;R=69.5;I1=69.5;R=69.5;H72=72;R=72;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H72,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H72=72;T=top23;Z=top0;I0=72;T=top22;Z=top0;I1=69.5;T=top23;Z=top0;"
+    },
+    {
+      "zoom": 150,
+      "ops": "R,H100,S,R,H100,R,N,R",
+      "result": "start=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H100=100;S=62.95;R=62.95;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F8.25,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H100=100;S=69.75;R=69.75;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B0,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;B0=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "A12,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;A12=57;R=57;H100=100;S=57;R=57;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;I0=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,F10,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H100=100;S=100;R=100;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,I0,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H100=100;S=62.95;R=62.95;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,F10,R,H100,S,R,H100,R,N,R",
+      "result": "start=72;B1=69.75;F10=60.85;R=60.85;H100=100;S=60.85;R=60.85;H100=100;R=100;N=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H100,F10,R,S,R",
+      "result": "start=72;H100=100;F10=98.95;R=98.95;S=98.95;R=98.95;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H100,B1,R,S,R",
+      "result": "start=72;H100=100;B1=89.25;R=89.25;S=89.25;R=89.25;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H100,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H100=100;R=100;F10=98.95;R=98.95;B1=97.4;R=97.4;I0=97.4;R=97.4;I1=96.95;R=96.95;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,F10,R,H100,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H100=100;R=100;B0=100;R=100;B1=61.45;R=61.45;F8.25=61;R=61;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,I0,H100,R,I1,R,I0,R,I1,R,H100,R",
+      "result": "start=72;S=72;I0=72;H100=100;R=100;I1=97.95;R=97.95;I0=97.95;R=97.95;I1=97.95;R=97.95;H100=100;R=100;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H100,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H100=100;T=top20;Z=top0;I0=100;T=top19;Z=top0;I1=97.95;T=top20;Z=top0;"
+    },
+    {
+      "zoom": 150,
+      "ops": "R,H120,S,R,H120,R,N,R",
+      "result": "start=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;F10=62.95;R=62.95;H120=120;S=62.95;R=62.95;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F8.25,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;F8.25=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;B1=69.75;R=69.75;H120=120;S=69.75;R=69.75;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B0,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;B0=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "A12,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;A12=57;R=57;H120=120;S=57;R=57;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;I0=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "I0,F10,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;I0=72;F10=72;R=72;H120=120;S=120;R=120;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "F10,I0,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;F10=62.95;I0=62.95;R=62.95;H120=120;S=62.95;R=62.95;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "B1,F10,R,H120,S,R,H120,R,N,R",
+      "result": "start=72;B1=69.75;F10=60.85;R=60.85;H120=120;S=60.85;R=60.85;H120=120;R=120;N=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H120,F10,R,S,R",
+      "result": "start=72;H120=120;F10=110.9;R=110.9;S=110.9;R=110.9;"
+    },
+    {
+      "zoom": 150,
+      "ops": "H120,B1,R,S,R",
+      "result": "start=72;H120=120;B1=108.75;R=108.75;S=108.75;R=108.75;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H120,R,F10,R,B1,R,I0,R,I1,R",
+      "result": "start=72;S=72;H120=120;R=120;F10=110.9;R=110.9;B1=109.4;R=109.4;I0=109.4;R=109.4;I1=108.9;R=108.9;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,F10,R,H120,R,B0,R,B1,R,F8.25,R",
+      "result": "start=72;S=72;F10=62.95;R=62.95;H120=120;R=120;B0=120;R=120;B1=61.45;R=61.45;F8.25=61;R=61;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,I0,H120,R,I1,R,I0,R,I1,R,H120,R",
+      "result": "start=72;S=72;I0=72;H120=120;R=120;I1=116.95;R=116.95;I0=116.95;R=116.95;I1=116.95;R=116.95;H120=120;R=120;"
+    },
+    {
+      "zoom": 150,
+      "ops": "S,H120,T,Z,I0,T,Z,I1,T,Z",
+      "result": "start=72;S=72;H120=120;T=top18;Z=top0;I0=120;T=top17;Z=top0;I1=116.95;T=top18;Z=top0;"
+    }
+  ],
+  "focus_scenarios": {
+    "text-before-show": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "5"
+        ],
+        "result": "Qty.Change(5);",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-while-focused": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "6"
+        ],
+        "result": "Qty.Change(6);",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-unfocused": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "7"
+        ],
+        "result": "Form.Activate;Qty.Change(7);",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "no-text": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-same-value": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "8"
+        ],
+        "result": "Qty.Change(8);",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "8"
+        ],
+        "result": "",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "hide-reshow": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "9"
+        ],
+        "result": "Qty.Change(9);",
+        "active": null
+      },
+      {
+        "step": [
+          "hide"
+        ],
+        "result": "",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground={\"hwnd\": 0}",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Other"
+      }
+    ]
+  },
+  "errors": {
+    "tab": "IndexError('list index out of range')"
+  },
+  "excel_pid": 67664,
+  "excel_version": "16.0",
+  "excel_build": "20527.0",
+  "visible_set": true,
+  "foreground_after_visible": {
+    "hwnd": 0
+  }
+}

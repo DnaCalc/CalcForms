@@ -34,6 +34,126 @@
       "sha256": "af3a4a0b75d466f148e0cb744f00afa3e9ac83591930ae30730ef8efe8c28047"
     },
     {
+      "path": "crates/calcforms-calcvba-adapter/tests/calcvba_portable_byref.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "51cd35c0a6e3a82bdc8bd89af7ec2c387a2b464145950a90f31bb65f45ef5e4a"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/check_value_coercion.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "12bc1da9930496035764f91e18c4825785990c1e47ac1aa7065d2952dcb0f1e2"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/container_tab_index.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "71ba90e124f4299ac32a8e3e4f81cf3db92d7ee3ac03dd5f4bc1905055ee91b0"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/default_member.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "c2ed936c4908969127c5bce48b0c7277189a81914ac6913629b0d6c1fa9d45a2"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/greeter_input_measurements.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "4a93a56626d51f82f170252a03de92db09537a6dd97f85a000772194789dfacb"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "7225798d10a1e539a1a157f930f35b51b770738a4927c735577e3f81f44b71ab"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_frm_materialization.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "75d0eaa2876511c0fa2ecf591b791b144f5dfc7aecc3f2f2c9ba0cbad2a07339"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_full_surface_showcase.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "047f7d41e02a999181b24ffe5e2e58eb29a1004f2fea2b773ca179c54e7c45e4"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_lex_hittest_bench.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "88e8a0559e1ccefbbb5471503754b2abd796312eab28925412b405e6a38a286e"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_lex_vba_reduce_spike.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "5b76c66c86c7abb28a18a50d5cdd9d4cfae982dfc944c59f0552d9b69462a6cf"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_reducer_cmdbutton.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "98f0007a92df6f292b8442c42bb356e4c478a4dc7376db45957deb890313892c"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_runtime_greeter.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "d706a27550a807b0cd6eed09379e2bf27eb14738a23a76fee7fcf3c7a692f913"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_surface_render_smoke.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "16ca40be4a6cc708f5d1c42a409bec8de6b425a16a47d5791a5c6c13dde59db0"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1e036297a15c7dbfb11f1ef178b276ebc8188d5b1c8cee5fe013a9b042c2ca46"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w007_object_model.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "712f99aaaed88e896550398b83e307b1fb56817cd065e1a0cb96443bf70d00d3"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w008_byref_return_mutation_gate.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "72166872eec3e2e7147f231f8590a408daa2e83dd0c8524839f66ebca5d64d7e"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w010_facade_contract.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "cf5bd4bd303e2e67028db872a5001fd9b8f160a63c19cd75a21d5b76d9d3b4ad"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/text_fragments.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "e81db9ae2ed4f5c2c0db023e804196a86db24d7b0a48de7215bcbf2e4fe61747"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_data_entry.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1add8cebb4279fe152699bf04ab703bf86a50787da08a050249668f8ac02efa7"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_greeter_setters.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "d924a5e73989c91621800cfcaf64c3a9193326a269d80e1c2c412ce1a0a4ceb9"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_integral_height.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "5621809d1a81a90dfe57862850b3a966502905c7ec204ed98684f2f98b642bc3"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_inventory.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "c523e9c128135586d3cd2f3f36272993700142fe0a4695d6acec66010124df1c"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_planner.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "4353317a69b870f441a792b0d3c607d11fca1b066700a784b472025214012d02"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_userform.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "3a833c3403529aaf2376982decb66db0cf7a9b6c10494fee336cd2e397ebd176"
+    },
+    {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
       "sha256": "d9e9313f4c7f5f6f8a22218ffe59ca91bb910bf1bf62f8f6bc35fa0b9437ed9d"
@@ -42,6 +162,16 @@
       "path": "crates/calcforms-headless-runner/src/lib.rs",
       "hash_mode": "utf8_lf",
       "sha256": "8a701439d3d71b6156b9ff1ca1f4550e58782d8b325f0320fb03c506014ef231"
+    },
+    {
+      "path": "crates/calcforms-headless-runner/tests/headless_runner_showcase.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1ddb445e0dcc8d70198f3b50ae04a40339404226f02a3a4e749e8257179156b4"
+    },
+    {
+      "path": "crates/calcforms-headless-runner/tests/headless_textbox_perf.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "0898360c763731802eaf529b08d6edef70311ef2e07b60dd98430383e683987e"
     },
     {
       "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv",
@@ -64,6 +194,536 @@
       "sha256": "cf20d59a25a9fe32bbdb79a08d60d7609c36ffe1acbee3733c90b35e6ac7319b"
     },
     {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/files.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d4d0e0b50a381fc03e69512abaf57f437451c6710934eb8e75bfe1127bca5120"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "c7b5b55abe3651d1b5fda8adc4c8d7b5a4e1b887088d3e7a8cf8c40d2d2fa594"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3fa88cc5ccd8f6e4e0d8b5828794f2044eea278c5aef1e59a399b0ceb5bc507f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/zoom-100-partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "82b82211b23fef507e6df226af34438f3e6e52edecda78d0360af5c5a8ddb05b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/zoom-150-partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "82b82211b23fef507e6df226af34438f3e6e52edecda78d0360af5c5a8ddb05b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "59dd51418996f6cc0aa30059cc7c125a474a062135a4d613372ffcbfe169cecd"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "692d6ef0e4f5841d4be0d37e1f76793489729c5ac6f0a1fe30335e783fe23ebb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4ac101b3734e41a6ad2033c9db0c3eeb16eeade2871ace5dd03cee3ceac3b5b7"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "290e0b9be6c8d24f84e573c1d719451027b70de5a1fb38d720854159a59da62b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "a0811f779aa1d12cd0a5370f73e4918ffdeca5c94a20c21cba984570501e0972"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-native/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d9f4e3ab62834ad9aeb49e919979d002403d9ebd3ff9fd735637e5a402a238e1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus-150/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "37a34214bbc8878fc2b63a1f3d69ddfbd00ec201b5bf9c1d75aeb7ce3bf77bc9"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus-150/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "cb6278b10f939052beab81429a17857e519bec6263a29a407d446df8cac48318"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "75fb5e8b110a8cbd27bee91e5da2ec4da75c1c526251eed18989faa22834b532"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "7cd4eb9e8e68c160d951850ae4784d583075e9a8e3cd2edde795d502f7b19042"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutCommon-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "a86307bce3c3ba1020f44841eb19506dd1ba9cd6149a0a1240454fbc356c3348"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutContainers-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "b0b3b44a42cc18a323e6af926cf3f0e07e4b8f6b899580d94da7218fcd3bf2ad"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutSelection-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c5d88a65d03518f13b92f00509bc0773b5ba44ff4e58e0228480ebcb51964631"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/native-entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "520b6a6e8127202a28ba60fc79c847dc1f680066481f372016616ae3008b815f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d2e248e03250407a706e8b947e2f65ed6168de00df9808f6cc08a244b8218760"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "0f0855335d1e3bcab1788ca985fa8c0e4c783f98b3666b0e77dc86180df8c40e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-100-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "b48bcf2a03cbadb67db478a61f51436718ee8dd8e8d5d344def8425b1b811a48"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-150-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3af4ad57071512e99d092f2397ad91fb1e538b6dffe2028a146d80d0d185f105"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c0eaf9e7a56ce127db9f89f2bd92e57f6d45a7dd92f834a6974edda27d18d95a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-100-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "7ee1c67575e26197ebb522ee76221916aa947b5e25a5c8762d22b3d8e19b9511"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-150-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "0f5fd34f5789bf9e2d22d187b519f8b6eb0d9fda923142d37534b67a53a93ebf"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "632add6155c1e79dff40817c8f9f5e0f9d64fb5f26f35bab243072e0a0c5e9d5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-100-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "c38136c8399c13bdab27450b233bec6f449315f35010869d6c3ea4067f3516ff"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-150-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "aac93caa64645751631f633630c075492853b0ed8ac05313863a4177a5770386"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "7e5f9db555b9b9bced5d4101d0eb10b7ef7c3f31952cc548f6caf18c6f7d4931"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/native-entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3c9ac06a514f12c8044beb41fac4038a3fea5035d802ad391ad56a73076c925c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8f0190086d8f965e1b3cf241adb6e8ea6199cfff916bcc5a3f08f0f0fd773356"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/cleanup-run8.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a1cdee5839a823b0420fa904ea87da757bd890efd11e0e5426d591e3bd26e162"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/cleanup-run9.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "75fd65939f13b13e36cb416d98c77be4251b52c3aada04c710f9d17289a2067e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/native-index/form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "35737f2dae37b9b32d872662533dff6466c596b270600b4b3e1fdd14d230f0ed"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/native-index/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "2a09d9a5583c55abd3ff853295103d4e36f0f13b25f574313fbb3d81f2720cc4"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/native-index/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "860e5c26221e84f4cfc78f85b759dbc554c0f024cebf49a5344c7f272e96c52c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/canary.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "bc23b93c36649bef75a0e7334acdbd83088f1365f3cb2803b5cdb4ed4ae76526"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/hang/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f54c7de0607a4fc3940f1efe519380fcf75637c86fad0e61946be55d9a208f85"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/recover/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "2fb3c53f612730e7b130872a11670b772038f93771a31549ea6cb41c013d9c82"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/recovery.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "198f3e56bb828371bbb3267786f06faf7e82e65518cebbb31b625659151a5e5a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/canary.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d3628a0feb065bfad367fc772a36e41ebe48ea08c5931d08ed1507c5216cd4d1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/hang/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "1fcf80c3d8f7d7dc79d5921e6cbe357fd797456bdc09f0de900c8e2da82f80ae"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/recover/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ec0492845e2c5b77effd273e1340885501f170af7b6c6e346e3dd570f74a20fb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/recovery.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d7aa0afbe23317604d32801bdfa97c03970483e92e966cb5e8c7f2aa04dd2875"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "b2d7559021067c28f5a3e17235ce0346e953a36f9beb32d7ed612ec805550007"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutCommon-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5d43fe57aea2ed0602da435e0d0a5dc9883b0032833fb3e740c67c451f9da735"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutContainers-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "e4856bcdf922d9f59acd08ebfc3f3ecd43a1260f08958cea2928c9a379eee7bf"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutSelection-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "6bb4b6fd79e9e9bef0e1324325a091af0e5bf8b0590e89af4df4d59649dfe213"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/native-entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "f310774405d01cefc7654bf884fcdd76fdc8a472e6167932b2d42decbd42c2bb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "64b95e7dd1fdd7127cef1486c469d73ed4a1857044baa7f946670702dc315c7b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d4f78b0b3653c6a3e6202d3b38151e13d9fe6f7200d74e3df0138e5a0b59d435"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f8916efc550c0fdb2f92b6c473add8b006d7010461c3c8d6d35e59bd5ea29e32"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "eb5a1e8be62b3fa3947f31d044c1aa69a305ada3339086072bdad3fe332f9659"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/sources/OxTheme.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "73dc4eeea4dc46c7e1010c7a93d02432b76847b432dd6f6a200d55f5299637c6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/explicit-flags/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "66cc6a14b39624e5ffefb58e4597fb5febb9ca29345343c123ce0996aa1387e3"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/explicit-flags/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "07459fefe4f07b5af63f960d932ace960729d407abd53b50f4dcb3948d20578f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/native-round13.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ee10a7094fec766eb6e4900b97dd39b6672e94501cd8fa51dbdeb9783bece97e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8842089970faf28fd8fa16a812061fb75cd7f40474005933c1e5998d29b42e74"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "b807eeb34c4c3301bf4548a95348a4b3855155506e50d1fb9c15eb01bfd9bc20"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/run9-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a66d0fca5b0fcd87981239928cd1c513250d54bb1a566c1ea9f482e336b0974b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/run9-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "793bdfc0f44b2c7d59f44ed39ea52b6013a1d5a0a4acad7534ccf16bb03ab3b5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/steps-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d6e6821b6a0c2eba82f7f2b5c5b08d29198f22eb09dbdd437863dd6070f1bee9"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/steps-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "dc40a2f7b9c01e915d56499054d4ad48b068c4e80088cdf72c21a29266503206"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/native-focus/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "54b07990b16a6dee7620d29722a84300cb08614cbb3b0a32342518ea06a6f359"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/native-focus/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3009b128cda696d7be40679d20a35c526fd640bda7723947e24d8ba337fa4518"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "662b00cdb58a9ca840c20a077312961458e807a5cf3c13ab854875705966bc9a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "1a2dfcf96429877d0657adca7a9d561067628453c9505ec6b4711b14f371627a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/viewport-modes/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "9b174339a0f348b2edb2d9cf86b6760a327a882a55347cc41c5d21c41ab26aa2"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/viewport-modes/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "08877948a4f5ccd5e010f0f4e75528025d9655021ff554fefa1efd9414b9d0c6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/viewport-sources/OxTheme.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "f1d417289697ad9e189f5bd1c292393819e23bf9bd76b7704562a98f58af82c1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "eff93fc46c68b349de225de47e00ed4412268aa91ec68e2ee8d00ee73523dea5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/instrumentation.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "271c5116d47dd830c7305c6d9da88542ed4dc4fdfd481ac2c16d91c838b665b4"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ac5531c3f427ed93efa196e24301dbc772559a49aef753c830b87f2ba50980e3"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "8496f71dfe80e81fed0bf8f8e7131b0aa854306f325c39fbd43b35a528900556"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/input.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5f59e9d6d1f10bde4df4b21851822298597743df03b4ab1f16ad517e117dc01a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/instrumented-form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c0a1e9264e2b60a4c6018bc7850fd9d5c3a015f8bc71d31ccbc04767c200e24f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "5abc0f9112e4d62f0c2b419d82298b7697ee06f4355f7693618a1f368aba65ed"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "14ad0febd4e9c5aeee433d1a6df0d9817e9729a3448f30165a7828e3b55252f6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "fc552438ee0f8e8c4771a7abf664ec071e11ce04b709fcd275580c807b40caf5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/input.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5f59e9d6d1f10bde4df4b21851822298597743df03b4ab1f16ad517e117dc01a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/instrumented-form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c0a1e9264e2b60a4c6018bc7850fd9d5c3a015f8bc71d31ccbc04767c200e24f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f72b2e6230e9c01352a22e9ac8d0f093a128682533b183b65af44a5380b086d2"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "359db9986b181ab46d2b7d09ec0c1fb6abd74d98b035d43fa04a4c5087221f04"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f991ba5e375a924e65e4f7f8f8e2facf25310216e6865d2e65338b40ec169b27"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/final/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "303a3970432ce6583aecb7ff7afb829b54b9efeb71baf711fce345e05ac85862"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "7a6da144a9e8445a40f0e5aa0f5cf60ceda3e42ec55112a34fbec5bd706519d1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/dialog-recovery.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8c2a5e69b9cfdeef495de6d9f8051853b84ea4664282641d09a8ea681d32bbe2"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/helper-timeout-report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a28eabf55d23e108b97302ee1a5a89d57862d73d55333a0bf65462e480863016"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8bfc4f3fb745d7c77490df5a6beb45b2e3e3c70bc53e9183b1cac9a68b3d127d"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observer-fixed.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5d43e72c53b526ea38debebdb06502804f7cd6d397180606051bee89f5c430c4"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "357493292c459899fae77d398a79cc08d38756637a1dd5e09ff077560c4686a7"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8bfc4f3fb745d7c77490df5a6beb45b2e3e3c70bc53e9183b1cac9a68b3d127d"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/recovery-worker-report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3f98fe51558915348be51c8149811f172637676a65ab1b9c132a1ed5c601816f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128/native-coercion-round2.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "0b685e34a3c16074c71b1399448298f2e1b4182b0b4dbb4d930963d91c7d4d99"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128/native-coercion.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "00deafb4e52af33c5c93eea9a9a9ed9907f46d4329d98ff7f896b65182f17c72"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/final/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "e6903f6bfc79e523c55e627c260cd3ecca10718eddf68246551642a5d9d71690"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-inprocess/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f74220a26bb40ff85e1a178d9b4ba4542b42d4872f736306806b99d294113e65"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-inprocess/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "2fa1efc1df947e7bc223ec42466667dbcf8b4a1cb36d4a1d02ea3cb313f5b5f0"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-readback/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "65b9d466fa6b1b7d6615cf1525144df6f337108dcd6a95744a3cff3860aef687"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-readback/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c35d9b24f7644fed3b96897a9173b55f597af39bb3c311e678ad30acafa72d73"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-vba/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a5f3ae36137262a8ce1b56bb198383ba71f4b52e8e3f6fd2d82c7fed693cfcc6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-vba/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "e73b86c9defeaba22bf3cb5e3873b09c102bf9eee6ab8cb9f50be4fcc96b9a22"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native/failure-output.txt",
+      "hash_mode": "utf8_lf",
+      "sha256": "3c3089a24743e34d8469af00fa1fb0f363b9429d5dfdfabeb41bc2e784e34d74"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c35d9b24f7644fed3b96897a9173b55f597af39bb3c311e678ad30acafa72d73"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.131/native-round12.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4dc77b3dd187c86511c55a836a9133cce4fdf8993199dccd7f4144371c26ebfa"
+    },
+    {
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json",
       "hash_mode": "utf8_lf",
       "sha256": "ff2abf8e3813e207e34f12c6f614070bc67cfd5e70ac7348bcd5ef275bd5582e"
@@ -84,9 +744,124 @@
       "sha256": "a0d5a03f5af94495918a6c85e7f3b9b6ee7f7e895cd1a73c607250dbf5b139f5"
     },
     {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/excel-observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "64f2885b244a5293b2d4b85658dbbb34dd0228094dc137d57db7e434014aa42b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/windows-session-20261104b/comparison-1/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3ecfb1b8b029ec3f0d10cf47d55da9263babfc793e4729cf3239651a31dd4fb8"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "c03b7e1cb15d65440468394ca2d72a6314c104ed49717dff9dc8430c36b3a011"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c5326eb757d94d06a20ec6949fa9a552a8539362ed0178e67a50572a266d9e21"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run4-cleanup.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "05e68105f3988d188afe450a0f989566a8d016fdc7ff2caf981e629333e63465"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/event-handlers.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "fbb47b35ca65ecf0b1ba81036bda56062f8fb139f0af389beed31fd12a63d86c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/native-query-close.txt",
+      "hash_mode": "utf8_lf",
+      "sha256": "53920c86b4e8bb0e4b689580cb4aa402403134f5dae0bdb1b58e183cf95c1ca1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/native-text-assignments.txt",
+      "hash_mode": "utf8_lf",
+      "sha256": "f68cba771041f4d819e963faa13b13d2750dc1feb142ea76e11e9e2c9527035a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/query-close.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "322c5e7978bc3673ccc92a732e1e3c25741ba602533809ccedead6487890cfa3"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/save-results.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "456ff404445cfa44bf676fa338bcc5fee7618f0e0148453d1e6e7e98b7e0f60d"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/text-assignments.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "44f00b25596d29dc61e59b6b451cf48c023c6a1f4d3e6a8f792368068a1c9e3a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/instrumented-form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "4786934d391d77386fbe5663726ecd3eebbcb7c9d4679b647af2031ad51d877a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "396835b2e39ba71929a1df5db589c1b9cc0aa4668799ad7c3766517de2c030bb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3781c92b29e53e301a8d951eae6e7d34b7204c8fe26517f745adaa9222f7d75e"
+    },
+    {
+      "path": "fixtures/frm/w009-materialization/w009-representative.frm",
+      "hash_mode": "utf8_lf",
+      "sha256": "3bbb1bab05679471357fe0f0f852e286fc3b104478b20725960a36de2374f41a"
+    },
+    {
+      "path": "fixtures/workbooks/data-entry/OrderEntryForm-qualified.frm",
+      "hash_mode": "utf8_lf",
+      "sha256": "01e75c86768a360d640c4da7113f95afc220e377a3b45f90a17c99a184ac6716"
+    },
+    {
+      "path": "fixtures/workbooks/data-entry/entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "75f3655d58cadb89324b2e78427ab745df418044ef33e57e8bdd077f3426ffb6"
+    },
+    {
+      "path": "fixtures/workbooks/data-entry/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "eab925bd573f10a6073e0a52fd2f10b68df2bcb5a6a4ed79c7f8b508c9c63a9c"
+    },
+    {
+      "path": "fixtures/workbooks/greeter/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "71270cc2d1dc486014f0ec50da34f3dd809a9833437e94fe937ee398475c96f6"
+    },
+    {
+      "path": "fixtures/workbooks/inventory/InventoryForm-qualified.frm",
+      "hash_mode": "utf8_lf",
+      "sha256": "7452c1fb99dc1f7a461f35ac590309c2bad9e97cf8eafd824bf911e5dfdba26e"
+    },
+    {
+      "path": "fixtures/workbooks/inventory/entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "793bd906092d210426bdb9b498be2814084b798c1ad5b30e0adc759f62d466df"
+    },
+    {
+      "path": "fixtures/workbooks/inventory/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "f207537bf22c982f4862b4428834a85411d3a266d59bff1658e36011f2134520"
+    },
+    {
+      "path": "fixtures/workbooks/planner/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "fef872bcd0bf42e7af41f0f3db0a3ddbd9f0e6bfdb3062558d36752f4ff026fa"
+    },
+    {
       "path": "tools/Run-EvidenceChecks.ps1",
       "hash_mode": "utf8_lf",
-      "sha256": "a89bd7e8ef9e5d553b563f7819961b48ce78ae0de589b527fbfc15abe321d02d"
+      "sha256": "da6c87e2b76bbe28e896a69672214fdd76cd991f421f22c094df20188fa9b02b"
     },
     {
       "path": "tools/evidence/Test-W010MSFormsParityLedger.ps1",
@@ -101,7 +876,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "4de6d9830a0464ecabb0343ff5773c179f55e0a6d2d1dd1a756fc17618b047a4"
+      "sha256": "0c74a05495e8d1723a749a6cbe61d9bd8aba668e90d35b5c8e799096f73aec5c"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -109,9 +884,14 @@
       "sha256": "f4c5025b9a385834957ea436eac173b0636c4a1e7b9c44197ef7c34d8bfa4730"
     },
     {
+      "path": "tools/msforms-parity/member_evidence.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "d1a94ec611e385935d7821899fd045ed24af5cc34f957007f9c27c216efba908"
+    },
+    {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "811bc73f94c8e75d09722b166cc229635fde019a98711bcf7f9d5485727d7ec3"
+      "sha256": "e46e826993a7d70942b34da8a6df8a1ff74d13d305f584e5bb1869e553ed343a"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -131,12 +911,12 @@
     {
       "path": "tools/msforms-parity/tests/test_parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "2e42abb70d95b6463c41c2bf6176ac863053be281a0f052e1d28bd7aaf983362"
+      "sha256": "c2b7d444617bcb4b8f8c7b1260c0072602b6602a12e9f2ff7d17181bfe2f5b15"
     },
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "e4a6bcc5cd5a9ed379a1464dec4497f21e14f35f354c47effd681571da23c737"
+      "sha256": "b5b72132c8745e1eee9e274afa9636f106c61989788cc917b95a199a043fb907"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -147,6 +927,11 @@
       "path": "tools/msforms-parity/vba_surface.py",
       "hash_mode": "utf8_lf",
       "sha256": "94eb0e4ca8ecda89205f33c6c767e48e84d3a7b8987e436047a2c4a2e0cba6e9"
+    },
+    {
+      "path": "tools/office-oracle/capture_toggle_coercion.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "1f1dfac2c8db792b91442cfd70016ea15d36b00b98b7338988796c7c81bacea3"
     },
     {
       "path": "vba/calcforms/CalcForms.bas",
@@ -171,12 +956,12 @@
     {
       "path": "vba/calcforms/CheckBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "3abcba8bda1882ea5933dce4a8c6b7afff88cfcc8cfa1d434bdf3607a29c12b0"
+      "sha256": "6e2ebd364aacd7816bc002070bb3807ee5afedbc36ebc8a7e9cf67d64def88fc"
     },
     {
       "path": "vba/calcforms/ComboBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "a4668caa804398b047bc5d1595fd1026afa9cbf14cfdb5fad5ce57addabc44ea"
+      "sha256": "ec8ada8040a210adaaf9d27ea1aa1b6b48eac75442ea5647db854fdec113cb44"
     },
     {
       "path": "vba/calcforms/CommandButton.cls",
@@ -216,12 +1001,12 @@
     {
       "path": "vba/calcforms/Label.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "1a738c8ee3f259f93f2b87df21a026924ac83ac0b3defddaeb414e5ad9a01246"
+      "sha256": "2ec6f204643890f70fe2e8463e563741805435a371ac03f3f79c56d77d5c1315"
     },
     {
       "path": "vba/calcforms/ListBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "78959d53735928c6e69b485d75638fe0874204de2d41b6a9f256007568b15de5"
+      "sha256": "ff8961c6fe3f9add5eafd773b071150ac2de1dfe667e6682186bcc98162fdf76"
     },
     {
       "path": "vba/calcforms/MultiPage.cls",
@@ -231,7 +1016,7 @@
     {
       "path": "vba/calcforms/OptionButtonControl.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "9890a44817e861c0c68d6df65afc476ee85eb53097321ee682936d454484a082"
+      "sha256": "365c76c303bb43dfea76ea385fbb6074be00a8f4f1ffc78bbae6c979446d0c64"
     },
     {
       "path": "vba/calcforms/OxAccessibilityService.cls",
@@ -301,12 +1086,12 @@
     {
       "path": "vba/calcforms/ScrollBar.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "6b237cfc984ee01254126128c429ec381b0a1a1be961bd4f3e38f6e3bf8861dc"
+      "sha256": "0e38dd46d754673a7913715c155eba22f9bb1c9f2d3750f2e2366aed19a1aa54"
     },
     {
       "path": "vba/calcforms/SpinButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "282a1de329b1cc4e33ed0df7e8f063fc75d33849f5f4b8954f1cd2621d6637b9"
+      "sha256": "5fe74ebc14167ff600f9d96159a007373ac1cbba2ff3baeb5eae40dac9580397"
     },
     {
       "path": "vba/calcforms/Tab.cls",
@@ -326,12 +1111,12 @@
     {
       "path": "vba/calcforms/TextBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "2e34b1258a0d4aaf009bfbd73ae675438bde16e492ee3491466dd4fb4ed21138"
+      "sha256": "a0a009deeae9be91057eb5d6bf73a953e47501eb312c2d0775b7b1766b50e879"
     },
     {
       "path": "vba/calcforms/ToggleButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "e2e144d5e5b5df1538550825b20a626fc278f2791a225c72386b179b2ce41302"
+      "sha256": "a0f3921597ed8a36378a54b7c4deade4f47eb3d8d16564a3bf35c8f5f0aa3477"
     },
     {
       "path": "vba/calcforms/UserForm.cls",
@@ -371,6 +1156,126 @@
       "sha256": "af3a4a0b75d466f148e0cb744f00afa3e9ac83591930ae30730ef8efe8c28047"
     },
     {
+      "path": "crates/calcforms-calcvba-adapter/tests/calcvba_portable_byref.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "51cd35c0a6e3a82bdc8bd89af7ec2c387a2b464145950a90f31bb65f45ef5e4a"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/check_value_coercion.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "12bc1da9930496035764f91e18c4825785990c1e47ac1aa7065d2952dcb0f1e2"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/container_tab_index.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "71ba90e124f4299ac32a8e3e4f81cf3db92d7ee3ac03dd5f4bc1905055ee91b0"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/default_member.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "c2ed936c4908969127c5bce48b0c7277189a81914ac6913629b0d6c1fa9d45a2"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/greeter_input_measurements.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "4a93a56626d51f82f170252a03de92db09537a6dd97f85a000772194789dfacb"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "7225798d10a1e539a1a157f930f35b51b770738a4927c735577e3f81f44b71ab"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_frm_materialization.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "75d0eaa2876511c0fa2ecf591b791b144f5dfc7aecc3f2f2c9ba0cbad2a07339"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_full_surface_showcase.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "047f7d41e02a999181b24ffe5e2e58eb29a1004f2fea2b773ca179c54e7c45e4"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_lex_hittest_bench.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "88e8a0559e1ccefbbb5471503754b2abd796312eab28925412b405e6a38a286e"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_lex_vba_reduce_spike.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "5b76c66c86c7abb28a18a50d5cdd9d4cfae982dfc944c59f0552d9b69462a6cf"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_reducer_cmdbutton.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "98f0007a92df6f292b8442c42bb356e4c478a4dc7376db45957deb890313892c"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_runtime_greeter.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "d706a27550a807b0cd6eed09379e2bf27eb14738a23a76fee7fcf3c7a692f913"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_surface_render_smoke.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "16ca40be4a6cc708f5d1c42a409bec8de6b425a16a47d5791a5c6c13dde59db0"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1e036297a15c7dbfb11f1ef178b276ebc8188d5b1c8cee5fe013a9b042c2ca46"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w007_object_model.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "712f99aaaed88e896550398b83e307b1fb56817cd065e1a0cb96443bf70d00d3"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w008_byref_return_mutation_gate.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "72166872eec3e2e7147f231f8590a408daa2e83dd0c8524839f66ebca5d64d7e"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w010_facade_contract.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "cf5bd4bd303e2e67028db872a5001fd9b8f160a63c19cd75a21d5b76d9d3b4ad"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/text_fragments.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "e81db9ae2ed4f5c2c0db023e804196a86db24d7b0a48de7215bcbf2e4fe61747"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_data_entry.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1add8cebb4279fe152699bf04ab703bf86a50787da08a050249668f8ac02efa7"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_greeter_setters.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "d924a5e73989c91621800cfcaf64c3a9193326a269d80e1c2c412ce1a0a4ceb9"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_integral_height.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "5621809d1a81a90dfe57862850b3a966502905c7ec204ed98684f2f98b642bc3"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_inventory.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "c523e9c128135586d3cd2f3f36272993700142fe0a4695d6acec66010124df1c"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_planner.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "4353317a69b870f441a792b0d3c607d11fca1b066700a784b472025214012d02"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/workbook_userform.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "3a833c3403529aaf2376982decb66db0cf7a9b6c10494fee336cd2e397ebd176"
+    },
+    {
       "path": "crates/calcforms-headless-runner/Cargo.toml",
       "hash_mode": "utf8_lf",
       "sha256": "d9e9313f4c7f5f6f8a22218ffe59ca91bb910bf1bf62f8f6bc35fa0b9437ed9d"
@@ -379,6 +1284,16 @@
       "path": "crates/calcforms-headless-runner/src/lib.rs",
       "hash_mode": "utf8_lf",
       "sha256": "8a701439d3d71b6156b9ff1ca1f4550e58782d8b325f0320fb03c506014ef231"
+    },
+    {
+      "path": "crates/calcforms-headless-runner/tests/headless_runner_showcase.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1ddb445e0dcc8d70198f3b50ae04a40339404226f02a3a4e749e8257179156b4"
+    },
+    {
+      "path": "crates/calcforms-headless-runner/tests/headless_textbox_perf.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "0898360c763731802eaf529b08d6edef70311ef2e07b60dd98430383e683987e"
     },
     {
       "path": "docs/evidence/W005_input_interaction_model_exploration/captures/interaction-events-modal-20260623T045300Z/modeless-event-log.csv",
@@ -401,6 +1316,536 @@
       "sha256": "cf20d59a25a9fe32bbdb79a08d60d7609c36ffe1acbee3733c90b35e6ac7319b"
     },
     {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/files.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d4d0e0b50a381fc03e69512abaf57f437451c6710934eb8e75bfe1127bca5120"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "c7b5b55abe3651d1b5fda8adc4c8d7b5a4e1b887088d3e7a8cf8c40d2d2fa594"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3fa88cc5ccd8f6e4e0d8b5828794f2044eea278c5aef1e59a399b0ceb5bc507f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/zoom-100-partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "82b82211b23fef507e6df226af34438f3e6e52edecda78d0360af5c5a8ddb05b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/native/zoom-150-partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "82b82211b23fef507e6df226af34438f3e6e52edecda78d0360af5c5a8ddb05b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "59dd51418996f6cc0aa30059cc7c125a474a062135a4d613372ffcbfe169cecd"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "692d6ef0e4f5841d4be0d37e1f76793489729c5ac6f0a1fe30335e783fe23ebb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-key-native/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4ac101b3734e41a6ad2033c9db0c3eeb16eeade2871ace5dd03cee3ceac3b5b7"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "290e0b9be6c8d24f84e573c1d719451027b70de5a1fb38d720854159a59da62b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "a0811f779aa1d12cd0a5370f73e4918ffdeca5c94a20c21cba984570501e0972"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/run9-validation-native/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d9f4e3ab62834ad9aeb49e919979d002403d9ebd3ff9fd735637e5a402a238e1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus-150/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "37a34214bbc8878fc2b63a1f3d69ddfbd00ec201b5bf9c1d75aeb7ce3bf77bc9"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus-150/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "cb6278b10f939052beab81429a17857e519bec6263a29a407d446df8cac48318"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "75fb5e8b110a8cbd27bee91e5da2ec4da75c1c526251eed18989faa22834b532"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "7cd4eb9e8e68c160d951850ae4784d583075e9a8e3cd2edde795d502f7b19042"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutCommon-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "a86307bce3c3ba1020f44841eb19506dd1ba9cd6149a0a1240454fbc356c3348"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutContainers-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "b0b3b44a42cc18a323e6af926cf3f0e07e4b8f6b899580d94da7218fcd3bf2ad"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutSelection-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c5d88a65d03518f13b92f00509bc0773b5ba44ff4e58e0228480ebcb51964631"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/native-entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "520b6a6e8127202a28ba60fc79c847dc1f680066481f372016616ae3008b815f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d2e248e03250407a706e8b947e2f65ed6168de00df9808f6cc08a244b8218760"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "0f0855335d1e3bcab1788ca985fa8c0e4c783f98b3666b0e77dc86180df8c40e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-100-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "b48bcf2a03cbadb67db478a61f51436718ee8dd8e8d5d344def8425b1b811a48"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-150-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3af4ad57071512e99d092f2397ad91fb1e538b6dffe2028a146d80d0d185f105"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutCommon-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c0eaf9e7a56ce127db9f89f2bd92e57f6d45a7dd92f834a6974edda27d18d95a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-100-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "7ee1c67575e26197ebb522ee76221916aa947b5e25a5c8762d22b3d8e19b9511"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-150-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "0f5fd34f5789bf9e2d22d187b519f8b6eb0d9fda923142d37534b67a53a93ebf"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutContainers-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "632add6155c1e79dff40817c8f9f5e0f9d64fb5f26f35bab243072e0a0c5e9d5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-100-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "c38136c8399c13bdab27450b233bec6f449315f35010869d6c3ea4067f3516ff"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-150-native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "aac93caa64645751631f633630c075492853b0ed8ac05313863a4177a5770386"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/LayoutSelection-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "7e5f9db555b9b9bced5d4101d0eb10b7ef7c3f31952cc548f6caf18c6f7d4931"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/native-entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3c9ac06a514f12c8044beb41fac4038a3fea5035d802ad391ad56a73076c925c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/input/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8f0190086d8f965e1b3cf241adb6e8ea6199cfff916bcc5a3f08f0f0fd773356"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/cleanup-run8.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a1cdee5839a823b0420fa904ea87da757bd890efd11e0e5426d591e3bd26e162"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/cleanup-run9.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "75fd65939f13b13e36cb416d98c77be4251b52c3aada04c710f9d17289a2067e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/native-index/form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "35737f2dae37b9b32d872662533dff6466c596b270600b4b3e1fdd14d230f0ed"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/native-index/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "2a09d9a5583c55abd3ff853295103d4e36f0f13b25f574313fbb3d81f2720cc4"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/native-index/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "860e5c26221e84f4cfc78f85b759dbc554c0f024cebf49a5344c7f272e96c52c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/canary.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "bc23b93c36649bef75a0e7334acdbd83088f1365f3cb2803b5cdb4ed4ae76526"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/hang/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f54c7de0607a4fc3940f1efe519380fcf75637c86fad0e61946be55d9a208f85"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/recover/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "2fb3c53f612730e7b130872a11670b772038f93771a31549ea6cb41c013d9c82"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery-hidden/recovery.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "198f3e56bb828371bbb3267786f06faf7e82e65518cebbb31b625659151a5e5a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/canary.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d3628a0feb065bfad367fc772a36e41ebe48ea08c5931d08ed1507c5216cd4d1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/hang/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "1fcf80c3d8f7d7dc79d5921e6cbe357fd797456bdc09f0de900c8e2da82f80ae"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/recover/report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ec0492845e2c5b77effd273e1340885501f170af7b6c6e346e3dd570f74a20fb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.108/run9-recovery/recovery.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d7aa0afbe23317604d32801bdfa97c03970483e92e966cb5e8c7f2aa04dd2875"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "b2d7559021067c28f5a3e17235ce0346e953a36f9beb32d7ed612ec805550007"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutCommon-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5d43fe57aea2ed0602da435e0d0a5dc9883b0032833fb3e740c67c451f9da735"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutContainers-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "e4856bcdf922d9f59acd08ebfc3f3ecd43a1260f08958cea2928c9a379eee7bf"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/LayoutSelection-native.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "6bb4b6fd79e9e9bef0e1324325a091af0e5bf8b0590e89af4df4d59649dfe213"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/native-entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "f310774405d01cefc7654bf884fcdd76fdc8a472e6167932b2d42decbd42c2bb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.109/keyboard/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "64b95e7dd1fdd7127cef1486c469d73ed4a1857044baa7f946670702dc315c7b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d4f78b0b3653c6a3e6202d3b38151e13d9fe6f7200d74e3df0138e5a0b59d435"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f8916efc550c0fdb2f92b6c473add8b006d7010461c3c8d6d35e59bd5ea29e32"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "eb5a1e8be62b3fa3947f31d044c1aa69a305ada3339086072bdad3fe332f9659"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.112/sources/OxTheme.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "73dc4eeea4dc46c7e1010c7a93d02432b76847b432dd6f6a200d55f5299637c6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/explicit-flags/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "66cc6a14b39624e5ffefb58e4597fb5febb9ca29345343c123ce0996aa1387e3"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/explicit-flags/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "07459fefe4f07b5af63f960d932ace960729d407abd53b50f4dcb3948d20578f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/native-round13.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ee10a7094fec766eb6e4900b97dd39b6672e94501cd8fa51dbdeb9783bece97e"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8842089970faf28fd8fa16a812061fb75cd7f40474005933c1e5998d29b42e74"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "b807eeb34c4c3301bf4548a95348a4b3855155506e50d1fb9c15eb01bfd9bc20"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/run9-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a66d0fca5b0fcd87981239928cd1c513250d54bb1a566c1ea9f482e336b0974b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/run9-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "793bdfc0f44b2c7d59f44ed39ea52b6013a1d5a0a4acad7534ccf16bb03ab3b5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/steps-native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "d6e6821b6a0c2eba82f7f2b5c5b08d29198f22eb09dbdd437863dd6070f1bee9"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.118/steps-native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "dc40a2f7b9c01e915d56499054d4ad48b068c4e80088cdf72c21a29266503206"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/native-focus/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "54b07990b16a6dee7620d29722a84300cb08614cbb3b0a32342518ea06a6f359"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/native-focus/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3009b128cda696d7be40679d20a35c526fd640bda7723947e24d8ba337fa4518"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "662b00cdb58a9ca840c20a077312961458e807a5cf3c13ab854875705966bc9a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "1a2dfcf96429877d0657adca7a9d561067628453c9505ec6b4711b14f371627a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/viewport-modes/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "9b174339a0f348b2edb2d9cf86b6760a327a882a55347cc41c5d21c41ab26aa2"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/viewport-modes/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "08877948a4f5ccd5e010f0f4e75528025d9655021ff554fefa1efd9414b9d0c6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.119/viewport-sources/OxTheme.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "f1d417289697ad9e189f5bd1c292393819e23bf9bd76b7704562a98f58af82c1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "eff93fc46c68b349de225de47e00ed4412268aa91ec68e2ee8d00ee73523dea5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/instrumentation.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "271c5116d47dd830c7305c6d9da88542ed4dc4fdfd481ac2c16d91c838b665b4"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/native.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ac5531c3f427ed93efa196e24301dbc772559a49aef753c830b87f2ba50980e3"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.122/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "8496f71dfe80e81fed0bf8f8e7131b0aa854306f325c39fbd43b35a528900556"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/input.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5f59e9d6d1f10bde4df4b21851822298597743df03b4ab1f16ad517e117dc01a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/instrumented-form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c0a1e9264e2b60a4c6018bc7850fd9d5c3a015f8bc71d31ccbc04767c200e24f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "5abc0f9112e4d62f0c2b419d82298b7697ee06f4355f7693618a1f368aba65ed"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "14ad0febd4e9c5aeee433d1a6df0d9817e9729a3448f30165a7828e3b55252f6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native-trace/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "fc552438ee0f8e8c4771a7abf664ec071e11ce04b709fcd275580c807b40caf5"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/input.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5f59e9d6d1f10bde4df4b21851822298597743df03b4ab1f16ad517e117dc01a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/instrumented-form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c0a1e9264e2b60a4c6018bc7850fd9d5c3a015f8bc71d31ccbc04767c200e24f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f72b2e6230e9c01352a22e9ac8d0f093a128682533b183b65af44a5380b086d2"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "359db9986b181ab46d2b7d09ec0c1fb6abd74d98b035d43fa04a4c5087221f04"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.123/native/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f991ba5e375a924e65e4f7f8f8e2facf25310216e6865d2e65338b40ec169b27"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/final/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "303a3970432ce6583aecb7ff7afb829b54b9efeb71baf711fce345e05ac85862"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.125/native/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "7a6da144a9e8445a40f0e5aa0f5cf60ceda3e42ec55112a34fbec5bd706519d1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/dialog-recovery.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8c2a5e69b9cfdeef495de6d9f8051853b84ea4664282641d09a8ea681d32bbe2"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/helper-timeout-report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a28eabf55d23e108b97302ee1a5a89d57862d73d55333a0bf65462e480863016"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8bfc4f3fb745d7c77490df5a6beb45b2e3e3c70bc53e9183b1cac9a68b3d127d"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observer-fixed.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "5d43e72c53b526ea38debebdb06502804f7cd6d397180606051bee89f5c430c4"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "357493292c459899fae77d398a79cc08d38756637a1dd5e09ff077560c4686a7"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/partial.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8bfc4f3fb745d7c77490df5a6beb45b2e3e3c70bc53e9183b1cac9a68b3d127d"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.126/recovery-worker-report.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3f98fe51558915348be51c8149811f172637676a65ab1b9c132a1ed5c601816f"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128/native-coercion-round2.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "0b685e34a3c16074c71b1399448298f2e1b4182b0b4dbb4d930963d91c7d4d99"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128/native-coercion.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "00deafb4e52af33c5c93eea9a9a9ed9907f46d4329d98ff7f896b65182f17c72"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/final/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "e6903f6bfc79e523c55e627c260cd3ecca10718eddf68246551642a5d9d71690"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-inprocess/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "f74220a26bb40ff85e1a178d9b4ba4542b42d4872f736306806b99d294113e65"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-inprocess/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "2fa1efc1df947e7bc223ec42466667dbcf8b4a1cb36d4a1d02ea3cb313f5b5f0"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-readback/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "65b9d466fa6b1b7d6615cf1525144df6f337108dcd6a95744a3cff3860aef687"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-readback/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c35d9b24f7644fed3b96897a9173b55f597af39bb3c311e678ad30acafa72d73"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-vba/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "a5f3ae36137262a8ce1b56bb198383ba71f4b52e8e3f6fd2d82c7fed693cfcc6"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native-vba/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "e73b86c9defeaba22bf3cb5e3873b09c102bf9eee6ab8cb9f50be4fcc96b9a22"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native/failure-output.txt",
+      "hash_mode": "utf8_lf",
+      "sha256": "3c3089a24743e34d8469af00fa1fb0f363b9429d5dfdfabeb41bc2e784e34d74"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.129/native/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c35d9b24f7644fed3b96897a9173b55f597af39bb3c311e678ad30acafa72d73"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.131/native-round12.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4dc77b3dd187c86511c55a836a9133cce4fdf8993199dccd7f4144371c26ebfa"
+    },
+    {
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json",
       "hash_mode": "utf8_lf",
       "sha256": "ff2abf8e3813e207e34f12c6f614070bc67cfd5e70ac7348bcd5ef275bd5582e"
@@ -421,6 +1866,126 @@
       "sha256": "a0d5a03f5af94495918a6c85e7f3b9b6ee7f7e895cd1a73c607250dbf5b139f5"
     },
     {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/excel-observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "64f2885b244a5293b2d4b85658dbbb34dd0228094dc137d57db7e434014aa42b"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.74/windows-session-20261104b/comparison-1/comparison.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "3ecfb1b8b029ec3f0d10cf47d55da9263babfc793e4729cf3239651a31dd4fb8"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "c03b7e1cb15d65440468394ca2d72a6314c104ed49717dff9dc8430c36b3a011"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "c5326eb757d94d06a20ec6949fa9a552a8539362ed0178e67a50572a266d9e21"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run4-cleanup.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "05e68105f3988d188afe450a0f989566a8d016fdc7ff2caf981e629333e63465"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/event-handlers.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "fbb47b35ca65ecf0b1ba81036bda56062f8fb139f0af389beed31fd12a63d86c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/native-query-close.txt",
+      "hash_mode": "utf8_lf",
+      "sha256": "53920c86b4e8bb0e4b689580cb4aa402403134f5dae0bdb1b58e183cf95c1ca1"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/native-text-assignments.txt",
+      "hash_mode": "utf8_lf",
+      "sha256": "f68cba771041f4d819e963faa13b13d2750dc1feb142ea76e11e9e2c9527035a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/query-close.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "322c5e7978bc3673ccc92a732e1e3c25741ba602533809ccedead6487890cfa3"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/save-results.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "456ff404445cfa44bf676fa338bcc5fee7618f0e0148453d1e6e7e98b7e0f60d"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.77/run5/text-assignments.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "44f00b25596d29dc61e59b6b451cf48c023c6a1f4d3e6a8f792368068a1c9e3a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/instrumented-form.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "4786934d391d77386fbe5663726ecd3eebbcb7c9d4679b647af2031ad51d877a"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/observations.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "396835b2e39ba71929a1df5db589c1b9cc0aa4668799ad7c3766517de2c030bb"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.95/native-release/observer.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "3781c92b29e53e301a8d951eae6e7d34b7204c8fe26517f745adaa9222f7d75e"
+    },
+    {
+      "path": "fixtures/frm/w009-materialization/w009-representative.frm",
+      "hash_mode": "utf8_lf",
+      "sha256": "3bbb1bab05679471357fe0f0f852e286fc3b104478b20725960a36de2374f41a"
+    },
+    {
+      "path": "fixtures/workbooks/data-entry/OrderEntryForm-qualified.frm",
+      "hash_mode": "utf8_lf",
+      "sha256": "01e75c86768a360d640c4da7113f95afc220e377a3b45f90a17c99a184ac6716"
+    },
+    {
+      "path": "fixtures/workbooks/data-entry/entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "75f3655d58cadb89324b2e78427ab745df418044ef33e57e8bdd077f3426ffb6"
+    },
+    {
+      "path": "fixtures/workbooks/data-entry/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "eab925bd573f10a6073e0a52fd2f10b68df2bcb5a6a4ed79c7f8b508c9c63a9c"
+    },
+    {
+      "path": "fixtures/workbooks/greeter/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "71270cc2d1dc486014f0ec50da34f3dd809a9833437e94fe937ee398475c96f6"
+    },
+    {
+      "path": "fixtures/workbooks/inventory/InventoryForm-qualified.frm",
+      "hash_mode": "utf8_lf",
+      "sha256": "7452c1fb99dc1f7a461f35ac590309c2bad9e97cf8eafd824bf911e5dfdba26e"
+    },
+    {
+      "path": "fixtures/workbooks/inventory/entry.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "793bd906092d210426bdb9b498be2814084b798c1ad5b30e0adc759f62d466df"
+    },
+    {
+      "path": "fixtures/workbooks/inventory/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "f207537bf22c982f4862b4428834a85411d3a266d59bff1658e36011f2134520"
+    },
+    {
+      "path": "fixtures/workbooks/planner/form-code.bas",
+      "hash_mode": "utf8_lf",
+      "sha256": "fef872bcd0bf42e7af41f0f3db0a3ddbd9f0e6bfdb3062558d36752f4ff026fa"
+    },
+    {
+      "path": "tools/msforms-parity/member_evidence.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "d1a94ec611e385935d7821899fd045ed24af5cc34f957007f9c27c216efba908"
+    },
+    {
       "path": "tools/msforms-parity/public_overlay.v1.json",
       "hash_mode": "utf8_lf",
       "sha256": "4fd7cd1146cee0c6c4e53e0aa561f8da00256151376aff4bef5087454d36cc64"
@@ -429,6 +1994,11 @@
       "path": "tools/msforms-parity/surface_policy.v1.json",
       "hash_mode": "utf8_lf",
       "sha256": "2ee478f2759c983cc306780954cbeaef0b30313dee1eb3ad66b6343dbd7e3794"
+    },
+    {
+      "path": "tools/office-oracle/capture_toggle_coercion.py",
+      "hash_mode": "utf8_lf",
+      "sha256": "1f1dfac2c8db792b91442cfd70016ea15d36b00b98b7338988796c7c81bacea3"
     },
     {
       "path": "vba/calcforms/CalcForms.basproj",

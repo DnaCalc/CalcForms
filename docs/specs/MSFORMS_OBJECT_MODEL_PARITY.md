@@ -100,12 +100,47 @@ Every row has the same common envelope:
   disposition, and disposition basis;
 - a kind-specific canonical `contract`;
 - the matched extracted `actual` declaration or an explicit absence/nonclaim;
-- all thirteen conformance dimensions; and
+- the conformance dimensions that apply to its row kind; and
 - a derived `row_status`.
 
-The thirteen dimensions are `type_or_declaration`, `bind`, `method`, `get`,
-`put`, `putref`, `default_binding`, `error_coercion`, `event`, `render`,
-`persistence`, `oracle`, and `tests`. A dimension uses exactly one status:
+There are eleven dimensions: `type_or_declaration`, `bind`, `method`, `get`,
+`put`, `putref`, `default_binding`, `event`, `persistence`, `oracle`, and
+`tests`. (`error_coercion` and `render` were removed in round 13: no row could
+derive them from the repository, and a constant "missing" measures nothing.
+`persistence` is likewise absent from callable member rows and kept on the
+persistence rows that carry it.) A row lists only the dimensions that can be
+derived for it; `type_or_declaration` is always present.
+
+`oracle` and `tests` on member and event rows are derived by
+`tools/msforms-parity/member_evidence.py`, never listed by hand. A member has
+test evidence when a committed, non-ignored Rust test file in
+`crates/*/tests` drives it: the VBA text of the file, of the `fixtures/` modules
+it names and of the evidence `.bas` files it names declares a typed variable
+(`As [MSForms.]Type`, or a `Controls.Add("Forms.Type.1", ...)` binding) and
+reads, writes or calls `Variable.Member`; an event has test evidence when such a
+file defines a handler for it on a `WithEvents` variable. Read evidence covers
+the `get` and `method` accessors, write evidence the `put` and `putref`
+accessors. A member has oracle evidence when a test file that drives it also
+replays a committed native Excel measurement (a file under a named bead
+directory whose path contains `native`, an `observations.json`, or JSON that
+records an Excel pid or launch) whose text names the member as a whole word.
+Limits: attribution is per test file, not per assertion; a committed test is not
+proof that it passed (the repository `cargo test` check is); synthetic classes a
+test file defines itself are excluded; control types stored only in binary
+`.frx` data are not seen; the native match is by name, not structural. Every
+file the scan reads is pinned, and `tools/msforms-parity/refresh_ledger.py`
+regenerates the pins, manifest and ledger after any test, fixture, measurement
+or VBA change.
+
+A declaration that is compatible and exposed by a manual loader profile (the
+loader the headless runner, bootstrap and adapter tests use) counts as
+`implemented_unverified`; it becomes `verified` only when the same member has
+test evidence. The clean `basproj` path not exposing a class is recorded in the
+basis and no longer holds a member row open by itself. The assigned-value
+parameter of a property `Let`/`Set` is not compared by name: no caller can name
+it and the typelib reports none.
+
+A dimension uses exactly one status:
 
 | Status | Meaning |
 |---|---|

@@ -3,10 +3,10 @@
   "schema_version": 1,
   "ledger_schema": "oxforms.msforms_parity_ledger.v1",
   "artifact_path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.73/msforms_parity_ledger.v1.json",
-  "canonical_sha256": "486148ed05184e859aa7a75f3767c75a6425c1965672b5ab08a2ae15be46258f",
-  "canonical_file_sha256": "9ee1bf4ef3fc98726836a30ff4ba0dabff17ad26693800a0a96e56ac15137e5e",
-  "source_surface_sha256": "388ab2ffa188ba199dd4b6a741de730a0e24dc5b53c18ed5a5ead0046f1f5bbb",
-  "inputs_sha256": "6dbf21e25a986805e67a727bffc6bf15800825289082e09b075de44f7a564e01",
+  "canonical_sha256": "b7fca27606be25e698c41064a38f70136d971f3095e3365a4117128aa645784e",
+  "canonical_file_sha256": "182791f28258eab94fe5726ba6a57f07a1d4b2a17786cb5cece7e0947cbf0c45",
+  "source_surface_sha256": "4ee9389754a56804c5495e2a3dd26d6d2817aa7093b9cbcf8c4a2ff606cc001c",
+  "inputs_sha256": "6c74099b3f1f26ceb419e1f02f8def0442d2d66257506281c2d092cc03e78172",
   "row_count": 7756,
   "row_kinds": {
     "abi_adapter_member": 14,
@@ -32,11 +32,11 @@
     "unexpected_public_type": 12
   },
   "row_statuses": {
-    "gap": 4682,
+    "gap": 4665,
     "unexpected_public": 622,
-    "verified": 2452
+    "verified": 2469
   },
-  "gating_dimension_cells": 20055,
+  "gating_dimension_cells": 15330,
   "unexpected_public_rows": 622,
   "green": false
 }
