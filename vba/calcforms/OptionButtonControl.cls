@@ -18,7 +18,7 @@ Public Event BeforeUpdate(ByVal Cancel As ReturnBoolean)
 Public Event AfterUpdate()
 
 Private mCore As OxControlCore
-Private mValue As Boolean
+Private mValue As Variant
 Private mGroupName As String
 Private mEditDirty As Boolean
 Private mFocused As Boolean
@@ -50,7 +50,7 @@ End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     EnsureCore
-    OxThemePaintOptionButton mCore, Surface, mValue, mFocused
+    OxThemePaintOptionButton mCore, Surface, IsOn(), mFocused
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -61,12 +61,76 @@ Private Property Get IOxControl_Children() As Controls
     Set IOxControl_Children = Nothing
 End Property
 
-Public Property Get Value() As Boolean
+Public Property Get Value() As Variant
     Value = mValue
 End Property
-Public Property Let Value(ByVal NewValue As Boolean)
-    SetValue NewValue, False, True
+Public Property Let Value(ByVal NewValue As Variant)
+    Dim Coerced As Variant
+    Coerced = CoerceValue(NewValue)
+    If IsNull(Coerced) Then
+        If Not IsNull(mValue) Then
+            mValue = Null
+            mCore.MarkDirty
+            RaiseEvent Change
+        End If
+    Else
+        SetValue CBool(Coerced), False, True
+    End If
 End Property
+
+' Native FM20 Value is a Variant holding Boolean or Null (measured in Excel 16.0.20527, see
+' docs/evidence/.../oxforms-jbjp.128): Null and Empty give Null; Boolean passes through; Integer and
+' Long give False for 0, True for 1, otherwise Null; Byte, Single, Double, Currency, Decimal and Date
+' give False for zero and True otherwise; strings are True/False by name or by numeric text rounded
+' to 0 or 1, otherwise Null.
+Private Function CoerceValue(ByVal V As Variant) As Variant
+    Dim Text As String
+    Dim Number As Double
+    Select Case VarType(V)
+        Case vbBoolean
+            CoerceValue = V
+        Case vbInteger, vbLong
+            If V = 0 Then
+                CoerceValue = False
+            ElseIf V = 1 Then
+                CoerceValue = True
+            Else
+                CoerceValue = Null
+            End If
+        Case vbByte, vbSingle, vbDouble, vbCurrency, vbDecimal, vbDate
+            CoerceValue = (V <> 0)
+        Case vbString
+            Text = LCase$(Trim$(V))
+            If Text = "true" Then
+                CoerceValue = True
+            ElseIf Text = "false" Then
+                CoerceValue = False
+            ElseIf IsNumeric(Text) Then
+                Number = CDbl(Text)
+                If Abs(Number) > 1000000# Then
+                    CoerceValue = Null
+                ElseIf CLng(Number) = 0 Then
+                    CoerceValue = False
+                ElseIf CLng(Number) = 1 Then
+                    CoerceValue = True
+                Else
+                    CoerceValue = Null
+                End If
+            Else
+                CoerceValue = Null
+            End If
+        Case Else
+            CoerceValue = Null
+    End Select
+End Function
+
+Private Function IsOn() As Boolean
+    If IsNull(mValue) Then
+        IsOn = False
+    Else
+        IsOn = CBool(mValue)
+    End If
+End Function
 
 Public Property Get GroupName() As String
     GroupName = mGroupName
@@ -74,7 +138,7 @@ End Property
 Public Property Let GroupName(ByVal NewValue As String)
     If mGroupName <> NewValue Then
         mGroupName = NewValue
-        If mValue Then ClearGroupPeers False
+        If IsOn() Then ClearGroupPeers False
         mCore.MarkDirty
     End If
 End Property
@@ -240,11 +304,15 @@ Private Property Get IOxControl_AccessibilityName() As String
 End Property
 
 Private Property Get IOxControl_AccessibilityValue() As String
-    IOxControl_AccessibilityValue = CStr(mValue)
+    If IsNull(mValue) Then
+        IOxControl_AccessibilityValue = ""
+    Else
+        IOxControl_AccessibilityValue = CStr(mValue)
+    End If
 End Property
 
 Private Property Get IOxControl_AccessibilitySelected() As Boolean
-    IOxControl_AccessibilitySelected = mValue
+    IOxControl_AccessibilitySelected = IsOn()
 End Property
 
 Private Property Get IOxControl_AccessibilitySelectionStart() As Long
@@ -280,7 +348,7 @@ Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boo
 End Sub
 
 Private Sub SelectForUser()
-    If Not mValue Then
+    If Not IsOn() Then
         SetValue True, True, True
     Else
         RaiseEvent Click
@@ -288,8 +356,14 @@ Private Sub SelectForUser()
 End Sub
 
 Private Sub SetValue(ByVal NewValue As Boolean, ByVal UserEdit As Boolean, ByVal RaiseChange As Boolean)
-    If NewValue And Not mValue Then ClearGroupPeers RaiseChange
-    If mValue <> NewValue Then
+    Dim Changed As Boolean
+    If NewValue And Not IsOn() Then ClearGroupPeers RaiseChange
+    If IsNull(mValue) Then
+        Changed = True
+    Else
+        Changed = (mValue <> NewValue)
+    End If
+    If Changed Then
         mValue = NewValue
         If UserEdit Then mEditDirty = True
         mCore.MarkDirty

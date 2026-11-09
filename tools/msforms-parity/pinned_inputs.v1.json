@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "8281baf24564fba702c0f2c7c7c4c2856607d408e8456571c18f0d0cf01d209e"
+      "sha256": "4de6d9830a0464ecabb0343ff5773c179f55e0a6d2d1dd1a756fc17618b047a4"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "b02bd4488ec0dfaf5cdda23c25f424fb5a09aad517773340f90f7bbe9caac7dc"
+      "sha256": "e4a6bcc5cd5a9ed379a1464dec4497f21e14f35f354c47effd681571da23c737"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -231,7 +231,7 @@
     {
       "path": "vba/calcforms/OptionButtonControl.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "90fce6a6bc3dbaa57ba0d1e8b7fe47b56c578bf0e82427cf803a4133854bb369"
+      "sha256": "9890a44817e861c0c68d6df65afc476ee85eb53097321ee682936d454484a082"
     },
     {
       "path": "vba/calcforms/OxAccessibilityService.cls",

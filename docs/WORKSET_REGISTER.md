@@ -163,7 +163,7 @@ Run 12 (2026-11-09) measured native Variant `Value` coercion for ToggleButton an
 (`.128`, [evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128/README.md)):
 Null/Empty give Null, Integer and Long map only 0 and 1 (every other number, including -1,
 gives Null), other numeric subtypes map zero to False, strings map by name or rounded
-numeric text. Both runtime classes now hold a Variant Value and replay 382 of 382 native rows.
+numeric text. ToggleButton, CheckBox and OptionButton now hold a Variant Value and replay 448 of 448 native rows.
 `.131` found that an Image has no TabIndex and takes no slot natively (Frame 0, Spinner 1,
 Slider 2, TabStrip 3, MultiPage 4); `Controls.Add` now matches (new `container_tab_index` test) and the
 layout corpus offers `native_tab_slots=True` for new runs. The retained TabStrip 3/4 and MultiPage 4/5

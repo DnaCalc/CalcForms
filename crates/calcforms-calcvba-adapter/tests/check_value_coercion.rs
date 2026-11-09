@@ -1,7 +1,6 @@
-//! Native Excel 16.0.20527 Variant Value coercion for ToggleButton and CheckBox (oxforms-jbjp.128).
+//! Native Excel 16.0.20527 Variant Value coercion for ToggleButton, CheckBox and OptionButton (oxforms-jbjp.128).
 //! Replays every retained native row (assignment kind, starting state, Value read back, Change/Click
-//! order) against the runtime classes. OptionButton rows differ only by native Click suppression on
-//! deselection and are covered by the existing option-group evidence.
+//! order) against the runtime classes. The single OptionButton has no group peers here.
 use calcforms_calcvba_adapter::{
     host_services::HostServices, office::WorkbookForm, runtime::OxRuntime,
 };
@@ -15,6 +14,7 @@ use std::{path::Path, sync::Arc};
 const DRIVER_HEAD: &str = r#"Option Explicit
 Private WithEvents T As MSForms.ToggleButton
 Private WithEvents C As MSForms.CheckBox
+Private WithEvents O As OptionButtonControl
 Private Log As String
 Private Function V(x As Variant) As String
     If IsNull(x) Then
@@ -28,11 +28,14 @@ End Function
 Public Sub Attach()
     Set T = PlannerForm.Controls.Add("Forms.ToggleButton.1", "ProbeT")
     Set C = PlannerForm.Controls.Add("Forms.CheckBox.1", "ProbeC")
+    Set O = PlannerForm.Controls.Add("Forms.OptionButton.1", "ProbeO")
 End Sub
 Private Sub T_Change(): Log = Log & "T.Change(" & V(T.Value) & ");": End Sub
 Private Sub T_Click(): Log = Log & "T.Click(" & V(T.Value) & ");": End Sub
 Private Sub C_Change(): Log = Log & "C.Change(" & V(C.Value) & ");": End Sub
 Private Sub C_Click(): Log = Log & "C.Click(" & V(C.Value) & ");": End Sub
+Private Sub O_Change(): Log = Log & "O.Change(" & V(O.Value) & ");": End Sub
+Private Sub O_Click(): Log = Log & "O.Click(" & V(O.Value) & ");": End Sub
 Public Function Reset(ByVal Kind As String, ByVal Init As Long) As String
     If Kind = "T" Then
         Select Case Init
@@ -42,7 +45,7 @@ Public Function Reset(ByVal Kind As String, ByVal Init As Long) As String
         End Select
         Log = ""
         Reset = "init=" & V(T.Value)
-    Else
+    ElseIf Kind = "C" Then
         Select Case Init
             Case 0: C.Value = False
             Case 1: C.Value = True
@@ -50,6 +53,14 @@ Public Function Reset(ByVal Kind As String, ByVal Init As Long) As String
         End Select
         Log = ""
         Reset = "init=" & V(C.Value)
+    Else
+        Select Case Init
+            Case 0: O.Value = False
+            Case 1: O.Value = True
+            Case 2: O.Value = Null
+        End Select
+        Log = ""
+        Reset = "init=" & V(O.Value)
     End If
 End Function
 Public Function SetCode(ByVal Kind As String, ByVal Code As Long) As String
@@ -57,15 +68,23 @@ Public Function SetCode(ByVal Kind As String, ByVal Code As Long) As String
     Log = ""
     X = MakeVal(Code)
     On Error Resume Next
-    If Kind = "T" Then T.Value = X Else C.Value = X
+    If Kind = "T" Then
+        T.Value = X
+    ElseIf Kind = "C" Then
+        C.Value = X
+    Else
+        O.Value = X
+    End If
     E = Err.Number
     D = Err.Description
     Err.Clear
     On Error GoTo 0
     If Kind = "T" Then
         SetCode = "err=" & CStr(E) & "|" & D & "|after=" & V(T.Value) & "|log=" & Log
-    Else
+    ElseIf Kind = "C" Then
         SetCode = "err=" & CStr(E) & "|" & D & "|after=" & V(C.Value) & "|log=" & Log
+    Else
+        SetCode = "err=" & CStr(E) & "|" & D & "|after=" & V(O.Value) & "|log=" & Log
     End If
 End Function
 Public Function SetLiteral(ByVal Kind As String, ByVal Which As Long) As String
@@ -79,12 +98,19 @@ Public Function SetLiteral(ByVal Kind As String, ByVal Which As Long) As String
             Case 2: T.Value = 0
             Case 3: T.Value = Null
         End Select
-    Else
+    ElseIf Kind = "C" Then
         Select Case Which
             Case 0: C.Value = -1
             Case 1: C.Value = 1
             Case 2: C.Value = 0
             Case 3: C.Value = Null
+        End Select
+    Else
+        Select Case Which
+            Case 0: O.Value = -1
+            Case 1: O.Value = 1
+            Case 2: O.Value = 0
+            Case 3: O.Value = Null
         End Select
     End If
     E = Err.Number
@@ -93,8 +119,10 @@ Public Function SetLiteral(ByVal Kind As String, ByVal Which As Long) As String
     On Error GoTo 0
     If Kind = "T" Then
         SetLiteral = "err=" & CStr(E) & "|" & D & "|after=" & V(T.Value) & "|log=" & Log
-    Else
+    ElseIf Kind = "C" Then
         SetLiteral = "err=" & CStr(E) & "|" & D & "|after=" & V(C.Value) & "|log=" & Log
+    Else
+        SetLiteral = "err=" & CStr(E) & "|" & D & "|after=" & V(O.Value) & "|log=" & Log
     End If
 End Function
 "#;
@@ -119,7 +147,7 @@ fn call(runtime: &mut OxRuntime, driver: &ObjectRef, name: &str, args: Vec<Varia
 }
 
 #[test]
-fn native_variant_value_coercion_rows_match_for_toggle_button_and_check_box() {
+fn native_variant_value_coercion_rows_match_for_toggle_check_and_option_button() {
     let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
     let evidence =
         root.join("docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128");
@@ -159,7 +187,7 @@ fn native_variant_value_coercion_rows_match_for_toggle_button_and_check_box() {
         let Some(kind) = row["control"].as_str() else {
             continue;
         };
-        if row.get("step").is_some() || !matches!(kind, "T" | "C") {
+        if row.get("step").is_some() || !matches!(kind, "T" | "C" | "O") {
             continue;
         }
         let init = row["init"].as_i64().unwrap() as i32;
@@ -205,5 +233,5 @@ fn native_variant_value_coercion_rows_match_for_toggle_button_and_check_box() {
     );
     // ToggleButton and CheckBox rows, both TripleState settings (not yet modelled; assignment
     // results are identical) and the Null starting state.
-    assert_eq!(compared, 382);
+    assert_eq!(compared, 448);
 }

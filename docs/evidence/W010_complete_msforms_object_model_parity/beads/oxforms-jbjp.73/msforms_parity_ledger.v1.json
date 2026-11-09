@@ -102,7 +102,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "3bd9cdd710fd7c556cd2cf664cabc677258a26603de7344a47d1da3c15ace906",
+  "source_surface_sha256": "388ab2ffa188ba199dd4b6a741de730a0e24dc5b53c18ed5a5ead0046f1f5bbb",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -38168,7 +38168,7 @@
           "file_stem": "OptionButtonControl",
           "kind": "class_module",
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "normalized_text_sha256": "90fce6a6bc3dbaa57ba0d1e8b7fe47b56c578bf0e82427cf803a4133854bb369",
+          "normalized_text_sha256": "9890a44817e861c0c68d6df65afc476ee85eb53097321ee682936d454484a082",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -38586,12 +38586,12 @@
               "default_member": false,
               "static": false,
               "parameters": [],
-              "return_type": "Boolean",
+              "return_type": "Variant",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
                 "start_line": 64,
                 "end_line": 64,
-                "text": "Public Property Get Value() As Boolean"
+                "text": "Public Property Get Value() As Variant"
               },
               "member_attributes": {}
             },
@@ -38611,9 +38611,9 @@
                   "optional": false,
                   "param_array": false,
                   "array": false,
-                  "type": "Boolean",
+                  "type": "Variant",
                   "default": null,
-                  "raw": "ByVal NewValue As Boolean"
+                  "raw": "ByVal NewValue As Variant"
                 }
               ],
               "return_type": null,
@@ -38621,7 +38621,7 @@
                 "path": "vba/calcforms/OptionButtonControl.cls",
                 "start_line": 67,
                 "end_line": 67,
-                "text": "Public Property Let Value(ByVal NewValue As Boolean)"
+                "text": "Public Property Let Value(ByVal NewValue As Variant)"
               },
               "member_attributes": {}
             },
@@ -38637,8 +38637,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 71,
-                "end_line": 71,
+                "start_line": 135,
+                "end_line": 135,
                 "text": "Public Property Get GroupName() As String"
               },
               "member_attributes": {}
@@ -38667,8 +38667,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 74,
-                "end_line": 74,
+                "start_line": 138,
+                "end_line": 138,
                 "text": "Public Property Let GroupName(ByVal NewValue As String)"
               },
               "member_attributes": {}
@@ -38685,8 +38685,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 82,
-                "end_line": 82,
+                "start_line": 146,
+                "end_line": 146,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {}
@@ -38715,8 +38715,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 85,
-                "end_line": 85,
+                "start_line": 149,
+                "end_line": 149,
                 "text": "Public Property Let Caption(ByVal NewCaption As String)"
               },
               "member_attributes": {}
@@ -38733,8 +38733,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 89,
-                "end_line": 89,
+                "start_line": 153,
+                "end_line": 153,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -38751,8 +38751,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 93,
-                "end_line": 93,
+                "start_line": 157,
+                "end_line": 157,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -38781,8 +38781,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 96,
-                "end_line": 96,
+                "start_line": 160,
+                "end_line": 160,
                 "text": "Public Property Let Left(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -38799,8 +38799,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 100,
-                "end_line": 100,
+                "start_line": 164,
+                "end_line": 164,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -38829,8 +38829,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 103,
-                "end_line": 103,
+                "start_line": 167,
+                "end_line": 167,
                 "text": "Public Property Let Top(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -38847,8 +38847,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 107,
-                "end_line": 107,
+                "start_line": 171,
+                "end_line": 171,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -38877,8 +38877,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 110,
-                "end_line": 110,
+                "start_line": 174,
+                "end_line": 174,
                 "text": "Public Property Let Width(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -38895,8 +38895,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 114,
-                "end_line": 114,
+                "start_line": 178,
+                "end_line": 178,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -38925,8 +38925,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 117,
-                "end_line": 117,
+                "start_line": 181,
+                "end_line": 181,
                 "text": "Public Property Let Height(ByVal NewValue As Single)"
               },
               "member_attributes": {}
@@ -38943,8 +38943,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 121,
-                "end_line": 121,
+                "start_line": 185,
+                "end_line": 185,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -38973,8 +38973,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 124,
-                "end_line": 124,
+                "start_line": 188,
+                "end_line": 188,
                 "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
               },
               "member_attributes": {}
@@ -38991,8 +38991,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 192,
+                "end_line": 192,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -39021,8 +39021,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 131,
-                "end_line": 131,
+                "start_line": 195,
+                "end_line": 195,
                 "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
               },
               "member_attributes": {}
@@ -39039,8 +39039,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 274,
-                "end_line": 274,
+                "start_line": 342,
+                "end_line": 342,
                 "text": "Public Sub PerformSelect()"
               },
               "member_attributes": {}
@@ -39080,8 +39080,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 278,
-                "end_line": 278,
+                "start_line": 346,
+                "end_line": 346,
                 "text": "Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boolean)"
               },
               "member_attributes": {}
@@ -39143,8 +39143,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 324,
-                "end_line": 324,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -39206,8 +39206,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 328,
-                "end_line": 328,
+                "start_line": 402,
+                "end_line": 402,
                 "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "member_attributes": {}
@@ -39247,8 +39247,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 332,
-                "end_line": 332,
+                "start_line": 406,
+                "end_line": 406,
                 "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -39288,8 +39288,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 340,
-                "end_line": 340,
+                "start_line": 414,
+                "end_line": 414,
                 "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "member_attributes": {}
@@ -39318,8 +39318,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 348,
-                "end_line": 348,
+                "start_line": 422,
+                "end_line": 422,
                 "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
               },
               "member_attributes": {}
@@ -39336,8 +39336,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 356,
-                "end_line": 356,
+                "start_line": 430,
+                "end_line": 430,
                 "text": "Public Function PerformExit() As Boolean"
               },
               "member_attributes": {}
@@ -39354,8 +39354,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 363,
-                "end_line": 363,
+                "start_line": 437,
+                "end_line": 437,
                 "text": "Public Sub PerformEnter()"
               },
               "member_attributes": {}
@@ -39372,8 +39372,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 367,
-                "end_line": 367,
+                "start_line": 441,
+                "end_line": 441,
                 "text": "Public Function PerformBeforeUpdate() As Boolean"
               },
               "member_attributes": {}
@@ -39390,8 +39390,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 374,
-                "end_line": 374,
+                "start_line": 448,
+                "end_line": 448,
                 "text": "Public Sub PerformAfterUpdate()"
               },
               "member_attributes": {}
@@ -39547,8 +39547,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 135,
-                "end_line": 135,
+                "start_line": 199,
+                "end_line": 199,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -39612,8 +39612,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 139,
-                "end_line": 139,
+                "start_line": 203,
+                "end_line": 203,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -39677,8 +39677,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 143,
-                "end_line": 143,
+                "start_line": 207,
+                "end_line": 207,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -39697,8 +39697,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 146,
-                "end_line": 146,
+                "start_line": 210,
+                "end_line": 210,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -39717,8 +39717,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 150,
-                "end_line": 150,
+                "start_line": 214,
+                "end_line": 214,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -39737,8 +39737,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 154,
-                "end_line": 154,
+                "start_line": 218,
+                "end_line": 218,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -39780,8 +39780,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 158,
-                "end_line": 158,
+                "start_line": 222,
+                "end_line": 222,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -39823,8 +39823,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 162,
-                "end_line": 162,
+                "start_line": 226,
+                "end_line": 226,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -39855,8 +39855,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 166,
-                "end_line": 166,
+                "start_line": 230,
+                "end_line": 230,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -39875,8 +39875,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 170,
-                "end_line": 170,
+                "start_line": 234,
+                "end_line": 234,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -39895,8 +39895,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 178,
-                "end_line": 178,
+                "start_line": 242,
+                "end_line": 242,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -39915,8 +39915,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 188,
-                "end_line": 188,
+                "start_line": 252,
+                "end_line": 252,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -39935,8 +39935,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 192,
-                "end_line": 192,
+                "start_line": 256,
+                "end_line": 256,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -39955,8 +39955,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 197,
-                "end_line": 197,
+                "start_line": 261,
+                "end_line": 261,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -39975,8 +39975,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 265,
+                "end_line": 265,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -39995,8 +39995,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 205,
-                "end_line": 205,
+                "start_line": 269,
+                "end_line": 269,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -40015,8 +40015,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 209,
-                "end_line": 209,
+                "start_line": 273,
+                "end_line": 273,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -40069,8 +40069,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 213,
-                "end_line": 213,
+                "start_line": 277,
+                "end_line": 277,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -40123,8 +40123,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 222,
-                "end_line": 222,
+                "start_line": 286,
+                "end_line": 286,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -40143,8 +40143,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 226,
-                "end_line": 226,
+                "start_line": 290,
+                "end_line": 290,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -40163,8 +40163,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 230,
-                "end_line": 230,
+                "start_line": 294,
+                "end_line": 294,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -40183,8 +40183,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 234,
-                "end_line": 234,
+                "start_line": 298,
+                "end_line": 298,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -40203,8 +40203,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 238,
-                "end_line": 238,
+                "start_line": 302,
+                "end_line": 302,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -40223,8 +40223,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 242,
-                "end_line": 242,
+                "start_line": 306,
+                "end_line": 306,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -40243,8 +40243,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 246,
-                "end_line": 246,
+                "start_line": 314,
+                "end_line": 314,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -40263,8 +40263,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 250,
-                "end_line": 250,
+                "start_line": 318,
+                "end_line": 318,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -40283,8 +40283,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 254,
-                "end_line": 254,
+                "start_line": 322,
+                "end_line": 322,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -40303,8 +40303,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 258,
-                "end_line": 258,
+                "start_line": 326,
+                "end_line": 326,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -40323,8 +40323,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 262,
-                "end_line": 262,
+                "start_line": 330,
+                "end_line": 330,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -40343,8 +40343,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 266,
-                "end_line": 266,
+                "start_line": 334,
+                "end_line": 334,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -40363,8 +40363,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 270,
-                "end_line": 270,
+                "start_line": 338,
+                "end_line": 338,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -651081,8 +651081,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 85,
-                "end_line": 85,
+                "start_line": 149,
+                "end_line": 149,
                 "text": "Public Property Let Caption(ByVal NewCaption As String)"
               },
               "member_attributes": {},
@@ -651117,8 +651117,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 82,
-                "end_line": 82,
+                "start_line": 146,
+                "end_line": 146,
                 "text": "Public Property Get Caption() As String"
               },
               "member_attributes": {},
@@ -651402,8 +651402,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 131,
-                "end_line": 131,
+                "start_line": 195,
+                "end_line": 195,
                 "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
               },
               "member_attributes": {},
@@ -651438,8 +651438,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 192,
+                "end_line": 192,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -656635,7 +656635,7 @@
         ],
         "accessors": {
           "put": {
-            "status": "mismatch",
+            "status": "unresolved_source_lowering",
             "expected_kind": "property_let",
             "source_declaration": {
               "kind": "property_let",
@@ -656653,9 +656653,9 @@
                   "optional": false,
                   "param_array": false,
                   "array": false,
-                  "type": "Boolean",
+                  "type": "Variant",
                   "default": null,
-                  "raw": "ByVal NewValue As Boolean"
+                  "raw": "ByVal NewValue As Variant"
                 }
               ],
               "return_type": null,
@@ -656663,7 +656663,7 @@
                 "path": "vba/calcforms/OptionButtonControl.cls",
                 "start_line": 67,
                 "end_line": 67,
-                "text": "Public Property Let Value(ByVal NewValue As Boolean)"
+                "text": "Public Property Let Value(ByVal NewValue As Variant)"
               },
               "member_attributes": {},
               "source_declaration_id": "source:026:0013",
@@ -656674,10 +656674,8 @@
               ]
             },
             "signature_comparison": {
-              "status": "mismatch",
-              "mismatches": [
-                "parameter 0 type Boolean != Variant"
-              ],
+              "status": "unresolved_source_lowering",
+              "mismatches": [],
               "unresolved": [
                 "parameter 0 name is not reported by canonical metadata"
               ],
@@ -656685,7 +656683,7 @@
             }
           },
           "get": {
-            "status": "mismatch",
+            "status": "compatible_source_shape",
             "expected_kind": "property_get",
             "source_declaration": {
               "kind": "property_get",
@@ -656696,12 +656694,12 @@
               "default_member": false,
               "static": false,
               "parameters": [],
-              "return_type": "Boolean",
+              "return_type": "Variant",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
                 "start_line": 64,
                 "end_line": 64,
-                "text": "Public Property Get Value() As Boolean"
+                "text": "Public Property Get Value() As Variant"
               },
               "member_attributes": {},
               "source_declaration_id": "source:026:0012",
@@ -656712,10 +656710,8 @@
               ]
             },
             "signature_comparison": {
-              "status": "mismatch",
-              "mismatches": [
-                "return Boolean != Variant"
-              ],
+              "status": "compatible_source_shape",
+              "mismatches": [],
               "unresolved": [],
               "non_claim": "Only unambiguous COM parameter flags and array metadata are lowered; weak cases remain unresolved."
             }
@@ -656742,14 +656738,14 @@
         },
         "get": {
           "status": "partial",
-          "basis": "A same-name public declaration exists but its extracted signature is incompatible.",
+          "basis": "The declaration shape is compatible only through an explicit wrong-name module alias.",
           "evidence": [
             "source:026:0012"
           ]
         },
         "put": {
           "status": "partial",
-          "basis": "A same-name public declaration exists but its extracted signature is incompatible.",
+          "basis": "A same-name public declaration exists, but canonical metadata cannot lower its complete VBA signature unambiguously.",
           "evidence": [
             "source:026:0013"
           ]
@@ -657422,8 +657418,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 74,
-                "end_line": 74,
+                "start_line": 138,
+                "end_line": 138,
                 "text": "Public Property Let GroupName(ByVal NewValue As String)"
               },
               "member_attributes": {},
@@ -657458,8 +657454,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/OptionButtonControl.cls",
-                "start_line": 71,
-                "end_line": 71,
+                "start_line": 135,
+                "end_line": 135,
                 "text": "Public Property Get GroupName() As String"
               },
               "member_attributes": {},
@@ -1446468,7 +1446464,7 @@
         "file_stem": "OptionButtonControl",
         "kind": "class_module",
         "path": "vba/calcforms/OptionButtonControl.cls",
-        "normalized_text_sha256": "90fce6a6bc3dbaa57ba0d1e8b7fe47b56c578bf0e82427cf803a4133854bb369",
+        "normalized_text_sha256": "9890a44817e861c0c68d6df65afc476ee85eb53097321ee682936d454484a082",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1446886,12 +1446882,12 @@
             "default_member": false,
             "static": false,
             "parameters": [],
-            "return_type": "Boolean",
+            "return_type": "Variant",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
               "start_line": 64,
               "end_line": 64,
-              "text": "Public Property Get Value() As Boolean"
+              "text": "Public Property Get Value() As Variant"
             },
             "member_attributes": {}
           },
@@ -1446911,9 +1446907,9 @@
                 "optional": false,
                 "param_array": false,
                 "array": false,
-                "type": "Boolean",
+                "type": "Variant",
                 "default": null,
-                "raw": "ByVal NewValue As Boolean"
+                "raw": "ByVal NewValue As Variant"
               }
             ],
             "return_type": null,
@@ -1446921,7 +1446917,7 @@
               "path": "vba/calcforms/OptionButtonControl.cls",
               "start_line": 67,
               "end_line": 67,
-              "text": "Public Property Let Value(ByVal NewValue As Boolean)"
+              "text": "Public Property Let Value(ByVal NewValue As Variant)"
             },
             "member_attributes": {}
           },
@@ -1446937,8 +1446933,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 71,
-              "end_line": 71,
+              "start_line": 135,
+              "end_line": 135,
               "text": "Public Property Get GroupName() As String"
             },
             "member_attributes": {}
@@ -1446967,8 +1446963,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 74,
-              "end_line": 74,
+              "start_line": 138,
+              "end_line": 138,
               "text": "Public Property Let GroupName(ByVal NewValue As String)"
             },
             "member_attributes": {}
@@ -1446985,8 +1446981,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 82,
-              "end_line": 82,
+              "start_line": 146,
+              "end_line": 146,
               "text": "Public Property Get Caption() As String"
             },
             "member_attributes": {}
@@ -1447015,8 +1447011,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 85,
-              "end_line": 85,
+              "start_line": 149,
+              "end_line": 149,
               "text": "Public Property Let Caption(ByVal NewCaption As String)"
             },
             "member_attributes": {}
@@ -1447033,8 +1447029,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 89,
-              "end_line": 89,
+              "start_line": 153,
+              "end_line": 153,
               "text": "Public Property Get Name() As String"
             },
             "member_attributes": {}
@@ -1447051,8 +1447047,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 93,
-              "end_line": 93,
+              "start_line": 157,
+              "end_line": 157,
               "text": "Public Property Get Left() As Single"
             },
             "member_attributes": {}
@@ -1447081,8 +1447077,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 96,
-              "end_line": 96,
+              "start_line": 160,
+              "end_line": 160,
               "text": "Public Property Let Left(ByVal NewValue As Single)"
             },
             "member_attributes": {}
@@ -1447099,8 +1447095,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 100,
-              "end_line": 100,
+              "start_line": 164,
+              "end_line": 164,
               "text": "Public Property Get Top() As Single"
             },
             "member_attributes": {}
@@ -1447129,8 +1447125,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 103,
-              "end_line": 103,
+              "start_line": 167,
+              "end_line": 167,
               "text": "Public Property Let Top(ByVal NewValue As Single)"
             },
             "member_attributes": {}
@@ -1447147,8 +1447143,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 107,
-              "end_line": 107,
+              "start_line": 171,
+              "end_line": 171,
               "text": "Public Property Get Width() As Single"
             },
             "member_attributes": {}
@@ -1447177,8 +1447173,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 110,
-              "end_line": 110,
+              "start_line": 174,
+              "end_line": 174,
               "text": "Public Property Let Width(ByVal NewValue As Single)"
             },
             "member_attributes": {}
@@ -1447195,8 +1447191,8 @@
             "return_type": "Single",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 114,
-              "end_line": 114,
+              "start_line": 178,
+              "end_line": 178,
               "text": "Public Property Get Height() As Single"
             },
             "member_attributes": {}
@@ -1447225,8 +1447221,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 117,
-              "end_line": 117,
+              "start_line": 181,
+              "end_line": 181,
               "text": "Public Property Let Height(ByVal NewValue As Single)"
             },
             "member_attributes": {}
@@ -1447243,8 +1447239,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 121,
-              "end_line": 121,
+              "start_line": 185,
+              "end_line": 185,
               "text": "Public Property Get Visible() As Boolean"
             },
             "member_attributes": {}
@@ -1447273,8 +1447269,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 124,
-              "end_line": 124,
+              "start_line": 188,
+              "end_line": 188,
               "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
             },
             "member_attributes": {}
@@ -1447291,8 +1447287,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 128,
-              "end_line": 128,
+              "start_line": 192,
+              "end_line": 192,
               "text": "Public Property Get Enabled() As Boolean"
             },
             "member_attributes": {}
@@ -1447321,8 +1447317,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 131,
-              "end_line": 131,
+              "start_line": 195,
+              "end_line": 195,
               "text": "Public Property Let Enabled(ByVal NewValue As Boolean)"
             },
             "member_attributes": {}
@@ -1447339,8 +1447335,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 274,
-              "end_line": 274,
+              "start_line": 342,
+              "end_line": 342,
               "text": "Public Sub PerformSelect()"
             },
             "member_attributes": {}
@@ -1447380,8 +1447376,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 278,
-              "end_line": 278,
+              "start_line": 346,
+              "end_line": 346,
               "text": "Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boolean)"
             },
             "member_attributes": {}
@@ -1447443,8 +1447439,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 324,
-              "end_line": 324,
+              "start_line": 398,
+              "end_line": 398,
               "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
             },
             "member_attributes": {}
@@ -1447506,8 +1447502,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 328,
-              "end_line": 328,
+              "start_line": 402,
+              "end_line": 402,
               "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
             },
             "member_attributes": {}
@@ -1447547,8 +1447543,8 @@
             "return_type": "Integer",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 332,
-              "end_line": 332,
+              "start_line": 406,
+              "end_line": 406,
               "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
             },
             "member_attributes": {}
@@ -1447588,8 +1447584,8 @@
             "return_type": "Integer",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 340,
-              "end_line": 340,
+              "start_line": 414,
+              "end_line": 414,
               "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
             },
             "member_attributes": {}
@@ -1447618,8 +1447614,8 @@
             "return_type": "Integer",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 348,
-              "end_line": 348,
+              "start_line": 422,
+              "end_line": 422,
               "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
             },
             "member_attributes": {}
@@ -1447636,8 +1447632,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 356,
-              "end_line": 356,
+              "start_line": 430,
+              "end_line": 430,
               "text": "Public Function PerformExit() As Boolean"
             },
             "member_attributes": {}
@@ -1447654,8 +1447650,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 363,
-              "end_line": 363,
+              "start_line": 437,
+              "end_line": 437,
               "text": "Public Sub PerformEnter()"
             },
             "member_attributes": {}
@@ -1447672,8 +1447668,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 367,
-              "end_line": 367,
+              "start_line": 441,
+              "end_line": 441,
               "text": "Public Function PerformBeforeUpdate() As Boolean"
             },
             "member_attributes": {}
@@ -1447690,8 +1447686,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 374,
-              "end_line": 374,
+              "start_line": 448,
+              "end_line": 448,
               "text": "Public Sub PerformAfterUpdate()"
             },
             "member_attributes": {}
@@ -1447847,8 +1447843,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 135,
-              "end_line": 135,
+              "start_line": 199,
+              "end_line": 199,
               "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
             },
             "interface": "IOxControl",
@@ -1447912,8 +1447908,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 139,
-              "end_line": 139,
+              "start_line": 203,
+              "end_line": 203,
               "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
             },
             "interface": "IOxControl",
@@ -1447977,8 +1447973,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 143,
-              "end_line": 143,
+              "start_line": 207,
+              "end_line": 207,
               "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
             },
             "interface": "IOxControl",
@@ -1447997,8 +1447993,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 146,
-              "end_line": 146,
+              "start_line": 210,
+              "end_line": 210,
               "text": "Private Sub IOxControl_OnClick()"
             },
             "interface": "IOxControl",
@@ -1448017,8 +1448013,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 150,
-              "end_line": 150,
+              "start_line": 214,
+              "end_line": 214,
               "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448037,8 +1448033,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 154,
-              "end_line": 154,
+              "start_line": 218,
+              "end_line": 218,
               "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448080,8 +1448076,8 @@
             "return_type": "Integer",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 158,
-              "end_line": 158,
+              "start_line": 222,
+              "end_line": 222,
               "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
             },
             "interface": "IOxControl",
@@ -1448123,8 +1448119,8 @@
             "return_type": "Integer",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 162,
-              "end_line": 162,
+              "start_line": 226,
+              "end_line": 226,
               "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
             },
             "interface": "IOxControl",
@@ -1448155,8 +1448151,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 166,
-              "end_line": 166,
+              "start_line": 230,
+              "end_line": 230,
               "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
             },
             "interface": "IOxControl",
@@ -1448175,8 +1448171,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 170,
-              "end_line": 170,
+              "start_line": 234,
+              "end_line": 234,
               "text": "Private Sub IOxControl_OnEnter()"
             },
             "interface": "IOxControl",
@@ -1448195,8 +1448191,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 178,
-              "end_line": 178,
+              "start_line": 242,
+              "end_line": 242,
               "text": "Private Function IOxControl_OnExit() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448215,8 +1448211,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 188,
-              "end_line": 188,
+              "start_line": 252,
+              "end_line": 252,
               "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448235,8 +1448231,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 192,
-              "end_line": 192,
+              "start_line": 256,
+              "end_line": 256,
               "text": "Private Sub IOxControl_OnAfterUpdate()"
             },
             "interface": "IOxControl",
@@ -1448255,8 +1448251,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 197,
-              "end_line": 197,
+              "start_line": 261,
+              "end_line": 261,
               "text": "Private Property Get IOxControl_IsDirty() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448275,8 +1448271,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 201,
-              "end_line": 201,
+              "start_line": 265,
+              "end_line": 265,
               "text": "Private Property Get IOxControl_IsDefault() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448295,8 +1448291,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 205,
-              "end_line": 205,
+              "start_line": 269,
+              "end_line": 269,
               "text": "Private Property Get IOxControl_IsCancel() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448315,8 +1448311,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 209,
-              "end_line": 209,
+              "start_line": 273,
+              "end_line": 273,
               "text": "Private Property Get IOxControl_AcceleratorKey() As String"
             },
             "interface": "IOxControl",
@@ -1448369,8 +1448365,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 213,
-              "end_line": 213,
+              "start_line": 277,
+              "end_line": 277,
               "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
             },
             "interface": "IOxControl",
@@ -1448423,8 +1448419,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 222,
-              "end_line": 222,
+              "start_line": 286,
+              "end_line": 286,
               "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
             },
             "interface": "IOxControl",
@@ -1448443,8 +1448439,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 226,
-              "end_line": 226,
+              "start_line": 290,
+              "end_line": 290,
               "text": "Private Function IOxControl_OnCopy() As String"
             },
             "interface": "IOxControl",
@@ -1448463,8 +1448459,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 230,
-              "end_line": 230,
+              "start_line": 294,
+              "end_line": 294,
               "text": "Private Function IOxControl_OnCut() As String"
             },
             "interface": "IOxControl",
@@ -1448483,8 +1448479,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 234,
-              "end_line": 234,
+              "start_line": 298,
+              "end_line": 298,
               "text": "Private Property Get IOxControl_AccessibilityRole() As String"
             },
             "interface": "IOxControl",
@@ -1448503,8 +1448499,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 238,
-              "end_line": 238,
+              "start_line": 302,
+              "end_line": 302,
               "text": "Private Property Get IOxControl_AccessibilityName() As String"
             },
             "interface": "IOxControl",
@@ -1448523,8 +1448519,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 242,
-              "end_line": 242,
+              "start_line": 306,
+              "end_line": 306,
               "text": "Private Property Get IOxControl_AccessibilityValue() As String"
             },
             "interface": "IOxControl",
@@ -1448543,8 +1448539,8 @@
             "return_type": "Boolean",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 246,
-              "end_line": 246,
+              "start_line": 314,
+              "end_line": 314,
               "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
             },
             "interface": "IOxControl",
@@ -1448563,8 +1448559,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 250,
-              "end_line": 250,
+              "start_line": 318,
+              "end_line": 318,
               "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
             },
             "interface": "IOxControl",
@@ -1448583,8 +1448579,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 254,
-              "end_line": 254,
+              "start_line": 322,
+              "end_line": 322,
               "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
             },
             "interface": "IOxControl",
@@ -1448603,8 +1448599,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 258,
-              "end_line": 258,
+              "start_line": 326,
+              "end_line": 326,
               "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
             },
             "interface": "IOxControl",
@@ -1448623,8 +1448619,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 262,
-              "end_line": 262,
+              "start_line": 330,
+              "end_line": 330,
               "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
             },
             "interface": "IOxControl",
@@ -1448643,8 +1448639,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 266,
-              "end_line": 266,
+              "start_line": 334,
+              "end_line": 334,
               "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
             },
             "interface": "IOxControl",
@@ -1448663,8 +1448659,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OptionButtonControl.cls",
-              "start_line": 270,
-              "end_line": 270,
+              "start_line": 338,
+              "end_line": 338,
               "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
             },
             "interface": "IOxControl",
@@ -1509922,8 +1509918,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 89,
-          "end_line": 89,
+          "start_line": 153,
+          "end_line": 153,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1510038,8 +1510034,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 93,
-          "end_line": 93,
+          "start_line": 157,
+          "end_line": 157,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1510166,8 +1510162,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 96,
-          "end_line": 96,
+          "start_line": 160,
+          "end_line": 160,
           "text": "Public Property Let Left(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1510282,8 +1510278,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 100,
-          "end_line": 100,
+          "start_line": 164,
+          "end_line": 164,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1510410,8 +1510406,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 103,
-          "end_line": 103,
+          "start_line": 167,
+          "end_line": 167,
           "text": "Public Property Let Top(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1510526,8 +1510522,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 107,
-          "end_line": 107,
+          "start_line": 171,
+          "end_line": 171,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1510654,8 +1510650,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 110,
-          "end_line": 110,
+          "start_line": 174,
+          "end_line": 174,
           "text": "Public Property Let Width(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1510770,8 +1510766,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 114,
-          "end_line": 114,
+          "start_line": 178,
+          "end_line": 178,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1510898,8 +1510894,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 117,
-          "end_line": 117,
+          "start_line": 181,
+          "end_line": 181,
           "text": "Public Property Let Height(ByVal NewValue As Single)"
         },
         "member_attributes": {},
@@ -1511014,8 +1511010,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 121,
-          "end_line": 121,
+          "start_line": 185,
+          "end_line": 185,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1511142,8 +1511138,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 124,
-          "end_line": 124,
+          "start_line": 188,
+          "end_line": 188,
           "text": "Public Property Let Visible(ByVal NewValue As Boolean)"
         },
         "member_attributes": {},
@@ -1511258,8 +1511254,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 274,
-          "end_line": 274,
+          "start_line": 342,
+          "end_line": 342,
           "text": "Public Sub PerformSelect()"
         },
         "member_attributes": {},
@@ -1511397,8 +1511393,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 278,
-          "end_line": 278,
+          "start_line": 346,
+          "end_line": 346,
           "text": "Public Sub SetValueFromGroup(ByVal NewValue As Boolean, ByVal RaiseChange As Boolean)"
         },
         "member_attributes": {},
@@ -1511558,8 +1511554,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 324,
-          "end_line": 324,
+          "start_line": 398,
+          "end_line": 398,
           "text": "Public Sub PerformMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1511719,8 +1511715,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 328,
-          "end_line": 328,
+          "start_line": 402,
+          "end_line": 402,
           "text": "Public Sub PerformMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
         },
         "member_attributes": {},
@@ -1511858,8 +1511854,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 332,
-          "end_line": 332,
+          "start_line": 406,
+          "end_line": 406,
           "text": "Public Function PerformKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1511997,8 +1511993,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 340,
-          "end_line": 340,
+          "start_line": 414,
+          "end_line": 414,
           "text": "Public Function PerformKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1512125,8 +1512121,8 @@
         "return_type": "Integer",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 348,
-          "end_line": 348,
+          "start_line": 422,
+          "end_line": 422,
           "text": "Public Function PerformKeyPress(ByVal KeyAscii As Integer) As Integer"
         },
         "member_attributes": {},
@@ -1512241,8 +1512237,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 356,
-          "end_line": 356,
+          "start_line": 430,
+          "end_line": 430,
           "text": "Public Function PerformExit() As Boolean"
         },
         "member_attributes": {},
@@ -1512357,8 +1512353,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 363,
-          "end_line": 363,
+          "start_line": 437,
+          "end_line": 437,
           "text": "Public Sub PerformEnter()"
         },
         "member_attributes": {},
@@ -1512473,8 +1512469,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 367,
-          "end_line": 367,
+          "start_line": 441,
+          "end_line": 441,
           "text": "Public Function PerformBeforeUpdate() As Boolean"
         },
         "member_attributes": {},
@@ -1512589,8 +1512585,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OptionButtonControl.cls",
-          "start_line": 374,
-          "end_line": 374,
+          "start_line": 448,
+          "end_line": 448,
           "text": "Public Sub PerformAfterUpdate()"
         },
         "member_attributes": {},
@@ -1564232,5 +1564228,5 @@
       "member_attributes": 0
     }
   },
-  "canonical_sha256": "175af3eec3fee6eeb86e02a39e1aed6283a09b72004609322f93787c6cadafa3"
+  "canonical_sha256": "486148ed05184e859aa7a75f3767c75a6425c1965672b5ab08a2ae15be46258f"
 }
