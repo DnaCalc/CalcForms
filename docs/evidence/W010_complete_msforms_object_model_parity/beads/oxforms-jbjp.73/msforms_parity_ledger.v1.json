@@ -64,7 +64,12 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "7225798d10a1e539a1a157f930f35b51b770738a4927c735577e3f81f44b71ab"
+      "sha256": "501d9ed50843270a36e59b25e79dc1d7626dcbdb4d3227b68f28218ca317a6bd"
+    },
+    {
+      "path": "crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "0467c42d4b62b3106c03401d939237a766e85158f1476ff112aa3408b2bc5ffb"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_frm_materialization.rs",
@@ -727,6 +732,21 @@
       "sha256": "4dc77b3dd187c86511c55a836a9133cce4fdf8993199dccd7f4144371c26ebfa"
     },
     {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.133/native-round13b.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "ed8085dad055199c27698b6ba5509358ef9ac6110cd28a358b6c296b29f9abd0"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.133/native-round13c.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "83d7a3375936d6b8fd2c50fc528a76d042cee294d0c740d93309d2bed7c55f8c"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.133/native-round13e.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "28654ee88708d6a8b9298a20a7e863db6d90c8ba2d74894dd66e581ce5154e5a"
+    },
+    {
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.2/fm20_typelib_facts.v1.json",
       "hash_mode": "utf8_lf",
       "sha256": "ff2abf8e3813e207e34f12c6f614070bc67cfd5e70ac7348bcd5ef275bd5582e"
@@ -887,7 +907,7 @@
       "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
     }
   ],
-  "source_surface_sha256": "4ee9389754a56804c5495e2a3dd26d6d2817aa7093b9cbcf8c4a2ff606cc001c",
+  "source_surface_sha256": "65f45af2069f84d3c6d834f7236281b3d1617c86a5ff7e3777f86fb0cb35472d",
   "rows": [
     {
       "row_id": "contract:type:{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1|0|primary",
@@ -55781,7 +55801,7 @@
           "file_stem": "MultiPage",
           "kind": "class_module",
           "path": "vba/calcforms/MultiPage.cls",
-          "normalized_text_sha256": "b2b46565d19d9d0b58fd6e91d032fd965f0aecc8bddea3271fb4f85e1051b86f",
+          "normalized_text_sha256": "72cf518a5f2fb3d317f172eaa98f6ac6562b98ee55166db16f562df059646562",
           "attributes": {},
           "manifest_metadata": {},
           "effective_attributes": {
@@ -56112,8 +56132,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 59,
-                "end_line": 59,
+                "start_line": 61,
+                "end_line": 61,
                 "text": "Public Property Get Core() As OxControlCore"
               },
               "member_attributes": {}
@@ -56130,8 +56150,8 @@
               "return_type": "Pages",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 110,
-                "end_line": 110,
+                "start_line": 112,
+                "end_line": 112,
                 "text": "Public Property Get Pages() As Pages"
               },
               "member_attributes": {}
@@ -56148,8 +56168,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 114,
-                "end_line": 114,
+                "start_line": 116,
+                "end_line": 116,
                 "text": "Public Property Get Value() As Long"
               },
               "member_attributes": {}
@@ -56178,8 +56198,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 117,
-                "end_line": 117,
+                "start_line": 119,
+                "end_line": 119,
                 "text": "Public Property Let Value(ByVal NewValue As Long)"
               },
               "member_attributes": {}
@@ -56196,8 +56216,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 121,
-                "end_line": 121,
+                "start_line": 123,
+                "end_line": 123,
                 "text": "Public Property Get ListIndex() As Long"
               },
               "member_attributes": {}
@@ -56226,8 +56246,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 124,
-                "end_line": 124,
+                "start_line": 126,
+                "end_line": 126,
                 "text": "Public Property Let ListIndex(ByVal NewValue As Long)"
               },
               "member_attributes": {}
@@ -56244,8 +56264,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 128,
-                "end_line": 128,
+                "start_line": 130,
+                "end_line": 130,
                 "text": "Public Property Get SelectedCaption() As String"
               },
               "member_attributes": {}
@@ -56262,8 +56282,8 @@
               "return_type": "Page",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 132,
-                "end_line": 132,
+                "start_line": 134,
+                "end_line": 134,
                 "text": "Public Property Get SelectedPage() As Page"
               },
               "member_attributes": {}
@@ -56280,8 +56300,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 136,
-                "end_line": 136,
+                "start_line": 138,
+                "end_line": 138,
                 "text": "Public Property Get Name() As String"
               },
               "member_attributes": {}
@@ -56298,8 +56318,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 140,
-                "end_line": 140,
+                "start_line": 142,
+                "end_line": 142,
                 "text": "Public Property Get Left() As Single"
               },
               "member_attributes": {}
@@ -56328,8 +56348,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 143,
-                "end_line": 143,
+                "start_line": 145,
+                "end_line": 145,
                 "text": "Public Property Let Left(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -56346,8 +56366,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 147,
-                "end_line": 147,
+                "start_line": 149,
+                "end_line": 149,
                 "text": "Public Property Get Top() As Single"
               },
               "member_attributes": {}
@@ -56376,8 +56396,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 150,
-                "end_line": 150,
+                "start_line": 152,
+                "end_line": 152,
                 "text": "Public Property Let Top(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -56394,8 +56414,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 154,
-                "end_line": 154,
+                "start_line": 156,
+                "end_line": 156,
                 "text": "Public Property Get Width() As Single"
               },
               "member_attributes": {}
@@ -56424,8 +56444,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 157,
-                "end_line": 157,
+                "start_line": 159,
+                "end_line": 159,
                 "text": "Public Property Let Width(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -56442,8 +56462,8 @@
               "return_type": "Single",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 161,
-                "end_line": 161,
+                "start_line": 163,
+                "end_line": 163,
                 "text": "Public Property Get Height() As Single"
               },
               "member_attributes": {}
@@ -56472,8 +56492,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 164,
-                "end_line": 164,
+                "start_line": 166,
+                "end_line": 166,
                 "text": "Public Property Let Height(ByVal Value As Single)"
               },
               "member_attributes": {}
@@ -56490,8 +56510,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 168,
-                "end_line": 168,
+                "start_line": 170,
+                "end_line": 170,
                 "text": "Public Property Get Visible() As Boolean"
               },
               "member_attributes": {}
@@ -56520,8 +56540,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 171,
-                "end_line": 171,
+                "start_line": 173,
+                "end_line": 173,
                 "text": "Public Property Let Visible(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -56538,8 +56558,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 175,
-                "end_line": 175,
+                "start_line": 177,
+                "end_line": 177,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {}
@@ -56568,8 +56588,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 178,
-                "end_line": 178,
+                "start_line": 180,
+                "end_line": 180,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {}
@@ -56586,8 +56606,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 182,
-                "end_line": 182,
+                "start_line": 184,
+                "end_line": 184,
                 "text": "Public Function Diagnostics() As String"
               },
               "member_attributes": {}
@@ -56616,8 +56636,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 193,
-                "end_line": 193,
+                "start_line": 195,
+                "end_line": 195,
                 "text": "Public Sub RegisterPage(ByVal Page As Page)"
               },
               "member_attributes": {}
@@ -56634,8 +56654,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 201,
-                "end_line": 201,
+                "start_line": 203,
+                "end_line": 203,
                 "text": "Public Sub NotifyPageChanged()"
               },
               "member_attributes": {}
@@ -56652,8 +56672,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 208,
-                "end_line": 208,
+                "start_line": 210,
+                "end_line": 210,
                 "text": "Public Sub NotifyPagesCleared()"
               },
               "member_attributes": {}
@@ -56682,8 +56702,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 381,
-                "end_line": 381,
+                "start_line": 392,
+                "end_line": 392,
                 "text": "Public Sub RegisterControl(ByVal Control As IOxControl)"
               },
               "member_attributes": {}
@@ -56712,8 +56732,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 387,
-                "end_line": 387,
+                "start_line": 398,
+                "end_line": 398,
                 "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
               },
               "member_attributes": {}
@@ -56732,8 +56752,8 @@
               "return_type": "OxControlCore",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 55,
-                "end_line": 55,
+                "start_line": 57,
+                "end_line": 57,
                 "text": "Private Property Get IOxControl_Core() As OxControlCore"
               },
               "interface": "IOxControl",
@@ -56752,8 +56772,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 63,
-                "end_line": 63,
+                "start_line": 65,
+                "end_line": 65,
                 "text": "Private Property Get IOxControl_HasChildren() As Boolean"
               },
               "interface": "IOxControl",
@@ -56772,8 +56792,8 @@
               "return_type": "Controls",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 67,
-                "end_line": 67,
+                "start_line": 69,
+                "end_line": 69,
                 "text": "Private Property Get IOxControl_Children() As Controls"
               },
               "interface": "IOxControl",
@@ -56804,8 +56824,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 71,
-                "end_line": 71,
+                "start_line": 73,
+                "end_line": 73,
                 "text": "Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)"
               },
               "interface": "IOxControl",
@@ -56869,8 +56889,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 227,
-                "end_line": 227,
+                "start_line": 229,
+                "end_line": 229,
                 "text": "Private Sub IOxControl_OnMouseDown(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -56934,8 +56954,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 237,
-                "end_line": 237,
+                "start_line": 239,
+                "end_line": 239,
                 "text": "Private Sub IOxControl_OnMouseUp(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -56999,8 +57019,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 241,
-                "end_line": 241,
+                "start_line": 243,
+                "end_line": 243,
                 "text": "Private Sub IOxControl_OnMouseMove(ByVal Button As Integer, ByVal Shift As Integer, ByVal X As Single, ByVal Y As Single)"
               },
               "interface": "IOxControl",
@@ -57019,8 +57039,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 244,
-                "end_line": 244,
+                "start_line": 246,
+                "end_line": 246,
                 "text": "Private Sub IOxControl_OnClick()"
               },
               "interface": "IOxControl",
@@ -57039,8 +57059,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 247,
-                "end_line": 247,
+                "start_line": 249,
+                "end_line": 249,
                 "text": "Private Property Get IOxControl_SupportsClick() As Boolean"
               },
               "interface": "IOxControl",
@@ -57059,8 +57079,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 251,
-                "end_line": 251,
+                "start_line": 253,
+                "end_line": 253,
                 "text": "Private Property Get IOxControl_HasPressedVisual() As Boolean"
               },
               "interface": "IOxControl",
@@ -57102,8 +57122,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 255,
-                "end_line": 255,
+                "start_line": 257,
+                "end_line": 257,
                 "text": "Private Function IOxControl_OnKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -57145,8 +57165,8 @@
               "return_type": "Integer",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 273,
-                "end_line": 273,
+                "start_line": 275,
+                "end_line": 275,
                 "text": "Private Function IOxControl_OnKeyUp(ByVal KeyCode As Integer, ByVal Shift As Integer) As Integer"
               },
               "interface": "IOxControl",
@@ -57177,8 +57197,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 277,
-                "end_line": 277,
+                "start_line": 279,
+                "end_line": 279,
                 "text": "Private Sub IOxControl_OnCharacterInput(ByVal Text As String)"
               },
               "interface": "IOxControl",
@@ -57197,8 +57217,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 280,
-                "end_line": 280,
+                "start_line": 282,
+                "end_line": 282,
                 "text": "Private Sub IOxControl_OnEnter()"
               },
               "interface": "IOxControl",
@@ -57217,8 +57237,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 288,
-                "end_line": 288,
+                "start_line": 290,
+                "end_line": 290,
                 "text": "Private Function IOxControl_OnExit() As Boolean"
               },
               "interface": "IOxControl",
@@ -57237,8 +57257,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 301,
-                "end_line": 301,
+                "start_line": 312,
+                "end_line": 312,
                 "text": "Private Function IOxControl_OnBeforeUpdate() As Boolean"
               },
               "interface": "IOxControl",
@@ -57257,8 +57277,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 305,
-                "end_line": 305,
+                "start_line": 316,
+                "end_line": 316,
                 "text": "Private Sub IOxControl_OnAfterUpdate()"
               },
               "interface": "IOxControl",
@@ -57277,8 +57297,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 309,
-                "end_line": 309,
+                "start_line": 320,
+                "end_line": 320,
                 "text": "Private Property Get IOxControl_IsDirty() As Boolean"
               },
               "interface": "IOxControl",
@@ -57297,8 +57317,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 313,
-                "end_line": 313,
+                "start_line": 324,
+                "end_line": 324,
                 "text": "Private Property Get IOxControl_IsDefault() As Boolean"
               },
               "interface": "IOxControl",
@@ -57317,8 +57337,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 317,
-                "end_line": 317,
+                "start_line": 328,
+                "end_line": 328,
                 "text": "Private Property Get IOxControl_IsCancel() As Boolean"
               },
               "interface": "IOxControl",
@@ -57337,8 +57357,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 321,
-                "end_line": 321,
+                "start_line": 332,
+                "end_line": 332,
                 "text": "Private Property Get IOxControl_AcceleratorKey() As String"
               },
               "interface": "IOxControl",
@@ -57391,8 +57411,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 325,
-                "end_line": 325,
+                "start_line": 336,
+                "end_line": 336,
                 "text": "Private Function IOxControl_TryKeyboardActivate(ByVal KeyCode As Integer, ByVal Shift As Integer, ByVal HasDefaultButton As Boolean) As Boolean"
               },
               "interface": "IOxControl",
@@ -57445,8 +57465,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 329,
-                "end_line": 329,
+                "start_line": 340,
+                "end_line": 340,
                 "text": "Private Function IOxControl_OnPaste(ByVal Text As String, ByVal Action As Integer, ByVal Shift As Integer) As Boolean"
               },
               "interface": "IOxControl",
@@ -57465,8 +57485,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 333,
-                "end_line": 333,
+                "start_line": 344,
+                "end_line": 344,
                 "text": "Private Function IOxControl_OnCopy() As String"
               },
               "interface": "IOxControl",
@@ -57485,8 +57505,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 337,
-                "end_line": 337,
+                "start_line": 348,
+                "end_line": 348,
                 "text": "Private Function IOxControl_OnCut() As String"
               },
               "interface": "IOxControl",
@@ -57505,8 +57525,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 341,
-                "end_line": 341,
+                "start_line": 352,
+                "end_line": 352,
                 "text": "Private Property Get IOxControl_AccessibilityRole() As String"
               },
               "interface": "IOxControl",
@@ -57525,8 +57545,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 345,
-                "end_line": 345,
+                "start_line": 356,
+                "end_line": 356,
                 "text": "Private Property Get IOxControl_AccessibilityName() As String"
               },
               "interface": "IOxControl",
@@ -57545,8 +57565,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 349,
-                "end_line": 349,
+                "start_line": 360,
+                "end_line": 360,
                 "text": "Private Property Get IOxControl_AccessibilityValue() As String"
               },
               "interface": "IOxControl",
@@ -57565,8 +57585,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 353,
-                "end_line": 353,
+                "start_line": 364,
+                "end_line": 364,
                 "text": "Private Property Get IOxControl_AccessibilitySelected() As Boolean"
               },
               "interface": "IOxControl",
@@ -57585,8 +57605,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 357,
-                "end_line": 357,
+                "start_line": 368,
+                "end_line": 368,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionStart() As Long"
               },
               "interface": "IOxControl",
@@ -57605,8 +57625,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 361,
-                "end_line": 361,
+                "start_line": 372,
+                "end_line": 372,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionLength() As Long"
               },
               "interface": "IOxControl",
@@ -57625,8 +57645,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 365,
-                "end_line": 365,
+                "start_line": 376,
+                "end_line": 376,
                 "text": "Private Property Get IOxControl_AccessibilitySelectionText() As String"
               },
               "interface": "IOxControl",
@@ -57645,8 +57665,8 @@
               "return_type": "String",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 369,
-                "end_line": 369,
+                "start_line": 380,
+                "end_line": 380,
                 "text": "Private Property Get IOxControl_AccessibilityPatterns() As String"
               },
               "interface": "IOxControl",
@@ -57665,8 +57685,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 373,
-                "end_line": 373,
+                "start_line": 384,
+                "end_line": 384,
                 "text": "Private Property Get IOxControl_AccessibilityRowCount() As Long"
               },
               "interface": "IOxControl",
@@ -57685,8 +57705,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 377,
-                "end_line": 377,
+                "start_line": 388,
+                "end_line": 388,
                 "text": "Private Property Get IOxControl_AccessibilityColumnCount() As Long"
               },
               "interface": "IOxControl",
@@ -57717,8 +57737,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 393,
-                "end_line": 393,
+                "start_line": 404,
+                "end_line": 404,
                 "text": "Private Sub IOxControlContainer_RegisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -57749,8 +57769,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 397,
-                "end_line": 397,
+                "start_line": 408,
+                "end_line": 408,
                 "text": "Private Sub IOxControlContainer_UnregisterControl(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlContainer",
@@ -57781,8 +57801,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 401,
-                "end_line": 401,
+                "start_line": 412,
+                "end_line": 412,
                 "text": "Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -57801,8 +57821,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 405,
-                "end_line": 405,
+                "start_line": 416,
+                "end_line": 416,
                 "text": "Private Function IOxControlHost_AllocateNodeId() As Long"
               },
               "interface": "IOxControlHost",
@@ -57833,8 +57853,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 409,
-                "end_line": 409,
+                "start_line": 420,
+                "end_line": 420,
                 "text": "Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)"
               },
               "interface": "IOxControlHost",
@@ -518851,6 +518871,7 @@
             "source:027:0003",
             "test:crates/calcforms-calcvba-adapter/tests/container_tab_index.rs",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         },
@@ -518866,6 +518887,7 @@
             "source:027:0003",
             "test:crates/calcforms-calcvba-adapter/tests/container_tab_index.rs",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         },
@@ -518905,6 +518927,7 @@
           "evidence": [
             "test:crates/calcforms-calcvba-adapter/tests/container_tab_index.rs",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         }
@@ -699890,8 +699913,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 178,
-                "end_line": 178,
+                "start_line": 180,
+                "end_line": 180,
                 "text": "Public Property Let Enabled(ByVal Value As Boolean)"
               },
               "member_attributes": {},
@@ -699924,8 +699947,8 @@
               "return_type": "Boolean",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 175,
-                "end_line": 175,
+                "start_line": 177,
+                "end_line": 177,
                 "text": "Public Property Get Enabled() As Boolean"
               },
               "member_attributes": {},
@@ -700309,8 +700332,8 @@
               "return_type": "Pages",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 110,
-                "end_line": 110,
+                "start_line": 112,
+                "end_line": 112,
                 "text": "Public Property Get Pages() As Pages"
               },
               "member_attributes": {},
@@ -700344,6 +700367,7 @@
           "evidence": [
             "source:017:0008",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs",
             "test:crates/calcforms-calcvba-adapter/tests/workbook_data_entry.rs"
           ]
@@ -700359,6 +700383,7 @@
           "evidence": [
             "source:017:0008",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs",
             "test:crates/calcforms-calcvba-adapter/tests/workbook_data_entry.rs"
           ]
@@ -700393,6 +700418,7 @@
           "basis": "Every required accessor is driven by a committed, non-ignored Rust test file (its VBA text, or fixtures and evidence VBA it names, uses the member on a typed variable); attribution is per test file, not per assertion.",
           "evidence": [
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs",
             "test:crates/calcforms-calcvba-adapter/tests/workbook_data_entry.rs"
           ]
@@ -700593,8 +700619,8 @@
               "return_type": null,
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 117,
-                "end_line": 117,
+                "start_line": 119,
+                "end_line": 119,
                 "text": "Public Property Let Value(ByVal NewValue As Long)"
               },
               "member_attributes": {},
@@ -700627,8 +700653,8 @@
               "return_type": "Long",
               "source": {
                 "path": "vba/calcforms/MultiPage.cls",
-                "start_line": 114,
-                "end_line": 114,
+                "start_line": 116,
+                "end_line": 116,
                 "text": "Public Property Get Value() As Long"
               },
               "member_attributes": {},
@@ -1019188,6 +1019214,7 @@
           "evidence": [
             "source:027:0024",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         },
@@ -1019218,6 +1019245,7 @@
           "basis": "Evidence covers only some accessors (put). Every required accessor is driven by a committed, non-ignored Rust test file (its VBA text, or fixtures and evidence VBA it names, uses the member on a typed variable); attribution is per test file, not per assertion.",
           "evidence": [
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         }
@@ -1019486,6 +1019514,7 @@
           "evidence": [
             "source:027:0026",
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         },
@@ -1019518,6 +1019547,7 @@
           "basis": "Evidence covers only some accessors (put). Every required accessor is driven by a committed, non-ignored Rust test file (its VBA text, or fixtures and evidence VBA it names, uses the member on a typed variable); attribution is per test file, not per assertion.",
           "evidence": [
             "test:crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
+            "test:crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
             "test:crates/calcforms-calcvba-adapter/tests/text_fragments.rs"
           ]
         }
@@ -1370178,7 +1370208,7 @@
         "file_stem": "OxInteractionManager",
         "kind": "class_module",
         "path": "vba/calcforms/OxInteractionManager.cls",
-        "normalized_text_sha256": "de136db406cb3a1556eedb41e8ce2c507caa02535f0a85d5d22ba9382ff64f24",
+        "normalized_text_sha256": "08f246d2b7129309aa7a0b69b55d2c42e98e33fde303bb2730c460c24737530a",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1370221,8 +1370251,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 87,
-              "end_line": 87,
+              "start_line": 96,
+              "end_line": 96,
               "text": "Public Sub Init(ByVal Form As UserForm)"
             },
             "member_attributes": {}
@@ -1370251,8 +1370281,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 112,
-              "end_line": 112,
+              "start_line": 123,
+              "end_line": 123,
               "text": "Public Sub SetClipboardText(ByVal Text As String)"
             },
             "member_attributes": {}
@@ -1370269,8 +1370299,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 116,
-              "end_line": 116,
+              "start_line": 127,
+              "end_line": 127,
               "text": "Public Property Get ClipboardText() As String"
             },
             "member_attributes": {}
@@ -1370287,8 +1370317,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 121,
-              "end_line": 121,
+              "start_line": 132,
+              "end_line": 132,
               "text": "Public Property Get FocusName() As String"
             },
             "member_attributes": {}
@@ -1370305,8 +1370335,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 125,
-              "end_line": 125,
+              "start_line": 142,
+              "end_line": 142,
               "text": "Public Property Get CaptureName() As String"
             },
             "member_attributes": {}
@@ -1370323,8 +1370353,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 129,
-              "end_line": 129,
+              "start_line": 146,
+              "end_line": 146,
               "text": "Public Property Get PressedName() As String"
             },
             "member_attributes": {}
@@ -1370341,8 +1370371,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 133,
-              "end_line": 133,
+              "start_line": 150,
+              "end_line": 150,
               "text": "Public Property Get HoverName() As String"
             },
             "member_attributes": {}
@@ -1370359,8 +1370389,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 137,
-              "end_line": 137,
+              "start_line": 154,
+              "end_line": 154,
               "text": "Public Property Get CursorTargetName() As String"
             },
             "member_attributes": {}
@@ -1370377,8 +1370407,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 141,
-              "end_line": 141,
+              "start_line": 158,
+              "end_line": 158,
               "text": "Public Property Get CursorPointer() As Long"
             },
             "member_attributes": {}
@@ -1370395,8 +1370425,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 145,
-              "end_line": 145,
+              "start_line": 162,
+              "end_line": 162,
               "text": "Public Property Get InteractionIndexBuildCount() As Long"
             },
             "member_attributes": {}
@@ -1370413,8 +1370443,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 149,
-              "end_line": 149,
+              "start_line": 166,
+              "end_line": 166,
               "text": "Public Property Get InteractionStateSummary() As String"
             },
             "member_attributes": {}
@@ -1370431,8 +1370461,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 162,
-              "end_line": 162,
+              "start_line": 179,
+              "end_line": 179,
               "text": "Public Sub InvalidateInteractionIndex()"
             },
             "member_attributes": {}
@@ -1370449,8 +1370479,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 166,
-              "end_line": 166,
+              "start_line": 183,
+              "end_line": 183,
               "text": "Public Property Get InteractionIndexSummary() As String"
             },
             "member_attributes": {}
@@ -1370467,8 +1370497,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 189,
-              "end_line": 189,
+              "start_line": 206,
+              "end_line": 206,
               "text": "Public Property Get AccessibilitySnapshot() As String"
             },
             "member_attributes": {}
@@ -1370541,8 +1370571,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 202,
-              "end_line": 204,
+              "start_line": 219,
+              "end_line": 221,
               "text": "Public Function Dispatch( ByVal Kind As String, ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer) As String"
             },
             "member_attributes": {}
@@ -1370593,8 +1370623,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 340,
-              "end_line": 340,
+              "start_line": 359,
+              "end_line": 359,
               "text": "Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String"
             },
             "member_attributes": {}
@@ -1370623,8 +1370653,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 891,
-              "end_line": 891,
+              "start_line": 948,
+              "end_line": 948,
               "text": "Public Function DispatchDrop(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1370653,8 +1370683,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxInteractionManager.cls",
-              "start_line": 971,
-              "end_line": 971,
+              "start_line": 1028,
+              "end_line": 1028,
               "text": "Public Function DispatchChar(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1370749,7 +1370779,7 @@
         "file_stem": "OxReducer",
         "kind": "class_module",
         "path": "vba/calcforms/OxReducer.cls",
-        "normalized_text_sha256": "1ad5bc1f0e5a2968b08d80c734b0e3d6cbeadf4ca601aa808d62b50892cabbcb",
+        "normalized_text_sha256": "6438675ff5ead69bf16b2cdfe2dc45571627aaee9f6dfeb9a2ec645d2bb0b204",
         "attributes": {},
         "manifest_metadata": {},
         "effective_attributes": {
@@ -1370876,8 +1370906,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 31,
-              "end_line": 31,
+              "start_line": 35,
+              "end_line": 35,
               "text": "Public Property Get CaptureName() As String"
             },
             "member_attributes": {}
@@ -1370894,8 +1370924,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 35,
-              "end_line": 35,
+              "start_line": 39,
+              "end_line": 39,
               "text": "Public Property Get PressedName() As String"
             },
             "member_attributes": {}
@@ -1370912,8 +1370942,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 39,
-              "end_line": 39,
+              "start_line": 43,
+              "end_line": 43,
               "text": "Public Property Get HoverName() As String"
             },
             "member_attributes": {}
@@ -1370930,8 +1370960,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 43,
-              "end_line": 43,
+              "start_line": 47,
+              "end_line": 47,
               "text": "Public Property Get CursorTargetName() As String"
             },
             "member_attributes": {}
@@ -1370948,8 +1370978,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 47,
-              "end_line": 47,
+              "start_line": 51,
+              "end_line": 51,
               "text": "Public Property Get CursorPointer() As Long"
             },
             "member_attributes": {}
@@ -1370966,8 +1370996,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 51,
-              "end_line": 51,
+              "start_line": 55,
+              "end_line": 55,
               "text": "Public Property Get InteractionStateSummary() As String"
             },
             "member_attributes": {}
@@ -1370984,8 +1371014,8 @@
             "return_type": "Long",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 55,
-              "end_line": 55,
+              "start_line": 59,
+              "end_line": 59,
               "text": "Public Property Get InteractionIndexBuildCount() As Long"
             },
             "member_attributes": {}
@@ -1371002,8 +1371032,8 @@
             "return_type": null,
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 59,
-              "end_line": 59,
+              "start_line": 63,
+              "end_line": 63,
               "text": "Public Sub InvalidateInteractionIndex()"
             },
             "member_attributes": {}
@@ -1371020,8 +1371050,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 63,
-              "end_line": 63,
+              "start_line": 67,
+              "end_line": 67,
               "text": "Public Property Get InteractionIndexSummary() As String"
             },
             "member_attributes": {}
@@ -1371038,8 +1371068,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 67,
-              "end_line": 67,
+              "start_line": 71,
+              "end_line": 71,
               "text": "Public Property Get AccessibilitySnapshot() As String"
             },
             "member_attributes": {}
@@ -1371112,8 +1371142,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 71,
-              "end_line": 73,
+              "start_line": 75,
+              "end_line": 77,
               "text": "Public Function Dispatch( ByVal Kind As String, ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer) As String"
             },
             "member_attributes": {}
@@ -1371164,8 +1371194,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 77,
-              "end_line": 77,
+              "start_line": 81,
+              "end_line": 81,
               "text": "Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String"
             },
             "member_attributes": {}
@@ -1371194,8 +1371224,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 81,
-              "end_line": 81,
+              "start_line": 85,
+              "end_line": 85,
               "text": "Public Function DispatchDrop(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1371224,8 +1371254,8 @@
             "return_type": "String",
             "source": {
               "path": "vba/calcforms/OxReducer.cls",
-              "start_line": 85,
-              "end_line": 85,
+              "start_line": 89,
+              "end_line": 89,
               "text": "Public Function DispatchChar(ByVal Text As String) As String"
             },
             "member_attributes": {}
@@ -1410801,8 +1410831,8 @@
         "return_type": "OxControlCore",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 59,
-          "end_line": 59,
+          "start_line": 61,
+          "end_line": 61,
           "text": "Public Property Get Core() As OxControlCore"
         },
         "member_attributes": {},
@@ -1410907,8 +1410937,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 121,
-          "end_line": 121,
+          "start_line": 123,
+          "end_line": 123,
           "text": "Public Property Get ListIndex() As Long"
         },
         "member_attributes": {},
@@ -1411025,8 +1411055,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 124,
-          "end_line": 124,
+          "start_line": 126,
+          "end_line": 126,
           "text": "Public Property Let ListIndex(ByVal NewValue As Long)"
         },
         "member_attributes": {},
@@ -1411131,8 +1411161,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 128,
-          "end_line": 128,
+          "start_line": 130,
+          "end_line": 130,
           "text": "Public Property Get SelectedCaption() As String"
         },
         "member_attributes": {},
@@ -1411237,8 +1411267,8 @@
         "return_type": "Page",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 132,
-          "end_line": 132,
+          "start_line": 134,
+          "end_line": 134,
           "text": "Public Property Get SelectedPage() As Page"
         },
         "member_attributes": {},
@@ -1411343,8 +1411373,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 136,
-          "end_line": 136,
+          "start_line": 138,
+          "end_line": 138,
           "text": "Public Property Get Name() As String"
         },
         "member_attributes": {},
@@ -1411449,8 +1411479,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 140,
-          "end_line": 140,
+          "start_line": 142,
+          "end_line": 142,
           "text": "Public Property Get Left() As Single"
         },
         "member_attributes": {},
@@ -1411567,8 +1411597,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 143,
-          "end_line": 143,
+          "start_line": 145,
+          "end_line": 145,
           "text": "Public Property Let Left(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1411673,8 +1411703,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 147,
-          "end_line": 147,
+          "start_line": 149,
+          "end_line": 149,
           "text": "Public Property Get Top() As Single"
         },
         "member_attributes": {},
@@ -1411791,8 +1411821,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 150,
-          "end_line": 150,
+          "start_line": 152,
+          "end_line": 152,
           "text": "Public Property Let Top(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1411897,8 +1411927,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 154,
-          "end_line": 154,
+          "start_line": 156,
+          "end_line": 156,
           "text": "Public Property Get Width() As Single"
         },
         "member_attributes": {},
@@ -1412015,8 +1412045,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 157,
-          "end_line": 157,
+          "start_line": 159,
+          "end_line": 159,
           "text": "Public Property Let Width(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1412121,8 +1412151,8 @@
         "return_type": "Single",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 161,
-          "end_line": 161,
+          "start_line": 163,
+          "end_line": 163,
           "text": "Public Property Get Height() As Single"
         },
         "member_attributes": {},
@@ -1412239,8 +1412269,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 164,
-          "end_line": 164,
+          "start_line": 166,
+          "end_line": 166,
           "text": "Public Property Let Height(ByVal Value As Single)"
         },
         "member_attributes": {},
@@ -1412345,8 +1412375,8 @@
         "return_type": "Boolean",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 168,
-          "end_line": 168,
+          "start_line": 170,
+          "end_line": 170,
           "text": "Public Property Get Visible() As Boolean"
         },
         "member_attributes": {},
@@ -1412463,8 +1412493,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 171,
-          "end_line": 171,
+          "start_line": 173,
+          "end_line": 173,
           "text": "Public Property Let Visible(ByVal Value As Boolean)"
         },
         "member_attributes": {},
@@ -1412569,8 +1412599,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 182,
-          "end_line": 182,
+          "start_line": 184,
+          "end_line": 184,
           "text": "Public Function Diagnostics() As String"
         },
         "member_attributes": {},
@@ -1412687,8 +1412717,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 193,
-          "end_line": 193,
+          "start_line": 195,
+          "end_line": 195,
           "text": "Public Sub RegisterPage(ByVal Page As Page)"
         },
         "member_attributes": {},
@@ -1412793,8 +1412823,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 201,
-          "end_line": 201,
+          "start_line": 203,
+          "end_line": 203,
           "text": "Public Sub NotifyPageChanged()"
         },
         "member_attributes": {},
@@ -1412899,8 +1412929,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 208,
-          "end_line": 208,
+          "start_line": 210,
+          "end_line": 210,
           "text": "Public Sub NotifyPagesCleared()"
         },
         "member_attributes": {},
@@ -1413017,8 +1413047,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 381,
-          "end_line": 381,
+          "start_line": 392,
+          "end_line": 392,
           "text": "Public Sub RegisterControl(ByVal Control As IOxControl)"
         },
         "member_attributes": {},
@@ -1413135,8 +1413165,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/MultiPage.cls",
-          "start_line": 387,
-          "end_line": 387,
+          "start_line": 398,
+          "end_line": 398,
           "text": "Public Sub UnregisterControl(ByVal Control As IOxControl)"
         },
         "member_attributes": {},
@@ -1431230,8 +1431260,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 87,
-          "end_line": 87,
+          "start_line": 96,
+          "end_line": 96,
           "text": "Public Sub Init(ByVal Form As UserForm)"
         },
         "member_attributes": {},
@@ -1431348,8 +1431378,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 112,
-          "end_line": 112,
+          "start_line": 123,
+          "end_line": 123,
           "text": "Public Sub SetClipboardText(ByVal Text As String)"
         },
         "member_attributes": {},
@@ -1431454,8 +1431484,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 116,
-          "end_line": 116,
+          "start_line": 127,
+          "end_line": 127,
           "text": "Public Property Get ClipboardText() As String"
         },
         "member_attributes": {},
@@ -1431560,8 +1431590,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 121,
-          "end_line": 121,
+          "start_line": 132,
+          "end_line": 132,
           "text": "Public Property Get FocusName() As String"
         },
         "member_attributes": {},
@@ -1431666,8 +1431696,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 125,
-          "end_line": 125,
+          "start_line": 142,
+          "end_line": 142,
           "text": "Public Property Get CaptureName() As String"
         },
         "member_attributes": {},
@@ -1431772,8 +1431802,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 129,
-          "end_line": 129,
+          "start_line": 146,
+          "end_line": 146,
           "text": "Public Property Get PressedName() As String"
         },
         "member_attributes": {},
@@ -1431878,8 +1431908,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 133,
-          "end_line": 133,
+          "start_line": 150,
+          "end_line": 150,
           "text": "Public Property Get HoverName() As String"
         },
         "member_attributes": {},
@@ -1431984,8 +1432014,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 137,
-          "end_line": 137,
+          "start_line": 154,
+          "end_line": 154,
           "text": "Public Property Get CursorTargetName() As String"
         },
         "member_attributes": {},
@@ -1432090,8 +1432120,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 141,
-          "end_line": 141,
+          "start_line": 158,
+          "end_line": 158,
           "text": "Public Property Get CursorPointer() As Long"
         },
         "member_attributes": {},
@@ -1432196,8 +1432226,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 145,
-          "end_line": 145,
+          "start_line": 162,
+          "end_line": 162,
           "text": "Public Property Get InteractionIndexBuildCount() As Long"
         },
         "member_attributes": {},
@@ -1432302,8 +1432332,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 149,
-          "end_line": 149,
+          "start_line": 166,
+          "end_line": 166,
           "text": "Public Property Get InteractionStateSummary() As String"
         },
         "member_attributes": {},
@@ -1432408,8 +1432438,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 162,
-          "end_line": 162,
+          "start_line": 179,
+          "end_line": 179,
           "text": "Public Sub InvalidateInteractionIndex()"
         },
         "member_attributes": {},
@@ -1432514,8 +1432544,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 166,
-          "end_line": 166,
+          "start_line": 183,
+          "end_line": 183,
           "text": "Public Property Get InteractionIndexSummary() As String"
         },
         "member_attributes": {},
@@ -1432620,8 +1432650,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 189,
-          "end_line": 189,
+          "start_line": 206,
+          "end_line": 206,
           "text": "Public Property Get AccessibilitySnapshot() As String"
         },
         "member_attributes": {},
@@ -1432782,8 +1432812,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 202,
-          "end_line": 204,
+          "start_line": 219,
+          "end_line": 221,
           "text": "Public Function Dispatch( ByVal Kind As String, ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer) As String"
         },
         "member_attributes": {},
@@ -1432922,8 +1432952,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 340,
-          "end_line": 340,
+          "start_line": 359,
+          "end_line": 359,
           "text": "Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String"
         },
         "member_attributes": {},
@@ -1433040,8 +1433070,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 891,
-          "end_line": 891,
+          "start_line": 948,
+          "end_line": 948,
           "text": "Public Function DispatchDrop(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1433158,8 +1433188,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxInteractionManager.cls",
-          "start_line": 971,
-          "end_line": 971,
+          "start_line": 1028,
+          "end_line": 1028,
           "text": "Public Function DispatchChar(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1433712,8 +1433742,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 31,
-          "end_line": 31,
+          "start_line": 35,
+          "end_line": 35,
           "text": "Public Property Get CaptureName() As String"
         },
         "member_attributes": {},
@@ -1433818,8 +1433848,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 35,
-          "end_line": 35,
+          "start_line": 39,
+          "end_line": 39,
           "text": "Public Property Get PressedName() As String"
         },
         "member_attributes": {},
@@ -1433924,8 +1433954,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 39,
-          "end_line": 39,
+          "start_line": 43,
+          "end_line": 43,
           "text": "Public Property Get HoverName() As String"
         },
         "member_attributes": {},
@@ -1434030,8 +1434060,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 43,
-          "end_line": 43,
+          "start_line": 47,
+          "end_line": 47,
           "text": "Public Property Get CursorTargetName() As String"
         },
         "member_attributes": {},
@@ -1434136,8 +1434166,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 47,
-          "end_line": 47,
+          "start_line": 51,
+          "end_line": 51,
           "text": "Public Property Get CursorPointer() As Long"
         },
         "member_attributes": {},
@@ -1434242,8 +1434272,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 51,
-          "end_line": 51,
+          "start_line": 55,
+          "end_line": 55,
           "text": "Public Property Get InteractionStateSummary() As String"
         },
         "member_attributes": {},
@@ -1434348,8 +1434378,8 @@
         "return_type": "Long",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 55,
-          "end_line": 55,
+          "start_line": 59,
+          "end_line": 59,
           "text": "Public Property Get InteractionIndexBuildCount() As Long"
         },
         "member_attributes": {},
@@ -1434454,8 +1434484,8 @@
         "return_type": null,
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 59,
-          "end_line": 59,
+          "start_line": 63,
+          "end_line": 63,
           "text": "Public Sub InvalidateInteractionIndex()"
         },
         "member_attributes": {},
@@ -1434560,8 +1434590,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 63,
-          "end_line": 63,
+          "start_line": 67,
+          "end_line": 67,
           "text": "Public Property Get InteractionIndexSummary() As String"
         },
         "member_attributes": {},
@@ -1434666,8 +1434696,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 67,
-          "end_line": 67,
+          "start_line": 71,
+          "end_line": 71,
           "text": "Public Property Get AccessibilitySnapshot() As String"
         },
         "member_attributes": {},
@@ -1434828,8 +1434858,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 71,
-          "end_line": 73,
+          "start_line": 75,
+          "end_line": 77,
           "text": "Public Function Dispatch( ByVal Kind As String, ByVal X As Long, ByVal Y As Long, ByVal Button As Integer, ByVal Shift As Integer) As String"
         },
         "member_attributes": {},
@@ -1434968,8 +1434998,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 77,
-          "end_line": 77,
+          "start_line": 81,
+          "end_line": 81,
           "text": "Public Function DispatchKey(ByVal Kind As String, ByVal KeyCode As Integer, ByVal Shift As Integer) As String"
         },
         "member_attributes": {},
@@ -1435086,8 +1435116,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 81,
-          "end_line": 81,
+          "start_line": 85,
+          "end_line": 85,
           "text": "Public Function DispatchDrop(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1435204,8 +1435234,8 @@
         "return_type": "String",
         "source": {
           "path": "vba/calcforms/OxReducer.cls",
-          "start_line": 85,
-          "end_line": 85,
+          "start_line": 89,
+          "end_line": 89,
           "text": "Public Function DispatchChar(ByVal Text As String) As String"
         },
         "member_attributes": {},
@@ -1475352,5 +1475382,5 @@
       "member_attributes": 18
     }
   },
-  "canonical_sha256": "b7fca27606be25e698c41064a38f70136d971f3095e3365a4117128aa645784e"
+  "canonical_sha256": "525341f391dbb34b7e993bc45a59e4f8beecf8fdc3dbbe0abca27b358f57aade"
 }

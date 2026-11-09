@@ -34,6 +34,7 @@ Private mPages As Pages
 Private mPageControls As Controls
 Private mValue As Long
 Private mFocused As Boolean
+Private mClientFocus As Boolean ' focus sits on the page client, not the header row
 Private mEditDirty As Boolean
 
 Private Sub Class_Initialize()
@@ -49,6 +50,7 @@ Private Sub Class_Initialize()
     mPageControls.Bind Me
     mValue = -1
     mFocused = False
+    mClientFocus = False
     mEditDirty = False
 End Sub
 
@@ -90,7 +92,7 @@ Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
     Next I
     If mValue >= 0 Then PaintPageTab Surface, mValue
 
-    If mFocused And mCore.Enabled Then
+    If mFocused And Not mClientFocus And mCore.Enabled Then
         Surface.StrokeRect mCore.PaintLeft, mCore.PaintTop, mCore.Width, HeaderBodyTop(), _
             OxThemeFocusAdornerColor(), 255, 1
     End If
@@ -293,10 +295,19 @@ Private Function IOxControl_OnExit() As Boolean
     If Not IOxControl_OnExit Then
         If mFocused Then
             mFocused = False
+            mClientFocus = False
             mCore.MarkDirty
         End If
     End If
 End Function
+
+' The interaction manager moves focus between the header row and the page client (two Tab
+' stops, native round 13). The header focus adorner is drawn only while the header holds focus.
+Friend Sub SetClientFocus(ByVal Value As Boolean)
+    If mClientFocus = Value Then Exit Sub
+    mClientFocus = Value
+    mCore.MarkDirty
+End Sub
 
 Private Function IOxControl_OnBeforeUpdate() As Boolean
     IOxControl_OnBeforeUpdate = False

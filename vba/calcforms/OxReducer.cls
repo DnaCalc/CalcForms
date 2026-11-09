@@ -28,6 +28,10 @@ Public Property Get FocusName() As String
     FocusName = mInteraction.FocusName
 End Property
 
+Friend Property Get FocusOnPageClient() As Boolean
+    FocusOnPageClient = mInteraction.FocusOnPageClient
+End Property
+
 Public Property Get CaptureName() As String
     CaptureName = mInteraction.CaptureName
 End Property

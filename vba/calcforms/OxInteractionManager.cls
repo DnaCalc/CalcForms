@@ -29,6 +29,8 @@ Private Const OX_SHIFT_CTRL As Integer = 2
 Private Const OX_SHIFT_ALT As Integer = 4
 ' fmAction: 2 = paste (the Action arg of BeforeDropOrPaste).
 Private Const OX_ACTION_PASTE As Integer = 2
+' Suffix of the tab-list token for a MultiPage's page-client stop.
+Private Const TAB_PAGE_CLIENT As String = "#page"
 
 Private mForm As UserForm
 Private mCaptureName As String    ' control holding the mouse capture ("" = none)
@@ -46,6 +48,13 @@ Private mTabNextByName As Collection
 Private mTabPrevByName As Collection
 Private mFirstTabName As String
 Private mLastTabName As String
+' A MultiPage is two Tab stops (native, round 13): its header row, then the selected page. The
+' page stops of MultiPages whose selected page holds no tab-stop control are listed as
+' "|Name|"; the stop is the token Name & TAB_PAGE_CLIENT in the tab lists. FocusName is the
+' MultiPage at both stops (native Form.ActiveControl cannot tell them apart); mFocusClient says
+' which one holds focus.
+Private mFocusClient As Boolean
+Private mClientStops As String
 Private mDefaultButtonName As String
 Private mCancelButtonName As String
 Private mHoverName As String
@@ -89,6 +98,8 @@ Public Sub Init(ByVal Form As UserForm)
     mCaptureName = ""
     mPressedName = ""
     mFocusName = ""
+    mFocusClient = False
+    mClientStops = ""
     mSwallowNextChar = False
     mClipboardText = ""
     mDpiX = 96
@@ -120,6 +131,12 @@ End Property
 ' The currently focused control's name ("" = none). Test/diagnostic surface.
 Public Property Get FocusName() As String
     FocusName = mFocusName
+End Property
+
+' True while a MultiPage's page client (not its header row) holds focus. FocusName is the
+' MultiPage at both stops.
+Friend Property Get FocusOnPageClient() As Boolean
+    FocusOnPageClient = mFocusClient
 End Property
 
 Public Property Get CaptureName() As String
@@ -257,6 +274,8 @@ Private Sub ReduceMouseDown(ByVal X As Long, ByVal Y As Long, ByVal Button As In
             Repaint
             Exit Sub
         End If
+    ElseIf mFocusClient And Hit.Core.Name = mFocusName Then
+        SetFocusPart False
     End If
 
     Hit.OnMouseDown Button, Shift, CSng(X - Hit.Core.PaintLeft), CSng(Y - Hit.Core.PaintTop)
@@ -394,7 +413,7 @@ Private Sub ReduceKeyDown(ByVal KeyCode As Integer, ByVal Shift As Integer)
     If IsTabNavigation(KeyCode, Shift) Then
         Dim NextName As String
         NextName = TabTarget(mFocusName, IsShiftPressed(Shift))
-        If Len(NextName) > 0 Then TransferFocusTo NextName
+        If Len(NextName) > 0 Then MoveTabFocus NextName
     ElseIf (Shift And OX_SHIFT_CTRL) <> 0 Then
         HandleClipboardShortcut Focused, KeyCode, Shift
     ElseIf (Shift And OX_SHIFT_ALT) <> 0 Then
@@ -477,6 +496,7 @@ Private Sub BuildInteractionIndex()
     Set mTabPrevByName = New Collection
     mFirstTabName = ""
     mLastTabName = ""
+    mClientStops = ""
     mDefaultButtonName = ""
     mCancelButtonName = ""
 
@@ -504,6 +524,17 @@ Private Sub BuildInteractionIndex()
         Else
             mTabNextByName.Add "", Name
             mTabPrevByName.Add "", Name
+        End If
+    Next I
+
+    ' A MultiPage whose selected page holds no tab-stop control is a second stop.
+    Dim Token As String
+    For I = 1 To TabNames.Count
+        Token = TabNames.Item(I)
+        If IsPageClientToken(Token) Then
+            mClientStops = mClientStops & "|" & TokenName(Token) & "|"
+            mTabNextByName.Add TabNeighbor(TabNames, Token, False), Token
+            mTabPrevByName.Add TabNeighbor(TabNames, Token, True), Token
         End If
     Next I
 
@@ -554,12 +585,31 @@ Private Sub CollectTabControls(ByVal List As Controls, ByVal TabNames As Collect
             End If
         End If
     Next I
+    Dim Before As Long
     For I = 1 To Names.Count
         Set Ctl = List.Item(CStr(Names.Item(I)))
+        Before = TabNames.Count
         If Participates(Ctl) Then TabNames.Add Ctl.Core.Name
         If Ctl.HasChildren Then CollectTabControls Ctl.Children, TabNames
+        ' Header stop, then the selected page's tab-stop controls; a page with none gives one
+        ' page-client stop (native round 13, .133).
+        If Ctl.Core.Kind = oxControlMultiPage And Participates(Ctl) And TabNames.Count = Before + 1 Then
+            TabNames.Add Ctl.Core.Name & TAB_PAGE_CLIENT
+        End If
     Next I
 End Sub
+
+Private Function IsPageClientToken(ByVal Token As String) As Boolean
+    IsPageClientToken = (Len(Token) > Len(TAB_PAGE_CLIENT)) And (Right(Token, Len(TAB_PAGE_CLIENT)) = TAB_PAGE_CLIENT)
+End Function
+
+Private Function TokenName(ByVal Token As String) As String
+    If IsPageClientToken(Token) Then
+        TokenName = Left(Token, Len(Token) - Len(TAB_PAGE_CLIENT))
+    Else
+        TokenName = Token
+    End If
+End Function
 
 ' Keep transient interaction owners coherent after object-model mutations. Exact MSForms event
 ' ordering for hide/disable/remove while focused is an oracle lane; this representative seam
@@ -569,6 +619,13 @@ Private Sub ReconcileInteractionState()
         If Not CanHoldFocus(mFocusName) Then
             mFocusName = ""
             mSwallowNextChar = False
+        End If
+    End If
+    If mFocusClient Then
+        If Len(mFocusName) = 0 Then
+            mFocusClient = False
+        ElseIf InStr(mClientStops, "|" & mFocusName & "|") = 0 Then
+            SetFocusPart False
         End If
     End If
 
@@ -1023,20 +1080,51 @@ End Function
 ' wrapping around. Returns "" if there is no other participating control.
 Private Function TabTarget(ByVal CurrentName As String, ByVal Shift As Boolean) As String
     EnsureInteractionIndex
+    Dim Token As String
+    Token = CurrentName
+    If mFocusClient And CurrentName = mFocusName Then
+        If InStr(mClientStops, "|" & CurrentName & "|") > 0 Then Token = CurrentName & TAB_PAGE_CLIENT
+    End If
     If Shift Then
-        TabTarget = mTabPrevByName.Item(CurrentName)
+        TabTarget = mTabPrevByName.Item(Token)
     Else
-        TabTarget = mTabNextByName.Item(CurrentName)
+        TabTarget = mTabNextByName.Item(Token)
     End If
 End Function
+
+' Move focus to a tab-list token: a control name, or a MultiPage name with TAB_PAGE_CLIENT. Moving
+' between a MultiPage's header and its page client keeps the same control focused (no Exit or
+' Enter; the native event order for that step was not measurable, .124).
+Private Sub MoveTabFocus(ByVal Token As String)
+    Dim Name As String, Client As Boolean
+    Name = TokenName(Token)
+    Client = IsPageClientToken(Token)
+    If Name = mFocusName Then
+        SetFocusPart Client
+    ElseIf TransferFocusTo(Name) Then
+        SetFocusPart Client
+    End If
+End Sub
+
+Private Sub SetFocusPart(ByVal Client As Boolean)
+    mFocusClient = Client
+    If Len(mFocusName) = 0 Then Exit Sub
+    Dim Focused As IOxControl
+    Set Focused = mForm.ControlByName(mFocusName)
+    If Focused.Core.Kind = oxControlMultiPage Then
+        Dim Pages As MultiPage
+        Set Pages = Focused
+        Pages.SetClientFocus Client
+    End If
+End Sub
 
 ' Focus the first (or, with Shift, last) participating control when nothing is focused yet.
 Private Sub FocusFirstTab(ByVal Shift As Boolean)
     EnsureInteractionIndex
     If Shift Then
-        If Len(mLastTabName) > 0 Then TransferFocusTo mLastTabName
+        If Len(mLastTabName) > 0 Then MoveTabFocus mLastTabName
     Else
-        If Len(mFirstTabName) > 0 Then TransferFocusTo mFirstTabName
+        If Len(mFirstTabName) > 0 Then MoveTabFocus mFirstTabName
     End If
 End Sub
 
@@ -1074,6 +1162,7 @@ Private Function TransferFocusTo(ByVal NewName As String) As Boolean
     End If
 
     mFocusName = NewName
+    mFocusClient = False
     If Len(NewName) > 0 Then
         Dim RoutedControl As IOxControl
         Set RoutedControl = mForm.ControlByName(NewName)
