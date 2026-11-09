@@ -11,7 +11,7 @@
 //!
 //! Run: `cargo run -p calcforms-pal-win --bin w007_window_smoke`
 
-use calcforms_pal::scene::{Affine, NodeId, Scene};
+use calcforms_pal::scene::{Affine, NodeId, RectF, Scene};
 use calcforms_pal::{KeyCode, UiEvent, UiEventKind};
 use calcforms_pal_win::fixture::greeter;
 use calcforms_pal_win::{load_ui_font, run_scene_window, WindowOptions, WindowSignal};
@@ -69,6 +69,16 @@ fn set_button_pressed(scene: &mut Scene, pressed: bool) {
     if let Some(node) = scene.nodes.iter_mut().find(|n| n.id == OK_BUTTON) {
         node.transform = Affine::translate(x + offset, y + offset);
     }
+    // A hand edit of `nodes` must refresh the scene's caches, and the window repaints only
+    // what the scene reports as damaged.
+    scene.recompute_frame_hash();
+    let surface = RectF::new(
+        0.0,
+        0.0,
+        scene.surface.width as f32,
+        scene.surface.height as f32,
+    );
+    scene.damage.rects.push(surface);
 }
 
 fn log_event(event: &UiEvent) {

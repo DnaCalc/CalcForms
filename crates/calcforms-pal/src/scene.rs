@@ -13,12 +13,15 @@
 //!   transitional `flatten` check — RENDERING_ARCHITECTURE.md §12 step 8 — were removed
 //!   in bead `oxforms-rq5.1`).
 
-use std::collections::{BTreeMap, HashSet};
+use std::collections::{BTreeMap, HashMap, HashSet};
 
 use serde::{Deserialize, Serialize};
 
 use crate::input::DpiScale;
-use crate::{fnv1a64, Color, Rect, SurfaceSize, BYTES_PER_PIXEL, FRAMEBUFFER_HASH_ALGORITHM};
+use crate::{
+    fnv1a64, Color, Rect, SurfaceSize, BYTES_PER_PIXEL, FNV_OFFSET_BASIS, FNV_PRIME,
+    FRAMEBUFFER_HASH_ALGORITHM,
+};
 
 /// Scene wire/storage schema version.
 pub const SCENE_VERSION: u16 = 1;
@@ -71,6 +74,22 @@ impl RectF {
     #[must_use]
     pub fn is_empty(self) -> bool {
         self.w <= 0.0 || self.h <= 0.0
+    }
+
+    /// Smallest rect holding both (an empty operand contributes nothing).
+    #[must_use]
+    pub fn union(self, other: RectF) -> RectF {
+        if self.is_empty() {
+            return other;
+        }
+        if other.is_empty() {
+            return self;
+        }
+        let x = self.x.min(other.x);
+        let y = self.y.min(other.y);
+        let right = (self.x + self.w).max(other.x + other.w);
+        let bottom = (self.y + self.h).max(other.y + other.h);
+        RectF::new(x, y, right - x, bottom - y)
     }
 }
 
@@ -622,6 +641,23 @@ pub struct Scene {
     pub damage: DamageSet,
     #[serde(skip)]
     pub frame_hash: u64,
+    /// Per-node content hash, cached when the node is upserted so a patch rehashes only the
+    /// nodes it carries and the frame hash is rolled up from these values.
+    #[serde(skip)]
+    hash_cache: HashMap<NodeId, u64>,
+    /// Per-node subtree paint extent (see [`Scene::subtree_extent`]) that lets
+    /// [`render_damage`] skip a subtree without visiting it.
+    #[serde(skip)]
+    extent_cache: HashMap<NodeId, Extent>,
+}
+
+/// Where a subtree can paint, in the node's own space (after its transform).
+/// `Unbounded` marks a subtree holding an empty-bounds node, which paints wherever it is
+/// asked to, so it can never be skipped.
+#[derive(Clone, Copy, Debug, PartialEq)]
+enum Extent {
+    Bounded(RectF),
+    Unbounded,
 }
 
 impl Scene {
@@ -636,6 +672,8 @@ impl Scene {
             text: BTreeMap::new(),
             damage: DamageSet::default(),
             frame_hash: 0,
+            hash_cache: HashMap::new(),
+            extent_cache: HashMap::new(),
         };
         scene.recompute_frame_hash();
         scene
@@ -686,16 +724,45 @@ impl Scene {
         self.index_of(id).map(|i| self.nodes.remove(i))
     }
 
-    /// Rolled-up content hash used as the patch `base_hash`. Order-independent of
-    /// arena layout because nodes are visited in `NodeId` order.
+    /// Rebuild every cache from `nodes` and roll up the frame hash. Call after editing
+    /// `nodes` directly (fixtures, tests); [`Scene::apply_patch`] maintains the caches
+    /// incrementally and never needs this.
     pub fn recompute_frame_hash(&mut self) {
-        let mut h = ContentHasher::new();
-        h.u32(self.nodes.len() as u32);
+        self.hash_cache.clear();
         for node in &self.nodes {
-            h.u64(node.id.0);
-            h.u64(node.content_hash());
+            self.hash_cache.insert(node.id, node.content_hash());
         }
-        self.frame_hash = h.finish();
+        self.rebuild_extents();
+        self.roll_up_frame_hash();
+    }
+
+    /// Roll the cached per-node hashes into the frame hash. The definition is unchanged
+    /// from the original (count, then `(id, content hash)` per node in `NodeId` order, one
+    /// fnv1a64 over those bytes), so recorded hashes stay valid; only the per-node hashing
+    /// moved out of this path.
+    fn roll_up_frame_hash(&mut self) {
+        let mut h = FNV_OFFSET_BASIS;
+        let mut feed = |bytes: &[u8]| {
+            for b in bytes {
+                h = (h ^ u64::from(*b)).wrapping_mul(FNV_PRIME);
+            }
+        };
+        feed(&(self.nodes.len() as u32).to_le_bytes());
+        for node in &self.nodes {
+            let hash = self.node_hash(node);
+            feed(&node.id.0.to_le_bytes());
+            feed(&hash.to_le_bytes());
+        }
+        self.frame_hash = h;
+    }
+
+    /// Cached content hash of a resident node; computed on the spot if the cache has no
+    /// entry (a scene deserialized or edited by hand).
+    fn node_hash(&self, node: &SceneNode) -> u64 {
+        self.hash_cache
+            .get(&node.id)
+            .copied()
+            .unwrap_or_else(|| node.content_hash())
     }
 
     /// Absolute (surface-space) transform accumulated from the root to `id`.
@@ -715,9 +782,129 @@ impl Scene {
         xf
     }
 
+    /// `absolute_transform` memoized for the span of one patch, so many edits under the
+    /// same parents walk each ancestor chain once. The memo is dropped whenever an edit
+    /// changes a transform or a parent link.
+    fn absolute_transform_memo(&self, id: NodeId, memo: &mut HashMap<NodeId, Affine>) -> Affine {
+        if let Some(xf) = memo.get(&id) {
+            return *xf;
+        }
+        let xf = match self.get(id) {
+            None => Affine::IDENTITY,
+            Some(node) => match node.parent {
+                Some(parent) if self.get(parent).is_some() => self
+                    .absolute_transform_memo(parent, memo)
+                    .compose(node.transform),
+                _ => Affine::IDENTITY.compose(node.transform),
+            },
+        };
+        memo.insert(id, xf);
+        xf
+    }
+
+    /// Rebuild the subtree extents of every node reachable from the root.
+    fn rebuild_extents(&mut self) {
+        let mut cache = HashMap::new();
+        let mut visiting = HashSet::new();
+        self.extent_of(self.root, &mut cache, &mut visiting);
+        self.extent_cache = cache;
+    }
+
+    /// Extent of `id` (own bounds plus its children, the latter confined to the node's
+    /// clip), memoized into `cache`. It is a superset of what the subtree paints, which is
+    /// what makes skipping on it safe; a missing or cyclic child contributes nothing.
+    fn extent_of(
+        &self,
+        id: NodeId,
+        cache: &mut HashMap<NodeId, Extent>,
+        visiting: &mut HashSet<NodeId>,
+    ) -> Option<Extent> {
+        if let Some(e) = cache.get(&id) {
+            return Some(*e);
+        }
+        let node = self.get(id)?;
+        if !visiting.insert(id) {
+            return None;
+        }
+        let mut children = RectF::new(0.0, 0.0, 0.0, 0.0);
+        let mut unbounded = node.bounds.is_empty();
+        for child in &node.children {
+            let Some(extent) = self.extent_of(*child, cache, visiting) else {
+                continue;
+            };
+            match extent {
+                Extent::Unbounded => unbounded = true,
+                Extent::Bounded(r) => {
+                    // A child's extent is in the child's own space; its transform maps it
+                    // into this node's space.
+                    let r = self.get(*child).map_or(r, |c| c.transform.apply_rect(r));
+                    children = children.union(r);
+                }
+            }
+        }
+        visiting.remove(&id);
+        let extent = if unbounded {
+            Extent::Unbounded
+        } else {
+            if let Some(clip) = node.clip {
+                children = children.intersect(clip);
+            }
+            Extent::Bounded(node.bounds.union(children))
+        };
+        cache.insert(id, extent);
+        Some(extent)
+    }
+
+    /// Recompute the extent of `id` from its children's cached extents, then of each
+    /// ancestor in turn while the value keeps changing.
+    fn refresh_extent_chain(&mut self, id: NodeId) {
+        let mut cur = Some(id);
+        let mut hops = 0usize;
+        while let Some(node_id) = cur {
+            hops += 1;
+            if hops > self.nodes.len() + 1 {
+                // A parent cycle: fall back to a full rebuild rather than loop.
+                self.rebuild_extents();
+                return;
+            }
+            let Some(node) = self.get(node_id) else {
+                return;
+            };
+            let parent = node.parent;
+            let before = self.extent_cache.remove(&node_id);
+            let mut cache = std::mem::take(&mut self.extent_cache);
+            let after = self.extent_of(node_id, &mut cache, &mut HashSet::new());
+            self.extent_cache = cache;
+            // The edited node's parent always needs a look (the child's transform enters its
+            // extent even when the child's own extent is unchanged); above that, stop as soon
+            // as a recomputed value comes out the same.
+            if hops > 1 && before == after {
+                return;
+            }
+            cur = parent;
+        }
+    }
+
+    /// The paint extent of `id`'s subtree in the node's own space (after its transform),
+    /// when bounded and known. `None` means the subtree cannot be skipped: it holds an
+    /// empty-bounds node, or the cache has no entry (a scene edited by hand without
+    /// `recompute_frame_hash`).
+    #[must_use]
+    pub fn subtree_extent(&self, id: NodeId) -> Option<RectF> {
+        match self.extent_cache.get(&id) {
+            Some(Extent::Bounded(r)) => Some(*r),
+            _ => None,
+        }
+    }
+
     /// Apply a batched patch. Returns the damage produced, or [`SceneError::StaleBase`]
     /// (the runtime then resubmits a full rebuild). Content-equal upserts are no-ops,
     /// which absorbs over-invalidation.
+    ///
+    /// Cost follows the patch: each upsert hashes the incoming node once (the resident
+    /// node's hash is cached), ancestor transforms are memoized across the patch, and the
+    /// subtree extents are touched only when an edit changes geometry or structure. The
+    /// frame hash roll-up then folds the cached per-node values.
     pub fn apply_patch(&mut self, patch: &ScenePatch) -> Result<DamageSet, SceneError> {
         if patch.version != SCENE_PATCH_VERSION {
             return Err(SceneError::UnsupportedVersion {
@@ -735,44 +922,76 @@ impl Scene {
         self.surface = patch.surface;
         self.dpi = patch.dpi;
         let mut damage = DamageSet::default();
+        let mut memo: HashMap<NodeId, Affine> = HashMap::new();
+        let mut rebuild_extents = false;
+        let mut geometry_changed: Vec<NodeId> = Vec::new();
 
         for edit in &patch.edits {
             match edit {
                 NodeEdit::Retain(_) => {}
                 NodeEdit::Upsert(node) => {
                     let incoming_hash = node.content_hash();
-                    let unchanged = self
-                        .get(node.id)
-                        .is_some_and(|existing| existing.content_hash() == incoming_hash);
-                    if unchanged {
+                    let existing = self.get(node.id);
+                    if existing.is_some_and(|e| self.node_hash(e) == incoming_hash) {
                         continue;
                     }
-                    if let Some(existing) = self.get(node.id) {
-                        damage.add(
-                            existing.id,
-                            self.absolute_transform(existing.id)
-                                .apply_rect(existing.bounds),
-                        );
-                    }
                     let id = node.id;
+                    match existing {
+                        Some(old) => {
+                            let before = self
+                                .absolute_transform_memo(id, &mut memo)
+                                .apply_rect(old.bounds);
+                            damage.add(id, before);
+                            if old.parent != node.parent || old.children != node.children {
+                                rebuild_extents = true;
+                            } else if old.transform != node.transform
+                                || old.clip != node.clip
+                                || old.bounds != node.bounds
+                            {
+                                geometry_changed.push(id);
+                            }
+                            if old.transform != node.transform || old.parent != node.parent {
+                                memo.clear();
+                            }
+                        }
+                        None => {
+                            rebuild_extents = true;
+                            memo.clear();
+                        }
+                    }
                     self.upsert_node(node.clone());
-                    damage.add(id, self.absolute_transform(id).apply_rect(node.bounds));
+                    self.hash_cache.insert(id, incoming_hash);
+                    let after = self
+                        .absolute_transform_memo(id, &mut memo)
+                        .apply_rect(node.bounds);
+                    damage.add(id, after);
                 }
                 NodeEdit::Remove(id) => {
-                    if let Some(removed) = self.remove_node(*id) {
-                        damage.add(*id, self.absolute_transform(*id).apply_rect(removed.bounds));
+                    let rect = self.absolute_transform_memo(*id, &mut memo).apply_rect(
+                        self.get(*id)
+                            .map_or(RectF::new(0.0, 0.0, 0.0, 0.0), |n| n.bounds),
+                    );
+                    if self.remove_node(*id).is_some() {
+                        self.hash_cache.remove(id);
+                        damage.add(*id, rect);
+                        rebuild_extents = true;
+                        memo.clear();
                     }
                 }
                 NodeEdit::Reorder { id, z, parent } => {
                     if let Some(i) = self.index_of(*id) {
                         let before = self
-                            .absolute_transform(*id)
+                            .absolute_transform_memo(*id, &mut memo)
                             .apply_rect(self.nodes[i].bounds);
                         self.nodes[i].z = *z;
                         self.nodes[i].parent = *parent;
+                        memo.clear();
                         let after = self
-                            .absolute_transform(*id)
+                            .absolute_transform_memo(*id, &mut memo)
                             .apply_rect(self.nodes[i].bounds);
+                        let hash = self.nodes[i].content_hash();
+                        self.hash_cache.insert(*id, hash);
+                        rebuild_extents = true;
                         damage.add(*id, before);
                         damage.add(*id, after);
                     }
@@ -780,7 +999,14 @@ impl Scene {
             }
         }
 
-        self.recompute_frame_hash();
+        if rebuild_extents {
+            self.rebuild_extents();
+        } else {
+            for id in geometry_changed {
+                self.refresh_extent_chain(id);
+            }
+        }
+        self.roll_up_frame_hash();
         self.damage = damage.clone();
         Ok(damage)
     }
@@ -885,29 +1111,47 @@ pub trait PrimSink {
 /// deterministic canonical render path. `render_headless` generalized to the full
 /// vocabulary.
 pub fn render_full(scene: &Scene, sink: &mut dyn PrimSink) {
-    render_node(scene, scene.root, sink, None);
+    render_node(scene, scene.root, Affine::IDENTITY, sink, None);
 }
 
 /// Render only nodes intersecting the damage rects (z/clip-aware via the same
 /// walk). With damage covering the whole surface this equals [`render_full`].
+///
+/// A subtree whose cached paint extent misses every damage rect is skipped without being
+/// visited, so the walk costs in proportion to the part of the tree near the damage.
 pub fn render_damage(scene: &Scene, sink: &mut dyn PrimSink, damage: &DamageSet) {
-    render_node(scene, scene.root, sink, Some(damage));
+    render_node(scene, scene.root, Affine::IDENTITY, sink, Some(damage));
 }
 
-fn render_node(scene: &Scene, id: NodeId, sink: &mut dyn PrimSink, damage: Option<&DamageSet>) {
+fn render_node(
+    scene: &Scene,
+    id: NodeId,
+    parent_abs: Affine,
+    sink: &mut dyn PrimSink,
+    damage: Option<&DamageSet>,
+) {
     let Some(node) = scene.get(id) else { return };
     if !node.visible {
         return;
+    }
+    // The absolute transform is carried down from the parent instead of re-walked to the
+    // root for every node (same composition order as `Scene::absolute_transform`).
+    let abs_xf = parent_abs.compose(node.transform);
+    if let Some(d) = damage {
+        if let Some(extent) = scene.subtree_extent(id) {
+            if !d.covers(abs_xf.apply_rect(extent)) {
+                return;
+            }
+        }
     }
     sink.push_transform(node.transform);
     if let Some(clip) = node.clip {
         sink.push_clip(clip);
     }
 
-    let abs = scene.absolute_transform(id).apply_rect(node.bounds);
     let paint_self = match damage {
         None => true,
-        Some(d) => node.bounds.is_empty() || d.covers(abs),
+        Some(d) => node.bounds.is_empty() || d.covers(abs_xf.apply_rect(node.bounds)),
     };
     if paint_self {
         for prim in &node.prims {
@@ -916,7 +1160,7 @@ fn render_node(scene: &Scene, id: NodeId, sink: &mut dyn PrimSink, damage: Optio
     }
 
     for child in &node.children {
-        render_node(scene, *child, sink, damage);
+        render_node(scene, *child, abs_xf, sink, damage);
     }
 
     if node.clip.is_some() {
@@ -2101,5 +2345,314 @@ mod tests {
             json,
             "ScenePatch JSON must round-trip stably"
         );
+    }
+
+    /// A three-level tree (form, clipped frame, two controls) exercised through upserts, a
+    /// remove and a reorder. Shared by the frozen reference-hash test and the equivalence
+    /// tests for the cached hashes and subtree extents.
+    fn nested_scene_and_edits() -> (Scene, Vec<Vec<NodeEdit>>) {
+        let surf = SurfaceSize::new(200, 120);
+        let fill = |x: f32, y: f32, w: f32, h: f32, g: u8| Prim::FillRect {
+            rect: RectF::new(x, y, w, h),
+            paint: Paint::Solid(Color::rgba(g, g, g, 0xff)),
+        };
+        let node = |id: u64, parent: Option<u64>, t: Affine, b: RectF, g: u8| {
+            let mut n = SceneNode::new(NodeId(id));
+            n.parent = parent.map(NodeId);
+            n.transform = t;
+            n.bounds = b;
+            n.prims = vec![fill(b.x, b.y, b.w, b.h, g)];
+            n
+        };
+        let mut root = node(
+            0,
+            None,
+            Affine::IDENTITY,
+            RectF::new(0.0, 0.0, 200.0, 120.0),
+            0xf0,
+        );
+        root.children = vec![NodeId(1), NodeId(4)];
+        let mut frame = node(
+            1,
+            Some(0),
+            Affine::translate(10.0, 10.0),
+            RectF::new(0.0, 0.0, 100.0, 60.0),
+            0xe0,
+        );
+        frame.clip = Some(RectF::new(0.0, 0.0, 100.0, 60.0));
+        frame.children = vec![NodeId(2), NodeId(3)];
+        let a = node(
+            2,
+            Some(1),
+            Affine::translate(5.0, 5.0),
+            RectF::new(0.0, 0.0, 40.0, 20.0),
+            0x40,
+        );
+        let b = node(
+            3,
+            Some(1),
+            Affine::translate(60.0, 30.0),
+            RectF::new(0.0, 0.0, 80.0, 40.0),
+            0x80,
+        );
+        let c = node(
+            4,
+            Some(0),
+            Affine {
+                sx: 2.0,
+                sy: 2.0,
+                tx: 120.0,
+                ty: 70.0,
+            },
+            RectF::new(0.0, 0.0, 30.0, 20.0),
+            0x20,
+        );
+        let mut scene = Scene::new(surf, dpi(), NodeId(0));
+        scene.nodes = vec![root.clone(), frame.clone(), a.clone(), b.clone(), c.clone()];
+        scene.recompute_frame_hash();
+        let mut a2 = a.clone();
+        a2.prims = vec![fill(0.0, 0.0, 40.0, 20.0, 0x44)];
+        let mut b2 = b.clone();
+        b2.bounds = RectF::new(0.0, 0.0, 30.0, 40.0);
+        let mut frame2 = frame.clone();
+        frame2.transform = Affine::translate(20.0, 15.0);
+        let edits = vec![
+            vec![NodeEdit::Upsert(a2)],
+            vec![NodeEdit::Upsert(b2)],
+            vec![NodeEdit::Upsert(frame2)],
+            vec![NodeEdit::Reorder {
+                id: NodeId(3),
+                z: 5,
+                parent: Some(NodeId(1)),
+            }],
+            vec![NodeEdit::Remove(NodeId(4))],
+        ];
+        (scene, edits)
+    }
+
+    fn patch_of(scene: &Scene, edits: Vec<NodeEdit>) -> ScenePatch {
+        ScenePatch {
+            version: SCENE_PATCH_VERSION,
+            base_hash: scene.frame_hash,
+            surface: scene.surface,
+            dpi: scene.dpi,
+            edits,
+        }
+    }
+
+    /// The frame hash is part of the patch protocol (a VBA-held token) and of the
+    /// recorded references, so the cached roll-up must keep the original definition: these
+    /// values were produced by the pre-cache implementation (every node rehashed on every
+    /// patch) and must never change silently.
+    #[test]
+    fn frame_hash_reference_values_are_frozen() {
+        let (mut scene, edits) = nested_scene_and_edits();
+        let mut seen = vec![scene.frame_hash];
+        let mut pixels = vec![render_headless_hash(&scene)];
+        for e in edits {
+            let p = patch_of(&scene, e);
+            scene.apply_patch(&p).expect("patch");
+            seen.push(scene.frame_hash);
+            pixels.push(render_headless_hash(&scene));
+        }
+        assert_eq!(
+            pixels,
+            vec![
+                7_316_733_686_325_339_941,
+                11_111_204_120_509_294_885,
+                11_111_204_120_509_294_885,
+                17_114_001_911_948_414_245,
+                17_114_001_911_948_414_245,
+                4_214_390_393_762_385_189,
+            ],
+            "framebuffer hashes"
+        );
+        seen.push(w002_scene().frame_hash);
+        assert_eq!(
+            seen,
+            vec![
+                3_180_780_209_295_427_535,
+                12_790_293_389_286_593_693,
+                7_998_890_232_897_411_011,
+                2_337_268_271_911_337_675,
+                17_955_422_346_503_427_847,
+                13_280_014_909_536_331_836,
+                7_440_430_028_161_405_326,
+            ],
+            "frame hashes: start, after 5 patches, w002"
+        );
+    }
+
+    /// The pre-cache damage walk, kept as the reference the optimized walk must equal:
+    /// every node is visited and re-walks its ancestor chain.
+    fn reference_render_damage(
+        scene: &Scene,
+        id: NodeId,
+        sink: &mut dyn PrimSink,
+        damage: &DamageSet,
+    ) {
+        let Some(node) = scene.get(id) else { return };
+        if !node.visible {
+            return;
+        }
+        sink.push_transform(node.transform);
+        if let Some(clip) = node.clip {
+            sink.push_clip(clip);
+        }
+        let abs = scene.absolute_transform(id).apply_rect(node.bounds);
+        if node.bounds.is_empty() || damage.covers(abs) {
+            for prim in &node.prims {
+                sink.draw(prim);
+            }
+        }
+        for child in &node.children {
+            reference_render_damage(scene, *child, sink, damage);
+        }
+        if node.clip.is_some() {
+            sink.pop_clip();
+        }
+        sink.pop_transform();
+    }
+
+    fn damage_of(rects: &[RectF]) -> DamageSet {
+        let mut d = DamageSet::default();
+        for (i, r) in rects.iter().enumerate() {
+            d.add(NodeId(i as u64), *r);
+        }
+        d
+    }
+
+    /// Skipping subtrees by cached extent must not change a single pixel or draw command
+    /// against the visit-everything walk, for damage anywhere over the nested scene before
+    /// and after each kind of edit.
+    #[test]
+    fn extent_skipping_equals_the_visit_everything_walk() {
+        let (mut scene, edits) = nested_scene_and_edits();
+        let mut stages = vec![scene.clone()];
+        for e in edits {
+            let p = patch_of(&scene, e);
+            scene.apply_patch(&p).expect("patch");
+            stages.push(scene.clone());
+        }
+        let mut rects = Vec::new();
+        for x in (0..200).step_by(29) {
+            for y in (0..120).step_by(23) {
+                for (w, h) in [(1.0, 1.0), (9.0, 7.0), (60.0, 40.0)] {
+                    rects.push(RectF::new(x as f32, y as f32, w, h));
+                }
+            }
+        }
+        for (n, stage) in stages.iter().enumerate() {
+            for r in &rects {
+                let d = damage_of(&[*r]);
+                let mut a = HeadlessSink::new(stage.surface);
+                render_damage(stage, &mut a, &d);
+                let mut b = HeadlessSink::new(stage.surface);
+                reference_render_damage(stage, stage.root, &mut b, &d);
+                // A draw the visit-everything walk issues only to have its sink clip discard
+                // it (a child outside its frame's clip) is no longer issued, so the command
+                // count may only go down; the pixels must be identical.
+                assert!(
+                    a.command_count() <= b.command_count(),
+                    "stage {n} rect {r:?}"
+                );
+                // The headless sink repaints whole nodes with no per-rect device clip (the
+                // raster backend adds one), so only the pixels inside the damage rect are
+                // the contract.
+                let (pa, pb) = (a.into_pixels(), b.into_pixels());
+                let width = stage.surface.width as usize;
+                let (x0, y0) = (r.x.floor() as usize, r.y.floor() as usize);
+                let (x1, y1) = (
+                    ((r.x + r.w).ceil() as usize).min(width),
+                    ((r.y + r.h).ceil() as usize).min(stage.surface.height as usize),
+                );
+                for y in y0..y1 {
+                    let (lo, hi) = ((y * width + x0) * 4, (y * width + x1) * 4);
+                    assert_eq!(pa[lo..hi], pb[lo..hi], "stage {n} rect {r:?} row {y}");
+                }
+            }
+        }
+    }
+
+    /// A subtree away from the damage is not visited at all: a counting sink sees no draw
+    /// and no transform push for it.
+    #[test]
+    fn render_damage_does_not_visit_a_subtree_that_misses_the_damage() {
+        #[derive(Default)]
+        struct Counting {
+            pushes: usize,
+            draws: usize,
+        }
+        impl PrimSink for Counting {
+            fn push_transform(&mut self, _t: Affine) {
+                self.pushes += 1;
+            }
+            fn pop_transform(&mut self) {}
+            fn push_clip(&mut self, _rect: RectF) {}
+            fn pop_clip(&mut self) {}
+            fn draw(&mut self, _prim: &Prim) {
+                self.draws += 1;
+            }
+        }
+        let (scene, _) = nested_scene_and_edits();
+        // Damage in the empty bottom-right corner touches the root only.
+        let mut c = Counting::default();
+        render_damage(
+            &scene,
+            &mut c,
+            &damage_of(&[RectF::new(190.0, 110.0, 5.0, 5.0)]),
+        );
+        assert_eq!(c.pushes, 1, "only the root is entered");
+        // Damage inside control 2 enters root, frame, and control 2 (and the frame's other
+        // child is visited because it shares the frame's extent, but draws nothing).
+        let mut c = Counting::default();
+        render_damage(
+            &scene,
+            &mut c,
+            &damage_of(&[RectF::new(16.0, 16.0, 3.0, 3.0)]),
+        );
+        assert!(
+            c.pushes <= 4 && c.draws >= 3,
+            "pushes {} draws {}",
+            c.pushes,
+            c.draws
+        );
+    }
+
+    /// The caches an incremental patch maintains must equal the ones a from-scratch rebuild
+    /// produces, after every kind of edit (the stale-cache failure would be a missed repaint
+    /// or a wrong stale-base answer).
+    #[test]
+    fn incremental_caches_equal_a_rebuild_after_every_edit() {
+        let (mut scene, edits) = nested_scene_and_edits();
+        for e in edits {
+            let p = patch_of(&scene, e);
+            scene.apply_patch(&p).expect("patch");
+            let mut fresh = scene.clone();
+            fresh.recompute_frame_hash();
+            assert_eq!(scene.frame_hash, fresh.frame_hash);
+            assert_eq!(scene.hash_cache, fresh.hash_cache);
+            assert_eq!(scene.extent_cache, fresh.extent_cache);
+        }
+    }
+
+    /// A node moved by a patch carries its subtree's extent with it, and damage reaches
+    /// the new place.
+    #[test]
+    fn moving_a_container_updates_the_extents_of_its_ancestors() {
+        let (mut scene, _) = nested_scene_and_edits();
+        let before = scene.subtree_extent(NodeId(0)).expect("root extent");
+        let mut frame = scene.get(NodeId(1)).expect("frame").clone();
+        frame.transform = Affine::translate(150.0, 90.0);
+        let p = patch_of(&scene, vec![NodeEdit::Upsert(frame)]);
+        scene.apply_patch(&p).expect("patch");
+        let after = scene.subtree_extent(NodeId(0)).expect("root extent");
+        assert!(
+            after.x + after.w >= before.x + before.w,
+            "{before:?} -> {after:?}"
+        );
+        let mut fresh = scene.clone();
+        fresh.recompute_frame_hash();
+        assert_eq!(scene.extent_cache, fresh.extent_cache);
     }
 }

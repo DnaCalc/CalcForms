@@ -119,6 +119,22 @@ pub fn repaint_scene_damage(scene: &Scene, pixmap: &mut ts::Pixmap, fonts: &Font
     }
 }
 
+/// The device-pixel rectangles `[(x, y, width, height)]` that [`repaint_scene_damage`] will
+/// rewrite for this scene's damage (outward-rounded and clamped to the pixmap, empty ones
+/// dropped). The window presents exactly these through softbuffer's damage-aware present.
+#[must_use]
+pub fn device_damage_rects(scene: &Scene, pixmap: &ts::Pixmap) -> Vec<(u32, u32, u32, u32)> {
+    let scale = device_fit_scale(scene, pixmap);
+    let (pw, ph) = (pixmap.width(), pixmap.height());
+    scene
+        .damage
+        .rects
+        .iter()
+        .map(|r| device_pixel_rect(*r, scale, pw, ph))
+        .filter(|&(_, _, w, h)| w > 0 && h > 0)
+        .collect()
+}
+
 /// A logical rect scaled to device pixels, rounded OUTWARD and clamped to the pixmap, so the
 /// cleared/clipped region fully covers the node's device footprint (no fractional-scale seam).
 fn device_pixel_rect(r: RectF, scale: f32, pw: u32, ph: u32) -> (u32, u32, u32, u32) {
@@ -192,9 +208,13 @@ pub struct SkiaSink<'a> {
     /// Current clip in device space (intersection of all active clips).
     clip: RectF,
     clip_stack: Vec<RectF>,
-    /// Memoized device-space clip mask; `None` once built means "clip is the whole
-    /// surface, no masking needed". `mask_dirty` forces a rebuild after a clip change.
-    clip_mask: Option<ts::Mask>,
+    /// Reused device-space clip mask buffer; see `ensure_mask`. `mask_dirty` forces a
+    /// refresh after a clip change.
+    mask_store: Option<ts::Mask>,
+    /// Device rows/columns `[x0, x1) x [y0, y1)` the last fill may have written.
+    mask_region: Option<(u32, u32, u32, u32)>,
+    /// Whether `mask_store` currently holds the active clip.
+    mask_active: bool,
     mask_dirty: bool,
 }
 
@@ -212,7 +232,9 @@ impl<'a> SkiaSink<'a> {
             xf_stack: Vec::new(),
             clip: RectF::new(0.0, 0.0, surface_w, surface_h),
             clip_stack: Vec::new(),
-            clip_mask: None,
+            mask_store: None,
+            mask_region: None,
+            mask_active: false,
             mask_dirty: false,
         }
     }
@@ -242,43 +264,75 @@ impl<'a> SkiaSink<'a> {
             && self.clip.y + self.clip.h >= self.surface_h
     }
 
-    /// Rebuild the device clip mask if a clip change invalidated it. After this,
-    /// `self.clip_mask` is the mask to pass (or `None` for the full surface).
+    /// Refresh the device clip mask if a clip change invalidated it. After this,
+    /// `mask_active` says whether `mask_store` is the mask to pass (`false` means the full
+    /// surface, no masking).
+    ///
+    /// The mask buffer is allocated once and reused: a rebuild zeroes only the rows the
+    /// previous clip touched and fills the new rect, so the cost follows the clip, not the
+    /// surface (a fresh surface-sized mask per clip change made every repaint cost the
+    /// same however small the damage).
     ///
     /// An *empty* clip never reaches a real draw: [`PrimSink::draw`] short-circuits the
     /// whole node when `self.clip.is_empty()`, matching `HeadlessSink` (which suppresses
-    /// via clip intersection). So `None` here unambiguously means "full surface, no
+    /// via clip intersection). So an inactive mask unambiguously means "full surface, no
     /// masking" — it is never "empty clip, paint everywhere".
     fn ensure_mask(&mut self) {
         if !self.mask_dirty {
             return;
         }
         self.mask_dirty = false;
+        self.mask_active = false;
         if self.clip_is_full() || self.clip.is_empty() {
-            self.clip_mask = None;
             return;
         }
         let (w, h) = (self.pixmap.width(), self.pixmap.height());
-        let Some(mut mask) = ts::Mask::new(w, h) else {
-            self.clip_mask = None;
+        if self
+            .mask_store
+            .as_ref()
+            .is_some_and(|m| m.width() != w || m.height() != h)
+        {
+            self.mask_store = None;
+            self.mask_region = None;
+        }
+        if self.mask_store.is_none() {
+            self.mask_store = ts::Mask::new(w, h);
+        }
+        let Some(mask) = self.mask_store.as_mut() else {
             return;
         };
-        if let Some(rect) = ts::Rect::from_xywh(self.clip.x, self.clip.y, self.clip.w, self.clip.h)
-        {
-            let mut pb = ts::PathBuilder::new();
-            pb.push_rect(rect);
-            if let Some(path) = pb.finish() {
-                mask.fill_path(
-                    &path,
-                    ts::FillRule::Winding,
-                    false,
-                    ts::Transform::identity(),
-                );
-                self.clip_mask = Some(mask);
-                return;
+        // Zero what the previous fill may have touched.
+        if let Some((x0, y0, x1, y1)) = self.mask_region.take() {
+            let data = mask.data_mut();
+            for row in y0..y1 {
+                let base = (row * w) as usize;
+                data[base + x0 as usize..base + x1 as usize].fill(0);
             }
         }
-        self.clip_mask = None;
+        let Some(rect) = ts::Rect::from_xywh(self.clip.x, self.clip.y, self.clip.w, self.clip.h)
+        else {
+            return;
+        };
+        let mut pb = ts::PathBuilder::new();
+        pb.push_rect(rect);
+        let Some(path) = pb.finish() else { return };
+        mask.fill_path(
+            &path,
+            ts::FillRule::Winding,
+            false,
+            ts::Transform::identity(),
+        );
+        // Anti-aliasing can reach one pixel beyond the rect on each side.
+        let x0 = (self.clip.x.floor().max(0.0) as u32)
+            .saturating_sub(1)
+            .min(w);
+        let y0 = (self.clip.y.floor().max(0.0) as u32)
+            .saturating_sub(1)
+            .min(h);
+        let x1 = ((self.clip.x + self.clip.w).ceil().max(0.0) as u32 + 1).min(w);
+        let y1 = ((self.clip.y + self.clip.h).ceil().max(0.0) as u32 + 1).min(h);
+        self.mask_region = Some((x0, y0, x1, y1));
+        self.mask_active = true;
     }
 
     fn dev_point(&self, x: f32, y: f32) -> (f32, f32) {
@@ -339,8 +393,30 @@ impl<'a> SkiaSink<'a> {
         let Some(p) = self.build_paint(paint, dev, anti_alias) else {
             return;
         };
+        // Fill only the part of the rect inside the active clip's outward-rounded pixel box.
+        // The mask is zero outside that box, so the result is identical, but the rasterizer
+        // no longer walks (and masks) every pixel of a large rect such as the form
+        // background when the clip is a small damage rect.
+        let (l, t, r, b) = (
+            self.clip.x.floor().max(0.0),
+            self.clip.y.floor().max(0.0),
+            (self.clip.x + self.clip.w).ceil().min(self.surface_w),
+            (self.clip.y + self.clip.h).ceil().min(self.surface_h),
+        );
+        let Some(rect) = ts::Rect::from_ltrb(
+            rect.left().max(l),
+            rect.top().max(t),
+            rect.right().min(r),
+            rect.bottom().min(b),
+        ) else {
+            return;
+        };
         self.ensure_mask();
-        let mask = self.clip_mask.as_ref();
+        let mask = if self.mask_active {
+            self.mask_store.as_ref()
+        } else {
+            None
+        };
         self.pixmap
             .fill_rect(rect, &p, ts::Transform::identity(), mask);
     }
@@ -360,7 +436,11 @@ impl<'a> SkiaSink<'a> {
         self.ensure_mask();
         if let Some(fill) = fill {
             if let Some(p) = self.build_paint(fill, dev_rect, true) {
-                let mask = self.clip_mask.as_ref();
+                let mask = if self.mask_active {
+                    self.mask_store.as_ref()
+                } else {
+                    None
+                };
                 self.pixmap.fill_path(
                     path,
                     &p,
@@ -376,7 +456,11 @@ impl<'a> SkiaSink<'a> {
                     width: (stroke.width * self.scale()).max(1.0),
                     ..ts::Stroke::default()
                 };
-                let mask = self.clip_mask.as_ref();
+                let mask = if self.mask_active {
+                    self.mask_store.as_ref()
+                } else {
+                    None
+                };
                 self.pixmap
                     .stroke_path(path, &p, &sk_stroke, ts::Transform::identity(), mask);
             }

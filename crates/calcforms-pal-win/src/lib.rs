@@ -33,8 +33,8 @@ pub mod window;
 
 pub use clipboard::read_clipboard_text;
 pub use raster::{
-    render_scene_to_pixmap, render_scene_to_png, render_scene_to_rgba, repaint_scene_damage,
-    SkiaSink,
+    device_damage_rects, render_scene_to_pixmap, render_scene_to_png, render_scene_to_rgba,
+    repaint_scene_damage, SkiaSink,
 };
 pub use text::{
     load_desktop_text, load_ui_font, load_ui_font_family, AbGlyphShaper, FontTable,

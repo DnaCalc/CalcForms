@@ -33,6 +33,31 @@ use winit::window::{Window, WindowId};
 use crate::input;
 use crate::text::FontTable;
 
+/// How a frame reaches the screen.
+#[derive(Clone, Copy, Debug, Eq, PartialEq)]
+enum PresentPlan {
+    /// Copy the whole pixmap into the platform buffer and present all of it.
+    Full,
+    /// The platform buffer still holds the previous frame: copy and present only the
+    /// damaged rectangles.
+    Damaged,
+    /// Nothing changed (an expose): present the platform buffer as it is.
+    Unchanged,
+}
+
+/// Choose the present path. A reused pixmap with `buffer_age == 1` (the platform buffer
+/// holds exactly the previous frame) can be updated in place; any other age (a new or
+/// resized buffer, or a backend that cannot promise it) must take the full copy.
+fn present_plan(reuse: bool, buffer_age: u8, damaged_rects: usize) -> PresentPlan {
+    if !reuse || buffer_age != 1 {
+        PresentPlan::Full
+    } else if damaged_rects == 0 {
+        PresentPlan::Unchanged
+    } else {
+        PresentPlan::Damaged
+    }
+}
+
 /// What a caller's event callback asks the window to do next.
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum WindowSignal {
@@ -258,6 +283,13 @@ where
                 }
             }
         };
+        // The device-pixel rectangles this frame changes (empty on a first/resized frame,
+        // which repaints and presents everything).
+        let damaged: Vec<(u32, u32, u32, u32)> = if reuse {
+            crate::raster::device_damage_rects(&self.scene, &pixmap)
+        } else {
+            Vec::new()
+        };
         if reuse {
             crate::raster::repaint_scene_damage(&self.scene, &mut pixmap, &self.fonts);
         } else {
@@ -273,13 +305,43 @@ where
                 return;
             }
         };
-        // Present the entire retained pixmap. An expose with no new damage can
-        // reuse those pixels; pending regions are consumed only after success.
-        for (dst, src) in buffer.iter_mut().zip(pixmap.data().chunks_exact(4)) {
-            // softbuffer wants 0RGB; pixmap is opaque RGBA (premultiplied == straight).
-            *dst = (u32::from(src[0]) << 16) | (u32::from(src[1]) << 8) | u32::from(src[2]);
-        }
-        if let Err(e) = buffer.present() {
+        // Present only the damaged rectangles when the platform buffer still holds the
+        // previous frame (see `present_plan`); otherwise copy the whole pixmap.
+        let plan = present_plan(reuse, buffer.age(), damaged.len());
+        let width_px = width.get() as usize;
+        let result = if plan == PresentPlan::Unchanged {
+            buffer.present()
+        } else if plan == PresentPlan::Damaged {
+            let pixels = pixmap.data();
+            let mut rects = Vec::with_capacity(damaged.len());
+            for &(x, y, w, h) in &damaged {
+                let (Some(rw), Some(rh)) = (NonZeroU32::new(w), NonZeroU32::new(h)) else {
+                    continue;
+                };
+                for row in y as usize..(y + h) as usize {
+                    let span = row * width_px + x as usize..row * width_px + (x + w) as usize;
+                    for (dst, src) in buffer[span.clone()]
+                        .iter_mut()
+                        .zip(pixels[span.start * 4..span.end * 4].chunks_exact(4))
+                    {
+                        *dst = pack_0rgb(src);
+                    }
+                }
+                rects.push(softbuffer::Rect {
+                    x,
+                    y,
+                    width: rw,
+                    height: rh,
+                });
+            }
+            buffer.present_with_damage(&rects)
+        } else {
+            for (dst, src) in buffer.iter_mut().zip(pixmap.data().chunks_exact(4)) {
+                *dst = pack_0rgb(src);
+            }
+            buffer.present()
+        };
+        if let Err(e) = result {
             self.error = Some(WindowError::Surface(e.to_string()));
             event_loop.exit();
             return;
@@ -288,6 +350,11 @@ where
         self.pixmap = Some(pixmap);
         self.scene.damage = Default::default();
     }
+}
+
+/// softbuffer wants 0RGB; the pixmap is opaque RGBA (premultiplied == straight).
+fn pack_0rgb(src: &[u8]) -> u32 {
+    (u32::from(src[0]) << 16) | (u32::from(src[1]) << 8) | u32::from(src[2])
 }
 
 impl<F> ApplicationHandler for App<F>
@@ -433,6 +500,41 @@ mod tests {
         NodeEdit, NodeId, Paint, Prim, RectF, SceneNode, ScenePatch, SCENE_PATCH_VERSION,
     };
     use calcforms_pal::{Color, SurfaceSize};
+
+    #[test]
+    fn present_plan_updates_in_place_only_when_the_buffer_holds_the_previous_frame() {
+        use PresentPlan::{Damaged, Full, Unchanged};
+        // A first or resized frame allocates a fresh pixmap: everything is presented.
+        assert_eq!(present_plan(false, 1, 3), Full);
+        assert_eq!(present_plan(false, 0, 0), Full);
+        // A platform buffer of unknown age (0) or older (2+) cannot be patched in place.
+        assert_eq!(present_plan(true, 0, 3), Full);
+        assert_eq!(present_plan(true, 2, 3), Full);
+        // Age 1: the damaged rectangles only, or just a re-present when nothing changed.
+        assert_eq!(present_plan(true, 1, 3), Damaged);
+        assert_eq!(present_plan(true, 1, 0), Unchanged);
+    }
+
+    #[test]
+    fn device_damage_rects_are_the_pixel_boxes_the_repaint_rewrites() {
+        let size = SurfaceSize::new(100, 50);
+        let mut scene = Scene::new(
+            size,
+            DpiScale::new(96.0, 96.0),
+            calcforms_pal::scene::NodeId(0),
+        );
+        let pixmap = tiny_skia::Pixmap::new(200, 100).expect("pixmap");
+        scene.damage.rects = vec![
+            RectF::new(10.2, 5.0, 10.0, 4.5),
+            RectF::new(0.0, 0.0, 0.0, 4.0),
+            RectF::new(90.0, 40.0, 50.0, 50.0),
+        ];
+        // Scale 2: outward-rounded, empty dropped, clamped to the 200x100 pixmap.
+        assert_eq!(
+            crate::raster::device_damage_rects(&scene, &pixmap),
+            vec![(20, 10, 21, 9), (180, 80, 20, 20)]
+        );
+    }
 
     #[test]
     fn consecutive_input_snapshots_before_one_frame_preserve_all_damage() {
