@@ -18,7 +18,7 @@ Public Event BeforeUpdate(ByVal Cancel As ReturnBoolean)
 Public Event AfterUpdate()
 
 Private mCore As OxControlCore
-Private mValue As Boolean
+Private mValue As Variant
 Private mEditDirty As Boolean
 Private mFocused As Boolean
 
@@ -40,7 +40,7 @@ Public Property Get Core() As OxControlCore
 End Property
 
 Private Sub IOxControl_Render(ByVal Surface As OxSceneBuilder)
-    OxPaintToggleButton mCore, Surface, mFocused, mValue
+    OxPaintToggleButton mCore, Surface, mFocused, IsOn()
 End Sub
 
 Private Property Get IOxControl_HasChildren() As Boolean
@@ -51,15 +51,79 @@ Private Property Get IOxControl_Children() As Controls
     Set IOxControl_Children = Nothing
 End Property
 
-Public Property Get Value() As Boolean
+' Native FM20 Value is a Variant holding Boolean or Null (measured in Excel 16.0.20527, see
+' docs/evidence/.../oxforms-jbjp.128): Null and Empty give Null; Boolean passes through; Integer and
+' Long give False for 0, True for 1, otherwise Null; Byte, Single, Double, Currency, Decimal and Date
+' give False for zero and True otherwise; strings are True/False by name or by numeric text rounded
+' to 0 or 1, otherwise Null.
+Private Function CoerceValue(ByVal V As Variant) As Variant
+    Dim Text As String
+    Dim Number As Double
+    Select Case VarType(V)
+        Case vbBoolean
+            CoerceValue = V
+        Case vbInteger, vbLong
+            If V = 0 Then
+                CoerceValue = False
+            ElseIf V = 1 Then
+                CoerceValue = True
+            Else
+                CoerceValue = Null
+            End If
+        Case vbByte, vbSingle, vbDouble, vbCurrency, vbDecimal, vbDate
+            CoerceValue = (V <> 0)
+        Case vbString
+            Text = LCase$(Trim$(V))
+            If Text = "true" Then
+                CoerceValue = True
+            ElseIf Text = "false" Then
+                CoerceValue = False
+            ElseIf IsNumeric(Text) Then
+                Number = CDbl(Text)
+                If Abs(Number) > 1000000# Then
+                    CoerceValue = Null
+                ElseIf CLng(Number) = 0 Then
+                    CoerceValue = False
+                ElseIf CLng(Number) = 1 Then
+                    CoerceValue = True
+                Else
+                    CoerceValue = Null
+                End If
+            Else
+                CoerceValue = Null
+            End If
+        Case Else
+            CoerceValue = Null
+    End Select
+End Function
+
+Private Function IsOn() As Boolean
+    If IsNull(mValue) Then
+        IsOn = False
+    Else
+        IsOn = CBool(mValue)
+    End If
+End Function
+
+Public Property Get Value() As Variant
     Value = mValue
 End Property
-Public Property Let Value(ByVal NewValue As Boolean)
-    If mValue <> NewValue Then
-        mValue = NewValue
+Public Property Let Value(ByVal NewValue As Variant)
+    Dim Coerced As Variant
+    Coerced = CoerceValue(NewValue)
+    Dim Changed As Boolean
+    If IsNull(mValue) Then
+        Changed = Not IsNull(Coerced)
+    ElseIf IsNull(Coerced) Then
+        Changed = True
+    Else
+        Changed = (mValue <> Coerced)
+    End If
+    If Changed Then
+        mValue = Coerced
         mCore.MarkDirty
         RaiseEvent Change
-        RaiseEvent Click
+        If Not IsNull(Coerced) Then RaiseEvent Click
     End If
 End Property
 
@@ -224,11 +288,15 @@ Private Property Get IOxControl_AccessibilityName() As String
 End Property
 
 Private Property Get IOxControl_AccessibilityValue() As String
-    IOxControl_AccessibilityValue = CStr(mValue)
+    If IsNull(mValue) Then
+        IOxControl_AccessibilityValue = ""
+    Else
+        IOxControl_AccessibilityValue = CStr(mValue)
+    End If
 End Property
 
 Private Property Get IOxControl_AccessibilitySelected() As Boolean
-    IOxControl_AccessibilitySelected = mValue
+    IOxControl_AccessibilitySelected = IsOn()
 End Property
 
 Private Property Get IOxControl_AccessibilitySelectionStart() As Long
@@ -260,7 +328,7 @@ Public Sub PerformToggle()
 End Sub
 
 Private Sub Toggle()
-    mValue = Not mValue
+    mValue = Not IsOn()
     mEditDirty = True
     mCore.MarkDirty
     RaiseEvent Change

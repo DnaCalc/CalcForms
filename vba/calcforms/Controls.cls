@@ -35,13 +35,26 @@ Public Function Add(ByVal ProgId As String, ByVal Name As String) As IOxControl
     ' Nothing (which would crash in RegisterControl). (Real MSForms raises on a bad ProgID;
     ' a precise Err.Raise is future work once CalcVBA error handling is proven.)
     If Control Is Nothing Then Exit Function
-    Control.Core.TabIndex = mItems.Count
+    ' Native FM20 gives an Image no TabIndex, so it takes no slot in the sequence (measured,
+    ' oxforms-jbjp.131): Frame 0, Image -, SpinButton 1, ScrollBar 2, TabStrip 3, MultiPage 4.
+    If Control.Core.Kind <> oxControlImage Then
+        Control.Core.TabIndex = TabSlotCount()
+    End If
     mOwner.RegisterControl Control
     mItems.Add Control, Name
     If Control.Core.Kind = oxControlOptionButton Then
         Set Control.Core.PeerControls = Me
     End If
     Set Add = Control
+End Function
+
+Private Function TabSlotCount() As Long
+    Dim I As Long
+    Dim Existing As IOxControl
+    For I = 1 To mItems.Count
+        Set Existing = mItems.Item(I)
+        If Existing.Core.Kind <> oxControlImage Then TabSlotCount = TabSlotCount + 1
+    Next I
 End Function
 
 ' Internal container helper: track a control object that was constructed by a typed

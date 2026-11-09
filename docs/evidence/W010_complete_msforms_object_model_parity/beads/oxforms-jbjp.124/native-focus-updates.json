@@ -1,0 +1,366 @@
+{
+  "schema": "calcforms.focus_updates.v1",
+  "excel_launches": 1,
+  "scenarios": {
+    "text-before-show": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "5"
+        ],
+        "result": "Qty.Change(5);",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-while-focused": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "6"
+        ],
+        "result": "Qty.Change(6);",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-unfocused": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "7"
+        ],
+        "result": "Form.Activate;Qty.Change(7);",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "no-text": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "text-same-value": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "8"
+        ],
+        "result": "Qty.Change(8);",
+        "active": null
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "8"
+        ],
+        "result": "",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "",
+        "active": "active=Other"
+      }
+    ],
+    "hide-reshow": [
+      {
+        "step": [
+          "load"
+        ],
+        "result": "ok",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Qty"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "text",
+          "Qty",
+          "9"
+        ],
+        "result": "Qty.Change(9);",
+        "active": null
+      },
+      {
+        "step": [
+          "hide"
+        ],
+        "result": "",
+        "active": null
+      },
+      {
+        "step": [
+          "show"
+        ],
+        "result": "",
+        "active": "active=Qty"
+      },
+      {
+        "step": [
+          "activate"
+        ],
+        "result": "foreground: failed (0, 'SetForegroundWindow', 'No error message is available'); attach: failed (0, 'SetForegroundWindow', 'No error message is available'); switch: foreground=no; messages: foreground=no",
+        "active": null
+      },
+      {
+        "step": [
+          "focus",
+          "Other"
+        ],
+        "result": "Form.Activate;",
+        "active": "active=Other"
+      }
+    ]
+  },
+  "excel_pid": 53676,
+  "excel_version": "16.0",
+  "excel_build": "20527.0"
+}

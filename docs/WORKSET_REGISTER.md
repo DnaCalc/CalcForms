@@ -159,6 +159,20 @@ native size/context cases preserve button/Frame differences; `.101` remains open
 The generic measure record adds one unexpected public nested field: the canonical
 ledger stays red at 2,452 verified / 4,682 gaps / 622 unexpected-public rows.
 
+Run 12 (2026-11-09) measured native Variant `Value` coercion for ToggleButton and CheckBox
+(`.128`, [evidence](evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.128/README.md)):
+Null/Empty give Null, Integer and Long map only 0 and 1 (every other number, including -1,
+gives Null), other numeric subtypes map zero to False, strings map by name or rounded
+numeric text. Both runtime classes now hold a Variant Value and replay 382 of 382 native rows.
+`.131` found that an Image has no TabIndex and takes no slot natively (Frame 0, Spinner 1,
+Slider 2, TabStrip 3, MultiPage 4); `Controls.Add` now matches (new `container_tab_index` test) and the
+layout corpus offers `native_tab_slots=True` for new runs. The retained TabStrip 3/4 and MultiPage 4/5
+`tab_index` report rows stay as recorded until a new paired layout run uses it.
+`.124` could not isolate update events: the private-desktop form never became the active
+window, so Enter/Exit/BeforeUpdate/AfterUpdate did not fire; the partial log is retained.
+The `.118` sweep (456 rows) shows First-Show height snapping does not follow the flag or the
+requested Height alone, so no rounding rule is claimed. Canonical row statuses are unchanged.
+
 Run 9 `.126` imports a genuine planner with spin, scroll, toggle and tabs:
 208 native state/event/error fields match, including public error-380 range
 rejection (`.127`). `.118` now exposes IntegralHeight but retains every measured

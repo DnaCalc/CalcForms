@@ -1,0 +1,3201 @@
+{
+  "schema": "calcforms.toggle_coercion.v1",
+  "excel_pid": 38540,
+  "excel_launches": 1,
+  "cases": [
+    {
+      "control": "T",
+      "step": "triplestate",
+      "value": false,
+      "result": "ok"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 4,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 5,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 6,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 7,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 8,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 9,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 10,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 11,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 12,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 13,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 14,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 15,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 16,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 17,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 18,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 19,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 20,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 21,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 22,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 23,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 24,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 25,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 26,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 27,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "code": 28,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "literal": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "literal": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "literal": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 0,
+      "literal": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 4,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 5,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 6,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 7,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 8,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 9,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 10,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 11,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 12,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 13,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 14,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 15,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 16,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 17,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 18,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 19,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 20,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 21,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 22,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 23,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 24,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 25,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 26,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 27,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "code": 28,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "literal": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "literal": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "literal": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": false,
+      "init": 1,
+      "literal": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "step": "triplestate",
+      "value": true,
+      "result": "ok"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 4,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 5,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 6,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 7,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 8,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 9,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 10,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 11,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 12,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 13,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 14,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 15,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 16,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 17,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 18,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 19,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 20,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 21,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 22,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 23,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 24,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 25,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 26,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 27,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "code": 28,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "literal": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "literal": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "literal": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 0,
+      "literal": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 4,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 5,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 6,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 7,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 8,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 9,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 10,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 11,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 12,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 13,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 14,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 15,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 16,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 17,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 18,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 19,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 20,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 21,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 22,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 23,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 24,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 25,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 26,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 27,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "code": 28,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "literal": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "literal": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "literal": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 1,
+      "literal": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=T.Change(Null);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 0,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 1,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 2,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 3,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 4,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 5,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 6,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 7,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 8,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 9,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 10,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 11,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 12,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 13,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 14,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 15,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 16,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 17,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 18,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 19,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 20,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 21,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 22,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 23,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 24,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 25,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 26,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 27,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "code": 28,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "literal": 0,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "literal": 1,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=T.Change(Boolean=True);T.Click(Boolean=True);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "literal": 2,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=T.Change(Boolean=False);T.Click(Boolean=False);"
+    },
+    {
+      "control": "T",
+      "triple": true,
+      "init": 2,
+      "literal": 3,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "step": "triplestate",
+      "value": false,
+      "result": "ok"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 4,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 5,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 6,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 7,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 8,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 9,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 10,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 11,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 12,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 13,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 14,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 15,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 16,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 17,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 18,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 19,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 20,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 21,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 22,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 23,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 24,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 25,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 26,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 27,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "code": 28,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "literal": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "literal": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "literal": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 0,
+      "literal": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 4,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 5,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 6,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 7,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 8,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 9,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 10,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 11,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 12,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 13,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 14,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 15,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 16,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 17,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 18,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 19,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 20,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 21,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 22,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 23,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 24,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 25,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 26,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 27,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "code": 28,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "literal": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "literal": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "literal": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": false,
+      "init": 1,
+      "literal": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "step": "triplestate",
+      "value": true,
+      "result": "ok"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 4,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 5,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 6,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 7,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 8,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 9,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 10,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 11,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 12,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 13,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 14,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 15,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 16,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 17,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 18,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 19,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 20,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 21,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 22,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 23,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 24,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 25,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 26,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 27,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "code": 28,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "literal": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "literal": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "literal": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 0,
+      "literal": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 4,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 5,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 6,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 7,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 8,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 9,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 10,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 11,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 12,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 13,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 14,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 15,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 16,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 17,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 18,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 19,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 20,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 21,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 22,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 23,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 24,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 25,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 26,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 27,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "code": 28,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "literal": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "literal": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "literal": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 1,
+      "literal": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=C.Change(Null);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 0,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 1,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 2,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 3,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 4,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 5,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 6,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 7,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 8,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 9,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 10,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 11,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 12,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 13,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 14,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 15,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 16,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 17,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 18,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 19,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 20,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 21,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 22,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 23,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 24,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 25,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 26,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 27,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "code": 28,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "literal": 0,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "literal": 1,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=True|log=C.Change(Boolean=True);C.Click(Boolean=True);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "literal": 2,
+      "reset": "init=Null",
+      "result": "err=0||after=Boolean=False|log=C.Change(Boolean=False);C.Click(Boolean=False);"
+    },
+    {
+      "control": "C",
+      "triple": true,
+      "init": 2,
+      "literal": 3,
+      "reset": "init=Null",
+      "result": "err=0||after=Null|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 4,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 5,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 6,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 7,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 8,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 9,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 10,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 11,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 12,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 13,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 14,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 15,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 16,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 17,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 18,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 19,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 20,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 21,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 22,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 23,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 24,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 25,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 26,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 27,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "code": 28,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "literal": 0,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "literal": 1,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=True|log=O.Change(Boolean=True);O.Click(Boolean=True);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "literal": 2,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Boolean=False|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 0,
+      "literal": 3,
+      "reset": "init=Boolean=False",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=O.Change(Boolean=False);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=O.Change(Boolean=False);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 4,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 5,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 6,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 7,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 8,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 9,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 10,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 11,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 12,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 13,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 14,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=O.Change(Boolean=False);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 15,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=O.Change(Boolean=False);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 16,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 17,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 18,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 19,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 20,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 21,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 22,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 23,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 24,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=O.Change(Boolean=False);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 25,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 26,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 27,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "code": 28,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "literal": 0,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "literal": 1,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=True|log="
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "literal": 2,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Boolean=False|log=O.Change(Boolean=False);"
+    },
+    {
+      "control": "O",
+      "triple": false,
+      "init": 1,
+      "literal": 3,
+      "reset": "init=Boolean=True",
+      "result": "err=0||after=Null|log=O.Change(Null);"
+    }
+  ],
+  "excel_version": "16.0",
+  "excel_build": "20527.0"
+}

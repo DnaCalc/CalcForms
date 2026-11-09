@@ -101,7 +101,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "b0c693b9e513d09c620066fc4a41224b61a8c4172c5494b84282f9117bc43d4c"
+      "sha256": "8281baf24564fba702c0f2c7c7c4c2856607d408e8456571c18f0d0cf01d209e"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -136,7 +136,7 @@
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "f96af5933ae2bf16eb458d8e5f30860f3d94e33dd8f80d995e62e6f40b4ff127"
+      "sha256": "b02bd4488ec0dfaf5cdda23c25f424fb5a09aad517773340f90f7bbe9caac7dc"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -171,7 +171,7 @@
     {
       "path": "vba/calcforms/CheckBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "a8b4201741b009c66c0fbe396f4f3a2b331db0fb00e374dabb38290a78511357"
+      "sha256": "3abcba8bda1882ea5933dce4a8c6b7afff88cfcc8cfa1d434bdf3607a29c12b0"
     },
     {
       "path": "vba/calcforms/ComboBox.cls",
@@ -186,7 +186,7 @@
     {
       "path": "vba/calcforms/Controls.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "32bcb30005705b14b236e4ee2a6da6f193adacf52ed6cd763bb3d4379088bab6"
+      "sha256": "ca4a78f3f4f3134e980162d3c94724f5a92d8598fc49e3c2250f552d4c4280b5"
     },
     {
       "path": "vba/calcforms/Frame.cls",
@@ -331,7 +331,7 @@
     {
       "path": "vba/calcforms/ToggleButton.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "05a5e45637714d8096156c8b9bdc38f99266aa2db5d143be2c3a32062b785b45"
+      "sha256": "e2e144d5e5b5df1538550825b20a626fc278f2791a225c72386b179b2ce41302"
     },
     {
       "path": "vba/calcforms/UserForm.cls",

@@ -51,7 +51,7 @@ def boolean(value):
     return 'True' if value else 'False'
 
 
-def runtime_source(form, corpus):
+def runtime_source(form, corpus, native_tab_slots=False):
     """Build the real VBA object model through Controls.Add, not a Rust replica."""
     controls = list(walk(form['controls']))
     declarations = []
@@ -61,15 +61,24 @@ def runtime_source(form, corpus):
              f'    CalcFormsHostForm.Width = {form["width"]}',
              f'    CalcFormsHostForm.Height = {form["height"]}']
     def add(children, parent):
-        for index, c in enumerate(children):
+        tab_slot = 0
+        for position, c in enumerate(children):
             name, kind = c['name'], c['kind']
+            # Retained evidence pins the enumeration index (an Image takes a slot). Native FM20
+            # gives an Image no TabIndex and no slot (oxforms-jbjp.131); native_tab_slots=True
+            # generates that sequence for new paired runs.
+            index = position
+            if native_tab_slots:
+                index = None if kind == 'Image' else tab_slot
+                tab_slot += kind != 'Image'
             cls = 'OptionButtonControl' if kind == 'OptionButton' else kind
             declarations.append(f'Public {name} As {cls}')
             build.append(f'    Set {name} = {parent}.Controls.Add("Forms.{kind}.1", {literal(name)})')
             for property in ['Left', 'Top', 'Width', 'Height']:
                 build.append(f'    {name}.{property} = {c[property.lower()]}')
-            build.extend([f'    {name}.Core.TabIndex = {index}',
-                          f'    {name}.Core.FontSize = {corpus["font_size"]}',
+            if index is not None:
+                build.append(f'    {name}.Core.TabIndex = {index}')
+            build.extend([f'    {name}.Core.FontSize = {corpus["font_size"]}',
                           f'    {name}.Enabled = {boolean(c.get("enabled", True))}'])
             if 'caption' in c:
                 build.append(f'    {name}.Caption = {literal(c["caption"])}')
