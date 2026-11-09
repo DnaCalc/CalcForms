@@ -57,6 +57,13 @@
           "basis": "The final FUNCDESC parameter is pointer(Void), representing a native bounds pointer whose VBA/CalcVBA source lowering is not encoded by the typelib fact pack; require an explicit adapter instead of inventing a source signature."
         }
       ]
+    },
+    {
+      "library_key": "{0D452EE1-E08F-101A-852E-02608C4D0BB4}:2.0:lcid=0:syskind=1",
+      "type_index": 4,
+      "view": "primary",
+      "name": "Font",
+      "obligation": "Public supporting object returned by the Font property of every font-bearing MSForms control; its VAR_DISPATCH members (Name, Size, Bold, Italic, Underline, Strikethrough, Weight, Charset) are Get/Let property pairs on the VBA class."
     }
   ],
   "effective_loader_profiles": [
@@ -82,6 +89,7 @@
         "Controls",
         "ReturnInteger",
         "ReturnBoolean",
+        "Font",
         "Label",
         "OxTextService",
         "TextBox",
@@ -125,6 +133,7 @@
         "Controls",
         "ReturnInteger",
         "ReturnBoolean",
+        "Font",
         "Label",
         "OxTextService",
         "TextBox",

@@ -46,7 +46,10 @@ Private Const OX_DEFAULT_FONT_ID As Long = 1
 ' STALE_BASE_SENTINEL (surface.rs). See RENDERING_ARCHITECTURE.md §16.
 Private Const OX_STALE_SENTINEL As String = "STALE"
 
+Private mZoom As Long
+
 Private Sub Class_Initialize()
+    mZoom = 100
     Set mControls = Nothing
     Set mInvalidated = Nothing
     Set mControls = New Controls
@@ -410,6 +413,18 @@ Public Property Get InteractionRevision() As Long
     InteractionRevision = mInteractionRevision
 End Property
 
+' UserForm.Zoom (percent, 10 to 400, default 100). Controls read it through the host chain: the
+' ListBox row height and whole-row snap are measured at the form's zoom.
+Public Property Get Zoom() As Long
+    Zoom = mZoom
+End Property
+Public Property Let Zoom(ByVal Value As Long)
+    If Value < 10 Or Value > 400 Then Err.Raise 380, "UserForm", "Could not set the Zoom property. Invalid property value"
+    If mZoom = Value Then Exit Property
+    mZoom = Value
+    mStructureDirty = True
+End Property
+
 Public Property Get Name() As String
     Name = mName
 End Property
@@ -459,6 +474,10 @@ End Property
 Private Sub IOxControlHost_OnControlInvalidated(ByVal Control As IOxControl)
     If mSuspendDepth = 0 Then RecordInvalidated Control
 End Sub
+
+Private Function IOxControlHost_Zoom() As Long
+    IOxControlHost_Zoom = mZoom
+End Function
 
 Private Function IOxControlHost_AllocateNodeId() As Long
     ' Slots 900..999 in each block belong to control-local paint parts.

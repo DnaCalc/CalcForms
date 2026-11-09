@@ -79,6 +79,7 @@ fn prepare_session() -> (ProjectRuntimeSession, Arc<SurfaceFactory>) {
             ModuleKind::Class,
             "vba/calcforms/ReturnBoolean.cls",
         ),
+        module_unit("Font", ModuleKind::Class, "vba/calcforms/Font.cls"),
         module_unit("Label", ModuleKind::Class, "vba/calcforms/Label.cls"),
         module_unit(
             "OxTextService",

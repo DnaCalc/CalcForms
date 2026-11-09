@@ -3,6 +3,7 @@ import argparse
 import hashlib
 import json
 from pathlib import Path
+import re
 import subprocess
 import shutil
 
@@ -10,7 +11,15 @@ from layout_corpus import ROOT, load_corpus
 from input_probes import upgrade_runtime_tab_signatures
 
 
-def run(output):
+def inject_zoom(source, zoom):
+    """Set the form's Zoom like the native scenario does (`Form.Zoom = Zoom`), right after the form is created."""
+    pattern = re.compile(r'^([ \t]*)Set (\w+) = New UserForm[ \t]*$', re.M)
+    if not pattern.search(source):
+        raise ValueError('Scenario source creates no UserForm to zoom')
+    return pattern.sub(lambda m: m.group(0) + '\n' + m.group(1) + m.group(2) + '.Zoom = ' + str(zoom), source, count=1)
+
+
+def run(output, zoom=False):
     output = output.resolve()
     if not output.is_relative_to(ROOT) or output.exists():
         raise ValueError('Use a fresh repo-local output directory')
@@ -65,4 +74,6 @@ def run(output):
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--out', type=Path, required=True)
-    run(parser.parse_args().out)
+    parser.add_argument('--zoom', action='store_true', help='set UserForm.Zoom to the case zoom, as the native scenario does')
+    arguments = parser.parse_args()
+    run(arguments.out, arguments.zoom)

@@ -54,6 +54,8 @@ Private mBorderColor As Long
 Private mSpecialEffect As fmSpecialEffect
 Private mBorderStyle As fmBorderStyle
 Private mFontSize As Single
+Private mFontName As String
+Private mFont As Font
 Private mAutoSize As Boolean
 ' Transient per-render scratch: the content-hash text-run id the measure pre-pass
 ' obtained from CalcForms.Surface.MeasureBatch (a decimal u64 as a String, since it does
@@ -115,6 +117,8 @@ Public Sub Init(ByVal Kind As OxControlKind)
     mBorderStyle = fmBorderStyleNone
     ' MSForms default font is 8pt (Microsoft Sans Serif / Tahoma).
     mFontSize = 8
+    mFontName = "Tahoma"
+    Set mFont = Nothing
     mAutoSize = False
     mPressed = False
     mRunId = ""
@@ -561,6 +565,51 @@ Public Property Let FontSize(ByVal Value As Single)
         If mAutoSize Then MarkInteractionDirty
     End If
 End Property
+
+' Font family name. The runtime renders every control in the one UI face, so the name does not
+' change the glyphs yet; it does take part in the ListBox whole-row snap (row metrics differ by family).
+Friend Property Get FontName() As String
+    FontName = mFontName
+End Property
+
+' The control's Font object (Name, Size, Bold, ...). It mirrors this core's name and size and tells the
+' core when a write changes either, so FontSize stays the single source the painters read.
+Friend Function FontObject() As Font
+    If mFont Is Nothing Then
+        Set mFont = New Font
+        mFont.Attach Me
+    End If
+    mFont.Sync mFontName, mFontSize
+    Set FontObject = mFont
+End Function
+
+Friend Sub NoteFontChanged(ByVal Source As Font)
+    Dim Changed As Boolean
+    If mFontName <> Source.Name Then
+        mFontName = Source.Name
+        Changed = True
+    End If
+    If mFontSize <> CSng(Source.Size) Then
+        FontSize = CSng(Source.Size)
+        Changed = True
+    End If
+    If Not Changed Then Exit Sub
+    MarkDirty
+    If mKind = oxControlListBox Then
+        Dim List As ListBox
+        Set List = mOwner
+        List.FontChanged
+    End If
+End Sub
+
+' The form's Zoom (percent) as seen through the host chain; 100 when the control has no form.
+Friend Function HostZoom() As Long
+    If mHost Is Nothing Then
+        HostZoom = 100
+    Else
+        HostZoom = mHost.Zoom
+    End If
+End Function
 
 ' AutoSize (MSForms): when True, the control shrink-wraps its caption — the layout pass
 ' derives Width/Height from the measured run plus padding before it paints. A font-size

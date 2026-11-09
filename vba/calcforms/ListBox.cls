@@ -37,6 +37,12 @@ Private mViewportHeight As Single
 Private mViewportSourceHeight As Single
 Private mHasShown As Boolean
 Private mIntegralHeight As Boolean
+' Two heights (native, round 13): the public Height is mCore.Height; the layout height is what the
+' control last snapped to, and the first Show puts it back as the public height.
+Private mLayoutHeight As Single
+Private mHasLayoutHeight As Boolean
+Private mLayoutDpi As Single ' the dpi whose row metrics produced the layout height
+Private mDesigner As Boolean ' created from a persisted form (the FRM materializer), not by Controls.Add
 Private mSelectedCsv As String
 Private mMultiSelect As fmMultiSelect
 Private mColumnCount As Long
@@ -55,6 +61,10 @@ Private Sub Class_Initialize()
     mViewportSourceHeight = mCore.Height
     mHasShown = False
     mIntegralHeight = True
+    mLayoutHeight = 0
+    mHasLayoutHeight = False
+    mLayoutDpi = 96
+    mDesigner = False
     Set mItems = New Collection
     mListIndex = -1
     mTopIndex = -1
@@ -134,6 +144,7 @@ End Property
 Public Property Let IntegralHeight(ByVal Value As Boolean)
     If mIntegralHeight = Value Then Exit Property
     mIntegralHeight = Value
+    If mIntegralHeight Then SnapToWholeRows False, mCore.BorderStyle
     mViewportHeight = mCore.Height
     mViewportSourceHeight = mCore.Height
     If mHasShown And mIntegralHeight Then
@@ -157,6 +168,7 @@ End Property
 Friend Sub PrepareFirstShow()
     If mHasShown Then Exit Sub
     mHasShown = True
+    If mHasLayoutHeight Then mCore.Height = mLayoutHeight
     mViewportHeight = mCore.Height
     mViewportSourceHeight = mCore.Height
     If mIntegralHeight Then mViewportHeight = IntegralViewportHeight(mViewportHeight)
@@ -538,9 +550,104 @@ Public Function PerformBeforeUpdate() As Boolean
     PerformBeforeUpdate = cancel.Value
 End Function
 
+' Font (FM20 Font object). A write that changes the name or size snaps the height to whole rows
+' while IntegralHeight is True; the core calls FontChanged after it has taken the new values.
+Public Property Get Font() As Font
+    Set Font = mCore.FontObject()
+End Property
+Public Property Set Font(ByVal Value As Font)
+    mCore.FontObject().Assign Value
+End Property
+
+Public Property Get BorderStyle() As fmBorderStyle
+    BorderStyle = mCore.BorderStyle
+End Property
+Public Property Let BorderStyle(ByVal Value As fmBorderStyle)
+    Dim Previous As fmBorderStyle
+    Previous = mCore.BorderStyle
+    If Previous = Value Then Exit Property
+    mCore.BorderStyle = Value
+    If mIntegralHeight Then SnapToWholeRows True, Previous
+    ClampTopIndex
+End Property
+
+' A ListBox loaded from a persisted form scrolls Height 72 as 8 rows (native run 8); one created by
+' Controls.Add scrolls it as 7 (native round 14, native-round14.json).
+Friend Sub MarkFromDesigner()
+    mDesigner = True
+End Sub
+
+Friend Sub FontChanged()
+    If mIntegralHeight Then SnapToWholeRows False, mCore.BorderStyle
+    ClampTopIndex
+End Sub
+
+' Snap the public height down to whole rows (native, round 13, .118). The input is the layout height
+' when there is one, otherwise the written Height; the result becomes both heights and is never above
+' the input. A written Height that is an exact multiple of the row loses a row; a snapped one keeps
+' it (stored heights carry up to 0.3px of rounding). A BorderStyle change measures at 96 dpi and
+' reads the available height with the old chrome; Font and IntegralHeight changes measure at the
+' form's zoom.
+Private Sub SnapToWholeRows(ByVal BorderChange As Boolean, ByVal PreviousBorder As fmBorderStyle)
+    Dim Source As Single, Dpi As Single, RowPx As Long, ChromePx As Long, AvailablePx As Long
+    Dim Rows As Double, Whole As Long, Snapped As Single, Written As Boolean
+    If mHasLayoutHeight Then
+        Source = mLayoutHeight
+    Else
+        Source = mCore.Height
+        Written = True
+    End If
+    If BorderChange Then Dpi = 96 Else Dpi = ZoomDpi()
+    RowPx = RowPixels(Dpi)
+    ChromePx = ChromePixels(mCore.BorderStyle, Dpi)
+    If BorderChange Then AvailablePx = ChromePixels(PreviousBorder, Dpi) Else AvailablePx = ChromePx
+    Rows = (Source * Dpi / 72 - AvailablePx) / RowPx
+    If Written Then
+        Whole = -Int(-(Rows - 0.000001)) - 1
+    Else
+        Whole = Int(Rows + 0.3 / RowPx)
+    End If
+    If Whole < 0 Then Whole = 0
+    Snapped = (ChromePx + Whole * RowPx) * 72 / Dpi
+    If Snapped > Source Then Snapped = Source
+    mCore.Height = Snapped
+    mLayoutHeight = Snapped
+    mLayoutDpi = Dpi
+    mHasLayoutHeight = True
+    mViewportHeight = Snapped
+    mViewportSourceHeight = Snapped
+    mCore.MarkDirty
+End Sub
+
+Private Function ZoomDpi() As Single
+    ZoomDpi = 96! * mCore.HostZoom() / 100!
+End Function
+
+' Row height in device pixels: the font's em in whole pixels (truncated) times the family's
+' line-height ratio, rounded. Tahoma 8.25 gives 13px at 100% and 19px at 150%, Tahoma 10 gives 16px;
+' Arial 12 gives 18px and 27px. Tahoma and Arial are the families measured; any other family uses
+' the Tahoma ratio.
+Private Function RowPixels(ByVal Dpi As Single) As Long
+    Dim Em As Long, Ratio As Single
+    Em = Int(mCore.FontSize * Dpi / 72 + 0.0001)
+    If LCase(mCore.FontName) = "arial" Then Ratio = 1.117 Else Ratio = 1.207
+    RowPixels = Int(Em * Ratio + 0.5)
+    If RowPixels < 1 Then RowPixels = 1
+End Function
+
+' Border thickness in device pixels, both sides together: a single-line border is 2px at any dpi, the
+' default sunken edge is 4px at 96 dpi and scales with the dpi.
+Private Function ChromePixels(ByVal Style As fmBorderStyle, ByVal Dpi As Single) As Long
+    If Style = fmBorderStyleSingle Then
+        ChromePixels = 2
+    Else
+        ChromePixels = Int(4 * Dpi / 96 + 0.5)
+    End If
+End Function
+
 Private Function RowHeight() As Single
     ' Owned Tahoma 8.25: selected row measures 13px/19px solid blue at 100%/150%.
-    RowHeight = mCore.FontSize + 1.5
+    RowHeight = RowPixels(ZoomDpi()) * 72! / ZoomDpi()
 End Function
 
 Private Sub SelectRowAt(ByVal Y As Single, ByVal Shift As Integer)
@@ -552,11 +659,37 @@ End Sub
 
 ' Full rows determine keyboard travel; a partially visible last row still limits
 ' the public TopIndex. Keep these separate, as observed at Height=72.
+'
+' Native scroll range (round 13): once the control has a layout height, its rows are whole and follow
+' that height at the dpi it was snapped at (a border snap measures at 96 dpi, a font or IntegralHeight
+' snap at the form's zoom). Before that, with IntegralHeight True, a written height scrolls at 96 dpi
+' row metrics (a 150% form behaves like 100%) and a leftover under a tenth of a row is not a row
+' (Height 72 holds 7 rows, 73 holds 8); with IntegralHeight False the partial row counts at the
+' form's zoom. A ListBox loaded from a persisted form counts any leftover as a row (Height 72 holds
+' 8 rows: native run 8, a designer ListBox).
 Private Function VisibleRows(ByVal IncludePartial As Boolean) As Long
-    Dim Rows As Single
-    Rows = (EffectiveViewportHeight() - ROW_INSET * 2) / RowHeight()
-    VisibleRows = CLng(Int(Rows))
-    If IncludePartial And Rows > VisibleRows Then VisibleRows = VisibleRows + 1
+    Dim Rows As Double, Dpi As Single, Tolerance As Double, RowPoints As Single, ChromePoints As Single
+    If mHasLayoutHeight Then
+        Dpi = mLayoutDpi
+    ElseIf mIntegralHeight Then
+        Dpi = 96
+        If Not mDesigner Then Tolerance = 0.1
+    Else
+        Dpi = ZoomDpi()
+    End If
+    RowPoints = RowPixels(Dpi) * 72! / Dpi
+    ChromePoints = ChromePixels(mCore.BorderStyle, Dpi) * 72! / Dpi
+    If mHasLayoutHeight Then
+        Rows = (mLayoutHeight - ChromePoints) / RowPoints
+        VisibleRows = CLng(Int(Rows + 0.5))
+    Else
+        Rows = (mCore.Height - ChromePoints) / RowPoints
+        If IncludePartial Then
+            VisibleRows = -CLng(Int(-(Rows - Tolerance - 0.0001)))
+        Else
+            VisibleRows = CLng(Int(Rows + 0.0001))
+        End If
+    End If
     If VisibleRows < 1 Then VisibleRows = 1
 End Function
 

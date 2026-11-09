@@ -477,6 +477,11 @@ fn calcforms_modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/calcforms/ReturnBoolean.cls"),
         ),
         unit(
+            "Font",
+            Class,
+            include_str!("../../../vba/calcforms/Font.cls"),
+        ),
+        unit(
             "Label",
             Class,
             include_str!("../../../vba/calcforms/Label.cls"),

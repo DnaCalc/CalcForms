@@ -136,6 +136,11 @@ Private Sub ParseBegin(ByVal Rest As String)
         Set mCurrent = mForm.Controls.Add(ProgId, ObjectName)
         ' Persisted forms omit default-valued TabIndex=0; runtime Add appends.
         mCurrent.Core.TabIndex = 0
+        If mCurrent.Core.Kind = oxControlListBox Then
+            Dim Listing As ListBox
+            Set Listing = mCurrent
+            Listing.MarkFromDesigner
+        End If
     Else
         AppendLine mUnsupportedControls, "control=" & ObjectName & ";type=" & TypeName
     End If

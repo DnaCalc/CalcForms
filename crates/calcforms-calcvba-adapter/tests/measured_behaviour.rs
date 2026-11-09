@@ -103,6 +103,7 @@ Private Sub CalcFormsHostBuild()
     Set F = New UserForm
     Set Choices = F.Controls.Add("Forms.ListBox.1", "Choices")
     Choices.Core.FontSize = 8.25
+    Choices.MarkFromDesigner
 End Sub
 Private Sub CalcFormsHostPerformInitialize()
 End Sub
@@ -118,7 +119,9 @@ Public Function ViewportMeasurements() As String
     Dim S As String, Ignored As String
 ",
     );
-    // Replay the exact saved public-property sequence. Show's one-time IntegralHeight
+    // Run 8 was recorded on a designer ListBox, so the runtime control is marked the way the FRM
+    // materializer marks one (a Controls.Add ListBox scrolls Height 72 as 7 rows, see
+    // listbox_height_rule.rs). Replay the exact saved public-property sequence. Show's one-time IntegralHeight
     // adjustment is a separate layout gap; compare its index/top/count here.
     let mut expected = String::new();
     for case in data["observations"].as_array().unwrap() {

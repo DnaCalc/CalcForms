@@ -16,7 +16,7 @@
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "45354638c837eb1eccaae5ad6abbb3f96dbddd18a1b3d7bffa08b933d0c10cff"
+      "sha256": "29914f5827d1e778d17901c8886b662ff626033e6a961f10cdbfc963a2094695"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
@@ -59,9 +59,14 @@
       "sha256": "4a93a56626d51f82f170252a03de92db09537a6dd97f85a000772194789dfacb"
     },
     {
+      "path": "crates/calcforms-calcvba-adapter/tests/listbox_height_rule.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1305373a72e717f9b5ead502935ed914895930749e1845940d70f1f07f20f4dd"
+    },
+    {
       "path": "crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "501d9ed50843270a36e59b25e79dc1d7626dcbdb4d3227b68f28218ca317a6bd"
+      "sha256": "3819280f1d5f2b8842b5988835b8e704aa8d10091e7829772dee057f032b1870"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
@@ -71,12 +76,12 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_frm_materialization.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "75d0eaa2876511c0fa2ecf591b791b144f5dfc7aecc3f2f2c9ba0cbad2a07339"
+      "sha256": "e1fd7a8b511ef7c41393affcea741750ce2d952c6f83300e77d47b72820e955d"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_full_surface_showcase.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "047f7d41e02a999181b24ffe5e2e58eb29a1004f2fea2b773ca179c54e7c45e4"
+      "sha256": "24ec78c35f7c2322f31d5bbc7a078db811d7b89bae239dd2a1b5cb50d5280e22"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_lex_hittest_bench.rs",
@@ -91,17 +96,17 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_reducer_cmdbutton.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "98f0007a92df6f292b8442c42bb356e4c478a4dc7376db45957deb890313892c"
+      "sha256": "2439a7bec289a9ccbdee8143ac26e61164d6d3708ae7293af970d66152333088"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_runtime_greeter.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "d706a27550a807b0cd6eed09379e2bf27eb14738a23a76fee7fcf3c7a692f913"
+      "sha256": "a9197e39d6c0972efcc15c9f04e1afa0f96eea9300c28cb971fd944553e73a71"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_surface_render_smoke.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "16ca40be4a6cc708f5d1c42a409bec8de6b425a16a47d5791a5c6c13dde59db0"
+      "sha256": "9256e62a5dcb6b7db8c0d5ab22c2f22a45a472b78b1af1168dfa4c95a4abbd32"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs",
@@ -111,7 +116,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w007_object_model.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "712f99aaaed88e896550398b83e307b1fb56817cd065e1a0cb96443bf70d00d3"
+      "sha256": "6f54d12c98b74478fe2f184e493ca3442c704c6116947223a78ce8b4dbac6669"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w008_byref_return_mutation_gate.rs",
@@ -166,7 +171,7 @@
     {
       "path": "crates/calcforms-headless-runner/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "8a701439d3d71b6156b9ff1ca1f4550e58782d8b325f0320fb03c506014ef231"
+      "sha256": "5f0107bdbf5f98449c271246ef18667eae1f43ba5a2392fa12c5f4e64b7bf48c"
     },
     {
       "path": "crates/calcforms-headless-runner/tests/headless_runner_showcase.rs",
@@ -272,6 +277,16 @@
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus/observer.bas",
       "hash_mode": "utf8_lf",
       "sha256": "7cd4eb9e8e68c160d951850ae4784d583075e9a8e3cd2edde795d502f7b19042"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/cleanup.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8fb08fe1413caca5a2cac54f6a0fcc6f558e65f5db1d4e7d4c7ba747e60ae709"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/native-round14.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4057b82946c17b569f5ac7f674b511cefaecbe5bc98ec07c82403e455aae50a0"
     },
     {
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutCommon-native.bas",
@@ -896,7 +911,7 @@
     {
       "path": "tools/msforms-parity/expected_ledger.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "64ac9b89daf61572802be308427766d15c00f1c5193b030006aefdbc4a3a84b3"
+      "sha256": "7f3e400da759004664696656b99a166f85e580924bb08e840cfe29c12a12b917"
     },
     {
       "path": "tools/msforms-parity/export_parity_ledger.py",
@@ -911,7 +926,7 @@
     {
       "path": "tools/msforms-parity/parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "e46e826993a7d70942b34da8a6df8a1ff74d13d305f584e5bb1869e553ed343a"
+      "sha256": "b7ca28d7102afedc14d4b4e45ae9608b6cdf9a7aac1660eafb9e9446857807db"
     },
     {
       "path": "tools/msforms-parity/public_overlay.v1.json",
@@ -921,7 +936,7 @@
     {
       "path": "tools/msforms-parity/surface_policy.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "2ee478f2759c983cc306780954cbeaef0b30313dee1eb3ad66b6343dbd7e3794"
+      "sha256": "4405dd796d8fb8c119836f9eafb53142a78ecdaf5cbf757909b87596a8eabd53"
     },
     {
       "path": "tools/msforms-parity/tests/test_cli_trust.py",
@@ -931,12 +946,12 @@
     {
       "path": "tools/msforms-parity/tests/test_parity_ledger.py",
       "hash_mode": "utf8_lf",
-      "sha256": "c2b7d444617bcb4b8f8c7b1260c0072602b6602a12e9f2ff7d17181bfe2f5b15"
+      "sha256": "1e5fb5e64d3656b74f1444c94188b0342e4692256bf1b9052c952a2f25bb6a07"
     },
     {
       "path": "tools/msforms-parity/tests/test_vba_surface.py",
       "hash_mode": "utf8_lf",
-      "sha256": "65efbec9db5953b9b48a28f0b3544bf7d57b17c49c3e1b98875c1e95b50fddbc"
+      "sha256": "b3b6588bed969551802075d6dd72e16b4cd19f5a9e7744f3eba7011c932c0efa"
     },
     {
       "path": "tools/msforms-parity/validate_parity_ledger.py",
@@ -961,7 +976,7 @@
     {
       "path": "vba/calcforms/CalcForms.basproj",
       "hash_mode": "utf8_lf",
-      "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
+      "sha256": "33d4a2a1b3933180f164bd194e72978b90341e068fe790e3a96527266f484f84"
     },
     {
       "path": "vba/calcforms/CalcFormsModel.bas",
@@ -994,9 +1009,14 @@
       "sha256": "ca4a78f3f4f3134e980162d3c94724f5a92d8598fc49e3c2250f552d4c4280b5"
     },
     {
+      "path": "vba/calcforms/Font.cls",
+      "hash_mode": "utf8_lf",
+      "sha256": "d709aa41035b5e71e8a4060aaf3510f709943f049260452aea7df47ca54a0cef"
+    },
+    {
       "path": "vba/calcforms/Frame.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "ee427ee171ee554a835eeed6ca738ba7f317473ac6a010d4b7ce4336e6c17278"
+      "sha256": "68518b3909091d4958abb387d75eb20fe0172393d24d62b74a6411bdf77d09d6"
     },
     {
       "path": "vba/calcforms/IOxControl.cls",
@@ -1011,7 +1031,7 @@
     {
       "path": "vba/calcforms/IOxControlHost.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "e66ed309a4c59383f15becd51bc1d70c8e30683900f6b8ef63bf8510d6f9b011"
+      "sha256": "1befdc96df4f35c40273b39e8fa9429cc38327391379e983fe310e32ef94ac11"
     },
     {
       "path": "vba/calcforms/Image.cls",
@@ -1026,12 +1046,12 @@
     {
       "path": "vba/calcforms/ListBox.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "ff8961c6fe3f9add5eafd773b071150ac2de1dfe667e6682186bcc98162fdf76"
+      "sha256": "63b071e9879ab87820865b979e12e92965727b75a253969092fbac3c3358c7b3"
     },
     {
       "path": "vba/calcforms/MultiPage.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "72cf518a5f2fb3d317f172eaa98f6ac6562b98ee55166db16f562df059646562"
+      "sha256": "604a92782cd3fc4121ae7967bfd3d80ad085cbe0bfef3c888c7b116ca6369490"
     },
     {
       "path": "vba/calcforms/OptionButtonControl.cls",
@@ -1046,7 +1066,7 @@
     {
       "path": "vba/calcforms/OxControlCore.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "e1a0c7abc579bba65e2e45f7187b626acd4bd8dddd3a834c13567f394b12bede"
+      "sha256": "d46683bc9e4df4b8c213bedf44ae198f71abbe55866360cff6e6559ce97b8aff"
     },
     {
       "path": "vba/calcforms/OxControlPaint.bas",
@@ -1056,7 +1076,7 @@
     {
       "path": "vba/calcforms/OxFrmMaterializer.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "4acce1b9a56dc305631b9a2517d0d80d37cf2c773cc12b2a8650c0530849dca7"
+      "sha256": "5ae314f8c9918978c4a819e6dbe3dc2c4d61ee29857082fb385b7ddb29c4c050"
     },
     {
       "path": "vba/calcforms/OxInteractionManager.cls",
@@ -1086,7 +1106,7 @@
     {
       "path": "vba/calcforms/Page.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "7cba927972681be64f4a4f76956dcbb64503847edce622c7491fd9731233cd10"
+      "sha256": "7e384bc89c8e5bfe733fe76f5c32a9d68b664509b815844d51794393cedd8d2a"
     },
     {
       "path": "vba/calcforms/Pages.cls",
@@ -1141,7 +1161,7 @@
     {
       "path": "vba/calcforms/UserForm.cls",
       "hash_mode": "utf8_lf",
-      "sha256": "acfc57aa9b894cf1d0beecca1e8abdd07177c08bbd83d863696d95296225d816"
+      "sha256": "e4a1a2cb95b68f69ad6e5499c1ad59581ae4f7035fe9ceee6ad4ea1df4e03808"
     }
   ],
   "ledger_inputs": [
@@ -1158,7 +1178,7 @@
     {
       "path": "crates/calcforms-bootstrap/src/main.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "45354638c837eb1eccaae5ad6abbb3f96dbddd18a1b3d7bffa08b933d0c10cff"
+      "sha256": "29914f5827d1e778d17901c8886b662ff626033e6a961f10cdbfc963a2094695"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/Cargo.toml",
@@ -1201,9 +1221,14 @@
       "sha256": "4a93a56626d51f82f170252a03de92db09537a6dd97f85a000772194789dfacb"
     },
     {
+      "path": "crates/calcforms-calcvba-adapter/tests/listbox_height_rule.rs",
+      "hash_mode": "utf8_lf",
+      "sha256": "1305373a72e717f9b5ead502935ed914895930749e1845940d70f1f07f20f4dd"
+    },
+    {
       "path": "crates/calcforms-calcvba-adapter/tests/measured_behaviour.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "501d9ed50843270a36e59b25e79dc1d7626dcbdb4d3227b68f28218ca317a6bd"
+      "sha256": "3819280f1d5f2b8842b5988835b8e704aa8d10091e7829772dee057f032b1870"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/multipage_tab_stops.rs",
@@ -1213,12 +1238,12 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_frm_materialization.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "75d0eaa2876511c0fa2ecf591b791b144f5dfc7aecc3f2f2c9ba0cbad2a07339"
+      "sha256": "e1fd7a8b511ef7c41393affcea741750ce2d952c6f83300e77d47b72820e955d"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_full_surface_showcase.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "047f7d41e02a999181b24ffe5e2e58eb29a1004f2fea2b773ca179c54e7c45e4"
+      "sha256": "24ec78c35f7c2322f31d5bbc7a078db811d7b89bae239dd2a1b5cb50d5280e22"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_lex_hittest_bench.rs",
@@ -1233,17 +1258,17 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_reducer_cmdbutton.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "98f0007a92df6f292b8442c42bb356e4c478a4dc7376db45957deb890313892c"
+      "sha256": "2439a7bec289a9ccbdee8143ac26e61164d6d3708ae7293af970d66152333088"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_runtime_greeter.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "d706a27550a807b0cd6eed09379e2bf27eb14738a23a76fee7fcf3c7a692f913"
+      "sha256": "a9197e39d6c0972efcc15c9f04e1afa0f96eea9300c28cb971fd944553e73a71"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_surface_render_smoke.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "16ca40be4a6cc708f5d1c42a409bec8de6b425a16a47d5791a5c6c13dde59db0"
+      "sha256": "9256e62a5dcb6b7db8c0d5ab22c2f22a45a472b78b1af1168dfa4c95a4abbd32"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w006_native_fm20_event_gate.rs",
@@ -1253,7 +1278,7 @@
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w007_object_model.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "712f99aaaed88e896550398b83e307b1fb56817cd065e1a0cb96443bf70d00d3"
+      "sha256": "6f54d12c98b74478fe2f184e493ca3442c704c6116947223a78ce8b4dbac6669"
     },
     {
       "path": "crates/calcforms-calcvba-adapter/tests/oxvba_w008_byref_return_mutation_gate.rs",
@@ -1308,7 +1333,7 @@
     {
       "path": "crates/calcforms-headless-runner/src/lib.rs",
       "hash_mode": "utf8_lf",
-      "sha256": "8a701439d3d71b6156b9ff1ca1f4550e58782d8b325f0320fb03c506014ef231"
+      "sha256": "5f0107bdbf5f98449c271246ef18667eae1f43ba5a2392fa12c5f4e64b7bf48c"
     },
     {
       "path": "crates/calcforms-headless-runner/tests/headless_runner_showcase.rs",
@@ -1414,6 +1439,16 @@
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105.1/show-focus/observer.bas",
       "hash_mode": "utf8_lf",
       "sha256": "7cd4eb9e8e68c160d951850ae4784d583075e9a8e3cd2edde795d502f7b19042"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/cleanup.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "8fb08fe1413caca5a2cac54f6a0fcc6f558e65f5db1d4e7d4c7ba747e60ae709"
+    },
+    {
+      "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.105/native-round14.json",
+      "hash_mode": "utf8_lf",
+      "sha256": "4057b82946c17b569f5ac7f674b511cefaecbe5bc98ec07c82403e455aae50a0"
     },
     {
       "path": "docs/evidence/W010_complete_msforms_object_model_parity/beads/oxforms-jbjp.107/behaviour/LayoutCommon-native.bas",
@@ -2033,7 +2068,7 @@
     {
       "path": "tools/msforms-parity/surface_policy.v1.json",
       "hash_mode": "utf8_lf",
-      "sha256": "2ee478f2759c983cc306780954cbeaef0b30313dee1eb3ad66b6343dbd7e3794"
+      "sha256": "4405dd796d8fb8c119836f9eafb53142a78ecdaf5cbf757909b87596a8eabd53"
     },
     {
       "path": "tools/office-oracle/capture_toggle_coercion.py",
@@ -2043,7 +2078,7 @@
     {
       "path": "vba/calcforms/CalcForms.basproj",
       "hash_mode": "utf8_lf",
-      "sha256": "d3b0e7cd72750136742f4285bd71ab3a22048009f72ae35a38a77d78c18e9859"
+      "sha256": "33d4a2a1b3933180f164bd194e72978b90341e068fe790e3a96527266f484f84"
     }
   ]
 }

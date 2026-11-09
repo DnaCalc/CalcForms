@@ -75,7 +75,7 @@ EXPECTED_COUNTS = {
     "declaration_member": 1849,
     "enum_value": 191,
     "declaration_variable": 30,
-    "surface_member": 1794,
+    "surface_member": 1802,
     "abi_adapter_member": 14,
     "event_projection": 380,
     "host_event_attachment": 10,
@@ -90,18 +90,18 @@ EXPECTED_COUNTS = {
     "persistence_frm_frx_fact": 823,
     "persistence_aggregate": 19,
     "unexpected_public_type": 12,
-    "unexpected_public_member": 584,
+    "unexpected_public_member": 585,
     "unexpected_public_nested_member": 26,
 }
 
 ALLOWED_ROW_KINDS = set(EXPECTED_COUNTS)
 
 EXPECTED_SOURCE_SUMMARY = {
-    "modules": 37,
-    "class_modules": 33,
+    "modules": 38,
+    "class_modules": 34,
     "standard_modules": 4,
     "project_declared_exposed_modules": 5,
-    "public_declarations": 843,
+    "public_declarations": 866,
     "public_events": 116,
     "public_enum_constants": 25,
     "public_type_fields": 11,
@@ -111,7 +111,7 @@ EXPECTED_SOURCE_SUMMARY = {
     "param_arrays": 1,
     "module_attributes": 5,
     "implements_clauses": 23,
-    "private_interface_implementations": 545,
+    "private_interface_implementations": 549,
     "member_attributes": 18,
 }
 
@@ -834,8 +834,8 @@ let mut rt = OxRuntime::attach_with_host_services_and_args(
 # Comments/whitespace may move without changing these identities; executable
 # token changes require a deliberate generator + evidence review.
 _LOADER_REVIEWED_TOKEN_SHA256 = {
-    "headless_runner_forced": "8ff5772ebea6bf6e0b36a0eb0e5753ed17f85ff511098c2c74ee2114f4890c42",
-    "bootstrap_forced": "258489c671b4953b5a40f5e04d889512c3003ffc87aa94344a68ad5c9e4ae19a",
+    "headless_runner_forced": "c11f6b4825b5da445295ff0adc9409007318d0e075ffce5a2b78224745a1c910",
+    "bootstrap_forced": "fac3cf09cf87d39c1e043f9d28937ce37e76e8dd99f0843969e8e900d015d5c8",
 }
 
 _ADAPTER_REVIEWED_TOKEN_SHA256 = {
@@ -6077,7 +6077,7 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
             "contract", {}
         ).get("variable"):
             errors.append(f"{row['row_id']}: projected VARDESC contract differs")
-    if surface_modes != {"ordinary": 1709, "direct": 85}:
+    if surface_modes != {"ordinary": 1709, "direct": 93}:
         errors.append(f"surface projection modes differ: {dict(surface_modes)!r}")
 
     event_rows = [row for row in rows if row.get("row_kind") == "event_projection"]
@@ -6307,12 +6307,12 @@ def validate_ledger_structure(ledger: dict[str, Any]) -> list[str]:
         and isinstance(row.get("actual"), dict)
     }
     if (
-        len(mapped_declarations) != 259
-        or len(unexpected_declarations) != 584
+        len(mapped_declarations) != 281
+        or len(unexpected_declarations) != 585
         or mapped_declarations & unexpected_declarations
-        or len(mapped_declarations | unexpected_declarations) != 843
+        or len(mapped_declarations | unexpected_declarations) != 866
     ):
-        errors.append("public source declaration partition differs from 259+584=843")
+        errors.append("public source declaration partition differs from 281+585=866")
     if (
         len(mapped_nested) != 10
         or len(unexpected_nested) != 26

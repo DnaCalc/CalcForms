@@ -636,6 +636,7 @@ fn calcforms_modules(repo_root: &Path) -> Result<Vec<ModuleUnit>, String> {
         ("Controls", Class, "vba/calcforms/Controls.cls"),
         ("ReturnInteger", Class, "vba/calcforms/ReturnInteger.cls"),
         ("ReturnBoolean", Class, "vba/calcforms/ReturnBoolean.cls"),
+        ("Font", Class, "vba/calcforms/Font.cls"),
         ("Label", Class, "vba/calcforms/Label.cls"),
         ("OxTextService", Class, "vba/calcforms/OxTextService.cls"),
         ("TextBox", Class, "vba/calcforms/TextBox.cls"),

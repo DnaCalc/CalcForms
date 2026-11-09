@@ -12,13 +12,14 @@ use calcvba_bundle::ProjectMemberKind;
 use calcvba_com::PortableComProjection;
 use calcvba_engine::{Engine, HostConfig, HostProfileProvider};
 use calcvba_hal::model::HostPolicy;
+use calcvba_runtime::Variant;
 use calcvba_symbol::manifest::{
     ModuleAttributes, ModuleKind, ModuleUnit, ProjectKind, SymbolProjectManifest,
 };
 
 /// Compile `source` as a predeclared class named `name` on top of the CalcForms library, build
-/// and render it, then call its `member` and return the String result.
-pub fn run_class(source: String, name: &str, member: &str) -> String {
+/// and render it, and return the runtime with the class as its form.
+pub fn runtime_for(source: String, name: &str) -> OxRuntime {
     let mut modules = library_modules();
     let mut attributes = ModuleAttributes::named(name);
     attributes.vb_predeclared_id = true;
@@ -55,14 +56,25 @@ pub fn run_class(source: String, name: &str, member: &str) -> String {
         .with_member_prefix("CalcFormsHost");
     runtime.perform("PerformInitialize").unwrap();
     runtime.render().unwrap();
+    runtime
+}
+
+/// Call a method of the form class and return its String result.
+pub fn call_text(runtime: &mut OxRuntime, member: &str, args: Vec<Variant>) -> String {
     let form = runtime.form();
     runtime
         .session_mut()
-        .invoke_member_values(form, member, Some(ProjectMemberKind::Method), vec![])
+        .invoke_member_values(form, member, Some(ProjectMemberKind::Method), args)
         .unwrap()
         .as_bstr()
         .unwrap()
         .as_str()
+}
+
+/// Compile `source`, build it, call `member` once and return the String result.
+pub fn run_class(source: String, name: &str, member: &str) -> String {
+    let mut runtime = runtime_for(source, name);
+    call_text(&mut runtime, member, vec![])
 }
 
 /// Absolute path of an evidence bead directory.

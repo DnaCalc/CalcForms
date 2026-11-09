@@ -1205,7 +1205,7 @@ class LedgerBaselineAndLocalInvariantTests(GeneratedLedgerTestCase):
     def test_projection_modes_aliases_vardesc_and_overlay_subs_are_explicit(self) -> None:
         rows = self.ledger["rows"]
         self.assertEqual(
-            {"ordinary": 1709, "direct": 85},
+            {"ordinary": 1709, "direct": 93},
             {
                 mode: sum(
                     row["row_kind"] == "surface_member"

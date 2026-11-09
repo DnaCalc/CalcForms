@@ -19,3 +19,7 @@ End Sub
 ' One form-wide allocation domain, independent of container depth.
 Public Function AllocateNodeId() As Long
 End Function
+
+' The owning form's Zoom in percent (UserForm.Zoom, 100 by default). Containers pass it through.
+Public Function Zoom() As Long
+End Function

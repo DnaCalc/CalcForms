@@ -46,6 +46,11 @@ pub(crate) fn modules() -> Vec<ModuleUnit> {
             include_str!("../../../vba/calcforms/ReturnBoolean.cls"),
         ),
         (
+            "Font",
+            Class,
+            include_str!("../../../vba/calcforms/Font.cls"),
+        ),
+        (
             "Label",
             Class,
             include_str!("../../../vba/calcforms/Label.cls"),

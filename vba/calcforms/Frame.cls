@@ -330,6 +330,10 @@ Private Function IOxControlHost_AllocateNodeId() As Long
     IOxControlHost_AllocateNodeId = mCore.AllocateNodeId()
 End Function
 
+Private Function IOxControlHost_Zoom() As Long
+    IOxControlHost_Zoom = mCore.HostZoom()
+End Function
+
 Private Sub IOxControlHost_OnInteractionInvalidated(ByVal Control As IOxControl)
     mCore.MarkInteractionDirty
 End Sub
